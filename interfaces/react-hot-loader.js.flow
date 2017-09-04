@@ -1,0 +1,10 @@
+declare var module: {
+    hot: {
+        accept: (string, () => void) => void;
+    };
+};
+
+declare module 'react-hot-loader' {
+    declare class AppContainer extends React$Component<void, { children?: React$Element<any> }, void> {
+    }
+}

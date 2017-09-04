@@ -1,0 +1,9 @@
+declare module 'color-hash' {
+    declare class ColorHash {
+        constructor(options: { lightness: number | Array<number>; saturation: number | Array<number> }): void;
+        hsl(str: string): Array<number>;
+        rgb(str: string): Array<number>;
+        hex(str: string): string;
+    }
+    declare module.exports: Class<ColorHash>;
+}

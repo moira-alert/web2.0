@@ -1,0 +1,53 @@
+{
+    "login": "username",
+    "contacts": [
+        {
+            "type": "slack",
+            "user": "username",
+            "value": "@username",
+            "id": "1c32fd72-316b-4a8a-b233-a7b24sdw1e65"
+        },
+        {
+            "type": "phone",
+            "user": "username",
+            "value": "0981234567",
+            "id": "1e3d4aac-1vea-4258-a98d-0b9b71962367"
+        },
+        {
+            "type": "email",
+            "user": "username",
+            "value": "username@skbkontur.ru",
+            "id": "03rdc5c1-f0e9-4720-bb94-cbe48831cafc"
+        },
+        {
+            "type": "telegram",
+            "user": "username",
+            "value": "@username",
+            "id": "vab13e5f-4945-4e95-adaf-bc15533bd616"
+        }
+    ],
+    "subscriptions": [
+        {
+            "sched": {
+                "endOffset": 1439,
+                "days": [
+                    { "enabled": true, "name": "Mon" },
+                    { "enabled": true, "name": "Tue" },
+                    { "enabled": true, "name": "Wed" },
+                    { "enabled": true, "name": "Thu" },
+                    { "enabled": true, "name": "Fri" },
+                    { "enabled": true, "name": "Sat" },
+                    { "enabled": true, "name": "Sun" }
+                ],
+                "startOffset": 0,
+                "tzOffset": -300
+            },
+            "tags": ["test___"],
+            "throttling": false,
+            "contacts": ["03rdc5c1-f0e9-4720-bb94-cbe48831cafc"],
+            "enabled": false,
+            "user": "username",
+            "id": "f6beff4b-5ed8-4900-98f9-2269f212c234"
+        }
+    ]
+}

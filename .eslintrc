@@ -1,0 +1,25 @@
+{
+    "extends": ["skbkontur-retail"],
+    "globals": {
+        "ReactClass": false,
+        "$Keys": false,
+        "$Diff": false,
+        "Class": false,
+        "$NonMaybeType": false,
+        "RequestOptions": false
+    },
+    "rules": {
+        "no-eq-null": 0,
+        "eqeqeq": ["error", "always", { "null": "ignore" }],
+        "max-len": [
+            2,
+            120,
+            {
+                "ignoreTrailingComments": true,
+                "ignoreComments": true,
+                "ignorePattern": "^import\\s*.*\\s*from\\s*'.*';$",
+                "ignoreStrings": true
+            }
+        ]
+    }
+}

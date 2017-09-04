@@ -1,0 +1,163 @@
+{
+    "total": 0,
+    "list": [
+        {
+            "timestamp": 1499763742,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1499677339,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1499590884,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1499504481,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1499418079,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1499331679,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1499245225,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1499158769,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "old_state": "OK",
+            "timestamp": 1499072359,
+            "state": "NODATA",
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d"
+        },
+        {
+            "timestamp": 1498740057,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "state": "OK",
+            "value": 1.0,
+            "old_state": "NODATA"
+        },
+        {
+            "timestamp": 1498736038,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1498649622,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "timestamp": 1498563210,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "old_state": "NODATA",
+            "state": "NODATA",
+            "msg": "This metric has been in bad state for more than 24 hours - please, fix."
+        },
+        {
+            "old_state": "OK",
+            "timestamp": 1498476800,
+            "state": "NODATA",
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d"
+        },
+        {
+            "timestamp": 1498467679,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "state": "OK",
+            "value": 1.0,
+            "old_state": "NODATA"
+        },
+        {
+            "timestamp": 1498467560,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "state": "OK",
+            "value": 1.0,
+            "old_state": "NODATA"
+        },
+        {
+            "old_state": "OK",
+            "timestamp": 1498467501,
+            "state": "NODATA",
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d"
+        },
+        {
+            "timestamp": 1498467439,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "state": "OK",
+            "value": 1.0,
+            "old_state": "NODATA"
+        },
+        {
+            "old_state": "OK",
+            "timestamp": 1498467381,
+            "state": "NODATA",
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d"
+        },
+        {
+            "timestamp": 1498466675,
+            "metric": "sumSeries(cloud.Notifi.*.Mail.BankNotifi.Live)",
+            "trigger_id": "3e13281b-7fec-4n70-b5w1-abb16d6a4a1d",
+            "state": "OK",
+            "value": 1.0,
+            "old_state": "NODATA"
+        }
+    ],
+    "page": 0,
+    "size": 100
+}

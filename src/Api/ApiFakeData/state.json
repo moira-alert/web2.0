@@ -1,0 +1,176 @@
+{
+    "metrics": {
+        "KE.system-kamchatka.allServers.k0ch1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-wst.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-keweb1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-exporter.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-index2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-portal1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-rdaemon1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-pservice1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-kladr2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499663541
+        },
+        "KE.system-kamchatka.allServers.vm-rdaemon2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.k0ch5.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-ke-updater.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-index1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-keweb2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.k0ch3.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-houston-h2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-crypt1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.k0ch4.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-portal2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-kladr1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-fservice2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-pservice2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-afro1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-crypt2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-houston-h1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.k0ch2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-fservice1.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        },
+        "KE.system-kamchatka.allServers.vm-afro2.volumes.c.freemegabytes": {
+            "timestamp": 1499748981,
+            "state": "NODATA",
+            "suppressed": false,
+            "event_timestamp": 1499664203
+        }
+    },
+    "timestamp": 1499749639,
+    "state": "OK",
+    "score": 28000,
+    "trigger_id": "e8304401-718e-4a73-8d13-e9abe4c91d69"
+}

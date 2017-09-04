@@ -1,0 +1,42 @@
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.container {
+    .container();
+}
+
+.error {
+    flex-shrink: 0;
+    background-color: #efdb92;
+    color: #000000;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.grey-plate {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #f3f3f3;
+}
+
+.content {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.paging {
+    padding-bottom: 30px;
+    margin-top: auto;
+}

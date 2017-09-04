@@ -1,0 +1,45 @@
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
+.title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 40px;
+}
+
+.header {
+    display: flex;
+    align-items: baseline;
+}
+
+.controls {
+    display: flex;
+    align-items: baseline;
+    margin-left: auto;
+
+    a {
+        margin-left: 15px;
+    }
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    dt {
+        font-style: italic;
+        margin-top: 10px;
+        width: 150px;
+        color: #666;
+    }
+
+    dd {
+        margin-top: 10px;
+        margin-left: 0;
+        width: calc(~'100% - 150px');
+    }
+}

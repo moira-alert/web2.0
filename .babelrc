@@ -1,0 +1,16 @@
+{
+    "presets": [
+        "flow",
+        [
+            "env",
+            {
+                "modules": false
+            }
+        ],
+        "stage-0",
+        "react"
+    ],
+    "plugins": [
+        "react-hot-loader/babel"
+    ]
+}
