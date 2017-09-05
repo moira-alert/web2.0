@@ -1,8 +1,8 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-
+const PROD = process.env.NODE_ENV === 'production';
 const config = {
     entry: ['babel-polyfill', 'react-hot-loader/patch', './src/index.js'],
     output: {
@@ -11,39 +11,70 @@ const config = {
         filename: 'app.js',
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.(js|jsx)?$/,
-                loader: 'babel-loader',
-                include: /src/,
-            },
-            {
-                test: /\.jsx?$/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['env', 'stage-0', 'react'],
-                },
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['env', 'stage-0', 'react'],
+                        },
+                    },
+                ],
                 include: /retail\-ui/,
             },
             {
                 test: /\.less$/,
-                loaders: ['classnames-loader', 'style-loader', 'css-loader?modules', 'less-loader'],
+                use: PROD
+                    ? ExtractTextPlugin.extract({
+                        fallback: 'style-loader',
+                        use: ['css-loader', 'less-loader'],
+                    })
+                    : ['style-loader', 'css-loader', 'less-loader'],
+                include: /retail\-ui/,
+            },
+            {
+                test: /\.js$/,
+                use: ['babel-loader'],
                 include: /src/,
             },
             {
                 test: /\.less$/,
-                loaders: ['style-loader', 'css-loader', 'less-loader'],
-                include: /retail\-ui/,
+                rules: [
+                    { use: 'classnames-loader' },
+                    {
+                        use: PROD
+                            ? ExtractTextPlugin.extract({
+                                fallback: 'style-loader',
+                                use: [
+                                    {
+                                        loader: 'css-loader',
+                                        options: {
+                                            modules: true,
+                                        },
+                                    },
+                                    'less-loader',
+                                ],
+                            })
+                            : [
+                                'style-loader',
+                                {
+                                    loader: 'css-loader',
+                                    options: {
+                                        modules: true,
+                                    },
+                                },
+                                'less-loader',
+                            ],
+                    },
+                ],
+                include: /src/,
             },
             {
                 test: /\.(png|woff|woff2|eot)$/,
-                loader: 'file-loader',
+                use: 'file-loader',
                 include: /src|retail\-ui/,
-            },
-            {
-                test: /\.json$/,
-                loader: 'json-loader',
-                include: /src/,
             },
         ],
     },
@@ -59,20 +90,12 @@ const config = {
                 collapseWhitespace: true,
             },
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new UglifyJSPlugin({
-            extractComments: {
-                banner: false,
-            },
-        }),
     ],
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 9000,
-        hot: true,
-        historyApiFallback: true,
-    },
 };
+
+if (PROD) {
+    config.plugins.push(new ExtractTextPlugin('app.css'));
+    config.plugins.push(new UglifyJSPlugin({ extractComments: { banner: false } }));
+}
 
 module.exports = config;
