@@ -7,10 +7,11 @@ import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import cn from './EventList.less';
 
 type Props = {|
-    items: Array<Event>;
+    items: Array<Event>,
 |};
 
 export default function EventList(props: Props): React.Element<*> {
+    console.log(props);
     return (
         <section className={cn('list')}>
             <div className={cn('row', 'header')}>
@@ -18,7 +19,7 @@ export default function EventList(props: Props): React.Element<*> {
                 <div className={cn('state-change')}>State change</div>
                 <div className={cn('date')}>Event time</div>
             </div>
-            {props.items.filter(item => item.state !== item.old_state).map((data, i) => {
+            {props.items.map((data, i) => {
                 const { metric, old_state: oldState, state, timestamp } = data;
                 return (
                     <div key={i} className={cn('row')}>
@@ -26,11 +27,13 @@ export default function EventList(props: Props): React.Element<*> {
                         <div className={cn('state-change')}>
                             <StatusIndicator statuses={[oldState]} size={14} />
                             <div className={cn('arrow')}>
-                                <Icon name='ArrowBoldRight' />
+                                <Icon name="ArrowBoldRight" />
                             </div>
                             <StatusIndicator statuses={[state]} size={14} />
                         </div>
-                        <div className={cn('date')}>{moment(timestamp).format('MMMM D, HH:mm:ss')}</div>
+                        <div className={cn('date')}>
+                            {moment(timestamp).format('MMMM D, HH:mm:ss')}
+                        </div>
                     </div>
                 );
             })}
