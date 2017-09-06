@@ -10,25 +10,32 @@ import type { PatternList } from '../Domain/Pattern';
 import type { NotificationList } from '../Domain/Notification';
 
 export type TagList = {|
-    list: Array<string>;
+    list: Array<string>,
 |};
 
 export type TagStatList = {|
-    list: Array<TagStat>;
+    list: Array<TagStat>,
 |};
 
 export interface IMoiraApi {
-    getPatternList(): Promise<PatternList>;
-    getTagList(): Promise<TagList>;
-    getTagStats(): Promise<TagStatList>;
-    getSettings(): Promise<Settings>;
-    getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList>;
-    getTrigger(id: string): Promise<Trigger>;
-    setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void>;
-    delMetric(triggerId: string, metric: string): Promise<void>;
-    getTriggerState(id: string): Promise<TriggerState>;
-    getTriggerEvents(id: string): Promise<EventList>;
-    getNotificationList(): Promise<NotificationList>;
+    getPatternList(): Promise<PatternList>,
+    getTagList(): Promise<TagList>,
+    getTagStats(): Promise<TagStatList>,
+    getSettings(): Promise<Settings>,
+    getTriggerList(
+        page: number,
+        onlyProblems: boolean,
+        tags: Array<string>
+    ): Promise<TriggerList>,
+    getTrigger(id: string): Promise<Trigger>,
+    setMaintenance(
+        triggerId: string,
+        data: { [metric: string]: number }
+    ): Promise<void>,
+    delMetric(triggerId: string, metric: string): Promise<void>,
+    getTriggerState(id: string): Promise<TriggerState>,
+    getTriggerEvents(id: string): Promise<EventList>,
+    getNotificationList(): Promise<NotificationList>,
 }
 
 export default class Api implements IMoiraApi {
@@ -76,7 +83,11 @@ export default class Api implements IMoiraApi {
         throw new Error(response);
     }
 
-    async getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList> {
+    async getTriggerList(
+        page: number,
+        onlyProblems: boolean,
+        tags: Array<string>
+    ): Promise<TriggerList> {
         const url =
             this.config.apiUrl +
             '/trigger/page?' +
@@ -107,9 +118,15 @@ export default class Api implements IMoiraApi {
         throw new Error(response);
     }
 
-    async setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void> {
+    async setMaintenance(
+        triggerId: string,
+        data: { [metric: string]: number }
+    ): Promise<void> {
         const url = `${this.config.apiUrl}/trigger/${triggerId}/maintenance`;
-        const response = await fetch(url, { method: 'PUT', body: JSON.stringify(data) });
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
         if (response.status === 200) {
             return;
         }
@@ -117,7 +134,8 @@ export default class Api implements IMoiraApi {
     }
 
     async delMetric(triggerId: string, metric: string): Promise<void> {
-        const url = `${this.config.apiUrl}/trigger/${triggerId}/metrics?name=${metric}`;
+        const url = `${this.config
+            .apiUrl}/trigger/${triggerId}/metrics?name=${metric}`;
         const response = await fetch(url, { method: 'DELETE' });
         if (response.status === 200) {
             return;
@@ -135,7 +153,8 @@ export default class Api implements IMoiraApi {
     }
 
     async getTriggerEvents(id: string): Promise<EventList> {
-        const url = `${this.config.apiUrl}/event/${id}?p=0&size=${this.config.paging.eventHistory}`;
+        const url = `${this.config.apiUrl}/event/${id}?p=0&size=${this.config
+            .paging.eventHistory}`;
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();

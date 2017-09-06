@@ -4,16 +4,16 @@ import Tabs from 'retail-ui/components/Tabs';
 import cn from './Tabs.less';
 
 type Props = {|
-    value: string;
-    children: any;
+    value: string,
+    children: any,
 |};
 type TabProps = {|
-    id: string;
-    label: string;
-    children: any;
+    id: string,
+    label: string,
+    children: any,
 |};
 type State = {|
-    active: string;
+    active: string,
 |};
 
 const TabsTab = Tabs.Tab;
@@ -36,16 +36,28 @@ export default class TabsCustom extends React.Component {
     render(): React.Element<*> {
         const { active } = this.state;
         const { children } = this.props;
-        return React.Children.count(children) === 1 ? (
-            <div>{children}</div>
-        ) : (
+        if (React.Children.toArray(children).filter(x => x).length === 0) {
+            return <div />;
+        }
+        if (React.Children.toArray(children).filter(x => x).length === 1) {
+            return <div>{children}</div>;
+        }
+        return (
             <div>
                 <div className={cn('header')}>
-                    <Tabs value={active} onChange={(target, value) => this.setState({ active: value })}>
-                        {React.Children.map(children, ({ props }) => <TabsTab id={props.id}>{props.label}</TabsTab>)}
+                    <Tabs
+                        value={active}
+                        onChange={(target, value) =>
+                            this.setState({ active: value })}
+                    >
+                        {React.Children.map(children, ({ props }) => (
+                            <TabsTab id={props.id}>{props.label}</TabsTab>
+                        ))}
                     </Tabs>
                 </div>
-                {React.Children.toArray(children).filter(({ props }) => props.id === active)}
+                {React.Children
+                    .toArray(children)
+                    .filter(({ props }) => props.id === active)}
             </div>
         );
     }

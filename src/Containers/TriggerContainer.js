@@ -5,6 +5,7 @@ import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger, TriggerState } from '../Domain/Trigger';
 import type { Metric } from '../Domain/Metric';
+import type { Maintenance } from '../Domain/Maintenance';
 import type { Event } from '../Domain/Event';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { getMaintenanceTime } from '../Domain/Maintenance';
@@ -42,11 +43,11 @@ class TriggerContainer extends React.Component {
     };
 
     componentDidMount() {
-        this.getData();
+        this.getData(this.props);
     }
 
-    async getData(): Promise<void> {
-        const { moiraApi, match } = this.props;
+    async getData(props: Props): Promise<void> {
+        const { moiraApi, match } = props;
         const { id } = match.params;
         if (typeof id !== 'string') {
             return;
@@ -107,33 +108,36 @@ class TriggerContainer extends React.Component {
                         <TriggerInfo data={trigger} />
                     </LayoutPlate>
                 )}
-                {this.composeMetrics().length !== 0 &&
-                trigger.id && (
+                {trigger && (
                     <LayoutContent>
                         <Tabs value="state">
-                            <Tab id="state" label="Current state">
-                                <MetricList
-                                    status
-                                    items={this.composeMetrics()}
-                                    onChange={(maintenance, metric) => {
-                                        this.setMaintenance(
-                                            trigger.id,
-                                            maintenance,
-                                            metric
-                                        );
-                                    }}
-                                    onRemove={metric => {
-                                        this.removeMetric(trigger.id, metric);
-                                    }}
-                                />
-                            </Tab>
-                            <Tab id="events" label="Events history">
-                                <EventList
-                                    items={
-                                        triggerEvents ? triggerEvents.list : []
-                                    }
-                                />
-                            </Tab>
+                            {this.composeMetrics().length !== 0 && (
+                                <Tab id="state" label="Current state">
+                                    <MetricList
+                                        status
+                                        items={this.composeMetrics()}
+                                        onChange={(maintenance, metric) => {
+                                            this.setMaintenance(
+                                                trigger.id,
+                                                maintenance,
+                                                metric
+                                            );
+                                        }}
+                                        onRemove={metric => {
+                                            this.removeMetric(
+                                                trigger.id,
+                                                metric
+                                            );
+                                        }}
+                                    />
+                                </Tab>
+                            )}
+                            {triggerEvents &&
+                            triggerEvents.list.length !== 0 && (
+                                <Tab id="events" label="Events history">
+                                    <EventList items={triggerEvents.list} />
+                                </Tab>
+                            )}
                         </Tabs>
                     </LayoutContent>
                 )}
