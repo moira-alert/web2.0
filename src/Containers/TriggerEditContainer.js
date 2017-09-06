@@ -9,16 +9,16 @@ import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean;
-    error: boolean;
-    trigger: ?Trigger;
+    loading: boolean,
+    error: ?string,
+    trigger: ?Trigger,
 |};
 
 class TriggerEditContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
-        error: true,
+        error: null,
         trigger: null,
     };
 
@@ -35,17 +35,18 @@ class TriggerEditContainer extends React.Component {
         try {
             const trigger = await moiraApi.getTrigger(id);
             this.setState({ loading: false, trigger });
-        }
-        catch (error) {
-            this.setState({ error: true });
+        } catch (error) {
+            this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
     render(): React.Element<*> {
         const { loading, error, trigger } = this.state;
         return (
-            <Layout loading={loading} loadingError={error}>
-                <Layout.Content>{trigger && <TriggerEditForm data={trigger} />}</Layout.Content>
+            <Layout loading={loading} error={error}>
+                <Layout.Content>
+                    {trigger && <TriggerEditForm data={trigger} />}
+                </Layout.Content>
             </Layout>
         );
     }

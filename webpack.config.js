@@ -94,7 +94,20 @@ const config = argv => {
             }),
         ],
         devServer: {
-            proxy: getApiProxy(API_MODE),
+            proxy:
+                API_MODE === 'fake'
+                    ? {
+                          '/api': {
+                              target: 'http://localhost:9002',
+                              pathRewrite: { '^/api': '' },
+                          },
+                      }
+                    : {
+                          '/api': {
+                              target: 'http://vm-moira-all1:8081',
+                              secure: false,
+                          },
+                      },
         },
     };
     if (PROD) {
@@ -105,26 +118,6 @@ const config = argv => {
     }
     return config;
 };
-
-function getApiProxy(API_MODE) {
-    if (API_MODE === 'fake') {
-        return {
-            '/api': {
-                target: 'http://localhost:9002',
-                pathRewrite: { '^/api': '' },
-            },
-        };
-    } else if (API_MODE === 'test') {
-        return {
-            '/api': {
-                target: 'http://vm-moira-all1:8081',
-                secure: false,
-            },
-        };
-    } else {
-        return {};
-    }
-}
 
 function getApiMode(argv) {
     for (const arg of argv) {

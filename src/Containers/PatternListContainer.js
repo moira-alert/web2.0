@@ -8,16 +8,16 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean;
-    error: boolean;
-    list: ?Array<Pattern>;
+    loading: boolean,
+    error: ?string,
+    list: ?Array<Pattern>,
 |};
 
 class PatternListContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
-        error: true,
+        error: null,
         list: null,
     };
 
@@ -30,16 +30,15 @@ class PatternListContainer extends React.Component {
         try {
             const patterns = await moiraApi.getPatternList();
             this.setState({ loading: false, ...patterns });
-        }
-        catch (error) {
-            this.setState({ error: true });
+        } catch (error) {
+            this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
     render(): React.Element<*> {
         const { loading, error, list } = this.state;
         return (
-            <Layout loading={loading} loadingError={error}>
+            <Layout loading={loading} error={error}>
                 <Layout.Content>
                     <pre>{JSON.stringify(list, null, 2)}</pre>
                 </Layout.Content>

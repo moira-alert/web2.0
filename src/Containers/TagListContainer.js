@@ -8,16 +8,16 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean;
-    error: boolean;
-    list: ?Array<TagStat>;
+    loading: boolean,
+    error: ?string,
+    list: ?Array<TagStat>,
 |};
 
 class TagListContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
-        error: true,
+        error: null,
         list: null,
     };
 
@@ -30,16 +30,15 @@ class TagListContainer extends React.Component {
         try {
             const stats = await moiraApi.getTagStats();
             this.setState({ loading: false, ...stats });
-        }
-        catch (error) {
-            this.setState({ error: true });
+        } catch (error) {
+            this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
     render(): React.Element<*> {
         const { loading, error, list } = this.state;
         return (
-            <Layout loading={loading} loadingError={error}>
+            <Layout loading={loading} error={error}>
                 <Layout.Content>
                     <pre>{JSON.stringify(list, null, 2)}</pre>
                 </Layout.Content>
