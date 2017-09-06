@@ -24,7 +24,7 @@ import TriggerListView from '../Components/TriggerList/TriggerList';
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
     loading: boolean,
-    error: boolean,
+    error: ?string,
     subscribtions: ?Array<string>,
     tags: ?Array<string>,
     triggers: ?TriggerList,
@@ -39,7 +39,7 @@ class TriggerListContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
-        error: true,
+        error: null,
         subscribtions: null,
         tags: null,
         triggers: null,
@@ -57,7 +57,7 @@ class TriggerListContainer extends React.Component {
             const { subscriptions } = await moiraApi.getSettings();
             const { list: allTags } = await moiraApi.getTagList();
             const selectedTags = intersection(parsedTags, allTags);
-            let triggers = await moiraApi.getTriggerList(
+            const triggers = await moiraApi.getTriggerList(
                 page - 1,
                 onlyProblems,
                 selectedTags
@@ -77,7 +77,7 @@ class TriggerListContainer extends React.Component {
                 triggers,
             });
         } catch (error) {
-            this.setState({ error: true });
+            this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
@@ -167,7 +167,7 @@ class TriggerListContainer extends React.Component {
             : 1;
 
         return (
-            <Layout loading={loading} loadingError={error}>
+            <Layout loading={loading} error={error}>
                 <LayoutPlate>
                     <div style={{ display: 'flex', alignItems: 'flex-start' }}>
                         <div style={{ flexGrow: 1, width: '100%' }}>

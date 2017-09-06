@@ -8,16 +8,16 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean;
-    error: boolean;
-    settings: ?Settings;
+    loading: boolean,
+    error: ?string,
+    settings: ?Settings,
 |};
 
 class SettingsContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
-        error: true,
+        error: null,
         settings: null,
     };
 
@@ -30,16 +30,15 @@ class SettingsContainer extends React.Component {
         try {
             const settings = await moiraApi.getSettings();
             this.setState({ loading: false, settings });
-        }
-        catch (error) {
-            this.setState({ error: true });
+        } catch (error) {
+            this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
     render(): React.Element<*> {
         const { loading, error, settings } = this.state;
         return (
-            <Layout loading={loading} loadingError={error}>
+            <Layout loading={loading} error={error}>
                 <Layout.Content>
                     <pre>{JSON.stringify(settings, null, 2)}</pre>
                 </Layout.Content>

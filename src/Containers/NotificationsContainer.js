@@ -8,17 +8,17 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean;
-    error: boolean;
-    list: ?Array<Notification>;
-    total: number;
+    loading: boolean,
+    error: ?string,
+    list: ?Array<Notification>,
+    total: number,
 |};
 
 class NotificationsContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
-        error: true,
+        error: null,
         list: null,
         total: 0,
     };
@@ -32,16 +32,15 @@ class NotificationsContainer extends React.Component {
         try {
             const notifications = await moiraApi.getNotificationList();
             this.setState({ loading: false, ...notifications });
-        }
-        catch (error) {
-            this.setState({ error: true });
+        } catch (error) {
+            this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
     render(): React.Element<*> {
         const { loading, error, list } = this.state;
         return (
-            <Layout loading={loading} loadingError={error}>
+            <Layout loading={loading} error={error}>
                 <Layout.Content>
                     <pre>{JSON.stringify(list, null, 2)}</pre>
                 </Layout.Content>

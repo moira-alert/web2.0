@@ -21,7 +21,7 @@ import Layout, {
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
     loading: boolean,
-    error: boolean,
+    error: ?string,
     trigger: ?Trigger,
     triggerState: ?TriggerState,
     triggerEvents: ?{|
@@ -36,7 +36,7 @@ class TriggerContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
-        error: true,
+        error: null,
         trigger: null,
         triggerState: null,
         triggerEvents: null,
@@ -63,7 +63,7 @@ class TriggerContainer extends React.Component {
                 triggerEvents,
             });
         } catch (error) {
-            this.setState({ error: true });
+            this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
@@ -102,7 +102,7 @@ class TriggerContainer extends React.Component {
     render(): React.Element<*> {
         const { loading, error, trigger, triggerEvents } = this.state;
         return (
-            <Layout loading={loading} loadingError={error}>
+            <Layout loading={loading} error={error}>
                 {trigger && (
                     <LayoutPlate>
                         <TriggerInfo data={trigger} />
