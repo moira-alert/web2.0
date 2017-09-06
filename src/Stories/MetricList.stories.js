@@ -1,12 +1,14 @@
 // @flow
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import StoryRouter from 'storybook-router';
 import MetricList from '../Components/MetricList/MetricList';
 
 const items = [
     {
-        name: 'vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace',
+        name:
+            'vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace',
         data: {
             event_timestamp: 1503484033,
             state: 'NODATA',
@@ -49,5 +51,18 @@ const items = [
 
 storiesOf('MetricList', module)
     .addDecorator(StoryRouter())
-    .add('Default', () => <MetricList items={items} />)
-    .add('With Status Indicator', () => <MetricList items={items} status />);
+    .add('Default', () => (
+        <MetricList
+            items={items}
+            onChange={action('onChange')}
+            onRemove={action('onRemove')}
+        />
+    ))
+    .add('With Status Indicator', () => (
+        <MetricList
+            items={items}
+            status
+            onChange={action('onChange')}
+            onRemove={action('onRemove')}
+        />
+    ));

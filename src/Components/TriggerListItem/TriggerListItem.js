@@ -13,12 +13,12 @@ import MetricList from '../MetricList/MetricList';
 import cn from './TriggerListItem.less';
 
 type Props = {|
-    data: Trigger;
-    onChange?: (maintenance: Maintenance, metric: string) => void;
-    onRemove?: (metric: string) => void;
+    data: Trigger,
+    onChange?: (maintenance: Maintenance, metric: string) => void,
+    onRemove?: (metric: string) => void,
 |};
 type State = {|
-    showMetrics: boolean;
+    showMetrics: boolean,
 |};
 
 export default class TriggerListItem extends React.Component {
@@ -41,7 +41,9 @@ export default class TriggerListItem extends React.Component {
         const { last_check: lastCheck } = this.props.data;
         const { metrics } = lastCheck || {};
         const statuses = Object.keys(Statuses).filter(
-            x => Object.keys(metrics).filter(y => metrics[y].state === x).length > 0
+            x =>
+                Object.keys(metrics).filter(y => metrics[y].state === x)
+                    .length > 0
         );
         const notOkStatuses = statuses.filter(x => x !== Statuses.OK);
         if (notOkStatuses.length === 0) {
@@ -50,20 +52,25 @@ export default class TriggerListItem extends React.Component {
         return notOkStatuses;
     }
 
-    composeCounters(): Array<{ status: Status; value: number }> {
+    composeCounters(): Array<{ status: Status, value: number }> {
         const { last_check: lastCheck } = this.props.data;
         const { metrics } = lastCheck || {};
         return Object.keys(Statuses)
             .map(x => {
                 return {
                     status: x,
-                    value: Object.keys(metrics).filter(y => metrics[y].state === x).length,
+                    value: Object.keys(metrics).filter(
+                        y => metrics[y].state === x
+                    ).length,
                 };
             })
             .filter(x => x.value !== 0);
     }
 
-    composeMetrics(): Array<{ status: Status; items: Array<{ name: string; data: Metric }> }> {
+    composeMetrics(): Array<{
+        status: Status,
+        items: Array<{ name: string, data: Metric }>,
+    }> {
         const { metrics } = this.props.data.last_check || {};
         return Object.keys(Statuses)
             .map(status => {
@@ -80,7 +87,7 @@ export default class TriggerListItem extends React.Component {
     }
 
     render(): React.Element<*> {
-        const { data } = this.props;
+        const { data, onChange, onRemove } = this.props;
         const { id, name, targets, tags } = data;
         const { showMetrics } = this.state;
 
@@ -91,14 +98,18 @@ export default class TriggerListItem extends React.Component {
             <div className={cn({ row: true, active: showMetrics })}>
                 <div
                     className={cn('state', { 'is-metrics': isMetrics })}
-                    onClick={isMetrics && (() => this.handleShowMetrics())}>
+                    onClick={isMetrics && (() => this.handleShowMetrics())}
+                >
                     <div className={cn('indicator')}>
                         <StatusIndicator statuses={this.composeStatuses()} />
                     </div>
                     <div className={cn('counters')}>
                         {isMetrics ? (
                             this.composeCounters().map(({ status, value }) => (
-                                <div key={status} style={{ color: getStatusColor(status) }}>
+                                <div
+                                    key={status}
+                                    style={{ color: getStatusColor(status) }}
+                                >
                                     {value}
                                 </div>
                             ))
@@ -111,7 +122,12 @@ export default class TriggerListItem extends React.Component {
                     <div className={cn('header')}>
                         <Link className={cn('link')} to={'/trigger/' + id}>
                             <div className={cn('title')}>{name}</div>
-                            <div className={cn({ targets: true, dark: showMetrics })}>
+                            <div
+                                className={cn({
+                                    targets: true,
+                                    dark: showMetrics,
+                                })}
+                            >
                                 {targets.map((target, i) => (
                                     <div key={i} className={cn('target')}>
                                         {target}
@@ -127,8 +143,26 @@ export default class TriggerListItem extends React.Component {
                         <div className={cn('metrics')}>
                             <Tabs value={metrics[0].status}>
                                 {metrics.map(({ status, items }) => (
-                                    <Tab key={status} id={status} label={status}>
-                                        <MetricList items={items} />
+                                    <Tab
+                                        key={status}
+                                        id={status}
+                                        label={status}
+                                    >
+                                        <MetricList
+                                            items={items}
+                                            onChange={
+                                                onChange &&
+                                                ((maintenance, metric) =>
+                                                    onChange(
+                                                        maintenance,
+                                                        metric
+                                                    ))
+                                            }
+                                            onRemove={
+                                                onRemove &&
+                                                (metric => onRemove(metric))
+                                            }
+                                        />
                                     </Tab>
                                 ))}
                             </Tabs>
