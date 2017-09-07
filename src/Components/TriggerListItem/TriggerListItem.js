@@ -1,11 +1,13 @@
 // @flow
 import React from 'react';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import type { Trigger } from '../../Domain/Trigger.js';
 import type { Status } from '../../Domain/Status';
 import type { Metric } from '../../Domain/Metric';
 import type { Maintenance } from '../../Domain/Maintenance';
 import { Statuses, getStatusColor, getStatusCaption } from '../../Domain/Status';
+import Icon from 'retail-ui/components/Icon';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import TagList from '../TagList/TagList';
 import Tabs, { Tab } from '../Tabs/Tabs';
@@ -114,7 +116,7 @@ export default class TriggerListItem extends React.Component {
     }
 
     render(): React.Element<*> {
-        const { id, name, targets, tags } = this.props.data;
+        const { id, name, targets, tags, throttling } = this.props.data;
         const { showMetrics } = this.state;
         const metrics = this.renderMetrics();
 
@@ -127,8 +129,21 @@ export default class TriggerListItem extends React.Component {
                 <div className={cn('data')}>
                     <div className={cn('header')}>
                         <Link className={cn('link')} to={'/trigger/' + id}>
-                            <div className={cn('title')}>{name}</div>
-                            <div className={cn('targets')}>
+                            <div className={cn('title')}>
+                                <div className={cn('name')}>{name}</div>
+                                {throttling !== 0 && (
+                                    <div
+                                        className={cn('flag')}
+                                        title={'Throttling until ' + moment(throttling).format('MMMM D, HH:mm:ss')}>
+                                        <Icon name='FlagSolid' />
+                                    </div>
+                                )}
+                            </div>
+                            <div
+                                className={cn({
+                                    targets: true,
+                                    dark: showMetrics,
+                                })}>
                                 {targets.map((target, i) => (
                                     <div key={i} className={cn('target')}>
                                         {target}

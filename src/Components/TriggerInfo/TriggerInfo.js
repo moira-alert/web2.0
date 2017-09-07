@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import Link from 'retail-ui/components/Link';
 import Button from 'retail-ui/components/Button';
 import type { Trigger } from '../../Domain/Trigger';
 import TagList from '../TagList/TagList';
@@ -7,7 +8,8 @@ import { getJSONContent } from '../../helpers';
 import cn from './TriggerInfo.less';
 
 type Props = {|
-    data: Trigger,
+    data: Trigger;
+    onThrottlingRemove: (triggerId: string) => void;
 |};
 
 export default function TriggerInfo(props: Props): React.Element<*> {
@@ -23,23 +25,26 @@ export default function TriggerInfo(props: Props): React.Element<*> {
         ttl,
         sched,
         tags,
+        throttling,
     } = props.data;
     return (
         <section>
             <header className={cn('header')}>
                 <h1 className={cn('title')}>{name}</h1>
                 <div className={cn('controls')}>
+                    {throttling !== 0 && (
+                        <Link use='danger' icon='Clear' onClick={() => props.onThrottlingRemove(id)}>
+                            Disable throttling
+                        </Link>
+                    )}
                     <a
-                        href="#download"
+                        href='#download'
                         onClick={(event: Event) =>
                             event.currentTarget instanceof HTMLAnchorElement
-                                ? (event.currentTarget.href = getJSONContent(
-                                      props.data
-                                  ))
+                                ? (event.currentTarget.href = getJSONContent(props.data))
                                 : null}
-                        download={`trigger-${id}.json`}
-                    >
-                        <Button use="link" icon="Export">
+                        download={`trigger-${id}.json`}>
+                        <Button use='link' icon='Export'>
                             Export
                         </Button>
                     </a>
@@ -47,16 +52,13 @@ export default function TriggerInfo(props: Props): React.Element<*> {
             </header>
             <dl className={cn('list')}>
                 <dt>Target</dt>
-                <dd>
-                    {targets.map((target, i) => <div key={i}>{target}</div>)}
-                </dd>
+                <dd>{targets.map((target, i) => <div key={i}>{target}</div>)}</dd>
                 {desc && <dt>Description</dt>}
                 {desc && <dd>{desc}</dd>}
                 {!expression && <dt>Value</dt>}
                 {!expression && (
                     <dd>
-                        Warning: {warnValue}, Error: {errorValue}, Set{' '}
-                        {ttlState} if has no value for {ttl} seconds
+                        Warning: {warnValue}, Error: {errorValue}, Set {ttlState} if has no value for {ttl} seconds
                     </dd>
                 )}
                 {expression && <dt>Expression</dt>}

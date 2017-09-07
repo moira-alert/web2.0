@@ -65,6 +65,12 @@ class TriggerContainer extends React.Component {
         }
     }
 
+    async disableTrhrottling(triggerId: string): Promise<void> {
+        this.setState({ loading: true });
+        await this.props.moiraApi.delThrottling(triggerId);
+        this.getData(this.props);
+    }
+
     async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
@@ -96,7 +102,12 @@ class TriggerContainer extends React.Component {
             <Layout loading={loading} error={error}>
                 {trigger && (
                     <LayoutPlate>
-                        <TriggerInfo data={trigger} />
+                        <TriggerInfo
+                            data={trigger}
+                            onThrottlingRemove={triggerId => {
+                                this.disableTrhrottling(triggerId);
+                            }}
+                        />
                     </LayoutPlate>
                 )}
                 {(isMetrics || isEvents) && (
