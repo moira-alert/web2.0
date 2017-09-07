@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import type { Status } from '../../Domain/Status';
-import { getStatusColor } from '../../Domain/Status';
+import { Statuses, getStatusColor } from '../../Domain/Status';
 import cn from './StatusIndicator.less';
 
 type Props = {|
@@ -17,8 +17,12 @@ export default function StatusIndicator(props: Props): React.Element<*> {
 
     function renderPath(): React.Element<any> {
         const [status1, status2, status3] = statuses;
+
         switch (statuses.length) {
             case 1:
+                if (status1 === Statuses.EXCEPTION) {
+                    return <circle cx='0' cy='0' r='1' fill={getStatusColor(status1)} className={cn('blink')} />;
+                }
                 return <circle cx='0' cy='0' r='1' fill={getStatusColor(status1)} />;
             case 2:
                 return (

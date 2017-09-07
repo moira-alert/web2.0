@@ -1,5 +1,6 @@
 // @flow
 
+import type { Status } from './Status';
 import type { MetricList } from './Metric';
 import type { Schedule } from './Schedule';
 
@@ -19,7 +20,7 @@ export type Trigger = {|
     warn_value: ?number;
     error_value: ?number;
     last_check?: {|
-        state: string;
+        state: Status;
         timestamp: number;
         metrics: MetricList;
         event_timestamp?: number;
@@ -39,7 +40,7 @@ export type TriggerList = {|
 export type TriggerState = {|
     metrics: MetricList;
     timestamp: number;
-    state: string;
+    state: Status;
     score: number;
     trigger_id: string;
 |};

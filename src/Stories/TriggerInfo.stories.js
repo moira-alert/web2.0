@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import StoryRouter from 'storybook-router';
 import TriggerInfo from '../Components/TriggerInfo/TriggerInfo';
 
@@ -49,5 +50,5 @@ const stories = [
 const story = storiesOf('TriggerInfo', module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
-    story.add(title, () => <TriggerInfo data={data} />);
+    story.add(title, () => <TriggerInfo data={data} onThrottlingRemove={action('onThrottlingRemove')} />);
 });

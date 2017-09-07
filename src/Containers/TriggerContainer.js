@@ -65,6 +65,12 @@ class TriggerContainer extends React.Component {
         }
     }
 
+    async disableTrhrottling(triggerId: string): Promise<void> {
+        this.setState({ loading: true });
+        await this.props.moiraApi.delThrottling(triggerId);
+        this.getData(this.props);
+    }
+
     async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
@@ -86,19 +92,12 @@ class TriggerContainer extends React.Component {
         this.getData(this.props);
     }
 
-    async disableTrhrottling(triggerId: string): Promise<void> {
-        this.setState({ loading: true });
-        await this.props.moiraApi.delThrottling(triggerId);
-        this.getData(this.props);
-    }
-
-    composeMetrics(): Array<{ name: string; data: Metric }> {
-        const { metrics } = this.state.triggerState || {};
-        return metrics ? Object.keys(metrics).map(x => ({ name: x, data: metrics[x] })) : []; // TODO
-    }
-
     render(): React.Element<*> {
-        const { loading, error, trigger, triggerEvents } = this.state;
+        const { loading, error, trigger, triggerState, triggerEvents } = this.state;
+        const { metrics } = triggerState || {};
+        const { list: events } = triggerEvents || {};
+        const isMetrics = metrics && Object.keys(metrics).length > 0;
+        const isEvents = events && events.length > 0;
         return (
             <Layout loading={loading} error={error}>
                 {trigger && (
@@ -111,14 +110,14 @@ class TriggerContainer extends React.Component {
                         />
                     </LayoutPlate>
                 )}
-                {trigger && (
+                {(isMetrics || isEvents) && (
                     <LayoutContent>
-                        <Tabs value='state'>
-                            {this.composeMetrics().length !== 0 && (
+                        <Tabs value={isMetrics ? 'state' : 'events'}>
+                            {isMetrics &&
+                            trigger && (
                                 <Tab id='state' label='Current state'>
                                     <MetricList
-                                        status
-                                        items={this.composeMetrics()}
+                                        items={metrics}
                                         onChange={(maintenance, metric) => {
                                             this.setMaintenance(trigger.id, maintenance, metric);
                                         }}
@@ -128,10 +127,9 @@ class TriggerContainer extends React.Component {
                                     />
                                 </Tab>
                             )}
-                            {triggerEvents &&
-                            triggerEvents.list.length !== 0 && (
+                            {isEvents && (
                                 <Tab id='events' label='Events history'>
-                                    <EventList items={triggerEvents.list} />
+                                    <EventList items={events} />
                                 </Tab>
                             )}
                         </Tabs>
