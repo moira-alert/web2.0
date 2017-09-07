@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import StoryRouter from 'storybook-router';
 import TriggerListItem from '../Components/TriggerListItem/TriggerListItem';
 
@@ -262,6 +263,18 @@ const stories = [
         },
     },
     {
+        title: 'No metrics',
+        data: {
+            ...sourceData,
+            last_check: {
+                metrics: {},
+                timestamp: 1499418145,
+                state: 'EXCEPTION',
+                score: 14000,
+            },
+        },
+    },
+    {
         title: 'Lot targets',
         data: {
             ...sourceData,
@@ -339,5 +352,5 @@ const stories = [
 const story = storiesOf('TriggerListItem', module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
-    story.add(title, () => <TriggerListItem data={data} />);
+    story.add(title, () => <TriggerListItem data={data} onChange={action('onChange')} onRemove={action('onRemove')} />);
 });
