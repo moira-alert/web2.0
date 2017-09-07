@@ -109,6 +109,7 @@ declare module 'retail-ui/components/Dropdown' {
     declare type DropdownProps = {|
         'data-tid'?: string,
         caption: string | React$Element<any>,
+        use: string,
         children?: any
     |};
     declare export default class Dropdown extends React$Component<void, DropdownProps, void> {}
@@ -384,6 +385,7 @@ declare module 'retail-ui/components/MenuItem' {
         target?: ?string,
         href?: ?string,
         value?: mixed,
+        onClick?: () => void,
         children?: any
     |};
     declare export default class MenuItem extends React$Component<void, MenuItemProps, void> {}
