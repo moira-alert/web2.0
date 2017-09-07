@@ -5,7 +5,7 @@ import type { Trigger } from '../../Domain/Trigger.js';
 import type { Status } from '../../Domain/Status';
 import type { Metric } from '../../Domain/Metric';
 import type { Maintenance } from '../../Domain/Maintenance';
-import { Statuses, getStatusColor } from '../../Domain/Status';
+import { Statuses, getStatusColor, getStatusCaption } from '../../Domain/Status';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import TagList from '../TagList/TagList';
 import Tabs, { Tab } from '../Tabs/Tabs';
@@ -13,12 +13,12 @@ import MetricList from '../MetricList/MetricList';
 import cn from './TriggerListItem.less';
 
 type Props = {|
-    data: Trigger,
-    onChange?: (maintenance: Maintenance, metric: string) => void,
-    onRemove?: (metric: string) => void,
+    data: Trigger;
+    onChange?: (maintenance: Maintenance, metric: string) => void;
+    onRemove?: (metric: string) => void;
 |};
 type State = {|
-    showMetrics: boolean,
+    showMetrics: boolean;
 |};
 
 export default class TriggerListItem extends React.Component {
@@ -41,9 +41,7 @@ export default class TriggerListItem extends React.Component {
         const { last_check: lastCheck } = this.props.data;
         const { metrics } = lastCheck || {};
         const statuses = Object.keys(Statuses).filter(
-            x =>
-                Object.keys(metrics).filter(y => metrics[y].state === x)
-                    .length > 0
+            x => Object.keys(metrics).filter(y => metrics[y].state === x).length > 0
         );
         const notOkStatuses = statuses.filter(x => x !== Statuses.OK);
         if (notOkStatuses.length === 0) {
@@ -52,24 +50,22 @@ export default class TriggerListItem extends React.Component {
         return notOkStatuses;
     }
 
-    composeCounters(): Array<{ status: Status, value: number }> {
+    composeCounters(): Array<{ status: Status; value: number }> {
         const { last_check: lastCheck } = this.props.data;
         const { metrics } = lastCheck || {};
         return Object.keys(Statuses)
             .map(x => {
                 return {
                     status: x,
-                    value: Object.keys(metrics).filter(
-                        y => metrics[y].state === x
-                    ).length,
+                    value: Object.keys(metrics).filter(y => metrics[y].state === x).length,
                 };
             })
             .filter(x => x.value !== 0);
     }
 
     composeMetrics(): Array<{
-        status: Status,
-        items: Array<{ name: string, data: Metric }>,
+        status: Status;
+        items: Array<{ name: string; data: Metric }>;
     }> {
         const { metrics } = this.props.data.last_check || {};
         return Object.keys(Statuses)
@@ -98,18 +94,14 @@ export default class TriggerListItem extends React.Component {
             <div className={cn({ row: true, active: showMetrics })}>
                 <div
                     className={cn('state', { 'is-metrics': isMetrics })}
-                    onClick={isMetrics && (() => this.handleShowMetrics())}
-                >
+                    onClick={isMetrics && (() => this.handleShowMetrics())}>
                     <div className={cn('indicator')}>
                         <StatusIndicator statuses={this.composeStatuses()} />
                     </div>
                     <div className={cn('counters')}>
                         {isMetrics ? (
                             this.composeCounters().map(({ status, value }) => (
-                                <div
-                                    key={status}
-                                    style={{ color: getStatusColor(status) }}
-                                >
+                                <div key={status} style={{ color: getStatusColor(status) }}>
                                     {value}
                                 </div>
                             ))
@@ -126,8 +118,7 @@ export default class TriggerListItem extends React.Component {
                                 className={cn({
                                     targets: true,
                                     dark: showMetrics,
-                                })}
-                            >
+                                })}>
                                 {targets.map((target, i) => (
                                     <div key={i} className={cn('target')}>
                                         {target}
@@ -141,31 +132,20 @@ export default class TriggerListItem extends React.Component {
                     </div>
                     {showMetrics && (
                         <div className={cn('metrics')}>
-                            <Tabs value={metrics[0].status}>
-                                {metrics.map(({ status, items }) => (
-                                    <Tab
-                                        key={status}
-                                        id={status}
-                                        label={status}
-                                    >
-                                        <MetricList
-                                            items={items}
-                                            onChange={
-                                                onChange &&
-                                                ((maintenance, metric) =>
-                                                    onChange(
-                                                        maintenance,
-                                                        metric
-                                                    ))
-                                            }
-                                            onRemove={
-                                                onRemove &&
-                                                (metric => onRemove(metric))
-                                            }
-                                        />
-                                    </Tab>
-                                ))}
-                            </Tabs>
+                            {onRemove &&
+                            onChange && (
+                                <Tabs value={metrics[0].status}>
+                                    {metrics.map(({ status, items }) => (
+                                        <Tab key={status} id={status} label={getStatusCaption(status)}>
+                                            <MetricList
+                                                items={items}
+                                                onChange={(maintenance, metric) => onChange(maintenance, metric)}
+                                                onRemove={metric => onRemove(metric)}
+                                            />
+                                        </Tab>
+                                    ))}
+                                </Tabs>
+                            )}
                         </div>
                     )}
                 </div>
