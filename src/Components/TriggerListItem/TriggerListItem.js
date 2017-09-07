@@ -32,93 +32,103 @@ export default class TriggerListItem extends React.Component {
         };
     }
 
-    handleShowMetrics() {
+    filterMetricsByStatus(status: Status): { [metric: string]: Metric } {
+        const { metrics } = this.props.data.last_check || {};
+        return Object.keys(metrics)
+            .filter(x => metrics[x].state === status)
+            .reduce((data, key) => {
+                return { ...data, [key]: metrics[key] };
+            }, {});
+    }
+
+    toggleMetrics() {
         const { showMetrics } = this.state;
         this.setState({ showMetrics: !showMetrics });
     }
 
-    composeStatuses(): Array<Status> {
-        const { last_check: lastCheck } = this.props.data;
-        const { metrics } = lastCheck || {};
-        const statuses = Object.keys(Statuses).filter(
-            x => Object.keys(metrics).filter(y => metrics[y].state === x).length > 0
+    renderCounters(): React.Element<*> {
+        const counters = Object.keys(Statuses)
+            .map(status => ({
+                status,
+                count: Object.keys(this.filterMetricsByStatus(status)).length,
+            }))
+            .filter(({ count }) => count !== 0)
+            .map(({ status, count }) => (
+                <span key={status} style={{ color: getStatusColor(status) }}>
+                    {count}
+                </span>
+            ));
+        return (
+            <div className={cn('counters')}>
+                {counters.length !== 0 ? counters : <span className={cn('NA')}>N/A</span>}
+            </div>
         );
-        const notOkStatuses = statuses.filter(x => x !== Statuses.OK);
-        if (notOkStatuses.length === 0) {
-            return statuses.length === 0 ? [Statuses.OK] : statuses;
+    }
+
+    renderStatus(): React.Element<*> {
+        const { state: triggerStatus } = this.props.data.last_check || {};
+        const metricStatuses = Object.keys(Statuses).filter(
+            x => Object.keys(this.filterMetricsByStatus(x)).length !== 0
+        );
+        const notOkStatuses = metricStatuses.filter(x => x !== Statuses.OK);
+        let statuses;
+        if (metricStatuses.length === 0) {
+            statuses = [triggerStatus];
         }
-        return notOkStatuses;
+        else if (notOkStatuses.length === 0) {
+            statuses = [Statuses.OK];
+        }
+        else {
+            statuses = notOkStatuses;
+        }
+        return (
+            <div className={cn('indicator')}>
+                <StatusIndicator statuses={statuses} />
+            </div>
+        );
     }
 
-    composeCounters(): Array<{ status: Status; value: number }> {
-        const { last_check: lastCheck } = this.props.data;
-        const { metrics } = lastCheck || {};
-        return Object.keys(Statuses)
-            .map(x => {
-                return {
-                    status: x,
-                    value: Object.keys(metrics).filter(y => metrics[y].state === x).length,
-                };
-            })
-            .filter(x => x.value !== 0);
-    }
-
-    composeMetrics(): Array<{
-        status: Status;
-        items: Array<{ name: string; data: Metric }>;
-    }> {
-        const { metrics } = this.props.data.last_check || {};
-        return Object.keys(Statuses)
-            .map(status => {
-                return {
-                    status,
-                    items: Object.keys(metrics)
-                        .filter(x => metrics[x].state === status)
-                        .map(x => {
-                            return { name: x, data: metrics[x] };
-                        }),
-                };
-            })
-            .filter(x => x.items.length !== 0);
+    renderMetrics(): ?React.Element<*> {
+        const { onChange, onRemove } = this.props;
+        if (!onChange || !onRemove) {
+            return null;
+        }
+        const statuses = Object.keys(Statuses).filter(x => Object.keys(this.filterMetricsByStatus(x)).length !== 0);
+        if (statuses.length === 0) {
+            return null;
+        }
+        const metrics = statuses.map(x => (
+            <Tab key={x} id={x} label={getStatusCaption(x)}>
+                <MetricList
+                    items={this.filterMetricsByStatus(x)}
+                    onChange={(maintenance, metric) => onChange(maintenance, metric)}
+                    onRemove={metric => onRemove(metric)}
+                />
+            </Tab>
+        ));
+        return (
+            <div className={cn('metrics')}>
+                <Tabs value={statuses[0]}>{metrics}</Tabs>
+            </div>
+        );
     }
 
     render(): React.Element<*> {
-        const { data, onChange, onRemove } = this.props;
-        const { id, name, targets, tags } = data;
+        const { id, name, targets, tags } = this.props.data;
         const { showMetrics } = this.state;
-
-        const metrics = this.composeMetrics();
-        const isMetrics = metrics.length !== 0;
+        const metrics = this.renderMetrics();
 
         return (
-            <div className={cn({ row: true, active: showMetrics })}>
-                <div
-                    className={cn('state', { 'is-metrics': isMetrics })}
-                    onClick={isMetrics && (() => this.handleShowMetrics())}>
-                    <div className={cn('indicator')}>
-                        <StatusIndicator statuses={this.composeStatuses()} />
-                    </div>
-                    <div className={cn('counters')}>
-                        {isMetrics ? (
-                            this.composeCounters().map(({ status, value }) => (
-                                <div key={status} style={{ color: getStatusColor(status) }}>
-                                    {value}
-                                </div>
-                            ))
-                        ) : (
-                            <div className={cn('na-counter')}>N/A</div>
-                        )}
-                    </div>
+            <div className={cn('row', { active: showMetrics })}>
+                <div className={cn('state', { active: metrics })} onClick={metrics && (() => this.toggleMetrics())}>
+                    {this.renderStatus()}
+                    {this.renderCounters()}
                 </div>
                 <div className={cn('data')}>
                     <div className={cn('header')}>
                         <Link className={cn('link')} to={'/trigger/' + id}>
                             <div className={cn('title')}>{name}</div>
-                            <div
-                                className={cn({
-                                    targets: true,
-                                    dark: showMetrics,
-                                })}>
+                            <div className={cn('targets')}>
                                 {targets.map((target, i) => (
                                     <div key={i} className={cn('target')}>
                                         {target}
@@ -130,24 +140,7 @@ export default class TriggerListItem extends React.Component {
                     <div className={cn('tags')}>
                         <TagList tags={tags} />
                     </div>
-                    {showMetrics && (
-                        <div className={cn('metrics')}>
-                            {onRemove &&
-                            onChange && (
-                                <Tabs value={metrics[0].status}>
-                                    {metrics.map(({ status, items }) => (
-                                        <Tab key={status} id={status} label={getStatusCaption(status)}>
-                                            <MetricList
-                                                items={items}
-                                                onChange={(maintenance, metric) => onChange(maintenance, metric)}
-                                                onRemove={metric => onRemove(metric)}
-                                            />
-                                        </Tab>
-                                    ))}
-                                </Tabs>
-                            )}
-                        </div>
-                    )}
+                    {showMetrics && metrics}
                 </div>
             </div>
         );

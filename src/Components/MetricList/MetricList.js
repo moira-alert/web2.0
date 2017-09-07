@@ -13,10 +13,9 @@ import cn from './MetricList.less';
 
 type Props = {|
     status?: boolean;
-    items: Array<{
-        name: string;
-        data: Metric;
-    }>;
+    items: {
+        [metric: string]: Metric;
+    };
     onChange: (maintenance: Maintenance, metric: string) => void;
     onRemove: (metric: string) => void;
 |};
@@ -39,8 +38,8 @@ export default function MetricList(props: Props): React.Element<*> {
                 <div className={cn('controls')} />
             </header>
             <div className={cn('items')}>
-                {items.map(({ name: metric, data }) => {
-                    const { value, event_timestamp: eventTimestamp, state, maintenance } = data;
+                {Object.keys(items).map(metric => {
+                    const { value, event_timestamp: eventTimestamp, state, maintenance } = items[metric];
                     return (
                         <div key={metric} className={cn('row')}>
                             {status && (
