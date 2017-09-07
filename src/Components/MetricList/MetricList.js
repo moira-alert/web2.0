@@ -24,7 +24,7 @@ type Props = {|
 export default function MetricList(props: Props): React.Element<*> {
     const { status, items, onChange, onRemove } = props;
 
-    function checkMaintenance(maintenance: number): string {
+    function checkMaintenance(maintenance: ?number): string {
         const delta = (maintenance || 0) - moment.utc().unix();
         return delta <= 0 ? 'Maintenance' : moment.duration(delta * 1000).humanize();
     }
@@ -52,15 +52,13 @@ export default function MetricList(props: Props): React.Element<*> {
                             <div className={cn('event')}>{moment(eventTimestamp).format('MMMM D, HH:mm:ss')}</div>
                             <div className={cn('value')}>{roundValue(value)}</div>
                             <div className={cn('controls')}>
-                                {maintenance && (
-                                    <Dropdown caption={checkMaintenance(maintenance)} use='link'>
-                                        {Object.keys(Maintenances).map(key => (
-                                            <MenuItem key={key} onClick={() => onChange(key, metric)}>
-                                                {getMaintenanceCaption(key)}
-                                            </MenuItem>
-                                        ))}
-                                    </Dropdown>
-                                )}
+                                <Dropdown caption={checkMaintenance(maintenance)} use='link'>
+                                    {Object.keys(Maintenances).map(key => (
+                                        <MenuItem key={key} onClick={() => onChange(key, metric)}>
+                                            {getMaintenanceCaption(key)}
+                                        </MenuItem>
+                                    ))}
+                                </Dropdown>
                                 <Button use='link' icon='Delete' onClick={() => onRemove(metric)}>
                                     Del
                                 </Button>
