@@ -22,7 +22,7 @@ export default function EventList(props: Props): React.Element<*> {
                 const { metric, old_state: oldState, state, timestamp } = data;
                 return (
                     <div key={i} className={cn('row')}>
-                        <div className={cn('name')}>{metric}</div>
+                        <div className={cn('name')}>{metric || '—'}</div>
                         <div className={cn('state-change')}>
                             <StatusIndicator statuses={[oldState]} size={14} />
                             <div className={cn('arrow')}>
