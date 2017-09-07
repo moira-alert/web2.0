@@ -59,8 +59,14 @@
 }
 
 .title {
-    overflow: hidden;
+    display: flex;
     margin-top: -4px;
+    align-items: center;
+}
+
+.name {
+    overflow: hidden;
+    max-width: 100%;
     font-size: 18px;
     line-height: 24px;
     text-overflow: ellipsis;
@@ -70,6 +76,12 @@
     .link:hover & {
         text-decoration: underline;
     }
+}
+
+.flag {
+    flex-shrink: 0;
+    padding-left: 5px;
+    color: red;
 }
 
 .targets {

@@ -13,23 +13,20 @@ import TriggerInfo from '../Components/TriggerInfo/TriggerInfo';
 import MetricList from '../Components/MetricList/MetricList';
 import Tabs, { Tab } from '../Components/Tabs/Tabs';
 import EventList from '../Components/EventList/EventList';
-import Layout, {
-    LayoutPlate,
-    LayoutContent,
-} from '../Components/Layout/Layout';
+import Layout, { LayoutPlate, LayoutContent } from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean,
-    error: ?string,
-    trigger: ?Trigger,
-    triggerState: ?TriggerState,
+    loading: boolean;
+    error: ?string;
+    trigger: ?Trigger;
+    triggerState: ?TriggerState;
     triggerEvents: ?{|
-        total: number,
-        list: Array<Event>,
-        page: number,
-        size: number,
-    |},
+        total: number;
+        list: Array<Event>;
+        page: number;
+        size: number;
+    |};
 |};
 
 class TriggerContainer extends React.Component {
@@ -62,16 +59,13 @@ class TriggerContainer extends React.Component {
                 triggerState,
                 triggerEvents,
             });
-        } catch (error) {
+        }
+        catch (error) {
             this.setState({ error: 'Network error. Please, reload page' });
         }
     }
 
-    async setMaintenance(
-        triggerId: string,
-        maintenance: Maintenance,
-        metric: string
-    ): Promise<void> {
+    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
@@ -92,11 +86,15 @@ class TriggerContainer extends React.Component {
         this.getData(this.props);
     }
 
-    composeMetrics(): Array<{ name: string, data: Metric }> {
+    async disableTrhrottling(triggerId: string): Promise<void> {
+        this.setState({ loading: true });
+        await this.props.moiraApi.delThrottling(triggerId);
+        this.getData(this.props);
+    }
+
+    composeMetrics(): Array<{ name: string; data: Metric }> {
         const { metrics } = this.state.triggerState || {};
-        return metrics
-            ? Object.keys(metrics).map(x => ({ name: x, data: metrics[x] }))
-            : []; // TODO
+        return metrics ? Object.keys(metrics).map(x => ({ name: x, data: metrics[x] })) : []; // TODO
     }
 
     render(): React.Element<*> {
@@ -105,36 +103,34 @@ class TriggerContainer extends React.Component {
             <Layout loading={loading} error={error}>
                 {trigger && (
                     <LayoutPlate>
-                        <TriggerInfo data={trigger} />
+                        <TriggerInfo
+                            data={trigger}
+                            onThrottlingRemove={triggerId => {
+                                this.disableTrhrottling(triggerId);
+                            }}
+                        />
                     </LayoutPlate>
                 )}
                 {trigger && (
                     <LayoutContent>
-                        <Tabs value="state">
+                        <Tabs value='state'>
                             {this.composeMetrics().length !== 0 && (
-                                <Tab id="state" label="Current state">
+                                <Tab id='state' label='Current state'>
                                     <MetricList
                                         status
                                         items={this.composeMetrics()}
                                         onChange={(maintenance, metric) => {
-                                            this.setMaintenance(
-                                                trigger.id,
-                                                maintenance,
-                                                metric
-                                            );
+                                            this.setMaintenance(trigger.id, maintenance, metric);
                                         }}
                                         onRemove={metric => {
-                                            this.removeMetric(
-                                                trigger.id,
-                                                metric
-                                            );
+                                            this.removeMetric(trigger.id, metric);
                                         }}
                                     />
                                 </Tab>
                             )}
                             {triggerEvents &&
                             triggerEvents.list.length !== 0 && (
-                                <Tab id="events" label="Events history">
+                                <Tab id='events' label='Events history'>
                                     <EventList items={triggerEvents.list} />
                                 </Tab>
                             )}

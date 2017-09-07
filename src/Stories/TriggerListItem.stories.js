@@ -305,6 +305,10 @@ const stories = [
         data: { ...sourceData, tags: ['dev', 'test_', 'ke.notifications', 'ke.notifications-dev'] },
     },
     {
+        title: 'Throttling flag',
+        data: { ...sourceData, throttling: Date.now() },
+    },
+    {
         title: 'Lot of all data',
         data: {
             ...sourceData,
