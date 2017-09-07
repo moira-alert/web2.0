@@ -8,10 +8,10 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean,
-    error: ?string,
-    list: ?Array<Notification>,
-    total: number,
+    loading: boolean;
+    error: ?string;
+    list: ?Array<Notification>;
+    total: number;
 |};
 
 class NotificationsContainer extends React.Component {
@@ -32,7 +32,8 @@ class NotificationsContainer extends React.Component {
         try {
             const notifications = await moiraApi.getNotificationList();
             this.setState({ loading: false, ...notifications });
-        } catch (error) {
+        }
+        catch (error) {
             this.setState({ error: 'Network error. Please, reload page' });
         }
     }

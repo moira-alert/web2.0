@@ -8,9 +8,9 @@ storiesOf('State Indicator', module)
     .add('All single color variants', () => {
         return (
             <div style={{ display: 'flex' }}>
-                {Object.keys(Statuses).map(s => (
+                {Object.keys(Statuses).map(x => (
                     <div style={{ marginRight: '5px' }}>
-                        <StatusIndicator statuses={[s]} />
+                        <StatusIndicator statuses={[x]} />
                     </div>
                 ))}
             </div>

@@ -4,28 +4,26 @@ import Loader from 'retail-ui/components/Loader';
 import Icon from 'retail-ui/components/Icon';
 import cn from './Layout.less';
 type LayoutProps = {|
-    children?: any,
-    loading?: boolean,
-    error?: ?string,
+    children?: any;
+    loading?: boolean;
+    error?: ?string;
 |};
 type ErrorMessageProps = {|
-    children?: string,
+    children?: string;
 |};
 type PlateProps = {|
-    children?: any,
+    children?: any;
 |};
 type ContentProps = {|
-    children?: any,
+    children?: any;
 |};
 type PagingProps = {|
-    children?: any,
+    children?: any;
 |};
 export default class Layout extends React.Component {
     props: LayoutProps;
 
-    static ErrorMessage = function ErrorMessage({
-        children,
-    }: ErrorMessageProps): React.Element<*> {
+    static ErrorMessage = function ErrorMessage({ children }: ErrorMessageProps): React.Element<*> {
         return (
             <div className={cn('error')}>
                 <div className={cn('container')}>{children}</div>
@@ -41,9 +39,7 @@ export default class Layout extends React.Component {
         );
     };
 
-    static Content = function Content({
-        children,
-    }: ContentProps): React.Element<*> {
+    static Content = function Content({ children }: ContentProps): React.Element<*> {
         return (
             <div className={cn('content')}>
                 <div className={cn('container')}>{children}</div>
@@ -51,9 +47,7 @@ export default class Layout extends React.Component {
         );
     };
 
-    static Paging = function Paging({
-        children,
-    }: PagingProps): React.Element<*> {
+    static Paging = function Paging({ children }: PagingProps): React.Element<*> {
         return (
             <div className={cn('paging')}>
                 <div className={cn('container')}>{children}</div>
@@ -67,14 +61,10 @@ export default class Layout extends React.Component {
             <main className={cn('layout')}>
                 {error && (
                     <div className={cn('error')}>
-                        <Icon name="Warning" /> {error}
+                        <Icon name='Warning' /> {error}
                     </div>
                 )}
-                <Loader
-                    className={cn('loading')}
-                    active={loading}
-                    caption="Loading"
-                >
+                <Loader className={cn('loading')} active={loading} caption='Loading'>
                     {children}
                 </Loader>
             </main>

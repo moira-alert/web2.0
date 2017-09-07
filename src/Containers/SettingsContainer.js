@@ -8,9 +8,9 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean,
-    error: ?string,
-    settings: ?Settings,
+    loading: boolean;
+    error: ?string;
+    settings: ?Settings;
 |};
 
 class SettingsContainer extends React.Component {
@@ -30,7 +30,8 @@ class SettingsContainer extends React.Component {
         try {
             const settings = await moiraApi.getSettings();
             this.setState({ loading: false, settings });
-        } catch (error) {
+        }
+        catch (error) {
             this.setState({ error: 'Network error. Please, reload page' });
         }
     }

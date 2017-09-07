@@ -8,9 +8,9 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean,
-    error: ?string,
-    list: ?Array<Pattern>,
+    loading: boolean;
+    error: ?string;
+    list: ?Array<Pattern>;
 |};
 
 class PatternListContainer extends React.Component {
@@ -30,7 +30,8 @@ class PatternListContainer extends React.Component {
         try {
             const patterns = await moiraApi.getPatternList();
             this.setState({ loading: false, ...patterns });
-        } catch (error) {
+        }
+        catch (error) {
             this.setState({ error: 'Network error. Please, reload page' });
         }
     }

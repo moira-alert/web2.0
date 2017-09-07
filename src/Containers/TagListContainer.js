@@ -8,9 +8,9 @@ import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
-    loading: boolean,
-    error: ?string,
-    list: ?Array<TagStat>,
+    loading: boolean;
+    error: ?string;
+    list: ?Array<TagStat>;
 |};
 
 class TagListContainer extends React.Component {
@@ -30,7 +30,8 @@ class TagListContainer extends React.Component {
         try {
             const stats = await moiraApi.getTagStats();
             this.setState({ loading: false, ...stats });
-        } catch (error) {
+        }
+        catch (error) {
             this.setState({ error: 'Network error. Please, reload page' });
         }
     }

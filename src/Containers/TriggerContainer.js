@@ -4,7 +4,6 @@ import moment from 'moment';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger, TriggerState } from '../Domain/Trigger';
-import type { Metric } from '../Domain/Metric';
 import type { Maintenance } from '../Domain/Maintenance';
 import type { Event } from '../Domain/Event';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
