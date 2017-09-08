@@ -52,7 +52,7 @@ class TriggerListContainer extends React.Component {
             const triggers = await moiraApi.getTriggerList(page - 1, onlyProblems, selectedTags);
 
             if (page > Math.ceil(triggers.total / triggers.size)) {
-                const rightLastPage = Math.ceil(triggers.total / triggers.size);
+                const rightLastPage = Math.ceil(triggers.total / triggers.size) || 1;
                 this.changeLocationSearch({ page: rightLastPage });
             }
 
