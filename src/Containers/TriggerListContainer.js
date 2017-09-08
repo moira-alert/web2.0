@@ -74,6 +74,7 @@ class TriggerListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps: Props) {
+        this.setState({ loading: true });
         this.getData(nextProps);
     }
 
