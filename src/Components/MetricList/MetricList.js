@@ -73,7 +73,7 @@ export default function MetricList(props: Props): React.Element<*> {
             </header>
             <div className={cn('items')}>
                 {Object.keys(items).map(metric => {
-                    const { value, event_timestamp: eventTimestamp, state, maintenance } = items[metric];
+                    const { value, event_timestamp: eventTimestamp = 0, state, maintenance } = items[metric];
                     return (
                         <div key={metric} className={cn('row')}>
                             {status && (
