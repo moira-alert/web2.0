@@ -44,6 +44,19 @@ class TriggerListContainer extends React.Component {
     async getData(props: Props): Promise<void> {
         const { moiraApi, location } = props;
         const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
+        const localDataString = localStorage.getItem('moiraSettings');
+        const { tags: localTags, onlyProblems: localOnlyProblems } =
+            typeof localDataString === 'string' ? JSON.parse(localDataString) : {};
+
+        if (parsedTags.length === 0 && localTags && localTags.length) {
+            this.changeLocationSearch({ tags: localTags });
+            return;
+        }
+
+        if (!onlyProblems && localOnlyProblems) {
+            this.changeLocationSearch({ onlyProblems: localOnlyProblems });
+            return;
+        }
 
         try {
             const { subscriptions } = await moiraApi.getSettings();
@@ -99,6 +112,7 @@ class TriggerListContainer extends React.Component {
             ...this.parseLocationSearch(location.search),
             ...update,
         };
+        localStorage.setItem('moiraSettings', JSON.stringify(search));
         history.push(
             '?' +
                 queryString.stringify(search, {
