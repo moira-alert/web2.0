@@ -154,7 +154,7 @@ export default class TriggerListItem extends React.Component {
                                 {throttling !== 0 && (
                                     <div
                                         className={cn('flag')}
-                                        title={'Throttling until ' + moment(throttling).format('MMMM D, HH:mm:ss')}>
+                                        title={'Throttling until ' + moment.unix(throttling).format('MMMM D, HH:mm:ss')}>
                                         <Icon name='FlagSolid' />
                                     </div>
                                 )}

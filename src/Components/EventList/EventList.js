@@ -30,7 +30,7 @@ export default function EventList(props: Props): React.Element<*> {
                             </div>
                             <StatusIndicator statuses={[state]} size={14} />
                         </div>
-                        <div className={cn('date')}>{moment(timestamp).format('MMMM D, HH:mm:ss')}</div>
+                        <div className={cn('date')}>{moment.unix(timestamp).format('MMMM D, HH:mm:ss')}</div>
                     </div>
                 );
             })}
