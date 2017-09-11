@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 import moment from 'moment';
+import queryString from 'query-string';
+import Paging from 'retail-ui/components/Paging';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger, TriggerState } from '../Domain/Trigger';
@@ -49,8 +51,14 @@ class TriggerContainer extends React.Component {
         this.getData(this.props);
     }
 
+    componentWillReceiveProps(nextProps: Props) {
+        this.setState({ loading: true });
+        this.getData(nextProps);
+    }
+
     async getData(props: Props): Promise<void> {
-        const { moiraApi, match } = props;
+        const { moiraApi, match, location } = props;
+        const { page } = this.parseLocationSearch(location.search);
         const { id } = match.params;
         if (typeof id !== 'string') {
             return;
@@ -58,7 +66,14 @@ class TriggerContainer extends React.Component {
         try {
             const trigger = await moiraApi.getTrigger(id);
             const triggerState = await moiraApi.getTriggerState(id);
-            const triggerEvents = await moiraApi.getTriggerEvents(id);
+            const triggerEvents = await moiraApi.getTriggerEvents(id, page - 1);
+
+            if (page > Math.ceil(triggerEvents.total / triggerEvents.size) && triggerEvents.total !== 0) {
+                const rightLastPage = Math.ceil(triggerEvents.total / triggerEvents.size) || 1;
+                this.changeLocationSearch({ page: rightLastPage });
+                return;
+            }
+
             this.setState({
                 loading: false,
                 trigger,
@@ -96,6 +111,32 @@ class TriggerContainer extends React.Component {
         this.setState({ loading: true });
         await this.props.moiraApi.delMetric(triggerId, metric);
         this.getData(this.props);
+    }
+
+    parseLocationSearch(search: string): { page: number } {
+        const {
+            page,
+        }: {
+            [key: string]: string | Array<string>;
+        } = queryString.parse(search, { arrayFormat: 'index' });
+        return {
+            page: typeof page === 'string' ? Number(page.replace(/\D/g, '')) || 1 : 1,
+        };
+    }
+
+    changeLocationSearch(update: { page: number }) {
+        const { location, history } = this.props;
+        const search = {
+            ...this.parseLocationSearch(location.search),
+            ...update,
+        };
+        history.push(
+            '?' +
+                queryString.stringify(search, {
+                    arrayFormat: 'index',
+                    encode: true,
+                })
+        );
     }
 
     sortMetrics(metrics: { [metric: string]: Metric }): { [metric: string]: Metric } {
@@ -162,10 +203,13 @@ class TriggerContainer extends React.Component {
 
     render(): React.Element<*> {
         const { loading, error, trigger, triggerState, triggerEvents, sortingColumn, sortingDown } = this.state;
+        const { location } = this.props;
+        const { page } = this.parseLocationSearch(location.search);
         const { metrics } = triggerState || {};
-        const { list: events } = triggerEvents || {};
+        const { list: events, total, size } = triggerEvents || {};
         const isMetrics = metrics && Object.keys(metrics).length > 0;
         const isEvents = events && events.length > 0;
+        const pageCount = Math.ceil(total / size) || 1;
         return (
             <Layout loading={loading} error={error}>
                 {trigger && (
@@ -209,6 +253,13 @@ class TriggerContainer extends React.Component {
                             {isEvents && (
                                 <Tab id='events' label='Events history'>
                                     <EventList items={events} />
+                                    <div style={{ marginTop: 30 }}>
+                                        <Paging
+                                            activePage={page}
+                                            pagesCount={pageCount}
+                                            onPageChange={page => this.changeLocationSearch({ page })}
+                                        />
+                                    </div>
                                 </Tab>
                             )}
                         </Tabs>

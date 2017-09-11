@@ -67,6 +67,7 @@ class TriggerListContainer extends React.Component {
             if (page > Math.ceil(triggers.total / triggers.size) && triggers.total !== 0) {
                 const rightLastPage = Math.ceil(triggers.total / triggers.size) || 1;
                 this.changeLocationSearch({ page: rightLastPage });
+                return;
             }
 
             this.setState({
@@ -145,6 +146,7 @@ class TriggerListContainer extends React.Component {
 
     render(): React.Element<*> {
         const { loading, error, triggers, tags, subscribtions } = this.state;
+        const { location } = this.props;
         const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
         const selectedTags = tags ? intersection(parsedTags, tags) : [];
         const subscribedTags = subscribtions ? difference(subscribtions, selectedTags) : [];
@@ -200,7 +202,7 @@ class TriggerListContainer extends React.Component {
                         <Paging
                             activePage={page}
                             pagesCount={pageCount}
-                            onPageChange={page => this.changeLocationSearch({ page: page })}
+                            onPageChange={page => this.changeLocationSearch({ page })}
                         />
                     </LayoutPaging>
                 )}
