@@ -43,6 +43,24 @@ export default class TriggerListItem extends React.Component {
             }, {});
     }
 
+    sortMetricsByValue(metrics: { [metric: string]: Metric }): { [metric: string]: Metric } {
+        return Object.keys(metrics)
+            .sort((x, y) => {
+                const valueA = metrics[x].value || 0;
+                const valueB = metrics[y].value || 0;
+                if (valueA < valueB) {
+                    return -1;
+                }
+                if (valueA > valueB) {
+                    return 1;
+                }
+                return 0;
+            })
+            .reduce((data, key) => {
+                return { ...data, [key]: metrics[key] };
+            }, {});
+    }
+
     toggleMetrics() {
         const { showMetrics } = this.state;
         this.setState({ showMetrics: !showMetrics });
@@ -102,7 +120,9 @@ export default class TriggerListItem extends React.Component {
         const metrics = statuses.map(x => (
             <Tab key={x} id={x} label={getStatusCaption(x)}>
                 <MetricList
-                    items={this.filterMetricsByStatus(x)}
+                    items={this.sortMetricsByValue(this.filterMetricsByStatus(x))}
+                    sortingColumn='value'
+                    sortingDown
                     onChange={(maintenance, metric) => onChange(maintenance, metric)}
                     onRemove={metric => onRemove(metric)}
                 />

@@ -7,6 +7,7 @@ import type { Trigger, TriggerState } from '../Domain/Trigger';
 import type { Maintenance } from '../Domain/Maintenance';
 import type { Metric } from '../Domain/Metric';
 import type { Event } from '../Domain/Event';
+import type { SortingColum } from '../Components/MetricList/MetricList';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { getMaintenanceTime } from '../Domain/Maintenance';
 import { getStatusWeight } from '../Domain/Status';
@@ -28,7 +29,7 @@ type State = {|
         page: number;
         size: number;
     |};
-    sorting: 'state' | 'name' | 'event' | 'value';
+    sortingColumn: SortingColum;
     sortingDown: boolean;
 |};
 
@@ -40,7 +41,7 @@ class TriggerContainer extends React.Component {
         trigger: null,
         triggerState: null,
         triggerEvents: null,
-        sorting: 'value',
+        sortingColumn: 'value',
         sortingDown: true,
     };
 
@@ -98,69 +99,69 @@ class TriggerContainer extends React.Component {
     }
 
     sortMetrics(metrics: { [metric: string]: Metric }): { [metric: string]: Metric } {
-        const { sorting, sortingDown } = this.state;
-        const sortingFn = {
-            state: (a, b) => {
-                const A = getStatusWeight(metrics[a].state);
-                const B = getStatusWeight(metrics[b].state);
-                if (A < B) {
+        const { sortingColumn, sortingDown } = this.state;
+        const sorting = {
+            state: (x, y) => {
+                const stateA = getStatusWeight(metrics[x].state);
+                const stateB = getStatusWeight(metrics[y].state);
+                if (stateA < stateB) {
                     return sortingDown ? -1 : 1;
                 }
-                if (A > B) {
+                if (stateA > stateB) {
                     return sortingDown ? 1 : -1;
                 }
                 return 0;
             },
-            name: (a, b) => {
+            name: (x, y) => {
                 const regex = /[^a-zA-Z0-9-.]/g;
-                const A = a
+                const nameA = x
                     .trim()
                     .replace(regex, '')
                     .toLowerCase();
-                const B = b
+                const nameB = y
                     .trim()
                     .replace(regex, '')
                     .toLowerCase();
-                if (A < B) {
+                if (nameA < nameB) {
                     return sortingDown ? -1 : 1;
                 }
-                if (A > B) {
+                if (nameA > nameB) {
                     return sortingDown ? 1 : -1;
                 }
                 return 0;
             },
-            event: (a, b) => {
-                const A = metrics[a].event_timestamp;
-                const B = metrics[b].event_timestamp;
-                if (A < B) {
+            event: (x, y) => {
+                const eventA = metrics[x].event_timestamp || 0;
+                const eventB = metrics[y].event_timestamp || 0;
+                if (eventA < eventB) {
                     return sortingDown ? -1 : 1;
                 }
-                if (A > B) {
+                if (eventA > eventB) {
                     return sortingDown ? 1 : -1;
                 }
                 return 0;
             },
-            value: (a, b) => {
-                const A = metrics[a].value || 0;
-                const B = metrics[b].value || 0;
-                if (A < B) {
+            value: (x, y) => {
+                const valueA = metrics[x].value || 0;
+                const valueB = metrics[y].value || 0;
+                if (valueA < valueB) {
                     return sortingDown ? -1 : 1;
                 }
-                if (A > B) {
+                if (valueA > valueB) {
                     return sortingDown ? 1 : -1;
                 }
                 return 0;
             },
         };
         return Object.keys(metrics)
-            .sort(sortingFn[sorting])
+            .sort(sorting[sortingColumn])
             .reduce((data, key) => {
                 return { ...data, [key]: metrics[key] };
             }, {});
     }
 
     render(): React.Element<*> {
-        const { loading, error, trigger, triggerState, triggerEvents, sorting, sortingDown } = this.state;
+        const { loading, error, trigger, triggerState, triggerEvents, sortingColumn, sortingDown } = this.state;
         const { metrics } = triggerState || {};
         const { list: events } = triggerEvents || {};
         const isMetrics = metrics && Object.keys(metrics).length > 0;
@@ -186,15 +187,15 @@ class TriggerContainer extends React.Component {
                                     <MetricList
                                         status
                                         items={this.sortMetrics(metrics)}
-                                        onSort={newSorting => {
-                                            if (newSorting === sorting) {
+                                        onSort={sorting => {
+                                            if (sorting === sortingColumn) {
                                                 this.setState({ sortingDown: !sortingDown });
                                             }
                                             else {
-                                                this.setState({ sorting: newSorting, sortingDown: true });
+                                                this.setState({ sortingColumn: sorting, sortingDown: true });
                                             }
                                         }}
-                                        sorting={sorting}
+                                        sortingColumn={sortingColumn}
                                         sortingDown={sortingDown}
                                         onChange={(maintenance, metric) => {
                                             this.setMaintenance(trigger.id, maintenance, metric);

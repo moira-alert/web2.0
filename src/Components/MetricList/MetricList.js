@@ -12,50 +12,61 @@ import MenuItem from 'retail-ui/components/MenuItem';
 import Button from 'retail-ui/components/Button';
 import cn from './MetricList.less';
 
+export type SortingColum = 'state' | 'name' | 'event' | 'value';
+
 type Props = {|
     status?: boolean;
     items: {
         [metric: string]: Metric;
     };
-    sorting?: 'state' | 'name' | 'event' | 'value';
+    sortingColumn?: SortingColum;
     sortingDown?: boolean;
-    onSort?: (sorting: 'state' | 'name' | 'event' | 'value') => void;
+    onSort?: (sorting: SortingColum) => void;
     onChange: (maintenance: Maintenance, metric: string) => void;
     onRemove: (metric: string) => void;
 |};
 
-export default function MetricList(props: Props): React.Element<*> {
-    const { status, items, onSort, onChange, onRemove, sorting, sortingDown } = props;
+function checkMaintenance(maintenance: ?number): string {
+    const delta = (maintenance || 0) - moment.utc().unix();
+    return delta <= 0 ? 'Maintenance' : moment.duration(delta * 1000).humanize();
+}
 
-    function checkMaintenance(maintenance: ?number): string {
-        const delta = (maintenance || 0) - moment.utc().unix();
-        return delta <= 0 ? 'Maintenance' : moment.duration(delta * 1000).humanize();
-    }
+export default function MetricList(props: Props): React.Element<*> {
+    const { status, items, onSort, onChange, onRemove, sortingColumn, sortingDown } = props;
+    const sortingIcon = sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp';
 
     return (
         <section className={cn('table')}>
             <header className={cn('row', 'header')}>
-                {status && (
-                    <div className={cn('state')}>
-                        <span className={cn('sorting')} onClick={onSort && (() => onSort('state'))}>
-                            S {sorting === 'state' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
-                        </span>
-                    </div>
-                )}
+                {status && <div className={cn('state')} />}
                 <div className={cn('name')}>
-                    <span className={cn('sorting')} onClick={onSort && (() => onSort('name'))}>
-                        Name {sorting === 'name' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
+                    <span className={cn({ sorting: onSort })} onClick={onSort && (() => onSort('name'))}>
+                        Name
+                        {sortingColumn === 'name' && (
+                            <span className={cn('icon')}>
+                                <Icon name={sortingIcon} />
+                            </span>
+                        )}
                     </span>
                 </div>
                 <div className={cn('event')}>
-                    <span className={cn('sorting')} onClick={onSort && (() => onSort('event'))}>
+                    <span className={cn({ sorting: onSort })} onClick={onSort && (() => onSort('event'))}>
                         Last event{' '}
-                        {sorting === 'event' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
+                        {sortingColumn === 'event' && (
+                            <span className={cn('icon')}>
+                                <Icon name={sortingIcon} />
+                            </span>
+                        )}
                     </span>
                 </div>
                 <div className={cn('value')}>
-                    <span className={cn('sorting')} onClick={onSort && (() => onSort('value'))}>
-                        Value {sorting === 'value' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
+                    <span className={cn({ sorting: onSort })} onClick={onSort && (() => onSort('value'))}>
+                        Value{' '}
+                        {sortingColumn === 'value' && (
+                            <span className={cn('icon')}>
+                                <Icon name={sortingIcon} />
+                            </span>
+                        )}
                     </span>
                 </div>
                 <div className={cn('controls')} />
