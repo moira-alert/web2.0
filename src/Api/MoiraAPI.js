@@ -26,7 +26,7 @@ export interface IMoiraApi {
     getTrigger(id: string): Promise<Trigger>;
     setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void>;
     getTriggerState(id: string): Promise<TriggerState>;
-    getTriggerEvents(id: string): Promise<EventList>;
+    getTriggerEvents(id: string, page: number): Promise<EventList>;
     delThrottling(triggerId: string): Promise<void>;
     delMetric(triggerId: string, metric: string): Promise<void>;
     getNotificationList(): Promise<NotificationList>;
@@ -129,8 +129,8 @@ export default class Api implements IMoiraApi {
         throw new Error(response);
     }
 
-    async getTriggerEvents(id: string): Promise<EventList> {
-        const url = `${this.config.apiUrl}/event/${id}?p=0&size=${this.config.paging.eventHistory}`;
+    async getTriggerEvents(id: string, page: number): Promise<EventList> {
+        const url = `${this.config.apiUrl}/event/${id}?p=${page}&size=${this.config.paging.eventHistory}`;
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
