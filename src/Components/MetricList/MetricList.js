@@ -82,7 +82,7 @@ export default function MetricList(props: Props): React.Element<*> {
                                 </div>
                             )}
                             <div className={cn('name')}>{metric}</div>
-                            <div className={cn('event')}>{moment(eventTimestamp).format('MMMM D, HH:mm:ss')}</div>
+                            <div className={cn('event')}>{moment.unix(eventTimestamp).format('MMMM D, HH:mm:ss')}</div>
                             <div className={cn('value')}>{roundValue(value)}</div>
                             <div className={cn('controls')}>
                                 <Dropdown caption={checkMaintenance(maintenance)} use='link'>
