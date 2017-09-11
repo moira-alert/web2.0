@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import moment from 'moment';
+import Icon from 'retail-ui/components/Icon';
 import type { Metric } from '../../Domain/Metric';
 import type { Maintenance } from '../../Domain/Maintenance';
 import { roundValue } from '../../helpers';
@@ -16,12 +17,15 @@ type Props = {|
     items: {
         [metric: string]: Metric;
     };
+    sorting?: 'state' | 'name' | 'event' | 'value';
+    sortingDown?: boolean;
+    onSort?: (sorting: 'state' | 'name' | 'event' | 'value') => void;
     onChange: (maintenance: Maintenance, metric: string) => void;
     onRemove: (metric: string) => void;
 |};
 
 export default function MetricList(props: Props): React.Element<*> {
-    const { status, items, onChange, onRemove } = props;
+    const { status, items, onSort, onChange, onRemove, sorting, sortingDown } = props;
 
     function checkMaintenance(maintenance: ?number): string {
         const delta = (maintenance || 0) - moment.utc().unix();
@@ -31,10 +35,29 @@ export default function MetricList(props: Props): React.Element<*> {
     return (
         <section className={cn('table')}>
             <header className={cn('row', 'header')}>
-                {status && <div className={cn('state')} />}
-                <div className={cn('name')}>Name</div>
-                <div className={cn('event')}>Last event</div>
-                <div className={cn('value')}>Value</div>
+                {status && (
+                    <div className={cn('state')}>
+                        <span className={cn('sorting')} onClick={onSort && (() => onSort('state'))}>
+                            S {sorting === 'state' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
+                        </span>
+                    </div>
+                )}
+                <div className={cn('name')}>
+                    <span className={cn('sorting')} onClick={onSort && (() => onSort('name'))}>
+                        Name {sorting === 'name' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
+                    </span>
+                </div>
+                <div className={cn('event')}>
+                    <span className={cn('sorting')} onClick={onSort && (() => onSort('event'))}>
+                        Last event{' '}
+                        {sorting === 'event' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
+                    </span>
+                </div>
+                <div className={cn('value')}>
+                    <span className={cn('sorting')} onClick={onSort && (() => onSort('value'))}>
+                        Value {sorting === 'value' && <Icon name={sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp'} />}
+                    </span>
+                </div>
                 <div className={cn('controls')} />
             </header>
             <div className={cn('items')}>

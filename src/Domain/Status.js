@@ -26,6 +26,15 @@ export const StatusesColors = {
     OK: '#00bfa5',
 };
 
+export const StatusesWeight = {
+    NODATA: 1000,
+    WARN: 1,
+    ERROR: 100,
+    EXCEPTION: 100000,
+    DEL: 100000,
+    OK: 0,
+};
+
 export type Status = $Keys<typeof Statuses>;
 
 export function getStatusColor(status: Status): string {
@@ -34,4 +43,8 @@ export function getStatusColor(status: Status): string {
 
 export function getStatusCaption(status: Status): string {
     return StatusesCaptions[status];
+}
+
+export function getStatusWeight(status: Status): number {
+    return StatusesWeight[status];
 }

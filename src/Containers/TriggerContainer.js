@@ -5,9 +5,11 @@ import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger, TriggerState } from '../Domain/Trigger';
 import type { Maintenance } from '../Domain/Maintenance';
+import type { Metric } from '../Domain/Metric';
 import type { Event } from '../Domain/Event';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { getMaintenanceTime } from '../Domain/Maintenance';
+import { getStatusWeight } from '../Domain/Status';
 import TriggerInfo from '../Components/TriggerInfo/TriggerInfo';
 import MetricList from '../Components/MetricList/MetricList';
 import Tabs, { Tab } from '../Components/Tabs/Tabs';
@@ -26,6 +28,8 @@ type State = {|
         page: number;
         size: number;
     |};
+    sorting: 'state' | 'name' | 'event' | 'value';
+    sortingDown: boolean;
 |};
 
 class TriggerContainer extends React.Component {
@@ -36,6 +40,8 @@ class TriggerContainer extends React.Component {
         trigger: null,
         triggerState: null,
         triggerEvents: null,
+        sorting: 'value',
+        sortingDown: true,
     };
 
     componentDidMount() {
@@ -91,8 +97,70 @@ class TriggerContainer extends React.Component {
         this.getData(this.props);
     }
 
+    sortMetrics(metrics: { [metric: string]: Metric }): { [metric: string]: Metric } {
+        const { sorting, sortingDown } = this.state;
+        const sortingFn = {
+            state: (a, b) => {
+                const A = getStatusWeight(metrics[a].state);
+                const B = getStatusWeight(metrics[b].state);
+                if (A < B) {
+                    return sortingDown ? -1 : 1;
+                }
+                if (A > B) {
+                    return sortingDown ? 1 : -1;
+                }
+                return 0;
+            },
+            name: (a, b) => {
+                const regex = /[^a-zA-Z0-9-.]/g;
+                const A = a
+                    .trim()
+                    .replace(regex, '')
+                    .toLowerCase();
+                const B = b
+                    .trim()
+                    .replace(regex, '')
+                    .toLowerCase();
+                if (A < B) {
+                    return sortingDown ? -1 : 1;
+                }
+                if (A > B) {
+                    return sortingDown ? 1 : -1;
+                }
+                return 0;
+            },
+            event: (a, b) => {
+                const A = metrics[a].event_timestamp;
+                const B = metrics[b].event_timestamp;
+                if (A < B) {
+                    return sortingDown ? -1 : 1;
+                }
+                if (A > B) {
+                    return sortingDown ? 1 : -1;
+                }
+                return 0;
+            },
+            value: (a, b) => {
+                const A = metrics[a].value || 0;
+                const B = metrics[b].value || 0;
+                if (A < B) {
+                    return sortingDown ? -1 : 1;
+                }
+                if (A > B) {
+                    return sortingDown ? 1 : -1;
+                }
+                return 0;
+            },
+        };
+        return Object.keys(metrics)
+            .sort(sortingFn[sorting])
+            .reduce((data, key) => {
+                return { ...data, [key]: metrics[key] };
+            }, {});
+    }
+
     render(): React.Element<*> {
-        const { loading, error, trigger, triggerState, triggerEvents } = this.state;
+        const { loading, error, trigger, triggerState, triggerEvents, sorting, sortingDown } = this.state;
         const { metrics } = triggerState || {};
         const { list: events } = triggerEvents || {};
         const isMetrics = metrics && Object.keys(metrics).length > 0;
@@ -116,7 +184,18 @@ class TriggerContainer extends React.Component {
                             trigger && (
                                 <Tab id='state' label='Current state'>
                                     <MetricList
-                                        items={metrics}
+                                        status
+                                        items={this.sortMetrics(metrics)}
+                                        onSort={newSorting => {
+                                            if (newSorting === sorting) {
+                                                this.setState({ sortingDown: !sortingDown });
+                                            }
+                                            else {
+                                                this.setState({ sorting: newSorting, sortingDown: true });
+                                            }
+                                        }}
+                                        sorting={sorting}
+                                        sortingDown={sortingDown}
                                         onChange={(maintenance, metric) => {
                                             this.setMaintenance(trigger.id, maintenance, metric);
                                         }}
