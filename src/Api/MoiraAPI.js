@@ -40,7 +40,7 @@ export default class Api implements IMoiraApi {
     }
 
     async getPatternList(): Promise<PatternList> {
-        const url = `${this.config.apiUrl}/pattern`;
+        const url = this.config.apiUrl + '/pattern';
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
@@ -49,7 +49,7 @@ export default class Api implements IMoiraApi {
     }
 
     async getTagList(): Promise<TagList> {
-        const url = `${this.config.apiUrl}/tag`;
+        const url = this.config.apiUrl + '/tag';
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
@@ -58,7 +58,7 @@ export default class Api implements IMoiraApi {
     }
 
     async getTagStats(): Promise<TagStatList> {
-        const url = `${this.config.apiUrl}/tag/stats`;
+        const url = this.config.apiUrl + '/tag/stats';
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
@@ -67,7 +67,7 @@ export default class Api implements IMoiraApi {
     }
 
     async getSettings(): Promise<Settings> {
-        const url = `${this.config.apiUrl}/user/settings`;
+        const url = this.config.apiUrl + '/user/settings';
         const response = await fetch(url, {
             method: 'GET',
         });
@@ -157,7 +157,7 @@ export default class Api implements IMoiraApi {
     }
 
     async getNotificationList(): Promise<NotificationList> {
-        const url = `${this.config.apiUrl}/notification?start=0&end=-1`;
+        const url = this.config.apiUrl + '/notification?start=0&end=-1';
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
