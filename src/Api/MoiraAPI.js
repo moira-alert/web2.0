@@ -30,6 +30,7 @@ export interface IMoiraApi {
     delThrottling(triggerId: string): Promise<void>;
     delMetric(triggerId: string, metric: string): Promise<void>;
     getNotificationList(): Promise<NotificationList>;
+    deltNotification(id: string): Promise<void>;
 }
 
 export default class Api implements IMoiraApi {
@@ -161,6 +162,14 @@ export default class Api implements IMoiraApi {
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
+        }
+        throw new Error(response);
+    }
+    async deltNotification(id: string): Promise<void> {
+        const url = this.config.apiUrl + '/notification?id=' + id;
+        const response = await fetch(url, { method: 'DELETE' });
+        if (response.status === 200) {
+            return;
         }
         throw new Error(response);
     }
