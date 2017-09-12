@@ -1,8 +1,10 @@
 // @flow
 import React from 'react';
+import moment from 'moment';
+import type { Trigger } from '../../Domain/Trigger';
+import type { Schedule } from '../../Domain/Schedule';
 import Link from 'retail-ui/components/Link';
 import Button from 'retail-ui/components/Button';
-import type { Trigger } from '../../Domain/Trigger';
 import TagList from '../TagList/TagList';
 import { getJSONContent } from '../../helpers';
 import cn from './TriggerInfo.less';
@@ -11,6 +13,25 @@ type Props = {|
     data: Trigger;
     onThrottlingRemove: (triggerId: string) => void;
 |};
+
+function ScheduleView(props: { data: Schedule }): React.Element<*> {
+    const { days, startOffset, endOffset } = props.data;
+    const enabledDays = days.filter(({ enabled }) => enabled);
+    const viewDays = days.length === enabledDays.length ? 'Everyday' : enabledDays.map(({ name }) => name).join(', ');
+    const viewTime =
+        moment('1900-01-01 00:00:00')
+            .add(startOffset, 'minutes')
+            .format('HH:mm') +
+        '–' +
+        moment('1900-01-01 00:00:00')
+            .add(endOffset, 'minutes')
+            .format('HH:mm');
+    return (
+        <div>
+            {viewDays} {viewTime}
+        </div>
+    );
+}
 
 export default function TriggerInfo(props: Props): React.Element<*> {
     const {
@@ -65,12 +86,7 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                 {expression && <dd>{expression}</dd>}
                 <dt>Schedule</dt>
                 <dd>
-                    {sched.days.filter(item => item.enabled).map((item, i) => (
-                        <span key={i}>
-                            {i !== 0 && ', '}
-                            {item.name}
-                        </span>
-                    ))}
+                    <ScheduleView data={sched} />
                 </dd>
                 <dt>Tags</dt>
                 <dd>

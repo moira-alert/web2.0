@@ -45,6 +45,26 @@ const stories = [
         title: 'With throttling',
         data: { ...sourceData, throttling: Date.now() },
     },
+    {
+        title: 'Not everyday',
+        data: {
+            ...sourceData,
+            sched: {
+                endOffset: 1439,
+                days: [
+                    { enabled: true, name: 'Mon' },
+                    { enabled: false, name: 'Tue' },
+                    { enabled: true, name: 'Wed' },
+                    { enabled: true, name: 'Thu' },
+                    { enabled: true, name: 'Fri' },
+                    { enabled: false, name: 'Sat' },
+                    { enabled: true, name: 'Sun' },
+                ],
+                startOffset: 0,
+                tzOffset: -300,
+            },
+        },
+    },
 ];
 
 const story = storiesOf('TriggerInfo', module).addDecorator(StoryRouter());
