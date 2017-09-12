@@ -1,9 +1,11 @@
 // @flow
 import React from 'react';
+import { uniq } from 'lodash';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Notification } from '../Domain/Notification';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
+import NotificationList from '../Components/NotificationList/NotificationList';
 import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
@@ -11,7 +13,7 @@ type State = {|
     loading: boolean;
     error: ?string;
     list: ?Array<Notification>;
-    total: number;
+    total: ?number;
 |};
 
 class NotificationsContainer extends React.Component {
@@ -20,15 +22,15 @@ class NotificationsContainer extends React.Component {
         loading: true,
         error: null,
         list: null,
-        total: 0,
+        total: null,
     };
 
     componentDidMount() {
-        this.getData();
+        this.getData(this.props);
     }
 
-    async getData(): Promise<void> {
-        const { moiraApi } = this.props;
+    async getData(props: Props): Promise<void> {
+        const { moiraApi } = props;
         try {
             const notifications = await moiraApi.getNotificationList();
             this.setState({ loading: false, ...notifications });
@@ -38,13 +40,36 @@ class NotificationsContainer extends React.Component {
         }
     }
 
+    composeNotifications(items: Array<Notification>): { [id: string]: Notification } {
+        return items.reduce((data, item) => {
+            const id = item.timestamp + item.contact.id + item.event.sub_id;
+            if (!data[id]) {
+                data[id] = item;
+            }
+            return data;
+        }, {});
+    }
+
+    async removeNotification(id: string): Promise<void> {
+        this.setState({ loading: true });
+        await this.props.moiraApi.deltNotification(id);
+        this.getData(this.props);
+    }
+
     render(): React.Element<*> {
         const { loading, error, list } = this.state;
         return (
             <Layout loading={loading} error={error}>
-                <Layout.Content>
-                    <pre>{JSON.stringify(list, null, 2)}</pre>
-                </Layout.Content>
+                {list && (
+                    <Layout.Content>
+                        <NotificationList
+                            items={this.composeNotifications(list)}
+                            onRemove={id => {
+                                this.removeNotification(id);
+                            }}
+                        />
+                    </Layout.Content>
+                )}
             </Layout>
         );
     }

@@ -1,0 +1,70 @@
+// @flow
+import React from 'react';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
+import Icon from 'retail-ui/components/Icon';
+import Button from 'retail-ui/components/Button';
+import type { Notification } from '../../Domain/Notification';
+import cn from './NotificationList.less';
+
+type Props = {|
+    items: { [id: string]: Notification };
+    onRemove: (key: string) => void;
+|};
+
+export default function NotificationList(props: Props): React.Element<*> {
+    const { items, onRemove } = props;
+
+    function renderContactIcon(type: string): React.Element<*> {
+        let name;
+        switch (type) {
+            case 'telegram':
+                name = 'Telegram2';
+                break;
+            default:
+                name = 'Mail2';
+                break;
+        }
+        return <Icon name={name} />;
+    }
+
+    return Object.keys(items).length === 0 ? (
+        <div className={cn('no-result')}>Empty :-)</div>
+    ) : (
+        <div className={cn('list')}>
+            <div className={cn('row', 'header')}>
+                <div className={cn('timestamp')}>Timestamp</div>
+                <div className={cn('trigger')}>Trigger</div>
+                <div className={cn('contact')}>Contact</div>
+                <div className={cn('throttled')}>Throttled</div>
+                <div className={cn('fails')}>Fails</div>
+                <div className={cn('remove')} />
+            </div>
+            {Object.keys(items).map((key, i) => {
+                const { timestamp, trigger, contact, throttled, send_fail: fails } = items[key];
+                const { type, value } = contact;
+                const { id, name } = trigger;
+                return (
+                    <div key={i} className={cn('row')}>
+                        <div className={cn('timestamp')}>{moment.unix(timestamp).format('MMMM D, HH:mm:ss')}</div>
+                        <div className={cn('trigger')}>
+                            <Link to={'/trigger' + id}>{name}</Link>
+                        </div>
+                        <div className={cn('contact')}>
+                            {renderContactIcon(type)} {value}
+                        </div>
+                        <div className={cn('throttled', { true: throttled, false: !throttled })}>
+                            {throttled ? <Icon name='Ok' /> : <Icon name='Delete' />}
+                        </div>
+                        <div className={cn('fails')}>{fails}</div>
+                        <div className={cn('remove')}>
+                            <Button use='link' icon='Trash' onClick={() => onRemove(key)}>
+                                Remove
+                            </Button>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+}

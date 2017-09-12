@@ -1,0 +1,57 @@
+.list {
+}
+
+.row {
+    display: flex;
+    align-items: flex-start;
+
+    &:not(.header) {
+        margin-top: 5px;
+    }
+}
+
+.header {
+    color: #666;
+    font-style: italic;
+}
+
+.timestamp {
+    width: 19%;
+}
+
+.trigger {
+    overflow: hidden;
+    width: 35%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+}
+
+.contact {
+    width: 24%;
+}
+
+.throttled {
+    width: 7%;
+
+    &.false {
+        color: #ee0701;
+    }
+
+    &.true {
+        color: #128a0c;
+    }
+}
+
+.fails {
+    width: 5%;
+}
+
+.remove {
+    width: 10%;
+}
+
+.no-result {
+    color: #666;
+    text-align: center;
+}

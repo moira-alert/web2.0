@@ -12,7 +12,7 @@ export type Notification = {|
         value?: number;
     };
     send_fail: number;
-    throttled: true;
+    throttled: boolean;
     timestamp: number;
     trigger: {
         id: string;
