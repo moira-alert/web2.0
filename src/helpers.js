@@ -1,7 +1,7 @@
 // @flow
-export function roundValue(value: number | string | void): number | string {
+export function roundValue(value: number | string | void, placeholder: boolean | void): number | string {
     if (typeof value !== 'number') {
-        return '—';
+        return placeholder ? '—' : '';
     }
     const parsedValue = parseFloat(value.toString());
     const sizes = ['', ' K', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y'];
