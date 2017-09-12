@@ -201,6 +201,23 @@ class TriggerContainer extends React.Component {
             }, {});
     }
 
+    composeEvents(
+        events: Array<Event>
+    ): {
+        [key: string]: Array<Event>;
+    } {
+        return events.reduce((data, event) => {
+            const metric = event.metric.length !== 0 ? event.metric : 'No metric evaluated';
+            if (data[metric]) {
+                data[metric].push(event);
+            }
+            else {
+                data[metric] = [event];
+            }
+            return data;
+        }, {});
+    }
+
     render(): React.Element<*> {
         const { loading, error, trigger, triggerState, triggerEvents, sortingColumn, sortingDown } = this.state;
         const { location } = this.props;
@@ -252,14 +269,16 @@ class TriggerContainer extends React.Component {
                             )}
                             {isEvents && (
                                 <Tab id='events' label='Events history'>
-                                    <EventList items={events} />
-                                    <div style={{ marginTop: 30 }}>
-                                        <Paging
-                                            activePage={page}
-                                            pagesCount={pageCount}
-                                            onPageChange={page => this.changeLocationSearch({ page })}
-                                        />
-                                    </div>
+                                    <EventList items={this.composeEvents(events)} />
+                                    {pageCount > 1 && (
+                                        <div style={{ marginTop: 30 }}>
+                                            <Paging
+                                                activePage={page}
+                                                pagesCount={pageCount}
+                                                onPageChange={page => this.changeLocationSearch({ page })}
+                                            />
+                                        </div>
+                                    )}
                                 </Tab>
                             )}
                         </Tabs>
