@@ -6,7 +6,7 @@ import type { TagStat } from '../Domain/Tag';
 import type { Contact } from '../Domain/Contact';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import TagList from '../Components/TagList/TagList';
-import Layout from '../Components/Layout/Layout';
+import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -67,9 +67,10 @@ class TagListContainer extends React.Component {
         const { loading, error, tags, contacts } = this.state;
         return (
             <Layout loading={loading} error={error}>
-                {tags &&
-                contacts && (
-                    <Layout.Content>
+                <LayoutContent>
+                    <LayoutTitle>Tags</LayoutTitle>
+                    {tags &&
+                    contacts && (
                         <TagList
                             items={tags}
                             contacts={contacts}
@@ -80,8 +81,8 @@ class TagListContainer extends React.Component {
                                 this.removeContact(subscribtionId);
                             }}
                         />
-                    </Layout.Content>
-                )}
+                    )}
+                </LayoutContent>
             </Layout>
         );
     }

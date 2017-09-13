@@ -14,6 +14,9 @@ type ErrorMessageProps = {|
 type PlateProps = {|
     children?: any;
 |};
+type TitleProps = {|
+    children: string;
+|};
 type ContentProps = {|
     children?: any;
 |};
@@ -37,6 +40,10 @@ export default class Layout extends React.Component {
                 <div className={cn('container')}>{children}</div>
             </div>
         );
+    };
+
+    static Title = function Title({ children }: TitleProps): React.Element<*> {
+        return <h1 className={cn('title')}>{children}</h1>;
     };
 
     static Content = function Content({ children }: ContentProps): React.Element<*> {
@@ -73,6 +80,7 @@ export default class Layout extends React.Component {
 }
 
 export const LayoutErrorMessage = Layout.ErrorMessage;
+export const LayoutTitle = Layout.Title;
 export const LayoutPlate = Layout.Plate;
 export const LayoutContent = Layout.Content;
 export const LayoutPaging = Layout.Paging;

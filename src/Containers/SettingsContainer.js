@@ -4,7 +4,7 @@ import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Settings } from '../Domain/Settings';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
-import Layout from '../Components/Layout/Layout';
+import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -40,9 +40,10 @@ class SettingsContainer extends React.Component {
         const { loading, error, settings } = this.state;
         return (
             <Layout loading={loading} error={error}>
-                <Layout.Content>
+                <LayoutContent>
+                    <LayoutTitle>Settings</LayoutTitle>
                     <pre>{JSON.stringify(settings, null, 2)}</pre>
-                </Layout.Content>
+                </LayoutContent>
             </Layout>
         );
     }

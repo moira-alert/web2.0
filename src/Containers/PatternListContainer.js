@@ -5,7 +5,7 @@ import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Pattern } from '../Domain/Pattern';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import PatternList from '../Components/PatternList/PatternList';
-import Layout from '../Components/Layout/Layout';
+import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -52,7 +52,8 @@ class PatternListContainer extends React.Component {
         const { loading, error, list } = this.state;
         return (
             <Layout loading={loading} error={error}>
-                <Layout.Content>
+                <LayoutContent>
+                    <LayoutTitle>Patterns</LayoutTitle>
                     {list && (
                         <PatternList
                             items={list}
@@ -61,7 +62,7 @@ class PatternListContainer extends React.Component {
                             }}
                         />
                     )}
-                </Layout.Content>
+                </LayoutContent>
             </Layout>
         );
     }

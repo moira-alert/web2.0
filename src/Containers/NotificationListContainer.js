@@ -5,7 +5,7 @@ import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Notification } from '../Domain/Notification';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import NotificationList from '../Components/NotificationList/NotificationList';
-import Layout from '../Components/Layout/Layout';
+import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -59,16 +59,17 @@ class NotificationListContainer extends React.Component {
         const { loading, error, list } = this.state;
         return (
             <Layout loading={loading} error={error}>
-                {list && (
-                    <Layout.Content>
+                <LayoutContent>
+                    <LayoutTitle>Notifications</LayoutTitle>
+                    {list && (
                         <NotificationList
                             items={this.composeNotifications(list)}
                             onRemove={id => {
                                 this.removeNotification(id);
                             }}
                         />
-                    </Layout.Content>
-                )}
+                    )}
+                </LayoutContent>
             </Layout>
         );
     }
