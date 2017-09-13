@@ -1,14 +1,71 @@
-.list {
-    position: relative;
-    margin-top: -4px;
-    margin-left: -5px;
+.row {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    padding: 5px;
+
+    &:not(.header) {
+        border-top: 1px solid #eee;
+    }
+
+    &.active {
+        background-color: #f6f6f6;
+    }
+
+    &.clicable {
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    }
+}
+
+.header {
+    color: #666;
+    font-style: italic;
+}
+
+.name {
+    width: calc(~'100% - 240px');
+
+    .clicable & {
+        cursor: pointer;
+    }
+}
+
+.trigger-counter,
+.subscription-counter,
+.control {
+    width: 80px;
+}
+
+.info {
+    width: 100%;
+}
+
+.group {
+    margin-top: 10px;
+}
+
+.title {
+    margin: 0;
 }
 
 .item {
-    margin-top: 4px;
-    margin-left: 5px;
-    max-width: 100%;
+    display: flex;
+    margin-top: 5px;
+}
+
+.enabled {
+    width: 30px;
+}
+
+.user {
+    width: calc(~'30% - 30px');
+}
+
+.contacts {
+    width: calc(~'70% - 100px');
+}
+
+.sub-control {
+    width: 100px;
 }

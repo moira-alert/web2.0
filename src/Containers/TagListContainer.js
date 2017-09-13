@@ -3,14 +3,17 @@ import React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { TagStat } from '../Domain/Tag';
+import type { Contact } from '../Domain/Contact';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
+import TagList from '../Components/TagList/TagList';
 import Layout from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
     loading: boolean;
     error: ?string;
-    list: ?Array<TagStat>;
+    tags: ?Array<TagStat>;
+    contacts: ?Array<Contact>;
 |};
 
 class TagListContainer extends React.Component {
@@ -18,18 +21,42 @@ class TagListContainer extends React.Component {
     state: State = {
         loading: true,
         error: null,
-        list: null,
+        tags: null,
+        contacts: null,
     };
 
     componentDidMount() {
-        this.getData();
+        this.getData(this.props);
     }
 
-    async getData(): Promise<void> {
-        const { moiraApi } = this.props;
+    async getData(props: Props): Promise<void> {
+        const { moiraApi } = props;
         try {
-            const stats = await moiraApi.getTagStats();
-            this.setState({ loading: false, ...stats });
+            const tags = await moiraApi.getTagStats();
+            const contacts = await moiraApi.getContactList();
+            this.setState({ loading: false, tags: tags.list, contacts: contacts.list });
+        }
+        catch (error) {
+            this.setState({ error: 'Network error. Please, reload page' });
+        }
+    }
+
+    async removeTag(tag: string): Promise<void> {
+        this.setState({ loading: true });
+        try {
+            await this.props.moiraApi.delTag(encodeURI(tag));
+            this.getData(this.props);
+        }
+        catch (error) {
+            this.setState({ error: error.message, loading: false });
+        }
+    }
+
+    async removeContact(subscribtionId: string): Promise<void> {
+        this.setState({ loading: true });
+        try {
+            await this.props.moiraApi.delSubscription(encodeURI(subscribtionId));
+            this.getData(this.props);
         }
         catch (error) {
             this.setState({ error: 'Network error. Please, reload page' });
@@ -37,12 +64,24 @@ class TagListContainer extends React.Component {
     }
 
     render(): React.Element<*> {
-        const { loading, error, list } = this.state;
+        const { loading, error, tags, contacts } = this.state;
         return (
             <Layout loading={loading} error={error}>
-                <Layout.Content>
-                    <pre>{JSON.stringify(list, null, 2)}</pre>
-                </Layout.Content>
+                {tags &&
+                contacts && (
+                    <Layout.Content>
+                        <TagList
+                            items={tags}
+                            contacts={contacts}
+                            onRemove={tag => {
+                                this.removeTag(tag);
+                            }}
+                            onRemoveContact={subscribtionId => {
+                                this.removeContact(subscribtionId);
+                            }}
+                        />
+                    </Layout.Content>
+                )}
             </Layout>
         );
     }

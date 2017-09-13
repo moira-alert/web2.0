@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { concat } from 'lodash';
-import TagList from '../TagList/TagList';
+import TagGroup from '../TagGroup/TagGroup';
 import Tag from '../Tag/Tag';
 import cn from './TagSelector.less';
 
@@ -111,14 +111,14 @@ export default class TagSelector extends React.Component {
                 value.length === 0 && (
                     <div className={cn('group')}>
                         <b className={cn('title')}>Subscribtions</b>
-                        <TagList tags={subscribed} onClick={tag => this.selectTag(tag)} />
+                        <TagGroup tags={subscribed} onClick={tag => this.selectTag(tag)} />
                     </div>
                 )}
                 {remained.length !== 0 &&
                 value.length === 0 && (
                     <div className={cn('group')}>
                         <b className={cn('title')}>All tags</b>
-                        <TagList tags={remained} onClick={tag => this.selectTag(tag)} />
+                        <TagGroup tags={remained} onClick={tag => this.selectTag(tag)} />
                     </div>
                 )}
                 {value.length !== 0 && (

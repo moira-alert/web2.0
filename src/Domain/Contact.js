@@ -6,3 +6,7 @@ export type Contact = {|
     user: string;
     value: string;
 |};
+
+export type ContactList = {|
+    list: Array<Contact>;
+|};
