@@ -19,6 +19,7 @@ export type TagStatList = {|
 
 export interface IMoiraApi {
     getPatternList(): Promise<PatternList>;
+    delPattern(pattern: string): Promise<PatternList>;
     getTagList(): Promise<TagList>;
     getTagStats(): Promise<TagStatList>;
     getSettings(): Promise<Settings>;
@@ -45,6 +46,15 @@ export default class Api implements IMoiraApi {
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
+        }
+        throw new Error(response);
+    }
+
+    async delPattern(pattern: string): Promise<void> {
+        const url = this.config.apiUrl + '/pattern/' + pattern;
+        const response = await fetch(url, { method: 'DELETE' });
+        if (response.status === 200) {
+            return;
         }
         throw new Error(response);
     }
