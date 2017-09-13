@@ -9,7 +9,7 @@ import type { Maintenance } from '../../Domain/Maintenance';
 import { Statuses, getStatusColor, getStatusCaption } from '../../Domain/Status';
 import Icon from 'retail-ui/components/Icon';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import TagList from '../TagList/TagList';
+import TagGroup from '../TagGroup/TagGroup';
 import Tabs, { Tab } from '../Tabs/Tabs';
 import MetricList from '../MetricList/MetricList';
 import cn from './TriggerListItem.less';
@@ -173,7 +173,7 @@ export default class TriggerListItem extends React.Component {
                         </Link>
                     </div>
                     <div className={cn('tags')}>
-                        <TagList tags={tags} />
+                        <TagGroup tags={tags} />
                     </div>
                     {showMetrics && metrics}
                 </div>

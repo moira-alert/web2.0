@@ -5,7 +5,7 @@ import type { Trigger } from '../../Domain/Trigger';
 import type { Schedule } from '../../Domain/Schedule';
 import Link from 'retail-ui/components/Link';
 import Button from 'retail-ui/components/Button';
-import TagList from '../TagList/TagList';
+import TagGroup from '../TagGroup/TagGroup';
 import { getJSONContent } from '../../helpers';
 import cn from './TriggerInfo.less';
 
@@ -90,7 +90,7 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                 </dd>
                 <dt>Tags</dt>
                 <dd>
-                    <TagList tags={tags} />
+                    <TagGroup tags={tags} />
                 </dd>
             </dl>
         </section>

@@ -8,6 +8,7 @@ import type { Settings } from '../Domain/Settings';
 import type { TagStat } from '../Domain/Tag';
 import type { PatternList } from '../Domain/Pattern';
 import type { NotificationList } from '../Domain/Notification';
+import type { ContactList } from '../Domain/Contact';
 
 export type TagList = {|
     list: Array<string>;
@@ -18,10 +19,13 @@ export type TagStatList = {|
 |};
 
 export interface IMoiraApi {
+    getContactList(): Promise<ContactList>;
+    delContact(contact: string): Promise<void>;
     getPatternList(): Promise<PatternList>;
-    delPattern(pattern: string): Promise<PatternList>;
+    delPattern(pattern: string): Promise<void>;
     getTagList(): Promise<TagList>;
     getTagStats(): Promise<TagStatList>;
+    delTag(tag: string): Promise<void>;
     getSettings(): Promise<Settings>;
     getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList>;
     getTrigger(id: string): Promise<Trigger>;
@@ -32,6 +36,7 @@ export interface IMoiraApi {
     delMetric(triggerId: string, metric: string): Promise<void>;
     getNotificationList(): Promise<NotificationList>;
     deltNotification(id: string): Promise<void>;
+    delSubscription(id: string): Promise<void>;
 }
 
 export default class Api implements IMoiraApi {
@@ -41,13 +46,31 @@ export default class Api implements IMoiraApi {
         this.config = config;
     }
 
+    async getContactList(): Promise<ContactList> {
+        const url = this.config.apiUrl + '/contact';
+        const response = await fetch(url, { method: 'GET' });
+        if (response.status === 200) {
+            return response.json();
+        }
+        throw new Error('Network error');
+    }
+
+    async delContact(contact: string): Promise<void> {
+        const url = this.config.apiUrl + '/contact/' + contact;
+        const response = await fetch(url, { method: 'DELETE' });
+        if (response.status === 200) {
+            return;
+        }
+        throw new Error('Network error');
+    }
+
     async getPatternList(): Promise<PatternList> {
         const url = this.config.apiUrl + '/pattern';
         const response = await fetch(url, { method: 'GET' });
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async delPattern(pattern: string): Promise<void> {
@@ -56,7 +79,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return;
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async getTagList(): Promise<TagList> {
@@ -65,7 +88,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async getTagStats(): Promise<TagStatList> {
@@ -74,18 +97,31 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
+    }
+
+    async delTag(tag: string): Promise<void> {
+        const url = this.config.apiUrl + '/tag/' + tag;
+        const response = await fetch(url, { method: 'DELETE' });
+        if (response.status === 200) {
+            return;
+        }
+        const { error } = await response.json();
+        throw new Error(error);
     }
 
     async getSettings(): Promise<Settings> {
         const url = this.config.apiUrl + '/user/settings';
         const response = await fetch(url, {
             method: 'GET',
+            headers: {
+                'x-webauth-user': 'sushko',
+            },
         });
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList> {
@@ -107,7 +143,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async getTrigger(id: string): Promise<Trigger> {
@@ -116,7 +152,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void> {
@@ -128,7 +164,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return;
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async getTriggerState(id: string): Promise<TriggerState> {
@@ -137,7 +173,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async getTriggerEvents(id: string, page: number): Promise<EventList> {
@@ -146,7 +182,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async delThrottling(triggerId: string): Promise<void> {
@@ -155,7 +191,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return;
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async delMetric(triggerId: string, metric: string): Promise<void> {
@@ -164,7 +200,7 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return;
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
 
     async getNotificationList(): Promise<NotificationList> {
@@ -173,14 +209,24 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return response.json();
         }
-        throw new Error(response);
+        throw new Error('Network error');
     }
+
     async deltNotification(id: string): Promise<void> {
         const url = this.config.apiUrl + '/notification?id=' + id;
         const response = await fetch(url, { method: 'DELETE' });
         if (response.status === 200) {
             return;
         }
-        throw new Error(response);
+        throw new Error('Network error');
+    }
+
+    async delSubscription(id: string): Promise<void> {
+        const url = this.config.apiUrl + '/subscription/' + id;
+        const response = await fetch(url, { method: 'DELETE' });
+        if (response.status === 200) {
+            return;
+        }
+        throw new Error('Network error');
     }
 }

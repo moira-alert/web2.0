@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import { uniq } from 'lodash';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Notification } from '../Domain/Notification';
@@ -16,7 +15,7 @@ type State = {|
     total: ?number;
 |};
 
-class NotificationsContainer extends React.Component {
+class NotificationListContainer extends React.Component {
     props: Props;
     state: State = {
         loading: true,
@@ -75,4 +74,4 @@ class NotificationsContainer extends React.Component {
     }
 }
 
-export default withMoiraApi(NotificationsContainer);
+export default withMoiraApi(NotificationListContainer);
