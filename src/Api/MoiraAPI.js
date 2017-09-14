@@ -114,9 +114,6 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/user/settings';
         const response = await fetch(url, {
             method: 'GET',
-            headers: {
-                'x-webauth-user': 'sushko',
-            },
         });
         if (response.status === 200) {
             return response.json();
