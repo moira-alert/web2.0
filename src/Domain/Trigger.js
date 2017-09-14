@@ -15,7 +15,7 @@ export type Trigger = {|
     ttl: number;
     ttl_state: string;
     throttling: number;
-    sched: Schedule;
+    sched?: Schedule;
     desc?: string;
     warn_value: ?number;
     error_value: ?number;

@@ -84,10 +84,10 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                 )}
                 {expression && <dt>Expression</dt>}
                 {expression && <dd>{expression}</dd>}
-                <dt>Schedule</dt>
-                <dd>
+                {sched && (<dt>Schedule</dt>)}
+                {sched && (<dd>
                     <ScheduleView data={sched} />
-                </dd>
+                </dd>)}
                 <dt>Tags</dt>
                 <dd>
                     <TagGroup tags={tags} />
