@@ -16,11 +16,13 @@
     "dependencies": {
         "color-hash": "^1.0.3",
         "moment": "^2.18.1",
+        "numeral": "^2.0.6",
         "query-string": "^5.0.0",
         "react": "^15.6.1",
         "react-dom": "^15.6.1",
         "react-router-dom": "^4.1.1",
-        "retail-ui": "^0.8.6"
+        "retail-ui": "^0.8.6",
+        "warning": "^3.0.0"
     },
     "devDependencies": {
         "@storybook/react": "^3.2.3",
@@ -48,6 +50,7 @@
         "less-loader": "^4.0.4",
         "lodash": "^4.17.4",
         "react-hot-loader": "next",
+        "react-ui-validations": "^0.2.10",
         "storybook-router": "^0.2.8",
         "style-loader": "^0.18.2",
         "uglifyjs-webpack-plugin": "^0.4.6",

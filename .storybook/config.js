@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import { configure } from '@storybook/react';
 import styles from '../src/style.less';
 

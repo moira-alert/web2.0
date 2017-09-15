@@ -22,7 +22,7 @@ export default function App(): React.Element<*> {
                 <Route exact path='/' component={TriggerListContainer} />
                 <Route exact path='/trigger/:id' component={TriggerContainer} />
                 <Route exact path='/trigger/:id/edit' component={TriggerEditContainer} />
-                <Route exact path='/trigger/new' component={TriggerEditContainer} />
+                <Route exact path='/new' component={TriggerEditContainer} />
                 <Route exact path='/settings' component={SettingsContainer} />
                 <Route exact path='/notifications' component={NotificationListContainer} />
                 <Route exact path='/tags' component={TagListContainer} />
