@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { Statuses } from '../Domain/Status';
 import StatusIndicator from '../Components/StatusIndicator/StatusIndicator';
 
-storiesOf('State Indicator', module)
+storiesOf('StatusIndicator', module)
     .add('All single color variants', () => {
         return (
             <div style={{ display: 'flex' }}>
