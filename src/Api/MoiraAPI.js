@@ -29,6 +29,9 @@ export interface IMoiraApi {
     getSettings(): Promise<Settings>;
     getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList>;
     getTrigger(id: string): Promise<Trigger>;
+    addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
+    setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
+    delTrigger(id: string): Promise<void>;
     setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void>;
     getTriggerState(id: string): Promise<TriggerState>;
     getTriggerEvents(id: string, page: number): Promise<EventList>;
@@ -152,6 +155,41 @@ export default class Api implements IMoiraApi {
         throw new Error('Network error');
     }
 
+    async addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
+        const url = this.config.apiUrl + '/trigger';
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
+        if (response.status === 200) {
+            return response.json();
+        }
+        throw new Error('Network error');
+    }
+
+    async setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
+        const url = this.config.apiUrl + '/trigger/' + id;
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
+        if (response.status === 200) {
+            return response.json();
+        }
+        const { error } = await response.json();
+        throw new Error(error);
+    }
+
+    async delTrigger(id: string): Promise<void> {
+        const url = this.config.apiUrl + '/trigger/' + id;
+        const response = await fetch(url, { method: 'DELETE' });
+        if (response.status === 200) {
+            return;
+        }
+        const { error } = await response.json();
+        throw new Error(error);
+    }
+
     async setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void> {
         const url = `${this.config.apiUrl}/trigger/${triggerId}/maintenance`;
         const response = await fetch(url, {
@@ -161,7 +199,8 @@ export default class Api implements IMoiraApi {
         if (response.status === 200) {
             return;
         }
-        throw new Error('Network error');
+        const { error } = await response.json();
+        throw new Error(error);
     }
 
     async getTriggerState(id: string): Promise<TriggerState> {

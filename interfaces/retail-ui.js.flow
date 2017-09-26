@@ -129,6 +129,7 @@ declare module 'retail-ui/components/Gapped' {
 declare module 'retail-ui/components/Group' {
     declare type GroupProps = {|
         'data-tid'?: string,
+        width?: string | number,
         children?: any
     |};
     declare export default class Group extends React$Component<void, GroupProps, void> {}
@@ -156,6 +157,7 @@ declare module 'retail-ui/components/Input' {
         maxLength?: number,
         mask?: ?string,
         autoFocus?: boolean,
+        mainInGroup?: boolean,
         disabled?: boolean,
         'data-tid'?: string,
         width?: number | string,

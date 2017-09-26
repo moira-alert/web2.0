@@ -4,7 +4,7 @@ import type { Status } from './Status';
 import type { MetricList } from './Metric';
 import type { Schedule } from './Schedule';
 
-export type Trigger = {|
+export type Trigger = {
     id: string;
     is_simple_trigger: boolean;
     name: string;
@@ -13,7 +13,7 @@ export type Trigger = {|
     patterns: Array<string>;
     expression: string;
     ttl: number;
-    ttl_state: string;
+    ttl_state: Status;
     throttling: number;
     sched?: Schedule;
     desc?: string;
@@ -28,7 +28,7 @@ export type Trigger = {|
         msg?: string;
     |};
     timestamp?: number;
-|};
+};
 
 export type TriggerList = {|
     list: ?Array<Trigger>;

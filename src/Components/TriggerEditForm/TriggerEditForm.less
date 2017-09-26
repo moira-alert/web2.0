@@ -1,0 +1,84 @@
+.form {
+    max-width: 800px;
+}
+
+.row {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 15px;
+
+    textarea {
+        vertical-align: top;
+    }
+}
+
+.fgroup {
+    display: flex;
+    align-items: center;
+}
+
+.fgroup-field {
+    width: 100%;
+    flex-grow: 1;
+}
+
+.fgroup-control {
+    padding-left: 5px;
+    flex-shrink: 0;
+}
+
+.label {
+    flex-shrink: 0;
+    width: 150px;
+}
+
+.control {
+    margin-left: auto;
+    width: calc(~'100% - 150px');
+}
+
+.label-for-group {
+    align-self: flex-start;
+    padding-top: 7px;
+}
+
+.target {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.target-number {
+    position: absolute;
+    top: 7px;
+    right: 100%;
+    padding-right: 5px;
+}
+
+.group {
+    display: flex;
+    align-items: center;
+
+    & > * {
+        margin-right: 5px;
+    }
+}
+
+.days {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+
+    & > * {
+        margin-right: 15px;
+    }
+}
+
+.radio {
+    display: flex;
+    margin-right: 25px;
+    align-items: center;
+
+    & > * {
+        margin-right: 5px;
+    }
+}

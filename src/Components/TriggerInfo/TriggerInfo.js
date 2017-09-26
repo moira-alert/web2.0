@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import type { Trigger } from '../../Domain/Trigger';
 import type { Schedule } from '../../Domain/Schedule';
+import RouterLinkWithIcon from '../RouterLink/RouterLink';
 import Link from 'retail-ui/components/Link';
 import Button from 'retail-ui/components/Button';
 import TagGroup from '../TagGroup/TagGroup';
@@ -58,6 +59,9 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                             Disable throttling
                         </Link>
                     )}
+                    <RouterLinkWithIcon to={'/trigger/' + id + '/edit'} icon='Edit'>
+                        Edit
+                    </RouterLinkWithIcon>
                     <a
                         href='#download'
                         onClick={(event: Event) =>

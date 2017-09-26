@@ -11,6 +11,7 @@ import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { TriggerList } from '../Domain/Trigger';
 import type { Maintenance } from '../Domain/Maintenance';
 
+import { Link } from 'react-router-dom';
 import ToggleWithLabel from '../Components/Toggle/Toggle';
 import Paging from 'retail-ui/components/Paging';
 import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from '../Components/Layout/Layout';
@@ -186,6 +187,17 @@ class TriggerListContainer extends React.Component {
                 </LayoutPlate>
                 {triggers && (
                     <LayoutContent>
+                        <Link
+                            to='/new/'
+                            style={{
+                                display: 'block',
+                                marginBottom: '15px',
+                                padding: '5px 0',
+                                border: '2px dashed #eee',
+                                textAlign: 'center',
+                            }}>
+                            Add Trigger
+                        </Link>
                         <TriggerListView
                             items={triggers.list || []}
                             onChange={(triggerId, maintenance, metric) => {

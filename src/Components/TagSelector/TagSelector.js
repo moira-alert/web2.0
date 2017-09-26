@@ -6,11 +6,14 @@ import Tag from '../Tag/Tag';
 import cn from './TagSelector.less';
 
 type Props = {|
+    error?: boolean;
     subscribed: Array<string>;
     remained: Array<string>;
     selected: Array<string>;
     onSelect: (tag: string) => void;
     onRemove: (tag: string) => void;
+    onMouseEnter?: (e: Event) => void;
+    onMouseLeave?: (e: Event) => void;
 |};
 type State = {|
     value: string;
@@ -80,12 +83,15 @@ export default class TagSelector extends React.Component {
     }
 
     render(): React.Element<*> {
-        const { selected, subscribed, remained } = this.props;
+        const { error, selected, subscribed, remained, onMouseEnter, onMouseLeave } = this.props;
         const { value, focusedIndex, isFocused } = this.state;
         const filtredTags = this.filterTags(concat(subscribed, remained));
         return (
             <div>
-                <div className={cn('input-area', { focused: isFocused })}>
+                <div
+                    className={cn('input-area', { focused: isFocused, error })}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}>
                     {selected.length !== 0 &&
                         selected.map((tag, i) => (
                             <span className={cn('tag-wrap')} key={i}>
