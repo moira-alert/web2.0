@@ -3,6 +3,7 @@ import React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger } from '../Domain/Trigger';
+import { Statuses } from '../Domain/Status';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { ValidationContainer } from 'react-ui-validations';
 import Button from 'retail-ui/components/Button';
@@ -13,7 +14,7 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
     loading: boolean;
     error: ?string;
-    trigger: ?Trigger;
+    trigger: ?$Shape<Trigger>;
     tags: ?Array<string>;
 |};
 
@@ -22,7 +23,30 @@ class TriggerEditContainer extends React.Component {
     state: State = {
         loading: true,
         error: null,
-        trigger: null,
+        trigger: {
+            name: '',
+            desc: '',
+            targets: [''],
+            tags: [],
+            patterns: [],
+            expression: '',
+            ttl: 600,
+            ttl_state: Statuses.NODATA,
+            sched: {
+                startOffset: 0,
+                endOffset: 1439,
+                tzOffset: -300,
+                days: [
+                    { name: 'Mon', enabled: true },
+                    { name: 'Tue', enabled: true },
+                    { name: 'Wed', enabled: true },
+                    { name: 'Thu', enabled: true },
+                    { name: 'Fri', enabled: true },
+                    { name: 'Sat', enabled: true },
+                    { name: 'Sun', enabled: true },
+                ],
+            },
+        },
         tags: null,
     };
 
@@ -36,16 +60,10 @@ class TriggerEditContainer extends React.Component {
     }
 
     async getData(props: Props): Promise<void> {
-        const { moiraApi, match } = props;
-        const { id } = match.params;
-        if (typeof id !== 'string') {
-            this.setState({ error: 'Wrong trigger id' });
-            return;
-        }
+        const { moiraApi } = props;
         try {
-            const trigger = await moiraApi.getTrigger(id);
             const { list } = await moiraApi.getTagList();
-            this.setState({ loading: false, trigger: trigger, tags: list });
+            this.setState({ loading: false, tags: list });
         }
         catch (error) {
             this.setState({ error: error.message });
@@ -56,27 +74,15 @@ class TriggerEditContainer extends React.Component {
         const { trigger } = this.state;
         const { history, moiraApi } = this.props;
         const isValid: boolean = await this.refs.triggerForm.validate();
-        if (isValid && trigger) {
+        if (isValid) {
             this.setState({ loading: true });
             try {
-                await moiraApi.setTrigger(trigger.id, trigger);
-                history.push('/trigger/' + trigger.id);
+                const { id } = await moiraApi.addTrigger(trigger);
+                history.push('/trigger/' + id);
             }
             catch (error) {
                 this.setState({ error: error.message, loading: false });
             }
-        }
-    }
-
-    async deleteTrigger(id: string): Promise<void> {
-        const { history, moiraApi } = this.props;
-        this.setState({ loading: true });
-        try {
-            await moiraApi.delTrigger(id);
-            history.push('/');
-        }
-        catch (error) {
-            this.setState({ error: error.message, loading: false });
         }
     }
 
@@ -89,7 +95,7 @@ class TriggerEditContainer extends React.Component {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <LayoutTitle>Edit trigger</LayoutTitle>
+                    <LayoutTitle>Add trigger</LayoutTitle>
                     {trigger && (
                         <form>
                             <ValidationContainer ref='triggerForm'>
@@ -101,29 +107,15 @@ class TriggerEditContainer extends React.Component {
                             </ValidationContainer>
                             <div
                                 style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
                                     margin: '40px 0 30px 150px',
                                 }}>
-                                <div style={{ marginRight: '15px' }}>
-                                    <Button
-                                        use='primary'
-                                        onClick={() => {
-                                            this.handleSubmit();
-                                        }}>
-                                        Save trigger
-                                    </Button>
-                                </div>
-                                <div>
-                                    <Button
-                                        use='link'
-                                        icon='Trash'
-                                        onClick={() => {
-                                            this.deleteTrigger(trigger.id);
-                                        }}>
-                                        Delete
-                                    </Button>
-                                </div>
+                                <Button
+                                    use='primary'
+                                    onClick={() => {
+                                        this.handleSubmit();
+                                    }}>
+                                    Add trigger
+                                </Button>
                             </div>
                         </form>
                     )}

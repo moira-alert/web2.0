@@ -188,7 +188,7 @@ class TriggerListContainer extends React.Component {
                 {triggers && (
                     <LayoutContent>
                         <Link
-                            to='/new/'
+                            to='/trigger/new'
                             style={{
                                 display: 'block',
                                 marginBottom: '15px',

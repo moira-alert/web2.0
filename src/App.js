@@ -7,6 +7,7 @@ import Footer from './Components/Footer/Footer';
 import TriggerListContainer from './Containers/TriggerListContainer';
 import TriggerContainer from './Containers/TriggerContainer';
 import TriggerEditContainer from './Containers/TriggerEditContainer';
+import TriggerAddContainer from './Containers/TriggerAddContainer';
 import SettingsContainer from './Containers/SettingsContainer';
 import NotificationListContainer from './Containers/NotificationListContainer';
 import TagListContainer from './Containers/TagListContainer';
@@ -20,9 +21,9 @@ export default function App(): React.Element<*> {
             <Header className={cn('header')} />
             <Switch>
                 <Route exact path='/' component={TriggerListContainer} />
+                <Route exact path='/trigger/new' component={TriggerAddContainer} />
                 <Route exact path='/trigger/:id' component={TriggerContainer} />
                 <Route exact path='/trigger/:id/edit' component={TriggerEditContainer} />
-                <Route exact path='/new' component={TriggerEditContainer} />
                 <Route exact path='/settings' component={SettingsContainer} />
                 <Route exact path='/notifications' component={NotificationListContainer} />
                 <Route exact path='/tags' component={TagListContainer} />
