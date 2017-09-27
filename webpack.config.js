@@ -30,9 +30,9 @@ const config = argv => {
                     test: /\.less$/,
                     use: PROD
                         ? ExtractTextPlugin.extract({
-                              fallback: 'style-loader',
-                              use: ['css-loader', 'less-loader'],
-                          })
+                            fallback: 'style-loader',
+                            use: ['css-loader', 'less-loader'],
+                        })
                         : ['style-loader', 'css-loader', 'less-loader'],
                     include: /retail\-ui/,
                 },
@@ -48,27 +48,29 @@ const config = argv => {
                         {
                             use: PROD
                                 ? ExtractTextPlugin.extract({
-                                      fallback: 'style-loader',
-                                      use: [
-                                          {
-                                              loader: 'css-loader',
-                                              options: {
-                                                  modules: true,
-                                              },
-                                          },
-                                          'less-loader',
-                                      ],
-                                  })
+                                    fallback: 'style-loader',
+                                    use: [
+                                        {
+                                            loader: 'css-loader',
+                                            options: {
+                                                modules: true,
+                                                localIdentName: '[name]-[local]-[hash:base64:5]',
+                                            },
+                                        },
+                                        'less-loader',
+                                    ],
+                                })
                                 : [
-                                      'style-loader',
-                                      {
-                                          loader: 'css-loader',
-                                          options: {
-                                              modules: true,
-                                          },
-                                      },
-                                      'less-loader',
-                                  ],
+                                    'style-loader',
+                                    {
+                                        loader: 'css-loader',
+                                        options: {
+                                            modules: true,
+                                            localIdentName: '[name]-[local]-[hash:base64:5]',
+                                        },
+                                    },
+                                    'less-loader',
+                                ],
                         },
                     ],
                     include: /src/,
@@ -97,24 +99,22 @@ const config = argv => {
             proxy:
                 API_MODE === 'fake'
                     ? {
-                          '/api': {
-                              target: 'http://localhost:9002',
-                              pathRewrite: { '^/api': '' },
-                          },
-                      }
+                        '/api': {
+                            target: 'http://localhost:9002',
+                            pathRewrite: { '^/api': '' },
+                        },
+                    }
                     : {
-                          '/api': {
-                              target: 'http://vm-moira-all1:8081',
-                              secure: false,
-                          },
-                      },
+                        '/api': {
+                            target: 'http://vm-moira-all1:8081',
+                            secure: false,
+                        },
+                    },
         },
     };
     if (PROD) {
         config.plugins.push(new ExtractTextPlugin('app.css'));
-        config.plugins.push(
-            new UglifyJSPlugin({ extractComments: { banner: false } })
-        );
+        config.plugins.push(new UglifyJSPlugin({ extractComments: { banner: false } }));
     }
     return config;
 };
