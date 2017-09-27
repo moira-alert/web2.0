@@ -80,7 +80,7 @@ class TriggerListContainer extends React.Component {
             });
         }
         catch (error) {
-            this.setState({ error: 'Network error. Please, reload page' });
+            this.setState({ error: error.message });
         }
     }
 

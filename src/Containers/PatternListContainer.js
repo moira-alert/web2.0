@@ -38,7 +38,7 @@ class PatternListContainer extends React.Component {
             this.setState({ loading: false, ...patterns });
         }
         catch (error) {
-            this.setState({ error: 'Network error. Please, reload page' });
+            this.setState({ error: error.message });
         }
     }
 

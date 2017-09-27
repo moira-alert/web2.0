@@ -37,7 +37,7 @@ class TagListContainer extends React.Component {
             this.setState({ loading: false, tags: tags.list, contacts: contacts.list });
         }
         catch (error) {
-            this.setState({ error: 'Network error. Please, reload page' });
+            this.setState({ error: error.message });
         }
     }
 
@@ -59,7 +59,7 @@ class TagListContainer extends React.Component {
             this.getData(this.props);
         }
         catch (error) {
-            this.setState({ error: 'Network error. Please, reload page' });
+            this.setState({ error: error.message });
         }
     }
 

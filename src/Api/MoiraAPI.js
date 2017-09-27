@@ -19,6 +19,7 @@ export type TagStatList = {|
 |};
 
 export interface IMoiraApi {
+    getSettings(): Promise<Settings>;
     getContactList(): Promise<ContactList>;
     delContact(contact: string): Promise<void>;
     getPatternList(): Promise<PatternList>;
@@ -26,7 +27,6 @@ export interface IMoiraApi {
     getTagList(): Promise<TagList>;
     getTagStats(): Promise<TagStatList>;
     delTag(tag: string): Promise<void>;
-    getSettings(): Promise<Settings>;
     getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList>;
     getTrigger(id: string): Promise<Trigger>;
     addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
@@ -49,68 +49,21 @@ export default class Api implements IMoiraApi {
         this.config = config;
     }
 
-    async getContactList(): Promise<ContactList> {
-        const url = this.config.apiUrl + '/contact';
-        const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
+    async checkStatus(response: Response): Promise<void> {
+        if (!(response.status >= 200 && response.status < 300)) {
+            const errorText = await response.text();
+            let serverResponse;
+            try {
+                serverResponse = JSON.parse(errorText);
+            }
+            catch (error) {
+                serverResponse = null;
+            }
+            if (serverResponse != null) {
+                throw new Error(serverResponse.error);
+            }
+            throw new Error(errorText);
         }
-        throw new Error('Network error');
-    }
-
-    async delContact(contact: string): Promise<void> {
-        const url = this.config.apiUrl + '/contact/' + contact;
-        const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        throw new Error('Network error');
-    }
-
-    async getPatternList(): Promise<PatternList> {
-        const url = this.config.apiUrl + '/pattern';
-        const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
-    }
-
-    async delPattern(pattern: string): Promise<void> {
-        const url = this.config.apiUrl + '/pattern/' + pattern;
-        const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        throw new Error('Network error');
-    }
-
-    async getTagList(): Promise<TagList> {
-        const url = this.config.apiUrl + '/tag';
-        const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
-    }
-
-    async getTagStats(): Promise<TagStatList> {
-        const url = this.config.apiUrl + '/tag/stats';
-        const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
-    }
-
-    async delTag(tag: string): Promise<void> {
-        const url = this.config.apiUrl + '/tag/' + tag;
-        const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        const { error } = await response.json();
-        throw new Error(error);
     }
 
     async getSettings(): Promise<Settings> {
@@ -118,10 +71,57 @@ export default class Api implements IMoiraApi {
         const response = await fetch(url, {
             method: 'GET',
         });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async getContactList(): Promise<ContactList> {
+        const url = this.config.apiUrl + '/contact';
+        const response = await fetch(url, { method: 'GET' });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async delContact(contact: string): Promise<void> {
+        const url = this.config.apiUrl + '/contact/' + contact;
+        const response = await fetch(url, { method: 'DELETE' });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async getPatternList(): Promise<PatternList> {
+        const url = this.config.apiUrl + '/pattern';
+        const response = await fetch(url, { method: 'GET' });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async delPattern(pattern: string): Promise<void> {
+        const url = this.config.apiUrl + '/pattern/' + pattern;
+        const response = await fetch(url, { method: 'DELETE' });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async getTagList(): Promise<TagList> {
+        const url = this.config.apiUrl + '/tag';
+        const response = await fetch(url, { method: 'GET' });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async getTagStats(): Promise<TagStatList> {
+        const url = this.config.apiUrl + '/tag/stats';
+        const response = await fetch(url, { method: 'GET' });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async delTag(tag: string): Promise<void> {
+        const url = this.config.apiUrl + '/tag/' + tag;
+        const response = await fetch(url, { method: 'DELETE' });
+        await this.checkStatus(response);
+        return;
     }
 
     async getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList> {
@@ -140,19 +140,15 @@ export default class Api implements IMoiraApi {
                 { arrayFormat: 'index', encode: true }
             );
         const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return response.json();
     }
 
     async getTrigger(id: string): Promise<Trigger> {
         const url = `${this.config.apiUrl}/trigger/${id}`;
         const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return response.json();
     }
 
     async addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
@@ -161,10 +157,8 @@ export default class Api implements IMoiraApi {
             method: 'PUT',
             body: JSON.stringify(data),
         });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return response.json();
     }
 
     async setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
@@ -173,21 +167,15 @@ export default class Api implements IMoiraApi {
             method: 'PUT',
             body: JSON.stringify(data),
         });
-        if (response.status === 200) {
-            return response.json();
-        }
-        const { error } = await response.json();
-        throw new Error(error);
+        await this.checkStatus(response);
+        return response.json();
     }
 
     async delTrigger(id: string): Promise<void> {
         const url = this.config.apiUrl + '/trigger/' + id;
         const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        const { error } = await response.json();
-        throw new Error(error);
+        await this.checkStatus(response);
+        return;
     }
 
     async setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void> {
@@ -196,73 +184,56 @@ export default class Api implements IMoiraApi {
             method: 'PUT',
             body: JSON.stringify(data),
         });
-        if (response.status === 200) {
-            return;
-        }
-        const { error } = await response.json();
-        throw new Error(error);
+        await this.checkStatus(response);
+        return;
     }
 
     async getTriggerState(id: string): Promise<TriggerState> {
         const url = `${this.config.apiUrl}/trigger/${id}/state`;
         const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return response.json();
     }
 
     async getTriggerEvents(id: string, page: number): Promise<EventList> {
         const url = `${this.config.apiUrl}/event/${id}?p=${page}&size=${this.config.paging.eventHistory}`;
         const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return response.json();
     }
 
     async delThrottling(triggerId: string): Promise<void> {
         const url = `${this.config.apiUrl}/trigger/${triggerId}/throttling`;
         const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return;
     }
 
     async delMetric(triggerId: string, metric: string): Promise<void> {
         const url = `${this.config.apiUrl}/trigger/${triggerId}/metrics?name=${metric}`;
         const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return;
     }
 
     async getNotificationList(): Promise<NotificationList> {
         const url = this.config.apiUrl + '/notification?start=0&end=-1';
         const response = await fetch(url, { method: 'GET' });
-        if (response.status === 200) {
-            return response.json();
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return response.json();
     }
 
     async deltNotification(id: string): Promise<void> {
         const url = this.config.apiUrl + '/notification?id=' + id;
         const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return;
     }
 
     async delSubscription(id: string): Promise<void> {
         const url = this.config.apiUrl + '/subscription/' + id;
         const response = await fetch(url, { method: 'DELETE' });
-        if (response.status === 200) {
-            return;
-        }
-        throw new Error('Network error');
+        await this.checkStatus(response);
+        return;
     }
 }

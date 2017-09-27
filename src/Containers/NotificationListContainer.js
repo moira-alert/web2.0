@@ -35,13 +35,13 @@ class NotificationListContainer extends React.Component {
             this.setState({ loading: false, ...notifications });
         }
         catch (error) {
-            this.setState({ error: 'Network error. Please, reload page' });
+            this.setState({ error: error.message });
         }
     }
 
     composeNotifications(items: Array<Notification>): { [id: string]: Notification } {
         return items.reduce((data, item) => {
-            const id = item.timestamp + item.contact.id + item.event.sub_id;
+            const id: string = item.timestamp + item.contact.id + item.event.sub_id;
             if (!data[id]) {
                 data[id] = item;
             }
