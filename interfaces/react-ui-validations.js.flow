@@ -1,0 +1,57 @@
+// @flow
+/* eslint-disable */
+declare module 'react-ui-validations' {
+    declare export type ValidationInfo = {
+        message: string | React.Element<*>;
+        level?: 'error' | 'warning';
+        type?: 'submit' | 'lostfocus' | 'immediate';
+    }
+
+    declare type ValidationContainerProps = {|
+        'data-tid'?: string;
+        children?: any;
+    |};
+
+    declare export class ValidationContainer extends React$Component<void, ValidationContainerProps, void> {
+        validate(): Promise<boolean>;
+        submit(withoutScroll?: boolean): Promise<void>;
+    }
+
+    declare type ValidationTooltipProps = {|
+        'data-tid'?: string;
+        error: boolean;
+        pos: TooltipPosition;
+        render: () => ?React.Element<*> | ?string;
+        children?: any;
+    |};
+
+    declare export class ValidationTooltip extends React$Component<void, ValidationTooltipProps, void> {
+    }
+
+    declare type ValidationTooltipContextProps = {|
+        'data-tid'?: string;
+        children?: any;
+    |};
+
+    declare export class ValidationTooltipContext extends React$Component<void, ValidationTooltipContextProps, void> {
+        validate(): Promise<boolean>;
+        submit(): Promise<void>;
+    }
+
+    declare type ValidationMessageRenderer =
+        (control: React.Element<*>, hasError: boolean, validation: ValidationInfo) => React.Element<*>;
+
+    declare type TooltipPosition = 'top left' | 'top center' | 'top right' | 'bottom left' | 'bottom center' | 'bottom right' | 'left top' | 'left middle' | 'left bottom' | 'right top' | 'right middle' | 'right bottom';
+
+    declare export function text(position: 'right' | 'bottom'): ValidationMessageRenderer;
+    declare export function tooltip(position: TooltipPosition): ValidationMessageRenderer;
+
+    declare type ValidationWrapperV1Props = {|
+        'data-tid'?: string;
+        validationInfo: ?ValidationInfo;
+        renderMessage?: ValidationMessageRenderer;
+        children?: any;
+    |};
+
+    declare export class ValidationWrapperV1 extends React$Component<void, ValidationWrapperV1Props, void> { }
+}
