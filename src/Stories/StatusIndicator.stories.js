@@ -9,7 +9,7 @@ storiesOf('StatusIndicator', module)
         return (
             <div style={{ display: 'flex' }}>
                 {Object.keys(Statuses).map(x => (
-                    <div style={{ marginRight: '5px' }}>
+                    <div key={x} style={{ marginRight: '5px' }}>
                         <StatusIndicator statuses={[x]} />
                     </div>
                 ))}
