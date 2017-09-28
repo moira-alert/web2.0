@@ -1,6 +1,5 @@
 // @flow
 import queryString from 'query-string';
-
 import type { Config } from '../Domain/Config';
 import type { EventList } from '../Domain/Event';
 import type { Trigger, TriggerList, TriggerState } from '../Domain/Trigger';
@@ -86,7 +85,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/contact/' + contact;
         const response = await fetch(url, { method: 'DELETE' });
         await this.checkStatus(response);
-        return response.json();
+        return;
     }
 
     async getPatternList(): Promise<PatternList> {
@@ -100,7 +99,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/pattern/' + pattern;
         const response = await fetch(url, { method: 'DELETE' });
         await this.checkStatus(response);
-        return response.json();
+        return;
     }
 
     async getTagList(): Promise<TagList> {
