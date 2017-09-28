@@ -10,6 +10,7 @@ import { ValidationContainer } from 'react-ui-validations';
 import Button from 'retail-ui/components/Button';
 import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
+import { ColumnStack } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -99,17 +100,14 @@ class TriggerEditContainer extends React.Component {
                     <LayoutTitle>Add trigger</LayoutTitle>
                     {trigger && (
                         <form>
-                            <ValidationContainer ref='triggerForm'>
-                                <TriggerEditForm
-                                    data={trigger}
-                                    tags={tags || []}
-                                    onChange={update => this.handleChange(update)}
-                                />
-                            </ValidationContainer>
-                            <div
-                                style={{
-                                    margin: '40px 0 30px 150px',
-                                }}>
+                            <ColumnStack block gap={4}>
+                                <ValidationContainer ref='triggerForm'>
+                                    <TriggerEditForm
+                                        data={trigger}
+                                        tags={tags || []}
+                                        onChange={update => this.handleChange(update)}
+                                    />
+                                </ValidationContainer>
                                 <Button
                                     use='primary'
                                     onClick={() => {
@@ -117,7 +115,7 @@ class TriggerEditContainer extends React.Component {
                                     }}>
                                     Add trigger
                                 </Button>
-                            </div>
+                            </ColumnStack>
                         </form>
                     )}
                 </LayoutContent>

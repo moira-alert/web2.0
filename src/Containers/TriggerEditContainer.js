@@ -9,6 +9,7 @@ import { ValidationContainer } from 'react-ui-validations';
 import Button from 'retail-ui/components/Button';
 import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
+import { ColumnStack, RowStack, Fit } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -93,39 +94,36 @@ class TriggerEditContainer extends React.Component {
                     <LayoutTitle>Edit trigger</LayoutTitle>
                     {trigger && (
                         <form>
-                            <ValidationContainer ref='triggerForm'>
-                                <TriggerEditForm
-                                    data={trigger}
-                                    tags={tags || []}
-                                    onChange={update => this.handleChange(update)}
-                                />
-                            </ValidationContainer>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    margin: '40px 0 30px 150px',
-                                }}>
-                                <div style={{ marginRight: '15px' }}>
-                                    <Button
-                                        use='primary'
-                                        onClick={() => {
-                                            this.handleSubmit();
-                                        }}>
-                                        Save trigger
-                                    </Button>
-                                </div>
-                                <div>
-                                    <Button
-                                        use='link'
-                                        icon='Trash'
-                                        onClick={() => {
-                                            this.deleteTrigger(trigger.id);
-                                        }}>
-                                        Delete
-                                    </Button>
-                                </div>
-                            </div>
+                            <ColumnStack block gap={6} horizontalAlign='stretch'>
+                                <ValidationContainer ref='triggerForm'>
+                                    <TriggerEditForm
+                                        data={trigger}
+                                        tags={tags || []}
+                                        onChange={update => this.handleChange(update)}
+                                    />
+                                </ValidationContainer>
+                                <RowStack gap={3} verticalAlign='center'>
+                                    <Fit>
+                                        <Button
+                                            use='primary'
+                                            onClick={() => {
+                                                this.handleSubmit();
+                                            }}>
+                                            Save trigger
+                                        </Button>
+                                    </Fit>
+                                    <Fit>
+                                        <Button
+                                            use='link'
+                                            icon='Trash'
+                                            onClick={() => {
+                                                this.deleteTrigger(trigger.id);
+                                            }}>
+                                            Delete
+                                        </Button>
+                                    </Fit>
+                                </RowStack>
+                            </ColumnStack>
                         </form>
                     )}
                 </LayoutContent>

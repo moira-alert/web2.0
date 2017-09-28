@@ -18,6 +18,7 @@ import MetricList from '../Components/MetricList/MetricList';
 import Tabs, { Tab } from '../Components/Tabs/Tabs';
 import EventList from '../Components/EventList/EventList';
 import Layout, { LayoutPlate, LayoutContent } from '../Components/Layout/Layout';
+import { ColumnStack } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -269,16 +270,16 @@ class TriggerContainer extends React.Component {
                             )}
                             {isEvents && (
                                 <Tab id='events' label='Events history'>
-                                    <EventList items={this.composeEvents(events)} />
-                                    {pageCount > 1 && (
-                                        <div style={{ marginTop: 30 }}>
+                                    <ColumnStack block gap={6} horizontalAlign='stretch'>
+                                        <EventList items={this.composeEvents(events)} />
+                                        {pageCount > 1 && (
                                             <Paging
                                                 activePage={page}
                                                 pagesCount={pageCount}
                                                 onPageChange={page => this.changeLocationSearch({ page })}
                                             />
-                                        </div>
-                                    )}
+                                        )}
+                                    </ColumnStack>
                                 </Tab>
                             )}
                         </Tabs>

@@ -3,19 +3,19 @@ import React from 'react';
 import queryString from 'query-string';
 import { intersection, concat, difference, flattenDeep, uniq } from 'lodash';
 import moment from 'moment';
-import { getPageLink } from '../Domain/Global';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { getMaintenanceTime } from '../Domain/Maintenance';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { TriggerList } from '../Domain/Trigger';
 import type { Maintenance } from '../Domain/Maintenance';
-import { Link } from 'react-router-dom';
 import ToggleWithLabel from '../Components/Toggle/Toggle';
 import Paging from 'retail-ui/components/Paging';
 import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from '../Components/Layout/Layout';
 import TagSelector from '../Components/TagSelector/TagSelector';
 import TriggerListView from '../Components/TriggerList/TriggerList';
+
+import { ColumnStack, RowStack, Fill, Fit } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -156,8 +156,8 @@ class TriggerListContainer extends React.Component {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutPlate>
-                    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ flexGrow: 1, width: '100%' }}>
+                    <RowStack block gap={3}>
+                        <Fill>
                             <TagSelector
                                 selected={selectedTags}
                                 subscribed={subscribedTags}
@@ -171,8 +171,8 @@ class TriggerListContainer extends React.Component {
                                         tags: difference(selectedTags, [tag]),
                                     })}
                             />
-                        </div>
-                        <div style={{ flexShrink: 0, padding: '5px 0 0 20px' }}>
+                        </Fill>
+                        <Fit>
                             <ToggleWithLabel
                                 checked={onlyProblems}
                                 label='Only Problems'
@@ -181,31 +181,22 @@ class TriggerListContainer extends React.Component {
                                         onlyProblems: checked,
                                     })}
                             />
-                        </div>
-                    </div>
+                        </Fit>
+                    </RowStack>
                 </LayoutPlate>
                 {triggers && (
                     <LayoutContent>
-                        <Link
-                            to={getPageLink('triggerAdd')}
-                            style={{
-                                display: 'block',
-                                marginBottom: '15px',
-                                padding: '5px 0',
-                                border: '2px dashed #eee',
-                                textAlign: 'center',
-                            }}>
-                            Add Trigger
-                        </Link>
-                        <TriggerListView
-                            items={triggers.list || []}
-                            onChange={(triggerId, maintenance, metric) => {
-                                this.setMaintenance(triggerId, maintenance, metric);
-                            }}
-                            onRemove={(triggerId, metric) => {
-                                this.removeMetric(triggerId, metric);
-                            }}
-                        />
+                        <ColumnStack block gap={6} horizontalAlign='stretch'>
+                            <TriggerListView
+                                items={triggers.list || []}
+                                onChange={(triggerId, maintenance, metric) => {
+                                    this.setMaintenance(triggerId, maintenance, metric);
+                                }}
+                                onRemove={(triggerId, metric) => {
+                                    this.removeMetric(triggerId, metric);
+                                }}
+                            />
+                        </ColumnStack>
                     </LayoutContent>
                 )}
                 {pageCount > 1 && (
