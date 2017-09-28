@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Icon from 'retail-ui/components/Icon';
 import cn from './RouterLink.less';
 
@@ -10,19 +10,12 @@ export type RouterLinkWithIconProps = {
     className?: string;
 };
 
-export default function RouterLinkWithIcon({
-    icon,
-    children,
-    className,
-    ...props
-}: RouterLinkWithIconProps): React.Element<*> {
+export default function RouterLink({ icon, children, className, ...props }: RouterLinkWithIconProps): React.Element<*> {
     return (
-        <RouterLink className={cn(className, 'root')} {...props}>
+        <Link className={cn(className, 'link')} {...props}>
             {icon && <Icon name={icon} />}
             {icon && '\u00A0'}
-            <span className={cn('content')}>
-                {children}
-            </span>
-        </RouterLink>
+            <span className={cn('content')}>{children}</span>
+        </Link>
     );
 }

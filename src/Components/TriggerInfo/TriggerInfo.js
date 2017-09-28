@@ -4,7 +4,7 @@ import moment from 'moment';
 import type { Trigger } from '../../Domain/Trigger';
 import type { Schedule } from '../../Domain/Schedule';
 import { getPageLink } from '../../Domain/Global';
-import RouterLinkWithIcon from '../RouterLink/RouterLink';
+import RouterLink from '../RouterLink/RouterLink';
 import Link from 'retail-ui/components/Link';
 import Button from 'retail-ui/components/Button';
 import TagGroup from '../TagGroup/TagGroup';
@@ -60,9 +60,9 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                             Disable throttling
                         </Link>
                     )}
-                    <RouterLinkWithIcon to={getPageLink('triggerEdit', id)} icon='Edit'>
+                    <RouterLink to={getPageLink('triggerEdit', id)} icon='Edit'>
                         Edit
-                    </RouterLinkWithIcon>
+                    </RouterLink>
                     <a
                         href='#download'
                         onClick={(event: Event) =>

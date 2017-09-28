@@ -1,13 +1,19 @@
-.root {
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
+.link {
+    color: @linkColor;
+    text-decoration: none;
+
     &:hover,
     &:focus,
     &:active {
         text-decoration: none;
-    }
 
-    > .content:hover,
-    > .content:focus,
-    > .content:active {
-        text-decoration: underline;
+        & > .content,
+        & > .content,
+        & > .content {
+            text-decoration: underline;
+        }
     }
 }
