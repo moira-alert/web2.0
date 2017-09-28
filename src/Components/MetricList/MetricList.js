@@ -91,7 +91,7 @@ export default function MetricList(props: Props): React.Element<*> {
                                         </MenuItem>
                                     ))}
                                 </Dropdown>
-                                <Button use='link' icon='Delete' onClick={() => onRemove(metric)}>
+                                <Button use='link' icon='Trash' onClick={() => onRemove(metric)}>
                                     Del
                                 </Button>
                             </div>
