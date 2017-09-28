@@ -44,7 +44,7 @@ class TagListContainer extends React.Component {
     async removeTag(tag: string): Promise<void> {
         this.setState({ loading: true });
         try {
-            await this.props.moiraApi.delTag(encodeURI(tag));
+            await this.props.moiraApi.delTag(tag);
             this.getData(this.props);
         }
         catch (error) {
@@ -55,7 +55,7 @@ class TagListContainer extends React.Component {
     async removeContact(subscribtionId: string): Promise<void> {
         this.setState({ loading: true });
         try {
-            await this.props.moiraApi.delSubscription(encodeURI(subscribtionId));
+            await this.props.moiraApi.delSubscription(subscribtionId);
             this.getData(this.props);
         }
         catch (error) {

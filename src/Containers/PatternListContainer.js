@@ -44,7 +44,7 @@ class PatternListContainer extends React.Component {
 
     async removePattern(pattern: string): Promise<void> {
         this.setState({ loading: true });
-        await this.props.moiraApi.delPattern(encodeURI(pattern));
+        await this.props.moiraApi.delPattern(pattern);
         this.getData(this.props);
     }
 
