@@ -32,7 +32,7 @@ export default function NotificationList(props: Props): React.Element<*> {
     return Object.keys(items).length === 0 ? (
         <div className={cn('no-result')}>Empty :-)</div>
     ) : (
-        <div className={cn('list')}>
+        <div>
             <div className={cn('row', 'header')}>
                 <div className={cn('timestamp')}>Timestamp</div>
                 <div className={cn('trigger')}>Trigger</div>
