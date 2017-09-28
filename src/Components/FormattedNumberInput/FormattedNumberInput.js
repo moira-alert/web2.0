@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import numeral from 'moira-numeral';
+import numeral from 'numeral';
 import FilteredInput from '../FilteredInput/FilteredInput';
 import type { FilterValueResult } from '../FilteredInput/FilteredInput';
 
