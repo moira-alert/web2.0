@@ -3,6 +3,7 @@ import React from 'react';
 import Loader from 'retail-ui/components/Loader';
 import Icon from 'retail-ui/components/Icon';
 import cn from './Layout.less';
+
 type LayoutProps = {|
     children?: any;
     loading?: boolean;
@@ -23,6 +24,7 @@ type ContentProps = {|
 type PagingProps = {|
     children?: any;
 |};
+
 export default class Layout extends React.Component {
     props: LayoutProps;
 

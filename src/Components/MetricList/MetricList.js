@@ -13,7 +13,6 @@ import Button from 'retail-ui/components/Button';
 import cn from './MetricList.less';
 
 export type SortingColum = 'state' | 'name' | 'event' | 'value';
-
 type Props = {|
     status?: boolean;
     items: {

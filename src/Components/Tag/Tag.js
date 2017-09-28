@@ -10,7 +10,6 @@ type Props = {|
     onClick?: () => void;
     onRemove?: () => void;
 |};
-
 type ColorTheme = {|
     backgroundColor: string;
     color: string;
@@ -30,17 +29,18 @@ export default function Tag(props: Props): React.Element<*> {
 
     return (
         <div className={cn({ tag: true, removeable: onRemove, focused: focus })} style={getColor(title)}>
-            {onClick
-                ? <div onClick={onClick} className={cn('title', 'clickable')}>
-                      {title}
-                  </div>
-                : <div className={cn('title')}>
-                      {title}
-                  </div>}
-            {onRemove &&
+            {onClick ? (
+                <div onClick={onClick} className={cn('title', 'clickable')}>
+                    {title}
+                </div>
+            ) : (
+                <div className={cn('title')}>{title}</div>
+            )}
+            {onRemove && (
                 <div className={cn('remove')} onClick={onRemove}>
                     <Icon name='Delete' />
-                </div>}
+                </div>
+            )}
         </div>
     );
 }
