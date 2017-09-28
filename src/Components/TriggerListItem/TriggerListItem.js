@@ -93,7 +93,10 @@ export default class TriggerListItem extends React.Component {
         );
         const notOkStatuses = metricStatuses.filter(x => x !== Statuses.OK);
         let statuses;
-        if (metricStatuses.length === 0) {
+        if (triggerStatus === Statuses.EXCEPTION) {
+            statuses = [Statuses.EXCEPTION];
+        }
+        else if (metricStatuses.length === 0) {
             statuses = [triggerStatus];
         }
         else if (notOkStatuses.length === 0) {
