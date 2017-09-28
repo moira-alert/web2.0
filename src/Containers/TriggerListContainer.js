@@ -3,6 +3,7 @@ import React from 'react';
 import queryString from 'query-string';
 import { intersection, concat, difference, flattenDeep, uniq } from 'lodash';
 import moment from 'moment';
+import { getPageLink } from '../Domain/Global';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { getMaintenanceTime } from '../Domain/Maintenance';
 import type { ContextRouter } from 'react-router-dom';
@@ -14,7 +15,7 @@ import Paging from 'retail-ui/components/Paging';
 import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from '../Components/Layout/Layout';
 import TagSelector from '../Components/TagSelector/TagSelector';
 import TriggerListView from '../Components/TriggerList/TriggerList';
-
+import AddingButton from '../Components/AddingButton/AddingButton';
 import { ColumnStack, RowStack, Fill, Fit } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
@@ -187,6 +188,7 @@ class TriggerListContainer extends React.Component {
                 {triggers && (
                     <LayoutContent>
                         <ColumnStack block gap={6} horizontalAlign='stretch'>
+                            <AddingButton to={getPageLink('triggerAdd')} />
                             <TriggerListView
                                 items={triggers.list || []}
                                 onChange={(triggerId, maintenance, metric) => {
