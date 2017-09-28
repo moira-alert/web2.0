@@ -32,7 +32,7 @@ class SettingsContainer extends React.Component {
             this.setState({ loading: false, settings });
         }
         catch (error) {
-            this.setState({ error: 'Network error. Please, reload page' });
+            this.setState({ error: error.message });
         }
     }
 
