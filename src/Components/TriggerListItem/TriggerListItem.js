@@ -2,6 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { getPageLink } from '../../Domain/Global';
 import type { Trigger } from '../../Domain/Trigger.js';
 import type { Status } from '../../Domain/Status';
 import type { Metric } from '../../Domain/Metric';
@@ -148,7 +149,7 @@ export default class TriggerListItem extends React.Component {
                 </div>
                 <div className={cn('data')}>
                     <div className={cn('header')}>
-                        <Link className={cn('link')} to={'/trigger/' + id}>
+                        <Link className={cn('link')} to={getPageLink('trigger', id)}>
                             <div className={cn('title')}>
                                 <div className={cn('name')}>{name}</div>
                                 {throttling !== 0 && (

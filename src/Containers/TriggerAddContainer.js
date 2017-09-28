@@ -3,6 +3,7 @@ import React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger } from '../Domain/Trigger';
+import { getPageLink } from '../Domain/Global';
 import { Statuses } from '../Domain/Status';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { ValidationContainer } from 'react-ui-validations';
@@ -78,7 +79,7 @@ class TriggerEditContainer extends React.Component {
             this.setState({ loading: true });
             try {
                 const { id } = await moiraApi.addTrigger(trigger);
-                history.push('/trigger/' + id);
+                history.push(getPageLink('trigger', id));
             }
             catch (error) {
                 this.setState({ error: error.message, loading: false });

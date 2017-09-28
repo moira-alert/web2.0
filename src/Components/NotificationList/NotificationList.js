@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Icon from 'retail-ui/components/Icon';
 import Button from 'retail-ui/components/Button';
 import type { Notification } from '../../Domain/Notification';
+import { getPageLink } from '../../Domain/Global';
 import cn from './NotificationList.less';
 
 type Props = {|
@@ -48,7 +49,7 @@ export default function NotificationList(props: Props): React.Element<*> {
                     <div key={i} className={cn('row')}>
                         <div className={cn('timestamp')}>{moment.unix(timestamp).format('MMMM D, HH:mm:ss')}</div>
                         <div className={cn('trigger')}>
-                            <Link to={'/trigger' + id}>{name}</Link>
+                            <Link to={getPageLink('trigger', id)}>{name}</Link>
                         </div>
                         <div className={cn('contact')}>
                             {renderContactIcon(type)} {value}

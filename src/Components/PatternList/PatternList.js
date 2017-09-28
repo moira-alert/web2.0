@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'retail-ui/components/Button';
 import type { Pattern } from '../../Domain/Pattern';
+import { getPageLink } from '../../Domain/Global';
 import cn from './PatternList.less';
 
 type Props = {|
@@ -65,7 +66,7 @@ class PatternListItem extends React.Component {
                                 <b>Triggers</b>
                                 {triggers.map(({ id, name }) => (
                                     <div key={id} className={cn('item')}>
-                                        <Link to={'/trigger/' + id}>{name}</Link>
+                                        <Link to={getPageLink('trigger', id)}>{name}</Link>
                                     </div>
                                 ))}
                             </div>

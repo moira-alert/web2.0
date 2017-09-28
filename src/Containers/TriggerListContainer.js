@@ -3,14 +3,13 @@ import React from 'react';
 import queryString from 'query-string';
 import { intersection, concat, difference, flattenDeep, uniq } from 'lodash';
 import moment from 'moment';
+import { getPageLink } from '../Domain/Global';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { getMaintenanceTime } from '../Domain/Maintenance';
-
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { TriggerList } from '../Domain/Trigger';
 import type { Maintenance } from '../Domain/Maintenance';
-
 import { Link } from 'react-router-dom';
 import ToggleWithLabel from '../Components/Toggle/Toggle';
 import Paging from 'retail-ui/components/Paging';
@@ -188,7 +187,7 @@ class TriggerListContainer extends React.Component {
                 {triggers && (
                     <LayoutContent>
                         <Link
-                            to='/trigger/new'
+                            to={getPageLink('triggerAdd')}
                             style={{
                                 display: 'block',
                                 marginBottom: '15px',

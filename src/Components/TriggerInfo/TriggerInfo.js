@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import type { Trigger } from '../../Domain/Trigger';
 import type { Schedule } from '../../Domain/Schedule';
+import { getPageLink } from '../../Domain/Global';
 import RouterLinkWithIcon from '../RouterLink/RouterLink';
 import Link from 'retail-ui/components/Link';
 import Button from 'retail-ui/components/Button';
@@ -59,7 +60,7 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                             Disable throttling
                         </Link>
                     )}
-                    <RouterLinkWithIcon to={'/trigger/' + id + '/edit'} icon='Edit'>
+                    <RouterLinkWithIcon to={getPageLink('triggerEdit', id)} icon='Edit'>
                         Edit
                     </RouterLinkWithIcon>
                     <a
@@ -88,10 +89,12 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                 )}
                 {expression && <dt>Expression</dt>}
                 {expression && <dd>{expression}</dd>}
-                {sched && (<dt>Schedule</dt>)}
-                {sched && (<dd>
-                    <ScheduleView data={sched} />
-                </dd>)}
+                {sched && <dt>Schedule</dt>}
+                {sched && (
+                    <dd>
+                        <ScheduleView data={sched} />
+                    </dd>
+                )}
                 <dt>Tags</dt>
                 <dd>
                     <TagGroup tags={tags} />
