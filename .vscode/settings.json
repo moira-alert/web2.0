@@ -3,5 +3,6 @@
     "prettier.singleQuote": true,
     "prettier.eslintIntegration": true,
     "prettier.trailingComma": "es5",
-    "javascript.validate.enable": false
+    "javascript.validate.enable": false,
+    "flow.useNPMPackagedFlow": true
 }
