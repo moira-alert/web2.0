@@ -5,6 +5,7 @@ import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Settings } from '../Domain/Settings';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
+import ContactList from '../Components/ContactList/ContactList';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -38,11 +39,12 @@ class SettingsContainer extends React.Component {
 
     render(): React.Element<*> {
         const { loading, error, settings } = this.state;
+        const { contacts } = settings || {};
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>Settings</LayoutTitle>
-                    <pre>{JSON.stringify(settings, null, 2)}</pre>
+                    {contacts && <ContactList items={contacts} />}
                 </LayoutContent>
             </Layout>
         );
