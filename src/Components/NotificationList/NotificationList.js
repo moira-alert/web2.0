@@ -13,7 +13,7 @@ type Props = {|
     onRemove: (key: string) => void;
 |};
 
-export default function NotificationList(props: Props): React.Element<*> {
+export default function NotificationList(props: Props): React.Element<any> {
     const { items, onRemove } = props;
 
     function renderContactIcon(type: string): React.Element<*> {
