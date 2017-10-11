@@ -14,3 +14,5 @@ before_script:
   - gem install fpm
 script:
   - make build
+  - make docker_image
+  - make docker_push_release
