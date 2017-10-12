@@ -11,7 +11,7 @@ FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
 COPY --from=build-env /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY favicon.ico /usr/share/nginx/html
 
 EXPOSE 80
