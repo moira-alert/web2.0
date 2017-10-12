@@ -13,6 +13,7 @@ WORKDIR /usr/share/nginx/html
 COPY --from=build-env /app/dist /usr/share/nginx/html
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY favicon.ico /usr/share/nginx/html
+sed -i /etc/nginx/conf.d/default.conf -e "s|MOIRA_API_URI|$MOIRA_API_URI|"
 
 EXPOSE 80
 
