@@ -9,16 +9,16 @@ LICENSE := "GPLv3"
 
 .PHONY: default build test prepare clean tar rpm deb packages docker_image docker_push docker_push_release
 
-default: build tar
+default: test build tar
 
 build: prepare
-	npm run build
+	yarn run build
 
 test: prepare
-	npm run lint
+	yarn run lint
 
 prepare:
-	npm install
+	yarn install
 
 clean:
 	rm -rf build
