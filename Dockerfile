@@ -17,3 +17,4 @@ ENV MOIRA_API_URI vm-moira-all1:8081
 RUN sed -i /etc/nginx/conf.d/default.conf -e "s|MOIRA_API_URI|$MOIRA_API_URI|"
 
 EXPOSE 80
+
