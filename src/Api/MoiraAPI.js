@@ -7,7 +7,19 @@ import type { Settings } from '../Domain/Settings';
 import type { TagStat } from '../Domain/Tag';
 import type { PatternList } from '../Domain/Pattern';
 import type { NotificationList } from '../Domain/Notification';
-import type { ContactList } from '../Domain/Contact';
+import type { Contact, ContactList } from '../Domain/Contact';
+import type { ContactCreateInfo } from '../Domain/ContactCreateInfo';
+import type { Subscription } from '../Domain/Subscription';
+import type { Schedule } from '../Domain/Schedule';
+
+export type SubscriptionCreateInfo = {|
+    sched: Schedule;
+    tags: Array<string>;
+    throttling: boolean;
+    contacts: Array<string>;
+    enabled: boolean;
+    user: string;
+|};
 
 export type TagList = {|
     list: Array<string>;
@@ -20,7 +32,14 @@ export type TagStatList = {|
 export interface IMoiraApi {
     getSettings(): Promise<Settings>;
     getContactList(): Promise<ContactList>;
-    // delContact(contact: string): Promise<void>;
+    addContact(contact: ContactCreateInfo): Promise<Contact>;
+    updateContact(contact: Contact): Promise<Contact>;
+    testContact(contactId: string): Promise<void>;
+    addSubscription(subscription: SubscriptionCreateInfo): Promise<Subscription>;
+    updateSubscription(subscription: Subscription): Promise<Subscription>;
+    deleteSubscription(subscriptionId: string): Promise<void>;
+    testSubscription(subscriptionId: string): Promise<void>;
+    deleteContact(contactId: string): Promise<void>;
     getPatternList(): Promise<PatternList>;
     delPattern(pattern: string): Promise<void>;
     getTagList(): Promise<TagList>;
@@ -69,7 +88,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/user/settings';
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -79,24 +98,100 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/contact';
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
     }
 
-    // async delContact(contact: string): Promise<void> {
-    //     const url = this.config.apiUrl + '/contact/' + contact;
-    //     const response = await fetch(url, { method: 'DELETE' });
-    //     await this.checkStatus(response);
-    //     return;
-    // }
+    async addContact(contact: ContactCreateInfo): Promise<Contact> {
+        const url = this.config.apiUrl + '/contact';
+        const response = await fetch(url, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(contact),
+        });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async testContact(contactId: string): Promise<void> {
+        const url = this.config.apiUrl + '/contact/' + contactId + '/test';
+        const response = await fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+        });
+        await this.checkStatus(response);
+    }
+
+    async updateContact(contact: Contact): Promise<Contact> {
+        const url = this.config.apiUrl + '/contact/' + contact.id;
+        const response = await fetch(url, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(contact),
+        });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async addSubscription(subscription: SubscriptionCreateInfo): Promise<Subscription> {
+        const url = this.config.apiUrl + '/subscription';
+        if (subscription.id != null) {
+            throw new Error('InvalidProgramState: id of subscription must be null or undefined');
+        }
+        const response = await fetch(url, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(subscription),
+        });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async updateSubscription(subscription: Subscription): Promise<Subscription> {
+        const url = this.config.apiUrl + '/subscription';
+        const response = await fetch(url, {
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(subscription),
+        });
+        await this.checkStatus(response);
+        return response.json();
+    }
+
+    async deleteSubscription(subscriptionId: string): Promise<void> {
+        const url = this.config.apiUrl + '/subscription/' + subscriptionId;
+        const response = await fetch(url, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+        });
+        await this.checkStatus(response);
+    }
+
+    async testSubscription(subscriptionId: string): Promise<void> {
+        const url = this.config.apiUrl + '/subscription/' + subscriptionId + '/test';
+        const response = await fetch(url, {
+            method: 'PUT',
+            credentials: 'same-origin',
+        });
+        await this.checkStatus(response);
+    }
+
+    async deleteContact(contactId: string): Promise<void> {
+        const url = this.config.apiUrl + '/contact/' + contactId;
+        const response = await fetch(url, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+        });
+        await this.checkStatus(response);
+    }
 
     async getPatternList(): Promise<PatternList> {
         const url = this.config.apiUrl + '/pattern';
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -106,7 +201,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/pattern/' + encodeURI(pattern);
         const response = await fetch(url, {
             method: 'DELETE',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;
@@ -116,7 +211,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/tag';
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -126,7 +221,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/tag/stats';
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -136,7 +231,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/tag/' + encodeURI(tag);
         const response = await fetch(url, {
             method: 'DELETE',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;
@@ -159,7 +254,7 @@ export default class Api implements IMoiraApi {
             );
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -169,7 +264,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/trigger/' + encodeURI(id);
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -180,7 +275,7 @@ export default class Api implements IMoiraApi {
         const response = await fetch(url, {
             method: 'PUT',
             body: JSON.stringify(data),
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -191,7 +286,7 @@ export default class Api implements IMoiraApi {
         const response = await fetch(url, {
             method: 'PUT',
             body: JSON.stringify(data),
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -201,7 +296,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/trigger/' + encodeURI(id);
         const response = await fetch(url, {
             method: 'DELETE',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;
@@ -212,7 +307,7 @@ export default class Api implements IMoiraApi {
         const response = await fetch(url, {
             method: 'PUT',
             body: JSON.stringify(data),
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;
@@ -222,7 +317,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/trigger/' + encodeURI(id) + '/state';
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -233,7 +328,7 @@ export default class Api implements IMoiraApi {
             this.config.apiUrl + '/event/' + encodeURI(id) + '?p=' + page + '&size=' + this.config.paging.eventHistory;
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -243,7 +338,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/trigger/' + encodeURI(triggerId) + '/throttling';
         const response = await fetch(url, {
             method: 'DELETE',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;
@@ -253,7 +348,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/trigger/' + encodeURI(triggerId) + '/metrics?name=' + encodeURI(metric);
         const response = await fetch(url, {
             method: 'DELETE',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;
@@ -263,7 +358,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/notification?start=0&end=-1';
         const response = await fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return response.json();
@@ -273,7 +368,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/notification?id=' + encodeURI(id);
         const response = await fetch(url, {
             method: 'DELETE',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;
@@ -283,7 +378,7 @@ export default class Api implements IMoiraApi {
         const url = this.config.apiUrl + '/subscription/' + encodeURI(id);
         const response = await fetch(url, {
             method: 'DELETE',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         });
         await this.checkStatus(response);
         return;

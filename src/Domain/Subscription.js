@@ -2,7 +2,7 @@
 
 import type { Schedule } from './Schedule';
 
-export type Subscribtion = {|
+export type Subscription = {
     sched: Schedule;
     tags: Array<string>;
     throttling: boolean;
@@ -10,4 +10,4 @@ export type Subscribtion = {|
     enabled: boolean;
     user: string;
     id: string;
-|};
+};

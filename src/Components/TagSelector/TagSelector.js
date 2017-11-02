@@ -101,7 +101,7 @@ export default class TagSelector extends React.Component {
                     <input
                         className={cn('input')}
                         value={value}
-                        onKeyDown={(event: Event) =>
+                        onKeyDown={(event: KeyboardEvent) =>
                             event.target instanceof HTMLInputElement
                                 ? this.handleKeyDown(event.key, event.target.selectionStart)
                                 : null}
@@ -116,7 +116,7 @@ export default class TagSelector extends React.Component {
                 {subscribed.length !== 0 &&
                 value.length === 0 && (
                     <div className={cn('group')}>
-                        <b className={cn('title')}>Subscribtions</b>
+                        <b className={cn('title')}>Subscriptions</b>
                         <TagGroup tags={subscribed} onClick={tag => this.selectTag(tag)} />
                     </div>
                 )}

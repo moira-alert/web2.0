@@ -76,7 +76,7 @@ const config = argv => {
                     include: /src/,
                 },
                 {
-                    test: /\.(png|woff|woff2|eot)$/,
+                    test: /\.(png|woff|woff2|eot|svg)$/,
                     use: 'file-loader',
                     include: /src|retail\-ui/,
                 },

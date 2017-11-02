@@ -52,10 +52,10 @@ class TagListContainer extends React.Component {
         }
     }
 
-    async removeContact(subscribtionId: string): Promise<void> {
+    async removeContact(subscriptionId: string): Promise<void> {
         this.setState({ loading: true });
         try {
-            await this.props.moiraApi.delSubscription(subscribtionId);
+            await this.props.moiraApi.delSubscription(subscriptionId);
             this.getData(this.props);
         }
         catch (error) {
@@ -77,8 +77,8 @@ class TagListContainer extends React.Component {
                             onRemove={tag => {
                                 this.removeTag(tag);
                             }}
-                            onRemoveContact={subscribtionId => {
-                                this.removeContact(subscribtionId);
+                            onRemoveContact={subscriptionId => {
+                                this.removeContact(subscriptionId);
                             }}
                         />
                     )}

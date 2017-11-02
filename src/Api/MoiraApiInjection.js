@@ -1,6 +1,8 @@
 // @flow
-import createApiProvider from './MoiraApiProvider';
-import createApiInjectionWrapper from './MoiraApiInjectionWrapper';
+import type { IMoiraApi } from './MoiraAPI';
+import { createApiProvider, createWithApiWrapper } from './ApiInjection';
 
-export const ApiProvider = createApiProvider('moiraApi');
-export const withMoiraApi = createApiInjectionWrapper('moiraApi');
+type ApiProps = { moiraApi: IMoiraApi };
+
+export const ApiProvider = createApiProvider(['moiraApi']);
+export const withMoiraApi = createWithApiWrapper('moiraApi', (null: ?ApiProps));

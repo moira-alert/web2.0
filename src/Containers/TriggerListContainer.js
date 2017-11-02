@@ -22,7 +22,7 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
     loading: boolean;
     error: ?string;
-    subscribtions: ?Array<string>;
+    subscriptions: ?Array<string>;
     tags: ?Array<string>;
     triggers: ?TriggerList;
 |};
@@ -37,7 +37,7 @@ class TriggerListContainer extends React.Component {
     state: State = {
         loading: true,
         error: null,
-        subscribtions: null,
+        subscriptions: null,
         tags: null,
         triggers: null,
     };
@@ -74,7 +74,7 @@ class TriggerListContainer extends React.Component {
             this.setState({
                 loading: false,
                 error: null,
-                subscribtions: uniq(flattenDeep(subscriptions.map(x => x.tags))),
+                subscriptions: uniq(flattenDeep(subscriptions.map(x => x.tags))),
                 tags: allTags,
                 triggers,
             });
@@ -146,11 +146,11 @@ class TriggerListContainer extends React.Component {
     }
 
     render(): React.Element<*> {
-        const { loading, error, triggers, tags, subscribtions } = this.state;
+        const { loading, error, triggers, tags, subscriptions } = this.state;
         const { location } = this.props;
         const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
         const selectedTags = tags ? intersection(parsedTags, tags) : [];
-        const subscribedTags = subscribtions ? difference(subscribtions, selectedTags) : [];
+        const subscribedTags = subscriptions ? difference(subscriptions, selectedTags) : [];
         const remainedTags = difference(tags, concat(selectedTags, subscribedTags));
         const pageCount = triggers ? Math.ceil(triggers.total / triggers.size) : 1;
 

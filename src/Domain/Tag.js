@@ -1,11 +1,11 @@
 // @flow
-import type { Subscribtion } from './Subscribtion';
+import type { Subscription } from './Subscription';
 
 export type TagStat = {|
     data: {|
         maintenance?: boolean | number;
     |};
     name: string;
-    subscriptions: Array<Subscribtion>;
+    subscriptions: Array<Subscription>;
     triggers: Array<string>;
 |};

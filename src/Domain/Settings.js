@@ -1,10 +1,9 @@
 // @flow
-
 import type { Contact } from './Contact';
-import type { Subscribtion } from './Subscribtion';
+import type { Subscription } from './Subscription';
 
-export type Settings = {|
+export interface Settings {
     login: string;
     contacts: Array<Contact>;
-    subscriptions: Array<Subscribtion>;
-|};
+    subscriptions: Array<Subscription>;
+}

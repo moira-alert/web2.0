@@ -73,7 +73,7 @@ declare module 'retail-ui/components/ComboBoxOld' {
 
         source: (searchText: string) => Promise<?{ values: TValue[], infos: TInfo[] }>,
         value: ?TValue,
-        info?: TValue => Promsie<?TInfo>,
+        info?: TValue => Promise<?TInfo>,
         renderValue: (TValue, TInfo) => ?React$Element<any> | ?string,
         renderItem: (TValue, TInfo) => ?React$Element<any> | ?string,
         valueToString?: TValue => ?string,
@@ -85,6 +85,39 @@ declare module 'retail-ui/components/ComboBoxOld' {
     declare export default class ComboBoxOld<TValue, TInfo> extends React$Component<
         void,
         ComboBoxOldProps<TValue, TInfo>,
+        void
+    > {}
+}
+
+declare module 'retail-ui/components/ComboBox' {
+    declare type ComboBoxProps<T> = {|
+        'data-tid'?: string,
+        autocomplete?: boolean,
+        autoFocus?: boolean,
+        disabled?: boolean,
+        error?: boolean,
+        getItems: string => Promise<Array<T>>,
+        itemToValue?: Array<T> => string | number,
+        menuAlign?: 'left' | 'right',
+        onBlur?: (Event) => void,
+        onChange: (Event, T) => void,
+        onFocus?: (Event) => void,
+        onUnexpectedInput?: string => ?boolean,
+        placeholder?: string,
+        renderItem?: (T, number) => (React$Element<any> | string),
+        renderNotFound?: T => (React$Element<any> | string),
+        renderValue?: T => (React$Element<any> | string),
+        placeholder?: ?string,
+        totalCount?: number,
+        value: ?T,
+        valueToString?: T => string,
+        size?: 'small' | 'medium' | 'large',
+        warning?: boolean,
+        width?: ?string | ?number,
+    |};
+    declare export default class ComboBox<TValue> extends React$Component<
+        void,
+        ComboBoxProps<TValue>,
         void
     > {}
 }
@@ -373,9 +406,11 @@ declare module 'retail-ui/components/Tooltip' {
     declare type TooltipProps = {|
         'data-tid'?: string,
         render: () => React$Element<any>,
+        pos?: string,
         trigger?: 'hover' | 'click' | 'focus' | 'opened' | 'closed',
         children?: any,
-        onCloseClick?: () => void
+        onCloseClick?: () => void,
+        closeButton?: boolean,
     |};
     declare export default class Tooltip extends React$Component<void, TooltipProps, void> {}
 }
@@ -507,7 +542,9 @@ declare module 'retail-ui/components/TopBar' {
 declare module 'retail-ui/components/RenderLayer' {
     declare type RenderLayerProps = {|
         children?: any,
-        onClickOutside?: () => void
+        active?: boolean,
+        onClickOutside?: () => void,
+        onFocusOutside?: () => void,
     |};
     declare export default class RenderLayer extends React$Component<void, RenderLayerProps, void> {}
 }
@@ -545,7 +582,7 @@ declare module 'retail-ui/components/Paging' {
         activePage: number,
         component?:
             | Class<React$Component<*, ItemComponentProps, *>>
-            | ((props: ItemComponentProps) => React.Element<*>)
+            | ((props: ItemComponentProps) => React$Element<*>)
             | string,
         onPageChange: (pageNumber: number) => void,
         pagesCount: number
@@ -560,4 +597,22 @@ declare module 'retail-ui/components/Toggle' {
         onChange?: (nextChecked: boolean) => void
     |};
     declare export default class Toggle extends React$Component<void, ToggleProps, void> {}
+}
+
+declare module 'retail-ui/components/DropdownContainer/DropdownContainer' {
+    declare type DropdownContainerProps = {|
+        align?: 'right' | 'left',
+        getParent: () => null | Element | Text,
+        offsetY?: number,
+        children?: any,
+    |};
+    declare export default class DropdownContainer extends React$Component<void, DropdownContainerProps, void> {}
+}
+
+declare module 'retail-ui/components/ScrollContainer/ScrollContainer' {
+    declare type ScrollContainerProps = {|
+        children?: any,
+        maxHeight: number | string,
+    |};
+    declare export default class ScrollContainer extends React$Component<void, ScrollContainerProps, void> {}
 }

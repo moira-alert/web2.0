@@ -65,10 +65,12 @@ export default function TriggerInfo(props: Props): React.Element<*> {
                     </RouterLink>
                     <a
                         href='#download'
-                        onClick={(event: Event) =>
-                            event.currentTarget instanceof HTMLAnchorElement
-                                ? (event.currentTarget.href = getJSONContent(props.data))
-                                : null}
+                        onClick={(event: Event) => {
+                            const target = event.currentTarget;
+                            if (target instanceof HTMLAnchorElement) {
+                                target.href = getJSONContent(props.data);
+                            }
+                        }}
                         download={`trigger-${id}.json`}>
                         <Button use='link' icon='Export'>
                             Export

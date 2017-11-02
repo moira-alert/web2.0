@@ -22,7 +22,7 @@ const config = {
                 include: /retail\-ui/,
             },
             {
-                test: /\.(png|woff|woff2|eot)$/,
+                test: /\.(png|woff|woff2|eot|svg)$/,
                 loader: 'file-loader',
             },
         ],

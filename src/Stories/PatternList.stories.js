@@ -18,6 +18,9 @@ const items = [
                 error_value: 90,
                 tags: ['KE-Test.System'],
                 ttl_state: 'NODATA',
+                throttling: 1,
+                is_simple_trigger: true,
+                expression: '',
                 ttl: 600,
                 sched: {
                     days: [
@@ -52,6 +55,9 @@ const items = [
                 error_value: 0,
                 tags: ['Elasticsearch', 'Focus', 'DevOps'],
                 ttl_state: 'NODATA',
+                throttling: 1,
+                is_simple_trigger: true,
+                expression: '',
                 ttl: 600,
                 sched: {
                     days: [

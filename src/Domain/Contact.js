@@ -1,12 +1,13 @@
 // @flow
+import type { ContactType } from './ContactType';
 
-export type Contact = {|
+export interface Contact {
     id: string;
-    type: string;
+    type: ContactType;
     user: string;
     value: string;
-|};
+}
 
-export type ContactList = {|
+export interface ContactList {
     list: Array<Contact>;
-|};
+}

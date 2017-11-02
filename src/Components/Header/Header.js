@@ -20,7 +20,7 @@ export default function Header(props: Props): React.Element<*> {
                 </Link>
                 <nav className={cn('menu')}>
                     <RouterLink to={getPageLink('settings')} icon='Settings'>
-                        Settings
+                        Notifications
                     </RouterLink>
                     <LinkUI href={getPageLink('docs')} icon='HelpBook'>
                         Help

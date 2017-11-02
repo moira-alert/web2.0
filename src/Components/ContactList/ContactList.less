@@ -1,11 +1,53 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
 
-.row {
-    display: flex;
+.items-cotnainer {
+    margin: 0 -10px;
+}
 
-    &:not(:first-child) {
-        margin-top: 10px;
+.header {
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
+.actions-block {
+    margin-top: 10px;
+}
+
+.items {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.actions-cell {
+    min-width: 100px;
+}
+
+.item {
+    cursor: pointer;
+    &:hover {
+        background-color: #f8f8f8;
+    }
+
+    td {
+        padding: 10px;
+    }
+    border-bottom: 1px solid #eeeeee;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    .actions {
+        display: none;
+    }
+
+    &:hover {
+        .actions {
+            display: inline;
+        }
     }
 }
 

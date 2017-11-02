@@ -13,7 +13,7 @@ import Radio from 'retail-ui/components/Radio';
 import Checkbox from 'retail-ui/components/Checkbox';
 import FormattedNumberInput from '../FormattedNumberInput/FormattedNumberInput';
 import TagSelector from '../TagSelector/TagSelector';
-import { Statuses, getStatusCaption } from '../../Domain/Status';
+import { Statuses, getStatusCaption, type Status } from '../../Domain/Status';
 import cn from './TriggerEditForm.less';
 
 type Props = {|
@@ -33,6 +33,9 @@ export default class TriggerEditForm extends React.Component {
     constructor(props: Props) {
         super(props);
         const { targets, expression, sched } = props.data;
+        if (sched == null) {
+            throw new Error('InvalidProgramState');
+        }
         const { startOffset, endOffset } = sched;
         this.state = {
             advancedMode: targets.length > 1 || expression.length > 0,
@@ -72,6 +75,9 @@ export default class TriggerEditForm extends React.Component {
             error_value: errorValue,
             sched,
         } = data;
+        if (sched == null) {
+            throw new Error('InvalidProgramState');
+        }
         const { days, startOffset, endOffset } = sched;
         return (
             <div className={cn('form')}>
@@ -80,12 +86,12 @@ export default class TriggerEditForm extends React.Component {
                     <div className={cn('control')}>
                         <ValidationWrapperV1
                             validationInfo={
-                                name.trim().length === 0
-                                    ? {
-                                        type: name.trim().length === 0 ? 'submit' : 'lostfocus',
-                                        message: "Can't be empty",
-                                    }
-                                    : null
+                                name.trim().length === 0 ? (
+                                {
+                                    type: name.trim().length === 0 ? 'submit' : 'lostfocus',
+                                    message: "Can't be empty",
+                                }
+                                ) : null
                             }
                             renderMessage={tooltip('right middle')}>
                             <Input width='100%' value={name} onChange={(e, value) => onChange({ name: value })} />
@@ -108,12 +114,12 @@ export default class TriggerEditForm extends React.Component {
                                     <div className={cn('fgroup-field')}>
                                         <ValidationWrapperV1
                                             validationInfo={
-                                                x.trim().length === 0
-                                                    ? {
-                                                        type: x.trim().length === 0 ? 'submit' : 'lostfocus',
-                                                        message: "Can't be empty",
-                                                    }
-                                                    : null
+                                                x.trim().length === 0 ? (
+                                                {
+                                                    type: x.trim().length === 0 ? 'submit' : 'lostfocus',
+                                                    message: "Can't be empty",
+                                                }
+                                                ) : null
                                             }
                                             renderMessage={tooltip('right middle')}>
                                             <Input
@@ -171,12 +177,12 @@ export default class TriggerEditForm extends React.Component {
                         <div className={cn('control')}>
                             <ValidationWrapperV1
                                 validationInfo={
-                                    typeof warnValue !== 'number'
-                                        ? {
-                                            type: typeof warnValue === 'number' ? 'lostfocus' : 'submit',
-                                            message: "Can't be empty",
-                                        }
-                                        : null
+                                    typeof warnValue !== 'number' ? (
+                                    {
+                                        type: typeof warnValue === 'number' ? 'lostfocus' : 'submit',
+                                        message: "Can't be empty",
+                                    }
+                                    ) : null
                                 }
                                 renderMessage={tooltip('right middle')}>
                                 <FormattedNumberInput
@@ -196,12 +202,12 @@ export default class TriggerEditForm extends React.Component {
                         <div className={cn('control')}>
                             <ValidationWrapperV1
                                 validationInfo={
-                                    typeof errorValue !== 'number'
-                                        ? {
-                                            type: typeof errorValue === 'number' ? 'lostfocus' : 'submit',
-                                            message: "Can't be empty",
-                                        }
-                                        : null
+                                    typeof errorValue !== 'number' ? (
+                                    {
+                                        type: typeof errorValue === 'number' ? 'lostfocus' : 'submit',
+                                        message: "Can't be empty",
+                                    }
+                                    ) : null
                                 }
                                 renderMessage={tooltip('right middle')}>
                                 <FormattedNumberInput
@@ -221,12 +227,12 @@ export default class TriggerEditForm extends React.Component {
                         <div className={cn('control')}>
                             <ValidationWrapperV1
                                 validationInfo={
-                                    expression.trim().length === 0
-                                        ? {
-                                            type: expression.trim().length === 0 ? 'submit' : 'lostfocus',
-                                            message: "Expression can't be empty",
-                                        }
-                                        : null
+                                    expression.trim().length === 0 ? (
+                                    {
+                                        type: expression.trim().length === 0 ? 'submit' : 'lostfocus',
+                                        message: "Expression can't be empty",
+                                    }
+                                    ) : null
                                 }
                                 renderMessage={tooltip('right middle')}>
                                 <Input
@@ -241,21 +247,21 @@ export default class TriggerEditForm extends React.Component {
                 <div className={cn('row')}>
                     <div className={cn('control', 'group')}>
                         <Select
-                            value={getStatusCaption(ttlState)}
+                            value={ttlState}
                             items={Object.keys(Statuses)
                                 .filter(x => x !== Statuses.EXCEPTION)
                                 .map(x => [x, getStatusCaption(x)])}
-                            onChange={(e, value) => onChange({ ttl_state: value })}
+                            onChange={(e, value: Status) => onChange({ ttl_state: value })}
                         />
                         <span>if has no value for</span>
                         <ValidationWrapperV1
                             validationInfo={
-                                typeof ttl !== 'number'
-                                    ? {
-                                        type: typeof ttl === 'number' ? 'lostfocus' : 'submit',
-                                        message: "Error value can't be empty",
-                                    }
-                                    : null
+                                typeof ttl !== 'number' ? (
+                                {
+                                    type: typeof ttl === 'number' ? 'lostfocus' : 'submit',
+                                    message: "Error value can't be empty",
+                                }
+                                ) : null
                             }
                             renderMessage={tooltip('right middle')}>
                             <FormattedNumberInput
@@ -313,12 +319,12 @@ export default class TriggerEditForm extends React.Component {
                                 <span>At specific interval</span>
                                 <ValidationWrapperV1
                                     validationInfo={
-                                        startOffset >= endOffset
-                                            ? {
-                                                type: 'lostfocus',
-                                                message: 'Start time must be less than end time',
-                                            }
-                                            : null
+                                        startOffset >= endOffset ? (
+                                        {
+                                            type: 'lostfocus',
+                                            message: 'Start time must be less than end time',
+                                        }
+                                        ) : null
                                     }
                                     renderMessage={tooltip('right middle')}>
                                     <Input
@@ -333,12 +339,12 @@ export default class TriggerEditForm extends React.Component {
                                 <span>—</span>
                                 <ValidationWrapperV1
                                     validationInfo={
-                                        startOffset >= endOffset
-                                            ? {
-                                                type: 'lostfocus',
-                                                message: 'Start time must be less than end time',
-                                            }
-                                            : null
+                                        startOffset >= endOffset ? (
+                                        {
+                                            type: 'lostfocus',
+                                            message: 'Start time must be less than end time',
+                                        }
+                                        ) : null
                                     }
                                     renderMessage={tooltip('right middle')}>
                                     <Input
@@ -359,12 +365,12 @@ export default class TriggerEditForm extends React.Component {
                     <div className={cn('control')}>
                         <ValidationWrapperV1
                             validationInfo={
-                                tags.length === 0
-                                    ? {
-                                        type: 'submit',
-                                        message: 'Select at least one tag',
-                                    }
-                                    : null
+                                tags.length === 0 ? (
+                                {
+                                    type: 'submit',
+                                    message: 'Select at least one tag',
+                                }
+                                ) : null
                             }
                             renderMessage={tooltip('right top')}>
                             <TagSelector
