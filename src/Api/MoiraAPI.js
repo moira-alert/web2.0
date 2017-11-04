@@ -150,7 +150,7 @@ export default class Api implements IMoiraApi {
     }
 
     async updateSubscription(subscription: Subscription): Promise<Subscription> {
-        const url = this.config.apiUrl + '/subscription';
+        const url = this.config.apiUrl + '/subscription/' + subscription.id;
         const response = await fetch(url, {
             method: 'PUT',
             credentials: 'same-origin',
