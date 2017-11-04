@@ -7,6 +7,7 @@ import { getPageLink } from '../Domain/Global';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { ValidationContainer } from 'react-ui-validations';
 import Button from 'retail-ui/components/Button';
+import RouterLink from '../Components/RouterLink/RouterLink';
 import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
 import { ColumnStack, RowStack, Fit } from '../Components/ItemsStack/ItemsStack';
@@ -102,7 +103,7 @@ class TriggerEditContainer extends React.Component {
                                         onChange={update => this.handleChange(update)}
                                     />
                                 </ValidationContainer>
-                                <RowStack gap={3} verticalAlign='center'>
+                                <RowStack gap={3} baseline>
                                     <Fit>
                                         <Button
                                             use='primary'
@@ -121,6 +122,9 @@ class TriggerEditContainer extends React.Component {
                                             }}>
                                             Delete
                                         </Button>
+                                    </Fit>
+                                    <Fit>
+                                        <RouterLink to={`/trigger/${trigger.id}`}>Cancel</RouterLink>
                                     </Fit>
                                 </RowStack>
                             </ColumnStack>

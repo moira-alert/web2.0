@@ -8,9 +8,10 @@ import { Statuses } from '../Domain/Status';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { ValidationContainer } from 'react-ui-validations';
 import Button from 'retail-ui/components/Button';
+import RouterLink from '../Components/RouterLink/RouterLink';
 import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
-import { ColumnStack } from '../Components/ItemsStack/ItemsStack';
+import { RowStack, ColumnStack, Fit } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -101,20 +102,31 @@ class TriggerEditContainer extends React.Component {
                     {trigger && (
                         <form>
                             <ColumnStack block gap={4}>
-                                <ValidationContainer ref='triggerForm'>
-                                    <TriggerEditForm
-                                        data={trigger}
-                                        tags={tags || []}
-                                        onChange={update => this.handleChange(update)}
-                                    />
-                                </ValidationContainer>
-                                <Button
-                                    use='primary'
-                                    onClick={() => {
-                                        this.handleSubmit();
-                                    }}>
-                                    Add trigger
-                                </Button>
+                                <Fit>
+                                    <ValidationContainer ref='triggerForm'>
+                                        <TriggerEditForm
+                                            data={trigger}
+                                            tags={tags || []}
+                                            onChange={update => this.handleChange(update)}
+                                        />
+                                    </ValidationContainer>
+                                </Fit>
+                                <Fit>
+                                    <RowStack gap={3} baseline>
+                                        <Fit>
+                                            <Button
+                                                use='primary'
+                                                onClick={() => {
+                                                    this.handleSubmit();
+                                                }}>
+                                                Add trigger
+                                            </Button>
+                                        </Fit>
+                                        <Fit>
+                                            <RouterLink to='/'>Cancel</RouterLink>
+                                        </Fit>
+                                    </RowStack>
+                                </Fit>
                             </ColumnStack>
                         </form>
                     )}
