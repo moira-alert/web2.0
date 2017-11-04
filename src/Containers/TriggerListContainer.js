@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import queryString from 'query-string';
-import { intersection, concat, difference, flattenDeep, uniq } from 'lodash';
+import { intersection, concat, difference, flattenDeep, uniq, isEqual } from 'lodash';
 import moment from 'moment';
 import { getPageLink } from '../Domain/Global';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
@@ -91,6 +91,19 @@ class TriggerListContainer extends React.Component {
     componentWillReceiveProps(nextProps: Props) {
         this.setState({ loading: true });
         this.getData(nextProps);
+        if (this.needScrollToTop(this.props, nextProps)) {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth',
+            });
+        }
+    }
+
+    needScrollToTop(prevProps: Props, nextProps: Props): boolean {
+        const { page: prevPage } = this.parseLocationSearch(prevProps.location.search);
+        const { page: nextPage } = this.parseLocationSearch(nextProps.location.search);
+        return !isEqual(prevPage, nextPage);
     }
 
     parseLocationSearch(search: string): LocationSearch {
