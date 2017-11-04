@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import queryString from 'query-string';
 import Paging from 'retail-ui/components/Paging';
+import Center from 'retail-ui/components/Center';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger, TriggerState } from '../Domain/Trigger';
@@ -19,6 +20,7 @@ import Tabs, { Tab } from '../Components/Tabs/Tabs';
 import EventList from '../Components/EventList/EventList';
 import Layout, { LayoutPlate, LayoutContent } from '../Components/Layout/Layout';
 import { ColumnStack } from '../Components/ItemsStack/ItemsStack';
+import cn from './TriggerContainer.less';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {|
@@ -240,7 +242,15 @@ class TriggerContainer extends React.Component {
                         />
                     </LayoutPlate>
                 )}
-                {(isMetrics || isEvents) && (
+                {(true || isMetrics || isEvents) && (
+                    <LayoutContent>
+                        <Center>
+                            <span className={cn('empty-details-text')}>There is no metrics evaluated for this trigger.</span>
+                        </Center>
+                    </LayoutContent>
+                )}
+                {false &&
+                (isMetrics || isEvents) && (
                     <LayoutContent>
                         <Tabs value={isMetrics ? 'state' : 'events'}>
                             {isMetrics &&

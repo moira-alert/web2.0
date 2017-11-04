@@ -53,7 +53,7 @@ export default function TriggerInfo(props: Props): React.Element<*> {
     return (
         <section>
             <header className={cn('header')}>
-                <h1 className={cn('title')}>{name}</h1>
+                <h1 className={cn('title')}>{(name != null && name !== '') ? name : '[No name]'}</h1>
                 <div className={cn('controls')}>
                     {throttling !== 0 && (
                         <Link use='danger' icon='Clear' onClick={() => props.onThrottlingRemove(id)}>

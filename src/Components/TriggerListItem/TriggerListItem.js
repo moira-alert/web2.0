@@ -154,7 +154,7 @@ export default class TriggerListItem extends React.Component {
                     <div className={cn('header')}>
                         <Link className={cn('link')} to={getPageLink('trigger', id)}>
                             <div className={cn('title')}>
-                                <div className={cn('name')}>{name}</div>
+                                <div className={cn('name')}>{(name != null && name !== '') ? name : '[No name]'}</div>
                                 {throttling !== 0 && (
                                     <div
                                         className={cn('flag')}
