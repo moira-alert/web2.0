@@ -10,7 +10,7 @@ const config = argv => {
         output: {
             publicPath: '/',
             path: path.resolve(__dirname, 'dist'),
-            filename: 'app.js',
+            filename: PROD ? 'app.[hash].js' : 'app.js',
         },
         module: {
             rules: [
@@ -113,7 +113,7 @@ const config = argv => {
         },
     };
     if (PROD) {
-        config.plugins.push(new ExtractTextPlugin('app.css'));
+        config.plugins.push(new ExtractTextPlugin('app.[hash].css'));
         config.plugins.push(new UglifyJSPlugin({ extractComments: { banner: false } }));
     }
     return config;
