@@ -6,6 +6,7 @@ import moment from 'moment';
 import { getPageLink } from '../Domain/Global';
 import { withMoiraApi } from '../Api/MoiraApiInjection';
 import { getMaintenanceTime } from '../Domain/Maintenance';
+import type { Config } from '../Domain/Config';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { TriggerList } from '../Domain/Trigger';
@@ -25,6 +26,7 @@ type State = {|
     subscriptions: ?Array<string>;
     tags: ?Array<string>;
     triggers: ?TriggerList;
+    config: ?Config;
 |};
 type LocationSearch = {|
     page: number;
@@ -40,6 +42,7 @@ class TriggerListContainer extends React.Component {
         subscriptions: null,
         tags: null,
         triggers: null,
+        config: null,
     };
 
     async getData(props: Props): Promise<void> {
@@ -62,6 +65,7 @@ class TriggerListContainer extends React.Component {
         try {
             const { subscriptions } = await moiraApi.getSettings();
             const { list: allTags } = await moiraApi.getTagList();
+            const config = await moiraApi.getConfig();
             const selectedTags = intersection(parsedTags, allTags);
             const triggers = await moiraApi.getTriggerList(page - 1, onlyProblems, selectedTags);
 
@@ -72,6 +76,7 @@ class TriggerListContainer extends React.Component {
             }
 
             this.setState({
+                config: config,
                 loading: false,
                 error: null,
                 subscriptions: uniq(flattenDeep(subscriptions.map(x => x.tags))),
@@ -159,7 +164,7 @@ class TriggerListContainer extends React.Component {
     }
 
     render(): React.Element<*> {
-        const { loading, error, triggers, tags, subscriptions } = this.state;
+        const { loading, error, triggers, tags, subscriptions, config } = this.state;
         const { location } = this.props;
         const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
         const selectedTags = tags ? intersection(parsedTags, tags) : [];
@@ -198,11 +203,12 @@ class TriggerListContainer extends React.Component {
                         </Fit>
                     </RowStack>
                 </LayoutPlate>
-                {triggers && (
+                {triggers && config != null && (
                     <LayoutContent>
                         <ColumnStack block gap={6} horizontalAlign='stretch'>
                             <AddingButton to={getPageLink('triggerAdd')} />
                             <TriggerListView
+                                supportEmail={config.supportEmail}
                                 items={triggers.list || []}
                                 onChange={(triggerId, maintenance, metric) => {
                                     this.setMaintenance(triggerId, maintenance, metric);

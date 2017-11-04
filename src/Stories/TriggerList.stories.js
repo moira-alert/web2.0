@@ -3326,5 +3326,5 @@ const data = [
 
 storiesOf('TriggerList', module)
     .addDecorator(StoryRouter())
-    .add('Default', () => <TriggerList items={data} onChange={action('onChange')} onRemove={action('onRemove')} />)
-    .add('Empty', () => <TriggerList items={[]} />);
+    .add('Default', () => <TriggerList supportEmail={null} items={data} onChange={action('onChange')} onRemove={action('onRemove')} />)
+    .add('Empty', () => <TriggerList supportEmail={null} items={[]} />);

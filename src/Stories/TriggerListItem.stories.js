@@ -347,10 +347,48 @@ const stories = [
             tags: ['dev', 'test', 'ke.notifications', 'ke.notifications-dev', 'very.long.tag.why.you.choice.that.name'],
         },
     },
+    {
+        title: 'Exception state',
+        data: {
+            ...sourceData,
+            last_check: {
+                metrics: {
+                    'sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)': {
+                        timestamp: 1499416938,
+                        state: 'OK',
+                    },
+                    'sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)': {
+                        timestamp: 1499416938,
+                        state: 'NODATA',
+                    },
+                    'sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)': {
+                        timestamp: 1499416938,
+                        state: 'ERROR',
+                    },
+                    'sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)': {
+                        timestamp: 1499416938,
+                        state: 'NODATA',
+                        suppressed: false,
+                        event_timestamp: 1499331679,
+                    },
+                },
+                timestamp: 1499418145,
+                state: 'EXCEPTION',
+                score: 14000,
+            },
+        },
+    },
 ];
 
 const story = storiesOf('TriggerListItem', module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
-    story.add(title, () => <TriggerListItem data={data} onChange={action('onChange')} onRemove={action('onRemove')} />);
+    story.add(title, () => (
+        <TriggerListItem
+            supportEmail='support@moira-alert.com'
+            data={data}
+            onChange={action('onChange')}
+            onRemove={action('onRemove')}
+        />
+    ));
 });

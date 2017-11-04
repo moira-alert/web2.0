@@ -9,6 +9,8 @@ import type { Metric } from '../../Domain/Metric';
 import type { Maintenance } from '../../Domain/Maintenance';
 import { Statuses, getStatusColor, getStatusCaption } from '../../Domain/Status';
 import Icon from 'retail-ui/components/Icon';
+import { default as ReactUiLink } from 'retail-ui/components/Link';
+import RouterLink from '../RouterLink/RouterLink';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import TagGroup from '../TagGroup/TagGroup';
 import Tabs, { Tab } from '../Tabs/Tabs';
@@ -17,6 +19,7 @@ import cn from './TriggerListItem.less';
 
 type Props = {|
     data: Trigger;
+    supportEmail: ?string;
     onChange?: (maintenance: Maintenance, metric: string) => void;
     onRemove?: (metric: string) => void;
 |};
@@ -86,6 +89,14 @@ export default class TriggerListItem extends React.Component {
         );
     }
 
+    getHasExceptionState(): boolean {
+        const { state: triggerStatus } = this.props.data.last_check || {};
+        if (triggerStatus === Statuses.EXCEPTION) {
+            return true;
+        }
+        return false;
+    }
+
     renderStatus(): React.Element<*> {
         const { state: triggerStatus } = this.props.data.last_check || {};
         const metricStatuses = Object.keys(Statuses).filter(
@@ -112,6 +123,26 @@ export default class TriggerListItem extends React.Component {
         );
     }
 
+    renderExceptionHelpMessage(): React.Element<*> {
+        const { data, supportEmail } = this.props;
+        const hasExpression = data.expression != null && data.expression !== '';
+        const hasMultipleTargets = data.targets.length > 1;
+        return (
+            <div className={cn('exception-message')}>
+                <Icon name='Error' color={'#D43517'} size={16} /> Trigger in EXCEPTION state. Please{' '}
+                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets ? 's' : ''}
+                {hasExpression ? ' and exression' : ''} on{' '}
+                <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
+                {supportEmail != null && (
+                    <span>
+                        {' '}
+                        Or <ReactUiLink href={`mailto:${supportEmail}`}>contact</ReactUiLink> with server administrator.
+                    </span>
+                )}
+            </div>
+        );
+    }
+
     renderMetrics(): ?React.Element<*> {
         const { onChange, onRemove } = this.props;
         if (!onChange || !onRemove) {
@@ -134,6 +165,7 @@ export default class TriggerListItem extends React.Component {
         ));
         return (
             <div className={cn('metrics')}>
+                {this.getHasExceptionState() && this.renderExceptionHelpMessage()}
                 <Tabs value={statuses[0]}>{metrics}</Tabs>
             </div>
         );
@@ -154,7 +186,7 @@ export default class TriggerListItem extends React.Component {
                     <div className={cn('header')}>
                         <Link className={cn('link')} to={getPageLink('trigger', id)}>
                             <div className={cn('title')}>
-                                <div className={cn('name')}>{(name != null && name !== '') ? name : '[No name]'}</div>
+                                <div className={cn('name')}>{name != null && name !== '' ? name : '[No name]'}</div>
                                 {throttling !== 0 && (
                                     <div
                                         className={cn('flag')}

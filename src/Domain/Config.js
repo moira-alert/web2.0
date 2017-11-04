@@ -12,6 +12,7 @@ export type ContactConfig = {|
 export type Config = {|
     apiUrl: string;
     contacts: Array<ContactConfig>;
+    supportEmail: string;
     paging: {|
         triggerList: number;
         eventHistory: number;

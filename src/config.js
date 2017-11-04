@@ -2,6 +2,7 @@
 import type { Config } from './Domain/Config';
 const config: Config = {
     apiUrl: '/api',
+    supportEmail: 'devops@skbkontur.ru',
     contacts: [
         { type: 'email', validation: '^.+@.+\\..+$', icon: 'email' },
         {

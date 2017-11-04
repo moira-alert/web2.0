@@ -31,6 +31,7 @@ export type TagStatList = {|
 
 export interface IMoiraApi {
     getSettings(): Promise<Settings>;
+    getConfig(): Promise<Config>;
     getContactList(): Promise<ContactList>;
     addContact(contact: ContactCreateInfo): Promise<Contact>;
     updateContact(contact: Contact): Promise<Contact>;
@@ -65,6 +66,10 @@ export default class Api implements IMoiraApi {
 
     constructor(config: Config) {
         this.config = config;
+    }
+
+    async getConfig(): Promise<Config> {
+        return this.config;
     }
 
     async checkStatus(response: Response): Promise<void> {
