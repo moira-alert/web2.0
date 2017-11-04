@@ -138,7 +138,7 @@ export default class SubscriptionList extends React.Component {
                     {subscription.contacts
                         .map(x => contacts.find(y => y.id === x))
                         .filter(Boolean)
-                        .map(x => <ContactInfo contact={x} />)}
+                        .map(x => <ContactInfo className={cn('contact')} contact={x} />)}
                 </td>
                 <td className={cn('enabled-cell')}>
                     {!subscription.enabled && <span className={cn('disabled-label')}>Disabled</span>}

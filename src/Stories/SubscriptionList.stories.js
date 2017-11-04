@@ -24,6 +24,12 @@ const contacts = [
         value: 'u13XsadLKJjh273jafksaja7asjdkds ',
     },
     {
+        id: '3',
+        type: ContactTypes.pushover,
+        user: '1',
+        value: 'u13XsadLKJjh273jafksaja7asjdkds ',
+    },
+    {
         id: '2',
         type: ContactTypes.email,
         user: '1',
@@ -80,6 +86,33 @@ storiesOf('SubscriptionList', module)
                     tags: ['1'],
                     throttling: false,
                     contacts: ['1'],
+                    enabled: false,
+                    user: '1',
+                    id: '2',
+                },
+            ]}
+        />
+    ))
+    .add('FewChannelsForSubscription', () => (
+        <SubscriptionList
+            {...commonProps}
+            tags={tags}
+            contacts={contacts}
+            subscriptions={[
+                {
+                    sched: createSchedule(WholeWeek),
+                    tags: ['1'],
+                    throttling: false,
+                    contacts: ['1'],
+                    enabled: true,
+                    user: '1',
+                    id: '1',
+                },
+                {
+                    sched: createSchedule(WholeWeek),
+                    tags: ['1'],
+                    throttling: false,
+                    contacts: ['1', '3'],
                     enabled: false,
                     user: '1',
                     id: '2',
