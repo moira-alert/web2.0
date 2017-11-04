@@ -3,6 +3,7 @@ import * as React from 'react';
 import { concat } from 'lodash';
 import TagGroup from '../TagGroup/TagGroup';
 import Tag from '../Tag/Tag';
+import NewTagBadge from '../NewTagBadge/NewTagBadge';
 import cn from './TagSelector.less';
 
 type Props = {|
@@ -14,12 +15,14 @@ type Props = {|
     onRemove: (tag: string) => void;
     onMouseEnter?: (e: Event) => void;
     onMouseLeave?: (e: Event) => void;
+    allowCreateNewTags?: boolean;
 |};
-type State = {|
+
+type State = {
     value: string;
     focusedIndex: number;
     isFocused: boolean;
-|};
+};
 
 export default class TagSelector extends React.Component {
     props: Props;
@@ -34,6 +37,13 @@ export default class TagSelector extends React.Component {
         return tags.filter(x => x.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }
 
+    handleAddNewTag = () => {
+        const { onSelect } = this.props;
+        const { value } = this.state;
+        onSelect(value);
+        this.setState({ value: '', focusedIndex: 0 });
+    };
+
     selectTag(tag: string) {
         this.props.onSelect(tag);
         this.setState({ value: '', focusedIndex: 0 });
@@ -43,9 +53,13 @@ export default class TagSelector extends React.Component {
         this.props.onRemove(tag);
     }
 
+    tagExists(name: string): boolean {
+        return this.props.remained.includes(name);
+    }
+
     handleKeyDown(key: string, caretPosition: number) {
         const { value, focusedIndex, isFocused } = this.state;
-        const { selected, subscribed, remained } = this.props;
+        const { allowCreateNewTags, selected, subscribed, remained } = this.props;
         const filtredTags = this.filterTags(concat(subscribed, remained));
         if (isFocused) {
             switch (key) {
@@ -58,22 +72,44 @@ export default class TagSelector extends React.Component {
                     break;
                 case 'ArrowUp':
                     if (value.length !== 0) {
-                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
-                        this.setState({ focusedIndex: newIndex });
+                        if (allowCreateNewTags) {
+                            const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
+                            this.setState({ focusedIndex: newIndex });
+                        }
+                        else {
+                            const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
+                            this.setState({ focusedIndex: newIndex });
+                        }
                     }
                     break;
                 case 'ArrowDown':
                     if (value.length !== 0) {
-                        const newIndex = focusedIndex < filtredTags.length ? focusedIndex + 1 : 0;
-                        this.setState({ focusedIndex: newIndex });
+                        if (allowCreateNewTags && !this.tagExists(value)) {
+                            const newIndex = focusedIndex < filtredTags.length + 1 ? focusedIndex + 1 : 0;
+                            this.setState({ focusedIndex: newIndex });
+                        }
+                        else {
+                            const newIndex = focusedIndex < filtredTags.length ? focusedIndex + 1 : 0;
+                            this.setState({ focusedIndex: newIndex });
+                        }
                     }
                     break;
                 case 'Enter':
                     if (focusedIndex !== 0 && value.length !== 0) {
-                        this.selectTag(filtredTags[focusedIndex - 1]);
+                        if (allowCreateNewTags && !this.tagExists(value) && focusedIndex === filtredTags.length + 1) {
+                            this.selectTag(value);
+                        }
+                        else {
+                            this.selectTag(filtredTags[focusedIndex - 1]);
+                        }
                     }
                     if (focusedIndex === 0 && value.length !== 0) {
-                        this.selectTag(filtredTags[filtredTags.length - 1]);
+                        if (allowCreateNewTags && !this.tagExists(value)) {
+                            this.selectTag(value);
+                        }
+                        else {
+                            this.selectTag(filtredTags[filtredTags.length - 1]);
+                        }
                     }
                     break;
                 default:
@@ -83,7 +119,7 @@ export default class TagSelector extends React.Component {
     }
 
     render(): React.Element<*> {
-        const { error, selected, subscribed, remained, onMouseEnter, onMouseLeave } = this.props;
+        const { error, selected, subscribed, remained, onMouseEnter, onMouseLeave, allowCreateNewTags } = this.props;
         const { value, focusedIndex, isFocused } = this.state;
         const filtredTags = this.filterTags(concat(subscribed, remained));
         return (
@@ -139,6 +175,15 @@ export default class TagSelector extends React.Component {
                                     onClick={() => this.selectTag(tag)}
                                 />
                             ))}
+                            {allowCreateNewTags &&
+                            !this.tagExists(value) &&
+                            value.trim() !== '' && (
+                                <NewTagBadge
+                                    title={value.trim()}
+                                    focus={focusedIndex === filtredTags.length + 1}
+                                    onClick={this.handleAddNewTag}
+                                />
+                            )}
                         </div>
                     </div>
                 )}

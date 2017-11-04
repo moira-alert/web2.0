@@ -238,6 +238,7 @@ export default class TriggerEditForm extends React.Component {
                         }
                         renderMessage={tooltip('right top')}>
                         <TagSelector
+                            allowCreateNewTags
                             subscribed={[]}
                             selected={tags}
                             remained={difference(allTags, tags)}
