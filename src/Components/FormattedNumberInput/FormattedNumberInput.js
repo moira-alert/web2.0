@@ -10,7 +10,6 @@ type FormattedNumberInputProps = {
     value: ?number;
     align?: 'left' | 'center' | 'right';
     onChange: (event: Event, value: ?number) => any;
-    id: string;
     width: string | number;
 };
 
