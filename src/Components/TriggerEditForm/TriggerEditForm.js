@@ -55,6 +55,34 @@ export default class TriggerEditForm extends React.Component {
             : null;
     }
 
+    handleUpdateTarget(targetIndex: number, value: string) {
+        const { onChange, data } = this.props;
+        const { targets } = data;
+
+        onChange({
+            targets: [...targets.slice(0, targetIndex), value, ...targets.slice(targetIndex + 1)],
+        });
+    }
+
+    handleRemoveTarget(targetIndex: number) {
+        const { onChange, data } = this.props;
+        const { targets } = data;
+
+        onChange({
+            targets: [...targets.slice(0, targetIndex), ...targets.slice(targetIndex + 1)],
+        });
+    }
+
+    handleAddTarget() {
+        const { onChange, data } = this.props;
+        const { targets } = data;
+
+        this.setState({ advancedMode: true });
+        onChange({
+            targets: [...targets, ''],
+        });
+    }
+
     render(): React.Element<*> {
         const { advancedMode } = this.state;
         const { data, onChange, tags: allTags } = this.props;
@@ -97,20 +125,13 @@ export default class TriggerEditForm extends React.Component {
                                         <Input
                                             width='100%'
                                             value={x}
-                                            onChange={(e, value) =>
-                                                onChange({
-                                                    targets: [...targets.slice(0, i), value, ...targets.slice(i + 1)],
-                                                })}
+                                            onChange={(e, value) => this.handleUpdateTarget(i, value)}
                                         />
                                     </ValidationWrapperV1>
                                 </div>
                                 {targets.length > 1 && (
                                     <div className={cn('fgroup-control')}>
-                                        <Button
-                                            onClick={() =>
-                                                onChange({
-                                                    targets: [...targets.slice(0, i), ...targets.slice(i + 1)],
-                                                })}>
+                                        <Button onClick={() => this.handleRemoveTarget(i)}>
                                             <Icon name='Remove' />
                                         </Button>
                                     </div>
@@ -118,21 +139,26 @@ export default class TriggerEditForm extends React.Component {
                             </div>
                         </div>
                     ))}
-                    <Button
-                        use='link'
-                        icon='Add'
-                        onClick={() =>
-                            onChange({
-                                targets: [...targets, ''],
-                            })}>
+                    <Button use='link' icon='Add' onClick={() => this.handleAddTarget()}>
                         Add one more
                     </Button>
                 </FormRow>
                 <FormRow>
                     <Tabs
                         value={advancedMode ? 'advanced' : 'simple'}
-                        onChange={(e, value) => this.setState({ advancedMode: value === 'advanced' })}>
-                        <Tabs.Tab id='simple'>Simple mode</Tabs.Tab>
+                        onChange={(e, value) => {
+                            if (targets.length > 1) {
+                                if (value === 'advanced') {
+                                    this.setState({ advancedMode: value === 'advanced' });
+                                }
+                            }
+                            else {
+                                this.setState({ advancedMode: value === 'advanced' });
+                            }
+                        }}>
+                        <Tabs.Tab id='simple' style={{ color: targets.length > 1 ? '#888888' : undefined }}>
+                            Simple mode
+                        </Tabs.Tab>
                         <Tabs.Tab id='advanced'>Advanced mode</Tabs.Tab>
                     </Tabs>
                 </FormRow>
