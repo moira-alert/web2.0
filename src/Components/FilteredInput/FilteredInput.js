@@ -23,7 +23,6 @@ type FilteredInputProps<T> = {
     onKeyDown?: (event: Event) => void;
     onBlur?: (event: Event) => void;
     onFocus?: (event: Event) => void;
-    id: string;
     width: string | number;
 };
 
