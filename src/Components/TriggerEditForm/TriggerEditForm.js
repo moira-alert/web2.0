@@ -7,12 +7,13 @@ import Icon from 'retail-ui/components/Icon';
 import Input from 'retail-ui/components/Input';
 import Textarea from 'retail-ui/components/Textarea';
 import Button from 'retail-ui/components/Button';
-import Select from 'retail-ui/components/Select';
 import Tabs from 'retail-ui/components/Tabs';
 import FormattedNumberInput from '../FormattedNumberInput/FormattedNumberInput';
 import TagSelector from '../TagSelector/TagSelector';
 import ScheduleEdit from '../ScheduleEdit/ScheduleEdit';
-import { Statuses, getStatusCaption, type Status } from '../../Domain/Status';
+import TriggerSimpleModeEditor from '../TriggerSimpleModeEditor/TriggerSimpleModeEditor';
+import StatusSelect from '../StatusSelect/StatusSelect';
+import { Statuses } from '../../Domain/Status';
 import cn from './TriggerEditForm.less';
 
 type Props = {|
@@ -86,18 +87,7 @@ export default class TriggerEditForm extends React.Component {
     render(): React.Element<*> {
         const { advancedMode } = this.state;
         const { data, onChange, tags: allTags } = this.props;
-        const {
-            name,
-            desc,
-            targets,
-            tags,
-            expression,
-            ttl,
-            ttl_state: ttlState,
-            warn_value: warnValue,
-            error_value: errorValue,
-            sched,
-        } = data;
+        const { name, desc, targets, tags, expression, ttl, ttl_state: ttlState, sched } = data;
         if (sched == null) {
             throw new Error('InvalidProgramState');
         }
@@ -163,31 +153,11 @@ export default class TriggerEditForm extends React.Component {
                     </Tabs>
                 </FormRow>
                 {!advancedMode && (
-                    <FormRow label='Warning if'>
-                        <ValidationWrapperV1
-                            validationInfo={this.validateRequiredNumber(warnValue)}
-                            renderMessage={tooltip('right middle')}>
-                            <FormattedNumberInput
-                                width={80}
-                                value={typeof warnValue === 'number' ? warnValue : null}
-                                editFormat='0.[00]'
-                                onChange={(e, value) => onChange({ warn_value: value || 0 })}
-                            />
-                        </ValidationWrapperV1>
-                    </FormRow>
-                )}
-                {!advancedMode && (
-                    <FormRow label='Error if'>
-                        <ValidationWrapperV1
-                            validationInfo={this.validateRequiredNumber(errorValue)}
-                            renderMessage={tooltip('right middle')}>
-                            <FormattedNumberInput
-                                width={80}
-                                value={typeof errorValue === 'number' ? errorValue : null}
-                                editFormat='0.[00]'
-                                onChange={(e, value) => onChange({ error_value: value || 0 })}
-                            />
-                        </ValidationWrapperV1>
+                    <FormRow style={{ marginLeft: '-10px' }}>
+                        <TriggerSimpleModeEditor
+                            value={{ error_value: data.error_value, warn_value: data.warn_value }}
+                            onChange={value => onChange(value)}
+                        />
                     </FormRow>
                 )}
                 {advancedMode && (
@@ -204,12 +174,10 @@ export default class TriggerEditForm extends React.Component {
                     </FormRow>
                 )}
                 <FormRow singleLineControlGroup>
-                    <Select
+                    <StatusSelect
                         value={ttlState}
-                        items={Object.keys(Statuses)
-                            .filter(x => x !== Statuses.EXCEPTION)
-                            .map(x => [x, getStatusCaption(x)])}
-                        onChange={(e, value: Status) => onChange({ ttl_state: value })}
+                        availableStatuses={Object.keys(Statuses).filter(x => x !== Statuses.EXCEPTION)}
+                        onChange={value => onChange({ ttl_state: value })}
                     />
                     <span>if has no value for</span>
                     <ValidationWrapperV1
@@ -270,14 +238,25 @@ type FormRowProps = {
     label?: string;
     useTopAlignForLabel?: boolean;
     singleLineControlGroup?: boolean;
+    style?: {};
     children?: any;
 };
 
-function FormRow({ label, useTopAlignForLabel, singleLineControlGroup, children }: FormRowProps): React.Element<*> {
+function FormRow({
+    label,
+    useTopAlignForLabel,
+    singleLineControlGroup,
+    children,
+    style,
+}: FormRowProps): React.Element<*> {
     return (
         <div className={cn('row')}>
             {label != null && <div className={cn('label', { ['label-for-group']: useTopAlignForLabel })}>{label}</div>}
-            <div className={cn('control', { ['group']: singleLineControlGroup })}>{children}</div>
+            <div className={cn('control')}>
+                <div style={style} className={cn({ ['group']: singleLineControlGroup })}>
+                    {children}
+                </div>
+            </div>
         </div>
     );
 }

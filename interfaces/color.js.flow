@@ -1,0 +1,7 @@
+declare module 'color' {
+    declare class Color {
+        lighten(value: number): Color;
+        rgb(): Color;
+    }
+    declare export default function color(value: string): Color;
+}

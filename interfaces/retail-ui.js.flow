@@ -293,7 +293,8 @@ declare module 'retail-ui/components/Radio' {
     declare type RadioProps = {|
         'data-tid'?: string,
         disabled?: boolean,
-        checked: boolean
+        checked: boolean,
+        children?: any,
     |};
     declare export default class Radio extends React$Component<void, RadioProps, void> {}
 }
