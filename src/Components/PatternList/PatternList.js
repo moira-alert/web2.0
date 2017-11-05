@@ -1,17 +1,17 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Button from 'retail-ui/components/Button';
 import type { Pattern } from '../../Domain/Pattern';
 import { getPageLink } from '../../Domain/Global';
 import RouterLink from '../RouterLink/RouterLink';
 import cn from './PatternList.less';
 
-type Props = {|
+type Props = ReactExactProps<{
     items: Array<Pattern>;
     onRemove: (pattern: string) => void;
-|};
+}>;
 
-export default function PatternList(props: Props): React.Element<*> {
+export default function PatternList(props: Props): React.Node {
     const { items, onRemove } = props;
     return (
         <div>
@@ -30,16 +30,16 @@ type ItemProps = {
     data: Pattern;
     onRemove: () => void;
 };
-type ItemState = {|
+type ItemState = {
     showInfo: boolean;
-|};
+};
 
-class PatternListItem extends React.Component {
+class PatternListItem extends React.Component<ItemProps, ItemState> {
     props: ItemProps;
     state: ItemState = {
         showInfo: false,
     };
-    render(): React.Element<*> {
+    render(): React.Node {
         const { data, onRemove } = this.props;
         const { pattern, triggers, metrics } = data;
         const { showInfo } = this.state;

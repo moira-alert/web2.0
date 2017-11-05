@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import moment from 'moment';
 import queryString from 'query-string';
 import Paging from 'retail-ui/components/Paging';
@@ -23,7 +23,7 @@ import { ColumnStack } from '../Components/ItemsStack/ItemsStack';
 import cn from './TriggerContainer.less';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
-type State = {|
+type State = {
     loading: boolean;
     error: ?string;
     trigger: ?Trigger;
@@ -36,9 +36,9 @@ type State = {|
     |};
     sortingColumn: SortingColum;
     sortingDown: boolean;
-|};
+};
 
-class TriggerContainer extends React.Component {
+class TriggerContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -221,7 +221,7 @@ class TriggerContainer extends React.Component {
         }, {});
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading, error, trigger, triggerState, triggerEvents, sortingColumn, sortingDown } = this.state;
         const { location } = this.props;
         const { page } = this.parseLocationSearch(location.search);

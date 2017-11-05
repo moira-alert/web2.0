@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Button from 'retail-ui/components/Button';
 import type { Subscription } from '../../Domain/Subscription';
 import type { Contact } from '../../Domain/Contact';
@@ -33,7 +33,7 @@ type State = {
     subscriptionToEdit: ?Subscription;
 };
 
-export default class SubscriptionList extends React.Component {
+export default class SubscriptionList extends React.Component<Props, State> {
     props: Props;
     state: State = {
         newSubscriptionModalVisible: false,
@@ -127,7 +127,7 @@ export default class SubscriptionList extends React.Component {
         }
     };
 
-    renderSubscriptionRow(subscription: Subscription): React.Element<*> {
+    renderSubscriptionRow(subscription: Subscription): React.Node {
         const { contacts } = this.props;
         return (
             <tr className={cn('item')} onClick={() => this.handleEditSubscription(subscription)}>
@@ -147,7 +147,7 @@ export default class SubscriptionList extends React.Component {
         );
     }
 
-    renderAddSubscriptionMessage(): React.Element<*> {
+    renderAddSubscriptionMessage(): React.Node {
         return (
             <Center>
                 <Gapped vertical gap={20}>

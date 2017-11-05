@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Select from 'retail-ui/components/Select';
 import StatusIcon from '../StatusIcon/StatusIcon';
 import { getStatusCaption, type Status } from '../../Domain/Status';
@@ -11,7 +11,7 @@ type Props = {|
     onChange: Status => void;
 |};
 
-function renderItem(value: Status, item: string): React.Element<*> {
+function renderItem(value: Status, item: string): React.Node {
     return (
         <RowStack baseline block gap={2}>
             <Fit>
@@ -22,7 +22,7 @@ function renderItem(value: Status, item: string): React.Element<*> {
     );
 }
 
-export default function StatusSelect(props: Props): React.Element<*> {
+export default function StatusSelect(props: Props): React.Node {
     const { availableStatuses, value, onChange } = props;
 
     return (

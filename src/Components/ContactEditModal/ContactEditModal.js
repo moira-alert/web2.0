@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Modal from 'retail-ui/components/Modal';
 import Gapped from 'retail-ui/components/Gapped';
 import Button from 'retail-ui/components/Button';
@@ -23,16 +23,20 @@ type State = {
     deleteInProcess: boolean;
 };
 
-export default class ContactEditModal extends React.Component {
+export default class ContactEditModal extends React.Component<Props, State> {
     props: Props;
     state: State = {
         updateAndTestInProcess: false,
         updateInProcess: false,
         deleteInProcess: false,
     };
+    container: ?ValidationContainer;
 
     async validateForm(): Promise<boolean> {
-        return await this.refs.container.validate();
+        if (this.container == null) {
+            return true;
+        }
+        return await this.container.validate();
     }
 
     handleUpdateAndTestContact = async () => {
@@ -74,7 +78,7 @@ export default class ContactEditModal extends React.Component {
         }
     };
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { onChange, onCancel, contactInfo } = this.props;
         const { updateAndTestInProcess, updateInProcess, deleteInProcess } = this.state;
         const isActionButtonDisabled = updateAndTestInProcess || updateInProcess || deleteInProcess;
@@ -83,7 +87,7 @@ export default class ContactEditModal extends React.Component {
             <Modal onClose={onCancel} ignoreBackgroundClick>
                 <Modal.Header>Edit delivery channel</Modal.Header>
                 <Modal.Body>
-                    <ValidationContainer ref='container'>
+                    <ValidationContainer ref={x => (this.container = x)}>
                         <ContactEditForm
                             contactInfo={{ type: contactInfo.type, value: contactInfo.value }}
                             onChange={update => onChange({ ...contactInfo, ...update })}

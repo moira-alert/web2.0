@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Input from 'retail-ui/components/Input';
 import cn from './FilteredInput.less';
 import warning from 'warning';
@@ -14,15 +14,15 @@ function usedForDestructuring(_value: *) {}
 
 type FilteredInputProps<T> = {
     value: T;
-    onChange: (event: Event, value: T) => void;
+    onChange: (event: SyntheticEvent<>, value: T) => void;
     filterValue: (value: string) => FilterValueResult<T> | null;
     valueForView: (value: T) => string;
     valueForEdit: (value: T) => string;
     hintForView?: (value: T) => string | null;
     hintForEdit?: (value: T) => string | null;
-    onKeyDown?: (event: Event) => void;
-    onBlur?: (event: Event) => void;
-    onFocus?: (event: Event) => void;
+    onKeyDown?: (event: SyntheticEvent<>) => void;
+    onBlur?: (event: SyntheticEvent<>) => void;
+    onFocus?: (event: SyntheticEvent<>) => void;
     width: string | number;
 };
 
@@ -35,7 +35,7 @@ type HintState = {
     hintClip: ?number;
 };
 
-export default class FilteredInput<T> extends React.Component<void, FilteredInputProps<T>, FilteredInputState> {
+export default class FilteredInput<T> extends React.Component<FilteredInputProps<T>, FilteredInputState> {
     props: FilteredInputProps<T>;
     state: FilteredInputState = {
         displayValue: null,
@@ -68,7 +68,7 @@ export default class FilteredInput<T> extends React.Component<void, FilteredInpu
         }
     }
 
-    handleInputChange(event: Event, value: string) {
+    handleInputChange(event: SyntheticEvent<>, value: string) {
         const { onChange, filterValue } = this.props;
         const filteredValue = filterValue(value);
         if (filteredValue !== null) {
@@ -146,7 +146,7 @@ export default class FilteredInput<T> extends React.Component<void, FilteredInpu
         }
     }
 
-    handleBlur(event: Event) {
+    handleBlur(event: SyntheticEvent<>) {
         const displayValueForEdit = this.props.valueForEdit(this.props.value);
         const nextDisplayValue = this.props.valueForView(this.props.value);
         this.setState({
@@ -163,7 +163,7 @@ export default class FilteredInput<T> extends React.Component<void, FilteredInpu
         }
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const {
             value: _value, // eslint-disable-line no-unused-vars
             filterValue: _filterValue, // eslint-disable-line no-unused-vars

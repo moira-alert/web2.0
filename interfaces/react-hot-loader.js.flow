@@ -5,6 +5,6 @@ declare var module: {
 };
 
 declare module 'react-hot-loader' {
-    declare class AppContainer extends React$Component<void, { children?: React$Element<any> }, void> {
+    declare class AppContainer extends React$Component<{ children?: React$Element<any> }, void> {
     }
 }

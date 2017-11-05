@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import moment from 'moment';
 import Icon from 'retail-ui/components/Icon';
 import Button from 'retail-ui/components/Button';
@@ -16,7 +16,7 @@ type Props = {|
 export default function NotificationList(props: Props): React.Element<any> {
     const { items, onRemove } = props;
 
-    function renderContactIcon(type: string): React.Element<*> {
+    function renderContactIcon(type: string): React.Node {
         let name;
         switch (type) {
             case 'telegram':

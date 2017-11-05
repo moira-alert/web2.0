@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { ContactType } from '../../Domain/ContactType';
 import Icon from 'retail-ui/components/Icon';
 import SvgIcon from '../SvgIcon/SvgIcon';

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { range } from 'lodash';
@@ -13,7 +13,7 @@ type State = {
     tags: Array<string>;
 };
 
-class TagDropdownSelectContainer extends React.Component {
+class TagDropdownSelectContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         tags: [],

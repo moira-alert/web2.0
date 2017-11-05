@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Tag from '../Tag/Tag';
 import cn from './TagGroup.less';
 
@@ -9,7 +9,7 @@ type Props = {|
     onRemove?: (tag: string) => void;
 |};
 
-export default function TagGroup(props: Props): React.Element<*> {
+export default function TagGroup(props: Props): React.Node {
     const { tags, onClick, onRemove } = props;
     return (
         <div className={cn('list')}>

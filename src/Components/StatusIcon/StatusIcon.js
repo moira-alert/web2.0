@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { Status } from '../../Domain/Status';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import cn from './StatusIcon.less';
@@ -9,7 +9,7 @@ type Props = {
     disabled?: boolean;
 };
 
-export default function StatusIcon(props: Props): React.Element<*> {
+export default function StatusIcon(props: Props): React.Node {
     const { status, disabled } = props;
     return (
         <span className={cn('root')}>

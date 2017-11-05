@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Input from 'retail-ui/components/Input';
 import Select from 'retail-ui/components/Select';
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from 'react-ui-validations';
@@ -23,7 +23,7 @@ type Props = {
     onChange: ($Shape<ContactInfoUpdate>) => void;
 };
 
-export default class ContactEditForm extends React.Component {
+export default class ContactEditForm extends React.Component<Props> {
     props: Props;
 
     getPlaceholderForContactType(contactType: ?ContactType): string {
@@ -86,7 +86,7 @@ export default class ContactEditForm extends React.Component {
         return validateContact(type, value);
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { onChange, contactInfo } = this.props;
         const { value, type } = contactInfo;
 

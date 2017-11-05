@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { union, difference } from 'lodash';
 import type { Contact } from '../../Domain/Contact';
 import Link from 'retail-ui/components/Link';
@@ -23,7 +23,7 @@ type State = {
     contactIdToAdd: ?string;
 };
 
-export default class TagDropdownSelect extends React.Component {
+export default class TagDropdownSelect extends React.Component<Props, State> {
     props: Props;
     state: State = {
         contactIdToAdd: null,
@@ -58,7 +58,7 @@ export default class TagDropdownSelect extends React.Component {
         onChange(difference(contactIds, [contact.id]));
     };
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const {
             contactIds,
             availableContacts,

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { ContactTypes } from '../Domain/ContactType';
 import ContactTypeIcon from '../Components/ContactTypeIcon/ContactTypeIcon';

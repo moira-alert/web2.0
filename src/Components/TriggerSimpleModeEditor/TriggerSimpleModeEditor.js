@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Radio from 'retail-ui/components/Radio';
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from 'react-ui-validations';
 import { ColumnStack, RowStack, Fit, Fixed } from '../ItemsStack/ItemsStack';
@@ -25,7 +25,7 @@ type State = {
     fallingValues: TriggerSimpleModeSettings;
 };
 
-export default class TriggerSimpleModeEditor extends React.Component {
+export default class TriggerSimpleModeEditor extends React.Component<Props, State> {
     props: Props;
     state: State;
 
@@ -50,7 +50,7 @@ export default class TriggerSimpleModeEditor extends React.Component {
         return warnValue <= errorValue ? 'raising' : 'falling';
     }
 
-    handleChangeWarnValue = (e: Event, warnValue: ?number) => {
+    handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: ?number) => {
         const { value, onChange } = this.props;
         const { watchFor } = this.state;
         if (watchFor === 'raising') {
@@ -62,7 +62,7 @@ export default class TriggerSimpleModeEditor extends React.Component {
         onChange({ ...value, warn_value: warnValue });
     };
 
-    handleChangeErrorValue = (e: Event, errorValue: ?number) => {
+    handleChangeErrorValue = (e: SyntheticEvent<>, errorValue: ?number) => {
         const { value, onChange } = this.props;
         const { watchFor } = this.state;
         if (watchFor === 'raising') {
@@ -142,7 +142,7 @@ export default class TriggerSimpleModeEditor extends React.Component {
         return null;
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { watchFor, raisingValues, fallingValues } = this.state;
         const { value } = this.props;
 

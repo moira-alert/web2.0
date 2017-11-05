@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { Trigger } from '../../Domain/Trigger';
 import type { Maintenance } from '../../Domain/Maintenance';
 import TriggerListItem from '../TriggerListItem/TriggerListItem';
@@ -12,7 +12,7 @@ type Props = {|
     onRemove?: (triggerId: string, metric: string) => void;
 |};
 
-export default function TriggerList(props: Props): React.Element<*> {
+export default function TriggerList(props: Props): React.Node {
     const { supportEmail, items, onChange, onRemove } = props;
     return (
         <div>

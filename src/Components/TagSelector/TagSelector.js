@@ -24,7 +24,7 @@ type State = {
     isFocused: boolean;
 };
 
-export default class TagSelector extends React.Component {
+export default class TagSelector extends React.Component<Props, State> {
     props: Props;
     state: State = {
         value: '',
@@ -118,7 +118,7 @@ export default class TagSelector extends React.Component {
         }
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { error, selected, subscribed, remained, onMouseEnter, onMouseLeave, allowCreateNewTags } = this.props;
         const { value, focusedIndex, isFocused } = this.state;
         const filtredTags = this.filterTags(concat(subscribed, remained));

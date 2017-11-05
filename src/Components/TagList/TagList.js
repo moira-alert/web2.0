@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { flatten } from 'lodash';
 import type { TagStat } from '../../Domain/Tag';
 import type { Contact } from '../../Domain/Contact';
@@ -7,14 +7,14 @@ import Button from 'retail-ui/components/Button';
 import Icon from 'retail-ui/components/Icon';
 import cn from './TagList.less';
 
-type Props = {|
+type Props = ReactExactProps<{
     items: Array<TagStat>;
     contacts: Array<Contact>;
     onRemove: (tag: string) => void;
     onRemoveContact: (subscriptionId: string) => void;
-|};
+}>;
 
-export default function TagList(props: Props): React.Element<*> {
+export default function TagList(props: Props): React.Node {
     const { items, contacts, onRemove, onRemoveContact } = props;
     return (
         <div>
@@ -47,13 +47,13 @@ type ItemState = {
     showInfo: boolean;
 };
 
-class TagListItem extends React.Component {
+class TagListItem extends React.Component<ItemProps, ItemState> {
     props: ItemProps;
     state: ItemState = {
         showInfo: false,
     };
 
-    renderContactIcon(type: string): React.Element<*> {
+    renderContactIcon(type: string): React.Node {
         let name;
         switch (type) {
             case 'telegram':
@@ -66,7 +66,7 @@ class TagListItem extends React.Component {
         return <Icon name={name} />;
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { data, allContacts, onRemove, onRemoveContact } = this.props;
         const { showInfo } = this.state;
         const { name, subscriptions, triggers } = data;

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger } from '../Domain/Trigger';
@@ -14,14 +14,14 @@ import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
 import { RowStack, ColumnStack, Fit } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
-type State = {|
+type State = {
     loading: boolean;
     error: ?string;
     trigger: ?$Shape<Trigger>;
     tags: ?Array<string>;
-|};
+};
 
-class TriggerEditContainer extends React.Component {
+class TriggerEditContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -93,7 +93,7 @@ class TriggerEditContainer extends React.Component {
         this.setState((prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }));
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading, error, trigger, tags } = this.state;
         return (
             <Layout loading={loading} error={error}>

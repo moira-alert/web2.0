@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { TagStat } from '../Domain/Tag';
@@ -9,14 +9,14 @@ import TagList from '../Components/TagList/TagList';
 import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
-type State = {|
+type State = {
     loading: boolean;
     error: ?string;
     tags: ?Array<TagStat>;
     contacts: ?Array<Contact>;
-|};
+};
 
-class TagListContainer extends React.Component {
+class TagListContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -63,7 +63,7 @@ class TagListContainer extends React.Component {
         }
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading, error, tags, contacts } = this.state;
         return (
             <Layout loading={loading} error={error}>

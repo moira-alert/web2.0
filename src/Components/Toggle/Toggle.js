@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Toggle from 'retail-ui/components/Toggle';
 import cn from './Toggle.less';
 

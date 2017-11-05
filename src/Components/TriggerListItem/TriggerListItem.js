@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { getPageLink } from '../../Domain/Global';
@@ -23,11 +23,12 @@ type Props = {|
     onChange?: (maintenance: Maintenance, metric: string) => void;
     onRemove?: (metric: string) => void;
 |};
-type State = {|
-    showMetrics: boolean;
-|};
 
-export default class TriggerListItem extends React.Component {
+type State = {
+    showMetrics: boolean;
+};
+
+export default class TriggerListItem extends React.Component<Props, State> {
     props: Props;
     state: State;
 
@@ -70,7 +71,7 @@ export default class TriggerListItem extends React.Component {
         this.setState({ showMetrics: !showMetrics });
     }
 
-    renderCounters(): React.Element<*> {
+    renderCounters(): React.Node {
         const counters = Object.keys(Statuses)
             .map(status => ({
                 status,
@@ -97,7 +98,7 @@ export default class TriggerListItem extends React.Component {
         return false;
     }
 
-    renderStatus(): React.Element<*> {
+    renderStatus(): React.Node {
         const { state: triggerStatus } = this.props.data.last_check || {};
         const metricStatuses = Object.keys(Statuses).filter(
             x => Object.keys(this.filterMetricsByStatus(x)).length !== 0
@@ -123,7 +124,7 @@ export default class TriggerListItem extends React.Component {
         );
     }
 
-    renderExceptionHelpMessage(): React.Element<*> {
+    renderExceptionHelpMessage(): React.Node {
         const { data, supportEmail } = this.props;
         const hasExpression = data.expression != null && data.expression !== '';
         const hasMultipleTargets = data.targets.length > 1;
@@ -143,7 +144,7 @@ export default class TriggerListItem extends React.Component {
         );
     }
 
-    renderMetrics(): ?React.Element<*> {
+    renderMetrics(): ?React.Node {
         const { onChange, onRemove } = this.props;
         if (!onChange || !onRemove) {
             return null;
@@ -171,7 +172,7 @@ export default class TriggerListItem extends React.Component {
         );
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { id, name, targets, tags, throttling } = this.props.data;
         const { showMetrics } = this.state;
         const metrics = this.renderMetrics();

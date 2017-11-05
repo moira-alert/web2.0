@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { union, difference } from 'lodash';
 import RenderLayer from 'retail-ui/components/RenderLayer';
@@ -9,7 +9,7 @@ import ScrollContainer from 'retail-ui/components/ScrollContainer/ScrollContaine
 import Tag from '../Tag/Tag';
 import cn from './TagDropdownSelect.less';
 
-type TagDropdownSelectProps = {
+type Props = {
     value: Array<string>;
     onChange: (Array<string>) => void;
     availableTags: Array<string>;
@@ -19,16 +19,16 @@ type TagDropdownSelectProps = {
     onMouseLeave?: (e: Event) => void;
 };
 
-type TagDropdownSelectState = {
+type State = {
     opened: boolean;
     inputValue: string;
     isFocused: boolean;
     focusedIndex: number;
 };
 
-export default class TagDropdownSelect extends React.Component {
-    props: TagDropdownSelectProps;
-    state: TagDropdownSelectState = {
+export default class TagDropdownSelect extends React.Component<Props, State> {
+    props: Props;
+    state: State = {
         opened: false,
         focusedIndex: 0,
         inputValue: '',
@@ -39,7 +39,7 @@ export default class TagDropdownSelect extends React.Component {
         this.setState({ isFocused: false });
     };
 
-    onFocusOutside = () => {
+    handleFocusOutside = () => {
         this.setState({ isFocused: false });
     };
 
@@ -91,7 +91,7 @@ export default class TagDropdownSelect extends React.Component {
         }
     }
 
-    renderInput(): React.Element<*> {
+    renderInput(): React.Node {
         const { onMouseEnter, onMouseLeave, error, value } = this.props;
         const { isFocused, inputValue } = this.state;
         return (
@@ -163,7 +163,7 @@ export default class TagDropdownSelect extends React.Component {
             <span className={cn('root')} style={{ width: width }}>
                 <RenderLayer
                     onClickOutside={this.handleClickOutside}
-                    onFocusOutside={this.onFocusOutside}
+                    onFocusOutside={this.handleFocusOutside}
                     active={opened}>
                     <label style={{ width: '100%', display: 'inline-block', position: 'relative' }}>
                         {this.renderInput()}

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import queryString from 'query-string';
 import { intersection, concat, difference, flattenDeep, uniq, isEqual } from 'lodash';
 import moment from 'moment';
@@ -20,21 +20,22 @@ import AddingButton from '../Components/AddingButton/AddingButton';
 import { ColumnStack, RowStack, Fill, Fit } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
-type State = {|
+type State = {
     loading: boolean;
     error: ?string;
     subscriptions: ?Array<string>;
     tags: ?Array<string>;
     triggers: ?TriggerList;
     config: ?Config;
-|};
+};
+
 type LocationSearch = {|
     page: number;
     tags: Array<string>;
     onlyProblems: boolean;
 |};
 
-class TriggerListContainer extends React.Component {
+class TriggerListContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -168,7 +169,7 @@ class TriggerListContainer extends React.Component {
         this.getData(this.props);
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading, error, triggers, tags, subscriptions, config } = this.state;
         const { location } = this.props;
         const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);

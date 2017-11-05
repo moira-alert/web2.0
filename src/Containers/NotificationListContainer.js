@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Notification } from '../Domain/Notification';
@@ -8,14 +8,14 @@ import NotificationList from '../Components/NotificationList/NotificationList';
 import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
-type State = {|
+type State = {
     loading: boolean;
     error: ?string;
     list: ?Array<Notification>;
     total: ?number;
-|};
+};
 
-class NotificationListContainer extends React.Component {
+class NotificationListContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -55,7 +55,7 @@ class NotificationListContainer extends React.Component {
         this.getData(this.props);
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading, error, list } = this.state;
         return (
             <Layout loading={loading} error={error}>

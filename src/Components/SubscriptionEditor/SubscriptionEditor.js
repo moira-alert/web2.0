@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Checkbox from 'retail-ui/components/Checkbox';
 import Link from 'retail-ui/components/Link';
 import Tooltip from 'retail-ui/components/Tooltip';
@@ -19,18 +19,15 @@ export type SubscriptionInfo = {
     enabled: boolean;
 };
 
-type SubscriptionEditorProps = {
+type Props = {
     subscription: SubscriptionInfo;
     onChange: ($Shape<SubscriptionInfo>) => void;
     tags: Array<string>;
     contacts: Array<Contact>;
 };
 
-type SubscriptionEditorState = {};
-
-export default class SubscriptionEditor extends React.Component {
-    props: SubscriptionEditorProps;
-    state: SubscriptionEditorState;
+export default class SubscriptionEditor extends React.Component<Props> {
+    props: Props;
 
     renderThrottlingExplanation = () => {
         return <span>If trigger emit to many events they will be grouped into single message.</span>;
@@ -66,7 +63,7 @@ export default class SubscriptionEditor extends React.Component {
         return null;
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { subscription, contacts, onChange, tags } = this.props;
         return (
             <div className={cn('form')}>

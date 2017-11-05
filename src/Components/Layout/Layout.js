@@ -1,34 +1,34 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Loader from 'retail-ui/components/Loader';
 import Icon from 'retail-ui/components/Icon';
 import cn from './Layout.less';
 
-type LayoutProps = {|
+type LayoutProps = ReactExactProps<{
     children?: any;
     loading?: boolean;
     error?: ?string;
-|};
-type ErrorMessageProps = {|
+}>;
+type ErrorMessageProps = ReactExactProps<{
     children?: string;
-|};
-type PlateProps = {|
+}>;
+type PlateProps = ReactExactProps<{
     children?: any;
-|};
-type TitleProps = {|
+}>;
+type TitleProps = ReactExactProps<{
     children: string;
-|};
-type ContentProps = {|
+}>;
+type ContentProps = ReactExactProps<{
     children?: any;
-|};
-type PagingProps = {|
+}>;
+type PagingProps = ReactExactProps<{
     children?: any;
-|};
+}>;
 
-export default class Layout extends React.Component {
+export default class Layout extends React.Component<LayoutProps> {
     props: LayoutProps;
 
-    static ErrorMessage = function ErrorMessage({ children }: ErrorMessageProps): React.Element<*> {
+    static ErrorMessage = function ErrorMessage({ children }: ErrorMessageProps): React.Node {
         return (
             <div className={cn('error')}>
                 <div className={cn('container')}>{children}</div>
@@ -36,7 +36,7 @@ export default class Layout extends React.Component {
         );
     };
 
-    static Plate = function Plate({ children }: PlateProps): React.Element<*> {
+    static Plate = function Plate({ children }: PlateProps): React.Node {
         return (
             <div className={cn('grey-plate')}>
                 <div className={cn('container')}>{children}</div>
@@ -44,11 +44,11 @@ export default class Layout extends React.Component {
         );
     };
 
-    static Title = function Title({ children }: TitleProps): React.Element<*> {
+    static Title = function Title({ children }: TitleProps): React.Node {
         return <h1 className={cn('title')}>{children}</h1>;
     };
 
-    static Content = function Content({ children }: ContentProps): React.Element<*> {
+    static Content = function Content({ children }: ContentProps): React.Node {
         return (
             <div className={cn('content')}>
                 <div className={cn('container')}>{children}</div>
@@ -56,7 +56,7 @@ export default class Layout extends React.Component {
         );
     };
 
-    static Paging = function Paging({ children }: PagingProps): React.Element<*> {
+    static Paging = function Paging({ children }: PagingProps): React.Node {
         return (
             <div className={cn('paging')}>
                 <div className={cn('container')}>{children}</div>
@@ -64,7 +64,7 @@ export default class Layout extends React.Component {
         );
     };
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading = false, error = null, children } = this.props;
         return (
             <main className={cn('layout')}>

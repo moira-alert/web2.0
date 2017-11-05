@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import color from 'color';
 import type { Status } from '../../Domain/Status';
 import { Statuses, getStatusColor } from '../../Domain/Status';
@@ -68,7 +68,7 @@ function renderPath(statuses: Array<Status>, disabled: ?boolean): React.Element<
     }
 }
 
-export default function StatusIndicator(props: Props): React.Element<*> {
+export default function StatusIndicator(props: Props): React.Node {
     const OPTIONS = {
         size: 20,
     };

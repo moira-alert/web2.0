@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { Contact } from '../../Domain/Contact';
 import type { ContactType } from '../../Domain/ContactType';
 import NewContactModal, { type NewContactInfo } from '../NewContactModal/NewContactModal';
@@ -11,13 +11,13 @@ import Link from 'retail-ui/components/Link';
 import ContactTypeIcon from '../ContactTypeIcon/ContactTypeIcon';
 import cn from './ContactList.less';
 
-type Props = {|
+type Props = ReactExactProps<{
     items: Array<Contact>;
     onTestContact: Contact => Promise<void>;
     onAddContact: NewContactInfo => Promise<?Contact>;
     onUpdateContact: Contact => Promise<void>;
     onRemoveContact: Contact => Promise<void>;
-|};
+}>;
 
 type State = {
     newContactModalVisible: boolean;
@@ -26,7 +26,7 @@ type State = {
     editableContact: ?Contact;
 };
 
-export default class ContactList extends React.Component {
+export default class ContactList extends React.Component<Props, State> {
     props: Props;
     state: State = {
         newContactModalVisible: false,
@@ -178,7 +178,7 @@ export default class ContactList extends React.Component {
         }
     };
 
-    renderEmptyListMessage(): React.Element<*> {
+    renderEmptyListMessage(): React.Node {
         return (
             <Center>
                 <Gapped vertical gap={20}>

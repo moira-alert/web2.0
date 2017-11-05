@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { Contact } from '../../Domain/Contact';
 import ContactTypeIcon from '../ContactTypeIcon/ContactTypeIcon';
 
@@ -8,7 +8,7 @@ type Props = {
     className?: string;
 };
 
-export default function ContactInfo({ contact, className }: Props): React.Element<*> {
+export default function ContactInfo({ contact, className }: Props): React.Node {
     return (
         <span className={className}>
             <ContactTypeIcon type={contact.type} /> {contact.value}

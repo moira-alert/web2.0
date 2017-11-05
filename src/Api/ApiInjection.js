@@ -1,68 +1,51 @@
-// @flow
-/* eslint-disable */
-import React, { PropTypes } from 'react';
+// @noflow
+/* eslint-disable react/no-multi-comp */
+import React from 'react';
+import PropTypes from 'prop-types';
 
-type FunctionComponent<P> = (props: P) => ?React$Element<any>;
-type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
-
-export type WithApiWrapper<TApiProps> = <P, S>(Comp: ClassComponent<void, P, S> | FunctionComponent<P>) => ClassComponent<void, $Diff<P, TApiProps>, S>;
-
-function createWithApiWrapperImpl<TApiProps>(key: string): WithApiWrapper<TApiProps> {
-    var result: any = function(Comp: *) {
+export function createWithApiWrapper(key) {
+    return function withApiWrapper(Comp) {
         return class WrapperClass extends React.Component {
-            static displayName = `withApi(${Comp.displayName})`
+            static displayName = `withApi(${Comp.displayName})`;
             static contextTypes = {
-                [key]: React.PropTypes.object
+                [key]: PropTypes.object,
             };
 
             constructor(props, context) {
-                super(props, context)
+                super(props, context);
 
                 if (!context[key]) {
-                    throw Error(
-                        `No api was found in context. Wrap your component with ApiProvider`
-                    )
+                    throw Error('No api was found in context. Wrap your component with ApiProvider');
                 }
             }
 
-            render(): React.Element<*> {
-                return (
-                    <Comp
-                        { ...{ [key]: this.context[key] } }
-                        {...this.props}
-                    />
-                );
+            render() {
+                return <Comp {...{ [key]: this.context[key] }} {...this.props} />;
             }
-        }
-    }
-    return result;
+        };
+    };
 }
-
-export const createWithApiWrapper: <T: {}>(z: string, u: ?T) => WithApiWrapper<T> = (createWithApiWrapperImpl: any);
 
 function merge(x, y) {
-    return { ...x, ...y };
+    return Object.assign(x, y);
 }
 
-export type ApiProviderBase<TApiProps> = Class<React.Component<void, TApiProps & { children?: React.Element<*> }, void>>
-
-export function createApiProvider<TProps: {}>(propsToContextNames: string[]): ApiProviderBase<TProps> {
+export function createApiProvider(propsToContextNames) {
     return class ApiProvider extends React.Component {
-        props: TProps & { children?: any };
+        static propTypes = {
+            children: PropTypes.element,
+        };
+        static childContextTypes = propsToContextNames.map(x => ({ [x]: PropTypes.any })).reduce(merge, {});
 
-        static childContextTypes =
-            propsToContextNames
-                .map(x => ({ [x]: PropTypes.any }))
-                .reduce(merge);
-
-        getChildContext(): $Diff<TProps, { children?: any }> {
+        getChildContext() {
+            // eslint-disable-next-line no-unused-vars
             const { children, ...restProps } = this.props;
             return restProps;
         }
 
-        render(): ?React.Element<*> {
+        render() {
             const { children } = this.props;
-            return children;
+            return React.Children.only(children);
         }
-    }
+    };
 }

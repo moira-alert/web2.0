@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { concat, difference } from 'lodash';
 import type { Trigger } from '../../Domain/Trigger';
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from 'react-ui-validations';
@@ -26,7 +26,7 @@ type State = {
     advancedMode: boolean;
 };
 
-export default class TriggerEditForm extends React.Component {
+export default class TriggerEditForm extends React.Component<Props, State> {
     props: Props;
     state: State;
 
@@ -84,7 +84,7 @@ export default class TriggerEditForm extends React.Component {
         });
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { advancedMode } = this.state;
         const { data, onChange, tags: allTags } = this.props;
         const { name, desc, targets, tags, expression, ttl, ttl_state: ttlState, sched } = data;
@@ -230,7 +230,7 @@ type FormProps = {
     children?: any;
 };
 
-function Form({ children }: FormProps): React.Element<*> {
+function Form({ children }: FormProps): React.Node {
     return <div className={cn('form')}>{children}</div>;
 }
 
@@ -248,7 +248,7 @@ function FormRow({
     singleLineControlGroup,
     children,
     style,
-}: FormRowProps): React.Element<*> {
+}: FormRowProps): React.Node {
     return (
         <div className={cn('row')}>
             {label != null && <div className={cn('label', { ['label-for-group']: useTopAlignForLabel })}>{label}</div>}

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Icon from 'retail-ui/components/Icon';
 import ColorHash from 'color-hash';
 import cn from './Tag.less';
@@ -24,7 +24,7 @@ function getColor(title: string): ColorTheme {
     };
 }
 
-export default function Tag(props: Props): React.Element<*> {
+export default function Tag(props: Props): React.Node {
     const { title, focus, onRemove, onClick } = props;
 
     return (

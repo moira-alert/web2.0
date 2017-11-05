@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import moment from 'moment';
 import Icon from 'retail-ui/components/Icon';
 import type { Metric } from '../../Domain/Metric';
@@ -30,7 +30,7 @@ function checkMaintenance(maintenance: ?number): string {
     return delta <= 0 ? 'Maintenance' : moment.duration(delta * 1000).humanize();
 }
 
-export default function MetricList(props: Props): React.Element<*> {
+export default function MetricList(props: Props): React.Node {
     const { status, items, onSort, onChange, onRemove, sortingColumn, sortingDown } = props;
     const sortingIcon = sortingDown ? 'ArrowBoldDown' : 'ArrowBoldUp';
 

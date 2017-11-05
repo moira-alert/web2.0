@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Trigger } from '../Domain/Trigger';
@@ -13,14 +13,14 @@ import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
 import { ColumnStack, RowStack, Fit } from '../Components/ItemsStack/ItemsStack';
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
-type State = {|
+type State = {
     loading: boolean;
     error: ?string;
     trigger: ?Trigger;
     tags: ?Array<string>;
-|};
+};
 
-class TriggerEditContainer extends React.Component {
+class TriggerEditContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -28,6 +28,7 @@ class TriggerEditContainer extends React.Component {
         trigger: null,
         tags: null,
     };
+    triggerForm: ?ValidationContainer;
 
     componentDidMount() {
         this.getData(this.props);
@@ -55,10 +56,18 @@ class TriggerEditContainer extends React.Component {
         }
     }
 
+    async validateForm(): Promise<boolean> {
+        if (this.triggerForm == null) {
+            return true;
+        }
+        return await this.triggerForm.validate();
+    }
+
     async handleSubmit(): Promise<void> {
         const { trigger } = this.state;
         const { history, moiraApi } = this.props;
-        const isValid: boolean = await this.refs.triggerForm.validate();
+
+        const isValid = await this.validateForm();
         if (isValid && trigger) {
             this.setState({ loading: true });
             try {
@@ -87,7 +96,7 @@ class TriggerEditContainer extends React.Component {
         this.setState((prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }));
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading, error, trigger, tags } = this.state;
         return (
             <Layout loading={loading} error={error}>
@@ -96,7 +105,7 @@ class TriggerEditContainer extends React.Component {
                     {trigger && (
                         <form>
                             <ColumnStack block gap={6} horizontalAlign='stretch'>
-                                <ValidationContainer ref='triggerForm'>
+                                <ValidationContainer ref={x => (this.triggerForm = x)}>
                                     <TriggerEditForm
                                         data={trigger}
                                         tags={tags || []}

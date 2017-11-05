@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
@@ -14,7 +14,7 @@ import PatternListContainer from './Containers/PatternListContainer';
 import { getPagePath } from './Domain/Global';
 import cn from './App.less';
 
-export default function App(): React.Element<*> {
+export default function App(): React.Node {
     return (
         <div className={cn('layout')}>
             <Header className={cn('header')} />

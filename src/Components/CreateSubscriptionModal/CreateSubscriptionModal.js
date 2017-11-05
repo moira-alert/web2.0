@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Button from 'retail-ui/components/Button';
 import { ValidationContainer } from 'react-ui-validations';
 import Link from 'retail-ui/components/Link';
@@ -23,7 +23,7 @@ type State = {
     createAndTestInProcess: boolean;
 };
 
-export default class SubscriptionEditModal extends React.Component {
+export default class SubscriptionEditModal extends React.Component<Props, State> {
     props: Props;
     state: State = {
         createInProcess: false,
@@ -62,7 +62,7 @@ export default class SubscriptionEditModal extends React.Component {
         }
     };
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { subscription, tags, contacts, onChange, onCancel } = this.props;
         const { createInProcess, createAndTestInProcess } = this.state;
         const isActionButtonsDisabled = createInProcess || createAndTestInProcess;

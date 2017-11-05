@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { ContextRouter } from 'react-router-dom';
 import type { IMoiraApi } from '../Api/MoiraAPI';
 import type { Settings } from '../Domain/Settings';
@@ -21,7 +21,7 @@ type State = {
     tags: ?Array<string>;
 };
 
-class SettingsContainer extends React.Component {
+class SettingsContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -255,7 +255,7 @@ class SettingsContainer extends React.Component {
         }
     };
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { loading, error, tags, settings } = this.state;
         return (
             <Layout loading={loading} error={error}>

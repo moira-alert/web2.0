@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { ValidationWrapperV1, tooltip } from 'react-ui-validations';
 import Input from 'retail-ui/components/Input';
 import Radio from 'retail-ui/components/Radio';
@@ -16,7 +16,7 @@ type State = {
     allDay: boolean;
 };
 
-export default class ScheduleEdit extends React.Component {
+export default class ScheduleEdit extends React.Component<Props, State> {
     props: Props;
     state: State;
 
@@ -46,7 +46,7 @@ export default class ScheduleEdit extends React.Component {
         return parsedHours * MIN_IN_HOUR + parsedMinutes;
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { allDay } = this.state;
         const { schedule, onChange } = this.props;
         const { days, startOffset, endOffset } = schedule;

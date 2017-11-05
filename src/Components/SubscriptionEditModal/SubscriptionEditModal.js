@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Button from 'retail-ui/components/Button';
 import { ValidationContainer } from 'react-ui-validations';
 import Link from 'retail-ui/components/Link';
@@ -27,16 +27,20 @@ type State = {
     deleteInProcess: boolean;
 };
 
-export default class SubscriptionEditModal extends React.Component {
+export default class SubscriptionEditModal extends React.Component<Props, State> {
     props: Props;
     state: State = {
         updateInProcess: false,
         updateAndTestInProcess: false,
         deleteInProcess: false,
     };
+    container: ?ValidationContainer;
 
     async validateForm(): Promise<boolean> {
-        return await this.refs.container.validate();
+        if (this.container == null) {
+            return true;
+        }
+        return await this.container.validate();
     }
 
     handleUpdate = async () => {
@@ -78,7 +82,7 @@ export default class SubscriptionEditModal extends React.Component {
         }
     };
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { subscription, tags, contacts, onChange, onCancel } = this.props;
         const { updateInProcess, updateAndTestInProcess, deleteInProcess } = this.state;
         const isActionButtonsDisabled = updateInProcess || updateAndTestInProcess || deleteInProcess;
@@ -86,7 +90,7 @@ export default class SubscriptionEditModal extends React.Component {
             <Modal ignoreBackgroundClick onClose={onCancel}>
                 <Modal.Header>Edit subscription</Modal.Header>
                 <Modal.Body>
-                    <ValidationContainer ref='container'>
+                    <ValidationContainer ref={x => (this.container = x)}>
                         <SubscriptionEditor
                             subscription={subscription}
                             onChange={onChange}

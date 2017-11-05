@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Icon from 'retail-ui/components/Icon';
 import cn from './NewTagBadge.less';
 
@@ -12,7 +12,7 @@ type Props = {|
 
 |};
 
-export default function NewTagBadge(props: Props): React.Element<*> {
+export default function NewTagBadge(props: Props): React.Node {
     const { onRemove, doNotShowNewTagCaption, title, focus, onClick } = props;
 
     return (

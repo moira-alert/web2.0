@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { getPageLink } from '../../Domain/Global';
 import LinkUI from 'retail-ui/components/Link';
@@ -11,7 +11,7 @@ type Props = {|
     className?: string;
 |};
 
-export default function Header(props: Props): React.Element<*> {
+export default function Header(props: Props): React.Node {
     return (
         <header className={cn('header', props.className)}>
             <div className={cn('container')}>

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import moment from 'moment';
 import type { Event } from '../../Domain/Event';
 import Icon from 'retail-ui/components/Icon';
@@ -13,7 +13,7 @@ type Props = {|
     };
 |};
 
-export default function EventList(props: Props): React.Element<*> {
+export default function EventList(props: Props): React.Node {
     const { items } = props;
     return (
         <section>
@@ -25,7 +25,7 @@ export default function EventList(props: Props): React.Element<*> {
             {Object.keys(items).map(key => {
                 return (
                     <div key={key} className={cn('group')}>
-                        {items[key].map(({ metric, old_state: oldState, state, timestamp, value }, i) => {
+                        {items[key].map(({ old_state: oldState, state, timestamp, value }, i) => {
                             const oldValue = items[key][i + 1] && items[key][i + 1].value;
                             return (
                                 <div key={i} className={cn('row')}>

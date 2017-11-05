@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import type { ValidationInfo } from 'react-ui-validations';
 import type { ContactType } from '../Domain/ContactType';
 

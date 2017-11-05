@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { ValidationContainer } from 'react-ui-validations';
@@ -15,7 +15,7 @@ type State = {
     value: TriggerSimpleModeSettings;
 };
 
-class TriggerSimpleModeEditorContainer extends React.Component {
+class TriggerSimpleModeEditorContainer extends React.Component<Props, State> {
     props: Props;
     state: State;
 
@@ -26,7 +26,7 @@ class TriggerSimpleModeEditorContainer extends React.Component {
         };
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         return (
             <div>
                 <TriggerSimpleModeEditor

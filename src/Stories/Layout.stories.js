@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Layout from '../Components/Layout/Layout';
 
-function SpaceFiller(props: { width?: number | string; height?: number | string; label?: string }): React.Element<*> {
+function SpaceFiller(props: { width?: number | string; height?: number | string; label?: string }): React.Node {
     return (
         <div
             style={{

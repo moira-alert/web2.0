@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { BrowserRouter } from 'react-router-dom';
@@ -12,16 +12,22 @@ import './style.less';
 const api = new Api(config);
 
 const render = Component => {
-    ReactDOM.render(
-        <AppContainer>
-            <BrowserRouter>
-                <ApiProvider moiraApi={api}>
-                    <Component />
-                </ApiProvider>
-            </BrowserRouter>
-        </AppContainer>,
-        document.getElementById('root')
-    );
+    const element = document.getElementById('root');
+    if (element != null) {
+        ReactDOM.render(
+            <AppContainer>
+                <BrowserRouter>
+                    <ApiProvider moiraApi={api}>
+                        <Component />
+                    </ApiProvider>
+                </BrowserRouter>
+            </AppContainer>,
+            element
+        );
+    }
+    else {
+        throw new Error('Element #root not found');
+    }
 };
 
 render(App);

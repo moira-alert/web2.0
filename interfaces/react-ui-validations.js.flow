@@ -2,7 +2,7 @@
 /* eslint-disable */
 declare module 'react-ui-validations' {
     declare export type ValidationInfo = {
-        message: string | React.Element<*>;
+        message: string | React$Node;
         level?: 'error' | 'warning';
         type?: 'submit' | 'lostfocus' | 'immediate';
     }
@@ -12,7 +12,7 @@ declare module 'react-ui-validations' {
         children?: any;
     |};
 
-    declare export class ValidationContainer extends React$Component<void, ValidationContainerProps, void> {
+    declare export class ValidationContainer extends React$Component<ValidationContainerProps> {
         validate(): Promise<boolean>;
         submit(withoutScroll?: boolean): Promise<void>;
     }
@@ -21,11 +21,11 @@ declare module 'react-ui-validations' {
         'data-tid'?: string;
         error: boolean;
         pos: TooltipPosition;
-        render: () => ?React.Element<*> | ?string;
+        render: () => ?React$Node | ?string;
         children?: any;
     |};
 
-    declare export class ValidationTooltip extends React$Component<void, ValidationTooltipProps, void> {
+    declare export class ValidationTooltip extends React$Component<ValidationTooltipProps> {
     }
 
     declare type ValidationTooltipContextProps = {|
@@ -33,13 +33,13 @@ declare module 'react-ui-validations' {
         children?: any;
     |};
 
-    declare export class ValidationTooltipContext extends React$Component<void, ValidationTooltipContextProps, void> {
+    declare export class ValidationTooltipContext extends React$Component<ValidationTooltipContextProps> {
         validate(): Promise<boolean>;
         submit(): Promise<void>;
     }
 
     declare type ValidationMessageRenderer =
-        (control: React.Element<*>, hasError: boolean, validation: ValidationInfo) => React.Element<*>;
+        (control: React$Node, hasError: boolean, validation: ValidationInfo) => React$Node;
 
     declare type TooltipPosition = 'top left' | 'top center' | 'top right' | 'bottom left' | 'bottom center' | 'bottom right' | 'left top' | 'left middle' | 'left bottom' | 'right top' | 'right middle' | 'right bottom';
 
@@ -53,5 +53,5 @@ declare module 'react-ui-validations' {
         children?: any;
     |};
 
-    declare export class ValidationWrapperV1 extends React$Component<void, ValidationWrapperV1Props, void> { }
+    declare export class ValidationWrapperV1 extends React$Component<ValidationWrapperV1Props> { }
 }

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import numeral from 'numeral';
 import FilteredInput from '../FilteredInput/FilteredInput';
 import type { FilterValueResult } from '../FilteredInput/FilteredInput';
@@ -9,11 +9,11 @@ type FormattedNumberInputProps = {
     editFormat?: ?string;
     value: ?number;
     align?: 'left' | 'center' | 'right';
-    onChange: (event: Event, value: ?number) => any;
+    onChange: (event: SyntheticEvent<>, value: ?number) => any;
     width: string | number;
 };
 
-export default class FormattedNumberInput extends React.Component {
+export default class FormattedNumberInput extends React.Component<FormattedNumberInputProps> {
     props: FormattedNumberInputProps;
 
     static numberRegexp = /^\s*\d*(\.\d*)?\s*$/;
@@ -46,7 +46,7 @@ export default class FormattedNumberInput extends React.Component {
         return value != null ? numeral(value).format(this.props.editFormat || '0.0[00000]') : '';
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         // eslint-disable-next-line no-unused-vars
         const { value, viewFormat: _viewFormat, editFormat: _editFormat, ...restProps } = this.props;
         return (

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Modal from 'retail-ui/components/Modal';
 import Gapped from 'retail-ui/components/Gapped';
 import Button from 'retail-ui/components/Button';
@@ -22,12 +22,13 @@ type State = {
     createAndTestInProcess: boolean;
 };
 
-export default class NewContactModal extends React.Component {
+export default class NewContactModal extends React.Component<Props, State> {
     props: Props;
     state: State = {
         createInProcess: false,
         createAndTestInProcess: false,
     };
+    container: ?ValidationContainer;
 
     handleCreateContact = async () => {
         if (!await this.validateForm()) {
@@ -58,10 +59,13 @@ export default class NewContactModal extends React.Component {
     };
 
     async validateForm(): Promise<boolean> {
-        return await this.refs.container.validate();
+        if (this.container == null) {
+            return true;
+        }
+        return await this.container.validate();
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const { onChange, onCancel, contactInfo } = this.props;
         const { createInProcess, createAndTestInProcess } = this.state;
         const { value, type } = contactInfo;
@@ -71,7 +75,7 @@ export default class NewContactModal extends React.Component {
             <Modal onClose={onCancel} ignoreBackgroundClick>
                 <Modal.Header>Add delivery channel</Modal.Header>
                 <Modal.Body>
-                    <ValidationContainer ref='container'>
+                    <ValidationContainer ref={x => (this.container = x)}>
                         <ContactEditForm contactInfo={contactInfo} onChange={onChange} />
                     </ValidationContainer>
                 </Modal.Body>

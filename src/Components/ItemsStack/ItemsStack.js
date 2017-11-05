@@ -1,12 +1,12 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import * as React from 'react';
 import cn from './ItemsStacks.less';
 
 type VerticalAlign = 'top' | 'bottom' | 'center' | 'baseline' | 'stretch';
 
 type RowStackProps = {
-    tag?: string | ReactClass<*>;
+    tag?: string | React.ComponentType<*>;
     children?: any;
     id?: string;
     block?: boolean;
@@ -18,7 +18,7 @@ type RowStackProps = {
     gap?: number;
 };
 
-export class RowStack extends React.Component {
+export class RowStack extends React.Component<RowStackProps> {
     props: RowStackProps;
 
     static verticalAlignMap = {
@@ -40,7 +40,7 @@ export class RowStack extends React.Component {
         return RowStack.verticalAlignMap[resultHorizontalAlign];
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const {
             tag,
             children,
@@ -75,7 +75,7 @@ export class RowStack extends React.Component {
 type HorizontalAlign = 'left' | 'right' | 'center' | 'stretch';
 
 type ColumnStackProps = {
-    tag?: string | ReactClass<*>;
+    tag?: string | React.ComponentType<*>;
     children?: any;
     block?: boolean;
     inline?: boolean;
@@ -86,7 +86,7 @@ type ColumnStackProps = {
     gap?: number;
 };
 
-export class ColumnStack extends React.Component {
+export class ColumnStack extends React.Component<ColumnStackProps> {
     props: ColumnStackProps;
     static alignMap = {
         left: 'flex-start',
@@ -106,7 +106,7 @@ export class ColumnStack extends React.Component {
         return ColumnStack.alignMap[resultHorizontalAlign];
     }
 
-    render(): React.Element<*> {
+    render(): React.Node {
         const {
             tag,
             children,
@@ -138,9 +138,9 @@ export class ColumnStack extends React.Component {
 }
 
 type FitProps = {
-    tag?: string | ReactClass<*>;
+    tag?: string | React.ComponentType<*>;
     className?: string;
-    children?: React.Element<*>;
+    children?: React.Node;
 };
 
 export function Fit({ tag, className, children, ...rest }: FitProps): React.Element<any> {
@@ -153,12 +153,12 @@ export function Fit({ tag, className, children, ...rest }: FitProps): React.Elem
 }
 
 type FillProps = {
-    tag?: string | ReactClass<*>;
+    tag?: string | React.ComponentType<*>;
     className?: string;
     children?: any;
 };
 
-export function Fill({ tag, children, className, ...rest }: FillProps): React.Element<*> {
+export function Fill({ tag, children, className, ...rest }: FillProps): React.Node {
     const TagComponent = tag || 'div';
     return (
         <TagComponent className={cn('fill', className)} {...rest}>
@@ -169,7 +169,7 @@ export function Fill({ tag, children, className, ...rest }: FillProps): React.El
 
 type FixedProps = {|
     'data-tid'?: ?string;
-    tag?: string | ReactClass<*>;
+    tag?: string | React.ComponentType<*>;
     className?: string;
     children?: any;
     style?: {};
@@ -177,7 +177,7 @@ type FixedProps = {|
     allowWrap?: boolean;
 |};
 
-export function Fixed({ tag, children, width, className, style, allowWrap, ...rest }: FixedProps): React.Element<*> {
+export function Fixed({ tag, children, width, className, style, allowWrap, ...rest }: FixedProps): React.Node {
     const TagComponent = tag || 'div';
     return (
         <TagComponent

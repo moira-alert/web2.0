@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Statuses } from '../Domain/Status';
 import StatusIndicator from '../Components/StatusIndicator/StatusIndicator';

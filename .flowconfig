@@ -7,5 +7,9 @@
 [libs]
 interfaces/
 
+[lints]
+all=warn
+untyped-type-import=error
+
 [options]
 module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/StylesFlowStub'

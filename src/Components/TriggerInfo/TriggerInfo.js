@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import moment from 'moment';
 import type { Trigger } from '../../Domain/Trigger';
 import type { Schedule } from '../../Domain/Schedule';
@@ -16,7 +16,7 @@ type Props = {|
     onThrottlingRemove: (triggerId: string) => void;
 |};
 
-function ScheduleView(props: { data: Schedule }): React.Element<*> {
+function ScheduleView(props: { data: Schedule }): React.Node {
     const { days, startOffset, endOffset } = props.data;
     const enabledDays = days.filter(({ enabled }) => enabled);
     const viewDays = days.length === enabledDays.length ? 'Everyday' : enabledDays.map(({ name }) => name).join(', ');
@@ -35,7 +35,7 @@ function ScheduleView(props: { data: Schedule }): React.Element<*> {
     );
 }
 
-export default function TriggerInfo(props: Props): React.Element<*> {
+export default function TriggerInfo(props: Props): React.Node {
     const {
         id,
         name,

@@ -10,6 +10,7 @@ declare module 'prop-types' {
         isRequired: string,
     } & string;
 
+    declare type ReactPropTypeArrayOf = <T>(ReactPropType<T>) => string;
     declare type ReactPropTypeOfSingle = <T>(ReactPropType<T>) => string;
     declare type ReactPropTypeOfMany = <T>(ReactPropType<T>[]) => string;
     declare type ReactPropTypeOfShape = <T>({ [key: string]: ReactPropType<T> }) => string;

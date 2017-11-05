@@ -11,7 +11,7 @@ declare module 'numeral' {
     }
 
     declare module.exports: ((number: string | number) => Numeral) & {
-        register(property: string, languageId: string, settings: LanguageSettings): void;
+        register(property: string, languageId: string, settings: RegisterSettings): void;
         locale(languageId: string): void;
     };
 }

@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { RowStack, ColumnStack, Fit, Fill, Fixed } from '../Components/ItemsStack/ItemsStack';
 
-function Outline(props: { children: string }): React.Element<*> {
+function Outline(props: { children: string }): React.Node {
     return (
         <div style={{ padding: '5px 3px', height: '100%', border: '1px solid #333', boxSizing: 'border-box' }}>
             {props.children}

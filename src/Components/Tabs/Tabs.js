@@ -1,24 +1,24 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Tabs from 'retail-ui/components/Tabs';
 import cn from './Tabs.less';
 
 type Props = {|
     value: string;
-    children: any;
+    children: React.Node;
 |};
 type TabProps = {|
     id: string;
     label: string;
-    children: any;
+    children: React.Node;
 |};
-type State = {|
+type State = {
     active: string;
-|};
+};
 
 const TabsTab = Tabs.Tab;
 
-export default class TabsCustom extends React.Component {
+export default class TabsCustom extends React.Component<Props, State> {
     props: Props;
     state: State;
 
@@ -29,7 +29,7 @@ export default class TabsCustom extends React.Component {
         };
     }
 
-    static Tab = function Tab({ children }: TabProps): React.Element<*> {
+    static Tab = function Tab({ children }: TabProps): React.Node {
         return <div>{children}</div>;
     };
 
