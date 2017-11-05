@@ -1,33 +1,33 @@
 // @flow
-import * as React from 'react';
-import moment from 'moment';
-import type { Trigger } from '../../Domain/Trigger';
-import type { Schedule } from '../../Domain/Schedule';
-import { getPageLink } from '../../Domain/Global';
-import RouterLink from '../RouterLink/RouterLink';
-import Link from 'retail-ui/components/Link';
-import Button from 'retail-ui/components/Button';
-import TagGroup from '../TagGroup/TagGroup';
-import { getJSONContent } from '../../helpers';
-import cn from './TriggerInfo.less';
+import * as React from "react";
+import moment from "moment";
+import type { Trigger } from "../../Domain/Trigger";
+import type { Schedule } from "../../Domain/Schedule";
+import { getPageLink } from "../../Domain/Global";
+import RouterLink from "../RouterLink/RouterLink";
+import Link from "retail-ui/components/Link";
+import Button from "retail-ui/components/Button";
+import TagGroup from "../TagGroup/TagGroup";
+import { getJSONContent } from "../../helpers";
+import cn from "./TriggerInfo.less";
 
 type Props = {|
-    data: Trigger;
-    onThrottlingRemove: (triggerId: string) => void;
+    data: Trigger,
+    onThrottlingRemove: (triggerId: string) => void,
 |};
 
 function ScheduleView(props: { data: Schedule }): React.Node {
     const { days, startOffset, endOffset } = props.data;
     const enabledDays = days.filter(({ enabled }) => enabled);
-    const viewDays = days.length === enabledDays.length ? 'Everyday' : enabledDays.map(({ name }) => name).join(', ');
+    const viewDays = days.length === enabledDays.length ? "Everyday" : enabledDays.map(({ name }) => name).join(", ");
     const viewTime =
-        moment('1900-01-01 00:00:00')
-            .add(startOffset, 'minutes')
-            .format('HH:mm') +
-        '–' +
-        moment('1900-01-01 00:00:00')
-            .add(endOffset, 'minutes')
-            .format('HH:mm');
+        moment("1900-01-01 00:00:00")
+            .add(startOffset, "minutes")
+            .format("HH:mm") +
+        "–" +
+        moment("1900-01-01 00:00:00")
+            .add(endOffset, "minutes")
+            .format("HH:mm");
     return (
         <div>
             {viewDays} {viewTime}
@@ -52,19 +52,19 @@ export default function TriggerInfo(props: Props): React.Node {
     } = props.data;
     return (
         <section>
-            <header className={cn('header')}>
-                <h1 className={cn('title')}>{(name != null && name !== '') ? name : '[No name]'}</h1>
-                <div className={cn('controls')}>
+            <header className={cn("header")}>
+                <h1 className={cn("title")}>{name != null && name !== "" ? name : "[No name]"}</h1>
+                <div className={cn("controls")}>
                     {throttling !== 0 && (
-                        <Link use='danger' icon='Clear' onClick={() => props.onThrottlingRemove(id)}>
+                        <Link use="danger" icon="Clear" onClick={() => props.onThrottlingRemove(id)}>
                             Disable throttling
                         </Link>
                     )}
-                    <RouterLink to={getPageLink('triggerEdit', id)} icon='Edit'>
+                    <RouterLink to={getPageLink("triggerEdit", id)} icon="Edit">
                         Edit
                     </RouterLink>
                     <a
-                        href='#download'
+                        href="#download"
                         onClick={(event: Event) => {
                             const target = event.currentTarget;
                             if (target instanceof HTMLAnchorElement) {
@@ -72,13 +72,13 @@ export default function TriggerInfo(props: Props): React.Node {
                             }
                         }}
                         download={`trigger-${id}.json`}>
-                        <Button use='link' icon='Export'>
+                        <Button use="link" icon="Export">
                             Export
                         </Button>
                     </a>
                 </div>
             </header>
-            <dl className={cn('list')}>
+            <dl className={cn("list")}>
                 <dt>Target</dt>
                 <dd>{targets.map((target, i) => <div key={i}>{target}</div>)}</dd>
                 {desc && <dt>Description</dt>}

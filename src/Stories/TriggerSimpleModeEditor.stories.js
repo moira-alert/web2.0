@@ -1,18 +1,18 @@
 // @flow
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { ValidationContainer } from 'react-ui-validations';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import { ValidationContainer } from "react-ui-validations";
 import TriggerSimpleModeEditor, {
     type TriggerSimpleModeSettings,
-} from '../Components/TriggerSimpleModeEditor/TriggerSimpleModeEditor';
+} from "../Components/TriggerSimpleModeEditor/TriggerSimpleModeEditor";
 
 type Props = {
-    initialValue: TriggerSimpleModeSettings;
+    initialValue: TriggerSimpleModeSettings,
 };
 
 type State = {
-    value: TriggerSimpleModeSettings;
+    value: TriggerSimpleModeSettings,
 };
 
 class TriggerSimpleModeEditorContainer extends React.Component<Props, State> {
@@ -34,18 +34,18 @@ class TriggerSimpleModeEditorContainer extends React.Component<Props, State> {
                     onChange={nextValue => this.setState({ value: nextValue })}
                 />
                 <div>
-                    <pre>{JSON.stringify(this.state.value, null, '  ')}</pre>
+                    <pre>{JSON.stringify(this.state.value, null, "  ")}</pre>
                 </div>
             </div>
         );
     }
 }
 
-storiesOf('TriggerSimpleModeEditor', module)
+storiesOf("TriggerSimpleModeEditor", module)
     .addDecorator(story => <ValidationContainer>{story()}</ValidationContainer>)
-    .add('Simple', () => (
-        <TriggerSimpleModeEditor value={{ warn_value: 10, error_value: 20 }} onChange={action('onChange')} />
+    .add("Simple", () => (
+        <TriggerSimpleModeEditor value={{ warn_value: 10, error_value: 20 }} onChange={action("onChange")} />
     ))
-    .add('StateFull_NullInitialValue', () => (
+    .add("StateFull_NullInitialValue", () => (
         <TriggerSimpleModeEditorContainer initialValue={{ warn_value: null, error_value: null }} />
     ));

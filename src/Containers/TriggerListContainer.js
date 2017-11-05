@@ -1,38 +1,38 @@
 // @flow
-import * as React from 'react';
-import queryString from 'query-string';
-import { intersection, concat, difference, flattenDeep, uniq, isEqual } from 'lodash';
-import moment from 'moment';
-import { getPageLink } from '../Domain/Global';
-import { withMoiraApi } from '../Api/MoiraApiInjection';
-import { getMaintenanceTime } from '../Domain/Maintenance';
-import type { Config } from '../Domain/Config';
-import type { ContextRouter } from 'react-router-dom';
-import type { IMoiraApi } from '../Api/MoiraAPI';
-import type { TriggerList } from '../Domain/Trigger';
-import type { Maintenance } from '../Domain/Maintenance';
-import ToggleWithLabel from '../Components/Toggle/Toggle';
-import Paging from 'retail-ui/components/Paging';
-import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from '../Components/Layout/Layout';
-import TagSelector from '../Components/TagSelector/TagSelector';
-import TriggerListView from '../Components/TriggerList/TriggerList';
-import AddingButton from '../Components/AddingButton/AddingButton';
-import { ColumnStack, RowStack, Fill, Fit } from '../Components/ItemsStack/ItemsStack';
+import * as React from "react";
+import queryString from "query-string";
+import { intersection, concat, difference, flattenDeep, uniq, isEqual } from "lodash";
+import moment from "moment";
+import { getPageLink } from "../Domain/Global";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import { getMaintenanceTime } from "../Domain/Maintenance";
+import type { Config } from "../Domain/Config";
+import type { ContextRouter } from "react-router-dom";
+import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { TriggerList } from "../Domain/Trigger";
+import type { Maintenance } from "../Domain/Maintenance";
+import ToggleWithLabel from "../Components/Toggle/Toggle";
+import Paging from "retail-ui/components/Paging";
+import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from "../Components/Layout/Layout";
+import TagSelector from "../Components/TagSelector/TagSelector";
+import TriggerListView from "../Components/TriggerList/TriggerList";
+import AddingButton from "../Components/AddingButton/AddingButton";
+import { ColumnStack, RowStack, Fill, Fit } from "../Components/ItemsStack/ItemsStack";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
-    loading: boolean;
-    error: ?string;
-    subscriptions: ?Array<string>;
-    tags: ?Array<string>;
-    triggers: ?TriggerList;
-    config: ?Config;
+    loading: boolean,
+    error: ?string,
+    subscriptions: ?Array<string>,
+    tags: ?Array<string>,
+    triggers: ?TriggerList,
+    config: ?Config,
 };
 
 type LocationSearch = {|
-    page: number;
-    tags: Array<string>;
-    onlyProblems: boolean;
+    page: number,
+    tags: Array<string>,
+    onlyProblems: boolean,
 |};
 
 class TriggerListContainer extends React.Component<Props, State> {
@@ -49,9 +49,9 @@ class TriggerListContainer extends React.Component<Props, State> {
     async getData(props: Props): Promise<void> {
         const { moiraApi, location } = props;
         const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
-        const localDataString = localStorage.getItem('moiraSettings');
+        const localDataString = localStorage.getItem("moiraSettings");
         const { tags: localTags, onlyProblems: localOnlyProblems } =
-            typeof localDataString === 'string' ? JSON.parse(localDataString) : {};
+            typeof localDataString === "string" ? JSON.parse(localDataString) : {};
 
         if (parsedTags.length === 0 && localTags && localTags.length) {
             this.changeLocationSearch({ tags: localTags });
@@ -84,8 +84,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                 tags: allTags,
                 triggers,
             });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     }
@@ -102,10 +101,9 @@ class TriggerListContainer extends React.Component<Props, State> {
                 window.scrollTo({
                     top: 0,
                     left: 0,
-                    behavior: 'smooth',
+                    behavior: "smooth",
                 });
-            }
-            catch (e) {
+            } catch (e) {
                 // Do nothing. Strange unstable exception on chrome
             }
         }
@@ -123,12 +121,12 @@ class TriggerListContainer extends React.Component<Props, State> {
             tags,
             onlyProblems,
         }: {
-            [key: string]: string | Array<string>;
-        } = queryString.parse(search, { arrayFormat: 'index' });
+            [key: string]: string | Array<string>,
+        } = queryString.parse(search, { arrayFormat: "index" });
         return {
-            page: typeof page === 'string' ? Number(page.replace(/\D/g, '')) || 1 : 1,
+            page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
             tags: Array.isArray(tags) ? tags : [],
-            onlyProblems: onlyProblems === 'true' || false,
+            onlyProblems: onlyProblems === "true" || false,
         };
     }
 
@@ -138,11 +136,11 @@ class TriggerListContainer extends React.Component<Props, State> {
             ...this.parseLocationSearch(location.search),
             ...update,
         };
-        localStorage.setItem('moiraSettings', JSON.stringify(search));
+        localStorage.setItem("moiraSettings", JSON.stringify(search));
         history.push(
-            '?' +
+            "?" +
                 queryString.stringify(search, {
-                    arrayFormat: 'index',
+                    arrayFormat: "index",
                     encode: true,
                 })
         );
@@ -156,7 +154,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                 maintenanceTime > 0
                     ? moment
                           .utc()
-                          .add(maintenanceTime, 'minutes')
+                          .add(maintenanceTime, "minutes")
                           .unix()
                     : maintenanceTime,
         });
@@ -200,7 +198,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                         <Fit>
                             <ToggleWithLabel
                                 checked={onlyProblems}
-                                label='Only Problems'
+                                label="Only Problems"
                                 onChange={checked =>
                                     this.changeLocationSearch({
                                         onlyProblems: checked,
@@ -209,23 +207,24 @@ class TriggerListContainer extends React.Component<Props, State> {
                         </Fit>
                     </RowStack>
                 </LayoutPlate>
-                {triggers && config != null && (
-                    <LayoutContent>
-                        <ColumnStack block gap={6} horizontalAlign='stretch'>
-                            <AddingButton to={getPageLink('triggerAdd')} />
-                            <TriggerListView
-                                supportEmail={config.supportEmail}
-                                items={triggers.list || []}
-                                onChange={(triggerId, maintenance, metric) => {
-                                    this.setMaintenance(triggerId, maintenance, metric);
-                                }}
-                                onRemove={(triggerId, metric) => {
-                                    this.removeMetric(triggerId, metric);
-                                }}
-                            />
-                        </ColumnStack>
-                    </LayoutContent>
-                )}
+                {triggers &&
+                    config != null && (
+                        <LayoutContent>
+                            <ColumnStack block gap={6} horizontalAlign="stretch">
+                                <AddingButton to={getPageLink("triggerAdd")} />
+                                <TriggerListView
+                                    supportEmail={config.supportEmail}
+                                    items={triggers.list || []}
+                                    onChange={(triggerId, maintenance, metric) => {
+                                        this.setMaintenance(triggerId, maintenance, metric);
+                                    }}
+                                    onRemove={(triggerId, metric) => {
+                                        this.removeMetric(triggerId, metric);
+                                    }}
+                                />
+                            </ColumnStack>
+                        </LayoutContent>
+                    )}
                 {pageCount > 1 && (
                     <LayoutPaging>
                         <Paging

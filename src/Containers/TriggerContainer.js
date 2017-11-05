@@ -1,41 +1,41 @@
 // @flow
-import * as React from 'react';
-import moment from 'moment';
-import queryString from 'query-string';
-import Paging from 'retail-ui/components/Paging';
-import Center from 'retail-ui/components/Center';
-import type { ContextRouter } from 'react-router-dom';
-import type { IMoiraApi } from '../Api/MoiraAPI';
-import type { Trigger, TriggerState } from '../Domain/Trigger';
-import type { Maintenance } from '../Domain/Maintenance';
-import type { Metric } from '../Domain/Metric';
-import type { Event } from '../Domain/Event';
-import type { SortingColum } from '../Components/MetricList/MetricList';
-import { withMoiraApi } from '../Api/MoiraApiInjection';
-import { getMaintenanceTime } from '../Domain/Maintenance';
-import { getStatusWeight } from '../Domain/Status';
-import TriggerInfo from '../Components/TriggerInfo/TriggerInfo';
-import MetricList from '../Components/MetricList/MetricList';
-import Tabs, { Tab } from '../Components/Tabs/Tabs';
-import EventList from '../Components/EventList/EventList';
-import Layout, { LayoutPlate, LayoutContent } from '../Components/Layout/Layout';
-import { ColumnStack } from '../Components/ItemsStack/ItemsStack';
-import cn from './TriggerContainer.less';
+import * as React from "react";
+import moment from "moment";
+import queryString from "query-string";
+import Paging from "retail-ui/components/Paging";
+import Center from "retail-ui/components/Center";
+import type { ContextRouter } from "react-router-dom";
+import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { Trigger, TriggerState } from "../Domain/Trigger";
+import type { Maintenance } from "../Domain/Maintenance";
+import type { Metric } from "../Domain/Metric";
+import type { Event } from "../Domain/Event";
+import type { SortingColum } from "../Components/MetricList/MetricList";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import { getMaintenanceTime } from "../Domain/Maintenance";
+import { getStatusWeight } from "../Domain/Status";
+import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
+import MetricList from "../Components/MetricList/MetricList";
+import Tabs, { Tab } from "../Components/Tabs/Tabs";
+import EventList from "../Components/EventList/EventList";
+import Layout, { LayoutPlate, LayoutContent } from "../Components/Layout/Layout";
+import { ColumnStack } from "../Components/ItemsStack/ItemsStack";
+import cn from "./TriggerContainer.less";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
-    loading: boolean;
-    error: ?string;
-    trigger: ?Trigger;
-    triggerState: ?TriggerState;
+    loading: boolean,
+    error: ?string,
+    trigger: ?Trigger,
+    triggerState: ?TriggerState,
     triggerEvents: ?{|
-        total: number;
-        list: Array<Event>;
-        page: number;
-        size: number;
-    |};
-    sortingColumn: SortingColum;
-    sortingDown: boolean;
+        total: number,
+        list: Array<Event>,
+        page: number,
+        size: number,
+    |},
+    sortingColumn: SortingColum,
+    sortingDown: boolean,
 };
 
 class TriggerContainer extends React.Component<Props, State> {
@@ -46,7 +46,7 @@ class TriggerContainer extends React.Component<Props, State> {
         trigger: null,
         triggerState: null,
         triggerEvents: null,
-        sortingColumn: 'value',
+        sortingColumn: "value",
         sortingDown: true,
     };
 
@@ -63,7 +63,7 @@ class TriggerContainer extends React.Component<Props, State> {
         const { moiraApi, match, location } = props;
         const { page } = this.parseLocationSearch(location.search);
         const { id } = match.params;
-        if (typeof id !== 'string') {
+        if (typeof id !== "string") {
             return;
         }
         try {
@@ -83,8 +83,7 @@ class TriggerContainer extends React.Component<Props, State> {
                 triggerState,
                 triggerEvents,
             });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     }
@@ -103,7 +102,7 @@ class TriggerContainer extends React.Component<Props, State> {
                 maintenanceTime > 0
                     ? moment
                           .utc()
-                          .add(maintenanceTime, 'minutes')
+                          .add(maintenanceTime, "minutes")
                           .unix()
                     : maintenanceTime,
         });
@@ -120,10 +119,10 @@ class TriggerContainer extends React.Component<Props, State> {
         const {
             page,
         }: {
-            [key: string]: string | Array<string>;
-        } = queryString.parse(search, { arrayFormat: 'index' });
+            [key: string]: string | Array<string>,
+        } = queryString.parse(search, { arrayFormat: "index" });
         return {
-            page: typeof page === 'string' ? Number(page.replace(/\D/g, '')) || 1 : 1,
+            page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
         };
     }
 
@@ -134,9 +133,9 @@ class TriggerContainer extends React.Component<Props, State> {
             ...update,
         };
         history.push(
-            '?' +
+            "?" +
                 queryString.stringify(search, {
-                    arrayFormat: 'index',
+                    arrayFormat: "index",
                     encode: true,
                 })
         );
@@ -160,11 +159,11 @@ class TriggerContainer extends React.Component<Props, State> {
                 const regex = /[^a-zA-Z0-9-.]/g;
                 const nameA = x
                     .trim()
-                    .replace(regex, '')
+                    .replace(regex, "")
                     .toLowerCase();
                 const nameB = y
                     .trim()
-                    .replace(regex, '')
+                    .replace(regex, "")
                     .toLowerCase();
                 if (nameA < nameB) {
                     return sortingDown ? -1 : 1;
@@ -207,14 +206,13 @@ class TriggerContainer extends React.Component<Props, State> {
     composeEvents(
         events: Array<Event>
     ): {
-        [key: string]: Array<Event>;
+        [key: string]: Array<Event>,
     } {
         return events.reduce((data, event) => {
-            const metric = event.metric.length !== 0 ? event.metric : 'No metric evaluated';
+            const metric = event.metric.length !== 0 ? event.metric : "No metric evaluated";
             if (data[metric]) {
                 data[metric].push(event);
-            }
-            else {
+            } else {
                 data[metric] = [event];
             }
             return data;
@@ -245,56 +243,57 @@ class TriggerContainer extends React.Component<Props, State> {
                 {(true || isMetrics || isEvents) && (
                     <LayoutContent>
                         <Center>
-                            <span className={cn('empty-details-text')}>There is no metrics evaluated for this trigger.</span>
+                            <span className={cn("empty-details-text")}>
+                                There is no metrics evaluated for this trigger.
+                            </span>
                         </Center>
                     </LayoutContent>
                 )}
                 {false &&
-                (isMetrics || isEvents) && (
-                    <LayoutContent>
-                        <Tabs value={isMetrics ? 'state' : 'events'}>
-                            {isMetrics &&
-                            trigger && (
-                                <Tab id='state' label='Current state'>
-                                    <MetricList
-                                        status
-                                        items={this.sortMetrics(metrics)}
-                                        onSort={sorting => {
-                                            if (sorting === sortingColumn) {
-                                                this.setState({ sortingDown: !sortingDown });
-                                            }
-                                            else {
-                                                this.setState({ sortingColumn: sorting, sortingDown: true });
-                                            }
-                                        }}
-                                        sortingColumn={sortingColumn}
-                                        sortingDown={sortingDown}
-                                        onChange={(maintenance, metric) => {
-                                            this.setMaintenance(trigger.id, maintenance, metric);
-                                        }}
-                                        onRemove={metric => {
-                                            this.removeMetric(trigger.id, metric);
-                                        }}
-                                    />
-                                </Tab>
-                            )}
-                            {isEvents && (
-                                <Tab id='events' label='Events history'>
-                                    <ColumnStack block gap={6} horizontalAlign='stretch'>
-                                        <EventList items={this.composeEvents(events)} />
-                                        {pageCount > 1 && (
-                                            <Paging
-                                                activePage={page}
-                                                pagesCount={pageCount}
-                                                onPageChange={page => this.changeLocationSearch({ page })}
+                    (isMetrics || isEvents) && (
+                        <LayoutContent>
+                            <Tabs value={isMetrics ? "state" : "events"}>
+                                {isMetrics &&
+                                    trigger && (
+                                        <Tab id="state" label="Current state">
+                                            <MetricList
+                                                status
+                                                items={this.sortMetrics(metrics)}
+                                                onSort={sorting => {
+                                                    if (sorting === sortingColumn) {
+                                                        this.setState({ sortingDown: !sortingDown });
+                                                    } else {
+                                                        this.setState({ sortingColumn: sorting, sortingDown: true });
+                                                    }
+                                                }}
+                                                sortingColumn={sortingColumn}
+                                                sortingDown={sortingDown}
+                                                onChange={(maintenance, metric) => {
+                                                    this.setMaintenance(trigger.id, maintenance, metric);
+                                                }}
+                                                onRemove={metric => {
+                                                    this.removeMetric(trigger.id, metric);
+                                                }}
                                             />
-                                        )}
-                                    </ColumnStack>
-                                </Tab>
-                            )}
-                        </Tabs>
-                    </LayoutContent>
-                )}
+                                        </Tab>
+                                    )}
+                                {isEvents && (
+                                    <Tab id="events" label="Events history">
+                                        <ColumnStack block gap={6} horizontalAlign="stretch">
+                                            <EventList items={this.composeEvents(events)} />
+                                            {pageCount > 1 && (
+                                                <Paging
+                                                    activePage={page}
+                                                    pagesCount={pageCount}
+                                                    onPageChange={page => this.changeLocationSearch({ page })}
+                                                />
+                                            )}
+                                        </ColumnStack>
+                                    </Tab>
+                                )}
+                            </Tabs>
+                        </LayoutContent>
+                    )}
             </Layout>
         );
     }

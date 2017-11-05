@@ -1,26 +1,26 @@
 // @flow
-import * as React from 'react';
-import Modal from 'retail-ui/components/Modal';
-import Gapped from 'retail-ui/components/Gapped';
-import Button from 'retail-ui/components/Button';
-import Link from 'retail-ui/components/Link';
-import { ValidationContainer } from 'react-ui-validations';
-import ContactEditForm from '../ContactEditForm/ContactEditForm';
-import type { Contact } from '../../Domain/Contact';
+import * as React from "react";
+import Modal from "retail-ui/components/Modal";
+import Gapped from "retail-ui/components/Gapped";
+import Button from "retail-ui/components/Button";
+import Link from "retail-ui/components/Link";
+import { ValidationContainer } from "react-ui-validations";
+import ContactEditForm from "../ContactEditForm/ContactEditForm";
+import type { Contact } from "../../Domain/Contact";
 
 type Props = {
-    contactInfo: Contact;
-    onChange: ($Shape<Contact>) => void;
-    onCancel: () => void;
-    onUpdate: () => Promise<void>;
-    onUpdateAndTest: () => Promise<void>;
-    onDelete: () => Promise<void>;
+    contactInfo: Contact,
+    onChange: ($Shape<Contact>) => void,
+    onCancel: () => void,
+    onUpdate: () => Promise<void>,
+    onUpdateAndTest: () => Promise<void>,
+    onDelete: () => Promise<void>,
 };
 
 type State = {
-    updateAndTestInProcess: boolean;
-    updateInProcess: boolean;
-    deleteInProcess: boolean;
+    updateAndTestInProcess: boolean,
+    updateInProcess: boolean,
+    deleteInProcess: boolean,
 };
 
 export default class ContactEditModal extends React.Component<Props, State> {
@@ -47,8 +47,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         this.setState({ updateAndTestInProcess: true });
         try {
             await onUpdateAndTest();
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ updateAndTestInProcess: false });
         }
     };
@@ -61,8 +60,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         this.setState({ updateInProcess: true });
         try {
             await onUpdate();
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ updateInProcess: false });
         }
     };
@@ -72,8 +70,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         this.setState({ deleteInProcess: true });
         try {
             await onDelete();
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ deleteInProcess: false });
         }
     };
@@ -98,7 +95,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
                     <Gapped gap={10}>
                         <Button
                             loading={updateAndTestInProcess}
-                            use='primary'
+                            use="primary"
                             disabled={isActionButtonDisabled}
                             onClick={() => {
                                 this.handleUpdateAndTestContact();

@@ -1,29 +1,29 @@
 // @flow
-import * as React from 'react';
-import type { Contact } from '../../Domain/Contact';
-import type { ContactType } from '../../Domain/ContactType';
-import NewContactModal, { type NewContactInfo } from '../NewContactModal/NewContactModal';
-import ContactEditModal from '../ContactEditModal/ContactEditModal';
-import Button from 'retail-ui/components/Button';
-import Center from 'retail-ui/components/Center';
-import Gapped from 'retail-ui/components/Gapped';
-import Link from 'retail-ui/components/Link';
-import ContactTypeIcon from '../ContactTypeIcon/ContactTypeIcon';
-import cn from './ContactList.less';
+import * as React from "react";
+import type { Contact } from "../../Domain/Contact";
+import type { ContactType } from "../../Domain/ContactType";
+import NewContactModal, { type NewContactInfo } from "../NewContactModal/NewContactModal";
+import ContactEditModal from "../ContactEditModal/ContactEditModal";
+import Button from "retail-ui/components/Button";
+import Center from "retail-ui/components/Center";
+import Gapped from "retail-ui/components/Gapped";
+import Link from "retail-ui/components/Link";
+import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+import cn from "./ContactList.less";
 
 type Props = ReactExactProps<{
-    items: Array<Contact>;
-    onTestContact: Contact => Promise<void>;
-    onAddContact: NewContactInfo => Promise<?Contact>;
-    onUpdateContact: Contact => Promise<void>;
-    onRemoveContact: Contact => Promise<void>;
+    items: Array<Contact>,
+    onTestContact: Contact => Promise<void>,
+    onAddContact: NewContactInfo => Promise<?Contact>,
+    onUpdateContact: Contact => Promise<void>,
+    onRemoveContact: Contact => Promise<void>,
 }>;
 
 type State = {
-    newContactModalVisible: boolean;
-    newContact: ?NewContactInfo;
-    editContactModalVisible: boolean;
-    editableContact: ?Contact;
+    newContactModalVisible: boolean,
+    newContact: ?NewContactInfo,
+    editContactModalVisible: boolean,
+    editableContact: ?Contact,
 };
 
 export default class ContactList extends React.Component<Props, State> {
@@ -39,15 +39,14 @@ export default class ContactList extends React.Component<Props, State> {
         const { onAddContact, onTestContact } = this.props;
         const { newContact } = this.state;
         if (newContact == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             const contact = await onAddContact(newContact);
             if (contact != null) {
                 await onTestContact(contact);
             }
-        }
-        finally {
+        } finally {
             this.setState({
                 newContactModalVisible: false,
                 newContact: null,
@@ -73,12 +72,11 @@ export default class ContactList extends React.Component<Props, State> {
         const { onAddContact } = this.props;
         const { newContact } = this.state;
         if (newContact == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             await onAddContact(newContact);
-        }
-        finally {
+        } finally {
             this.setState({
                 newContactModalVisible: false,
                 newContact: null,
@@ -90,12 +88,11 @@ export default class ContactList extends React.Component<Props, State> {
         const { onRemoveContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             await onRemoveContact(editableContact);
-        }
-        finally {
+        } finally {
             this.setState({
                 editContactModalVisible: false,
                 editableContact: null,
@@ -108,7 +105,7 @@ export default class ContactList extends React.Component<Props, State> {
             newContactModalVisible: true,
             newContact: {
                 type: null,
-                value: '',
+                value: "",
             },
         });
     };
@@ -147,12 +144,11 @@ export default class ContactList extends React.Component<Props, State> {
         const { onUpdateContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             await onUpdateContact(editableContact);
-        }
-        finally {
+        } finally {
             this.setState({
                 editContactModalVisible: false,
                 editableContact: null,
@@ -164,13 +160,12 @@ export default class ContactList extends React.Component<Props, State> {
         const { onUpdateContact, onTestContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             await onUpdateContact(editableContact);
             await onTestContact(editableContact);
-        }
-        finally {
+        } finally {
             this.setState({
                 editContactModalVisible: false,
                 editableContact: null,
@@ -183,11 +178,11 @@ export default class ContactList extends React.Component<Props, State> {
             <Center>
                 <Gapped vertical gap={20}>
                     <div>
-                        To start receive notifications you have to{' '}
+                        To start receive notifications you have to{" "}
                         <Link onClick={this.handleAddContact}>add delivery channel</Link> for notifications.
                     </div>
                     <Center>
-                        <Button use='primary' icon='Add' onClick={this.handleAddContact}>
+                        <Button use="primary" icon="Add" onClick={this.handleAddContact}>
                             Add delivery channel
                         </Button>
                     </Center>
@@ -204,24 +199,24 @@ export default class ContactList extends React.Component<Props, State> {
             <div>
                 {items.length > 0 ? (
                     <div>
-                        <h3 className={cn('header')}>Delivery channels</h3>
-                        <div className={cn('items-cotnainer')}>
-                            <table className={cn('items')}>
+                        <h3 className={cn("header")}>Delivery channels</h3>
+                        <div className={cn("items-cotnainer")}>
+                            <table className={cn("items")}>
                                 <tbody>
                                     {items.map(contact => (
                                         <tr
                                             key={contact.id}
-                                            className={cn('item')}
+                                            className={cn("item")}
                                             onClick={() => this.handleBeginEditContact(contact)}>
-                                            <td className={cn('icon')}>{this.renderContactIcon(contact.type)}</td>
-                                            <td className={cn('value')}>{contact.value}</td>
+                                            <td className={cn("icon")}>{this.renderContactIcon(contact.type)}</td>
+                                            <td className={cn("value")}>{contact.value}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
-                        <div className={cn('actions-block')}>
-                            <Button icon='Add' onClick={this.handleAddContact}>
+                        <div className={cn("actions-block")}>
+                            <Button icon="Add" onClick={this.handleAddContact}>
                                 Add delivery channel
                             </Button>
                         </div>
@@ -230,26 +225,26 @@ export default class ContactList extends React.Component<Props, State> {
                     this.renderEmptyListMessage()
                 )}
                 {newContactModalVisible &&
-                newContact != null && (
-                    <NewContactModal
-                        contactInfo={newContact}
-                        onChange={this.handleChangeNewContact}
-                        onCancel={this.handleCancelCreateNewContact}
-                        onCreate={this.handleCreateNewContact}
-                        onCreateAndTest={this.handleCreateAndTestContact}
-                    />
-                )}
+                    newContact != null && (
+                        <NewContactModal
+                            contactInfo={newContact}
+                            onChange={this.handleChangeNewContact}
+                            onCancel={this.handleCancelCreateNewContact}
+                            onCreate={this.handleCreateNewContact}
+                            onCreateAndTest={this.handleCreateAndTestContact}
+                        />
+                    )}
                 {editContactModalVisible &&
-                editableContact != null && (
-                    <ContactEditModal
-                        contactInfo={editableContact}
-                        onChange={this.handleChangeEditableContact}
-                        onCancel={this.handleCancelEditContact}
-                        onUpdate={this.handleUpdateContact}
-                        onUpdateAndTest={this.handleUpdateAndTestContact}
-                        onDelete={this.handleDeleteContact}
-                    />
-                )}
+                    editableContact != null && (
+                        <ContactEditModal
+                            contactInfo={editableContact}
+                            onChange={this.handleChangeEditableContact}
+                            onCancel={this.handleCancelEditContact}
+                            onUpdate={this.handleUpdateContact}
+                            onUpdateAndTest={this.handleUpdateAndTestContact}
+                            onDelete={this.handleDeleteContact}
+                        />
+                    )}
             </div>
         );
     }

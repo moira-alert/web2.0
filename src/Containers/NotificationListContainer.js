@@ -1,18 +1,18 @@
 // @flow
-import * as React from 'react';
-import type { ContextRouter } from 'react-router-dom';
-import type { IMoiraApi } from '../Api/MoiraAPI';
-import type { Notification } from '../Domain/Notification';
-import { withMoiraApi } from '../Api/MoiraApiInjection';
-import NotificationList from '../Components/NotificationList/NotificationList';
-import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
+import * as React from "react";
+import type { ContextRouter } from "react-router-dom";
+import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { Notification } from "../Domain/Notification";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import NotificationList from "../Components/NotificationList/NotificationList";
+import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
-    loading: boolean;
-    error: ?string;
-    list: ?Array<Notification>;
-    total: ?number;
+    loading: boolean,
+    error: ?string,
+    list: ?Array<Notification>,
+    total: ?number,
 };
 
 class NotificationListContainer extends React.Component<Props, State> {
@@ -33,8 +33,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         try {
             const notifications = await moiraApi.getNotificationList();
             this.setState({ loading: false, ...notifications });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     }

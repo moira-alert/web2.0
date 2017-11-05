@@ -1,18 +1,18 @@
 // @flow
-import * as React from 'react';
-import Icon from 'retail-ui/components/Icon';
-import ColorHash from 'color-hash';
-import cn from './Tag.less';
+import * as React from "react";
+import Icon from "retail-ui/components/Icon";
+import ColorHash from "color-hash";
+import cn from "./Tag.less";
 
 type Props = {|
-    title: string;
-    focus?: boolean;
-    onClick?: () => void;
-    onRemove?: () => void;
+    title: string,
+    focus?: boolean,
+    onClick?: () => void,
+    onRemove?: () => void,
 |};
 type ColorTheme = {|
-    backgroundColor: string;
-    color: string;
+    backgroundColor: string,
+    color: string,
 |};
 
 function getColor(title: string): ColorTheme {
@@ -30,15 +30,15 @@ export default function Tag(props: Props): React.Node {
     return (
         <div className={cn({ tag: true, removeable: onRemove, focused: focus })} style={getColor(title)}>
             {onClick ? (
-                <div onClick={onClick} className={cn('title', 'clickable')}>
+                <div onClick={onClick} className={cn("title", "clickable")}>
                     {title}
                 </div>
             ) : (
-                <div className={cn('title')}>{title}</div>
+                <div className={cn("title")}>{title}</div>
             )}
             {onRemove && (
-                <div className={cn('remove')} onClick={onRemove}>
-                    <Icon name='Delete' />
+                <div className={cn("remove")} onClick={onRemove}>
+                    <Icon name="Delete" />
                 </div>
             )}
         </div>

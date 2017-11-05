@@ -1,28 +1,28 @@
 // @flow
-import * as React from 'react';
-import Loader from 'retail-ui/components/Loader';
-import Icon from 'retail-ui/components/Icon';
-import cn from './Layout.less';
+import * as React from "react";
+import Loader from "retail-ui/components/Loader";
+import Icon from "retail-ui/components/Icon";
+import cn from "./Layout.less";
 
 type LayoutProps = ReactExactProps<{
-    children?: any;
-    loading?: boolean;
-    error?: ?string;
+    children?: any,
+    loading?: boolean,
+    error?: ?string,
 }>;
 type ErrorMessageProps = ReactExactProps<{
-    children?: string;
+    children?: string,
 }>;
 type PlateProps = ReactExactProps<{
-    children?: any;
+    children?: any,
 }>;
 type TitleProps = ReactExactProps<{
-    children: string;
+    children: string,
 }>;
 type ContentProps = ReactExactProps<{
-    children?: any;
+    children?: any,
 }>;
 type PagingProps = ReactExactProps<{
-    children?: any;
+    children?: any,
 }>;
 
 export default class Layout extends React.Component<LayoutProps> {
@@ -30,36 +30,36 @@ export default class Layout extends React.Component<LayoutProps> {
 
     static ErrorMessage = function ErrorMessage({ children }: ErrorMessageProps): React.Node {
         return (
-            <div className={cn('error')}>
-                <div className={cn('container')}>{children}</div>
+            <div className={cn("error")}>
+                <div className={cn("container")}>{children}</div>
             </div>
         );
     };
 
     static Plate = function Plate({ children }: PlateProps): React.Node {
         return (
-            <div className={cn('grey-plate')}>
-                <div className={cn('container')}>{children}</div>
+            <div className={cn("grey-plate")}>
+                <div className={cn("container")}>{children}</div>
             </div>
         );
     };
 
     static Title = function Title({ children }: TitleProps): React.Node {
-        return <h1 className={cn('title')}>{children}</h1>;
+        return <h1 className={cn("title")}>{children}</h1>;
     };
 
     static Content = function Content({ children }: ContentProps): React.Node {
         return (
-            <div className={cn('content')}>
-                <div className={cn('container')}>{children}</div>
+            <div className={cn("content")}>
+                <div className={cn("container")}>{children}</div>
             </div>
         );
     };
 
     static Paging = function Paging({ children }: PagingProps): React.Node {
         return (
-            <div className={cn('paging')}>
-                <div className={cn('container')}>{children}</div>
+            <div className={cn("paging")}>
+                <div className={cn("container")}>{children}</div>
             </div>
         );
     };
@@ -67,13 +67,13 @@ export default class Layout extends React.Component<LayoutProps> {
     render(): React.Node {
         const { loading = false, error = null, children } = this.props;
         return (
-            <main className={cn('layout')}>
+            <main className={cn("layout")}>
                 {error && (
-                    <div className={cn('error')}>
-                        <Icon name='Warning' /> {error}
+                    <div className={cn("error")}>
+                        <Icon name="Warning" /> {error}
                     </div>
                 )}
-                <Loader className={cn('loading')} active={loading} caption='Loading'>
+                <Loader className={cn("loading")} active={loading} caption="Loading">
                     {children}
                 </Loader>
             </main>

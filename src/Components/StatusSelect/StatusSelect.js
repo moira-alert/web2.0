@@ -1,14 +1,14 @@
 // @flow
-import * as React from 'react';
-import Select from 'retail-ui/components/Select';
-import StatusIcon from '../StatusIcon/StatusIcon';
-import { getStatusCaption, type Status } from '../../Domain/Status';
-import { RowStack, Fit } from '../ItemsStack/ItemsStack';
+import * as React from "react";
+import Select from "retail-ui/components/Select";
+import StatusIcon from "../StatusIcon/StatusIcon";
+import { getStatusCaption, type Status } from "../../Domain/Status";
+import { RowStack, Fit } from "../ItemsStack/ItemsStack";
 
 type Props = {|
-    value: Status;
-    availableStatuses: Array<Status>;
-    onChange: Status => void;
+    value: Status,
+    availableStatuses: Array<Status>,
+    onChange: Status => void,
 |};
 
 function renderItem(value: Status, item: string): React.Node {

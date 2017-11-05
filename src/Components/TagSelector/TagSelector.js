@@ -1,33 +1,33 @@
 // @flow
-import * as React from 'react';
-import { concat } from 'lodash';
-import TagGroup from '../TagGroup/TagGroup';
-import Tag from '../Tag/Tag';
-import NewTagBadge from '../NewTagBadge/NewTagBadge';
-import cn from './TagSelector.less';
+import * as React from "react";
+import { concat } from "lodash";
+import TagGroup from "../TagGroup/TagGroup";
+import Tag from "../Tag/Tag";
+import NewTagBadge from "../NewTagBadge/NewTagBadge";
+import cn from "./TagSelector.less";
 
 type Props = {|
-    error?: boolean;
-    subscribed: Array<string>;
-    remained: Array<string>;
-    selected: Array<string>;
-    onSelect: (tag: string) => void;
-    onRemove: (tag: string) => void;
-    onMouseEnter?: (e: Event) => void;
-    onMouseLeave?: (e: Event) => void;
-    allowCreateNewTags?: boolean;
+    error?: boolean,
+    subscribed: Array<string>,
+    remained: Array<string>,
+    selected: Array<string>,
+    onSelect: (tag: string) => void,
+    onRemove: (tag: string) => void,
+    onMouseEnter?: (e: Event) => void,
+    onMouseLeave?: (e: Event) => void,
+    allowCreateNewTags?: boolean,
 |};
 
 type State = {
-    value: string;
-    focusedIndex: number;
-    isFocused: boolean;
+    value: string,
+    focusedIndex: number,
+    isFocused: boolean,
 };
 
 export default class TagSelector extends React.Component<Props, State> {
     props: Props;
     state: State = {
-        value: '',
+        value: "",
         focusedIndex: 0,
         isFocused: false,
     };
@@ -41,12 +41,12 @@ export default class TagSelector extends React.Component<Props, State> {
         const { onSelect } = this.props;
         const { value } = this.state;
         onSelect(value);
-        this.setState({ value: '', focusedIndex: 0 });
+        this.setState({ value: "", focusedIndex: 0 });
     };
 
     selectTag(tag: string) {
         this.props.onSelect(tag);
-        this.setState({ value: '', focusedIndex: 0 });
+        this.setState({ value: "", focusedIndex: 0 });
     }
 
     removeTag(tag: string) {
@@ -63,51 +63,47 @@ export default class TagSelector extends React.Component<Props, State> {
         const filtredTags = this.filterTags(concat(subscribed, remained));
         if (isFocused) {
             switch (key) {
-                case 'Delete':
+                case "Delete":
                     break;
-                case 'Backspace':
+                case "Backspace":
                     if (caretPosition === 0 && selected.length !== 0) {
                         this.removeTag(selected[selected.length - 1]);
                     }
                     break;
-                case 'ArrowUp':
+                case "ArrowUp":
                     if (value.length !== 0) {
                         if (allowCreateNewTags) {
                             const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
                             this.setState({ focusedIndex: newIndex });
-                        }
-                        else {
+                        } else {
                             const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
                             this.setState({ focusedIndex: newIndex });
                         }
                     }
                     break;
-                case 'ArrowDown':
+                case "ArrowDown":
                     if (value.length !== 0) {
                         if (allowCreateNewTags && !this.tagExists(value)) {
                             const newIndex = focusedIndex < filtredTags.length + 1 ? focusedIndex + 1 : 0;
                             this.setState({ focusedIndex: newIndex });
-                        }
-                        else {
+                        } else {
                             const newIndex = focusedIndex < filtredTags.length ? focusedIndex + 1 : 0;
                             this.setState({ focusedIndex: newIndex });
                         }
                     }
                     break;
-                case 'Enter':
+                case "Enter":
                     if (focusedIndex !== 0 && value.length !== 0) {
                         if (allowCreateNewTags && !this.tagExists(value) && focusedIndex === filtredTags.length + 1) {
                             this.selectTag(value);
-                        }
-                        else {
+                        } else {
                             this.selectTag(filtredTags[focusedIndex - 1]);
                         }
                     }
                     if (focusedIndex === 0 && value.length !== 0) {
                         if (allowCreateNewTags && !this.tagExists(value)) {
                             this.selectTag(value);
-                        }
-                        else {
+                        } else {
                             this.selectTag(filtredTags[filtredTags.length - 1]);
                         }
                     }
@@ -125,17 +121,17 @@ export default class TagSelector extends React.Component<Props, State> {
         return (
             <div>
                 <div
-                    className={cn('input-area', { focused: isFocused, error })}
+                    className={cn("input-area", { focused: isFocused, error })}
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}>
                     {selected.length !== 0 &&
                         selected.map((tag, i) => (
-                            <span className={cn('tag-wrap')} key={i}>
+                            <span className={cn("tag-wrap")} key={i}>
                                 <Tag title={tag} onRemove={() => this.removeTag(tag)} />
                             </span>
                         ))}
                     <input
-                        className={cn('input')}
+                        className={cn("input")}
                         value={value}
                         onKeyDown={(event: KeyboardEvent) =>
                             event.target instanceof HTMLInputElement
@@ -150,23 +146,23 @@ export default class TagSelector extends React.Component<Props, State> {
                     />
                 </div>
                 {subscribed.length !== 0 &&
-                value.length === 0 && (
-                    <div className={cn('group')}>
-                        <b className={cn('title')}>Subscriptions</b>
-                        <TagGroup tags={subscribed} onClick={tag => this.selectTag(tag)} />
-                    </div>
-                )}
+                    value.length === 0 && (
+                        <div className={cn("group")}>
+                            <b className={cn("title")}>Subscriptions</b>
+                            <TagGroup tags={subscribed} onClick={tag => this.selectTag(tag)} />
+                        </div>
+                    )}
                 {remained.length !== 0 &&
-                value.length === 0 && (
-                    <div className={cn('group')}>
-                        <b className={cn('title')}>All tags</b>
-                        <TagGroup tags={remained} onClick={tag => this.selectTag(tag)} />
-                    </div>
-                )}
+                    value.length === 0 && (
+                        <div className={cn("group")}>
+                            <b className={cn("title")}>All tags</b>
+                            <TagGroup tags={remained} onClick={tag => this.selectTag(tag)} />
+                        </div>
+                    )}
                 {value.length !== 0 && (
-                    <div className={cn('group')}>
-                        <b className={cn('title')}>Search results</b>
-                        <div className={cn('tag-list')}>
+                    <div className={cn("group")}>
+                        <b className={cn("title")}>Search results</b>
+                        <div className={cn("tag-list")}>
                             {filtredTags.map((tag, i) => (
                                 <Tag
                                     key={i}
@@ -176,14 +172,14 @@ export default class TagSelector extends React.Component<Props, State> {
                                 />
                             ))}
                             {allowCreateNewTags &&
-                            !this.tagExists(value) &&
-                            value.trim() !== '' && (
-                                <NewTagBadge
-                                    title={value.trim()}
-                                    focus={focusedIndex === filtredTags.length + 1}
-                                    onClick={this.handleAddNewTag}
-                                />
-                            )}
+                                !this.tagExists(value) &&
+                                value.trim() !== "" && (
+                                    <NewTagBadge
+                                        title={value.trim()}
+                                        focus={focusedIndex === filtredTags.length + 1}
+                                        onClick={this.handleAddNewTag}
+                                    />
+                                )}
                         </div>
                     </div>
                 )}

@@ -1,40 +1,40 @@
 // @flow
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { ValidationContainer } from 'react-ui-validations';
-import ContactEditForm from '../Components/ContactEditForm/ContactEditForm';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import { ValidationContainer } from "react-ui-validations";
+import ContactEditForm from "../Components/ContactEditForm/ContactEditForm";
 
 const commonProps = {
-    onChange: action('onChange'),
+    onChange: action("onChange"),
 };
 
-storiesOf('ContactEditForm', module)
+storiesOf("ContactEditForm", module)
     .addDecorator(story => <ValidationContainer>{story()}</ValidationContainer>)
-    .add('EmptyForm', () => (
+    .add("EmptyForm", () => (
         <ContactEditForm
             {...commonProps}
             contactInfo={{
                 type: null,
-                value: '',
+                value: "",
             }}
         />
     ))
-    .add('PushoverType', () => (
+    .add("PushoverType", () => (
         <ContactEditForm
             {...commonProps}
             contactInfo={{
-                type: 'pushover',
-                value: '',
+                type: "pushover",
+                value: "",
             }}
         />
     ))
-    .add('TelegramType', () => (
+    .add("TelegramType", () => (
         <ContactEditForm
             {...commonProps}
             contactInfo={{
-                type: 'telegram',
-                value: '',
+                type: "telegram",
+                value: "",
             }}
         />
     ));

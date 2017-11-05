@@ -1,23 +1,23 @@
 // @flow
-import * as React from 'react';
-import type { ContextRouter } from 'react-router-dom';
-import type { IMoiraApi } from '../Api/MoiraAPI';
-import type { Trigger } from '../Domain/Trigger';
-import { getPageLink } from '../Domain/Global';
-import { withMoiraApi } from '../Api/MoiraApiInjection';
-import { ValidationContainer } from 'react-ui-validations';
-import Button from 'retail-ui/components/Button';
-import RouterLink from '../Components/RouterLink/RouterLink';
-import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
-import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
-import { ColumnStack, RowStack, Fit } from '../Components/ItemsStack/ItemsStack';
+import * as React from "react";
+import type { ContextRouter } from "react-router-dom";
+import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { Trigger } from "../Domain/Trigger";
+import { getPageLink } from "../Domain/Global";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import { ValidationContainer } from "react-ui-validations";
+import Button from "retail-ui/components/Button";
+import RouterLink from "../Components/RouterLink/RouterLink";
+import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
+import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
-    loading: boolean;
-    error: ?string;
-    trigger: ?Trigger;
-    tags: ?Array<string>;
+    loading: boolean,
+    error: ?string,
+    trigger: ?Trigger,
+    tags: ?Array<string>,
 };
 
 class TriggerEditContainer extends React.Component<Props, State> {
@@ -42,16 +42,15 @@ class TriggerEditContainer extends React.Component<Props, State> {
     async getData(props: Props): Promise<void> {
         const { moiraApi, match } = props;
         const { id } = match.params;
-        if (typeof id !== 'string') {
-            this.setState({ error: 'Wrong trigger id' });
+        if (typeof id !== "string") {
+            this.setState({ error: "Wrong trigger id" });
             return;
         }
         try {
             const trigger = await moiraApi.getTrigger(id);
             const { list } = await moiraApi.getTagList();
             this.setState({ loading: false, trigger: trigger, tags: list });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     }
@@ -72,9 +71,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
             this.setState({ loading: true });
             try {
                 await moiraApi.setTrigger(trigger.id, trigger);
-                history.push(getPageLink('trigger', trigger.id));
-            }
-            catch (error) {
+                history.push(getPageLink("trigger", trigger.id));
+            } catch (error) {
                 this.setState({ error: error.message, loading: false });
             }
         }
@@ -85,9 +83,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
         this.setState({ loading: true });
         try {
             await moiraApi.delTrigger(id);
-            history.push(getPageLink('index'));
-        }
-        catch (error) {
+            history.push(getPageLink("index"));
+        } catch (error) {
             this.setState({ error: error.message, loading: false });
         }
     }
@@ -104,7 +101,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                     <LayoutTitle>Edit trigger</LayoutTitle>
                     {trigger && (
                         <form>
-                            <ColumnStack block gap={6} horizontalAlign='stretch'>
+                            <ColumnStack block gap={6} horizontalAlign="stretch">
                                 <ValidationContainer ref={x => (this.triggerForm = x)}>
                                     <TriggerEditForm
                                         data={trigger}
@@ -115,7 +112,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                 <RowStack gap={3} baseline>
                                     <Fit>
                                         <Button
-                                            use='primary'
+                                            use="primary"
                                             onClick={() => {
                                                 this.handleSubmit();
                                             }}>
@@ -124,8 +121,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                     </Fit>
                                     <Fit>
                                         <Button
-                                            use='link'
-                                            icon='Trash'
+                                            use="link"
+                                            icon="Trash"
                                             onClick={() => {
                                                 this.deleteTrigger(trigger.id);
                                             }}>

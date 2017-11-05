@@ -1,38 +1,38 @@
 // @flow
-import * as React from 'react';
-import Input from 'retail-ui/components/Input';
-import cn from './FilteredInput.less';
-import warning from 'warning';
+import * as React from "react";
+import Input from "retail-ui/components/Input";
+import cn from "./FilteredInput.less";
+import warning from "warning";
 
 export type FilterValueResult<T> = {
-    hintValue?: string;
-    displayValue: string | null;
-    actualValue: T;
+    hintValue?: string,
+    displayValue: string | null,
+    actualValue: T,
 };
 
 function usedForDestructuring(_value: *) {}
 
 type FilteredInputProps<T> = {
-    value: T;
-    onChange: (event: SyntheticEvent<>, value: T) => void;
-    filterValue: (value: string) => FilterValueResult<T> | null;
-    valueForView: (value: T) => string;
-    valueForEdit: (value: T) => string;
-    hintForView?: (value: T) => string | null;
-    hintForEdit?: (value: T) => string | null;
-    onKeyDown?: (event: SyntheticEvent<>) => void;
-    onBlur?: (event: SyntheticEvent<>) => void;
-    onFocus?: (event: SyntheticEvent<>) => void;
-    width: string | number;
+    value: T,
+    onChange: (event: SyntheticEvent<>, value: T) => void,
+    filterValue: (value: string) => FilterValueResult<T> | null,
+    valueForView: (value: T) => string,
+    valueForEdit: (value: T) => string,
+    hintForView?: (value: T) => string | null,
+    hintForEdit?: (value: T) => string | null,
+    onKeyDown?: (event: SyntheticEvent<>) => void,
+    onBlur?: (event: SyntheticEvent<>) => void,
+    onFocus?: (event: SyntheticEvent<>) => void,
+    width: string | number,
 };
 
 type FilteredInputState = {
-    displayValue: ?string;
+    displayValue: ?string,
 } & HintState;
 
 type HintState = {
-    hintValue: ?string;
-    hintClip: ?number;
+    hintValue: ?string,
+    hintClip: ?number,
 };
 
 export default class FilteredInput<T> extends React.Component<FilteredInputProps<T>, FilteredInputState> {
@@ -43,9 +43,9 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
         hintClip: null,
     };
     refs: {
-        innerInput: ?Input;
-        testWidth: ?HTMLElement;
-        root: ?HTMLElement;
+        innerInput: ?Input,
+        testWidth: ?HTMLElement,
+        root: ?HTMLElement,
     };
     // eslint-disable-next-line react/sort-comp
     focused: boolean = false;
@@ -77,8 +77,7 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
                 ...this.getHintState(filteredValue.hintValue, filteredValue.displayValue),
             });
             onChange(event, filteredValue.actualValue);
-        }
-        else if (this.refs.innerInput != null) {
+        } else if (this.refs.innerInput != null) {
             this.setState({}, () => {
                 if (this.refs.innerInput != null) {
                     this.refs.innerInput.setSelectionRange(this.selectionStart, this.selectionEnd);
@@ -121,7 +120,7 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
 
     getClip(value: ?string): number {
         if (this.refs.testWidth != null && this.refs.root != null) {
-            this.refs.testWidth.innerHTML = value || '';
+            this.refs.testWidth.innerHTML = value || "";
             const result = this.refs.root.offsetWidth - this.refs.testWidth.offsetWidth;
             return result - 9;
         }
@@ -154,7 +153,7 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
             ...this.getViewHintState(this.props.value),
         });
         const filteredValue = this.props.filterValue(displayValueForEdit);
-        warning(filteredValue !== null, 'Filtered value cannot be null on blur');
+        warning(filteredValue !== null, "Filtered value cannot be null on blur");
         if (filteredValue !== null) {
             this.props.onChange(event, filteredValue.actualValue);
         }
@@ -180,28 +179,28 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
         const { hintClip } = this.state;
         usedForDestructuring(onChange);
         return (
-            <span className={cn('root')} ref='root'>
-                <div className={cn('test-width')} ref='testWidth' />
+            <span className={cn("root")} ref="root">
+                <div className={cn("test-width")} ref="testWidth" />
                 {this.state.hintValue &&
-                hintClip !== null &&
-                hintClip !== undefined && (
-                    <div className={cn('hint-container')} style={{ clip: `rect(auto,${hintClip}px,auto,0px)` }}>
-                        <Input
-                            {...restProps}
-                            disabled
-                            borderless
-                            className={cn('hint')}
-                            placeholder={this.state.hintValue}
-                            value={''}
-                        />
-                    </div>
-                )}
+                    hintClip !== null &&
+                    hintClip !== undefined && (
+                        <div className={cn("hint-container")} style={{ clip: `rect(auto,${hintClip}px,auto,0px)` }}>
+                            <Input
+                                {...restProps}
+                                disabled
+                                borderless
+                                className={cn("hint")}
+                                placeholder={this.state.hintValue}
+                                value={""}
+                            />
+                        </div>
+                    )}
                 <Input
                     {...restProps}
-                    data-tid='innerInput'
-                    ref='innerInput'
-                    className={cn('input') + ' inner-input'}
-                    value={this.state.displayValue || ''}
+                    data-tid="innerInput"
+                    ref="innerInput"
+                    className={cn("input") + " inner-input"}
+                    value={this.state.displayValue || ""}
                     onChange={(event, value) => this.handleInputChange(event, value)}
                     onBlur={(event, ...rest) => {
                         this.focused = false;

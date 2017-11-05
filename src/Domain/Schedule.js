@@ -1,12 +1,12 @@
 // @flow
 export const DaysOfWeek = {
-    Mon: 'Mon',
-    Tue: 'Tue',
-    Wed: 'Wed',
-    Thu: 'Thu',
-    Fri: 'Fri',
-    Sat: 'Sat',
-    Sun: 'Sun',
+    Mon: "Mon",
+    Tue: "Tue",
+    Wed: "Wed",
+    Thu: "Thu",
+    Fri: "Fri",
+    Sat: "Sat",
+    Sun: "Sun",
 };
 
 export type DayOfWeek = $Keys<typeof DaysOfWeek>;

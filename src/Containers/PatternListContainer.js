@@ -1,17 +1,17 @@
 // @flow
-import * as React from 'react';
-import type { ContextRouter } from 'react-router-dom';
-import type { IMoiraApi } from '../Api/MoiraAPI';
-import type { Pattern } from '../Domain/Pattern';
-import { withMoiraApi } from '../Api/MoiraApiInjection';
-import PatternList from '../Components/PatternList/PatternList';
-import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
+import * as React from "react";
+import type { ContextRouter } from "react-router-dom";
+import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { Pattern } from "../Domain/Pattern";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import PatternList from "../Components/PatternList/PatternList";
+import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
-    loading: boolean;
-    error: ?string;
-    list: ?Array<Pattern>;
+    loading: boolean,
+    error: ?string,
+    list: ?Array<Pattern>,
 };
 
 class PatternListContainer extends React.Component<Props, State> {
@@ -36,8 +36,7 @@ class PatternListContainer extends React.Component<Props, State> {
         try {
             const patterns = await moiraApi.getPatternList();
             this.setState({ loading: false, ...patterns });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     }

@@ -1,7 +1,7 @@
 // @noflow
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 export function createWithApiWrapper(key) {
     return function withApiWrapper(Comp) {
@@ -15,7 +15,7 @@ export function createWithApiWrapper(key) {
                 super(props, context);
 
                 if (!context[key]) {
-                    throw Error('No api was found in context. Wrap your component with ApiProvider');
+                    throw Error("No api was found in context. Wrap your component with ApiProvider");
                 }
             }
 

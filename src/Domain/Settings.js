@@ -1,6 +1,6 @@
 // @flow
-import type { Contact } from './Contact';
-import type { Subscription } from './Subscription';
+import type { Contact } from "./Contact";
+import type { Subscription } from "./Subscription";
 
 export interface Settings {
     login: string;

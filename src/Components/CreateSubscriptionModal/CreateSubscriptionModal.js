@@ -1,26 +1,26 @@
 // @flow
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import { ValidationContainer } from 'react-ui-validations';
-import Link from 'retail-ui/components/Link';
-import Modal from 'retail-ui/components/Modal';
-import Gapped from 'retail-ui/components/Gapped';
-import type { Contact } from '../../Domain/Contact';
-import SubscriptionEditor, { type SubscriptionInfo } from '../SubscriptionEditor/SubscriptionEditor';
+import * as React from "react";
+import Button from "retail-ui/components/Button";
+import { ValidationContainer } from "react-ui-validations";
+import Link from "retail-ui/components/Link";
+import Modal from "retail-ui/components/Modal";
+import Gapped from "retail-ui/components/Gapped";
+import type { Contact } from "../../Domain/Contact";
+import SubscriptionEditor, { type SubscriptionInfo } from "../SubscriptionEditor/SubscriptionEditor";
 
 type Props = {
-    subscription: SubscriptionInfo;
-    tags: Array<string>;
-    contacts: Array<Contact>;
-    onChange: ($Shape<SubscriptionInfo>) => void;
-    onCancel: () => void;
-    onCreateSubscription: SubscriptionInfo => Promise<void>;
-    onCreateAndTestSubscription: SubscriptionInfo => Promise<void>;
+    subscription: SubscriptionInfo,
+    tags: Array<string>,
+    contacts: Array<Contact>,
+    onChange: ($Shape<SubscriptionInfo>) => void,
+    onCancel: () => void,
+    onCreateSubscription: SubscriptionInfo => Promise<void>,
+    onCreateAndTestSubscription: SubscriptionInfo => Promise<void>,
 };
 
 type State = {
-    createInProcess: boolean;
-    createAndTestInProcess: boolean;
+    createInProcess: boolean,
+    createAndTestInProcess: boolean,
 };
 
 export default class SubscriptionEditModal extends React.Component<Props, State> {
@@ -42,8 +42,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         this.setState({ createInProcess: true });
         try {
             await onCreateSubscription(subscription);
-        }
-        finally {
+        } finally {
             this.setState({ createInProcess: false });
         }
     };
@@ -56,8 +55,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         this.setState({ createAndTestInProcess: true });
         try {
             await onCreateAndTestSubscription(subscription);
-        }
-        finally {
+        } finally {
             this.setState({ createAndTestInProcess: false });
         }
     };
@@ -71,7 +69,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
             <Modal ignoreBackgroundClick onClose={onCancel}>
                 <Modal.Header>Create subscription</Modal.Header>
                 <Modal.Body>
-                    <ValidationContainer ref='container'>
+                    <ValidationContainer ref="container">
                         <SubscriptionEditor
                             subscription={subscription}
                             onChange={onChange}
@@ -83,7 +81,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                 <Modal.Footer panel>
                     <Gapped gap={10}>
                         <Button
-                            use='primary'
+                            use="primary"
                             disabled={isActionButtonsDisabled}
                             loading={createInProcess}
                             onClick={() => {

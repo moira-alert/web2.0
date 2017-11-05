@@ -1,30 +1,30 @@
 // @flow
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import { ValidationContainer } from 'react-ui-validations';
-import Link from 'retail-ui/components/Link';
-import Modal from 'retail-ui/components/Modal';
-import Gapped from 'retail-ui/components/Gapped';
-import type { Subscription } from '../../Domain/Subscription';
-import type { Contact } from '../../Domain/Contact';
-import SubscriptionEditor from '../SubscriptionEditor/SubscriptionEditor';
+import * as React from "react";
+import Button from "retail-ui/components/Button";
+import { ValidationContainer } from "react-ui-validations";
+import Link from "retail-ui/components/Link";
+import Modal from "retail-ui/components/Modal";
+import Gapped from "retail-ui/components/Gapped";
+import type { Subscription } from "../../Domain/Subscription";
+import type { Contact } from "../../Domain/Contact";
+import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
 
 type Props = {
-    subscription: Subscription;
-    tags: Array<string>;
-    contacts: Array<Contact>;
-    onChange: ($Shape<Subscription>) => void;
+    subscription: Subscription,
+    tags: Array<string>,
+    contacts: Array<Contact>,
+    onChange: ($Shape<Subscription>) => void,
 
-    onCancel: () => void;
-    onRemoveSubscription: Subscription => Promise<void>;
-    onUpdateSubscription: Subscription => Promise<void>;
-    onUpdateAndTestSubscription: Subscription => Promise<void>;
+    onCancel: () => void,
+    onRemoveSubscription: Subscription => Promise<void>,
+    onUpdateSubscription: Subscription => Promise<void>,
+    onUpdateAndTestSubscription: Subscription => Promise<void>,
 };
 
 type State = {
-    updateInProcess: boolean;
-    updateAndTestInProcess: boolean;
-    deleteInProcess: boolean;
+    updateInProcess: boolean,
+    updateAndTestInProcess: boolean,
+    deleteInProcess: boolean,
 };
 
 export default class SubscriptionEditModal extends React.Component<Props, State> {
@@ -51,8 +51,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         this.setState({ updateInProcess: true });
         try {
             await onUpdateSubscription(subscription);
-        }
-        finally {
+        } finally {
             this.setState({ updateInProcess: false });
         }
     };
@@ -65,8 +64,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         this.setState({ updateAndTestInProcess: true });
         try {
             await onUpdateAndTestSubscription(subscription);
-        }
-        finally {
+        } finally {
             this.setState({ updateAndTestInProcess: false });
         }
     };
@@ -76,8 +74,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         this.setState({ deleteInProcess: true });
         try {
             await onRemoveSubscription(subscription);
-        }
-        finally {
+        } finally {
             this.setState({ deleteInProcess: false });
         }
     };
@@ -102,7 +99,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                 <Modal.Footer panel>
                     <Gapped gap={10}>
                         <Button
-                            use='primary'
+                            use="primary"
                             disabled={isActionButtonsDisabled}
                             loading={updateInProcess}
                             onClick={() => {

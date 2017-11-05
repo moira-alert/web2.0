@@ -1,44 +1,44 @@
 // @flow
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import StoryRouter from 'storybook-router';
-import MetricList from '../Components/MetricList/MetricList';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import StoryRouter from "storybook-router";
+import MetricList from "../Components/MetricList/MetricList";
 
 const items = {
-    'vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace': {
+    "vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace": {
         event_timestamp: 1503484033,
-        state: 'NODATA',
+        state: "NODATA",
         suppressed: false,
         value: 10.453,
         timestamp: 1503496225,
     },
-    'vm-ditrace3.ditrace': {
+    "vm-ditrace3.ditrace": {
         event_timestamp: 1503486527,
-        state: 'WARN',
+        state: "WARN",
         suppressed: false,
         timestamp: 1503496225,
         maintenance: 1504100565,
     },
-    'vm-ditrace3.elasticsearch': {
+    "vm-ditrace3.elasticsearch": {
         event_timestamp: 1503486527,
-        state: 'ERROR',
+        state: "ERROR",
         suppressed: false,
         timestamp: 1503496225,
         value: 109389189,
         maintenance: 1504118563,
     },
-    'vm-ditrace3.nginx': {
+    "vm-ditrace3.nginx": {
         event_timestamp: 1503484033,
-        state: 'OK',
+        state: "OK",
         suppressed: false,
         timestamp: 1503496225,
     },
 };
 
-storiesOf('MetricList', module)
+storiesOf("MetricList", module)
     .addDecorator(StoryRouter())
-    .add('Default', () => <MetricList items={items} onChange={action('onChange')} onRemove={action('onRemove')} />)
-    .add('With Status Indicator', () => (
-        <MetricList items={items} status onChange={action('onChange')} onRemove={action('onRemove')} />
+    .add("Default", () => <MetricList items={items} onChange={action("onChange")} onRemove={action("onRemove")} />)
+    .add("With Status Indicator", () => (
+        <MetricList items={items} status onChange={action("onChange")} onRemove={action("onRemove")} />
     ));

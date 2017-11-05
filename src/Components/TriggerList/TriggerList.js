@@ -1,15 +1,15 @@
 // @flow
-import * as React from 'react';
-import type { Trigger } from '../../Domain/Trigger';
-import type { Maintenance } from '../../Domain/Maintenance';
-import TriggerListItem from '../TriggerListItem/TriggerListItem';
-import cn from './TriggerList.less';
+import * as React from "react";
+import type { Trigger } from "../../Domain/Trigger";
+import type { Maintenance } from "../../Domain/Maintenance";
+import TriggerListItem from "../TriggerListItem/TriggerListItem";
+import cn from "./TriggerList.less";
 
 type Props = {|
-    items: Array<Trigger>;
-    supportEmail: ?string;
-    onChange?: (triggerId: string, maintenance: Maintenance, metric: string) => void;
-    onRemove?: (triggerId: string, metric: string) => void;
+    items: Array<Trigger>,
+    supportEmail: ?string,
+    onChange?: (triggerId: string, maintenance: Maintenance, metric: string) => void,
+    onRemove?: (triggerId: string, metric: string) => void,
 |};
 
 export default function TriggerList(props: Props): React.Node {
@@ -17,10 +17,10 @@ export default function TriggerList(props: Props): React.Node {
     return (
         <div>
             {items.length === 0 ? (
-                <div className={cn('no-result')}>No results :-(</div>
+                <div className={cn("no-result")}>No results :-(</div>
             ) : (
                 items.map(item => (
-                    <div className={cn('item')} key={item.id}>
+                    <div className={cn("item")} key={item.id}>
                         <TriggerListItem
                             supportEmail={supportEmail}
                             data={item}

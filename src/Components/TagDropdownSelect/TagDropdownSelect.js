@@ -1,29 +1,29 @@
 // @flow
-import * as React from 'react';
-import { findDOMNode } from 'react-dom';
-import { union, difference } from 'lodash';
-import RenderLayer from 'retail-ui/components/RenderLayer';
-import LayoutEvents from 'retail-ui/lib/LayoutEvents';
-import DropdownContainer from 'retail-ui/components/DropdownContainer/DropdownContainer';
-import ScrollContainer from 'retail-ui/components/ScrollContainer/ScrollContainer';
-import Tag from '../Tag/Tag';
-import cn from './TagDropdownSelect.less';
+import * as React from "react";
+import { findDOMNode } from "react-dom";
+import { union, difference } from "lodash";
+import RenderLayer from "retail-ui/components/RenderLayer";
+import LayoutEvents from "retail-ui/lib/LayoutEvents";
+import DropdownContainer from "retail-ui/components/DropdownContainer/DropdownContainer";
+import ScrollContainer from "retail-ui/components/ScrollContainer/ScrollContainer";
+import Tag from "../Tag/Tag";
+import cn from "./TagDropdownSelect.less";
 
 type Props = {
-    value: Array<string>;
-    onChange: (Array<string>) => void;
-    availableTags: Array<string>;
-    error?: boolean;
-    width?: string | number;
-    onMouseEnter?: (e: Event) => void;
-    onMouseLeave?: (e: Event) => void;
+    value: Array<string>,
+    onChange: (Array<string>) => void,
+    availableTags: Array<string>,
+    error?: boolean,
+    width?: string | number,
+    onMouseEnter?: (e: Event) => void,
+    onMouseLeave?: (e: Event) => void,
 };
 
 type State = {
-    opened: boolean;
-    inputValue: string;
-    isFocused: boolean;
-    focusedIndex: number;
+    opened: boolean,
+    inputValue: string,
+    isFocused: boolean,
+    focusedIndex: number,
 };
 
 export default class TagDropdownSelect extends React.Component<Props, State> {
@@ -31,7 +31,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     state: State = {
         opened: false,
         focusedIndex: 0,
-        inputValue: '',
+        inputValue: "",
         isFocused: false,
     };
 
@@ -59,31 +59,31 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
 
         if (isFocused) {
             switch (key) {
-                case 'Delete':
+                case "Delete":
                     break;
-                case 'Backspace':
+                case "Backspace":
                     if (caretPosition === 0 && value.length !== 0) {
                         this.removeTag(value[value.length - 1]);
                     }
                     break;
-                case 'ArrowUp': {
+                case "ArrowUp": {
                     const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
                     this.setState({ focusedIndex: newIndex });
                     break;
                 }
-                case 'ArrowDown': {
+                case "ArrowDown": {
                     const newIndex = focusedIndex < filtredTags.length ? focusedIndex + 1 : 0;
                     this.setState({ focusedIndex: newIndex });
                     break;
                 }
-                case 'Enter':
+                case "Enter":
                     if (focusedIndex !== 0) {
                         this.selectTag(filtredTags[focusedIndex - 1]);
                     }
                     if (focusedIndex === 0) {
                         this.selectTag(filtredTags[filtredTags.length - 1]);
                     }
-                    this.setState({ inputValue: '' });
+                    this.setState({ inputValue: "" });
                     break;
                 default:
                     break;
@@ -96,17 +96,17 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const { isFocused, inputValue } = this.state;
         return (
             <div
-                className={cn('input-area', { focused: isFocused, error })}
+                className={cn("input-area", { focused: isFocused, error })}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}>
                 {value.length !== 0 &&
                     value.map((tag, i) => (
-                        <span className={cn('tag-wrap')} key={i}>
+                        <span className={cn("tag-wrap")} key={i}>
                             <Tag title={tag} onRemove={() => this.handleRemoveTag(tag)} />
                         </span>
                     ))}
                 <input
-                    className={cn('input')}
+                    className={cn("input")}
                     value={inputValue}
                     onKeyDown={(event: KeyboardEvent) =>
                         event.target instanceof HTMLInputElement
@@ -148,7 +148,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
 
     filterTags(tags: Array<string>): Array<string> {
         const { inputValue } = this.state;
-        if (inputValue.trim() === '') {
+        if (inputValue.trim() === "") {
             return tags;
         }
         return tags.filter(x => x.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
@@ -160,19 +160,19 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const filtredTags = this.filterTags(difference(availableTags, value));
 
         return (
-            <span className={cn('root')} style={{ width: width }}>
+            <span className={cn("root")} style={{ width: width }}>
                 <RenderLayer
                     onClickOutside={this.handleClickOutside}
                     onFocusOutside={this.handleFocusOutside}
                     active={opened}>
-                    <label style={{ width: '100%', display: 'inline-block', position: 'relative' }}>
+                    <label style={{ width: "100%", display: "inline-block", position: "relative" }}>
                         {this.renderInput()}
                         {opened && (
-                            <DropdownContainer align={'left'} getParent={() => findDOMNode(this)} offsetY={1}>
+                            <DropdownContainer align={"left"} getParent={() => findDOMNode(this)} offsetY={1}>
                                 <ScrollContainer maxHeight={300}>
-                                    <div className={cn('tags-menu')} ref='menu'>
+                                    <div className={cn("tags-menu")} ref="menu">
                                         {filtredTags.length > 0 ? (
-                                            <div className={cn('tag-list')}>
+                                            <div className={cn("tag-list")}>
                                                 {filtredTags.map((tag, i) => (
                                                     <Tag
                                                         key={i}
@@ -183,7 +183,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                                 ))}
                                             </div>
                                         ) : (
-                                            <div className={cn('no-tags')}>No matched tags found.</div>
+                                            <div className={cn("no-tags")}>No matched tags found.</div>
                                         )}
                                     </div>
                                 </ScrollContainer>
@@ -191,7 +191,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         )}
                     </label>
                 </RenderLayer>
-                <span tabIndex='-1' ref='focusAnchor' />
+                <span tabIndex="-1" ref="focusAnchor" />
             </span>
         );
     }

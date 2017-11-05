@@ -1,24 +1,24 @@
 // @flow
-import * as React from 'react';
-import type { ContextRouter } from 'react-router-dom';
-import type { IMoiraApi } from '../Api/MoiraAPI';
-import type { Settings } from '../Domain/Settings';
-import type { Contact } from '../Domain/Contact';
-import type { ContactType } from '../Domain/ContactType';
-import type { Subscription } from '../Domain/Subscription';
-import { withMoiraApi } from '../Api/MoiraApiInjection';
-import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
-import ContactList from '../Components/ContactList/ContactList';
-import SubscriptionList, { type SubscriptionInfo } from '../Components/SubscriptionList/SubscriptionList';
-import type { NewContactInfo } from '../Components/NewContactModal/NewContactModal';
-import cn from './SettingsContainer.less';
+import * as React from "react";
+import type { ContextRouter } from "react-router-dom";
+import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { Settings } from "../Domain/Settings";
+import type { Contact } from "../Domain/Contact";
+import type { ContactType } from "../Domain/ContactType";
+import type { Subscription } from "../Domain/Subscription";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import ContactList from "../Components/ContactList/ContactList";
+import SubscriptionList, { type SubscriptionInfo } from "../Components/SubscriptionList/SubscriptionList";
+import type { NewContactInfo } from "../Components/NewContactModal/NewContactModal";
+import cn from "./SettingsContainer.less";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
-    loading: boolean;
-    error: ?string;
-    settings: ?Settings;
-    tags: ?Array<string>;
+    loading: boolean,
+    error: ?string,
+    settings: ?Settings,
+    tags: ?Array<string>,
 };
 
 class SettingsContainer extends React.Component<Props, State> {
@@ -36,20 +36,19 @@ class SettingsContainer extends React.Component<Props, State> {
 
     normalizeContactValueForApi(contactType: ContactType, value: string): string {
         let result = value.trim();
-        if (contactType === 'twilio voice') {
+        if (contactType === "twilio voice") {
             if (result.length >= 11) {
-                result = result.replace(/^8/, '+7');
-                result = result.replace(/^7/, '+7');
-            }
-            else if (result.length === 10) {
-                result = '+7' + result;
+                result = result.replace(/^8/, "+7");
+                result = result.replace(/^7/, "+7");
+            } else if (result.length === 10) {
+                result = "+7" + result;
             }
             return result;
         }
-        if (contactType === 'phone') {
+        if (contactType === "phone") {
             if (result.length >= 11) {
-                result = result.replace(/^\+7/, '');
-                result = result.replace(/^7/, '');
+                result = result.replace(/^\+7/, "");
+                result = result.replace(/^7/, "");
             }
             return result;
         }
@@ -58,10 +57,10 @@ class SettingsContainer extends React.Component<Props, State> {
 
     normalizeContactValueForUi(contactType: ContactType, value: string): string {
         let result = value;
-        if (contactType === 'phone') {
+        if (contactType === "phone") {
             result = result.trim();
             if (/^\d{10}$/.test(result)) {
-                result = '+7' + result;
+                result = "+7" + result;
             }
             return result;
         }
@@ -81,8 +80,7 @@ class SettingsContainer extends React.Component<Props, State> {
                 })),
             };
             this.setState({ loading: false, settings, tags: tags });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     }
@@ -91,8 +89,7 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         try {
             await moiraApi.testContact(contact.id);
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     };
@@ -101,8 +98,7 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         try {
             await moiraApi.testSubscription(subscription.id);
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     };
@@ -111,11 +107,11 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         const contactType = contact.type;
         if (contactType == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             let newContact = await moiraApi.addContact({
@@ -134,8 +130,7 @@ class SettingsContainer extends React.Component<Props, State> {
                 },
             });
             return newContact;
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
         return null;
@@ -145,7 +140,7 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         const { contacts } = settings;
         try {
@@ -160,8 +155,7 @@ class SettingsContainer extends React.Component<Props, State> {
                     contacts: [...contacts.slice(0, index), contact, ...contacts.slice(index + 1)],
                 },
             });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     };
@@ -170,7 +164,7 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             const newSubscriptions = await moiraApi.addSubscription({
@@ -187,8 +181,7 @@ class SettingsContainer extends React.Component<Props, State> {
                     subscriptions: [...settings.subscriptions, newSubscriptions],
                 },
             });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     };
@@ -197,7 +190,7 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         const { subscriptions } = settings;
         try {
@@ -209,8 +202,7 @@ class SettingsContainer extends React.Component<Props, State> {
                     subscriptions: [...subscriptions.slice(0, index), subscription, ...subscriptions.slice(index + 1)],
                 },
             });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     };
@@ -219,7 +211,7 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             await moiraApi.deleteSubscription(subscription.id);
@@ -229,8 +221,7 @@ class SettingsContainer extends React.Component<Props, State> {
                     subscriptions: settings.subscriptions.filter(x => x.id !== subscription.id),
                 },
             });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     };
@@ -239,7 +230,7 @@ class SettingsContainer extends React.Component<Props, State> {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
-            throw new Error('InvalidProgramState');
+            throw new Error("InvalidProgramState");
         }
         try {
             await moiraApi.deleteContact(contact.id);
@@ -249,8 +240,7 @@ class SettingsContainer extends React.Component<Props, State> {
                     contacts: settings.contacts.filter(x => x.id !== contact.id),
                 },
             });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     };
@@ -262,32 +252,32 @@ class SettingsContainer extends React.Component<Props, State> {
                 <LayoutContent>
                     <LayoutTitle>Notifications</LayoutTitle>
                     {settings != null &&
-                    settings.contacts != null && (
-                        <div className={cn('contact-list')}>
-                            <ContactList
-                                items={settings.contacts}
-                                onTestContact={this.handleTestContact}
-                                onAddContact={this.handleAddContact}
-                                onUpdateContact={this.handleUpdateContact}
-                                onRemoveContact={this.handleRemoveContact}
-                            />
-                        </div>
-                    )}
+                        settings.contacts != null && (
+                            <div className={cn("contact-list")}>
+                                <ContactList
+                                    items={settings.contacts}
+                                    onTestContact={this.handleTestContact}
+                                    onAddContact={this.handleAddContact}
+                                    onUpdateContact={this.handleUpdateContact}
+                                    onRemoveContact={this.handleRemoveContact}
+                                />
+                            </div>
+                        )}
                     {settings != null &&
-                    tags != null &&
-                    settings.subscriptions != null &&
-                    settings.contacts != null &&
-                    settings.contacts.length > 0 && (
-                        <SubscriptionList
-                            tags={tags}
-                            contacts={settings.contacts}
-                            subscriptions={settings.subscriptions}
-                            onTestSubscription={this.handleTestSubscription}
-                            onAddSubscription={this.handleAddSubscription}
-                            onRemoveSubscription={this.handleRemoveSubscription}
-                            onUpdateSubscription={this.handleUpdateSubscription}
-                        />
-                    )}
+                        tags != null &&
+                        settings.subscriptions != null &&
+                        settings.contacts != null &&
+                        settings.contacts.length > 0 && (
+                            <SubscriptionList
+                                tags={tags}
+                                contacts={settings.contacts}
+                                subscriptions={settings.subscriptions}
+                                onTestSubscription={this.handleTestSubscription}
+                                onAddSubscription={this.handleAddSubscription}
+                                onRemoveSubscription={this.handleRemoveSubscription}
+                                onUpdateSubscription={this.handleUpdateSubscription}
+                            />
+                        )}
                 </LayoutContent>
             </Layout>
         );

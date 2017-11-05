@@ -1,25 +1,25 @@
 // @flow
-import * as React from 'react';
-import Modal from 'retail-ui/components/Modal';
-import Gapped from 'retail-ui/components/Gapped';
-import Button from 'retail-ui/components/Button';
-import Link from 'retail-ui/components/Link';
-import { ValidationContainer } from 'react-ui-validations';
-import ContactEditForm, { type ContactInfo } from '../ContactEditForm/ContactEditForm';
+import * as React from "react";
+import Modal from "retail-ui/components/Modal";
+import Gapped from "retail-ui/components/Gapped";
+import Button from "retail-ui/components/Button";
+import Link from "retail-ui/components/Link";
+import { ValidationContainer } from "react-ui-validations";
+import ContactEditForm, { type ContactInfo } from "../ContactEditForm/ContactEditForm";
 
 export type NewContactInfo = ContactInfo;
 
 type Props = {
-    contactInfo: ContactInfo;
-    onChange: ($Shape<ContactInfo>) => void;
-    onCancel: () => void;
-    onCreate: () => Promise<void>;
-    onCreateAndTest: () => Promise<void>;
+    contactInfo: ContactInfo,
+    onChange: ($Shape<ContactInfo>) => void,
+    onCancel: () => void,
+    onCreate: () => Promise<void>,
+    onCreateAndTest: () => Promise<void>,
 };
 
 type State = {
-    createInProcess: boolean;
-    createAndTestInProcess: boolean;
+    createInProcess: boolean,
+    createAndTestInProcess: boolean,
 };
 
 export default class NewContactModal extends React.Component<Props, State> {
@@ -38,8 +38,7 @@ export default class NewContactModal extends React.Component<Props, State> {
         this.setState({ createInProcess: true });
         try {
             await onCreate();
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ createInProcess: false });
         }
     };
@@ -52,8 +51,7 @@ export default class NewContactModal extends React.Component<Props, State> {
         this.setState({ createAndTestInProcess: true });
         try {
             await onCreateAndTest();
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ createAndTestInProcess: false });
         }
     };
@@ -84,7 +82,7 @@ export default class NewContactModal extends React.Component<Props, State> {
                         <Button
                             disabled={idActionButtonsDisabled}
                             loading={createAndTestInProcess}
-                            use='primary'
+                            use="primary"
                             onClick={() => {
                                 this.handleCreateAndTestContact();
                             }}>

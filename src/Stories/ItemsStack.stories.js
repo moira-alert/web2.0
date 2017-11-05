@@ -1,18 +1,18 @@
 // @flow
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import { RowStack, ColumnStack, Fit, Fill, Fixed } from '../Components/ItemsStack/ItemsStack';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
+import { RowStack, ColumnStack, Fit, Fill, Fixed } from "../Components/ItemsStack/ItemsStack";
 
-function Outline(props: { children: string }): React.Node {
+function Outline(props: { children: React.Node }): React.Node {
     return (
-        <div style={{ padding: '5px 3px', height: '100%', border: '1px solid #333', boxSizing: 'border-box' }}>
+        <div style={{ padding: "5px 3px", height: "100%", border: "1px solid #333", boxSizing: "border-box" }}>
             {props.children}
         </div>
     );
 }
 
-storiesOf('ItemsStack', module)
-    .add('RowStack', () => (
+storiesOf("ItemsStack", module)
+    .add("RowStack", () => (
         <RowStack block gap={2}>
             <Fit>
                 <Outline>Fit Item</Outline>
@@ -21,12 +21,14 @@ storiesOf('ItemsStack', module)
                 <Outline>Fill Item</Outline>
             </Fill>
             <Fixed width={70}>
-                <Outline>Item with fixed width and long, long word "Eyjafjallajökull"</Outline>
+                <Outline>
+                    Item with fixed width and long, long word {'"'}Eyjafjallajökull{'"'}
+                </Outline>
             </Fixed>
         </RowStack>
     ))
-    .add('ColumnStack', () => (
-        <ColumnStack block stretch gap={2} style={{ height: '300px' }}>
+    .add("ColumnStack", () => (
+        <ColumnStack block stretch gap={2} style={{ height: "300px" }}>
             <Fit>
                 <Outline>Fit Item</Outline>
             </Fit>

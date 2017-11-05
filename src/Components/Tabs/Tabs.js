@@ -1,19 +1,19 @@
 // @flow
-import * as React from 'react';
-import Tabs from 'retail-ui/components/Tabs';
-import cn from './Tabs.less';
+import * as React from "react";
+import Tabs from "retail-ui/components/Tabs";
+import cn from "./Tabs.less";
 
 type Props = {|
-    value: string;
-    children: React.Node;
+    value: string,
+    children: React.Node,
 |};
 type TabProps = {|
-    id: string;
-    label: string;
-    children: React.Node;
+    id: string,
+    label: string,
+    children: React.Node,
 |};
 type State = {
-    active: string;
+    active: string,
 };
 
 const TabsTab = Tabs.Tab;
@@ -44,7 +44,7 @@ export default class TabsCustom extends React.Component<Props, State> {
         }
         return (
             <div>
-                <div className={cn('header')}>
+                <div className={cn("header")}>
                     <Tabs value={active} onChange={(target, value) => this.setState({ active: value })}>
                         {React.Children.map(children, ({ props }) => <TabsTab id={props.id}>{props.label}</TabsTab>)}
                     </Tabs>

@@ -1,31 +1,31 @@
 // @flow
-import * as React from 'react';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
-import { getPageLink } from '../../Domain/Global';
-import type { Trigger } from '../../Domain/Trigger.js';
-import type { Status } from '../../Domain/Status';
-import type { Metric } from '../../Domain/Metric';
-import type { Maintenance } from '../../Domain/Maintenance';
-import { Statuses, getStatusColor, getStatusCaption } from '../../Domain/Status';
-import Icon from 'retail-ui/components/Icon';
-import { default as ReactUiLink } from 'retail-ui/components/Link';
-import RouterLink from '../RouterLink/RouterLink';
-import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import TagGroup from '../TagGroup/TagGroup';
-import Tabs, { Tab } from '../Tabs/Tabs';
-import MetricList from '../MetricList/MetricList';
-import cn from './TriggerListItem.less';
+import * as React from "react";
+import moment from "moment";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { getPageLink } from "../../Domain/Global";
+import type { Trigger } from "../../Domain/Trigger.js";
+import type { Status } from "../../Domain/Status";
+import type { Metric } from "../../Domain/Metric";
+import type { Maintenance } from "../../Domain/Maintenance";
+import { Statuses, getStatusColor, getStatusCaption } from "../../Domain/Status";
+import Icon from "retail-ui/components/Icon";
+import Link from "retail-ui/components/Link";
+import RouterLink from "../RouterLink/RouterLink";
+import StatusIndicator from "../StatusIndicator/StatusIndicator";
+import TagGroup from "../TagGroup/TagGroup";
+import Tabs, { Tab } from "../Tabs/Tabs";
+import MetricList from "../MetricList/MetricList";
+import cn from "./TriggerListItem.less";
 
 type Props = {|
-    data: Trigger;
-    supportEmail: ?string;
-    onChange?: (maintenance: Maintenance, metric: string) => void;
-    onRemove?: (metric: string) => void;
+    data: Trigger,
+    supportEmail: ?string,
+    onChange?: (maintenance: Maintenance, metric: string) => void,
+    onRemove?: (metric: string) => void,
 |};
 
 type State = {
-    showMetrics: boolean;
+    showMetrics: boolean,
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
@@ -84,8 +84,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
                 </span>
             ));
         return (
-            <div className={cn('counters')}>
-                {counters.length !== 0 ? counters : <span className={cn('NA')}>N/A</span>}
+            <div className={cn("counters")}>
+                {counters.length !== 0 ? counters : <span className={cn("NA")}>N/A</span>}
             </div>
         );
     }
@@ -107,18 +107,15 @@ export default class TriggerListItem extends React.Component<Props, State> {
         let statuses;
         if (triggerStatus === Statuses.EXCEPTION) {
             statuses = [Statuses.EXCEPTION];
-        }
-        else if (metricStatuses.length === 0) {
+        } else if (metricStatuses.length === 0) {
             statuses = [triggerStatus];
-        }
-        else if (notOkStatuses.length === 0) {
+        } else if (notOkStatuses.length === 0) {
             statuses = [Statuses.OK];
-        }
-        else {
+        } else {
             statuses = notOkStatuses;
         }
         return (
-            <div className={cn('indicator')}>
+            <div className={cn("indicator")}>
                 <StatusIndicator statuses={statuses} />
             </div>
         );
@@ -126,18 +123,18 @@ export default class TriggerListItem extends React.Component<Props, State> {
 
     renderExceptionHelpMessage(): React.Node {
         const { data, supportEmail } = this.props;
-        const hasExpression = data.expression != null && data.expression !== '';
+        const hasExpression = data.expression != null && data.expression !== "";
         const hasMultipleTargets = data.targets.length > 1;
         return (
-            <div className={cn('exception-message')}>
-                <Icon name='Error' color={'#D43517'} size={16} /> Trigger in EXCEPTION state. Please{' '}
-                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets ? 's' : ''}
-                {hasExpression ? ' and exression' : ''} on{' '}
+            <div className={cn("exception-message")}>
+                <Icon name="Error" color={"#D43517"} size={16} /> Trigger in EXCEPTION state. Please{" "}
+                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets ? "s" : ""}
+                {hasExpression ? " and exression" : ""} on{" "}
                 <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
                 {supportEmail != null && (
                     <span>
-                        {' '}
-                        Or <ReactUiLink href={`mailto:${supportEmail}`}>contact</ReactUiLink> with server administrator.
+                        {" "}
+                        Or <Link href={`mailto:${supportEmail}`}>contact</Link> with server administrator.
                     </span>
                 )}
             </div>
@@ -157,7 +154,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
             <Tab key={x} id={x} label={getStatusCaption(x)}>
                 <MetricList
                     items={this.sortMetricsByValue(this.filterMetricsByStatus(x))}
-                    sortingColumn='value'
+                    sortingColumn="value"
                     sortingDown
                     onChange={(maintenance, metric) => onChange(maintenance, metric)}
                     onRemove={metric => onRemove(metric)}
@@ -165,7 +162,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
             </Tab>
         ));
         return (
-            <div className={cn('metrics')}>
+            <div className={cn("metrics")}>
                 {this.getHasExceptionState() && this.renderExceptionHelpMessage()}
                 <Tabs value={statuses[0]}>{metrics}</Tabs>
             </div>
@@ -178,21 +175,23 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const metrics = this.renderMetrics();
 
         return (
-            <div className={cn('row', { active: showMetrics })}>
-                <div className={cn('state', { active: metrics })} onClick={metrics && (() => this.toggleMetrics())}>
+            <div className={cn("row", { active: showMetrics })}>
+                <div className={cn("state", { active: metrics })} onClick={metrics && (() => this.toggleMetrics())}>
                     {this.renderStatus()}
                     {this.renderCounters()}
                 </div>
-                <div className={cn('data')}>
-                    <div className={cn('header')}>
-                        <Link className={cn('link')} to={getPageLink('trigger', id)}>
-                            <div className={cn('title')}>
-                                <div className={cn('name')}>{name != null && name !== '' ? name : '[No name]'}</div>
+                <div className={cn("data")}>
+                    <div className={cn("header")}>
+                        <ReactRouterLink className={cn("link")} to={getPageLink("trigger", id)}>
+                            <div className={cn("title")}>
+                                <div className={cn("name")}>{name != null && name !== "" ? name : "[No name]"}</div>
                                 {throttling !== 0 && (
                                     <div
-                                        className={cn('flag')}
-                                        title={'Throttling until ' + moment.unix(throttling).format('MMMM D, HH:mm:ss')}>
-                                        <Icon name='FlagSolid' />
+                                        className={cn("flag")}
+                                        title={
+                                            "Throttling until " + moment.unix(throttling).format("MMMM D, HH:mm:ss")
+                                        }>
+                                        <Icon name="FlagSolid" />
                                     </div>
                                 )}
                             </div>
@@ -202,14 +201,14 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     dark: showMetrics,
                                 })}>
                                 {targets.map((target, i) => (
-                                    <div key={i} className={cn('target')}>
+                                    <div key={i} className={cn("target")}>
                                         {target}
                                     </div>
                                 ))}
                             </div>
-                        </Link>
+                        </ReactRouterLink>
                     </div>
-                    <div className={cn('tags')}>
+                    <div className={cn("tags")}>
                         <TagGroup tags={tags} />
                     </div>
                     {showMetrics && metrics}

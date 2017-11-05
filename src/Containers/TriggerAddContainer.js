@@ -1,24 +1,24 @@
 // @flow
-import * as React from 'react';
-import type { ContextRouter } from 'react-router-dom';
-import type { IMoiraApi } from '../Api/MoiraAPI';
-import type { Trigger } from '../Domain/Trigger';
-import { getPageLink } from '../Domain/Global';
-import { Statuses } from '../Domain/Status';
-import { withMoiraApi } from '../Api/MoiraApiInjection';
-import { ValidationContainer } from 'react-ui-validations';
-import Button from 'retail-ui/components/Button';
-import RouterLink from '../Components/RouterLink/RouterLink';
-import Layout, { LayoutContent, LayoutTitle } from '../Components/Layout/Layout';
-import TriggerEditForm from '../Components/TriggerEditForm/TriggerEditForm';
-import { RowStack, ColumnStack, Fit } from '../Components/ItemsStack/ItemsStack';
+import * as React from "react";
+import type { ContextRouter } from "react-router-dom";
+import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { Trigger } from "../Domain/Trigger";
+import { getPageLink } from "../Domain/Global";
+import { Statuses } from "../Domain/Status";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import { ValidationContainer } from "react-ui-validations";
+import Button from "retail-ui/components/Button";
+import RouterLink from "../Components/RouterLink/RouterLink";
+import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
+import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
-    loading: boolean;
-    error: ?string;
-    trigger: ?$Shape<Trigger>;
-    tags: ?Array<string>;
+    loading: boolean,
+    error: ?string,
+    trigger: ?$Shape<Trigger>,
+    tags: ?Array<string>,
 };
 
 class TriggerEditContainer extends React.Component<Props, State> {
@@ -27,12 +27,12 @@ class TriggerEditContainer extends React.Component<Props, State> {
         loading: true,
         error: null,
         trigger: {
-            name: '',
-            desc: '',
-            targets: [''],
+            name: "",
+            desc: "",
+            targets: [""],
             tags: [],
             patterns: [],
-            expression: '',
+            expression: "",
             ttl: 600,
             ttl_state: Statuses.NODATA,
             sched: {
@@ -40,13 +40,13 @@ class TriggerEditContainer extends React.Component<Props, State> {
                 endOffset: 1439,
                 tzOffset: -300,
                 days: [
-                    { name: 'Mon', enabled: true },
-                    { name: 'Tue', enabled: true },
-                    { name: 'Wed', enabled: true },
-                    { name: 'Thu', enabled: true },
-                    { name: 'Fri', enabled: true },
-                    { name: 'Sat', enabled: true },
-                    { name: 'Sun', enabled: true },
+                    { name: "Mon", enabled: true },
+                    { name: "Tue", enabled: true },
+                    { name: "Wed", enabled: true },
+                    { name: "Thu", enabled: true },
+                    { name: "Fri", enabled: true },
+                    { name: "Sat", enabled: true },
+                    { name: "Sun", enabled: true },
                 ],
             },
         },
@@ -67,8 +67,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         try {
             const { list } = await moiraApi.getTagList();
             this.setState({ loading: false, tags: list });
-        }
-        catch (error) {
+        } catch (error) {
             this.setState({ error: error.message });
         }
     }
@@ -81,9 +80,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
             this.setState({ loading: true });
             try {
                 const { id } = await moiraApi.addTrigger(trigger);
-                history.push(getPageLink('trigger', id));
-            }
-            catch (error) {
+                history.push(getPageLink("trigger", id));
+            } catch (error) {
                 this.setState({ error: error.message, loading: false });
             }
         }
@@ -103,7 +101,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                         <form>
                             <ColumnStack block gap={4}>
                                 <Fit>
-                                    <ValidationContainer ref='triggerForm'>
+                                    <ValidationContainer ref="triggerForm">
                                         <TriggerEditForm
                                             data={trigger}
                                             tags={tags || []}
@@ -115,7 +113,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                     <RowStack gap={3} baseline>
                                         <Fit>
                                             <Button
-                                                use='primary'
+                                                use="primary"
                                                 onClick={() => {
                                                     this.handleSubmit();
                                                 }}>
@@ -123,7 +121,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                             </Button>
                                         </Fit>
                                         <Fit>
-                                            <RouterLink to='/'>Cancel</RouterLink>
+                                            <RouterLink to="/">Cancel</RouterLink>
                                         </Fit>
                                     </RowStack>
                                 </Fit>

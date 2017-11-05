@@ -1,32 +1,32 @@
 // @flow
-import queryString from 'query-string';
-import type { Config } from '../Domain/Config';
-import type { EventList } from '../Domain/Event';
-import type { Trigger, TriggerList, TriggerState } from '../Domain/Trigger';
-import type { Settings } from '../Domain/Settings';
-import type { TagStat } from '../Domain/Tag';
-import type { PatternList } from '../Domain/Pattern';
-import type { NotificationList } from '../Domain/Notification';
-import type { Contact, ContactList } from '../Domain/Contact';
-import type { ContactCreateInfo } from '../Domain/ContactCreateInfo';
-import type { Subscription } from '../Domain/Subscription';
-import type { Schedule } from '../Domain/Schedule';
+import queryString from "query-string";
+import type { Config } from "../Domain/Config";
+import type { EventList } from "../Domain/Event";
+import type { Trigger, TriggerList, TriggerState } from "../Domain/Trigger";
+import type { Settings } from "../Domain/Settings";
+import type { TagStat } from "../Domain/Tag";
+import type { PatternList } from "../Domain/Pattern";
+import type { NotificationList } from "../Domain/Notification";
+import type { Contact, ContactList } from "../Domain/Contact";
+import type { ContactCreateInfo } from "../Domain/ContactCreateInfo";
+import type { Subscription } from "../Domain/Subscription";
+import type { Schedule } from "../Domain/Schedule";
 
 export type SubscriptionCreateInfo = {|
-    sched: Schedule;
-    tags: Array<string>;
-    throttling: boolean;
-    contacts: Array<string>;
-    enabled: boolean;
-    user: string;
+    sched: Schedule,
+    tags: Array<string>,
+    throttling: boolean,
+    contacts: Array<string>,
+    enabled: boolean,
+    user: string,
 |};
 
 export type TagList = {|
-    list: Array<string>;
+    list: Array<string>,
 |};
 
 export type TagStatList = {|
-    list: Array<TagStat>;
+    list: Array<TagStat>,
 |};
 
 export interface IMoiraApi {
@@ -78,8 +78,7 @@ export default class Api implements IMoiraApi {
             let serverResponse;
             try {
                 serverResponse = JSON.parse(errorText);
-            }
-            catch (error) {
+            } catch (error) {
                 serverResponse = null;
             }
             if (serverResponse != null) {
@@ -90,30 +89,30 @@ export default class Api implements IMoiraApi {
     }
 
     async getSettings(): Promise<Settings> {
-        const url = this.config.apiUrl + '/user/settings';
+        const url = this.config.apiUrl + "/user/settings";
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async getContactList(): Promise<ContactList> {
-        const url = this.config.apiUrl + '/contact';
+        const url = this.config.apiUrl + "/contact";
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
-        const url = this.config.apiUrl + '/contact';
+        const url = this.config.apiUrl + "/contact";
         const response = await fetch(url, {
-            method: 'PUT',
-            credentials: 'same-origin',
+            method: "PUT",
+            credentials: "same-origin",
             body: JSON.stringify(contact),
         });
         await this.checkStatus(response);
@@ -121,19 +120,19 @@ export default class Api implements IMoiraApi {
     }
 
     async testContact(contactId: string): Promise<void> {
-        const url = this.config.apiUrl + '/contact/' + contactId + '/test';
+        const url = this.config.apiUrl + "/contact/" + contactId + "/test";
         const response = await fetch(url, {
-            method: 'POST',
-            credentials: 'same-origin',
+            method: "POST",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
     }
 
     async updateContact(contact: Contact): Promise<Contact> {
-        const url = this.config.apiUrl + '/contact/' + contact.id;
+        const url = this.config.apiUrl + "/contact/" + contact.id;
         const response = await fetch(url, {
-            method: 'PUT',
-            credentials: 'same-origin',
+            method: "PUT",
+            credentials: "same-origin",
             body: JSON.stringify(contact),
         });
         await this.checkStatus(response);
@@ -141,13 +140,13 @@ export default class Api implements IMoiraApi {
     }
 
     async addSubscription(subscription: SubscriptionCreateInfo): Promise<Subscription> {
-        const url = this.config.apiUrl + '/subscription';
+        const url = this.config.apiUrl + "/subscription";
         if (subscription.id != null) {
-            throw new Error('InvalidProgramState: id of subscription must be null or undefined');
+            throw new Error("InvalidProgramState: id of subscription must be null or undefined");
         }
         const response = await fetch(url, {
-            method: 'PUT',
-            credentials: 'same-origin',
+            method: "PUT",
+            credentials: "same-origin",
             body: JSON.stringify(subscription),
         });
         await this.checkStatus(response);
@@ -155,10 +154,10 @@ export default class Api implements IMoiraApi {
     }
 
     async updateSubscription(subscription: Subscription): Promise<Subscription> {
-        const url = this.config.apiUrl + '/subscription/' + subscription.id;
+        const url = this.config.apiUrl + "/subscription/" + subscription.id;
         const response = await fetch(url, {
-            method: 'PUT',
-            credentials: 'same-origin',
+            method: "PUT",
+            credentials: "same-origin",
             body: JSON.stringify(subscription),
         });
         await this.checkStatus(response);
@@ -166,86 +165,84 @@ export default class Api implements IMoiraApi {
     }
 
     async deleteSubscription(subscriptionId: string): Promise<void> {
-        const url = this.config.apiUrl + '/subscription/' + subscriptionId;
+        const url = this.config.apiUrl + "/subscription/" + subscriptionId;
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
     }
 
     async testSubscription(subscriptionId: string): Promise<void> {
-        const url = this.config.apiUrl + '/subscription/' + subscriptionId + '/test';
+        const url = this.config.apiUrl + "/subscription/" + subscriptionId + "/test";
         const response = await fetch(url, {
-            method: 'PUT',
-            credentials: 'same-origin',
+            method: "PUT",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
     }
 
     async deleteContact(contactId: string): Promise<void> {
-        const url = this.config.apiUrl + '/contact/' + contactId;
+        const url = this.config.apiUrl + "/contact/" + contactId;
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
     }
 
     async getPatternList(): Promise<PatternList> {
-        const url = this.config.apiUrl + '/pattern';
+        const url = this.config.apiUrl + "/pattern";
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async delPattern(pattern: string): Promise<void> {
-        const url = this.config.apiUrl + '/pattern/' + encodeURI(pattern);
+        const url = this.config.apiUrl + "/pattern/" + encodeURI(pattern);
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 
     async getTagList(): Promise<TagList> {
-        const url = this.config.apiUrl + '/tag';
+        const url = this.config.apiUrl + "/tag";
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async getTagStats(): Promise<TagStatList> {
-        const url = this.config.apiUrl + '/tag/stats';
+        const url = this.config.apiUrl + "/tag/stats";
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async delTag(tag: string): Promise<void> {
-        const url = this.config.apiUrl + '/tag/' + encodeURI(tag);
+        const url = this.config.apiUrl + "/tag/" + encodeURI(tag);
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 
     async getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList> {
         const url =
             this.config.apiUrl +
-            '/trigger/page?' +
+            "/trigger/page?" +
             queryString.stringify(
                 {
                     /* eslint-disable */
@@ -255,74 +252,72 @@ export default class Api implements IMoiraApi {
                     tags,
                     onlyProblems,
                 },
-                { arrayFormat: 'index', encode: true }
+                { arrayFormat: "index", encode: true }
             );
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async getTrigger(id: string): Promise<Trigger> {
-        const url = this.config.apiUrl + '/trigger/' + encodeURI(id);
+        const url = this.config.apiUrl + "/trigger/" + encodeURI(id);
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
-        const url = this.config.apiUrl + '/trigger';
+        const url = this.config.apiUrl + "/trigger";
         const response = await fetch(url, {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(data),
-            credentials: 'same-origin',
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
-        const url = this.config.apiUrl + '/trigger/' + encodeURI(id);
+        const url = this.config.apiUrl + "/trigger/" + encodeURI(id);
         const response = await fetch(url, {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(data),
-            credentials: 'same-origin',
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async delTrigger(id: string): Promise<void> {
-        const url = this.config.apiUrl + '/trigger/' + encodeURI(id);
+        const url = this.config.apiUrl + "/trigger/" + encodeURI(id);
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 
     async setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void> {
-        const url = this.config.apiUrl + '/trigger/' + encodeURI(triggerId) + '/maintenance';
+        const url = this.config.apiUrl + "/trigger/" + encodeURI(triggerId) + "/maintenance";
         const response = await fetch(url, {
-            method: 'PUT',
+            method: "PUT",
             body: JSON.stringify(data),
-            credentials: 'same-origin',
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 
     async getTriggerState(id: string): Promise<TriggerState> {
-        const url = this.config.apiUrl + '/trigger/' + encodeURI(id) + '/state';
+        const url = this.config.apiUrl + "/trigger/" + encodeURI(id) + "/state";
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
@@ -330,62 +325,58 @@ export default class Api implements IMoiraApi {
 
     async getTriggerEvents(id: string, page: number): Promise<EventList> {
         const url =
-            this.config.apiUrl + '/event/' + encodeURI(id) + '?p=' + page + '&size=' + this.config.paging.eventHistory;
+            this.config.apiUrl + "/event/" + encodeURI(id) + "?p=" + page + "&size=" + this.config.paging.eventHistory;
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async delThrottling(triggerId: string): Promise<void> {
-        const url = this.config.apiUrl + '/trigger/' + encodeURI(triggerId) + '/throttling';
+        const url = this.config.apiUrl + "/trigger/" + encodeURI(triggerId) + "/throttling";
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 
     async delMetric(triggerId: string, metric: string): Promise<void> {
-        const url = this.config.apiUrl + '/trigger/' + encodeURI(triggerId) + '/metrics?name=' + encodeURI(metric);
+        const url = this.config.apiUrl + "/trigger/" + encodeURI(triggerId) + "/metrics?name=" + encodeURI(metric);
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 
     async getNotificationList(): Promise<NotificationList> {
-        const url = this.config.apiUrl + '/notification?start=0&end=-1';
+        const url = this.config.apiUrl + "/notification?start=0&end=-1";
         const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin',
+            method: "GET",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
         return response.json();
     }
 
     async deltNotification(id: string): Promise<void> {
-        const url = this.config.apiUrl + '/notification?id=' + encodeURI(id);
+        const url = this.config.apiUrl + "/notification?id=" + encodeURI(id);
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 
     async delSubscription(id: string): Promise<void> {
-        const url = this.config.apiUrl + '/subscription/' + encodeURI(id);
+        const url = this.config.apiUrl + "/subscription/" + encodeURI(id);
         const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'same-origin',
+            method: "DELETE",
+            credentials: "same-origin",
         });
         await this.checkStatus(response);
-        return;
     }
 }

@@ -1,12 +1,12 @@
 // @flow
 export const Maintenances = {
-    off: 'off',
-    quarterHour: 'quarterHour',
-    oneHour: 'oneHour',
-    threeHours: 'threeHours',
-    sixHours: 'sixHours',
-    oneDay: 'oneDay',
-    oneWeek: 'oneWeek',
+    off: "off",
+    quarterHour: "quarterHour",
+    oneHour: "oneHour",
+    threeHours: "threeHours",
+    sixHours: "sixHours",
+    oneDay: "oneDay",
+    oneWeek: "oneWeek",
 };
 
 export const MaintenanceTimes = {
@@ -20,13 +20,13 @@ export const MaintenanceTimes = {
 };
 
 export const MaintenanceCaptions = {
-    off: 'Off',
-    quarterHour: '15 min',
-    oneHour: '1 hour',
-    threeHours: '3 hours',
-    sixHours: '6 hours',
-    oneDay: '1 day',
-    oneWeek: '1 week',
+    off: "Off",
+    quarterHour: "15 min",
+    oneHour: "1 hour",
+    threeHours: "3 hours",
+    sixHours: "6 hours",
+    oneDay: "1 day",
+    oneWeek: "1 week",
 };
 
 export type Maintenance = $Keys<typeof Maintenances>;

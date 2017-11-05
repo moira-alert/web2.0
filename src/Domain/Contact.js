@@ -1,5 +1,5 @@
 // @flow
-import type { ContactType } from './ContactType';
+import type { ContactType } from "./ContactType";
 
 export interface Contact {
     id: string;

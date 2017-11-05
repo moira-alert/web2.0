@@ -1,21 +1,21 @@
 // @flow
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import Icon from 'retail-ui/components/Icon';
-import cn from './RouterLink.less';
+import * as React from "react";
+import { Link } from "react-router-dom";
+import Icon from "retail-ui/components/Icon";
+import cn from "./RouterLink.less";
 
 export type RouterLinkWithIconProps = {
-    icon?: string;
-    children?: any;
-    className?: string;
+    icon?: string,
+    children?: any,
+    className?: string,
 };
 
 export default function RouterLink({ icon, children, className, ...props }: RouterLinkWithIconProps): React.Node {
     return (
-        <Link className={cn(className, 'link')} {...props}>
+        <Link className={cn(className, "link")} {...props}>
             {icon && <Icon name={icon} />}
-            {icon && '\u00A0'}
-            <span className={cn('content')}>{children}</span>
+            {icon && "\u00A0"}
+            <span className={cn("content")}>{children}</span>
         </Link>
     );
 }
