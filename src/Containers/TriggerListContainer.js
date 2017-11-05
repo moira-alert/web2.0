@@ -97,11 +97,16 @@ class TriggerListContainer extends React.Component {
         this.setState({ loading: true });
         this.getData(nextProps);
         if (this.needScrollToTop(this.props, nextProps)) {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'smooth',
-            });
+            try {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth',
+                });
+            }
+            catch (e) {
+                // Do nothing. Strange unstable exception on chrome
+            }
         }
     }
 
