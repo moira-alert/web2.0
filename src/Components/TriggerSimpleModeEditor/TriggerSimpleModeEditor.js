@@ -36,14 +36,16 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             this.state = {
                 watchFor: watchForType,
                 raisingValues: watchForType === 'raising' ? props.value : { warn_value: null, error_value: null },
-                fallingValues: watchForType === 'failling' ? props.value : { warn_value: null, error_value: null },
+                fallingValues: watchForType === 'falling' ? props.value : { warn_value: null, error_value: null },
             };
         }
-        this.state = {
-            watchFor: 'raising',
-            raisingValues: props.value,
-            fallingValues: { warn_value: null, error_value: null },
-        };
+        else {
+            this.state = {
+                watchFor: 'raising',
+                raisingValues: props.value,
+                fallingValues: { warn_value: null, error_value: null },
+            };
+        }
     }
 
     getWatchForType(warnValue: number, errorValue: number): WatchType {
