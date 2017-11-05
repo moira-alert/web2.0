@@ -27,7 +27,7 @@
         "react-dom": "^15.6.1",
         "react-router": "^4.2.0",
         "react-router-dom": "^4.1.1",
-        "retail-ui": "0.9.x",
+        "retail-ui": "0.9.9",
         "warning": "^3.0.0"
     },
     "devDependencies": {
@@ -46,8 +46,8 @@
         "eslint": "3.19.0",
         "eslint-config-skbkontur-retail": "^2.1.2",
         "extract-text-webpack-plugin": "^3.0.0",
-        "file-loader": "1.x",
-        "flow-bin": "0.58.x",
+        "file-loader": "^1.0.0",
+        "flow-bin": "0.58.0",
         "flow-coverage-report": "^0.3.0",
         "html-webpack-plugin": "^2.29.0",
         "json-loader": "^0.5.7",
@@ -57,9 +57,9 @@
         "lodash": "^4.17.4",
         "react-hot-loader": "3.0.0-beta.7",
         "react-ui-validations": "^0.2.10",
-        "storybook-router": "0.3.x",
-        "style-loader": "0.19.x",
-        "uglifyjs-webpack-plugin": "1.x",
+        "storybook-router": "^0.3.0",
+        "style-loader": "^0.19.0",
+        "uglifyjs-webpack-plugin": "^0.4.6",
         "webpack": "^3.0.0",
         "webpack-dev-server": "^2.5.0"
     }
