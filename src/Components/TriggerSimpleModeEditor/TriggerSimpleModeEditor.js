@@ -232,7 +232,7 @@ export default class TriggerSimpleModeEditor extends React.Component {
                                     <Fixed
                                         className={cn('state-caption', { disabled: watchFor !== 'falling' })}
                                         width={100}>
-                                        WARN if T1 &gt;={' '}
+                                        WARN if T1 &lt;={' '}
                                     </Fixed>
                                     <Fit>
                                         <ValidationWrapperV1
@@ -259,7 +259,7 @@ export default class TriggerSimpleModeEditor extends React.Component {
                                     <Fixed
                                         className={cn('state-caption', { disabled: watchFor !== 'falling' })}
                                         width={100}>
-                                        ERROR if T1 &gt;={' '}
+                                        ERROR if T1 &lt;={' '}
                                     </Fixed>
                                     <Fit>
                                         <ValidationWrapperV1
