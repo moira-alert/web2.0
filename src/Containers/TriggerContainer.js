@@ -240,7 +240,7 @@ class TriggerContainer extends React.Component<Props, State> {
                         />
                     </LayoutPlate>
                 )}
-                {(true || isMetrics || isEvents) && (
+                {!(isMetrics || isEvents) && (
                     <LayoutContent>
                         <Center>
                             <span className={cn("empty-details-text")}>
@@ -249,51 +249,50 @@ class TriggerContainer extends React.Component<Props, State> {
                         </Center>
                     </LayoutContent>
                 )}
-                {false &&
-                    (isMetrics || isEvents) && (
-                        <LayoutContent>
-                            <Tabs value={isMetrics ? "state" : "events"}>
-                                {isMetrics &&
-                                    trigger && (
-                                        <Tab id="state" label="Current state">
-                                            <MetricList
-                                                status
-                                                items={this.sortMetrics(metrics)}
-                                                onSort={sorting => {
-                                                    if (sorting === sortingColumn) {
-                                                        this.setState({ sortingDown: !sortingDown });
-                                                    } else {
-                                                        this.setState({ sortingColumn: sorting, sortingDown: true });
-                                                    }
-                                                }}
-                                                sortingColumn={sortingColumn}
-                                                sortingDown={sortingDown}
-                                                onChange={(maintenance, metric) => {
-                                                    this.setMaintenance(trigger.id, maintenance, metric);
-                                                }}
-                                                onRemove={metric => {
-                                                    this.removeMetric(trigger.id, metric);
-                                                }}
-                                            />
-                                        </Tab>
-                                    )}
-                                {isEvents && (
-                                    <Tab id="events" label="Events history">
-                                        <ColumnStack block gap={6} horizontalAlign="stretch">
-                                            <EventList items={this.composeEvents(events)} />
-                                            {pageCount > 1 && (
-                                                <Paging
-                                                    activePage={page}
-                                                    pagesCount={pageCount}
-                                                    onPageChange={page => this.changeLocationSearch({ page })}
-                                                />
-                                            )}
-                                        </ColumnStack>
+                {(isMetrics || isEvents) && (
+                    <LayoutContent>
+                        <Tabs value={isMetrics ? "state" : "events"}>
+                            {isMetrics &&
+                                trigger && (
+                                    <Tab id="state" label="Current state">
+                                        <MetricList
+                                            status
+                                            items={this.sortMetrics(metrics)}
+                                            onSort={sorting => {
+                                                if (sorting === sortingColumn) {
+                                                    this.setState({ sortingDown: !sortingDown });
+                                                } else {
+                                                    this.setState({ sortingColumn: sorting, sortingDown: true });
+                                                }
+                                            }}
+                                            sortingColumn={sortingColumn}
+                                            sortingDown={sortingDown}
+                                            onChange={(maintenance, metric) => {
+                                                this.setMaintenance(trigger.id, maintenance, metric);
+                                            }}
+                                            onRemove={metric => {
+                                                this.removeMetric(trigger.id, metric);
+                                            }}
+                                        />
                                     </Tab>
                                 )}
-                            </Tabs>
-                        </LayoutContent>
-                    )}
+                            {isEvents && (
+                                <Tab id="events" label="Events history">
+                                    <ColumnStack block gap={6} horizontalAlign="stretch">
+                                        <EventList items={this.composeEvents(events)} />
+                                        {pageCount > 1 && (
+                                            <Paging
+                                                activePage={page}
+                                                pagesCount={pageCount}
+                                                onPageChange={page => this.changeLocationSearch({ page })}
+                                            />
+                                        )}
+                                    </ColumnStack>
+                                </Tab>
+                            )}
+                        </Tabs>
+                    </LayoutContent>
+                )}
             </Layout>
         );
     }
