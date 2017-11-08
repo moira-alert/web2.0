@@ -11,7 +11,7 @@ LICENSE := "GPLv3"
 
 default: test build tar
 
-build:
+build: prepare
 	yarn run build
 
 test: prepare
