@@ -39,7 +39,7 @@ const config = argv => {
                 {
                     test: /\.js$/,
                     use: ['babel-loader'],
-                    include: /src/,
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.less$/,
@@ -73,12 +73,11 @@ const config = argv => {
                                 ],
                         },
                     ],
-                    include: /src/,
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.(png|woff|woff2|eot|svg)$/,
                     use: 'file-loader',
-                    include: /src|retail\-ui/,
                 },
             ],
         },
