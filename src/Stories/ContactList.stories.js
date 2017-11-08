@@ -20,7 +20,7 @@ storiesOf("ContactList", module)
             items={[
                 {
                     id: "1",
-                    type: ContactTypes.email,
+                    type: ContactTypes.mail,
                     user: "1",
                     value: "test@mail.ru",
                 },
@@ -52,7 +52,7 @@ storiesOf("ContactList", module)
                 },
                 {
                     id: "2",
-                    type: ContactTypes.email,
+                    type: ContactTypes.mail,
                     user: "1",
                     value: "test@mail.ru",
                 },
@@ -71,7 +71,7 @@ storiesOf("ContactList", module)
                 },
                 {
                     id: "2",
-                    type: ContactTypes.email,
+                    type: ContactTypes.mail,
                     user: "1",
                     value: "test@mail.ru",
                 },

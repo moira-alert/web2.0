@@ -23,7 +23,9 @@ export default function ContactTypeIcon({ type }: Props): React.Element<any> {
             return <SvgIcon path={SlackLogo} size={15} offsetTop={2} />;
         case "twilio voice":
             return <SvgIcon path={TwilioLogo} size={14} offsetTop={2} />;
-        case "email":
+        case "twilio sms":
+            return <SvgIcon path={TwilioLogo} size={14} offsetTop={2} />;
+        case "mail":
             return <Icon name={"Mail2"} />;
         default:
             // eslint-disable-next-line no-unused-expressions

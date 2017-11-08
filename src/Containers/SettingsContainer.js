@@ -36,7 +36,7 @@ class SettingsContainer extends React.Component<Props, State> {
 
     normalizeContactValueForApi(contactType: ContactType, value: string): string {
         let result = value.trim();
-        if (contactType === "twilio voice") {
+        if (contactType === "twilio voice" || contactType === "twilio sms") {
             if (result.length >= 11) {
                 result = result.replace(/^8/, "+7");
                 result = result.replace(/^7/, "+7");
@@ -45,26 +45,11 @@ class SettingsContainer extends React.Component<Props, State> {
             }
             return result;
         }
-        if (contactType === "phone") {
-            if (result.length >= 11) {
-                result = result.replace(/^\+7/, "");
-                result = result.replace(/^7/, "");
-            }
-            return result;
-        }
         return result;
     }
 
     normalizeContactValueForUi(contactType: ContactType, value: string): string {
-        let result = value;
-        if (contactType === "phone") {
-            result = result.trim();
-            if (/^\d{10}$/.test(result)) {
-                result = "+7" + result;
-            }
-            return result;
-        }
-        return result;
+        return value;
     }
 
     async getData(): Promise<void> {

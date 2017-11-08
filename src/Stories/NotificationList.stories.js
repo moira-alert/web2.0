@@ -58,7 +58,7 @@ const items = {
             __notifier_trigger_tags: ["critical", "ElFeeders", "Focus"],
         },
         contact: {
-            type: "email",
+            type: "mail",
             value: "user@skbkontur.ru",
             id: "5d7c1ee2-78d8-46c0-bb67-16895303b4b0",
             user: "a.tolstov",

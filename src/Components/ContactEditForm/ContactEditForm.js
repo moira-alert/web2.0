@@ -30,13 +30,13 @@ export default class ContactEditForm extends React.Component<Props> {
         if (contactType == null) {
             return "";
         }
-        if (contactType === "email") {
+        if (contactType === "mail") {
             return "Enter email address";
         }
         if (contactType === "telegram") {
             return "Enter telegram #channel, @username or group";
         }
-        if (contactType === "phone" || contactType === "twilio voice") {
+        if (contactType === "twilio sms" || contactType === "twilio voice") {
             return "Enter your phone number (e.g. +79.......)";
         }
         if (contactType === "pushover") {
@@ -54,13 +54,13 @@ export default class ContactEditForm extends React.Component<Props> {
         if (contactType == null) {
             return "";
         }
-        if (contactType === "email") {
+        if (contactType === "mail") {
             return "";
         }
         if (contactType === "telegram") {
             return "You have to grant @KonturMoiraBot admin privileges for channel, or execute /start command for groups or personal chats.";
         }
-        if (contactType === "phone") {
+        if (contactType === "twilio sms") {
             return "";
         }
         if (contactType === "pushover") {

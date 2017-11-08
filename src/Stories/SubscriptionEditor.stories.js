@@ -16,7 +16,7 @@ storiesOf("SubscriptionEditor", module)
             contacts={[
                 {
                     id: "1",
-                    type: ContactTypes.email,
+                    type: ContactTypes.mail,
                     user: "1",
                     value: "test@mail.ru",
                 },
