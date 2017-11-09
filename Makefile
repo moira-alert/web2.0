@@ -65,12 +65,12 @@ packages: clean build tar rpm deb
 
 .PHONY: docker_image
 docker_image:
-	docker build -t moira/moira-web2:${VERSION} -t moira/moira-web2:latest .
+	docker build -t moira/web2:${VERSION} -t moira/web2:latest .
 
 .PHONY: docker_push
 docker_push:
-	docker push moira/moira-web2:latest
+	docker push moira/web2:latest
 
 .PHONY: docker_push_release
 docker_push_release:
-	docker push moira/moira-web2:${VERSION}
+	docker push moira/web2:${VERSION}
