@@ -8,9 +8,47 @@ node_js:
 addons:
   apt:
     packages: rpm
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/9992cd0d36a6ba9bb40b
+    on_success: change
+    on_failure: always
+    on_start: never
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 install:
-  - make prepare
+  - make lint
 before_script:
   - gem install fpm
 script:
-  - make build
+  - make packages
+  - make docker_image
+before_deploy:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+deploy:
+  - provider: releases
+    api_key:
+      secure: dQNDfnfgQdm9fYPYQtqpgkRt8jWZ8pT9qWWCaC74nzubjDgqwxU/1w/tbyt5AoPplthWTRooxt45lJ7VbMbTxLT9iwdhnHsh3BxpaadZdDD11D+nKWjpugUmOAM6SZolCr0dQOW1TK8lRYBiRMe1baosnhM2NbpJ6RGibAal6w9vxbo35fXBjNa9BoRTeK0ehUW1E4PWQ73qtzKzgdei2bKRElbd5EpWpe4xbm1tOcJTxEClWnBD7L8//g/aj+rH4g0xjdfN521t93A4rCOwTYyH69/J115xqoyz5UChN16hs/qQ7BcgtQlFkWs/vbQ1qAdL3JF916buyjAXNHxPG2aYE4UtaKTQJRwRNSWC14puqZG5IGwiyOFJRqMKOi0BMoF2b9IIi8GPgYZ96fLGU3oDc9jO4J4qrenpdg1ZENF0ljMb4QRB6Xr7F6juA72taHKvpbb1uRJMpG2i+DC4m5XGRV2HonYeKwrjmT/HaWC8cRE9ajq2B972vXKw1b1QqQAxhbpVP7NbCZSXMO7yN5Ltq0zz+Onw3yeTSFNLIPf8PgislfXyET+iqVUr5LNupgoj2PqCgBvo9QuQVqDcZXKiVsUIAuUJkVCrKQ5fxZfZUi7cWKRsdpFfC7SIZPlccwtaYrLdlwvZLISfiHwQcD2gCye6IdlTIbU6Rknuf44=
+    file_glob: true
+    file:
+      - build/moira*.tar.gz
+      - build/moira*.rpm
+      - build/moira*.deb
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: "$TRAVIS_NODE_VERSION = 8"
+  - provider: script
+    script: make docker_push
+    skip_cleanup: true
+    on:
+      branch: master
+      condition: "$TRAVIS_NODE_VERSION = 8"
+  - provider: script
+    script: make docker_push_release
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: "$TRAVIS_NODE_VERSION = 8"
