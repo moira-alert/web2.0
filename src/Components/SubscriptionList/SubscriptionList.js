@@ -210,7 +210,8 @@ export default class SubscriptionList extends React.Component<Props, State> {
                             tags={tags}
                             contacts={contacts}
                             onChange={update =>
-                                this.setState({ subscriptionToEdit: { ...subscriptionToEdit, ...update } })}
+                                this.setState({ subscriptionToEdit: { ...subscriptionToEdit, ...update } })
+                            }
                             onCancel={() => this.setState({ subscriptionEditModalVisible: false })}
                             onUpdateSubscription={this.handleUpdateSubscription}
                             onUpdateAndTestSubscription={this.handleUpdateAndTestSubscription}

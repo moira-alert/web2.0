@@ -36,10 +36,10 @@ export default class TabsCustom extends React.Component<Props, State> {
     render(): React.Element<any> {
         const { active } = this.state;
         const { children } = this.props;
-        if (React.Children.toArray(children).filter(x => x).length === 0) {
+        if (React.Children.toArray(children).filter(Boolean).length === 0) {
             return <div />;
         }
-        if (React.Children.toArray(children).filter(x => x).length === 1) {
+        if (React.Children.toArray(children).filter(Boolean).length === 1) {
             return <div>{children}</div>;
         }
         return (

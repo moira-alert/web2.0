@@ -136,11 +136,13 @@ export default class TagSelector extends React.Component<Props, State> {
                         onKeyDown={(event: KeyboardEvent) =>
                             event.target instanceof HTMLInputElement
                                 ? this.handleKeyDown(event.key, event.target.selectionStart)
-                                : null}
+                                : null
+                        }
                         onChange={(event: Event) =>
                             event.target instanceof HTMLInputElement
                                 ? this.setState({ value: event.target.value, focusedIndex: 0 })
-                                : null}
+                                : null
+                        }
                         onFocus={() => this.setState({ isFocused: true })}
                         onBlur={() => this.setState({ isFocused: false })}
                     />

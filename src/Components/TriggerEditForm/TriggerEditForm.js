@@ -212,11 +212,13 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             onSelect={tag =>
                                 onChange({
                                     tags: concat(tags, [tag]),
-                                })}
+                                })
+                            }
                             onRemove={tag =>
                                 onChange({
                                     tags: difference(tags, [tag]),
-                                })}
+                                })
+                            }
                         />
                     </ValidationWrapperV1>
                 </FormRow>

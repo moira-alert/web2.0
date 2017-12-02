@@ -62,7 +62,8 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                                 onChange({
                                     ...schedule,
                                     days: [...days.slice(0, i), { name, enabled: checked }, ...days.slice(i + 1)],
-                                })}>
+                                })
+                            }>
                             {name}
                         </Checkbox>
                     ))}

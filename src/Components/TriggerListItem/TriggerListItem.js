@@ -128,7 +128,9 @@ export default class TriggerListItem extends React.Component<Props, State> {
         return (
             <div className={cn("exception-message")}>
                 <Icon name="Error" color={"#D43517"} size={16} /> Trigger in EXCEPTION state. Please{" "}
-                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets ? "s" : ""}
+                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
+                    ? "s"
+                    : ""}
                 {hasExpression ? " and exression" : ""} on{" "}
                 <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
                 {supportEmail != null && (

@@ -94,13 +94,13 @@ class TagListItem extends React.Component<ItemProps, ItemState> {
                                         </div>
                                         <div className={cn("user")}>{user}</div>
                                         <div className={cn("contacts")}>
-                                            {flatten(
-                                                contacts.map(x => allContacts.filter(y => y.id === x))
-                                            ).map(({ id, type, value }) => (
-                                                <div key={id}>
-                                                    {this.renderContactIcon(type)} {value}
-                                                </div>
-                                            ))}
+                                            {flatten(contacts.map(x => allContacts.filter(y => y.id === x))).map(
+                                                ({ id, type, value }) => (
+                                                    <div key={id}>
+                                                        {this.renderContactIcon(type)} {value}
+                                                    </div>
+                                                )
+                                            )}
                                         </div>
                                         <div className={cn("sub-control")}>
                                             <Button use="link" icon="Trash" onClick={() => onRemoveContact(id)}>

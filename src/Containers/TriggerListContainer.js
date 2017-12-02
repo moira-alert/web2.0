@@ -188,11 +188,13 @@ class TriggerListContainer extends React.Component<Props, State> {
                                 onSelect={tag =>
                                     this.changeLocationSearch({
                                         tags: concat(selectedTags, [tag]),
-                                    })}
+                                    })
+                                }
                                 onRemove={tag =>
                                     this.changeLocationSearch({
                                         tags: difference(selectedTags, [tag]),
-                                    })}
+                                    })
+                                }
                             />
                         </Fill>
                         <Fit>
@@ -202,7 +204,8 @@ class TriggerListContainer extends React.Component<Props, State> {
                                 onChange={checked =>
                                     this.changeLocationSearch({
                                         onlyProblems: checked,
-                                    })}
+                                    })
+                                }
                             />
                         </Fit>
                     </RowStack>
