@@ -169,6 +169,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 width="100%"
                                 value={expression}
                                 onChange={(e, value) => onChange({ expression: value })}
+                                placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
                             />
                         </ValidationWrapperV1>
                     </FormRow>
