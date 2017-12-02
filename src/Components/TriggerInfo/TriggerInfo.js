@@ -1,11 +1,12 @@
 // @flow
 import * as React from "react";
 import moment from "moment";
-import type { Trigger } from "../../Domain/Trigger";
+import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Schedule } from "../../Domain/Schedule";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import Link from "retail-ui/components/Link";
+import Icon from "retail-ui/components/Icon";
 import Button from "retail-ui/components/Button";
 import TagGroup from "../TagGroup/TagGroup";
 import { getJSONContent } from "../../helpers";
@@ -13,6 +14,8 @@ import cn from "./TriggerInfo.less";
 
 type Props = {|
     data: Trigger,
+    triggerState: TriggerState,
+    supportEmail: string,
     onThrottlingRemove: (triggerId: string) => void,
 |};
 
@@ -35,7 +38,7 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     );
 }
 
-export default function TriggerInfo(props: Props): React.Node {
+export default function TriggerInfo({ data, triggerState, supportEmail, onThrottlingRemove }: Props): React.Node {
     const {
         id,
         name,
@@ -49,14 +52,19 @@ export default function TriggerInfo(props: Props): React.Node {
         sched,
         tags,
         throttling,
-    } = props.data;
+    } = data;
+    const { state, msg: exceptionMessage } = triggerState;
+
+    const hasExpression = expression != null && expression !== "";
+    const hasMultipleTargets = targets.length > 1;
+
     return (
         <section>
             <header className={cn("header")}>
                 <h1 className={cn("title")}>{name != null && name !== "" ? name : "[No name]"}</h1>
                 <div className={cn("controls")}>
                     {throttling !== 0 && (
-                        <Link use="danger" icon="Clear" onClick={() => props.onThrottlingRemove(id)}>
+                        <Link use="danger" icon="Clear" onClick={() => onThrottlingRemove(id)}>
                             Disable throttling
                         </Link>
                     )}
@@ -68,7 +76,7 @@ export default function TriggerInfo(props: Props): React.Node {
                         onClick={(event: Event) => {
                             const target = event.currentTarget;
                             if (target instanceof HTMLAnchorElement) {
-                                target.href = getJSONContent(props.data);
+                                target.href = getJSONContent(data);
                             }
                         }}
                         download={`trigger-${id}.json`}>
@@ -101,6 +109,28 @@ export default function TriggerInfo(props: Props): React.Node {
                 <dd>
                     <TagGroup tags={tags} />
                 </dd>
+                {state === "EXCEPTION" && <dt />}
+                {state === "EXCEPTION" && (
+                    <dd className={cn("exception-explanation")}>
+                        <div className={cn("line-1")}>
+                            <Icon name="Error" color={"#D43517"} size={16} /> Trigger in EXCEPTION state.{" "}
+                            {exceptionMessage}
+                        </div>
+                        <div className={cn("line-2")}>
+                            Please <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
+                                ? "s"
+                                : ""}
+                            {hasExpression ? " and exression" : ""} on{" "}
+                            <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
+                            {supportEmail != null && (
+                                <span>
+                                    {" "}
+                                    Or <Link href={`mailto:${supportEmail}`}>contact</Link> with server administrator.
+                                </span>
+                            )}
+                        </div>
+                    </dd>
+                )}
             </dl>
         </section>
     );

@@ -43,4 +43,5 @@ export type TriggerState = {|
     state: Status,
     score: number,
     trigger_id: string,
+    msg?: string,
 |};

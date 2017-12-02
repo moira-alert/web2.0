@@ -10,6 +10,7 @@ import type { Trigger, TriggerState } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import type { Metric } from "../Domain/Metric";
 import type { Event } from "../Domain/Event";
+import type { Config } from "../Domain/Config";
 import type { SortingColum } from "../Components/MetricList/MetricList";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
@@ -26,6 +27,7 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
     loading: boolean,
     error: ?string,
+    config: ?Config,
     trigger: ?Trigger,
     triggerState: ?TriggerState,
     triggerEvents: ?{|
@@ -42,6 +44,7 @@ class TriggerContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
+        config: null,
         error: null,
         trigger: null,
         triggerState: null,
@@ -70,6 +73,7 @@ class TriggerContainer extends React.Component<Props, State> {
             const trigger = await moiraApi.getTrigger(id);
             const triggerState = await moiraApi.getTriggerState(id);
             const triggerEvents = await moiraApi.getTriggerEvents(id, page - 1);
+            const config = await moiraApi.getConfig();
 
             if (page > Math.ceil(triggerEvents.total / triggerEvents.size) && triggerEvents.total !== 0) {
                 const rightLastPage = Math.ceil(triggerEvents.total / triggerEvents.size) || 1;
@@ -79,6 +83,7 @@ class TriggerContainer extends React.Component<Props, State> {
 
             this.setState({
                 loading: false,
+                config: config,
                 trigger,
                 triggerState,
                 triggerEvents,
@@ -220,7 +225,7 @@ class TriggerContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { loading, error, trigger, triggerState, triggerEvents, sortingColumn, sortingDown } = this.state;
+        const { loading, error, trigger, triggerState, triggerEvents, sortingColumn, sortingDown, config } = this.state;
         const { location } = this.props;
         const { page } = this.parseLocationSearch(location.search);
         const { metrics } = triggerState || {};
@@ -230,16 +235,20 @@ class TriggerContainer extends React.Component<Props, State> {
         const pageCount = Math.ceil(total / size) || 1;
         return (
             <Layout loading={loading} error={error}>
-                {trigger && (
-                    <LayoutPlate>
-                        <TriggerInfo
-                            data={trigger}
-                            onThrottlingRemove={triggerId => {
-                                this.disableTrhrottling(triggerId);
-                            }}
-                        />
-                    </LayoutPlate>
-                )}
+                {trigger != null &&
+                    triggerState != null &&
+                    config != null && (
+                        <LayoutPlate>
+                            <TriggerInfo
+                                data={trigger}
+                                triggerState={triggerState}
+                                supportEmail={config.supportEmail}
+                                onThrottlingRemove={triggerId => {
+                                    this.disableTrhrottling(triggerId);
+                                }}
+                            />
+                        </LayoutPlate>
+                    )}
                 {!(isMetrics || isEvents) && (
                     <LayoutContent>
                         <Center>

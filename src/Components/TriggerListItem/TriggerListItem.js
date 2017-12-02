@@ -9,7 +9,6 @@ import type { Metric } from "../../Domain/Metric";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { Statuses, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import Icon from "retail-ui/components/Icon";
-import Link from "retail-ui/components/Link";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
@@ -122,7 +121,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     renderExceptionHelpMessage(): React.Node {
-        const { data, supportEmail } = this.props;
+        const { data } = this.props;
         const hasExpression = data.expression != null && data.expression !== "";
         const hasMultipleTargets = data.targets.length > 1;
         return (
@@ -132,13 +131,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     ? "s"
                     : ""}
                 {hasExpression ? " and exression" : ""} on{" "}
-                <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
-                {supportEmail != null && (
-                    <span>
-                        {" "}
-                        Or <Link href={`mailto:${supportEmail}`}>contact</Link> with server administrator.
-                    </span>
-                )}
+                <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.{" "}
+                <RouterLink to={`/trigger/${data.id}`}>See more details</RouterLink> on trigger page.
             </div>
         );
     }

@@ -36,17 +36,55 @@ const sourceData = {
         "\u041c\u0435\u0441\u0442\u043e \u043d\u0430 \u0434\u0438\u0441\u043a\u0430\u0445 \u043d\u0430 \u041a\u0430\u043c\u0447\u0430\u0442\u0441\u043a\u043e\u0439 \u043f\u043b\u043e\u0449\u0430\u0434\u043a\u0435.",
 };
 
+const triggerState = {
+    metrics: {
+        About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
+    },
+    score: 75000,
+    state: "OK",
+    timestamp: 1512207091,
+    trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
+};
+
 const stories = [
     {
         title: "Default",
+        triggerState: { ...triggerState },
         data: { ...sourceData },
     },
     {
         title: "With throttling",
+        triggerState: { ...triggerState },
         data: { ...sourceData, throttling: Date.now() },
     },
     {
         title: "Not everyday",
+        triggerState: { ...triggerState },
+        data: {
+            ...sourceData,
+            sched: {
+                endOffset: 1439,
+                days: [
+                    { enabled: true, name: "Mon" },
+                    { enabled: false, name: "Tue" },
+                    { enabled: true, name: "Wed" },
+                    { enabled: true, name: "Thu" },
+                    { enabled: true, name: "Fri" },
+                    { enabled: false, name: "Sat" },
+                    { enabled: true, name: "Sun" },
+                ],
+                startOffset: 0,
+                tzOffset: -300,
+            },
+        },
+    },
+    {
+        title: "WithError",
+        triggerState: {
+            ...triggerState,
+            state: "EXCEPTION",
+            msg: "Some error message message message message message.",
+        },
         data: {
             ...sourceData,
             sched: {
@@ -69,6 +107,13 @@ const stories = [
 
 const story = storiesOf("TriggerInfo", module).addDecorator(StoryRouter());
 
-stories.forEach(({ title, data }) => {
-    story.add(title, () => <TriggerInfo data={data} onThrottlingRemove={action("onThrottlingRemove")} />);
+stories.forEach(({ title, data, triggerState }) => {
+    story.add(title, () => (
+        <TriggerInfo
+            supportEmail="support@mail.ru"
+            triggerState={triggerState}
+            data={data}
+            onThrottlingRemove={action("onThrottlingRemove")}
+        />
+    ));
 });
