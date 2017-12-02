@@ -14,6 +14,7 @@ import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import { Statuses } from "../../Domain/Status";
+import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
 
 type Props = {|
@@ -185,7 +186,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <FormattedNumberInput
                             width={80}
                             value={typeof ttl === "number" ? ttl : null}
-                            editFormat="0"
+                            editFormat={defaultNumberEditFormat}
+                            viewFormat={defaultNumberViewFormat}
                             onChange={(e, value) => onChange({ ttl: value || 0 })}
                         />
                     </ValidationWrapperV1>

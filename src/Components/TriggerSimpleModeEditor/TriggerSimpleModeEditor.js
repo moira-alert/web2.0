@@ -5,6 +5,7 @@ import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-vali
 import { ColumnStack, RowStack, Fit, Fixed } from "../ItemsStack/ItemsStack";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import StatusIcon from "../StatusIcon/StatusIcon";
+import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerSimpleModeEditor.less";
 
 export type TriggerSimpleModeSettings = {
@@ -171,7 +172,8 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                             validationInfo={this.validateRaisingWarn()}>
                                             <FormattedNumberInput
                                                 width={120}
-                                                editFormat="0"
+                                                editFormat={defaultNumberEditFormat}
+                                                viewFormat={defaultNumberViewFormat}
                                                 value={
                                                     watchFor === "raising" ? value.warn_value : raisingValues.warn_value
                                                 }
@@ -198,7 +200,8 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                             validationInfo={this.validateRaisingError()}>
                                             <FormattedNumberInput
                                                 width={120}
-                                                editFormat="0"
+                                                editFormat={defaultNumberEditFormat}
+                                                viewFormat={defaultNumberViewFormat}
                                                 value={
                                                     watchFor === "raising"
                                                         ? value.error_value
@@ -237,7 +240,8 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                             validationInfo={this.validateFallingWarn()}>
                                             <FormattedNumberInput
                                                 width={120}
-                                                editFormat="0"
+                                                editFormat={defaultNumberEditFormat}
+                                                viewFormat={defaultNumberViewFormat}
                                                 value={
                                                     watchFor === "falling" ? value.warn_value : fallingValues.warn_value
                                                 }
@@ -264,7 +268,8 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                             validationInfo={this.validateFallingError()}>
                                             <FormattedNumberInput
                                                 width={120}
-                                                editFormat="0"
+                                                editFormat={defaultNumberEditFormat}
+                                                viewFormat={defaultNumberViewFormat}
                                                 value={
                                                     watchFor === "falling"
                                                         ? value.error_value
