@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import { concat, difference } from "lodash";
+import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import type { Trigger } from "../../Domain/Trigger";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Icon from "retail-ui/components/Icon";
@@ -8,6 +9,8 @@ import Input from "retail-ui/components/Input";
 import Textarea from "retail-ui/components/Textarea";
 import Button from "retail-ui/components/Button";
 import Tabs from "retail-ui/components/Tabs";
+import Link from "retail-ui/components/Link";
+import Tooltip from "retail-ui/components/Tooltip";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import TagSelector from "../TagSelector/TagSelector";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
@@ -84,6 +87,36 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             targets: [...targets, ""],
         });
     }
+
+    renderExpressionHelp = (): React.Node => {
+        return (
+            <div className={cn("expression-help")}>
+                <div className={cn("main-description")}>
+                    Expression uses{" "}
+                    <Link target="_blank" href="https://github.com/Knetic/govaluate/blob/master/MANUAL.md">
+                        govaluate
+                    </Link>{" "}
+                    with predefined constants:
+                </div>
+                <div>
+                    <CodeRef>t1</CodeRef>, <CodeRef>t2</CodeRef>, ... are values from your targets.
+                </div>
+                <div>
+                    <CodeRef>OK</CodeRef>, <CodeRef>WARN</CodeRef>, <CodeRef>ERROR</CodeRef>, <CodeRef>NODATA</CodeRef>{" "}
+                    are states that must be the result of evaluation.
+                </div>
+                <div>
+                    <CodeRef>PREV_STATE</CodeRef> is equal to previously set state, and allows you to prevent frequent
+                    state changes.
+                </div>
+
+                <div className={cn("note")}>
+                    NOTE: Only T1 target can resolve into multiple metrics in Advanced Mode. T2, T3, ... must resolve to
+                    single metrics.
+                </div>
+            </div>
+        );
+    };
 
     render(): React.Node {
         const { advancedMode } = this.state;
@@ -162,16 +195,28 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 )}
                 {advancedMode && (
                     <FormRow label="Expression">
-                        <ValidationWrapperV1
-                            validationInfo={this.validateRequiredString(expression, "Expression can't be empty")}
-                            renderMessage={tooltip("right middle")}>
-                            <Input
-                                width="100%"
-                                value={expression}
-                                onChange={(e, value) => onChange({ expression: value })}
-                                placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
-                            />
-                        </ValidationWrapperV1>
+                        <RowStack baseline block gap={2}>
+                            <Fill>
+                                <ValidationWrapperV1
+                                    validationInfo={this.validateRequiredString(
+                                        expression,
+                                        "Expression can't be empty"
+                                    )}
+                                    renderMessage={tooltip("right middle")}>
+                                    <Input
+                                        width="100%"
+                                        value={expression}
+                                        onChange={(e, value) => onChange({ expression: value })}
+                                        placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
+                                    />
+                                </ValidationWrapperV1>
+                            </Fill>
+                            <Fit>
+                                <Tooltip pos="top right" render={this.renderExpressionHelp} trigger="click">
+                                    <Link icon="HelpDot" />
+                                </Tooltip>
+                            </Fit>
+                        </RowStack>
                     </FormRow>
                 )}
                 <FormRow singleLineControlGroup>
@@ -257,4 +302,8 @@ function FormRow({ label, useTopAlignForLabel, singleLineControlGroup, children,
             </div>
         </div>
     );
+}
+
+function CodeRef({ children }: { children: React.Node }): React.Node {
+    return <span className={cn("code-ref")}>{children}</span>;
 }
