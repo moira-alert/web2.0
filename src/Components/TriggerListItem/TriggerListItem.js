@@ -5,7 +5,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { getPageLink } from "../../Domain/Global";
 import type { Trigger } from "../../Domain/Trigger.js";
 import type { Status } from "../../Domain/Status";
-import type { Metric } from "../../Domain/Metric";
+import type { Metric, MetricList } from "../../Domain/Metric";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { Statuses, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import Icon from "retail-ui/components/Icon";
@@ -13,7 +13,7 @@ import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
-import MetricList from "../MetricList/MetricList";
+import MetricListView from "../MetricList/MetricList";
 import cn from "./TriggerListItem.less";
 
 type Props = {|
@@ -25,26 +25,37 @@ type Props = {|
 
 type State = {
     showMetrics: boolean,
+    groupedMetrics: { [status: Status]: { [metric: string]: Metric } },
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
     props: Props;
     state: State;
 
-    constructor() {
-        super();
+    constructor(props: Props) {
+        super(props);
         this.state = {
             showMetrics: false,
+            groupedMetrics: this.groupMetricsByStatuses((props.data.last_check || {}).metrics),
         };
     }
 
+    groupMetricsByStatuses(metrics: MetricList): { [status: Status]: { [metric: string]: Metric } } {
+        const result = {};
+        for (const metricName in metrics) {
+            if (Object.hasOwnProperty.call(metrics, metricName)) {
+                const metric = metrics[metricName];
+                if (result[metric.state] == null) {
+                    result[metric.state] = {};
+                }
+                result[metric.state][metricName] = metric;
+            }
+        }
+        return result;
+    }
+
     filterMetricsByStatus(status: Status): { [metric: string]: Metric } {
-        const { metrics } = this.props.data.last_check || {};
-        return Object.keys(metrics)
-            .filter(x => metrics[x].state === status)
-            .reduce((data, key) => {
-                return { ...data, [key]: metrics[key] };
-            }, {});
+        return this.state.groupedMetrics[status] || {};
     }
 
     sortMetricsByValue(metrics: { [metric: string]: Metric }): { [metric: string]: Metric } {
@@ -61,7 +72,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
                 return 0;
             })
             .reduce((data, key) => {
-                return { ...data, [key]: metrics[key] };
+                data[key] = metrics[key];
+                return data;
             }, {});
     }
 
@@ -148,7 +160,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         }
         const metrics = statuses.map(x => (
             <Tab key={x} id={x} label={getStatusCaption(x)}>
-                <MetricList
+                <MetricListView
                     items={this.sortMetricsByValue(this.filterMetricsByStatus(x))}
                     sortingColumn="value"
                     sortingDown
