@@ -14,7 +14,7 @@ import type { Maintenance } from "../Domain/Maintenance";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
 import Paging from "retail-ui/components/Paging";
 import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from "../Components/Layout/Layout";
-import TagSelector from "../Components/TagSelector/TagSelector";
+import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSelect2";
 import TriggerListView from "../Components/TriggerList/TriggerList";
 import AddingButton from "../Components/AddingButton/AddingButton";
 import { ColumnStack, RowStack, Fill, Fit } from "../Components/ItemsStack/ItemsStack";
@@ -179,9 +179,10 @@ class TriggerListContainer extends React.Component<Props, State> {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutPlate>
-                    <RowStack block gap={3}>
+                    <RowStack verticalAlign="baseline" block gap={3}>
                         <Fill>
-                            <TagSelector
+                            <TagDropdownSelect2
+                                width="100%"
                                 selected={selectedTags}
                                 subscribed={subscribedTags}
                                 remained={remainedTags}
