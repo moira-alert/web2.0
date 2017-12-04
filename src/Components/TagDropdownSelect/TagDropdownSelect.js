@@ -143,6 +143,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     selectTag(tag: string) {
         const { value, onChange } = this.props;
         onChange(union(value, [tag]));
+        this.setState({ inputValue: "", focusedIndex: 0 });
         if (this.refs.focusAnchor != null) {
             this.refs.focusAnchor.focus();
         }
