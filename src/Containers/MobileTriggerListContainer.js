@@ -52,8 +52,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         this.setState({ loading: true });
         try {
             const { subscribedTags } = this.state;
-            const selectedTags = subscribedTags;
-            console.log(selectedTags);
+            const selectedTags = [];
             const triggers = await moiraApi.getTriggerList(loadedPage + 1, onlyProblems, selectedTags);
 
             this.setState({
@@ -61,7 +60,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                 loadedPage: loadedPage + 1,
                 loading: false,
                 hasItems: triggers.list.length > 0,
-                subscribedTags: subscribedTags,
+                subscribedTags: selectedTags,
             });
         } catch (error) {
             this.setState({ error: error.message });
@@ -90,7 +89,7 @@ class TriggerListContainer extends React.Component<Props, State> {
             const subscribedTags = uniq(flattenDeep(subscriptions.map(x => x.tags)));
             const { list: allTags } = await moiraApi.getTagList();
             const config = await moiraApi.getConfig();
-            const selectedTags = subscribedTags;
+            const selectedTags = [];
             const triggers = await moiraApi.getTriggerList(page - 1, onlyProblems, selectedTags);
 
             if (page > Math.ceil(triggers.total / triggers.size) && triggers.total !== 0) {
@@ -203,7 +202,7 @@ class TriggerListContainer extends React.Component<Props, State> {
 
         return (
             <MobileTriggerListPage
-                selectedTags={subscribedTags}
+                selectedTags={[]}
                 triggers={triggerList}
                 loading={loading}
                 onLoadMore={this.handleLoadMore}
