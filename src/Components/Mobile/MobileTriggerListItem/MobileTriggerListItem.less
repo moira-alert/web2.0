@@ -1,0 +1,107 @@
+@primary-divider-color: #ddd;
+
+@row-height: 70px;
+
+.root {
+    height: @row-height;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-direction: row;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    color: #333333;
+
+    // Для аниманиции нажатия кнопок как в мобилках
+    // &:after {
+    //     position: absolute;
+    //     transition: 0.6s;
+    //     content: '';
+    //     width: 0;
+    //     left: 50%;
+    //     bottom: 0;
+    //     height: 3px;
+    //     background: #f7f7f7;
+    //     height: 100%;
+    //     left: -10%;
+    //     transform: skewX(0deg);
+    //     z-index: -1;
+    // }
+
+    // // &:active {
+    // //     &:after {
+    // //         left: -10%;
+    // //         width: 100%;
+    // //     }
+    // // }
+
+    // &:focus {
+    //     &:after {
+    //         left: 0;
+    //         width: 100%;
+    //     }
+    // }
+
+    .status {
+        flex: 0 0 @row-height;
+        padding: (@row-height - 40px) / 2;
+        box-sizing: border-box;
+        position: relative;
+
+        .throttling-flag {
+            position: absolute;
+            color: red;
+            top: 10px;
+            left: 6px;
+            font-size: 14px;
+        }
+    }
+
+    .info {
+        padding: 7px 0;
+        flex: 0 1 100%;
+        vertical-align: top;
+        overflow: hidden;
+        border-bottom: 1px solid @primary-divider-color;
+    }
+
+    .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 18px;
+        line-height: 20px;
+        font-weight: 500;
+        color: #333333;
+    }
+
+    .tags {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .metrics {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        line-height: 18px;
+
+        .metrics-list {
+            .value {
+                margin-right: 10px;
+                font-weight: 600;
+            }
+
+            .caption {
+                color: #888;
+            }
+        }
+    }
+}

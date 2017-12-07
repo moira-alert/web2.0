@@ -2,27 +2,19 @@
 import * as React from "react";
 import color from "color";
 import type { Status } from "../../Domain/Status";
-import { Statuses, getStatusColor } from "../../Domain/Status";
+import { Statuses, getStatusColor as defaultGetStatusColor } from "../../Domain/Status";
 import cn from "./StatusIndicator.less";
+
+type GetStatusColor = (Status, ?boolean) => string;
 
 type Props = {|
     disabled?: boolean,
     statuses: Array<Status>,
     size?: number,
+    getStatusColor?: GetStatusColor,
 |};
 
-function getStatusColorEx(status: Status, disabled: ?boolean): string {
-    const result = getStatusColor(status);
-    if (disabled) {
-        return color(result)
-            .lighten(0.5)
-            .rgb()
-            .toString();
-    }
-    return result;
-}
-
-function renderPath(statuses: Array<Status>, disabled: ?boolean): React.Element<any> {
+function renderPath(statuses: Array<Status>, disabled: ?boolean, getStatusColorEx: GetStatusColor): React.Element<any> {
     const [status1, status2, status3] = statuses;
 
     switch (statuses.length) {
@@ -72,11 +64,22 @@ export default function StatusIndicator(props: Props): React.Node {
     const OPTIONS = {
         size: 20,
     };
-    const { statuses, disabled, size } = props;
+    const { statuses, disabled, size, getStatusColor = defaultGetStatusColor } = props;
+
+    function getStatusColorEx(status: Status, disabled: ?boolean): string {
+        const result = getStatusColor(status);
+        if (disabled) {
+            return color(result)
+                .lighten(0.5)
+                .rgb()
+                .toString();
+        }
+        return result;
+    }
 
     return (
         <svg viewBox="-1 -1 2 2" width={size || OPTIONS.size} height={size || OPTIONS.size} className={cn("svg")}>
-            {renderPath(statuses, disabled)}
+            {renderPath(statuses, disabled, getStatusColorEx)}
         </svg>
     );
 }

@@ -95,6 +95,8 @@ const config = argv => {
             }),
         ],
         devServer: {
+            host: "0.0.0.0",
+            disableHostCheck: true,
             proxy:
                 API_MODE === "fake"
                     ? {
