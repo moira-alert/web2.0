@@ -53,7 +53,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         this.setState({ loading: true });
         try {
             const { subscribedTags } = this.state;
-            const selectedTags = [];
+            const selectedTags = intersection(parsedTags, tags);
             const triggers = await moiraApi.getTriggerList(loadedPage + 1, onlyProblems, selectedTags);
 
             this.setState({
@@ -108,6 +108,8 @@ class TriggerListContainer extends React.Component<Props, State> {
                 tags: allTags,
                 triggers: triggers,
                 triggerList: triggers.list,
+                loadedPage: 0,
+                hasItems: triggers.list.length > 0,
             });
         } catch (error) {
             this.setState({ error: error.message });
