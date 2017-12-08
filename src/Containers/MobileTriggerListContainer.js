@@ -11,6 +11,7 @@ import type { IMoiraApi } from "../Api/MoiraAPI";
 import type { TriggerList } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import MobileTriggerListPage from "../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
+import MobileTagSelectorPage from "../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -89,7 +90,7 @@ class TriggerListContainer extends React.Component<Props, State> {
             const subscribedTags = uniq(flattenDeep(subscriptions.map(x => x.tags)));
             const { list: allTags } = await moiraApi.getTagList();
             const config = await moiraApi.getConfig();
-            const selectedTags = [];
+            const selectedTags = intersection(parsedTags, allTags);
             const triggers = await moiraApi.getTriggerList(page - 1, onlyProblems, selectedTags);
 
             if (page > Math.ceil(triggers.total / triggers.size) && triggers.total !== 0) {
@@ -191,6 +192,22 @@ class TriggerListContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
+    handleOpenTagSelector = () => {
+        this.setState({ showTagSelector: true });
+    }
+
+    handleCloseTagSelector = () => {
+        this.setState({ showTagSelector: false });
+    }
+
+    handleChangeSelectedTags = (nextTags: string[], nextOnlyProblems: boolean) => {
+        this.setState({ showTagSelector: false, triggerList: null });
+        this.changeLocationSearch({
+            tags: nextTags,
+            onlyProblems: nextOnlyProblems,
+        })
+    }
+
     render(): React.Node {
         const { loading, error, triggers, tags, subscriptions, config, triggerList } = this.state;
         const { location } = this.props;
@@ -200,9 +217,21 @@ class TriggerListContainer extends React.Component<Props, State> {
         const remainedTags = difference(tags, concat(selectedTags, subscribedTags));
         const pageCount = triggers ? Math.ceil(triggers.total / triggers.size) : 1;
 
+        if (this.state.showTagSelector) {
+            return (
+                <MobileTagSelectorPage
+                    availableTags={tags}
+                    selectedTags={selectedTags}
+                    onlyProblems={onlyProblems}
+                    onClose={this.handleCloseTagSelector}
+                    onChange={this.handleChangeSelectedTags}
+                />
+            );
+        }
         return (
             <MobileTriggerListPage
-                selectedTags={[]}
+                onOpenTagSelector={this.handleOpenTagSelector}
+                selectedTags={selectedTags}
                 triggers={triggerList}
                 loading={loading}
                 onLoadMore={this.handleLoadMore}

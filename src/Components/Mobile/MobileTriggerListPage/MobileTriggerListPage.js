@@ -16,6 +16,7 @@ type MobileTriggerListPageProps = {
     triggers: ?TriggerList,
     selectedTags: ?Array<string>,
     onLoadMore: () => void,
+    onOpenTagSelector: () => void,
 };
 
 function getViewPortHeight(): number {
@@ -50,17 +51,30 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
         window.removeEventListener("scroll", this.handleScroll);
     }
 
+    renderTitle(): string {
+        const { triggers, loading, selectedTags } = this.props;
+        if (triggers === null && loading) {
+            return "Loading...";
+        }
+        if (selectedTags.length === 0) {
+            return "All triggers";
+        }
+        if (selectedTags.length === 1) {
+            return `#${selectedTags[0]}`;
+        }
+        return `${selectedTags.length} tags`;
+    }
+
     render(): React.Node {
-        const { loading, triggers, selectedTags } = this.props;
+        const { loading, triggers, selectedTags, onOpenTagSelector } = this.props;
 
         return (
             <div ref={x => (this.rootElement = x)}>
                 <MobileHeader>
                     <MobileHeader.HeaderBlock>
                         <MobileHeader.LeftButton icon="Menu" />
-                        <MobileHeader.Title>
-                            Moira: {selectedTags.length === 0 ? "All triggers" : "Subscribed"}
-                        </MobileHeader.Title>
+                        <MobileHeader.Title>Moira: {this.renderTitle()}</MobileHeader.Title>
+                        <MobileHeader.RightButton icon="Filter" onClick={onOpenTagSelector} />
                     </MobileHeader.HeaderBlock>
                 </MobileHeader>
                 <div className={cn("content")}>

@@ -21,14 +21,28 @@ export default function MobileHeader({ color, children }: Props): React.Node {
 type LeftButtonProps = {|
     icon: string,
     linkTo?: string,
+    onClick?: () => void,
 |};
 
-MobileHeader.LeftButton = function LeftButton({ icon, linkTo }: LeftButtonProps): React.Node {
+MobileHeader.LeftButton = function LeftButton({ icon, onClick, linkTo }: LeftButtonProps): React.Node {
     if (linkTo != null) {
         return (
             <Link className={cn("menu-button")} to={linkTo}>
                 <Icon name={icon} />
             </Link>
+        );
+    }
+    if (onClick != null) {
+        return (
+            <a
+                className={cn("menu-button")}
+                href="#"
+                onClick={() => {
+                    onClick();
+                    return false;
+                }}>
+                <Icon name={icon} />
+            </a>
         );
     }
     return (
@@ -38,12 +52,15 @@ MobileHeader.LeftButton = function LeftButton({ icon, linkTo }: LeftButtonProps)
     );
 };
 
-type RightButtonProps = {||};
+type RightButtonProps = {|
+    icon: string,
+    onClick?: () => void,
+|};
 
-MobileHeader.RightButton = function RightButton(props: RightButtonProps): React.Node {
+MobileHeader.RightButton = function RightButton({ icon, onClick }: RightButtonProps): React.Node {
     return (
-        <div className={cn("filter-button")}>
-            <Icon name="Filter" />
+        <div onClick={onClick} className={cn("filter-button")}>
+            <Icon name={icon} />
         </div>
     );
 };
@@ -54,6 +71,36 @@ type TitleProps = {|
 
 MobileHeader.Title = function Title({ children }: TitleProps): React.Node {
     return <div className={cn("title")}>{children}</div>;
+};
+
+type HeaderInputProps = {|
+    placeholder?: ?string,
+    value: string,
+    onChange: (e: SyntheticKeyboardEvent<HTMLInputElement>, value: string) => void,
+    onClear: () => void,
+|};
+
+MobileHeader.HeaderInput = function HeaderInput({
+    placeholder,
+    value,
+    onChange,
+    onClear,
+}: HeaderInputProps): React.Node {
+    return (
+        <div className={cn("header-input")}>
+            <div className={cn("header-input-wrapper")}>
+                <input
+                    className={cn("input")}
+                    value={value}
+                    onChange={e => onChange(e, e.target.value)}
+                    placeholder={placeholder}
+                />
+                <div className={cn("clear-button")} onClick={onClear}>
+                    <Icon name="Delete" />
+                </div>
+            </div>
+        </div>
+    );
 };
 
 type HeaderBlockProps = {|
