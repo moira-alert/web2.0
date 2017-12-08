@@ -41,5 +41,9 @@ storiesOf("Mobile/MetricsList", module)
     .addDecorator(StoryRouter())
     .addDecorator(MobileDecorator)
     .add("With Status Indicator", () => (
-        <MobileMetricsList metrics={items} onChange={action("onChange")} onRemove={action("onRemove")} />
+        <MobileMetricsList
+            metrics={items}
+            onRemove={action("onRemove")}
+            onSetMaintenance={action("onSetMaintenance")}
+        />
     ));

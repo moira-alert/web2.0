@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import Icon from "retail-ui/components/Icon";
 import { Link } from "react-router-dom";
+import Icon from "retail-ui/components/Icon";
 
 import cn from "./MobileHeader.less";
 
@@ -24,7 +24,8 @@ type LeftButtonProps = {|
     onClick?: () => void,
 |};
 
-MobileHeader.LeftButton = function LeftButton({ icon, onClick, linkTo }: LeftButtonProps): React.Node {
+MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): React.Node {
+    const { icon, linkTo, onClick } = props;
     if (linkTo != null) {
         return (
             <Link className={cn("menu-button")} to={linkTo}>

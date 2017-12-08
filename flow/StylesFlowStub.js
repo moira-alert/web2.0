@@ -1,10 +1,10 @@
 // @flow
 
-const x: {
-  (...args: *[]): string,
-  [_: string]: string
-} = function(...args: *[]): string {
-  return "";
-};
+// const x:  = function(...args: *[]): string {
+//     return "";
+// };
 
-export default x;
+declare module.exports: {
+    (...args: *[]): string,
+    [_: string]: string,
+};

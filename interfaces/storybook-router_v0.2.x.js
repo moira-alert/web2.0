@@ -1,6 +1,6 @@
 import type { LocationShape, GetUserConfirmation } from 'react-router';
 
-type Renderable = React$Element<*>;
+type Renderable = React$Node;
 type RenderFunction = () => Renderable;
 type StoryDecorator = (story: RenderFunction) => Renderable;
 

@@ -1,8 +1,8 @@
 // @flow
 declare module "@storybook/react" {
     declare interface IStoriesBuilder {
-        add(name: string, story: () => React$Node<*>): IStoriesBuilder,
-        addDecorator(storyDecorator: (story: () => React$Node<*>) => React$Node<*>): IStoriesBuilder,
+        add(name: string, story: () => React$Node): IStoriesBuilder,
+        addDecorator(storyDecorator: (story: () => React$Node) => React$Node): IStoriesBuilder,
     }
 
     declare function storiesOf(name: string, module: any): IStoriesBuilder;

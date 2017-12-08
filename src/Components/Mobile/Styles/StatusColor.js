@@ -1,7 +1,8 @@
 // @flow
 import { Statuses } from "../../../Domain/Status";
 import type { Status } from "../../../Domain/Status";
-import { okColor, errorColor, warnColor, noDataColor, unknownColor } from "./variables.less";
+import variables from "./variables.less";
+const { okColor, errorColor, warnColor, noDataColor, unknownColor } = variables;
 
 export { unknownColor };
 

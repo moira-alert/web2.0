@@ -3,10 +3,10 @@ import * as React from "react";
 import moment from "moment";
 import Sticky from "retail-ui/components/Sticky";
 import Icon from "retail-ui/components/Icon";
-import Spinner from "retail-ui/components/Spinner";
 
 import type { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
+import type { Status } from "../../../Domain/Status";
 import type { Trigger, TriggerState } from "../../../Domain/Trigger";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
@@ -21,6 +21,10 @@ type Props = {|
     loading: boolean,
     onThrottlingRemove: () => void,
 |};
+
+type State = {
+    showThrottling: boolean,
+};
 
 function ScheduleView(props: { data: Schedule }): React.Node {
     const { days, startOffset, endOffset } = props.data;
@@ -41,9 +45,9 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     );
 }
 
-export default class MobileTriggerInfo extends React.Component<Props> {
+export default class MobileTriggerInfo extends React.Component<Props, State> {
     props: Props;
-    state = {
+    state: State = {
         showThrottling: false,
     };
 
@@ -62,7 +66,7 @@ export default class MobileTriggerInfo extends React.Component<Props> {
         if (triggerState.state === Statuses.EXCEPTION) {
             return Statuses.EXCEPTION;
         } else if (metricStatuses.length === 0) {
-            return trigger.triggerStatus;
+            return triggerState.state;
         } else if (notOkStatuses.length === 0) {
             return Statuses.OK;
         } else if (notOkStatuses.includes(Statuses.ERROR)) {
@@ -88,8 +92,10 @@ export default class MobileTriggerInfo extends React.Component<Props> {
     };
 
     render(): React.Node {
-        const { data: trigger, triggerState, loading } = this.props;
+        const { data: trigger, triggerState } = this.props;
         const { showThrottling } = this.state;
+        const { sched } = trigger || {};
+        const { msg } = triggerState || {};
 
         return (
             <MobileHeader color={this.getHeaderColor()}>
@@ -103,12 +109,14 @@ export default class MobileTriggerInfo extends React.Component<Props> {
                     {trigger != null && (
                         <div className={cn("info")}>
                             <div className={cn("plain-row", "description")}>{trigger.desc && trigger.desc}</div>
-                            <div className={cn("form-row")}>
-                                <div className={cn("caption")}>Schedule:</div>
-                                <div className={cn("value")}>
-                                    <ScheduleView data={trigger.sched} />
+                            {sched != null && (
+                                <div className={cn("form-row")}>
+                                    <div className={cn("caption")}>Schedule:</div>
+                                    <div className={cn("value")}>
+                                        <ScheduleView data={sched} />
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                             <div className={cn("form-row")}>
                                 <div className={cn("caption")}>Tags:</div>
                                 <div className={cn("value")}>{trigger.tags.map(x => `#${x}`).join(", ")}</div>
@@ -124,11 +132,11 @@ export default class MobileTriggerInfo extends React.Component<Props> {
                                     </BorderlessButton>
                                 </div>
                             )}
-                            {triggerState.msg != null &&
-                                triggerState.msg !== "" && (
+                            {msg != null &&
+                                msg !== "" && (
                                     <div className={cn("form-row")}>
                                         <div className={cn("caption")}>Exception:</div>
-                                        <div className={cn("value")}>{triggerState.msg}</div>
+                                        <div className={cn("value")}>{msg}</div>
                                     </div>
                                 )}
                         </div>
@@ -139,7 +147,13 @@ export default class MobileTriggerInfo extends React.Component<Props> {
     }
 }
 
-function BorderlessButton({ children, disabled, onClick }): React.Node {
+type BorderlessButtonProps = {|
+    children: React.Node,
+    disabled: boolean,
+    onClick: () => void,
+|};
+
+function BorderlessButton({ children, disabled, onClick }: BorderlessButtonProps): React.Node {
     return (
         <div onClick={onClick} className={cn("borderless-button", { disabled: disabled })}>
             <span>{children}</span>

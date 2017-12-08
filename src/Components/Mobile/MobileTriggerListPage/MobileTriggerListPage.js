@@ -1,9 +1,8 @@
 // @flow
 import * as React from "react";
-import Icon from "retail-ui/components/Icon";
 import Spinner from "retail-ui/components/Spinner";
 
-import type { TriggerList } from "../../../Domain/Trigger";
+import type { Trigger } from "../../../Domain/Trigger";
 
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
 import MobileEmptyContentLoading from "../MobileEmptyContentLoading/MobileEmptyContentLoading";
@@ -12,8 +11,8 @@ import MobileHeader from "../MobileHeader/MobileHeader";
 import cn from "./MobileTriggerListPage.less";
 
 type MobileTriggerListPageProps = {
-    loading: boolean,
-    triggers: ?TriggerList,
+    loading?: boolean,
+    triggers: ?Array<Trigger>,
     selectedTags: ?Array<string>,
     onLoadMore: () => void,
     onOpenTagSelector: () => void,
@@ -66,7 +65,7 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
     }
 
     render(): React.Node {
-        const { loading, triggers, selectedTags, onOpenTagSelector } = this.props;
+        const { loading, triggers, onOpenTagSelector } = this.props;
 
         return (
             <div ref={x => (this.rootElement = x)}>

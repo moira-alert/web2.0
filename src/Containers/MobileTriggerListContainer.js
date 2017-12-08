@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import queryString from "query-string";
-import { intersection, concat, difference, flattenDeep, uniq, isEqual } from "lodash";
+import { intersection, flattenDeep, uniq, isEqual } from "lodash";
 import moment from "moment";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
@@ -52,7 +52,6 @@ class TriggerListContainer extends React.Component<Props, State> {
         }
         this.setState({ loading: true });
         try {
-            const { subscribedTags } = this.state;
             const selectedTags = intersection(parsedTags, tags);
             const triggers = await moiraApi.getTriggerList(loadedPage + 1, onlyProblems, selectedTags);
 
@@ -196,28 +195,25 @@ class TriggerListContainer extends React.Component<Props, State> {
 
     handleOpenTagSelector = () => {
         this.setState({ showTagSelector: true });
-    }
+    };
 
     handleCloseTagSelector = () => {
         this.setState({ showTagSelector: false });
-    }
+    };
 
     handleChangeSelectedTags = (nextTags: string[], nextOnlyProblems: boolean) => {
         this.setState({ showTagSelector: false, triggerList: null });
         this.changeLocationSearch({
             tags: nextTags,
             onlyProblems: nextOnlyProblems,
-        })
-    }
+        });
+    };
 
     render(): React.Node {
-        const { loading, error, triggers, tags, subscriptions, config, triggerList } = this.state;
+        const { loading, tags, triggerList } = this.state;
         const { location } = this.props;
-        const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
+        const { onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
         const selectedTags = tags ? intersection(parsedTags, tags) : [];
-        const subscribedTags = subscriptions ? difference(subscriptions, selectedTags) : [];
-        const remainedTags = difference(tags, concat(selectedTags, subscribedTags));
-        const pageCount = triggers ? Math.ceil(triggers.total / triggers.size) : 1;
 
         if (this.state.showTagSelector) {
             return (

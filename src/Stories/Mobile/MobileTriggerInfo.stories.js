@@ -138,22 +138,25 @@ const stories = [
     },
 ];
 
-const story = storiesOf("Mobile/TriggerInfo", module);
-
-story.addDecorator(StoryRouter());
-story.addDecorator(MobileDecorator);
-story.add("Loading", () => (
-    <MobileTriggerInfo
-        triggerState={null}
-        data={null}
-        onThrottlingRemove={action("onThrottlingRemove")}
-        metrics={null}
-        loading={true}
-    />
-));
+const story = storiesOf("Mobile/TriggerInfo", module)
+    .addDecorator(StoryRouter())
+    .addDecorator(MobileDecorator)
+    .add("Loading", () => (
+        <MobileTriggerInfo
+            data={null}
+            triggerState={null}
+            onThrottlingRemove={action("onThrottlingRemove")}
+            loading={true}
+        />
+    ));
 
 stories.forEach(({ title, data, triggerState }) => {
     story.add(title, () => (
-        <MobileTriggerInfo triggerState={triggerState} data={data} onThrottlingRemove={action("onThrottlingRemove")} />
+        <MobileTriggerInfo
+            loading={false}
+            triggerState={triggerState}
+            data={data}
+            onThrottlingRemove={action("onThrottlingRemove")}
+        />
     ));
 });

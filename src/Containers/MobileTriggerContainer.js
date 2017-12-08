@@ -2,8 +2,6 @@
 import * as React from "react";
 import moment from "moment";
 import queryString from "query-string";
-import Paging from "retail-ui/components/Paging";
-import Center from "retail-ui/components/Center";
 import type { ContextRouter } from "react-router-dom";
 import type { IMoiraApi } from "../Api/MoiraAPI";
 import type { Trigger, TriggerState } from "../Domain/Trigger";
@@ -16,12 +14,6 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
 import { getStatusWeight } from "../Domain/Status";
 import MobileTriggerInfoPage from "../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
-import MetricList from "../Components/MetricList/MetricList";
-import Tabs, { Tab } from "../Components/Tabs/Tabs";
-import EventList from "../Components/EventList/EventList";
-import Layout, { LayoutPlate, LayoutContent } from "../Components/Layout/Layout";
-import { ColumnStack } from "../Components/ItemsStack/ItemsStack";
-import cn from "./TriggerContainer.less";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -96,13 +88,13 @@ class TriggerContainer extends React.Component<Props, State> {
     async disableTrhrottling(): Promise<void> {
         const { moiraApi, match } = this.props;
         const { id } = match.params;
-        await this.props.moiraApi.delThrottling(id);
+        await moiraApi.delThrottling(id);
         this.setState({
             trigger: {
                 ...this.state.trigger,
                 throttling: 0,
             },
-        })
+        });
         this.getData(this.props);
     }
 
@@ -246,14 +238,8 @@ class TriggerContainer extends React.Component<Props, State> {
     };
 
     render(): React.Node {
-        const { loading, error, trigger, triggerState, triggerEvents, sortingColumn, sortingDown, config } = this.state;
-        const { location } = this.props;
-        const { page } = this.parseLocationSearch(location.search);
+        const { loading, trigger, triggerState, config } = this.state;
         const { metrics } = triggerState || {};
-        const { list: events, total, size } = triggerEvents || {};
-        const isMetrics = metrics && Object.keys(metrics).length > 0;
-        const isEvents = events && events.length > 0;
-        const pageCount = Math.ceil(total / size) || 1;
 
         return (
             <MobileTriggerInfoPage
@@ -268,79 +254,6 @@ class TriggerContainer extends React.Component<Props, State> {
                 onSetMaintenance={this.handleSetMaintenance}
                 metrics={metrics}
             />
-        );
-
-        return (
-            <Layout loading={loading} error={error}>
-                {trigger != null &&
-                    triggerState != null &&
-                    config != null && (
-                        <LayoutPlate>
-                            <MobileTriggerInfoPage
-                                data={trigger}
-                                triggerState={triggerState}
-                                supportEmail={config.supportEmail}
-                                onThrottlingRemove={triggerId => {
-                                    this.disableTrhrottling(triggerId);
-                                }}
-                                metrics={metrics}
-                            />
-                        </LayoutPlate>
-                    )}
-                {!(isMetrics || isEvents) && (
-                    <LayoutContent>
-                        <Center>
-                            <span className={cn("empty-details-text")}>
-                                There is no metrics evaluated for this trigger.
-                            </span>
-                        </Center>
-                    </LayoutContent>
-                )}
-                {(isMetrics || isEvents) && (
-                    <LayoutContent>
-                        <Tabs value={isMetrics ? "state" : "events"}>
-                            {isMetrics &&
-                                trigger && (
-                                    <Tab id="state" label="Current state">
-                                        <MetricList
-                                            status
-                                            items={this.sortMetrics(metrics)}
-                                            onSort={sorting => {
-                                                if (sorting === sortingColumn) {
-                                                    this.setState({ sortingDown: !sortingDown });
-                                                } else {
-                                                    this.setState({ sortingColumn: sorting, sortingDown: true });
-                                                }
-                                            }}
-                                            sortingColumn={sortingColumn}
-                                            sortingDown={sortingDown}
-                                            onChange={(maintenance, metric) => {
-                                                this.setMaintenance(trigger.id, maintenance, metric);
-                                            }}
-                                            onRemove={metric => {
-                                                this.removeMetric(trigger.id, metric);
-                                            }}
-                                        />
-                                    </Tab>
-                                )}
-                            {isEvents && (
-                                <Tab id="events" label="Events history">
-                                    <ColumnStack block gap={6} horizontalAlign="stretch">
-                                        <EventList items={this.composeEvents(events)} />
-                                        {pageCount > 1 && (
-                                            <Paging
-                                                activePage={page}
-                                                pagesCount={pageCount}
-                                                onPageChange={page => this.changeLocationSearch({ page })}
-                                            />
-                                        )}
-                                    </ColumnStack>
-                                </Tab>
-                            )}
-                        </Tabs>
-                    </LayoutContent>
-                )}
-            </Layout>
         );
     }
 }

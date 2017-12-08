@@ -112,20 +112,24 @@ story.addDecorator(StoryRouter());
 story.addDecorator(MobileDecorator);
 story.add("Loading", () => (
     <MobileTriggerInfoPage
-        triggerState={null}
         data={null}
-        onThrottlingRemove={action("onThrottlingRemove")}
+        triggerState={null}
         metrics={null}
         loading={true}
+        onRemoveMetric={action("onRemoveMetric")}
+        onSetMaintenance={action("onSetMaintenance")}
+        onThrottlingRemove={action("onThrottlingRemove")}
     />
 ));
 
 stories.forEach(({ title, data, triggerState }) => {
     story.add(title, () => (
         <MobileTriggerInfoPage
-            supportEmail="support@mail.ru"
             triggerState={triggerState}
             data={data}
+            metrics={null}
+            onRemoveMetric={action("onRemoveMetric")}
+            onSetMaintenance={action("onSetMaintenance")}
             onThrottlingRemove={action("onThrottlingRemove")}
         />
     ));

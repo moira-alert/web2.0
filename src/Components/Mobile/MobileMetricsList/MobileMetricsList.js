@@ -1,8 +1,10 @@
 // @flow
 import * as React from "react";
-import type { Metric } from "../../Domain/Metric";
-import type { Maintenance } from "../../Domain/Maintenance";
+
+import type { Metric } from "../../../Domain/Metric";
+import type { Maintenance } from "../../../Domain/Maintenance";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
+
 import cn from "./MobileMetricsList.less";
 
 type Props = {|
@@ -15,6 +17,7 @@ type Props = {|
 
 export default function MobileMetricsList(props: Props): React.Node {
     const { onSetMaintenance, onRemove, metrics } = props;
+
     return (
         <div className={cn("root")}>
             {Object.keys(metrics).map(x => (

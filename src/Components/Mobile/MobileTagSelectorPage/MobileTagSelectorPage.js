@@ -1,11 +1,7 @@
 // @flow
 import * as React from "react";
 import { sortBy, union, difference } from "lodash";
-import Input from "retail-ui/components/Input";
-import Checkbox from "retail-ui/components/Checkbox";
-import Button from "retail-ui/components/Button";
 import Toggle from "retail-ui/components/Toggle";
-import Sticky from "retail-ui/components/Sticky";
 
 import MobileHeader from "../MobileHeader/MobileHeader";
 
@@ -20,7 +16,12 @@ type Props = {|
     onClose: () => void,
 |};
 
-type State = {};
+type State = {
+    searchString: string,
+    sortedTags: string[],
+    nextSelectedTags: string[],
+    nextOnlyProblems: boolean,
+};
 
 export default class MobileTagSelectorPage extends React.Component<Props, State> {
     props: Props;
@@ -119,7 +120,12 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
     }
 }
 
-function BottomFixedButton({ children, onClick }): React.Node {
+type BottomFixedButtonProps = {|
+    children: React.Node,
+    onClick: () => void,
+|};
+
+function BottomFixedButton({ children, onClick }: BottomFixedButtonProps): React.Node {
     return (
         <div className={cn("bottom-fixed-button-container")}>
             <button className={cn("bottom-fixed-button")} onClick={onClick}>

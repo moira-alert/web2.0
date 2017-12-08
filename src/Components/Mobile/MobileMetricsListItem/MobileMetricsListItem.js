@@ -9,7 +9,7 @@ import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicato
 import { roundValue } from "../../../helpers";
 
 import cn from "./MobileMetricsListItem.less";
-import { Maintenances } from "./../../../Domain/Maintenance";
+import { Maintenances, type Maintenance } from "./../../../Domain/Maintenance";
 
 type Props = {|
     name: string,
@@ -51,14 +51,14 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
         onRemove();
     };
 
-    handleSetMaintenance = interval => {
+    handleSetMaintenance = (interval: Maintenance) => {
         const { onSetMaintenance } = this.props;
         this.setState({ buttonsState: "Default" });
         onSetMaintenance(interval);
     };
 
     render(): React.Node {
-        const { onSetMaintenance, name, value } = this.props;
+        const { name, value } = this.props;
         const { buttonsState } = this.state;
 
         return (
