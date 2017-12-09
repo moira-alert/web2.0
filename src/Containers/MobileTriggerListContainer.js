@@ -18,6 +18,7 @@ type State = {
     loading: boolean,
     error: ?string,
     subscriptions: ?Array<string>,
+    subscribedTags: ?Array<string>,
     tags: ?Array<string>,
     triggers: ?TriggerList,
     config: ?Config,
@@ -40,6 +41,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         error: null,
         subscriptions: null,
         showTagSelector: false,
+        subscribedTags: [],
         tags: null,
         triggers: null,
         triggerList: null,
@@ -52,19 +54,22 @@ class TriggerListContainer extends React.Component<Props, State> {
         const { moiraApi, location } = this.props;
         const { tags, loadedPage, triggerList } = this.state;
         const { onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
-        if (!this.state.hasItems || this.state.triggers.total <= triggerList.length) {
+        if (this.state.triggers == null) {
+            return;
+        }
+        if (!this.state.hasItems || this.state.triggers.total <= (triggerList || []).length) {
             return;
         }
         this.setState({ loading: true });
         try {
-            const selectedTags = intersection(parsedTags, tags);
+            const selectedTags = intersection(parsedTags, tags || []);
             const triggers = await moiraApi.getTriggerList(loadedPage + 1, onlyProblems, selectedTags);
 
             this.setState({
-                triggerList: [...triggerList, ...triggers.list],
+                triggerList: [...(triggerList || []), ...(triggers.list || [])],
                 loadedPage: loadedPage + 1,
                 loading: false,
-                hasItems: triggers.list.length > 0,
+                hasItems: (triggers.list || []).length > 0,
                 subscribedTags: selectedTags,
             });
         } catch (error) {
@@ -113,7 +118,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                 triggers: triggers,
                 triggerList: triggers.list,
                 loadedPage: 0,
-                hasItems: triggers.list.length > 0,
+                hasItems: (triggers.list || []).length > 0,
             });
         } catch (error) {
             this.setState({ error: error.message });
