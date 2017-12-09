@@ -1,19 +1,37 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+
 const config = argv => {
     const PROD = process.env.NODE_ENV === "production";
     const API_MODE = getApiMode(argv);
     const config = {
-        entry: ["babel-polyfill", "react-hot-loader/patch", "./src/index.js"],
+        entry: {
+            app: ["babel-polyfill", "react-hot-loader/patch", "./src/index.js"],
+        },
         output: {
             publicPath: "/",
             path: path.resolve(__dirname, "dist"),
             filename: PROD ? "app.[hash].js" : "app.js",
+            chunkFilename: PROD ? "app.[id].[hash].js" : "app.[id].js",
         },
         module: {
             rules: [
+                {
+                    test: /\.AppRoot\.js$/,
+                    use: [
+                        {
+                            loader: "bundle-loader",
+                            options: {
+                                lazy: true,
+                            },
+                        },
+                        "babel-loader",
+                    ],
+                    include: path.join(__dirname, "src"),
+                },
                 {
                     test: /\.(js|jsx)?$/,
                     use: [
@@ -92,6 +110,12 @@ const config = argv => {
                 minify: {
                     collapseWhitespace: true,
                 },
+            }),
+            new webpack.optimize.ModuleConcatenationPlugin(),
+            new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+            new webpack.optimize.CommonsChunkPlugin({
+                name: "app",
+                children: true,
             }),
         ],
         devServer: {
