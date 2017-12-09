@@ -8,7 +8,7 @@ import { getMaintenanceTime } from "../Domain/Maintenance";
 import type { Config } from "../Domain/Config";
 import type { ContextRouter } from "react-router-dom";
 import type { IMoiraApi } from "../Api/MoiraAPI";
-import type { TriggerList } from "../Domain/Trigger";
+import type { TriggerList, Trigger } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import MobileTriggerListPage from "../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
 import MobileTagSelectorPage from "../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
@@ -21,6 +21,10 @@ type State = {
     tags: ?Array<string>,
     triggers: ?TriggerList,
     config: ?Config,
+    showTagSelector: boolean,
+    hasItems: boolean,
+    loadedPage: number,
+    triggerList: ?Array<Trigger>,
 };
 
 type LocationSearch = {|
@@ -35,6 +39,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         loading: true,
         error: null,
         subscriptions: null,
+        showTagSelector: false,
         tags: null,
         triggers: null,
         triggerList: null,
@@ -218,7 +223,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         if (this.state.showTagSelector) {
             return (
                 <MobileTagSelectorPage
-                    availableTags={tags}
+                    availableTags={tags || []}
                     selectedTags={selectedTags}
                     onlyProblems={onlyProblems}
                     onClose={this.handleCloseTagSelector}
@@ -232,7 +237,9 @@ class TriggerListContainer extends React.Component<Props, State> {
                 selectedTags={selectedTags}
                 triggers={triggerList}
                 loading={loading}
-                onLoadMore={this.handleLoadMore}
+                onLoadMore={() => {
+                    this.handleLoadMore();
+                }}
             />
         );
     }

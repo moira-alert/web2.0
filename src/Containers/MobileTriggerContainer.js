@@ -88,6 +88,9 @@ class TriggerContainer extends React.Component<Props, State> {
     async disableTrhrottling(): Promise<void> {
         const { moiraApi, match } = this.props;
         const { id } = match.params;
+        if (typeof id !== "string") {
+            return;
+        }
         await moiraApi.delThrottling(id);
         this.setState({
             trigger: {
@@ -226,6 +229,9 @@ class TriggerContainer extends React.Component<Props, State> {
     handleRemoveMetric = async (metric: string) => {
         const { moiraApi, match } = this.props;
         const { id } = match.params;
+        if (typeof id !== "string") {
+            return;
+        }
         await moiraApi.delMetric(id, metric);
         this.getData(this.props);
     };
@@ -233,12 +239,15 @@ class TriggerContainer extends React.Component<Props, State> {
     handleSetMaintenance = async (metric: string, maintenanceInterval: Maintenance) => {
         const { match } = this.props;
         const { id } = match.params;
+        if (typeof id !== "string") {
+            return;
+        }
         await this.setMaintenance(id, maintenanceInterval, metric);
         this.getData(this.props);
     };
 
     render(): React.Node {
-        const { loading, trigger, triggerState, config } = this.state;
+        const { loading, trigger, triggerState } = this.state;
         const { metrics } = triggerState || {};
 
         return (
@@ -246,12 +255,15 @@ class TriggerContainer extends React.Component<Props, State> {
                 loading={loading}
                 data={trigger}
                 triggerState={triggerState}
-                supportEmail={config && config.supportEmail}
-                onRemoveMetric={this.handleRemoveMetric}
-                onThrottlingRemove={() => {
-                    this.disableTrhrottling(trigger.id);
+                onRemoveMetric={x => {
+                    this.handleRemoveMetric(x);
                 }}
-                onSetMaintenance={this.handleSetMaintenance}
+                onThrottlingRemove={() => {
+                    this.disableTrhrottling();
+                }}
+                onSetMaintenance={(x, y) => {
+                    this.handleSetMaintenance(x, y);
+                }}
                 metrics={metrics}
             />
         );

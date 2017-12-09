@@ -22,7 +22,7 @@ type Props = {|
     loading?: boolean,
     onRemoveMetric: (metricName: string) => void,
     onSetMaintenance: (metricName: string, maintenancesInterval: Maintenance) => void,
-    onThrottlingRemove: (triggerId: string) => void,
+    onThrottlingRemove: () => void,
 |};
 
 export default class MobileTriggerInfoPage extends React.Component<Props> {

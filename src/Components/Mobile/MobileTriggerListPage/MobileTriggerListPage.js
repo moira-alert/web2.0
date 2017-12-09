@@ -19,12 +19,21 @@ type MobileTriggerListPageProps = {
 };
 
 function getViewPortHeight(): number {
-    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    if (window.innerHeight) {
+        return window.innerHeight;
+    }
+    if (document.documentElement && document.documentElement.clientHeight) {
+        return document.documentElement.clientHeight;
+    }
+    if (document.body && document.body.clientHeight) {
+        return document.body.clientHeight;
+    }
+    return 0;
 }
 
 function getWindowScrollPosition(): number {
     const doc = document.documentElement;
-    return (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+    return (window.pageYOffset || ((doc && doc.scrollTop) || 0)) - ((doc && doc.clientTop) || 0);
 }
 
 export default class MobileTriggerListPage extends React.Component<MobileTriggerListPageProps> {
@@ -33,7 +42,7 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
 
     handleScroll = () => {
         const { loading, onLoadMore } = this.props;
-        if (loading) {
+        if (loading || this.rootElement == null) {
             return;
         }
         const totalHeight = this.rootElement.getBoundingClientRect().height;
@@ -52,10 +61,10 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
 
     renderTitle(): string {
         const { triggers, loading, selectedTags } = this.props;
-        if (triggers === null && loading) {
+        if (triggers == null && loading) {
             return "Loading...";
         }
-        if (selectedTags.length === 0) {
+        if (selectedTags == null || selectedTags.length === 0) {
             return "All triggers";
         }
         if (selectedTags.length === 1) {

@@ -17,7 +17,6 @@ import cn from "./MobileTriggerListItem.less";
 
 type Props = {|
     data: Trigger,
-    supportEmail: ?string,
     onChange?: (maintenance: Maintenance, metric: string) => void,
     onRemove?: (metric: string) => void,
 |};

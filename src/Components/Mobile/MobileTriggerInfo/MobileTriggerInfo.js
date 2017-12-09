@@ -18,7 +18,7 @@ import cn from "./MobileTriggerInfo.less";
 type Props = {|
     data: ?Trigger,
     triggerState: ?TriggerState,
-    loading: boolean,
+    loading?: boolean,
     onThrottlingRemove: () => void,
 |};
 
