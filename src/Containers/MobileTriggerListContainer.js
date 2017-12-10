@@ -84,13 +84,16 @@ class TriggerListContainer extends React.Component<Props, State> {
         const { tags: localTags, onlyProblems: localOnlyProblems } =
             typeof localDataString === "string" ? JSON.parse(localDataString) : {};
 
+        let searchToUpdate = null;
         if (parsedTags.length === 0 && localTags && localTags.length) {
-            this.changeLocationSearch({ tags: localTags });
-            return;
+            searchToUpdate = { ...(searchToUpdate || {}), tags: localTags };
         }
 
         if (!onlyProblems && localOnlyProblems) {
-            this.changeLocationSearch({ onlyProblems: localOnlyProblems });
+            searchToUpdate = { ...(searchToUpdate || {}), onlyProblems: localOnlyProblems };
+        }
+        if (searchToUpdate != null) {
+            this.changeLocationSearch(searchToUpdate);
             return;
         }
 
