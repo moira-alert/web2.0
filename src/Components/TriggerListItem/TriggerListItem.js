@@ -54,6 +54,14 @@ export default class TriggerListItem extends React.Component<Props, State> {
         return result;
     }
 
+    componentWillReceiveProps(nextProps: Props) {
+        if (this.props.data !== nextProps.data) {
+            this.setState({
+                groupedMetrics: this.groupMetricsByStatuses((nextProps.data.last_check || {}).metrics),
+            });
+        }
+    }
+
     filterMetricsByStatus(status: Status): { [metric: string]: Metric } {
         return this.state.groupedMetrics[status] || {};
     }
