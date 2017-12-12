@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import { ValidationWrapperV1, tooltip } from "react-ui-validations";
+import Link from "retail-ui/components/Link";
+import Tooltip from "retail-ui/components/Tooltip";
 import Input from "retail-ui/components/Input";
 import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
@@ -46,6 +47,18 @@ export default class ScheduleEdit extends React.Component<Props, State> {
         return parsedHours * MIN_IN_HOUR + parsedMinutes;
     }
 
+    renderTimeRangeHelp = () => {
+        return (
+            <div>
+                <div className={cn("time-range-description-title")}>Either negative and positive intervals are allowed.</div>
+                <div>
+                    For example: 23:00 - 06:00 specifies interval between 23:00 <br />
+                    of the current day to the 06:00 of the next day.
+                </div>
+            </div>
+        );
+    };
+
     render(): React.Node {
         const { allDay } = this.state;
         const { schedule, onChange } = this.props;
@@ -85,43 +98,24 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                     <span className={cn("radio")} onClick={() => this.setState({ allDay: false })}>
                         <Radio checked={!allDay} />
                         <span>At specific interval</span>
-                        <ValidationWrapperV1
-                            validationInfo={
-                                startOffset >= endOffset
-                                    ? {
-                                          type: "lostfocus",
-                                          message: "Start time must be less than end time",
-                                      }
-                                    : null
-                            }
-                            renderMessage={tooltip("right middle")}>
-                            <Input
-                                value={this.formatTime(startOffset)}
-                                width={60}
-                                mask="99:99"
-                                disabled={allDay}
-                                onChange={(e, value) => onChange({ ...schedule, startOffset: this.parseTime(value) })}
-                            />
-                        </ValidationWrapperV1>
+                        <Input
+                            value={this.formatTime(startOffset)}
+                            width={60}
+                            mask="99:99"
+                            disabled={allDay}
+                            onChange={(e, value) => onChange({ ...schedule, startOffset: this.parseTime(value) })}
+                        />
                         <span>—</span>
-                        <ValidationWrapperV1
-                            validationInfo={
-                                startOffset >= endOffset
-                                    ? {
-                                          type: "lostfocus",
-                                          message: "Start time must be less than end time",
-                                      }
-                                    : null
-                            }
-                            renderMessage={tooltip("right middle")}>
-                            <Input
-                                value={this.formatTime(endOffset)}
-                                width={60}
-                                mask="99:99"
-                                disabled={allDay}
-                                onChange={(e, value) => onChange({ ...schedule, endOffset: this.parseTime(value) })}
-                            />
-                        </ValidationWrapperV1>
+                        <Input
+                            value={this.formatTime(endOffset)}
+                            width={60}
+                            mask="99:99"
+                            disabled={allDay}
+                            onChange={(e, value) => onChange({ ...schedule, endOffset: this.parseTime(value) })}
+                        />
+                        <Tooltip pos="top right" render={this.renderTimeRangeHelp} trigger="click">
+                            <Link icon="HelpDot" />
+                        </Tooltip>
                     </span>
                 </div>
             </div>
