@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import type { Contact } from "../../Domain/Contact";
-import type { ContactType } from "../../Domain/ContactType";
+import type { ContactConfig } from "../../Domain/Config";
 import NewContactModal, { type NewContactInfo } from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import Button from "retail-ui/components/Button";
@@ -13,6 +13,7 @@ import cn from "./ContactList.less";
 
 type Props = ReactExactProps<{
     items: Array<Contact>,
+    contactDescriptions: Array<ContactConfig>,
     onTestContact: Contact => Promise<void>,
     onAddContact: NewContactInfo => Promise<?Contact>,
     onUpdateContact: Contact => Promise<void>,
@@ -122,7 +123,7 @@ export default class ContactList extends React.Component<Props, State> {
         onRemoveContact(contact);
     };
 
-    renderContactIcon(type: ContactType): React.Element<any> {
+    renderContactIcon(type: string): React.Element<any> {
         return <ContactTypeIcon type={type} />;
     }
 
@@ -192,7 +193,7 @@ export default class ContactList extends React.Component<Props, State> {
     }
 
     render(): React.Element<any> {
-        const { items } = this.props;
+        const { items, contactDescriptions } = this.props;
         const { newContact, newContactModalVisible, editContactModalVisible, editableContact } = this.state;
 
         return (
@@ -227,6 +228,7 @@ export default class ContactList extends React.Component<Props, State> {
                 {newContactModalVisible &&
                     newContact != null && (
                         <NewContactModal
+                            contactDescriptions={contactDescriptions}
                             contactInfo={newContact}
                             onChange={this.handleChangeNewContact}
                             onCancel={this.handleCancelCreateNewContact}
@@ -237,6 +239,7 @@ export default class ContactList extends React.Component<Props, State> {
                 {editContactModalVisible &&
                     editableContact != null && (
                         <ContactEditModal
+                            contactDescriptions={contactDescriptions}
                             contactInfo={editableContact}
                             onChange={this.handleChangeEditableContact}
                             onCancel={this.handleCancelEditContact}

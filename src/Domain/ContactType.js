@@ -1,4 +1,6 @@
 // @flow
+import type { ContactConfig } from "./Config";
+
 export const ContactTypes = {
     mail: "mail",
     pushover: "pushover",
@@ -8,13 +10,19 @@ export const ContactTypes = {
     ["twilio voice"]: "twilio voice",
 };
 
-export const ContactTypeCaptions = [
-    ["mail", "EMail"],
-    ["pushover", "Pushover"],
-    ["telegram", "Telegram"],
-    ["twilio sms", "Twilio SMS"],
-    ["twilio voice", "Twilio voice"],
-    ["slack", "slack"],
-];
+const ContactTypeCaptions = {
+    mail: "EMail",
+    email: "EMail",
+    pushover: "Pushover",
+    telegram: "Telegram",
+    "twilio sms": "Twilio SMS",
+    "twilio voice": "Twilio voice",
+    slack: "slack",
+};
 
-export type ContactType = $Keys<typeof ContactTypes>;
+export function getContactTypeCaption(contactConfig: ContactConfig): string {
+    if (ContactTypeCaptions[contactConfig.type] != null) {
+        return ContactTypeCaptions[contactConfig.type];
+    }
+    return contactConfig.type;
+}

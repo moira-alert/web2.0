@@ -4,18 +4,20 @@ import Modal from "retail-ui/components/Modal";
 import Gapped from "retail-ui/components/Gapped";
 import Button from "retail-ui/components/Button";
 import Link from "retail-ui/components/Link";
+import type { ContactConfig } from "../../Domain/Config";
 import { ValidationContainer } from "react-ui-validations";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import type { Contact } from "../../Domain/Contact";
 
-type Props = {
+type Props = {|
+    contactDescriptions: Array<ContactConfig>,
     contactInfo: Contact,
     onChange: ($Shape<Contact>) => void,
     onCancel: () => void,
     onUpdate: () => Promise<void>,
     onUpdateAndTest: () => Promise<void>,
     onDelete: () => Promise<void>,
-};
+|};
 
 type State = {
     updateAndTestInProcess: boolean,
@@ -76,7 +78,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
     };
 
     render(): React.Node {
-        const { onChange, onCancel, contactInfo } = this.props;
+        const { onChange, onCancel, contactInfo, contactDescriptions } = this.props;
         const { updateAndTestInProcess, updateInProcess, deleteInProcess } = this.state;
         const isActionButtonDisabled = updateAndTestInProcess || updateInProcess || deleteInProcess;
 
@@ -86,6 +88,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
                 <Modal.Body>
                     <ValidationContainer ref={x => (this.container = x)}>
                         <ContactEditForm
+                            contactDescriptions={contactDescriptions}
                             contactInfo={{ type: contactInfo.type, value: contactInfo.value }}
                             onChange={update => onChange({ ...contactInfo, ...update })}
                         />

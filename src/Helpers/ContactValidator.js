@@ -1,11 +1,12 @@
 // @flow
 import * as React from "react";
+import { type ContactConfig } from "../Domain/Config";
 import type { ValidationInfo } from "react-ui-validations";
-import type { ContactType } from "../Domain/ContactType";
 
-export default function validateContact(contactType: ContactType, value: string): ?ValidationInfo {
+export default function validateContact(contactConfig: ContactConfig, value: string): ?ValidationInfo {
+    const contactType = contactConfig.type;
     switch (contactType) {
-        case "mail": {
+        case "email": {
             if (value == null || value.trim() === "" || !value.includes("@")) {
                 return { message: "Please enter a valid email address", type: "submit" };
             }
@@ -48,8 +49,23 @@ export default function validateContact(contactType: ContactType, value: string)
             break;
         }
         default:
-            // eslint-disable-next-line no-unused-expressions
-            (contactType: empty);
+            if (contactConfig.validation != null && contactConfig.validation !== "") {
+                try {
+                    const regexp = new RegExp(contactConfig.validation);
+                    if (!regexp.test(value)) {
+                        return {
+                            message: `Please enter value in correct format${
+                                contactConfig.help != null && contactConfig.help !== ""
+                                    ? ": " + contactConfig.help
+                                    : "."
+                            }`,
+                            type: "submit",
+                        };
+                    }
+                } catch (e) {
+                    return null;
+                }
+            }
     }
     return null;
 }

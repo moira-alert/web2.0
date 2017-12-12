@@ -2,9 +2,9 @@
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
 import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { Config } from "../Domain/Config";
 import type { Settings } from "../Domain/Settings";
 import type { Contact } from "../Domain/Contact";
-import type { ContactType } from "../Domain/ContactType";
 import type { Subscription } from "../Domain/Subscription";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
@@ -18,12 +18,14 @@ type State = {
     loading: boolean,
     error: ?string,
     settings: ?Settings,
+    config: ?Config,
     tags: ?Array<string>,
 };
 
 class SettingsContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
+        config: null,
         loading: true,
         error: null,
         settings: null,
@@ -34,7 +36,7 @@ class SettingsContainer extends React.Component<Props, State> {
         this.getData();
     }
 
-    normalizeContactValueForApi(contactType: ContactType, value: string): string {
+    normalizeContactValueForApi(contactType: string, value: string): string {
         let result = value.trim();
         if (contactType === "twilio voice" || contactType === "twilio sms") {
             if (result.length >= 11) {
@@ -48,7 +50,7 @@ class SettingsContainer extends React.Component<Props, State> {
         return result;
     }
 
-    normalizeContactValueForUi(contactType: ContactType, value: string): string {
+    normalizeContactValueForUi(contactType: string, value: string): string {
         return value;
     }
 
@@ -57,6 +59,7 @@ class SettingsContainer extends React.Component<Props, State> {
         try {
             const tags = (await moiraApi.getTagList()).list;
             let settings = await moiraApi.getSettings();
+            const config = await moiraApi.getConfig();
             settings = {
                 ...settings,
                 contacts: settings.contacts.map(x => ({
@@ -64,7 +67,7 @@ class SettingsContainer extends React.Component<Props, State> {
                     value: this.normalizeContactValueForUi(x.type, x.value),
                 })),
             };
-            this.setState({ loading: false, settings, tags: tags });
+            this.setState({ loading: false, settings: settings, config: config, tags: tags });
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -231,15 +234,17 @@ class SettingsContainer extends React.Component<Props, State> {
     };
 
     render(): React.Node {
-        const { loading, error, tags, settings } = this.state;
+        const { loading, error, tags, settings, config } = this.state;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>Notifications</LayoutTitle>
-                    {settings != null &&
+                    {config != null &&
+                        settings != null &&
                         settings.contacts != null && (
                             <div className={cn("contact-list")}>
                                 <ContactList
+                                    contactDescriptions={config.contacts}
                                     items={settings.contacts}
                                     onTestContact={this.handleTestContact}
                                     onAddContact={this.handleAddContact}

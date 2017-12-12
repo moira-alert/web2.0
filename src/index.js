@@ -3,13 +3,12 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { BrowserRouter } from "react-router-dom";
-import Api from "./Api/MoiraAPI";
+import MoiraApi from "./Api/MoiraAPI";
 import App from "./App";
 import { ApiProvider } from "./Api/MoiraApiInjection";
-import config from "./config";
 import "./style.less";
 
-const api = new Api(config);
+const api = new MoiraApi("/api");
 
 const render = Component => {
     const element = document.getElementById("root");

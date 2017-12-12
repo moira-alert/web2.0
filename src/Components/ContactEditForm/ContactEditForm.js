@@ -3,36 +3,36 @@ import * as React from "react";
 import Input from "retail-ui/components/Input";
 import Select from "retail-ui/components/Select";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
-import { ContactTypeCaptions, type ContactType } from "../../Domain/ContactType";
+import { getContactTypeCaption } from "../../Domain/ContactType";
+import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../Helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
 
 export type ContactInfo = {
-    type: ?ContactType,
+    type: ?string,
     value: string,
 };
 
 export type ContactInfoUpdate = $Shape<{
-    type: ContactType,
+    type: string,
     value: string,
 }>;
 
-type Props = {
+type Props = ReactExactProps<{
+    contactDescriptions: Array<ContactConfig>,
     contactInfo: ContactInfo,
     onChange: ($Shape<ContactInfoUpdate>) => void,
-};
+}>;
 
 export default class ContactEditForm extends React.Component<Props> {
     props: Props;
 
-    getPlaceholderForContactType(contactType: ?ContactType): string {
-        if (contactType == null) {
+    getPlaceholderForContactType(contactConfig: ?ContactConfig): string {
+        if (contactConfig == null) {
             return "";
         }
-        if (contactType === "mail") {
-            return "Enter email address";
-        }
+        const contactType = contactConfig.type;
         if (contactType === "telegram") {
             return "Enter telegram #channel, @username or group";
         }
@@ -45,50 +45,43 @@ export default class ContactEditForm extends React.Component<Props> {
         if (contactType === "slack") {
             return "Enter slack #channel or @username";
         }
-        // eslint-disable-next-line no-unused-expressions
-        (contactType: empty);
+        if (contactType === "email") {
+            return "Enter email address";
+        }
+        if (contactConfig.title != null) {
+            return contactConfig.title;
+        }
+        if (contactType.includes("mail")) {
+            return "Enter email address";
+        }
         return "";
     }
 
-    getCommentTextFor(contactType: ?ContactType): string {
-        if (contactType == null) {
+    getCommentTextFor(contactConfig: ?ContactConfig): string {
+        if (contactConfig == null) {
             return "";
         }
-        if (contactType === "mail") {
-            return "";
-        }
+        const contactType = contactConfig.type;
         if (contactType === "telegram") {
             return "You have to grant @KonturMoiraBot admin privileges for channel, or execute /start command for groups or personal chats.";
         }
-        if (contactType === "twilio sms") {
-            return "";
-        }
-        if (contactType === "pushover") {
-            return "";
-        }
-        if (contactType === "twilio voice") {
-            return "";
-        }
-        if (contactType === "slack") {
-            return "";
-        }
-        // eslint-disable-next-line no-unused-expressions
-        (contactType: empty);
-        return "";
+        return contactConfig.help || "";
     }
 
     validateValue(): ?ValidationInfo {
-        const { contactInfo } = this.props;
+        const { contactInfo, contactDescriptions } = this.props;
         const { value, type } = contactInfo;
-        if (type == null) {
+        const currentContactConfig = contactDescriptions.find(x => x.type === type);
+        if (type == null || currentContactConfig == null) {
             return null;
         }
-        return validateContact(type, value);
+        return validateContact(currentContactConfig, value);
     }
 
     render(): React.Node {
-        const { onChange, contactInfo } = this.props;
+        const { onChange, contactInfo, contactDescriptions } = this.props;
         const { value, type } = contactInfo;
+        const currentContactConfig = contactDescriptions.find(x => x.type === type);
 
         return (
             <div className={cn("form")}>
@@ -108,7 +101,7 @@ export default class ContactEditForm extends React.Component<Props> {
                             </span>
                         )}
                         onChange={(e, value) => onChange({ type: value })}
-                        items={ContactTypeCaptions}
+                        items={contactDescriptions.map(x => [x.type, getContactTypeCaption(x)])}
                     />
                 </div>
                 <div className={cn("row")}>
@@ -116,13 +109,15 @@ export default class ContactEditForm extends React.Component<Props> {
                         <Input
                             width={"100%"}
                             disabled={type == null}
-                            placeholder={this.getPlaceholderForContactType(type)}
+                            placeholder={this.getPlaceholderForContactType(currentContactConfig)}
                             value={value}
                             onChange={(e, value) => onChange({ value: value })}
                         />
                     </ValidationWrapperV1>
                 </div>
-                <div className={cn("row", "comment")}>{type != null && this.getCommentTextFor(type)}</div>
+                <div className={cn("row", "comment")}>
+                    {currentContactConfig != null && this.getCommentTextFor(currentContactConfig)}
+                </div>
             </div>
         );
     }

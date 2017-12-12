@@ -4,8 +4,10 @@ import { storiesOf } from "@storybook/react";
 import ContactList from "../Components/ContactList/ContactList";
 import { ContactTypes } from "../Domain/ContactType";
 import { actionWithDelay } from "./StoryUtils";
+import { contactConfigs } from "./Data/ContactConfigs";
 
 const commonProps = {
+    contactDescriptions: contactConfigs,
     onTestContact: actionWithDelay("onTestContact", 2000),
     onRemoveContact: actionWithDelay("onRemoveContact", 2000),
     onUpdateContact: actionWithDelay("onUpdateContact", 2000),
