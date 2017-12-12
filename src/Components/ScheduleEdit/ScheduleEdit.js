@@ -50,7 +50,9 @@ export default class ScheduleEdit extends React.Component<Props, State> {
     renderTimeRangeHelp = () => {
         return (
             <div>
-                <div className={cn("time-range-description-title")}>Either negative and positive intervals are allowed.</div>
+                <div className={cn("time-range-description-title")}>
+                    Either negative and positive intervals are allowed.
+                </div>
                 <div>
                     For example: 23:00 - 06:00 specifies interval between 23:00 <br />
                     of the current day to the 06:00 of the next day.
