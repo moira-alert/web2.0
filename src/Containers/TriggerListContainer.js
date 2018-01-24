@@ -12,7 +12,7 @@ import type { IMoiraApi } from "../Api/MoiraAPI";
 import type { TriggerList } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
-import Paging from "retail-ui/components/Paging";
+import Paging from "../Components/Paging/Paging";
 import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from "../Components/Layout/Layout";
 import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSelect2";
 import TriggerListView from "../Components/TriggerList/TriggerList";

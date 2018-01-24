@@ -2,7 +2,6 @@
 import * as React from "react";
 import moment from "moment";
 import queryString from "query-string";
-import Paging from "retail-ui/components/Paging";
 import Center from "retail-ui/components/Center";
 import type { ContextRouter } from "react-router-dom";
 import type { IMoiraApi } from "../Api/MoiraAPI";
@@ -21,6 +20,7 @@ import Tabs, { Tab } from "../Components/Tabs/Tabs";
 import EventList from "../Components/EventList/EventList";
 import Layout, { LayoutPlate, LayoutContent } from "../Components/Layout/Layout";
 import { ColumnStack } from "../Components/ItemsStack/ItemsStack";
+import Paging from "../Components/Paging/Paging";
 import cn from "./TriggerContainer.less";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
