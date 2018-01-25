@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import { concat, difference } from "lodash";
 import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import type { Trigger } from "../../Domain/Trigger";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
@@ -12,10 +11,10 @@ import Tabs from "retail-ui/components/Tabs";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
-import TagSelector from "../TagSelector/TagSelector";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
+import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
@@ -253,19 +252,14 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 : null
                         }
                         renderMessage={tooltip("right top")}>
-                        <TagSelector
+                        <TagDropdownSelect
                             allowCreateNewTags
-                            subscribed={[]}
-                            selected={tags}
-                            remained={difference(allTags, tags)}
-                            onSelect={tag =>
+                            value={tags}
+                            availableTags={allTags}
+                            width={650}
+                            onChange={tags =>
                                 onChange({
-                                    tags: concat(tags, [tag]),
-                                })
-                            }
-                            onRemove={tag =>
-                                onChange({
-                                    tags: difference(tags, [tag]),
+                                    tags: tags,
                                 })
                             }
                         />

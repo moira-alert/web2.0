@@ -102,37 +102,42 @@ class TriggerEditContainer extends React.Component<Props, State> {
                     {trigger && (
                         <form>
                             <ColumnStack block gap={6} horizontalAlign="stretch">
-                                <ValidationContainer ref={x => (this.triggerForm = x)}>
-                                    <TriggerEditForm
-                                        data={trigger}
-                                        tags={tags || []}
-                                        onChange={update => this.handleChange(update)}
-                                    />
-                                </ValidationContainer>
-                                <RowStack gap={3} baseline>
-                                    <Fit>
-                                        <Button
-                                            use="primary"
-                                            onClick={() => {
-                                                this.handleSubmit();
-                                            }}>
-                                            Save trigger
-                                        </Button>
-                                    </Fit>
-                                    <Fit>
-                                        <Button
-                                            use="link"
-                                            icon="Trash"
-                                            onClick={() => {
-                                                this.deleteTrigger(trigger.id);
-                                            }}>
-                                            Delete
-                                        </Button>
-                                    </Fit>
-                                    <Fit>
-                                        <RouterLink to={`/trigger/${trigger.id}`}>Cancel</RouterLink>
-                                    </Fit>
-                                </RowStack>
+                                <Fit>
+                                    <ValidationContainer ref={x => (this.triggerForm = x)}>
+                                        <TriggerEditForm
+                                            data={trigger}
+                                            tags={tags || []}
+                                            onChange={update => this.handleChange(update)}
+                                        />
+                                    </ValidationContainer>
+                                </Fit>
+                                <Fit>
+                                    <RowStack gap={3} baseline>
+                                        <Fit>
+                                            <Button
+                                                use="primary"
+                                                onClick={() => {
+                                                    this.handleSubmit();
+                                                }}>
+                                                Save trigger
+                                            </Button>
+                                        </Fit>
+                                        <Fit>
+                                            <Button
+                                                use="link"
+                                                icon="Trash"
+                                                onClick={() => {
+                                                    this.deleteTrigger(trigger.id);
+                                                }}>
+                                                Delete
+                                            </Button>
+                                        </Fit>
+                                        <Fit>
+                                            <RouterLink to={`/trigger/${trigger.id}`}>Cancel</RouterLink>
+                                        </Fit>
+                                    </RowStack>
+                                </Fit>
+                                <Fit style={{ height: 50 }} />
                             </ColumnStack>
                         </form>
                     )}

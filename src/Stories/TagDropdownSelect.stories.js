@@ -6,6 +6,7 @@ import { range } from "lodash";
 import TagDropdownSelect from "../Components/TagDropdownSelect/TagDropdownSelect";
 
 type Props = {
+    allowCreateNewTags?: boolean,
     availableTags: Array<string>,
 };
 
@@ -20,10 +21,15 @@ class TagDropdownSelectContainer extends React.Component<Props, State> {
     };
 
     render(): React.Element<any> {
-        const { availableTags } = this.props;
+        const { availableTags, allowCreateNewTags } = this.props;
         const { tags } = this.state;
         return (
-            <TagDropdownSelect value={tags} onChange={x => this.setState({ tags: x })} availableTags={availableTags} />
+            <TagDropdownSelect
+                allowCreateNewTags={allowCreateNewTags}
+                value={tags}
+                onChange={x => this.setState({ tags: x })}
+                availableTags={availableTags}
+            />
         );
     }
 }
@@ -33,6 +39,7 @@ storiesOf("TagDropdownSelect", module)
         <TagDropdownSelect value={[]} onChange={action("onChange")} availableTags={["tag1", "tag2"]} />
     ))
     .add("Statefull", () => <TagDropdownSelectContainer availableTags={["tag1", "tag2"]} />)
+    .add("AllowCreateNewTags", () => <TagDropdownSelectContainer allowCreateNewTags availableTags={["tag1", "tag2"]} />)
     .add("StatefullManyTags", () => (
         <TagDropdownSelectContainer
             availableTags={[

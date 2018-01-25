@@ -7,6 +7,7 @@ import LayoutEvents from "retail-ui/lib/LayoutEvents";
 import DropdownContainer from "retail-ui/components/DropdownContainer/DropdownContainer";
 import ScrollContainer from "retail-ui/components/ScrollContainer/ScrollContainer";
 import Tag from "../Tag/Tag";
+import NewTagBadge from "../NewTagBadge/NewTagBadge";
 import cn from "./TagDropdownSelect.less";
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
     availableTags: Array<string>,
     error?: boolean,
     width?: string | number,
+    allowCreateNewTags?: boolean,
     onMouseEnter?: (e: Event) => void,
     onMouseLeave?: (e: Event) => void,
 };
@@ -35,6 +37,10 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         isFocused: false,
     };
 
+    tagExists(name: string): boolean {
+        return this.props.availableTags.includes(name);
+    }
+
     handleClickOutside = () => {
         this.setState({ isFocused: false });
     };
@@ -53,8 +59,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     };
 
     handleKeyDown(key: string, caretPosition: number) {
-        const { focusedIndex, isFocused } = this.state;
-        const { value, availableTags } = this.props;
+        const { focusedIndex, isFocused, inputValue } = this.state;
+        const { allowCreateNewTags, value, availableTags } = this.props;
         const filtredTags = this.filterTags(difference(availableTags, value));
 
         if (isFocused) {
@@ -67,21 +73,43 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     }
                     break;
                 case "ArrowUp": {
-                    const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
-                    this.setState({ focusedIndex: newIndex });
+                    if (allowCreateNewTags) {
+                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
+                        this.setState({ focusedIndex: newIndex });
+                    } else {
+                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
+                        this.setState({ focusedIndex: newIndex });
+                    }
                     break;
                 }
                 case "ArrowDown": {
-                    const newIndex = focusedIndex < filtredTags.length ? focusedIndex + 1 : 0;
-                    this.setState({ focusedIndex: newIndex });
+                    if (allowCreateNewTags && !this.tagExists(inputValue)) {
+                        const newIndex = focusedIndex < filtredTags.length + 1 ? focusedIndex + 1 : 0;
+                        this.setState({ focusedIndex: newIndex });
+                    } else {
+                        const newIndex = focusedIndex < filtredTags.length ? focusedIndex + 1 : 0;
+                        this.setState({ focusedIndex: newIndex });
+                    }
                     break;
                 }
                 case "Enter":
                     if (focusedIndex !== 0) {
-                        this.selectTag(filtredTags[focusedIndex - 1]);
+                        if (
+                            allowCreateNewTags &&
+                            !this.tagExists(inputValue) &&
+                            focusedIndex === filtredTags.length + 1
+                        ) {
+                            this.selectTag(inputValue);
+                        } else {
+                            this.selectTag(filtredTags[focusedIndex - 1]);
+                        }
                     }
                     if (focusedIndex === 0) {
-                        this.selectTag(filtredTags[filtredTags.length - 1]);
+                        if (allowCreateNewTags && !this.tagExists(inputValue)) {
+                            this.selectTag(inputValue);
+                        } else {
+                            this.selectTag(filtredTags[filtredTags.length - 1]);
+                        }
                     }
                     this.setState({ inputValue: "" });
                     break;
@@ -158,8 +186,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     }
 
     render(): React.Element<any> {
-        const { width, value, availableTags } = this.props;
-        const { focusedIndex, isFocused: opened } = this.state;
+        const { width, value, availableTags, allowCreateNewTags } = this.props;
+        const { inputValue, focusedIndex, isFocused: opened } = this.state;
         const filtredTags = this.filterTags(difference(availableTags, value));
 
         return (
@@ -174,7 +202,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                             <DropdownContainer align={"left"} getParent={() => findDOMNode(this)} offsetY={1}>
                                 <ScrollContainer maxHeight={300}>
                                     <div className={cn("tags-menu")} ref="menu">
-                                        {filtredTags.length > 0 ? (
+                                        {filtredTags.length > 0 || allowCreateNewTags ? (
                                             <div className={cn("tag-list")}>
                                                 {filtredTags.map((tag, i) => (
                                                     <Tag
@@ -184,6 +212,15 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                                         onClick={() => this.selectTag(tag)}
                                                     />
                                                 ))}
+                                                {allowCreateNewTags &&
+                                                    !this.tagExists(inputValue) &&
+                                                    inputValue.trim() !== "" && (
+                                                        <NewTagBadge
+                                                            title={inputValue.trim()}
+                                                            focus={focusedIndex === filtredTags.length + 1}
+                                                            onClick={() => this.selectTag(inputValue.trim())}
+                                                        />
+                                                    )}
                                             </div>
                                         ) : (
                                             <div className={cn("no-tags")}>No matched tags found.</div>
