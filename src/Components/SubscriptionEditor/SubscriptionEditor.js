@@ -81,10 +81,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     <CodeRef>OK</CodeRef> -&gt; <CodeRef>WARN</CodeRef>
                 </div>
                 <div>
-                    <CodeRef>ERROR</CodeRef> -&gt; <CodeRef>WARN</CodeRef>
-                </div>
-                <div>
-                    <CodeRef>NODATA</CodeRef> -&gt; <CodeRef>WARN</CodeRef>
+                    <CodeRef>WARN</CodeRef> -&gt; <CodeRef>OK</CodeRef>
                 </div>
             </div>
         );
