@@ -53,6 +53,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -62,6 +64,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "2",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />
@@ -80,6 +84,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -89,6 +95,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />
@@ -107,6 +115,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -116,6 +126,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />
@@ -134,6 +146,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -152,6 +166,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -161,6 +177,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />

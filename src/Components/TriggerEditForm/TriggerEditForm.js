@@ -17,6 +17,7 @@ import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import { Statuses } from "../../Domain/Status";
+import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
 
@@ -302,8 +303,4 @@ function FormRow({ label, useTopAlignForLabel, singleLineControlGroup, children,
             </div>
         </div>
     );
-}
-
-function CodeRef({ children }: { children: React.Node }): React.Node {
-    return <span className={cn("code-ref")}>{children}</span>;
 }
