@@ -111,7 +111,6 @@ const config = argv => {
                     collapseWhitespace: true,
                 },
             }),
-            new webpack.optimize.ModuleConcatenationPlugin(),
             new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
             new webpack.optimize.CommonsChunkPlugin({
                 name: "app",
@@ -139,6 +138,7 @@ const config = argv => {
         },
     };
     if (PROD) {
+        config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
         config.plugins.push(new ExtractTextPlugin("app.[hash].css"));
         config.plugins.push(new UglifyJSPlugin({ extractComments: { banner: false } }));
     }
