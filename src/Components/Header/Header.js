@@ -5,7 +5,7 @@ import { getPageLink } from "../../Domain/Global";
 import LinkUI from "retail-ui/components/Link";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./Header.less";
-import logo from "../../logo.png";
+import svgLogo from "./moira-logo.svg";
 
 type Props = {|
     className?: string,
@@ -16,7 +16,7 @@ export default function Header(props: Props): React.Node {
         <header className={cn("header", props.className)}>
             <div className={cn("container")}>
                 <Link to={getPageLink("index")} className={cn("logo-link")}>
-                    <img className={cn("logo-img")} src={logo} alt="Moira" />
+                    <img className={cn("logo-img")} src={svgLogo} alt="Moira" />
                 </Link>
                 <nav className={cn("menu")}>
                     <RouterLink to={getPageLink("settings")} icon="Settings">
