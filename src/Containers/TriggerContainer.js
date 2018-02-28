@@ -209,12 +209,13 @@ class TriggerContainer extends React.Component<Props, State> {
     }
 
     composeEvents(
-        events: Array<Event>
+        events: Array<Event>,
+        triggerName: string
     ): {
         [key: string]: Array<Event>,
     } {
         return events.reduce((data, event) => {
-            const metric = event.metric.length !== 0 ? event.metric : "No metric evaluated";
+            const metric = this.getEventMetricName(event, triggerName);
             if (data[metric]) {
                 data[metric].push(event);
             } else {
@@ -222,6 +223,13 @@ class TriggerContainer extends React.Component<Props, State> {
             }
             return data;
         }, {});
+    }
+
+    getEventMetricName(event: Event, triggerName: string): { name: string } {
+        if (event.trigger_event) {
+            return triggerName;
+        }
+        return event.metric.length !== 0 ? event.metric : "No metric evaluated";
     }
 
     render(): React.Node {
@@ -288,7 +296,7 @@ class TriggerContainer extends React.Component<Props, State> {
                             {isEvents && (
                                 <Tab id="events" label="Events history">
                                     <ColumnStack block gap={6} horizontalAlign="stretch">
-                                        <EventList items={this.composeEvents(events)} />
+                                        <EventList items={this.composeEvents(events, trigger.name)} />
                                         {pageCount > 1 && (
                                             <Paging
                                                 activePage={page}

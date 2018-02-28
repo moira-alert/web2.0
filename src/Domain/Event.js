@@ -9,6 +9,7 @@ export type Event = {|
     metric: string,
     msg?: string,
     trigger_id: string,
+    trigger_event?: boolean,
 |};
 
 export type EventList = {|
