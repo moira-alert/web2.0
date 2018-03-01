@@ -190,8 +190,8 @@ class TriggerContainer extends React.Component<Props, State> {
                 return 0;
             },
             value: (x, y) => {
-                const valueA = metrics[x].value || 0;
-                const valueB = metrics[y].value || 0;
+                const valueA = isFinite(metrics[x].value) ? metrics[x].value : Number.MIN_SAFE_INTEGER;
+                const valueB = isFinite(metrics[y].value) ? metrics[y].value : Number.MIN_SAFE_INTEGER;
                 if (valueA < valueB) {
                     return sortingDown ? -1 : 1;
                 }
