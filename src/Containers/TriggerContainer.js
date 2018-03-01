@@ -49,8 +49,8 @@ class TriggerContainer extends React.Component<Props, State> {
         trigger: null,
         triggerState: null,
         triggerEvents: null,
-        sortingColumn: "value",
-        sortingDown: true,
+        sortingColumn: "state",
+        sortingDown: false,
     };
 
     componentDidMount() {
