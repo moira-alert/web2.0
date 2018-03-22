@@ -25,7 +25,7 @@ type Props = {|
     onRemove: (metric: string) => void,
 |};
 
-function checkMaintenance(maintenance: ?number): string {
+function checkMaintenance(maintenance: ?number): React.Node {
     const delta = (maintenance || 0) - moment.utc().unix();
     return <div className={cn("caption")}>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</div>;
 }
