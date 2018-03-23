@@ -65,7 +65,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     async getData(props: Props): Promise<void> {
         const { moiraApi } = props;
         const localDataString = localStorage.getItem("moiraSettings");
-        const { tags: localTags } = typeof localDataString === "string" ? JSON.parse(localDataString) : {};
+        const { tags: localTags } = typeof localDataString === "string" ? JSON.parse(localDataString) : { tags: [] };
         try {
             const { list } = await moiraApi.getTagList();
             this.setState({
