@@ -190,8 +190,10 @@ class TriggerContainer extends React.Component<Props, State> {
                 return 0;
             },
             value: (x, y) => {
-                const valueA = isFinite(metrics[x].value) ? metrics[x].value : Number.MIN_SAFE_INTEGER;
-                const valueB = isFinite(metrics[y].value) ? metrics[y].value : Number.MIN_SAFE_INTEGER;
+                const valueA =
+                    isFinite(metrics[x].value) && metrics[x].value != null ? metrics[x].value : Number.MIN_SAFE_INTEGER;
+                const valueB =
+                    isFinite(metrics[y].value) && metrics[y].value != null ? metrics[y].value : Number.MIN_SAFE_INTEGER;
                 if (valueA < valueB) {
                     return sortingDown ? -1 : 1;
                 }
@@ -225,7 +227,7 @@ class TriggerContainer extends React.Component<Props, State> {
         }, {});
     }
 
-    getEventMetricName(event: Event, triggerName: string): { name: string } {
+    getEventMetricName(event: Event, triggerName: string): string {
         if (event.trigger_event) {
             return triggerName;
         }
@@ -293,20 +295,21 @@ class TriggerContainer extends React.Component<Props, State> {
                                         />
                                     </Tab>
                                 )}
-                            {isEvents && (
-                                <Tab id="events" label="Events history">
-                                    <ColumnStack block gap={6} horizontalAlign="stretch">
-                                        <EventList items={this.composeEvents(events, trigger.name)} />
-                                        {pageCount > 1 && (
-                                            <Paging
-                                                activePage={page}
-                                                pagesCount={pageCount}
-                                                onPageChange={page => this.changeLocationSearch({ page })}
-                                            />
-                                        )}
-                                    </ColumnStack>
-                                </Tab>
-                            )}
+                            {isEvents &&
+                                trigger != null && (
+                                    <Tab id="events" label="Events history">
+                                        <ColumnStack block gap={6} horizontalAlign="stretch">
+                                            <EventList items={this.composeEvents(events, trigger.name)} />
+                                            {pageCount > 1 && (
+                                                <Paging
+                                                    activePage={page}
+                                                    pagesCount={pageCount}
+                                                    onPageChange={page => this.changeLocationSearch({ page })}
+                                                />
+                                            )}
+                                        </ColumnStack>
+                                    </Tab>
+                                )}
                         </Tabs>
                     </LayoutContent>
                 )}
