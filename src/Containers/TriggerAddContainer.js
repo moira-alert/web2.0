@@ -49,6 +49,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                     { name: "Sun", enabled: true },
                 ],
             },
+            is_remote: false,
         },
         tags: null,
     };

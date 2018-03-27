@@ -19,6 +19,7 @@ import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
+import ToggleWithLabel from "../Toggle/Toggle";
 
 type Props = {|
     data: $Shape<Trigger>,
@@ -121,7 +122,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     render(): React.Node {
         const { advancedMode } = this.state;
         const { data, onChange, tags: allTags } = this.props;
-        const { name, desc, targets, tags, expression, ttl, ttl_state: ttlState, sched } = data;
+        const { name, targets, tags, expression, ttl, ttl_state: ttlState, is_remote: isRemote, sched, desc } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
         }
@@ -264,6 +265,9 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             }
                         />
                     </ValidationWrapperV1>
+                </FormRow>
+                <FormRow label="Remote" useTopAlignForLabel>
+                    <ToggleWithLabel checked={isRemote} onChange={checked => onChange({ is_remote: checked })} />
                 </FormRow>
             </Form>
         );
