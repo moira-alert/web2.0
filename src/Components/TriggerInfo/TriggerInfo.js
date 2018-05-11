@@ -91,11 +91,18 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                 <dt>Target</dt>
                 <dd>{targets.map((target, i) => <div key={i}>{target}</div>)}</dd>
                 {desc && <dt>Description</dt>}
-                {desc && <dd>{
-                    data.desc.split('\n').map((item, key) => {
-                    return <span key={key}>{item}<br/></span>
-                    })
-                  }</dd>}
+                {desc && (
+                    <dd>
+                        {data.desc.split("\n").map((item, key) => {
+                            return (
+                                <span key={key}>
+                                    {item}
+                                    <br />
+                                </span>
+                            );
+                        })}
+                    </dd>
+                )}
                 {!expression && <dt>Value</dt>}
                 {!expression && (
                     <dd>
