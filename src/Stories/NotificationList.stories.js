@@ -71,5 +71,19 @@ const items = {
 
 storiesOf("NotificationList", module)
     .addDecorator(StoryRouter())
-    .add("Default", () => <NotificationList items={items} onRemove={action("onRemove")} />)
-    .add("Empty", () => <NotificationList items={{}} onRemove={action("onRemove")} />);
+    .add("Default", () => (
+        <NotificationList
+            items={items}
+            onRemove={action("onRemove")}
+            onRemoveAll={action("onRemoveAll")}
+            onRemoveEvents={action("onRemoveEvents")}
+        />
+    ))
+    .add("Empty", () => (
+        <NotificationList
+            items={{}}
+            onRemove={action("onRemove")}
+            onRemoveAll={action("onRemoveAll")}
+            onRemoveEvents={action("onRemoveEvents")}
+        />
+    ));

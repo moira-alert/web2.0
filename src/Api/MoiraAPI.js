@@ -57,7 +57,9 @@ export interface IMoiraApi {
     delThrottling(triggerId: string): Promise<void>;
     delMetric(triggerId: string, metric: string): Promise<void>;
     getNotificationList(): Promise<NotificationList>;
-    deltNotification(id: string): Promise<void>;
+    delNotification(id: string): Promise<void>;
+    delAllNotifications(): Promise<void>;
+    delAllNotificationEvents(): Promise<void>;
     delSubscription(id: string): Promise<void>;
 }
 
@@ -378,8 +380,26 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async deltNotification(id: string): Promise<void> {
+    async delNotification(id: string): Promise<void> {
         const url = this.apiUrl + "/notification?id=" + encodeURI(id);
+        const response = await fetch(url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+        await this.checkStatus(response);
+    }
+
+    async delAllNotifications(): Promise<void> {
+        const url = this.apiUrl + "/notification/all";
+        const response = await fetch(url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+        await this.checkStatus(response);
+    }
+
+    async delAllNotificationEvents(): Promise<void> {
+        const url = this.apiUrl + "/event/all";
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
