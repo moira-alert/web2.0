@@ -1,0 +1,6 @@
+{
+    "telegram": {
+        "help": "required to grant {botname} admin privileges for channels, or /start command in groups and personal chats",
+        "botname": "KonturMoiraBot"
+    }
+}
