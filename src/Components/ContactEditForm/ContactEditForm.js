@@ -8,7 +8,6 @@ import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../Helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
-const config = require("../../../config/web.json");
 
 export type ContactInfo = {
     type: ?string,
@@ -62,17 +61,25 @@ export default class ContactEditForm extends React.Component<Props> {
         if (contactConfig == null) {
             return "";
         }
-        const contactType = contactConfig.type;
-        if (contactType === "telegram") {
-            const botlink = "https://t.me/" + config.telegram.botname;
-            const helptext = config.telegram.help.split("{botname}");
-            return (
-                <div className={cn("row", "comment")}>
-                    {helptext[0]} <a href={botlink}> @{config.telegram.botname} </a> {helptext[1]}{" "}
-                </div>
-            );
+        let helpText = contactConfig.help || "";
+        if (contactConfig.botName) {
+            const botName = contactConfig.botName;
+            if (contactConfig.wrapUrl) {
+                const botUrl = contactConfig.wrapUrl.replace("{botName}", botName);
+                const helpTextParts = helpText.split("{botName}");
+                return (
+                    <div>
+                        {helpTextParts[0]}
+                        <a target="_blank" href={botUrl}>
+                            @{botName}
+                        </a>
+                        {helpTextParts[1]}
+                    </div>
+                );
+            }
+            helpText = helpText.replace("{botName}", botName);
         }
-        return contactConfig.help || "";
+        return helpText;
     }
 
     validateValue(): ?ValidationInfo {
