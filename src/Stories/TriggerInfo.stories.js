@@ -53,6 +53,11 @@ const stories = [
         data: { ...sourceData },
     },
     {
+        title: "Description in multiple line",
+        triggerState: { ...triggerState },
+        data: { ...sourceData, desc: "Some list:\n- Line 1\n- Line 2\n- Line 3" },
+    },
+    {
         title: "With throttling",
         triggerState: { ...triggerState },
         data: { ...sourceData, throttling: Date.now() },
