@@ -112,7 +112,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     }
                     onChange={(event: Event) =>
                         event.target instanceof HTMLInputElement
-                            ? this.setState({ value: event.target.value, focusedIndex: 0 })
+                            ? this.setState({ value: event.target.value.replace(/\s/gi, ""), focusedIndex: 0 })
                             : null
                     }
                     onFocus={() => this.setState({ isFocused: true })}

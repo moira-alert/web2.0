@@ -90,7 +90,7 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                 <dt>Target</dt>
                 <dd>{targets.map((target, i) => <div key={i}>{target}</div>)}</dd>
                 {desc && <dt>Description</dt>}
-                {desc && <dd>{desc}</dd>}
+                {desc && <dd className={cn("description")}>{desc}</dd>}
                 {!expression && <dt>Value</dt>}
                 {!expression && (
                     <dd>
