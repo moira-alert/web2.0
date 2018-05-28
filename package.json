@@ -3,7 +3,8 @@
     "version": "0.1.0",
     "license": "GPL-3.0",
     "scripts": {
-        "start": "cross-env NODE_ENV=development webpack-dev-server --hot --inline --history-api-fallback --compress --port 9000 --content-base /dist",
+        "start":
+            "cross-env NODE_ENV=development webpack-dev-server --hot --inline --history-api-fallback --compress --port 9000 --content-base /dist",
         "build": "cross-env NODE_ENV=production webpack -p",
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
         "storybook": "cross-env NODE_ENV=development start-storybook -p 9001 -c .storybook",
@@ -16,12 +17,12 @@
     "dependencies": {
         "@types/react": "15.x",
         "babel-plugin-lodash": "^3.3.2",
-        "color": "^2.0.0",
+        "color": "^3.0.0",
         "color-hash": "^1.0.3",
-        "moment": "^2.18.1",
+        "moment": "^2.22.1",
         "numeral": "^2.0.6",
         "prop-types": "^15.6.0",
-        "query-string": "^5.0.0",
+        "query-string": "^5.1.1",
         "react": "^15.6.1",
         "react-addons-css-transition-group": "^15.6.0",
         "react-addons-test-utils": "^15.6.0",
