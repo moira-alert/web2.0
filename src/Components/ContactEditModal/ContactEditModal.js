@@ -42,7 +42,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
     }
 
     handleUpdateAndTestContact = async () => {
-        if (!await this.validateForm()) {
+        if (!(await this.validateForm())) {
             return;
         }
         const { onUpdateAndTest } = this.props;
@@ -55,7 +55,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
     };
 
     handleUpdateContact = async () => {
-        if (!await this.validateForm()) {
+        if (!(await this.validateForm())) {
             return;
         }
         const { onUpdate } = this.props;
