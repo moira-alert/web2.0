@@ -2,6 +2,7 @@
 import * as React from "react";
 import moment from "moment";
 import Icon from "retail-ui/components/Icon";
+import Gapped from "retail-ui/components/Gapped";
 import Button from "retail-ui/components/Button";
 import type { Notification } from "../../Domain/Notification";
 import { getPageLink } from "../../Domain/Global";
@@ -11,10 +12,12 @@ import cn from "./NotificationList.less";
 type Props = {|
     items: { [id: string]: Notification },
     onRemove: (key: string) => void,
+    onRemoveAll: () => void,
+    onRemoveEvents: () => void,
 |};
 
 export default function NotificationList(props: Props): React.Element<any> {
-    const { items, onRemove } = props;
+    const { items, onRemove, onRemoveAll, onRemoveEvents } = props;
 
     function renderContactIcon(type: string): React.Node {
         let name;
@@ -32,7 +35,7 @@ export default function NotificationList(props: Props): React.Element<any> {
     return Object.keys(items).length === 0 ? (
         <div className={cn("no-result")}>Empty :-)</div>
     ) : (
-        <div>
+        <Gapped gap={30} vertical>
             <div className={cn("row", "header")}>
                 <div className={cn("timestamp")}>Timestamp</div>
                 <div className={cn("trigger")}>Trigger</div>
@@ -66,6 +69,14 @@ export default function NotificationList(props: Props): React.Element<any> {
                     </div>
                 );
             })}
-        </div>
+            <Gapped gap={15}>
+                <Button icon="Trash" onClick={() => onRemoveAll()}>
+                    Remove all notifications
+                </Button>
+                <Button icon="Trash" onClick={() => onRemoveEvents()}>
+                    Remove all events
+                </Button>
+            </Gapped>
+        </Gapped>
     );
 }

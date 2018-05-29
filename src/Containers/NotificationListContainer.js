@@ -50,8 +50,32 @@ class NotificationListContainer extends React.Component<Props, State> {
 
     async removeNotification(id: string): Promise<void> {
         this.setState({ loading: true });
-        await this.props.moiraApi.deltNotification(id);
-        this.getData(this.props);
+        try {
+            await this.props.moiraApi.delNotification(id);
+            this.getData(this.props);
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
+    }
+
+    async removeAllNotifications(): Promise<void> {
+        this.setState({ loading: true });
+        try {
+            await this.props.moiraApi.delAllNotifications();
+            this.getData(this.props);
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
+    }
+
+    async removeNotificationsEvents(): Promise<void> {
+        this.setState({ loading: true });
+        try {
+            await this.props.moiraApi.delAllNotificationEvents();
+            this.getData(this.props);
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
     }
 
     render(): React.Node {
@@ -65,6 +89,12 @@ class NotificationListContainer extends React.Component<Props, State> {
                             items={this.composeNotifications(list)}
                             onRemove={id => {
                                 this.removeNotification(id);
+                            }}
+                            onRemoveAll={() => {
+                                this.removeAllNotifications();
+                            }}
+                            onRemoveEvents={() => {
+                                this.removeNotificationsEvents();
                             }}
                         />
                     )}
