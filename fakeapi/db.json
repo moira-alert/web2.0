@@ -2,26 +2,33 @@
     "config": {
         "contacts": [
             { "type": "email", "validation": "^.+@.+\\..+$" },
-            { "type": "phone", "validation": "^9\\d{9}$", "title": "kontur sms", "help": "phone number format 9*********" },
+            {
+                "type": "phone",
+                "validation": "^9\\d{9}$",
+                "title": "kontur sms",
+                "help": "phone number format 9*********"
+            },
             { "type": "pushover", "validation": "", "title": "pushover user key" },
             { "type": "slack", "validation": "^[@#][a-zA-Z0-9-_]+", "title": "slack #channel / @user" },
-            { "type": "telegram", "validation": "", "title": "#channel, @username, group", "help": "required to grant @KonturMoiraBot admin privileges for channels,\nor /start command in groups and personal chats" },
-            { "type": "twilio voice", "validation": "^\\+79\\d{9}$", "title": "twilio voice", "help": "phone number format +79*********" }
+            {
+                "type": "telegram",
+                "validation": "",
+                "title": "#channel, @username, group",
+                "help":
+                    "required to grant @KonturMoiraBot admin privileges for channels,\nor /start command in groups and personal chats"
+            },
+            {
+                "type": "twilio voice",
+                "validation": "^\\+79\\d{9}$",
+                "title": "twilio voice",
+                "help": "phone number format +79*********"
+            }
         ],
         "supportEmail": "devopsteam@skbkontur.ru"
     },
     "user": { "login": "testuser" },
     "tag": {
-        "list": [
-            "critical",
-            "devops",
-            "frontend",
-            "backend",
-            "test",
-            "errors",
-            "warnings",
-            "archive"
-        ]
+        "list": ["critical", "devops", "frontend", "backend", "test", "errors", "warnings", "archive"]
     },
     "settings": {
         "login": "testuser",
@@ -144,9 +151,7 @@
             {
                 "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
                 "name": "12321",
-                "targets": [
-                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"
-                ],
+                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
                 "warn_value": 11111111111,
                 "error_value": 22222222222,
                 "tags": ["devops"],
@@ -804,9 +809,7 @@
             {
                 "id": "b562ca35-5f48-40f2-91de-4078a237c227",
                 "name": "Front",
-                "targets": [
-                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
-                ],
+                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"],
                 "warn_value": 10000,
                 "error_value": 20000,
                 "tags": ["frontend"],
@@ -1477,9 +1480,7 @@
             {
                 "id": "351de571-015f-40ff-b16e-8ca57585b4e8",
                 "name": "Devops processes uptime DiTrace",
-                "targets": [
-                    "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"
-                ],
+                "targets": ["aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"],
                 "warn_value": 0.001,
                 "error_value": 0,
                 "tags": ["devops", "nodata"],
@@ -1664,9 +1665,7 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": [
-                    "focus.elasticsearch.focus351.*.cluster_health.status"
-                ],
+                "patterns": ["focus.elasticsearch.focus351.*.cluster_health.status"],
                 "is_simple_trigger": false,
                 "throttling": 0,
                 "last_check": {
@@ -1737,9 +1736,7 @@
     "trigger": {
         "id": "69b1-91c1-423f-ab3b-d1a8",
         "name": "ELK. Low disk space",
-        "targets": [
-            "aliasByNode(DevOps.system.vm-elk*.disk.root.gigabyte_percentfree,2)"
-        ],
+        "targets": ["aliasByNode(DevOps.system.vm-elk*.disk.root.gigabyte_percentfree,2)"],
         "warn_value": 20,
         "error_value": 5,
         "tags": ["devops", "critical"],
@@ -2617,6 +2614,465 @@
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
                 "old_state": "OK"
+            }
+        ]
+    },
+    "notification": {
+        "total": 15,
+        "list": [
+            {
+                "event": {
+                    "timestamp": 1527595797,
+                    "metric": "revise-cons-03",
+                    "value": 57.6236096055626,
+                    "state": "OK",
+                    "trigger_id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "sub_id": "5d28b1ae-784c-4394-acbc-9ff09e938725",
+                    "old_state": "NODATA"
+                },
+                "trigger": {
+                    "id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "name": "Virtual mashines Disks free space",
+                    "desc": "",
+                    "targets": [
+                        "exclude(aliasByNode(Alko.system.*.logicaldisk.c.freespace, 2), '-edi|edi-|rosalco*|icat|expert2|-log|-common|total|eg-')"
+                    ],
+                    "warn_value": 1,
+                    "error_value": 0.5,
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                },
+                "contact": {
+                    "type": "telegram",
+                    "value": "alkonotifications",
+                    "id": "da699e28-4ab5-4510-9354-1cb85d4319e7",
+                    "user": "ffominyh"
+                },
+                "throttled": false,
+                "send_fail": 60,
+                "timestamp": 1527599494
+            },
+            {
+                "event": {
+                    "timestamp": 1527595797,
+                    "metric": "revise-cons-04",
+                    "value": 60.0083985195168,
+                    "state": "OK",
+                    "trigger_id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "sub_id": "5d28b1ae-784c-4394-acbc-9ff09e938725",
+                    "old_state": "NODATA"
+                },
+                "trigger": {
+                    "id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "name": "Virtual mashines Disks free space",
+                    "desc": "",
+                    "targets": [
+                        "exclude(aliasByNode(Alko.system.*.logicaldisk.c.freespace, 2), '-edi|edi-|rosalco*|icat|expert2|-log|-common|total|eg-')"
+                    ],
+                    "warn_value": 1,
+                    "error_value": 0.5,
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                },
+                "contact": {
+                    "type": "telegram",
+                    "value": "alkonotifications",
+                    "id": "da699e28-4ab5-4510-9354-1cb85d4319e7",
+                    "user": "ffominyh"
+                },
+                "throttled": false,
+                "send_fail": 60,
+                "timestamp": 1527599495
+            },
+            {
+                "event": {
+                    "timestamp": 1527595797,
+                    "metric": "revise-cons-01",
+                    "value": 47.4350335452495,
+                    "state": "OK",
+                    "trigger_id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "sub_id": "5d28b1ae-784c-4394-acbc-9ff09e938725",
+                    "old_state": "NODATA"
+                },
+                "trigger": {
+                    "id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "name": "Virtual mashines Disks free space",
+                    "desc": "",
+                    "targets": [
+                        "exclude(aliasByNode(Alko.system.*.logicaldisk.c.freespace, 2), '-edi|edi-|rosalco*|icat|expert2|-log|-common|total|eg-')"
+                    ],
+                    "warn_value": 1,
+                    "error_value": 0.5,
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                },
+                "contact": {
+                    "type": "telegram",
+                    "value": "alkonotifications",
+                    "id": "da699e28-4ab5-4510-9354-1cb85d4319e7",
+                    "user": "ffominyh"
+                },
+                "throttled": false,
+                "send_fail": 60,
+                "timestamp": 1527599501
+            },
+            {
+                "event": {
+                    "timestamp": 1527595797,
+                    "metric": "revise-cons-02",
+                    "value": 51.4516743327572,
+                    "state": "OK",
+                    "trigger_id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "sub_id": "5d28b1ae-784c-4394-acbc-9ff09e938725",
+                    "old_state": "NODATA"
+                },
+                "trigger": {
+                    "id": "f8c83ce1-d14d-4763-b0eb-b4948fcc5d36",
+                    "name": "Virtual mashines Disks free space",
+                    "desc": "",
+                    "targets": [
+                        "exclude(aliasByNode(Alko.system.*.logicaldisk.c.freespace, 2), '-edi|edi-|rosalco*|icat|expert2|-log|-common|total|eg-')"
+                    ],
+                    "warn_value": 1,
+                    "error_value": 0.5,
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                },
+                "contact": {
+                    "type": "telegram",
+                    "value": "alkonotifications",
+                    "id": "da699e28-4ab5-4510-9354-1cb85d4319e7",
+                    "user": "ffominyh"
+                },
+                "throttled": false,
+                "send_fail": 60,
+                "timestamp": 1527599501
+            },
+            {
+                "event": {
+                    "timestamp": 1527597210,
+                    "metric":
+                        "movingMax(transformNull(KE.sessionsetter.onpageload.responsecode.500.current,0),\"15m\")",
+                    "value": 2,
+                    "state": "ERROR",
+                    "trigger_id": "cc923998-03a2-49af-9ae7-3bc454e8eaf9",
+                    "sub_id": "52b60adc-d278-45b2-8334-c39b275de91e",
+                    "old_state": "WARN"
+                },
+                "trigger": {
+                    "id": "cc923998-03a2-49af-9ae7-3bc454e8eaf9",
+                    "name": "Ke.Api.Setter.500",
+                    "desc":
+                        "Service Errors\nESD https://esd.skbkontur.ru/#/ke-sessionsetter\nDashboard https://grafana.skbkontur.ru/dashboard/db/ke-api-sessionsetter",
+                    "targets": ["movingMax(transformNull(KE.sessionsetter.*.responsecode.5*.current, 0), '15m')"],
+                    "warn_value": 1,
+                    "error_value": 2,
+                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "#ke_api_alerts",
+                    "id": "e67ec559-1e70-4873-93ac-882b12da79c5",
+                    "user": "andection"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527599787
+            },
+            {
+                "event": {
+                    "timestamp": 1527597631,
+                    "metric": "movingMax(transformNull(KE.sessionsetter.login.responsecode.500.current,0),\"15m\")",
+                    "value": 1,
+                    "state": "WARN",
+                    "trigger_id": "cc923998-03a2-49af-9ae7-3bc454e8eaf9",
+                    "sub_id": "52b60adc-d278-45b2-8334-c39b275de91e",
+                    "old_state": "OK"
+                },
+                "trigger": {
+                    "id": "cc923998-03a2-49af-9ae7-3bc454e8eaf9",
+                    "name": "Ke.Api.Setter.500",
+                    "desc":
+                        "Service Errors\nESD https://esd.skbkontur.ru/#/ke-sessionsetter\nDashboard https://grafana.skbkontur.ru/dashboard/db/ke-api-sessionsetter",
+                    "targets": ["movingMax(transformNull(KE.sessionsetter.*.responsecode.5*.current, 0), '15m')"],
+                    "warn_value": 1,
+                    "error_value": 2,
+                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "#ke_api_alerts",
+                    "id": "e67ec559-1e70-4873-93ac-882b12da79c5",
+                    "user": "andection"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527599787
+            },
+            {
+                "event": {
+                    "timestamp": 1527597605,
+                    "metric": "apikeys.waitingrequests.VM-KE-PORTAL2",
+                    "state": "NODATA",
+                    "trigger_id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "sub_id": "80a3b78a-fd1d-47f1-821c-75edb057f6a0",
+                    "old_state": "OK"
+                },
+                "trigger": {
+                    "id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "name": "Очередь запросов в облаке",
+                    "desc": "",
+                    "targets": [
+                        "aliasByNode(Portal-cloud.*.core.waitingrequests.host.{VM-KE-PORTAL*,VM-KE-API*}, 1, 3, 5)"
+                    ],
+                    "warn_value": 30,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["portal-cloud"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "#portal_cloud_alerts",
+                    "id": "1bf40729-1487-4a8d-95ad-3d17462d94e0",
+                    "user": "dmitriy.vorotnikov"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600032
+            },
+            {
+                "event": {
+                    "timestamp": 1527597605,
+                    "metric": "apikeys.waitingrequests.VM-KE-PORTAL3",
+                    "state": "NODATA",
+                    "trigger_id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "sub_id": "80a3b78a-fd1d-47f1-821c-75edb057f6a0",
+                    "old_state": "OK"
+                },
+                "trigger": {
+                    "id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "name": "Очередь запросов в облаке",
+                    "desc": "",
+                    "targets": [
+                        "aliasByNode(Portal-cloud.*.core.waitingrequests.host.{VM-KE-PORTAL*,VM-KE-API*}, 1, 3, 5)"
+                    ],
+                    "warn_value": 30,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["portal-cloud"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "#portal_cloud_alerts",
+                    "id": "1bf40729-1487-4a8d-95ad-3d17462d94e0",
+                    "user": "dmitriy.vorotnikov"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600032
+            },
+            {
+                "event": {
+                    "timestamp": 1527597605,
+                    "metric": "apikeys.waitingrequests.VM-KE-PORTAL4",
+                    "state": "NODATA",
+                    "trigger_id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "sub_id": "80a3b78a-fd1d-47f1-821c-75edb057f6a0",
+                    "old_state": "OK"
+                },
+                "trigger": {
+                    "id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "name": "Очередь запросов в облаке",
+                    "desc": "",
+                    "targets": [
+                        "aliasByNode(Portal-cloud.*.core.waitingrequests.host.{VM-KE-PORTAL*,VM-KE-API*}, 1, 3, 5)"
+                    ],
+                    "warn_value": 30,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["portal-cloud"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "#portal_cloud_alerts",
+                    "id": "1bf40729-1487-4a8d-95ad-3d17462d94e0",
+                    "user": "dmitriy.vorotnikov"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600032
+            },
+            {
+                "event": {
+                    "timestamp": 1527597605,
+                    "metric": "apikeys.waitingrequests.VM-KE-PORTAL5",
+                    "state": "NODATA",
+                    "trigger_id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "sub_id": "80a3b78a-fd1d-47f1-821c-75edb057f6a0",
+                    "old_state": "OK"
+                },
+                "trigger": {
+                    "id": "55c99671-46db-4182-92d7-de4fb00b98cf",
+                    "name": "Очередь запросов в облаке",
+                    "desc": "",
+                    "targets": [
+                        "aliasByNode(Portal-cloud.*.core.waitingrequests.host.{VM-KE-PORTAL*,VM-KE-API*}, 1, 3, 5)"
+                    ],
+                    "warn_value": 30,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["portal-cloud"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "#portal_cloud_alerts",
+                    "id": "1bf40729-1487-4a8d-95ad-3d17462d94e0",
+                    "user": "dmitriy.vorotnikov"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600032
+            },
+            {
+                "event": {
+                    "timestamp": 1527598616,
+                    "metric": "KE.transport.exceptions_caught.type.IrudProcessed_CheckAll",
+                    "value": 160,
+                    "state": "ERROR",
+                    "trigger_id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "sub_id": "070abd46-21ca-4637-be37-b5576e226d3f",
+                    "old_state": "OK"
+                },
+                "trigger": {
+                    "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "name": "transport.IRUD.errors",
+                    "desc":
+                        "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s\u0026panelId=9\u0026fullscreen\u0026orgId=1",
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "warn_value": 50,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "ke_dc_alarm",
+                    "id": "7ff06c80-8fc8-4247-bbbb-768534ae0bbe",
+                    "user": "nikita314"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600508
+            },
+            {
+                "event": {
+                    "timestamp": 1527598647,
+                    "metric": "KE.transport.exceptions_caught.type.IrudProcessed_CheckAll",
+                    "state": "OK",
+                    "trigger_id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "sub_id": "070abd46-21ca-4637-be37-b5576e226d3f",
+                    "old_state": "ERROR"
+                },
+                "trigger": {
+                    "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "name": "transport.IRUD.errors",
+                    "desc":
+                        "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s\u0026panelId=9\u0026fullscreen\u0026orgId=1",
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "warn_value": 50,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "ke_dc_alarm",
+                    "id": "7ff06c80-8fc8-4247-bbbb-768534ae0bbe",
+                    "user": "nikita314"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600508
+            },
+            {
+                "event": {
+                    "timestamp": 1527598856,
+                    "metric": "KE.transport.exceptions_caught.type.IrudProcessed_RegisterAll",
+                    "value": 73,
+                    "state": "WARN",
+                    "trigger_id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "sub_id": "070abd46-21ca-4637-be37-b5576e226d3f",
+                    "old_state": "ERROR"
+                },
+                "trigger": {
+                    "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "name": "transport.IRUD.errors",
+                    "desc":
+                        "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s\u0026panelId=9\u0026fullscreen\u0026orgId=1",
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "warn_value": 50,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "ke_dc_alarm",
+                    "id": "7ff06c80-8fc8-4247-bbbb-768534ae0bbe",
+                    "user": "nikita314"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600508
+            },
+            {
+                "event": {
+                    "timestamp": 1527598917,
+                    "metric": "KE.transport.exceptions_caught.type.IrudProcessed_RegisterAll",
+                    "value": 131,
+                    "state": "ERROR",
+                    "trigger_id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "sub_id": "070abd46-21ca-4637-be37-b5576e226d3f",
+                    "old_state": "WARN"
+                },
+                "trigger": {
+                    "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "name": "transport.IRUD.errors",
+                    "desc":
+                        "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s\u0026panelId=9\u0026fullscreen\u0026orgId=1",
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "warn_value": 50,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "ke_dc_alarm",
+                    "id": "7ff06c80-8fc8-4247-bbbb-768534ae0bbe",
+                    "user": "nikita314"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600508
+            },
+            {
+                "event": {
+                    "timestamp": 1527599217,
+                    "metric": "KE.transport.exceptions_caught.type.IrudProcessed_CheckAll",
+                    "value": 160,
+                    "state": "ERROR",
+                    "trigger_id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "sub_id": "070abd46-21ca-4637-be37-b5576e226d3f",
+                    "old_state": "OK"
+                },
+                "trigger": {
+                    "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
+                    "name": "transport.IRUD.errors",
+                    "desc":
+                        "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s\u0026panelId=9\u0026fullscreen\u0026orgId=1",
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "warn_value": 50,
+                    "error_value": 100,
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                },
+                "contact": {
+                    "type": "slack",
+                    "value": "ke_dc_alarm",
+                    "id": "7ff06c80-8fc8-4247-bbbb-768534ae0bbe",
+                    "user": "nikita314"
+                },
+                "throttled": true,
+                "send_fail": 0,
+                "timestamp": 1527600508
             }
         ]
     }
