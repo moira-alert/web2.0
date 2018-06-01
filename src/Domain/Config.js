@@ -5,8 +5,6 @@ export type ContactConfig = {|
     validation: string,
     title?: string,
     help?: string,
-    botName?: string,
-    wrapUrl?: string,
 |};
 
 export type Config = {|

@@ -8,6 +8,8 @@ import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../Helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
+const Remarkable = require("remarkable");
+const md = new Remarkable();
 
 export type ContactInfo = {
     type: ?string,
@@ -28,7 +30,7 @@ type Props = ReactExactProps<{
 export default class ContactEditForm extends React.Component<Props> {
     props: Props;
 
-    getPlaceholderForContactType(contactConfig: ?ContactConfig): string {
+    static getPlaceholderForContactType(contactConfig: ?ContactConfig): string {
         if (contactConfig == null) {
             return "";
         }
@@ -57,29 +59,12 @@ export default class ContactEditForm extends React.Component<Props> {
         return "";
     }
 
-    getCommentTextFor(contactConfig: ?ContactConfig): string {
+    getCommentTextFor(contactConfig: ?ContactConfig): HTMLTree {
         if (contactConfig == null) {
             return "";
         }
-        let helpText = contactConfig.help || "";
-        if (contactConfig.botName) {
-            const botName = contactConfig.botName;
-            if (contactConfig.wrapUrl) {
-                const botUrl = contactConfig.wrapUrl.replace("{botName}", botName);
-                const helpTextParts = helpText.split("{botName}");
-                return (
-                    <div>
-                        {helpTextParts[0]}
-                        <a target="_blank" href={botUrl}>
-                            @{botName}
-                        </a>
-                        {helpTextParts[1]}
-                    </div>
-                );
-            }
-            helpText = helpText.replace("{botName}", botName);
-        }
-        return helpText;
+        const helpText = contactConfig.help || "";
+        return md.render(helpText);
     }
 
     validateValue(): ?ValidationInfo {
@@ -123,15 +108,18 @@ export default class ContactEditForm extends React.Component<Props> {
                         <Input
                             width={"100%"}
                             disabled={type == null}
-                            placeholder={this.getPlaceholderForContactType(currentContactConfig)}
+                            placeholder={ContactEditForm.getPlaceholderForContactType(currentContactConfig)}
                             value={value}
                             onChange={(e, value) => onChange({ value: value })}
                         />
                     </ValidationWrapperV1>
                 </div>
-                <div className={cn("row", "comment")}>
-                    {currentContactConfig != null && this.getCommentTextFor(currentContactConfig)}
-                </div>
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: currentContactConfig != null && this.getCommentTextFor(currentContactConfig),
+                    }}
+                    className={cn("row", "comment")}
+                />
             </div>
         );
     }
