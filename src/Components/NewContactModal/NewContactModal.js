@@ -33,7 +33,7 @@ export default class NewContactModal extends React.Component<Props, State> {
     container: ?ValidationContainer;
 
     handleCreateContact = async () => {
-        if (!await this.validateForm()) {
+        if (!(await this.validateForm())) {
             return;
         }
         const { onCreate } = this.props;
@@ -46,7 +46,7 @@ export default class NewContactModal extends React.Component<Props, State> {
     };
 
     handleCreateAndTestContact = async () => {
-        if (!await this.validateForm()) {
+        if (!(await this.validateForm())) {
             return;
         }
         const { onCreateAndTest } = this.props;

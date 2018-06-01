@@ -44,7 +44,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
     }
 
     handleUpdate = async () => {
-        if (!await this.validateForm()) {
+        if (!(await this.validateForm())) {
             return;
         }
         const { subscription, onUpdateSubscription } = this.props;
@@ -57,7 +57,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
     };
 
     handleUpdateAndTest = async () => {
-        if (!await this.validateForm()) {
+        if (!(await this.validateForm())) {
             return;
         }
         const { subscription, onUpdateAndTestSubscription } = this.props;
