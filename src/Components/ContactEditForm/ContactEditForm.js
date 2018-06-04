@@ -8,7 +8,7 @@ import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../Helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
-const Remarkable = require("remarkable");
+import Remarkable from "remarkable";
 const md = new Remarkable();
 
 export type ContactInfo = {
@@ -30,7 +30,7 @@ type Props = ReactExactProps<{
 export default class ContactEditForm extends React.Component<Props> {
     props: Props;
 
-    static getPlaceholderForContactType(contactConfig: ?ContactConfig): string {
+    getPlaceholderForContactType(contactConfig: ?ContactConfig): string {
         if (contactConfig == null) {
             return "";
         }
@@ -60,11 +60,10 @@ export default class ContactEditForm extends React.Component<Props> {
     }
 
     getCommentTextFor(contactConfig: ?ContactConfig): HTMLTree {
-        if (contactConfig == null) {
+        if (contactConfig == null || !contactConfig.help) {
             return "";
         }
-        const helpText = contactConfig.help || "";
-        return md.render(helpText);
+        return md.render(contactConfig.help);
     }
 
     validateValue(): ?ValidationInfo {
@@ -108,7 +107,7 @@ export default class ContactEditForm extends React.Component<Props> {
                         <Input
                             width={"100%"}
                             disabled={type == null}
-                            placeholder={ContactEditForm.getPlaceholderForContactType(currentContactConfig)}
+                            placeholder={this.getPlaceholderForContactType(currentContactConfig)}
                             value={value}
                             onChange={(e, value) => onChange({ value: value })}
                         />
