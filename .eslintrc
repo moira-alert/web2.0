@@ -37,6 +37,7 @@
         "import/newline-after-import": "off",
         "import/prefer-default-export": "off",
         "import/no-unassigned-import": "off",
-        "import/no-anonymous-default-export": "off"
+        "import/no-anonymous-default-export": "off",
+        "react/no-danger": "off"
     }
 }

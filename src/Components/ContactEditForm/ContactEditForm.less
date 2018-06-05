@@ -1,3 +1,6 @@
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
 .form {
     min-width: 510px;
 }
@@ -13,4 +16,29 @@
 .comment {
     min-height: 40px;
     max-width: 500px;
+
+    & > *:first-child {
+        margin-top: 0;
+    }
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
+
+    code {
+        padding: 2px 5px;
+        background-color: #eee;
+        border-radius: 3px;
+        color: #c00;
+    }
+
+    a {
+        color: @linkColor;
+        text-decoration: none;
+
+        &:focus,
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }

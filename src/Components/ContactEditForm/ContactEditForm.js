@@ -8,6 +8,8 @@ import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../Helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
+import Remarkable from "remarkable";
+const md = new Remarkable({ breaks: true });
 
 export type ContactInfo = {
     type: ?string,
@@ -57,15 +59,11 @@ export default class ContactEditForm extends React.Component<Props> {
         return "";
     }
 
-    getCommentTextFor(contactConfig: ?ContactConfig): string {
-        if (contactConfig == null) {
+    getCommentTextFor(contactConfig: ?ContactConfig): HTMLTree {
+        if (contactConfig == null || !contactConfig.help) {
             return "";
         }
-        const contactType = contactConfig.type;
-        if (contactType === "telegram") {
-            return "You have to grant @KonturMoiraBot admin privileges for channel, or execute /start command for groups or personal chats.";
-        }
-        return contactConfig.help || "";
+        return md.render(contactConfig.help);
     }
 
     validateValue(): ?ValidationInfo {
@@ -115,9 +113,14 @@ export default class ContactEditForm extends React.Component<Props> {
                         />
                     </ValidationWrapperV1>
                 </div>
-                <div className={cn("row", "comment")}>
-                    {currentContactConfig != null && this.getCommentTextFor(currentContactConfig)}
-                </div>
+                {currentContactConfig !== null && (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: this.getCommentTextFor(currentContactConfig),
+                        }}
+                        className={cn("row", "comment")}
+                    />
+                )}
             </div>
         );
     }
