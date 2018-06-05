@@ -59,7 +59,7 @@ export default class ContactEditForm extends React.Component<Props> {
         return "";
     }
 
-    getCommentTextFor(contactConfig: ?ContactConfig): HTMLTree {
+    getCommentTextFor(contactConfig: ?ContactConfig): string {
         if (contactConfig == null || !contactConfig.help) {
             return "";
         }
