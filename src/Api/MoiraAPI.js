@@ -19,6 +19,7 @@ export type SubscriptionCreateInfo = {|
     contacts: Array<string>,
     enabled: boolean,
     user: string,
+    id?: string,
 |};
 
 export type TagList = {|
