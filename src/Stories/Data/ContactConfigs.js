@@ -10,12 +10,12 @@ export const contactConfigs: Array<ContactConfig> = [
         type: "phone",
         validation: "^9d{9}$",
         title: "kontur sms",
-        help: "phone number format 9*********",
+        help: "Phone number format 9*********",
     },
     {
         type: "pushover",
         validation: "",
-        title: "pushover user key",
+        title: "Pushover user key",
     },
     {
         type: "slack",
@@ -27,12 +27,12 @@ export const contactConfigs: Array<ContactConfig> = [
         validation: "",
         title: "#channel, @username, group",
         help:
-            "required to grant @KonturMoiraBot admin privileges for channels, or /start command in groups and personal chats",
+            "Required to grant [@KonturMoiraBot](https://t.me/KonturMoiraBot) admin privileges for channels,\nor `/start` command in groups and personal chats",
     },
     {
         type: "twilio voice",
         validation: "^+79d{9}$",
         title: "twilio voice",
-        help: "phone number format +79*********",
+        help: "Phone number format +79*********",
     },
 ];
