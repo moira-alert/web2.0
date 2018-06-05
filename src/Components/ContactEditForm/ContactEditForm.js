@@ -9,7 +9,7 @@ import validateContact from "../../Helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
 import Remarkable from "remarkable";
-const md = new Remarkable();
+const md = new Remarkable({ breaks: true });
 
 export type ContactInfo = {
     type: ?string,
