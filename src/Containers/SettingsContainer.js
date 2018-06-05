@@ -214,6 +214,25 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
+    handleRemoveSubscriptionByContact = async (contact: Contact): Promise<void> => {
+        const { settings } = this.state;
+        if (settings == null) {
+            throw new Error("InvalidProgramState");
+        }
+        const allSubscriptions = settings.subscriptions;
+        allSubscriptions.forEach(subscription => {
+            const contacts = subscription.contacts;
+            if (contacts.length === 1 && contacts[0] === contact.id) {
+                this.handleRemoveSubscription(subscription);
+            } else if (contacts.length > 1 && contacts.includes(contact.id)) {
+                const index = contacts.indexOf(contact.id);
+                contacts.splice(index);
+                subscription.contacts = contacts;
+                this.handleUpdateSubscription(subscription);
+            }
+        });
+    };
+
     handleRemoveContact = async (contact: Contact): Promise<void> => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
@@ -250,6 +269,7 @@ class SettingsContainer extends React.Component<Props, State> {
                                     onAddContact={this.handleAddContact}
                                     onUpdateContact={this.handleUpdateContact}
                                     onRemoveContact={this.handleRemoveContact}
+                                    onRemoveSubscriptionByContact={this.handleRemoveSubscriptionByContact}
                                 />
                             </div>
                         )}

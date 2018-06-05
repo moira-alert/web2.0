@@ -18,6 +18,7 @@ type Props = ReactExactProps<{
     onAddContact: NewContactInfo => Promise<?Contact>,
     onUpdateContact: Contact => Promise<void>,
     onRemoveContact: Contact => Promise<void>,
+    onRemoveSubscriptionByContact: Contact => Promise<void>,
 }>;
 
 type State = {
@@ -87,12 +88,14 @@ export default class ContactList extends React.Component<Props, State> {
 
     handleDeleteContact = async (): Promise<void> => {
         const { onRemoveContact } = this.props;
+        const { onRemoveSubscriptionByContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {
             throw new Error("InvalidProgramState");
         }
         try {
             await onRemoveContact(editableContact);
+            await onRemoveSubscriptionByContact(editableContact);
         } finally {
             this.setState({
                 editContactModalVisible: false,
