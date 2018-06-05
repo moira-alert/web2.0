@@ -113,12 +113,14 @@ export default class ContactEditForm extends React.Component<Props> {
                         />
                     </ValidationWrapperV1>
                 </div>
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: currentContactConfig != null && this.getCommentTextFor(currentContactConfig),
-                    }}
-                    className={cn("row", "comment")}
-                />
+                {currentContactConfig !== null && (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: this.getCommentTextFor(currentContactConfig),
+                        }}
+                        className={cn("row", "comment")}
+                    />
+                )}
             </div>
         );
     }
