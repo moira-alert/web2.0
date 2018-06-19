@@ -10,4 +10,5 @@ export type ContactConfig = {|
 export type Config = {|
     supportEmail: string,
     contacts: Array<ContactConfig>,
+    remoteAllowed?: boolean,
 |};

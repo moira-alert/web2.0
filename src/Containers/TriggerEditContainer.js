@@ -11,6 +11,7 @@ import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
+import type { Config } from "../Domain/Config";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -18,6 +19,7 @@ type State = {
     error: ?string,
     trigger: ?Trigger,
     tags: ?Array<string>,
+    config: ?Config,
 };
 
 class TriggerEditContainer extends React.Component<Props, State> {
@@ -25,6 +27,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     state: State = {
         loading: true,
         error: null,
+        config: null,
         trigger: null,
         tags: null,
     };
@@ -49,7 +52,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
         try {
             const trigger = await moiraApi.getTrigger(id);
             const { list } = await moiraApi.getTagList();
-            this.setState({ loading: false, trigger: trigger, tags: list });
+            const config = await moiraApi.getConfig();
+            this.setState({ loading: false, trigger: trigger, tags: list, config: config });
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -94,7 +98,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { loading, error, trigger, tags } = this.state;
+        const { loading, error, trigger, tags, config } = this.state;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -104,11 +108,14 @@ class TriggerEditContainer extends React.Component<Props, State> {
                             <ColumnStack block gap={6} horizontalAlign="stretch">
                                 <Fit>
                                     <ValidationContainer ref={x => (this.triggerForm = x)}>
-                                        <TriggerEditForm
-                                            data={trigger}
-                                            tags={tags || []}
-                                            onChange={update => this.handleChange(update)}
-                                        />
+                                        {config != null && (
+                                            <TriggerEditForm
+                                                data={trigger}
+                                                tags={tags || []}
+                                                remoteAllowed={config.remoteAllowed}
+                                                onChange={update => this.handleChange(update)}
+                                            />
+                                        )}
                                     </ValidationContainer>
                                 </Fit>
                                 <Fit>

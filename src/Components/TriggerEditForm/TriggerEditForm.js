@@ -28,6 +28,7 @@ type Props = {|
     data: $Shape<Trigger>,
     tags: Array<string>,
     onChange: ($Shape<Trigger>) => void,
+    remoteAllowed: boolean,
 |};
 
 type State = {
@@ -124,7 +125,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     render(): React.Node {
         const { advancedMode } = this.state;
-        const { data, onChange, tags: allTags } = this.props;
+        const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const { name, desc, targets, tags, expression, ttl, ttl_state: ttlState, sched, is_remote: isRemote } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
@@ -269,24 +270,25 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {advancedMode && (
-                    <FormRow label="Data source" singleLineControlGroup>
-                        <RadioGroup
-                            name="data-source"
-                            defaultValue={!isRemote ? DataSources.REDIS : DataSources.GRAPHITE}
-                            onChange={(evt, value) => onChange({ is_remote: value !== DataSources.REDIS })}>
-                            <Gapped vertical gap={10}>
-                                <Radio value={DataSources.REDIS}>Redis (default)</Radio>
-                                <Radio value={DataSources.GRAPHITE}>
-                                    Graphite. Be careful, it may cause{" "}
-                                    <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html">
-                                        extra load
-                                    </Link>
-                                </Radio>
-                            </Gapped>
-                        </RadioGroup>
-                    </FormRow>
-                )}
+                {remoteAllowed &&
+                    advancedMode && (
+                        <FormRow label="Data source" singleLineControlGroup>
+                            <RadioGroup
+                                name="data-source"
+                                defaultValue={!isRemote ? DataSources.REDIS : DataSources.GRAPHITE}
+                                onChange={(evt, value) => onChange({ is_remote: value !== DataSources.REDIS })}>
+                                <Gapped vertical gap={10}>
+                                    <Radio value={DataSources.REDIS}>Redis (default)</Radio>
+                                    <Radio value={DataSources.GRAPHITE}>
+                                        Graphite. Be careful, it may cause{" "}
+                                        <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html">
+                                            extra load
+                                        </Link>
+                                    </Radio>
+                                </Gapped>
+                            </RadioGroup>
+                        </FormRow>
+                    )}
             </Form>
         );
     }
