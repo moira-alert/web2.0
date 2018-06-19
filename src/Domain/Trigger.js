@@ -28,6 +28,7 @@ export type Trigger = {
         msg?: string,
     |},
     timestamp?: number,
+    is_remote: boolean,
 };
 
 export type TriggerList = {|

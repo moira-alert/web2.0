@@ -804,7 +804,8 @@
                     "score": 104000,
                     "state": "OK",
                     "timestamp": 1504511501
-                }
+                },
+                "is_remote": false
             },
             {
                 "id": "b562ca35-5f48-40f2-91de-4078a237c227",
@@ -1475,7 +1476,8 @@
                     "score": 104000,
                     "state": "OK",
                     "timestamp": 1504511501
-                }
+                },
+                "is_remote": true
             },
             {
                 "id": "351de571-015f-40ff-b16e-8ca57585b4e8",
@@ -1637,7 +1639,8 @@
                     "score": 4000,
                     "state": "OK",
                     "timestamp": 1504511501
-                }
+                },
+                "is_remote": false
             },
             {
                 "id": "f08977e6-bfcd-4ca4-8e4a-5b3ffc56284b",
@@ -1683,7 +1686,8 @@
                     "timestamp": 1504511501,
                     "event_timestamp": 1504511501,
                     "msg": "Trigger has no metrics"
-                }
+                },
+                "is_remote": true
             },
             {
                 "id": "e872a927-e6d2-4b2e-b1fb-63d2345357f2",
@@ -1729,7 +1733,8 @@
                     "score": 2000,
                     "state": "OK",
                     "timestamp": 1504511501
-                }
+                },
+                "is_remote": false
             }
         ]
     },
@@ -1759,7 +1764,8 @@
         "patterns": ["DevOps.system.vm-elk*.disk.root.gigabyte_percentfree"],
         "is_simple_trigger": false,
         "throttling": 0,
-        "expression": ""
+        "expression": "",
+        "is_remote": false
     },
     "state": {
         "metrics": {
