@@ -4,6 +4,7 @@ import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import type { Trigger } from "../../Domain/Trigger";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Icon from "retail-ui/components/Icon";
+import Gapped from "retail-ui/components/Gapped";
 import Input from "retail-ui/components/Input";
 import Textarea from "retail-ui/components/Textarea";
 import Button from "retail-ui/components/Button";
@@ -11,13 +12,14 @@ import Tabs from "retail-ui/components/Tabs";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
+import Radio from "retail-ui/components/Radio";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Statuses } from "../../Domain/Status";
-import { DataSources, DataSourcesCaptions } from "../../Domain/DataSource";
+import { DataSources } from "../../Domain/DataSource";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
@@ -271,10 +273,18 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     <FormRow label="Data source" singleLineControlGroup>
                         <RadioGroup
                             name="data-source"
-                            items={Object.keys(DataSources).map(item => [item, DataSourcesCaptions[item]])}
                             defaultValue={!isRemote ? DataSources.REDIS : DataSources.GRAPHITE}
-                            onChange={(evt, value) => onChange({ is_remote: value !== DataSources.REDIS })}
-                        />
+                            onChange={(evt, value) => onChange({ is_remote: value !== DataSources.REDIS })}>
+                            <Gapped vertical gap={10}>
+                                <Radio value={DataSources.REDIS}>Redis (default)</Radio>
+                                <Radio value={DataSources.GRAPHITE}>
+                                    Graphite. Be careful, it may cause{" "}
+                                    <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html">
+                                        extra load
+                                    </Link>
+                                </Radio>
+                            </Gapped>
+                        </RadioGroup>
                     </FormRow>
                 )}
             </Form>
