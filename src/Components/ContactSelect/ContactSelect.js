@@ -74,8 +74,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                 {contactIds
                     .map(x => availableContacts.find(contact => contact.id === x))
                     .filter(Boolean)
-                    .map(x => (
-                        <div className={cn("contact")}>
+                    .map((x, i) => (
+                        <div key={i} className={cn("contact")}>
                             <ContactInfo contact={x} />{" "}
                             <Link icon={"remove"} use="danger" onClick={() => this.handleRemoveContact(x)} />
                         </div>

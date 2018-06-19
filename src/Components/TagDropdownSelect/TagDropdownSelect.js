@@ -191,7 +191,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const filtredTags = this.filterTags(difference(availableTags, value));
 
         return (
-            <span className={cn("root")} style={{ width: width }}>
+            <span className={cn("root")} style={{ width: width + "px" }}>
                 <RenderLayer
                     onClickOutside={this.handleClickOutside}
                     onFocusOutside={this.handleFocusOutside}
