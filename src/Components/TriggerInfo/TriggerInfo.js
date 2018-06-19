@@ -52,6 +52,7 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
         sched,
         tags,
         throttling,
+        is_remote: isRemote,
     } = data;
     const { state, msg: exceptionMessage } = triggerState;
 
@@ -87,7 +88,7 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                 </div>
             </header>
             <dl className={cn("list")}>
-                <dt>Target</dt>
+                <dt>Target {isRemote && <i>(remote)</i>}</dt>
                 <dd>{targets.map((target, i) => <div key={i}>{target}</div>)}</dd>
                 {desc && <dt>Description</dt>}
                 {desc && <dd className={cn("description")}>{desc}</dd>}
