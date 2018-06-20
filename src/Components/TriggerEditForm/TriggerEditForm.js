@@ -2,6 +2,7 @@
 import * as React from "react";
 import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import type { Trigger } from "../../Domain/Trigger";
+import { TriggerDataSources } from "../../Domain/Trigger";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Icon from "retail-ui/components/Icon";
 import Gapped from "retail-ui/components/Gapped";
@@ -19,7 +20,6 @@ import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleMod
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Statuses } from "../../Domain/Status";
-import { DataSources } from "../../Domain/DataSource";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
@@ -275,11 +275,11 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <FormRow label="Data source" singleLineControlGroup>
                             <RadioGroup
                                 name="data-source"
-                                defaultValue={!isRemote ? DataSources.REDIS : DataSources.GRAPHITE}
-                                onChange={(evt, value) => onChange({ is_remote: value !== DataSources.REDIS })}>
+                                defaultValue={!isRemote ? TriggerDataSources.REDIS : TriggerDataSources.GRAPHITE}
+                                onChange={(evt, value) => onChange({ is_remote: value !== TriggerDataSources.REDIS })}>
                                 <Gapped vertical gap={10}>
-                                    <Radio value={DataSources.REDIS}>Redis (default)</Radio>
-                                    <Radio value={DataSources.GRAPHITE}>
+                                    <Radio value={TriggerDataSources.REDIS}>Redis (default)</Radio>
+                                    <Radio value={TriggerDataSources.GRAPHITE}>
                                         Graphite. Be careful, it may cause{" "}
                                         <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html">
                                             extra load

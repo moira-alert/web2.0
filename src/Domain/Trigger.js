@@ -46,3 +46,8 @@ export type TriggerState = {|
     trigger_id: string,
     msg?: string,
 |};
+
+export const TriggerDataSources = {
+    REDIS: "REDIS",
+    GRAPHITE: "GRAPHITE",
+};
