@@ -28,6 +28,7 @@ export type Trigger = {
         msg?: string,
     |},
     timestamp?: number,
+    is_remote: boolean,
 };
 
 export type TriggerList = {|
@@ -45,3 +46,8 @@ export type TriggerState = {|
     trigger_id: string,
     msg?: string,
 |};
+
+export const TriggerDataSources = {
+    REDIS: "REDIS",
+    GRAPHITE: "GRAPHITE",
+};
