@@ -11,6 +11,7 @@ import type { Contact, ContactList } from "../Domain/Contact";
 import type { ContactCreateInfo } from "../Domain/ContactCreateInfo";
 import type { Subscription } from "../Domain/Subscription";
 import type { Schedule } from "../Domain/Schedule";
+import {specialTags} from "../Components/SubscriptionEditor/SubscriptionEditor";
 
 export type SubscriptionCreateInfo = {|
     sched: Schedule,
@@ -415,5 +416,15 @@ export default class MoiraApi implements IMoiraApi {
             credentials: "same-origin",
         });
         await this.checkStatus(response);
+    }
+
+    async getGlobalStatus(): Promise<{state: string}> {
+        const url = this.apiUrl + "/health/notifier";
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "same-origin",
+        });
+        await this.checkStatus(response);
+        return response.json();
     }
 }
