@@ -11,6 +11,7 @@ import type { Contact, ContactList } from "../Domain/Contact";
 import type { ContactCreateInfo } from "../Domain/ContactCreateInfo";
 import type { Subscription } from "../Domain/Subscription";
 import type { Schedule } from "../Domain/Schedule";
+import type { GlobalState } from "../Domain/GlobalState"
 import {specialTags} from "../Components/SubscriptionEditor/SubscriptionEditor";
 
 export type SubscriptionCreateInfo = {|
@@ -418,7 +419,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async getGlobalStatus(): Promise<{state: string}> {
+    async getGlobalStatus(): Promise<GlobalState> {
         const url = this.apiUrl + "/health/notifier";
         const response = await fetch(url, {
             method: "GET",
