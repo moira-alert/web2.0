@@ -6,4 +6,4 @@ import Bar from "../Components/Bar/Bar";
 
 storiesOf("Bar", module)
     .addDecorator(StoryRouter())
-    .add("Default", () => <Bar message="Test message"/>);
+    .add("Default", () => <Bar message="Test message" />);

@@ -1,27 +1,24 @@
 // @flow
 import * as React from "react";
 import cn from "./HeaderContainer.less";
-import {withMoiraApi} from "../../Api/MoiraApiInjection";
-import {IMoiraApi} from "../../Api/MoiraAPI";
+import { withMoiraApi } from "../../Api/MoiraApiInjection";
+import { IMoiraApi } from "../../Api/MoiraAPI";
 import type { ContextRouter } from "react-router-dom";
-import {flattenDeep, intersection, uniq} from "lodash";
-import {Config} from "../../Domain/Config";
-import {TriggerList} from "../../Domain/Trigger";
 import Bar from "../Bar/Bar";
 import Header from "../Header/Header";
-import {Statuses} from "../../Domain/Status";
+import { Statuses } from "../../Domain/Status";
 
 type Props = ContextRouter & {
     className?: string,
-    moiraApi: IMoiraApi
+    moiraApi: IMoiraApi,
 };
 type State = {
-    barMessage: ?string
+    barMessage: ?string,
 };
 
 class HeaderContainer extends React.Component<Props, State> {
     state: State = {
-        barMessage: null
+        barMessage: null,
     };
 
     async getData(): Promise<void> {
@@ -32,10 +29,12 @@ class HeaderContainer extends React.Component<Props, State> {
 
             switch (state) {
                 case Statuses.OK:
-                    this.setState({barMessage: ''});
+                    this.setState({ barMessage: "" });
                     break;
                 case Statuses.ERROR:
-                    this.setState({barMessage: message});
+                    this.setState({ barMessage: message });
+                    break;
+                default:
                     break;
             }
         } catch (error) {

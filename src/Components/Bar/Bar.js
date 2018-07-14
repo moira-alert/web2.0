@@ -10,8 +10,8 @@ type Props = {|
 export default function Bar(props: Props): React.Node {
     const { message } = props;
     return (
-        <div className={cn('wrap')}>
-            <Icon name='Warning'/> { message }
+        <div className={cn("wrap")}>
+            <Icon name="Warning" /> {message}
         </div>
-    )
+    );
 }

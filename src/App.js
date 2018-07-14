@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import HeaderContainer from './Components/HeaderContainer/HeaderContainer'
+import HeaderContainer from "./Components/HeaderContainer/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
 import { Bundle } from "./Components/Bundle/Bundle";
 import { Desktop } from "./Components/Responsive/Responsive";

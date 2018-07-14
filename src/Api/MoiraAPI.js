@@ -11,8 +11,7 @@ import type { Contact, ContactList } from "../Domain/Contact";
 import type { ContactCreateInfo } from "../Domain/ContactCreateInfo";
 import type { Subscription } from "../Domain/Subscription";
 import type { Schedule } from "../Domain/Schedule";
-import type { GlobalState } from "../Domain/GlobalState"
-import {specialTags} from "../Components/SubscriptionEditor/SubscriptionEditor";
+import type { GlobalState } from "../Domain/GlobalState";
 
 export type SubscriptionCreateInfo = {|
     sched: Schedule,

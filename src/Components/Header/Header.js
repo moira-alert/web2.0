@@ -6,11 +6,7 @@ import LinkUI from "retail-ui/components/Link";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./Header.less";
 import svgLogo from "./moira-logo.svg";
-import { IMoiraApi } from "../../Api/MoiraAPI";
 import type { ContextRouter } from "react-router-dom";
-import {flattenDeep, intersection, uniq} from "lodash";
-import {Config} from "../../Domain/Config";
-import {TriggerList} from "../../Domain/Trigger";
 
 type Props = ContextRouter & {
     className?: string,
@@ -21,7 +17,7 @@ export default function Header(props: Props): React.Node {
         <header className={cn("header", props.className)}>
             <div className={cn("container")}>
                 <Link to={getPageLink("index")} className={cn("logo-link")}>
-                    <img className={cn("logo-img")} src={svgLogo} alt="Moira"/>
+                    <img className={cn("logo-img")} src={svgLogo} alt="Moira" />
                 </Link>
                 <nav className={cn("menu")}>
                     <RouterLink to={getPageLink("settings")} icon="Settings">
