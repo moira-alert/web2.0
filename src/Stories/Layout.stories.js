@@ -33,6 +33,13 @@ storiesOf("Layout", module)
             </Layout.Content>
         </Layout>
     ))
+    .add("With Error", () => (
+        <Layout error="Error message here">
+            <Layout.Content>
+                <SpaceFiller />
+            </Layout.Content>
+        </Layout>
+    ))
     .add("With Plate", () => (
         <Layout>
             <Layout.Plate>
