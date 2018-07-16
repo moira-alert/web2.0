@@ -9,9 +9,6 @@ type LayoutProps = ReactExactProps<{
     loading?: boolean,
     error?: ?string,
 }>;
-type ErrorMessageProps = ReactExactProps<{
-    children?: string,
-}>;
 type PlateProps = ReactExactProps<{
     children?: any,
 }>;
@@ -27,14 +24,6 @@ type PagingProps = ReactExactProps<{
 
 export default class Layout extends React.Component<LayoutProps> {
     props: LayoutProps;
-
-    static ErrorMessage = function ErrorMessage({ children }: ErrorMessageProps): React.Node {
-        return (
-            <div className={cn("error")}>
-                <div className={cn("container")}>{children}</div>
-            </div>
-        );
-    };
 
     static Plate = function Plate({ children }: PlateProps): React.Node {
         return (
@@ -81,7 +70,6 @@ export default class Layout extends React.Component<LayoutProps> {
     }
 }
 
-export const LayoutErrorMessage = Layout.ErrorMessage;
 export const LayoutTitle = Layout.Title;
 export const LayoutPlate = Layout.Plate;
 export const LayoutContent = Layout.Content;
