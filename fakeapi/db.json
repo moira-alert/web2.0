@@ -3081,5 +3081,9 @@
                 "timestamp": 1527600508
             }
         ]
+    },
+    "health": {
+        "state": "OK",
+        "message": null
     }
 }

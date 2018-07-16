@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import HeaderContainer from "./Components/HeaderContainer/HeaderContainer";
+import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
 import { Bundle } from "./Components/Bundle/Bundle";
 import { Desktop } from "./Components/Responsive/Responsive";
@@ -11,7 +11,7 @@ import cn from "./App.less";
 export default function App(): React.Node {
     return (
         <div className={cn("layout")}>
-            <Desktop>{x => x && <HeaderContainer />}</Desktop>
+            <Desktop>{x => x && <HeaderContainer className={cn("header")} />}</Desktop>
             <Desktop>
                 {x =>
                     x ? (
