@@ -150,7 +150,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                 <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
                     ? "s"
                     : ""}
-                {hasExpression ? " and exression" : ""} on{" "}
+                {hasExpression ? " and expression" : ""} on{" "}
                 <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.{" "}
                 <RouterLink to={`/trigger/${data.id}`}>See more details</RouterLink> on trigger page.
             </div>
