@@ -121,7 +121,7 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                             Please <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
                                 ? "s"
                                 : ""}
-                            {hasExpression ? " and exression" : ""} on{" "}
+                            {hasExpression ? " and expression" : ""} on{" "}
                             <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
                             {supportEmail != null && (
                                 <span>
