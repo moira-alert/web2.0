@@ -18,11 +18,11 @@ type Props = {|
     onChange: TriggerSimpleModeSettings => void,
 |};
 
-type WatchType = "raising" | "falling";
+type WatchType = "rising" | "falling";
 
 type State = {
     watchFor: WatchType,
-    raisingValues: TriggerSimpleModeSettings,
+    risingValues: TriggerSimpleModeSettings,
     fallingValues: TriggerSimpleModeSettings,
 };
 
@@ -36,27 +36,27 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             const watchForType = this.getWatchForType(props.value.warn_value, props.value.error_value);
             this.state = {
                 watchFor: watchForType,
-                raisingValues: watchForType === "raising" ? props.value : { warn_value: null, error_value: null },
+                risingValues: watchForType === "rising" ? props.value : { warn_value: null, error_value: null },
                 fallingValues: watchForType === "falling" ? props.value : { warn_value: null, error_value: null },
             };
         } else {
             this.state = {
-                watchFor: "raising",
-                raisingValues: props.value,
+                watchFor: "rising",
+                risingValues: props.value,
                 fallingValues: { warn_value: null, error_value: null },
             };
         }
     }
 
     getWatchForType(warnValue: number, errorValue: number): WatchType {
-        return warnValue <= errorValue ? "raising" : "falling";
+        return warnValue <= errorValue ? "rising" : "falling";
     }
 
     handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: ?number) => {
         const { value, onChange } = this.props;
         const { watchFor } = this.state;
-        if (watchFor === "raising") {
-            this.setState({ raisingValues: { ...value, warn_value: warnValue } });
+        if (watchFor === "rising") {
+            this.setState({ risingValues: { ...value, warn_value: warnValue } });
         } else {
             this.setState({ fallingValues: { ...value, warn_value: warnValue } });
         }
@@ -66,19 +66,19 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
     handleChangeErrorValue = (e: SyntheticEvent<>, errorValue: ?number) => {
         const { value, onChange } = this.props;
         const { watchFor } = this.state;
-        if (watchFor === "raising") {
-            this.setState({ raisingValues: { ...value, error_value: errorValue } });
+        if (watchFor === "rising") {
+            this.setState({ risingValues: { ...value, error_value: errorValue } });
         } else {
             this.setState({ fallingValues: { ...value, error_value: errorValue } });
         }
         onChange({ ...value, error_value: errorValue });
     };
 
-    handleSetRaisingWatchType = () => {
+    handleSetRisingWatchType = () => {
         const { onChange } = this.props;
-        const { raisingValues } = this.state;
-        this.setState({ watchFor: "raising" });
-        onChange(raisingValues);
+        const { risingValues } = this.state;
+        this.setState({ watchFor: "rising" });
+        onChange(risingValues);
     };
 
     handleSetFallingWatchType = () => {
@@ -88,9 +88,9 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
         onChange(fallingValues);
     };
 
-    validateRaisingWarn(): ?ValidationInfo {
+    validateRisingWarn(): ?ValidationInfo {
         const { watchFor } = this.state;
-        if (watchFor !== "raising") {
+        if (watchFor !== "rising") {
             return null;
         }
         const { value } = this.props;
@@ -100,9 +100,9 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
         return null;
     }
 
-    validateRaisingError(): ?ValidationInfo {
+    validateRisingError(): ?ValidationInfo {
         const { watchFor } = this.state;
-        if (watchFor !== "raising") {
+        if (watchFor !== "rising") {
             return null;
         }
         const { value } = this.props;
@@ -110,7 +110,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return { message: "Can't be empty", type: "submit" };
         }
         if (value.warn_value != null && value.warn_value > value.error_value) {
-            return { message: "Error value must be greate than or equals to warn value", type: "submit" };
+            return { message: "Error value must be greater than or equal to warn value", type: "submit" };
         }
         return null;
     }
@@ -137,13 +137,13 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return { message: "Can't be empty", type: "submit" };
         }
         if (value.warn_value != null && value.warn_value < value.error_value) {
-            return { message: "Error value must be less than or equals to warn value", type: "submit" };
+            return { message: "Error value must be less than or equal to warn value", type: "submit" };
         }
         return null;
     }
 
     render(): React.Node {
-        const { watchFor, raisingValues, fallingValues } = this.state;
+        const { watchFor, risingValues, fallingValues } = this.state;
         const { value } = this.props;
 
         return (
@@ -152,35 +152,35 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                     <Fit>
                         <ColumnStack block gap={2} stretch>
                             <Fit>
-                                <span className={cn("radio")} onClick={this.handleSetRaisingWatchType}>
-                                    <Radio checked={watchFor === "raising"} value="raising">
-                                        Watch for value raising:
+                                <span className={cn("radio")} onClick={this.handleSetRisingWatchType}>
+                                    <Radio checked={watchFor === "rising"} value="rising">
+                                        Watch for value rising:
                                     </Radio>
                                 </span>
                             </Fit>
                             <Fit className={cn("state-block")}>
                                 <RowStack block baseline gap={2}>
                                     <Fit>
-                                        <StatusIcon disabled={watchFor !== "raising"} status={"WARN"} />
+                                        <StatusIcon disabled={watchFor !== "rising"} status={"WARN"} />
                                     </Fit>
                                     <Fixed
-                                        className={cn("state-caption", { disabled: watchFor !== "raising" })}
+                                        className={cn("state-caption", { disabled: watchFor !== "rising" })}
                                         width={100}>
                                         WARN if T1 &gt;={" "}
                                     </Fixed>
                                     <Fit>
                                         <ValidationWrapperV1
                                             renderMessage={tooltip("right middle")}
-                                            validationInfo={this.validateRaisingWarn()}>
+                                            validationInfo={this.validateRisingWarn()}>
                                             <FormattedNumberInput
                                                 width={120}
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={
-                                                    watchFor === "raising" ? value.warn_value : raisingValues.warn_value
+                                                    watchFor === "rising" ? value.warn_value : risingValues.warn_value
                                                 }
                                                 onChange={this.handleChangeWarnValue}
-                                                disabled={watchFor !== "raising"}
+                                                disabled={watchFor !== "rising"}
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -189,28 +189,26 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                             <Fit className={cn("state-block")}>
                                 <RowStack block baseline gap={2}>
                                     <Fit>
-                                        <StatusIcon disabled={watchFor !== "raising"} status={"ERROR"} />
+                                        <StatusIcon disabled={watchFor !== "rising"} status={"ERROR"} />
                                     </Fit>
                                     <Fixed
-                                        className={cn("state-caption", { disabled: watchFor !== "raising" })}
+                                        className={cn("state-caption", { disabled: watchFor !== "rising" })}
                                         width={100}>
                                         ERROR if T1 &gt;={" "}
                                     </Fixed>
                                     <Fit>
                                         <ValidationWrapperV1
                                             renderMessage={tooltip("right middle")}
-                                            validationInfo={this.validateRaisingError()}>
+                                            validationInfo={this.validateRisingError()}>
                                             <FormattedNumberInput
                                                 width={120}
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={
-                                                    watchFor === "raising"
-                                                        ? value.error_value
-                                                        : raisingValues.error_value
+                                                    watchFor === "rising" ? value.error_value : risingValues.error_value
                                                 }
                                                 onChange={this.handleChangeErrorValue}
-                                                disabled={watchFor !== "raising"}
+                                                disabled={watchFor !== "rising"}
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>

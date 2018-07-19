@@ -42,7 +42,7 @@ const config = argv => {
                             },
                         },
                     ],
-                    include: /retail\-ui/,
+                    include: /retail-ui/,
                 },
                 {
                     test: /\.less$/,
@@ -52,7 +52,7 @@ const config = argv => {
                               use: ["css-loader", "less-loader"],
                           })
                         : ["style-loader", "css-loader", "less-loader"],
-                    include: /retail\-ui/,
+                    include: /retail-ui/,
                 },
                 {
                     test: /\.js$/,
