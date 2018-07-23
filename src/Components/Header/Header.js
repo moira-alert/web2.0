@@ -7,13 +7,9 @@ import RouterLink from "../RouterLink/RouterLink";
 import cn from "./Header.less";
 import svgLogo from "./moira-logo.svg";
 
-type Props = {|
-    className?: string,
-|};
-
-export default function Header(props: Props): React.Node {
+export default function Header(): React.Node {
     return (
-        <header className={cn("header", props.className)}>
+        <header className={cn("header")}>
             <div className={cn("container")}>
                 <Link to={getPageLink("index")} className={cn("logo-link")}>
                     <img className={cn("logo-img")} src={svgLogo} alt="Moira" />
