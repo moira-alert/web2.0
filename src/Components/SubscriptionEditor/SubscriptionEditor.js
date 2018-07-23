@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import { union, difference, intersection } from "lodash";
 import Checkbox from "retail-ui/components/Checkbox";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
@@ -19,8 +18,8 @@ export type SubscriptionInfo = {
     throttling: boolean,
     contacts: Array<string>,
     enabled: boolean,
-    sendNotificationsOnTriggerDegradedOnly: ?boolean,
-    doNotSendWarnNotifications: ?boolean,
+    ignore_warnings: boolean,
+    ignore_recoverings: boolean,
 };
 
 type Props = {
@@ -29,8 +28,6 @@ type Props = {
     tags: Array<string>,
     contacts: Array<Contact>,
 };
-
-export const specialTags = ["DEGRADATION", "ERROR"];
 
 export default class SubscriptionEditor extends React.Component<Props> {
     props: Props;
@@ -52,22 +49,22 @@ export default class SubscriptionEditor extends React.Component<Props> {
             <div>
                 Only following state switches triggers notification:
                 <div>
-                    <CodeRef>OK</CodeRef> -&gt; <CodeRef>WARN</CodeRef>
+                    <CodeRef>OK</CodeRef> → <CodeRef>WARN</CodeRef>
                 </div>
                 <div>
-                    <CodeRef>OK</CodeRef> -&gt; <CodeRef>ERROR</CodeRef>
+                    <CodeRef>OK</CodeRef> → <CodeRef>ERROR</CodeRef>
                 </div>
                 <div>
-                    <CodeRef>OK</CodeRef> -&gt; <CodeRef>NODATA</CodeRef>
+                    <CodeRef>OK</CodeRef> → <CodeRef>NODATA</CodeRef>
                 </div>
                 <div>
-                    <CodeRef>WARN</CodeRef> -&gt; <CodeRef>ERROR</CodeRef>
+                    <CodeRef>WARN</CodeRef> → <CodeRef>ERROR</CodeRef>
                 </div>
                 <div>
-                    <CodeRef>WARN</CodeRef> -&gt; <CodeRef>NODATA</CodeRef>
+                    <CodeRef>WARN</CodeRef> → <CodeRef>NODATA</CodeRef>
                 </div>
                 <div>
-                    <CodeRef>ERROR</CodeRef> -&gt; <CodeRef>NODATA</CodeRef>
+                    <CodeRef>ERROR</CodeRef> → <CodeRef>NODATA</CodeRef>
                 </div>
             </div>
         );
@@ -78,10 +75,10 @@ export default class SubscriptionEditor extends React.Component<Props> {
             <div>
                 Do not triggers notification on following switches:
                 <div>
-                    <CodeRef>OK</CodeRef> -&gt; <CodeRef>WARN</CodeRef>
+                    <CodeRef>OK</CodeRef> → <CodeRef>WARN</CodeRef>
                 </div>
                 <div>
-                    <CodeRef>WARN</CodeRef> -&gt; <CodeRef>OK</CodeRef>
+                    <CodeRef>WARN</CodeRef> → <CodeRef>OK</CodeRef>
                 </div>
             </div>
         );
@@ -107,52 +104,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
             };
         }
         return null;
-    }
-
-    getReceiveNotificationOnTriggerDegraded(): boolean {
-        const { subscription } = this.props;
-        return Boolean(
-            (subscription.tags != null && subscription.tags.includes("DEGRADATION")) ||
-                subscription.sendNotificationsOnTriggerDegradedOnly
-        );
-    }
-
-    setReceiveNotificationOnTriggerDegraded(value: boolean) {
-        const { subscription, onChange } = this.props;
-        if (value) {
-            onChange({
-                tags: union(subscription.tags || [], ["DEGRADATION"]),
-                sendNotificationsOnTriggerDegradedOnly: true,
-            });
-        } else {
-            onChange({
-                tags: difference(subscription.tags || [], ["DEGRADATION"]),
-                sendNotificationsOnTriggerDegradedOnly: false,
-            });
-        }
-    }
-
-    getDoNotSendWarnEvents(): boolean {
-        const { subscription } = this.props;
-        return Boolean(
-            (subscription.tags != null && subscription.tags.includes("ERROR")) ||
-                subscription.doNotSendWarnNotifications
-        );
-    }
-
-    setDoNotSendWarnEvents(value: boolean) {
-        const { subscription, onChange } = this.props;
-        if (value) {
-            onChange({
-                tags: union(subscription.tags || [], ["ERROR"]),
-                doNotSendWarnNotifications: true,
-            });
-        } else {
-            onChange({
-                tags: difference(subscription.tags || [], ["ERROR"]),
-                doNotSendWarnNotifications: false,
-            });
-        }
     }
 
     render(): React.Node {
@@ -189,13 +140,13 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             renderMessage={tooltip("right middle")}
                             validationInfo={this.validateTags()}>
                             <TagDropdownSelect
-                                width="470"
-                                value={subscription.tags.filter(x => !specialTags.includes(x))}
-                                onChange={nextTags =>
+                                width={470}
+                                value={subscription.tags}
+                                onChange={nextTags => {
                                     onChange({
-                                        tags: union(nextTags, intersection(subscription.tags, specialTags)),
-                                    })
-                                }
+                                        tags: nextTags,
+                                    });
+                                }}
                                 availableTags={tags}
                             />
                         </ValidationWrapperV1>
@@ -223,8 +174,8 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 </div>
                 <div className={cn("row")}>
                     <Checkbox
-                        checked={this.getReceiveNotificationOnTriggerDegraded()}
-                        onChange={(e, checked) => this.setReceiveNotificationOnTriggerDegraded(checked)}>
+                        checked={subscription.ignore_recoverings}
+                        onChange={(e, checked) => onChange({ ignore_recoverings: checked })}>
                         Send notifications when triggers degraded only
                     </Checkbox>{" "}
                     <Tooltip
@@ -237,8 +188,8 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 </div>
                 <div className={cn("row")}>
                     <Checkbox
-                        checked={this.getDoNotSendWarnEvents()}
-                        onChange={(e, checked) => this.setDoNotSendWarnEvents(checked)}>
+                        checked={subscription.ignore_warnings}
+                        onChange={(e, checked) => onChange({ ignore_warnings: checked })}>
                         Do not send <CodeRef>WARN</CodeRef> notifications
                     </Checkbox>{" "}
                     <Tooltip

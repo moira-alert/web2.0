@@ -8,7 +8,6 @@ import TagGroup from "../TagGroup/TagGroup";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
 import CreateSubscriptionModal from "../CreateSubscriptionModal/CreateSubscriptionModal";
-import { specialTags } from "../SubscriptionEditor/SubscriptionEditor";
 import Center from "retail-ui/components/Center";
 import Gapped from "retail-ui/components/Gapped";
 import Link from "retail-ui/components/Link";
@@ -59,8 +58,8 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 throttling: false,
                 contacts: [],
                 enabled: true,
-                sendNotificationsOnTriggerDegradedOnly: false,
-                doNotSendWarnNotifications: false,
+                ignore_recoverings: false,
+                ignore_warnings: false,
             },
         });
     };
@@ -132,7 +131,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
         return (
             <tr key={subscription.id} className={cn("item")} onClick={() => this.handleEditSubscription(subscription)}>
                 <td className={cn("tags-cell")}>
-                    <TagGroup tags={subscription.tags.filter(x => !specialTags.includes(x))} />
+                    <TagGroup tags={subscription.tags} />
                 </td>
                 <td className={cn("contacts-cell")}>
                     {subscription.contacts

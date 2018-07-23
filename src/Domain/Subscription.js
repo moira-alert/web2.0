@@ -10,6 +10,6 @@ export type Subscription = {
     enabled: boolean,
     user: string,
     id: string,
-    sendNotificationsOnTriggerDegradedOnly: ?boolean,
-    doNotSendWarnNotifications: ?boolean,
+    ignore_recoverings: boolean,
+    ignore_warnings: boolean,
 };

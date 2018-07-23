@@ -162,6 +162,8 @@ class SettingsContainer extends React.Component<Props, State> {
                 contacts: subscription.contacts,
                 enabled: subscription.enabled,
                 user: settings.login,
+                ignore_warnings: subscription.ignore_warnings,
+                ignore_recoverings: subscription.ignore_recoverings,
             });
             this.setState({
                 settings: {
