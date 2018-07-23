@@ -28,7 +28,7 @@ type Props = {|
     data: $Shape<Trigger>,
     tags: Array<string>,
     onChange: ($Shape<Trigger>) => void,
-    remoteAllowed: boolean,
+    remoteAllowed: ?boolean,
 |};
 
 type State = {
