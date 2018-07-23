@@ -110,28 +110,30 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                 <dd>
                     <TagGroup tags={tags} />
                 </dd>
-                {state === "EXCEPTION" && <dt />}
-                {state === "EXCEPTION" && (
-                    <dd className={cn("exception-explanation")}>
-                        <div className={cn("line-1")}>
-                            <Icon name="Error" color={"#D43517"} size={16} /> Trigger in EXCEPTION state.{" "}
-                            {exceptionMessage}
-                        </div>
-                        <div className={cn("line-2")}>
-                            Please <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
-                                ? "s"
-                                : ""}
-                            {hasExpression ? " and expression" : ""} on{" "}
-                            <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
-                            {supportEmail != null && (
-                                <span>
-                                    {" "}
-                                    Or <Link href={`mailto:${supportEmail}`}>contact</Link> with server administrator.
-                                </span>
-                            )}
-                        </div>
-                    </dd>
-                )}
+                {state === "EXCEPTION" || (state === "ERROR" && <dt />)}
+                {state === "EXCEPTION" ||
+                    (state === "ERROR" && (
+                        <dd className={cn("exception-explanation")}>
+                            <div className={cn("line-1")}>
+                                <Icon name="Error" color={"#D43517"} size={16} /> Trigger in {state} state.{" "}
+                                {exceptionMessage}
+                            </div>
+                            <div className={cn("line-2")}>
+                                Please <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
+                                    ? "s"
+                                    : ""}
+                                {hasExpression ? " and expression" : ""} on{" "}
+                                <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
+                                {supportEmail != null && (
+                                    <span>
+                                        {" "}
+                                        Or <Link href={`mailto:${supportEmail}`}>contact</Link> with server
+                                        administrator.
+                                    </span>
+                                )}
+                            </div>
+                        </dd>
+                    ))}
             </dl>
         </section>
     );
