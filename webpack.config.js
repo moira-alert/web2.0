@@ -118,21 +118,16 @@ const config = argv => {
             }),
         ],
         devServer: {
-            host: "0.0.0.0",
             disableHostCheck: true,
             proxy:
-                API_MODE === "fake"
+                API_MODE === "local"
                     ? {
-                          "/api": {
-                              target: "http://localhost:9002",
-                              pathRewrite: { "^/api": "" },
-                          },
+                          "/api": "", // Place you API url here. More options see on https://webpack.js.org/configuration/dev-server/#devserver-proxy
                       }
                     : {
                           "/api": {
-                              target: "http://vm-moira-all1:8081",
-                              secure: false,
-                              changeOrigin: true,
+                              target: "http://localhost:9002",
+                              pathRewrite: { "^/api": "" },
                           },
                       },
         },
@@ -151,7 +146,7 @@ function getApiMode(argv) {
             return arg.substr("--env.API=".length);
         }
     }
-    return "real";
+    return "fake";
 }
 
 module.exports = config(process.argv);
