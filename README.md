@@ -12,11 +12,11 @@ All files will prepared in **dist** folder.
 
 `yarn start`
 
-Start dev server on port 9000.
+Start dev server on port 9000. Need to run `yarn fakeapi` in parallel for data. Fake API server starts on port 9002.
 
-`yarn start --env.API=fake`
+`yarn start --env.API=local`
 
-Start dev server with proxy for API. Need to run `yarn fakeapi` in parallel. Fake API server starts on port 9002.
+Start dev server with proxy to your API service. Make sure you setup local Moira API service and add it URL to `webpack.config.js` in `devServer.proxy` block.
 
 `yarn storybook`
 
