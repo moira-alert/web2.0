@@ -16,7 +16,7 @@ type FormattedNumberInputProps = {
 export default class FormattedNumberInput extends React.Component<FormattedNumberInputProps> {
     props: FormattedNumberInputProps;
 
-    static numberRegexp = /^\s*\d*(\.\d*)?\s*$/;
+    static numberRegexp = /^\-?\s*\d*(\.\d*)?\s*$/;
 
     handleFilterValue(value: string): FilterValueResult<?number> | null {
         const str = value ? value.replace(",", ".") : value;

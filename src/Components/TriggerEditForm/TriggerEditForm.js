@@ -65,6 +65,24 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             : null;
     }
 
+    validateTTL(value: ?number): ?ValidationInfo {
+        if (typeof value !== "number") {
+            return {
+                type: typeof value === "number" ? "lostfocus" : "submit",
+                message: "Can't be empty",
+            };
+        }
+
+        if (value < 0) {
+            return {
+                type: typeof value === "number" ? "lostfocus" : "submit",
+                message: "Can't be negative",
+            };
+        }
+
+        return null;
+    }
+
     handleUpdateTarget(targetIndex: number, value: string) {
         const { onChange, data } = this.props;
         const { targets } = data;
@@ -231,9 +249,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         onChange={value => onChange({ ttl_state: value })}
                     />
                     <span>if has no value for</span>
-                    <ValidationWrapperV1
-                        validationInfo={this.validateRequiredNumber(ttl)}
-                        renderMessage={tooltip("right middle")}>
+                    <ValidationWrapperV1 validationInfo={this.validateTTL(ttl)} renderMessage={tooltip("right middle")}>
                         <FormattedNumberInput
                             width={80}
                             value={typeof ttl === "number" ? ttl : null}
