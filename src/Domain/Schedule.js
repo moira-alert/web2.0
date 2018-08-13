@@ -28,7 +28,7 @@ export const WholeWeek: DayOfWeek[] = Object.keys(DaysOfWeek);
 export function createSchedule(days: DayOfWeek[]): Schedule {
     return {
         days: Object.keys(DaysOfWeek).map(x => ({ enabled: days.includes(x), name: x })),
-        tzOffset: -300,
+        tzOffset: new Date().getTimezoneOffset(),
         startOffset: 0,
         endOffset: 1439,
     };
