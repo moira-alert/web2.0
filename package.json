@@ -1,6 +1,6 @@
 {
     "name": "moira-front",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "license": "MIT",
     "scripts": {
         "start": "cross-env NODE_ENV=development webpack-dev-server --hot --inline --history-api-fallback --compress --port 9000 --content-base /dist",

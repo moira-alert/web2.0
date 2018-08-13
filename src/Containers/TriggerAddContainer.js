@@ -41,7 +41,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
             sched: {
                 startOffset: 0,
                 endOffset: 1439,
-                tzOffset: -300,
+                tzOffset: new Date().getTimezoneOffset(),
                 days: [
                     { name: "Mon", enabled: true },
                     { name: "Tue", enabled: true },
