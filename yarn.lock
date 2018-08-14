@@ -78,6 +78,10 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@skbkontur/react-stack-layout@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-stack-layout/-/react-stack-layout-1.0.3.tgz#90425bd10b88268a6039694da6fa8ba257d2379f"
+
 "@storybook/addon-actions@3.4.6", "@storybook/addon-actions@^3.2.10":
   version "3.4.6"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.4.6.tgz#70ca84a4754ea2969640428890d9a3c9369261f6"
