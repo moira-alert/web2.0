@@ -29,12 +29,12 @@ storiesOf("SubscriptionEditor", module)
                 enabled: true,
                 user: "1",
                 id: "1",
-                ignore_recoverings: false,
-                ignore_warnings: false,
+                sendNotificationsOnTriggerDegradedOnly: undefined,
+                doNotSendWarnNotifications: undefined,
             }}
         />
     ))
-    .add("With Degradation", () => (
+    .add("WithDegradationTag", () => (
         <SubscriptionEditor
             onChange={action("onChange")}
             tags={["tag1", "tag2"]}
@@ -48,14 +48,14 @@ storiesOf("SubscriptionEditor", module)
             ]}
             subscription={{
                 sched: createSchedule(WholeWeek),
-                tags: ["tag1"],
+                tags: ["tag1", "DEGRADATION"],
                 throttling: false,
                 contacts: ["1"],
                 enabled: true,
                 user: "1",
                 id: "1",
-                ignore_recoverings: true,
-                ignore_warnings: false,
+                sendNotificationsOnTriggerDegradedOnly: undefined,
+                doNotSendWarnNotifications: undefined,
             }}
         />
     ));

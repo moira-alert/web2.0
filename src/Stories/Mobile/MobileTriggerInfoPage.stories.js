@@ -7,7 +7,6 @@ import MobileDecorator from "../Utils/MobileDecorator";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 
 const sourceData = {
-    is_remote: false,
     error_value: 1000.0,
     sched: {
         endOffset: 1439,

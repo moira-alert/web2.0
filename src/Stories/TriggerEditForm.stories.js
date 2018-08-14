@@ -8,7 +8,6 @@ import { ValidationContainer } from "react-ui-validations";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 
 const sourceData = {
-    is_remote: false,
     id: "69b1-91c1-423f-ab3b-d1a8",
     name: "ELK. Low disk space",
     desc: "",
@@ -44,7 +43,6 @@ const stories = [
     {
         title: "Empty",
         data: {
-            is_remote: false,
             name: "",
             desc: "",
             targets: [""],
@@ -132,7 +130,7 @@ const story = storiesOf("TriggerEditForm", module).addDecorator(StoryRouter());
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
         <ValidationContainer>
-            <TriggerEditForm data={data} tags={allTags} remoteAllowed={data.is_remote} onChange={action("onChange")} />
+            <TriggerEditForm data={data} tags={allTags} onChange={action("onChange")} />
         </ValidationContainer>
     ));
 });

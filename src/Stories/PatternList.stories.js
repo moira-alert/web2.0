@@ -11,7 +11,6 @@ const items = [
         pattern: "pattern.with.triggers.and.metrics",
         triggers: [
             {
-                is_remote: false,
                 id: "e872a927-e6d2-4b2e-b1fb-63d2345357f2",
                 name: "KE_SYSTEM_CPU",
                 targets: ["KE.system.busc.*.cpu.usage"],
@@ -46,7 +45,6 @@ const items = [
         pattern: "pattern.with.triggers.and.without.metrics",
         triggers: [
             {
-                is_remote: false,
                 id: "f08977e6-bfcd-4ca4-8e4a-5b3ffc56284b",
                 name: "focus351 Elasticsearch cluster status",
                 desc: "",

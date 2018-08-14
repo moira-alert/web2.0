@@ -17,6 +17,7 @@ import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from "../Components/
 import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSelect2";
 import TriggerListView from "../Components/TriggerList/TriggerList";
 import AddingButton from "../Components/AddingButton/AddingButton";
+import { specialTags } from "../Components/SubscriptionEditor/SubscriptionEditor";
 import { ColumnStack, RowStack, Fill, Fit } from "../Components/ItemsStack/ItemsStack";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
@@ -187,7 +188,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                             <TagDropdownSelect2
                                 width="100%"
                                 selected={selectedTags}
-                                subscribed={subscribedTags}
+                                subscribed={subscribedTags.filter(x => !specialTags.includes(x))}
                                 remained={remainedTags}
                                 onSelect={tag =>
                                     this.changeLocationSearch({

@@ -15,7 +15,7 @@ type Props = {
     onChange: (Array<string>) => void,
     availableTags: Array<string>,
     error?: boolean,
-    width?: number,
+    width?: string | number,
     allowCreateNewTags?: boolean,
     onMouseEnter?: (e: Event) => void,
     onMouseLeave?: (e: Event) => void,
@@ -191,7 +191,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const filtredTags = this.filterTags(difference(availableTags, value));
 
         return (
-            <span className={cn("root")} style={{ width }}>
+            <span className={cn("root")} style={{ width: width + "px" }}>
                 <RenderLayer
                     onClickOutside={this.handleClickOutside}
                     onFocusOutside={this.handleFocusOutside}

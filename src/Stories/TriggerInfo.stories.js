@@ -6,7 +6,6 @@ import StoryRouter from "storybook-router";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 
 const sourceData = {
-    is_remote: false,
     error_value: 1000.0,
     sched: {
         endOffset: 1439,

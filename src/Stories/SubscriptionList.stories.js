@@ -53,8 +53,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -64,8 +64,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "2",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />
@@ -84,8 +84,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -95,8 +95,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />
@@ -115,8 +115,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -126,8 +126,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />
@@ -146,8 +146,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -166,8 +166,8 @@ storiesOf("SubscriptionList", module)
                     enabled: true,
                     user: "1",
                     id: "1",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
                 {
                     sched: createSchedule(WholeWeek),
@@ -177,8 +177,8 @@ storiesOf("SubscriptionList", module)
                     enabled: false,
                     user: "1",
                     id: "2",
-                    ignore_recoverings: false,
-                    ignore_warnings: false,
+                    sendNotificationsOnTriggerDegradedOnly: undefined,
+                    doNotSendWarnNotifications: undefined,
                 },
             ]}
         />
