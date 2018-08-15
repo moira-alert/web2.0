@@ -13,12 +13,13 @@ export type TriggerSimpleModeSettings = {
     error_value: ?number,
 };
 
+type WatchType = "rising" | "falling";
+
 type Props = {|
+    triggerType: WatchType,
     value: TriggerSimpleModeSettings,
     onChange: TriggerSimpleModeSettings => void,
 |};
-
-type WatchType = "rising" | "falling";
 
 type State = {
     watchFor: WatchType,
@@ -33,7 +34,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
     constructor(props: Props) {
         super(props);
         if (props.value.warn_value != null && props.value.error_value != null) {
-            const watchForType = this.getWatchForType(props.value.warn_value, props.value.error_value);
+            const watchForType = this.getWatchForType(props.triggerType);
             this.state = {
                 watchFor: watchForType,
                 risingValues: watchForType === "rising" ? props.value : { warn_value: null, error_value: null },
@@ -48,8 +49,11 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
         }
     }
 
-    getWatchForType(warnValue: number, errorValue: number): WatchType {
-        return warnValue <= errorValue ? "rising" : "falling";
+    getWatchForType(type: string): WatchType {
+        if (type === "falling") {
+            return type;
+        }
+        return "rising";
     }
 
     handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: ?number) => {
@@ -78,14 +82,14 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
         const { onChange } = this.props;
         const { risingValues } = this.state;
         this.setState({ watchFor: "rising" });
-        onChange(risingValues);
+        onChange({ trigger_type: "rising", ...risingValues });
     };
 
     handleSetFallingWatchType = () => {
         const { onChange } = this.props;
         const { fallingValues } = this.state;
         this.setState({ watchFor: "falling" });
-        onChange(fallingValues);
+        onChange({ trigger_type: "falling", ...fallingValues });
     };
 
     validateRisingWarn(): ?ValidationInfo {

@@ -30,6 +30,7 @@ class TriggerSimpleModeEditorContainer extends React.Component<Props, State> {
         return (
             <div>
                 <TriggerSimpleModeEditor
+                    triggerType="rising"
                     value={this.state.value}
                     onChange={nextValue => this.setState({ value: nextValue })}
                 />
@@ -43,8 +44,19 @@ class TriggerSimpleModeEditorContainer extends React.Component<Props, State> {
 
 storiesOf("TriggerSimpleModeEditor", module)
     .addDecorator(story => <ValidationContainer>{story()}</ValidationContainer>)
-    .add("Simple", () => (
-        <TriggerSimpleModeEditor value={{ warn_value: 10, error_value: 20 }} onChange={action("onChange")} />
+    .add("Rising", () => (
+        <TriggerSimpleModeEditor
+            triggerType="rising"
+            value={{ warn_value: 10, error_value: 20 }}
+            onChange={action("onChange")}
+        />
+    ))
+    .add("Falling", () => (
+        <TriggerSimpleModeEditor
+            triggerType="falling"
+            value={{ warn_value: 10, error_value: 20 }}
+            onChange={action("onChange")}
+        />
     ))
     .add("StateFull_NullInitialValue", () => (
         <TriggerSimpleModeEditorContainer initialValue={{ warn_value: null, error_value: null }} />
