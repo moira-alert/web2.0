@@ -4,8 +4,6 @@ import type { Status } from "./Status";
 import type { MetricList } from "./Metric";
 import type { Schedule } from "./Schedule";
 
-export type TriggerType = $Values<typeof TriggerTypes>;
-
 export type Trigger = {
     id: string,
     is_simple_trigger: boolean,
@@ -21,7 +19,6 @@ export type Trigger = {
     desc?: string,
     warn_value: ?number,
     error_value: ?number,
-    trigger_type: TriggerType,
     last_check?: {|
         state: Status,
         timestamp: number,
@@ -53,10 +50,4 @@ export type TriggerState = {|
 export const TriggerDataSources = {
     REDIS: "REDIS",
     GRAPHITE: "GRAPHITE",
-};
-
-export const TriggerTypes = {
-    RISING: "rising",
-    FALLING: "falling",
-    EXPRESSION: "expression",
 };
