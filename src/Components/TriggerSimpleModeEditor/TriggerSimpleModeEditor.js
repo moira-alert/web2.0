@@ -98,9 +98,10 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.warn_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.warn_value == null && value.error_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
+
         return null;
     }
 
@@ -110,11 +111,11 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.error_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.error_value == null && value.warn_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
-        if (value.warn_value != null && value.warn_value > value.error_value) {
-            return { message: "Error value must be greater than or equal to warn value", type: "submit" };
+        if (value.error_value != null && value.warn_value != null && value.warn_value >= value.error_value) {
+            return { message: "Error value must be greater than to warn value", type: "submit" };
         }
         return null;
     }
@@ -125,8 +126,8 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.warn_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.warn_value == null && value.error_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
         return null;
     }
@@ -137,11 +138,11 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.error_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.error_value == null && value.warn_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
-        if (value.warn_value != null && value.warn_value < value.error_value) {
-            return { message: "Error value must be less than or equal to warn value", type: "submit" };
+        if (value.error_value != null && value.warn_value != null && value.warn_value <= value.error_value) {
+            return { message: "Error value must be less than to warn value", type: "submit" };
         }
         return null;
     }
