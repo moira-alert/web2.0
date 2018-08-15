@@ -13,12 +13,13 @@ export type TriggerSimpleModeSettings = {
     error_value: ?number,
 };
 
+type WatchType = "rising" | "falling";
+
 type Props = {|
+    triggerType: WatchType,
     value: TriggerSimpleModeSettings,
     onChange: TriggerSimpleModeSettings => void,
 |};
-
-type WatchType = "rising" | "falling";
 
 type State = {
     watchFor: WatchType,
@@ -32,24 +33,19 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
 
     constructor(props: Props) {
         super(props);
-        if (props.value.warn_value != null && props.value.error_value != null) {
-            const watchForType = this.getWatchForType(props.value.warn_value, props.value.error_value);
-            this.state = {
-                watchFor: watchForType,
-                risingValues: watchForType === "rising" ? props.value : { warn_value: null, error_value: null },
-                fallingValues: watchForType === "falling" ? props.value : { warn_value: null, error_value: null },
-            };
-        } else {
-            this.state = {
-                watchFor: "rising",
-                risingValues: props.value,
-                fallingValues: { warn_value: null, error_value: null },
-            };
-        }
+        const watchForType = this.getWatchForType(props.triggerType);
+        this.state = {
+            watchFor: watchForType,
+            risingValues: watchForType === "rising" ? props.value : { warn_value: null, error_value: null },
+            fallingValues: watchForType === "falling" ? props.value : { warn_value: null, error_value: null },
+        };
     }
 
-    getWatchForType(warnValue: number, errorValue: number): WatchType {
-        return warnValue <= errorValue ? "rising" : "falling";
+    getWatchForType(type: string): WatchType {
+        if (type === "falling") {
+            return type;
+        }
+        return "rising";
     }
 
     handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: ?number) => {
@@ -78,14 +74,14 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
         const { onChange } = this.props;
         const { risingValues } = this.state;
         this.setState({ watchFor: "rising" });
-        onChange(risingValues);
+        onChange({ trigger_type: "rising", ...risingValues });
     };
 
     handleSetFallingWatchType = () => {
         const { onChange } = this.props;
         const { fallingValues } = this.state;
         this.setState({ watchFor: "falling" });
-        onChange(fallingValues);
+        onChange({ trigger_type: "falling", ...fallingValues });
     };
 
     validateRisingWarn(): ?ValidationInfo {
@@ -94,9 +90,10 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.warn_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.warn_value == null && value.error_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
+
         return null;
     }
 
@@ -106,11 +103,11 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.error_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.error_value == null && value.warn_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
-        if (value.warn_value != null && value.warn_value > value.error_value) {
-            return { message: "Error value must be greater than or equal to warn value", type: "submit" };
+        if (value.error_value != null && value.warn_value != null && value.warn_value >= value.error_value) {
+            return { message: "Error value must be greater than to warn value", type: "submit" };
         }
         return null;
     }
@@ -121,8 +118,8 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.warn_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.warn_value == null && value.error_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
         return null;
     }
@@ -133,11 +130,11 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
             return null;
         }
         const { value } = this.props;
-        if (value.error_value == null) {
-            return { message: "Can't be empty", type: "submit" };
+        if (value.error_value == null && value.warn_value == null) {
+            return { message: "At least one of values must be filled", type: "submit" };
         }
-        if (value.warn_value != null && value.warn_value < value.error_value) {
-            return { message: "Error value must be less than or equal to warn value", type: "submit" };
+        if (value.error_value != null && value.warn_value != null && value.warn_value <= value.error_value) {
+            return { message: "Error value must be less than to warn value", type: "submit" };
         }
         return null;
     }

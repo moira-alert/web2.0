@@ -95,7 +95,9 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                 {!expression && <dt>Value</dt>}
                 {!expression && (
                     <dd>
-                        Warning: {warnValue}, Error: {errorValue}, Set {ttlState} if has no value for {ttl} seconds
+                        {warnValue != null && `Warning: ${warnValue}. `}
+                        {errorValue != null && `Error: ${errorValue}. `}
+                        Set {ttlState} if has no value for {ttl} seconds
                     </dd>
                 )}
                 {expression && <dt>Expression</dt>}

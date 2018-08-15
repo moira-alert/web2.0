@@ -53,6 +53,9 @@ class TriggerEditContainer extends React.Component<Props, State> {
                 ],
             },
             is_remote: false,
+            error_value: null,
+            warn_value: null,
+            trigger_type: "rising",
         },
         tags: null,
     };

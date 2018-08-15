@@ -33,7 +33,7 @@ const sourceData = {
         endOffset: 1439,
     },
     patterns: ["DevOps.system.vm-elk*.disk.root.gigabyte_percentfree"],
-    is_simple_trigger: true,
+    trigger_type: "falling",
     throttling: 0,
     expression: "",
 };
@@ -94,7 +94,7 @@ const stories = [
         title: "Advanced",
         data: {
             ...sourceData,
-            is_simple_trigger: false,
+            trigger_type: "expression",
             expression:
                 "t1 > 134500 ? ERROR : (PREV_STATE == OK ? (t1 > 5 : WARN ? OK) : (t1 > 6000000000 ? WARN : OK))",
             sched: {
