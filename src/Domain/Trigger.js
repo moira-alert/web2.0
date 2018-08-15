@@ -6,7 +6,6 @@ import type { Schedule } from "./Schedule";
 
 export type Trigger = {
     id: string,
-    is_simple_trigger: boolean,
     name: string,
     targets: Array<string>,
     tags: Array<string>,
@@ -17,6 +16,7 @@ export type Trigger = {
     throttling: number,
     sched?: Schedule,
     desc?: string,
+    trigger_type: "rising" | "falling" | "expression",
     warn_value: ?number,
     error_value: ?number,
     last_check?: {|

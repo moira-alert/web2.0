@@ -19,7 +19,7 @@ const items = [
                 tags: ["KE-Test.System"],
                 ttl_state: "NODATA",
                 throttling: 1,
-                is_simple_trigger: true,
+                trigger_type: "rising",
                 expression: "",
                 ttl: 600,
                 sched: {
@@ -56,7 +56,7 @@ const items = [
                 tags: ["Elasticsearch", "Focus", "DevOps"],
                 ttl_state: "NODATA",
                 throttling: 1,
-                is_simple_trigger: true,
+                trigger_type: "falling",
                 expression: "",
                 ttl: 600,
                 sched: {
