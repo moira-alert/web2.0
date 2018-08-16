@@ -1,15 +1,14 @@
 // @flow
 import * as React from "react";
+import type { IMoiraApi } from "../Api/MoiraAPI";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { IMoiraApi } from "../Api/MoiraAPI";
-import type { ContextRouter } from "react-router-dom";
 import Bar from "../Components/Bar/Bar";
 import Header from "../Components/Header/Header";
 import { MoiraStates } from "../Domain/MoiraStatus";
 
-type Props = ContextRouter & {
-    className?: string,
+type Props = {
     moiraApi: IMoiraApi,
+    className: string,
 };
 
 type State = {

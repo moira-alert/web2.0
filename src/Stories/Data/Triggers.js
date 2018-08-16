@@ -2,6 +2,7 @@
 
 const data = [
     {
+        is_remote: false,
         error_value: 100.0,
         sched: {
             endOffset: 1439,
@@ -23,7 +24,7 @@ const data = [
         ttl_state: "NODATA",
         id: "f1b45470-b0eb-498b-a22d-2c3ced467a91",
         patterns: ["EDITest.Cassandra.*.*.DownEndpointCount.DownEndpointCount"],
-        is_simple_trigger: false,
+        trigger_type: "falling",
         ttl: 600,
         warn_value: 1.0,
         last_check: {
@@ -57,6 +58,7 @@ const data = [
             "\u041a\u0430\u0436\u0434\u0430\u044f \u043d\u043e\u0434\u0430 \u0441\u043e\u043e\u0431\u0449\u0430\u0435\u0442, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u043e \u0435\u0435 \u043c\u043d\u0435\u043d\u0438\u044e \u0434\u0440\u0443\u0433\u0438\u0445 \u043d\u043e\u0434 \u0432 \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0435 \u0443\u043f\u0430\u043b\u043e. \u041c\u044b \u0431\u0435\u0440\u0435\u043c \u043c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u0441\u0440\u0435\u0434\u0438 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430 \u0438 \u0441\u043b\u0435\u0434\u0438\u043c, \u0447\u0442\u043e\u0431\u044b \u043e\u043d\u043e \u0431\u044b\u043b\u043e \u043a\u0430\u043a \u043c\u043e\u0436\u043d\u043e \u0431\u043b\u0438\u0436\u0435 \u043a \u043d\u0443\u043b\u044e. \u041f\u043e \u044d\u0442\u043e\u043c\u0443 \u0442\u0440\u0438\u0433\u0433\u0435\u0440\u0443 \u043c\u043e\u0436\u043d\u043e \u043f\u043e\u043d\u044f\u0442\u044c, \u0447\u0442\u043e \u0443\u043f\u0430\u043b\u0430 \u043a\u0430\u043a\u0430\u044f-\u0442\u043e \u043d\u043e\u0434\u0430, \u043d\u043e \u043a\u0430\u043a\u0430\u044f \u0438\u043c\u0435\u043d\u043d\u043e - \u043d\u0435 \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442\u0441\u044f.",
     },
     {
+        is_remote: false,
         error_value: 1500.0,
         sched: {
             tzOffset: -300,
@@ -78,7 +80,7 @@ const data = [
         tags: ["Billy"],
         id: "875ec87c-969b-4bc0-93ca-4db0efbe4ce6",
         patterns: ["Billy.elasticsearch.vm-sps-nix.metrics.*.jvm.gc.collection.time"],
-        is_simple_trigger: false,
+        trigger_type: "falling",
         ttl: 600,
         warn_value: 1000.0,
         last_check: {
@@ -110,6 +112,7 @@ const data = [
         targets: ["nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.*.jvm.gc.collection.time)"],
     },
     {
+        is_remote: false,
         error_value: 200.0,
         sched: {
             tzOffset: -300,
@@ -131,7 +134,7 @@ const data = [
         tags: ["Highlander-WebApi", "KE"],
         id: "234225c0-7e6d-4aa5-9681-39ee17ffec0c",
         patterns: ["KE.Highlander-webapi.*.AfterThrottling.anyAction.status.status.4*.Count-Requests"],
-        is_simple_trigger: false,
+        trigger_type: "falling",
         ttl: 600,
         warn_value: 50.0,
         last_check: {
@@ -211,6 +214,7 @@ const data = [
         ],
     },
     {
+        is_remote: false,
         error_value: 2000.0,
         sched: {
             tzOffset: -300,
@@ -232,7 +236,7 @@ const data = [
         tags: ["Billy"],
         id: "03f11d7c-2260-455a-b296-6db6e094b1f0",
         patterns: ["Billy.elasticsearch.vm-sps-nix.metrics.*.indices._all.search.query_time_in_millis"],
-        is_simple_trigger: false,
+        trigger_type: "falling",
         ttl: 600,
         warn_value: 1500.0,
         last_check: {
@@ -266,6 +270,7 @@ const data = [
         ],
     },
     {
+        is_remote: false,
         error_value: 99.0,
         sched: {
             endOffset: 1439,
@@ -287,7 +292,7 @@ const data = [
         ttl_state: "NODATA",
         targets: ["ADK.elasticsearch.rosalco{26,27,28}.rosalco.jvm.mem.heap_used_percent"],
         patterns: ["ADK.elasticsearch.rosalco{26,27,28}.rosalco.jvm.mem.heap_used_percent"],
-        is_simple_trigger: false,
+        trigger_type: "falling",
         ttl: 6000,
         warn_value: 95.0,
         last_check: {
@@ -319,6 +324,7 @@ const data = [
         id: "024c6925-aa30-47b6-ac83-c3147b826ad7",
     },
     {
+        is_remote: false,
         error_value: 48.0,
         sched: {
             endOffset: 1439,
@@ -342,7 +348,7 @@ const data = [
             "aliasByNode(scale(exclude(sortByMaxima(currentBelow(KE.Databases.BackupAge.*.*.Diff.Minutes, 1000000000)), '(_tmp|_temp|_bak|_copy|_test|aspstate)'), 0.0166666666666667), 3, 4)",
         ],
         patterns: ["KE.Databases.BackupAge.*.*.Diff.Minutes"],
-        is_simple_trigger: false,
+        trigger_type: "falling",
         ttl: 600,
         warn_value: 36.0,
         last_check: {
@@ -2624,6 +2630,7 @@ const data = [
             "\u0412\u0440\u0435\u043c\u044f \u0441 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0433\u043e \u0434\u0438\u0444\u0444 \u0431\u044d\u043a\u0430\u043f\u0430 \u0432 \u0447\u0430\u0441\u0430\u0445. \u043d\u0435 \u0434\u0435\u043b\u0430\u044e\u0442\u0441\u044f \u0441 \u043f\u044f\u0442\u043d\u0438\u0446\u044b \u043d\u0430 \u0441\u0443\u0431\u0431\u043e\u0442\u0443, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0432 \u0441\u0443\u0431\u0431\u043e\u0442\u0443 \u0432\u0440\u0435\u043c\u044f \u0432\u0441\u0435\u0433\u0434\u0430 \u0431\u0443\u0434\u0435\u0442 \u0431\u043e\u043b\u0435\u0435 36 \u0447\u0430\u0441\u043e\u0432 \u0438 \u0431\u0443\u0434\u0435\u0442 \u0432\u0430\u0440\u043d\u0438\u043d\u0433.",
     },
     {
+        is_remote: false,
         error_value: null,
         sched: {
             endOffset: 1439,
@@ -2655,7 +2662,7 @@ const data = [
             "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection2.currentbandwidth",
             "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection.bytestotal-sec",
         ],
-        is_simple_trigger: false,
+        trigger_type: "expression",
         ttl: 600,
         warn_value: null,
         last_check: {
@@ -2677,6 +2684,7 @@ const data = [
         id: "ee8abb13-fdf3-4651-9676-8abc01a4037f",
     },
     {
+        is_remote: false,
         error_value: 1.0,
         sched: {
             tzOffset: -300,
@@ -2698,7 +2706,7 @@ const data = [
         tags: ["KLADR"],
         id: "d22d1517-8932-4158-b7e1-8b20f0dae6b2",
         patterns: ["KLADR.nginx.*.upstream_response_time.total.p95"],
-        is_simple_trigger: false,
+        trigger_type: "rising",
         ttl: 600,
         warn_value: 0.5,
         last_check: {
@@ -2724,6 +2732,7 @@ const data = [
         targets: ["movingAverage(KLADR.nginx.*.upstream_response_time.total.p95, '10min')"],
     },
     {
+        is_remote: false,
         error_value: 10000000000000000.0,
         sched: {
             endOffset: 1439,
@@ -2745,7 +2754,7 @@ const data = [
         ttl_state: "NODATA",
         targets: ["aliasByNode({Alko,EDI,EDITest,KE,KE-cloud,KE-dev}.Cassandra.*.*.GC.StopTheWorld.sum, 0, 2, 3)"],
         patterns: ["{Alko,EDI,EDITest,KE,KE-cloud,KE-dev}.Cassandra.*.*.GC.StopTheWorld.sum"],
-        is_simple_trigger: false,
+        trigger_type: "expression",
         ttl: 1800,
         warn_value: 1000000000000000.0,
         last_check: {
@@ -3229,6 +3238,7 @@ const data = [
             "\u041e\u0431\u044b\u0447\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 GC \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 maxSeries \u043e\u0442 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430, \u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u2014 \u043d\u0435 \u0432\u0438\u0434\u0438\u0442, \u043a\u043e\u0433\u0434\u0430 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u0443\u0445\u043e\u0434\u044f\u0442 \u0432 NODATA. \u042d\u0442\u043e\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 \u0442\u043e\u043b\u044c\u043a\u043e NODATA, \u043d\u043e \u043f\u043e \u043a\u0430\u0436\u0434\u043e\u0439 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0439 \u043c\u0435\u0442\u0440\u0438\u043a\u0435 GC. \u0415\u0441\u043b\u0438 \u0442\u0443\u0442 \u0447\u0442\u043e-\u0442\u043e \u0443\u043f\u0430\u043b\u043e - \u0432\u0435\u0440\u043e\u044f\u0442\u043d\u043e, \u0434\u0435\u043b\u043e \u0432 logstash \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 \u0441 \u041a\u0430\u0441\u0441\u0430\u043d\u0434\u0440\u043e\u0439.",
     },
     {
+        is_remote: false,
         error_value: 100000000000.0,
         sched: {
             tzOffset: -180,
@@ -3250,7 +3260,7 @@ const data = [
         tags: ["Ceph", "SPS"],
         id: "28b75586-8a4c-499b-8f5d-0811e6584ab0",
         patterns: ["SPS.ceph.servers.*.diskspace.*.byte_avail"],
-        is_simple_trigger: false,
+        trigger_type: "falling",
         ttl: 900,
         warn_value: 150000000000.0,
         last_check: {

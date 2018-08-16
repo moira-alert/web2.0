@@ -6,8 +6,9 @@ import StoryRouter from "storybook-router";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 
 const sourceData = {
+    is_remote: false,
     id: "3e93211b-7fec-4c70-b5e1-abb36d6a4a1d",
-    is_simple_trigger: false,
+    trigger_type: "falling",
     name: "ke.notifications-dev.mail-sender.alive",
     targets: ["sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)"],
     tags: ["ke.notifications-dev", "ke.notifications"],

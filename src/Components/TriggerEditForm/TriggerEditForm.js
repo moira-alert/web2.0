@@ -28,7 +28,7 @@ type Props = {|
     data: $Shape<Trigger>,
     tags: Array<string>,
     onChange: ($Shape<Trigger>) => void,
-    remoteAllowed: boolean,
+    remoteAllowed: ?boolean,
 |};
 
 type State = {
@@ -41,9 +41,9 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        const { targets, expression } = props.data;
+        const { targets, trigger_type: triggerType } = props.data;
         this.state = {
-            advancedMode: targets.length > 1 || expression.length > 0,
+            advancedMode: targets.length > 1 || triggerType === "expression",
         };
     }
 
@@ -107,6 +107,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
         this.setState({ advancedMode: true });
         onChange({
+            trigger_type: "expression",
             targets: [...targets, ""],
         });
     }
@@ -144,7 +145,18 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     render(): React.Node {
         const { advancedMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
-        const { name, desc, targets, tags, expression, ttl, ttl_state: ttlState, sched, is_remote: isRemote } = data;
+        const {
+            name,
+            desc,
+            targets,
+            tags,
+            expression,
+            ttl,
+            ttl_state: ttlState,
+            sched,
+            is_remote: isRemote,
+            trigger_type: triggerType,
+        } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
         }
@@ -194,12 +206,9 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     <Tabs
                         value={advancedMode ? "advanced" : "simple"}
                         onChange={(e, value) => {
-                            if (targets.length > 1) {
-                                if (value === "advanced") {
-                                    this.setState({ advancedMode: value === "advanced" });
-                                }
-                            } else {
+                            if (targets.length === 1) {
                                 this.setState({ advancedMode: value === "advanced" });
+                                onChange({ trigger_type: value === "advanced" ? "expression" : "rising" });
                             }
                         }}>
                         <Tabs.Tab id="simple" style={{ color: targets.length > 1 ? "#888888" : undefined }}>
@@ -211,6 +220,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 {!advancedMode && (
                     <FormRow style={{ marginLeft: "-10px" }}>
                         <TriggerSimpleModeEditor
+                            triggerType={triggerType}
                             value={{ error_value: data.error_value, warn_value: data.warn_value }}
                             onChange={value => onChange(value)}
                         />

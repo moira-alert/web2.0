@@ -7,6 +7,7 @@ import MobileDecorator from "../Utils/MobileDecorator";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 
 const sourceData = {
+    is_remote: false,
     error_value: 1000.0,
     sched: {
         endOffset: 1439,
@@ -28,7 +29,7 @@ const sourceData = {
     ttl_state: "NODATA",
     id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
     patterns: ["KE.system-kamchatka.allServers.*.volumes.c.freemegabytes"],
-    is_simple_trigger: false,
+    trigger_type: "falling",
     ttl: 600,
     warn_value: 5000.0,
     expression: "",
