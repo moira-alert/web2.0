@@ -1,5 +1,10 @@
+GIT_BRANCH := "unknown"
+GIT_HASH := $(shell git log --pretty=format:%H -n 1)
+GIT_HASH_SHORT := $(shell echo "${GIT_HASH}" | cut -c1-6)
 GIT_TAG := $(shell git describe --always --tags --abbrev=0 | tail -c+2)
 GIT_COMMIT := $(shell git rev-list v${GIT_TAG}..HEAD --count)
+FEATURE_VERSION := ${GIT_TAG}-${GIT_BRANCH}
+DEVELOP_VERSION := nightly-${GIT_HASH_SHORT}
 VERSION := ${GIT_TAG}.${GIT_COMMIT}
 VENDOR := "SKB Kontur"
 URL := "https://github.com/moira-alert/web2.0"
@@ -63,14 +68,22 @@ deb:
 .PHONY: packages
 packages: clean build tar rpm deb
 
-.PHONY: docker_image
-docker_image:
-	docker build -t moira/web2:${VERSION} -t moira/web2:latest .
+.PHONY: docker_feature_image
+docker_feature_image:
+	docker build -t moira/web2:${FEATURE_VERSION} -t moira/web2:${FEATURE_VERSION} .
+	docker push moira/web2:${FEATURE_VERSION}
 
-.PHONY: docker_push
-docker_push:
+.PHONY: docker_develop_image
+docker_develop_image:
+	docker build -t moira/web2:${DEVELOP_VERSION} -t moira/web2:${DEVELOP_VERSION} .
+	docker push moira/web2:${DEVELOP_VERSION}
+
+.PHONY: docker_latest_image
+docker_latest_image:
+	docker build -t moira/web2:${VERSION} -t moira/web2:latest .
 	docker push moira/web2:latest
 
-.PHONY: docker_push_release
+.PHONY: docker_release_image
 docker_push_release:
+	docker build -t moira/web2:${VERSION} -t moira/web2:${VERSION} .
 	docker push moira/web2:${VERSION}
