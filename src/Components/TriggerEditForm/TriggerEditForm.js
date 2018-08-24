@@ -23,6 +23,7 @@ import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
+import Checkbox from "retail-ui/components/Checkbox/Checkbox";
 
 type Props = {|
     data: $Shape<Trigger>,
@@ -142,6 +143,18 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         );
     };
 
+    renderNewMetricsAlertingHelp = () => {
+        return (
+            <div>
+                <div className={cn("new-metrics-help")}>If enabled, Moira will notify you about new metrics.</div>
+                <div>
+                    In this case when you start sending new metric you will receive <CodeRef>NODATA</CodeRef> -{" "}
+                    <CodeRef>OK</CodeRef> notification.
+                </div>
+            </div>
+        );
+    };
+
     render(): React.Node {
         const { advancedMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
@@ -156,6 +169,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             sched,
             is_remote: isRemote,
             trigger_type: triggerType,
+            notify_about_new_metrics: newMetricsNotify,
         } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
@@ -268,6 +282,18 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             onChange={(e, value) => onChange({ ttl: value || 0 })}
                         />
                     </ValidationWrapperV1>
+                </FormRow>
+                <FormRow singleLineControlGroup>
+                    <div className={cn("new-metrics")}>
+                        <Checkbox
+                            checked={newMetricsNotify}
+                            onChange={(e, checked) => onChange({ notify_about_new_metrics: checked })}
+                        />
+                        <span>Notify about new metrics</span>
+                        <Tooltip pos="bottom left" render={this.renderNewMetricsAlertingHelp} trigger="click">
+                            <Link icon="HelpDot" />
+                        </Tooltip>
+                    </div>
                 </FormRow>
                 <FormRow label="Watch time">
                     <ScheduleEdit schedule={sched} onChange={schedule => onChange({ sched: schedule })} />
