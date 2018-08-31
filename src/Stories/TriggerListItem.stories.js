@@ -6,6 +6,7 @@ import StoryRouter from "storybook-router";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 
 const sourceData = {
+    notify_about_new_metrics: false,
     is_remote: false,
     id: "3e93211b-7fec-4c70-b5e1-abb36d6a4a1d",
     trigger_type: "falling",

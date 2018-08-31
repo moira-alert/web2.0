@@ -145,12 +145,12 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     renderNewMetricsAlertingHelp = () => {
         return (
-            <div>
-                <div className={cn("new-metrics-help")}>If enabled, Moira will notify you about new metrics.</div>
-                <div>
-                    In this case when you start sending new metric you will receive <CodeRef>NODATA</CodeRef> -{" "}
-                    <CodeRef>OK</CodeRef> notification.
-                </div>
+            <div className={cn("new-metrics-help")}>
+                <p>If enabled, Moira will notify you about new metrics.</p>
+                <p>
+                    In this case when you start sending new metric you will receive{" "}
+                    <CodeRef>NODATA</CodeRef> - <CodeRef>OK</CodeRef> notification.
+                </p>
             </div>
         );
     };
@@ -169,7 +169,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             sched,
             is_remote: isRemote,
             trigger_type: triggerType,
-            notify_about_new_metrics: newMetricsNotify,
+            notify_about_new_metrics: notifyAboutNewMetrics,
         } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
@@ -284,16 +284,15 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     </ValidationWrapperV1>
                 </FormRow>
                 <FormRow singleLineControlGroup>
-                    <div className={cn("new-metrics")}>
-                        <Checkbox
-                            checked={newMetricsNotify}
-                            onChange={(e, checked) => onChange({ notify_about_new_metrics: checked })}
-                        />
-                        <span>Notify about new metrics</span>
-                        <Tooltip pos="bottom left" render={this.renderNewMetricsAlertingHelp} trigger="click">
-                            <Link icon="HelpDot" />
-                        </Tooltip>
-                    </div>
+                    <Checkbox
+                        checked={notifyAboutNewMetrics}
+                        onChange={(evt, checked) => onChange({ notify_about_new_metrics: checked })}
+                    >
+                        Notify about new metrics
+                    </Checkbox>
+                    <Tooltip pos="bottom left" render={this.renderNewMetricsAlertingHelp} trigger="click">
+                        <Link icon="HelpDot" />
+                    </Tooltip>
                 </FormRow>
                 <FormRow label="Watch time">
                     <ScheduleEdit schedule={sched} onChange={schedule => onChange({ sched: schedule })} />
