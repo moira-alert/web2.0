@@ -148,8 +148,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             <div className={cn("new-metrics-help")}>
                 <p>If enabled, Moira will notify you about new metrics.</p>
                 <p>
-                    In this case when you start sending new metric you will receive{" "}
-                    <CodeRef>NODATA</CodeRef> - <CodeRef>OK</CodeRef> notification.
+                    In this case when you start sending new metric you will receive <CodeRef>NODATA</CodeRef> -{" "}
+                    <CodeRef>OK</CodeRef> notification.
                 </p>
             </div>
         );
@@ -286,8 +286,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow singleLineControlGroup>
                     <Checkbox
                         checked={notifyAboutNewMetrics}
-                        onChange={(evt, checked) => onChange({ notify_about_new_metrics: checked })}
-                    >
+                        onChange={(evt, checked) => onChange({ notify_about_new_metrics: checked })}>
                         Notify about new metrics
                     </Checkbox>
                     <Tooltip pos="bottom left" render={this.renderNewMetricsAlertingHelp} trigger="click">
