@@ -70,20 +70,20 @@ packages: clean build tar rpm deb
 
 .PHONY: docker_feature_image
 docker_feature_image:
-	docker build -t moira/web2:${FEATURE_VERSION} -t moira/web2:${FEATURE_VERSION} .
+	docker build -t moira/web2:${FEATURE_VERSION} .
 	docker push moira/web2:${FEATURE_VERSION}
 
 .PHONY: docker_develop_image
 docker_develop_image:
-	docker build -t moira/web2:${DEVELOP_VERSION} -t moira/web2:${DEVELOP_VERSION} .
+	docker build -t moira/web2:${DEVELOP_VERSION} .
 	docker push moira/web2:${DEVELOP_VERSION}
 
 .PHONY: docker_latest_image
 docker_latest_image:
-	docker build -t moira/web2:${VERSION} -t moira/web2:latest .
+	docker build -t moira/web2:latest .
 	docker push moira/web2:latest
 
 .PHONY: docker_release_image
-docker_push_release:
-	docker build -t moira/web2:${VERSION} -t moira/web2:${VERSION} .
+docker_release_images:
+	docker build -t moira/web2:${VERSION} .
 	docker push moira/web2:${VERSION}

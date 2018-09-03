@@ -27,7 +27,6 @@ before_script:
   - gem install fpm
 script:
   - make packages
-  - make docker_image
 before_deploy:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
@@ -42,33 +41,28 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-      condition: "$TRAVIS_NODE_VERSION = 8"
   - provider: script
     script:
       - make docker_feature_image GIT_BRANCH="${TRAVIS_BRANCH////-}"
     skip_cleanup: true
     on:
       all_branches: true
-      condition: $TRAVIS_NODE_VERSION = 8 && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH
-      =~ ^(feature|hotfix).*$
+      condition: $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH =~ ^(feature|hotfix).*$
   - provider: script
     script:
       - make docker_develop_image
     skip_cleanup: true
     on:
       branch: develop
-      condition: "$TRAVIS_NODE_VERSION = 8"
   - provider: script
     script:
       - make docker_latest_image
     skip_cleanup: true
     on:
       branch: master
-      condition: "$TRAVIS_NODE_VERSION = 8"
   - provider: script
     script:
       - make docker_release_image
     skip_cleanup: true
     on:
       tags: true
-      condition: "$TRAVIS_NODE_VERSION = 8"
