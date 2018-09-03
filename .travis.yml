@@ -14,6 +14,10 @@ notifications:
     on_success: change
     on_failure: always
     on_start: never
+  slack:
+    rooms:
+      secure: mqHrQAw8feDH8e8+/gV8C1dbeC3e3tkS/AGx9XTtUoCVbY45C0X6KRYaSpK9H1WNjY7AjBnrEjsvQlivhXKIp41FQBhnief1t+0zGtnkwtQiRumWOyoo2uN+BNVE+fE8W0QyasL/SjarBFAqJkbQPH5EiRxcil8Wcuk2mE44a3kRL+sE67rPqjXSvc5t3N5kupziIMW90dxpeV584t3CS5VfPbrwLdrmZtDOgZj6ijsmM41N6+KXl+44LKK0bXApGD4WWX7iESivzjM+mOTVUhO7o17vpQ7JwG3EXymVRxUnIyANWI0KYzQGNwWEl1XWBrkw4/oGW/xOJK9nsW2EkoBnUjERk9xYPzte4RQO2IpnLrBLCWG0HL4NBKfbftJLtUxQFXhzIQ7MqYjwCKrSSK23eNl/qLl+8VkaNBa0hutGBPWYG2KF/SOMu3rPDGGzT+LD/atbAnm/m6M3p2XkR7vHHUgfwZ10vt2HLvpElK6ScT0OhZ1wNtfRnms7HJO44rp4bZMyJURU6wkEMeNoOOrfSVGIkwbXAJja2EGFVBcIeOTJpQBBxWnRCyEC2BmxX2rjuiBibGke7VpmSOUadlQxG7DotspfqzNy93VulI3GnwkZr3PqwBp8/Ce4v68uk/WdOx2Y5ug98CoBqF17XpM2I21wSJxAKu5B1zRgL5I=
+    on_pull_requests: false
 before_install:
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
@@ -23,7 +27,6 @@ before_script:
   - gem install fpm
 script:
   - make packages
-  - make docker_image
 before_deploy:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
@@ -38,16 +41,28 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-      condition: "$TRAVIS_NODE_VERSION = 8"
   - provider: script
-    script: make docker_push
+    script:
+      - make docker_feature_image GIT_BRANCH="${TRAVIS_BRANCH////-}"
+    skip_cleanup: true
+    on:
+      all_branches: true
+      condition: $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH =~ ^(feature|hotfix).*$
+  - provider: script
+    script:
+      - make docker_develop_image
+    skip_cleanup: true
+    on:
+      branch: develop
+  - provider: script
+    script:
+      - make docker_latest_image
     skip_cleanup: true
     on:
       branch: master
-      condition: "$TRAVIS_NODE_VERSION = 8"
   - provider: script
-    script: make docker_push_release
+    script:
+      - make docker_release_image
     skip_cleanup: true
     on:
       tags: true
-      condition: "$TRAVIS_NODE_VERSION = 8"
