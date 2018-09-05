@@ -146,7 +146,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     renderNewMetricsAlertingHelp = () => {
         return (
             <div className={cn("new-metrics-help")}>
-                <p>If enabled, Moira will notify you about new metrics.</p>
+                <p>If disabled, Moira will notify you about new metrics.</p>
                 <p>
                     In this case when you start sending new metric you will receive <CodeRef>NODATA</CodeRef> -{" "}
                     <CodeRef>OK</CodeRef> notification.
@@ -169,7 +169,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             sched,
             is_remote: isRemote,
             trigger_type: triggerType,
-            notify_about_new_metrics: notifyAboutNewMetrics,
+            mute_new_metrics: muteNewMetrics,
         } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
@@ -285,9 +285,9 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 </FormRow>
                 <FormRow singleLineControlGroup>
                     <Checkbox
-                        checked={notifyAboutNewMetrics}
-                        onChange={(evt, checked) => onChange({ notify_about_new_metrics: checked })}>
-                        Notify about new metrics
+                        checked={muteNewMetrics}
+                        onChange={(evt, checked) => onChange({ mute_new_metrics: checked })}>
+                        Mute new metrics notifications
                     </Checkbox>
                     <Tooltip pos="bottom left" render={this.renderNewMetricsAlertingHelp} trigger="click">
                         <Link icon="HelpDot" />
