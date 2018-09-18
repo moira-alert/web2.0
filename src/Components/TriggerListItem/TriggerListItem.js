@@ -91,11 +91,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     renderCounters(): React.Node {
-        const counters = Object.keys(StatusesInOrder)
-            .map(status => ({
-                status,
-                count: Object.keys(this.filterMetricsByStatus(status)).length,
-            }))
+        const counters = StatusesInOrder.map(status => ({
+            status,
+            count: Object.keys(this.filterMetricsByStatus(status)).length,
+        }))
             .filter(({ count }) => count !== 0)
             .map(({ status, count }) => (
                 <span key={status} style={{ color: getStatusColor(status) }}>
@@ -119,9 +118,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
 
     renderStatus(): React.Node {
         const { state: triggerStatus } = this.props.data.last_check || {};
-        const metricStatuses = Object.keys(StatusesInOrder).filter(
-            x => Object.keys(this.filterMetricsByStatus(x)).length !== 0
-        );
+        const metricStatuses = StatusesInOrder.filter(x => Object.keys(this.filterMetricsByStatus(x)).length !== 0);
         const notOkStatuses = metricStatuses.filter(x => x !== Statuses.OK);
         let statuses;
         if (triggerStatus === Statuses.EXCEPTION) {
@@ -161,9 +158,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         if (!onChange || !onRemove) {
             return null;
         }
-        const statuses = Object.keys(StatusesInOrder).filter(
-            x => Object.keys(this.filterMetricsByStatus(x)).length !== 0
-        );
+        const statuses = StatusesInOrder.filter(x => Object.keys(this.filterMetricsByStatus(x)).length !== 0);
         if (statuses.length === 0) {
             return null;
         }

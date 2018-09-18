@@ -1,5 +1,4 @@
 // @flow
-const statusesOrder = ["EXCEPTION", "NODATA", "ERROR", "WARN", "OK", "DEL"];
 
 export const Statuses = {
     DEL: "DEL",
@@ -9,14 +8,6 @@ export const Statuses = {
     WARN: "WARN",
     OK: "OK",
 };
-
-export const StatusesInOrder = ((): Status => {
-    const result = {};
-    statusesOrder.forEach(key => {
-        result[key] = Statuses[key];
-    });
-    return result;
-})();
 
 export const StatusesCaptions = {
     DEL: "DEL",
@@ -46,6 +37,15 @@ export const StatusesWeight = {
 };
 
 export type Status = $Keys<typeof Statuses>;
+
+export const StatusesInOrder: Status[] = [
+    Statuses.EXCEPTION,
+    Statuses.NODATA,
+    Statuses.ERROR,
+    Statuses.WARN,
+    Statuses.OK,
+    Statuses.DEL,
+];
 
 export function getStatusColor(status: Status): string {
     return StatusesColors[status];
