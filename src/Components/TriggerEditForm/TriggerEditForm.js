@@ -282,6 +282,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             onChange={(e, value) => onChange({ ttl: value || 0 })}
                         />
                     </ValidationWrapperV1>
+                    <span>seconds</span>
                 </FormRow>
                 <FormRow singleLineControlGroup>
                     <Checkbox
