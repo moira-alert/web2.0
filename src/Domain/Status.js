@@ -1,41 +1,51 @@
 // @flow
+
 export const Statuses = {
-    NODATA: "NODATA",
-    WARN: "WARN",
-    ERROR: "ERROR",
-    EXCEPTION: "EXCEPTION",
     DEL: "DEL",
+    EXCEPTION: "EXCEPTION",
+    NODATA: "NODATA",
+    ERROR: "ERROR",
+    WARN: "WARN",
     OK: "OK",
 };
 
 export const StatusesCaptions = {
-    NODATA: "NODATA",
-    WARN: "WARN",
-    ERROR: "ERROR",
-    EXCEPTION: "EXCEPTION",
     DEL: "DEL",
+    EXCEPTION: "EXCEPTION",
+    NODATA: "NODATA",
+    ERROR: "ERROR",
+    WARN: "WARN",
     OK: "OK",
 };
 
 export const StatusesColors = {
-    NODATA: "#9e9e9e",
-    WARN: "#ffc107",
-    ERROR: "#ff5722",
-    EXCEPTION: "#ff5722",
     DEL: "#000",
+    EXCEPTION: "#ff5722",
+    NODATA: "#9e9e9e",
+    ERROR: "#ff5722",
+    WARN: "#ffc107",
     OK: "#00bfa5",
 };
 
 export const StatusesWeight = {
-    NODATA: 1000,
-    WARN: 1,
-    ERROR: 100,
-    EXCEPTION: 100000,
     DEL: 100000,
+    EXCEPTION: 100000,
+    NODATA: 1000,
+    ERROR: 100,
+    WARN: 1,
     OK: 0,
 };
 
 export type Status = $Keys<typeof Statuses>;
+
+export const StatusesInOrder: Status[] = [
+    Statuses.EXCEPTION,
+    Statuses.NODATA,
+    Statuses.ERROR,
+    Statuses.WARN,
+    Statuses.OK,
+    Statuses.DEL,
+];
 
 export function getStatusColor(status: Status): string {
     return StatusesColors[status];
