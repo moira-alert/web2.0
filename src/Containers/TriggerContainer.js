@@ -120,6 +120,12 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
+    async removeNoDataMetric(triggerId: string): Promise<void> {
+        this.setState({ loading: true });
+        await this.props.moiraApi.delNoDataMetric(triggerId);
+        this.getData(this.props);
+    }
+
     parseLocationSearch(search: string): { page: number } {
         const {
             page,
@@ -291,6 +297,9 @@ class TriggerContainer extends React.Component<Props, State> {
                                             }}
                                             onRemove={metric => {
                                                 this.removeMetric(trigger.id, metric);
+                                            }}
+                                            onNoDataRemove={() => {
+                                                this.removeNoDataMetric(trigger.id);
                                             }}
                                         />
                                     </Tab>

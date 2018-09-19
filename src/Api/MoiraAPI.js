@@ -42,7 +42,7 @@ export interface IMoiraApi {
     testContact(contactId: string): Promise<void>;
     addSubscription(subscription: SubscriptionCreateInfo): Promise<Subscription>;
     updateSubscription(subscription: Subscription): Promise<Subscription>;
-    deleteSubscription(subscriptionId: string): Promise<void>;
+    delSubscription(subscriptionId: string): Promise<void>;
     testSubscription(subscriptionId: string): Promise<void>;
     deleteContact(contactId: string): Promise<void>;
     getPatternList(): Promise<PatternList>;
@@ -60,11 +60,11 @@ export interface IMoiraApi {
     getTriggerEvents(id: string, page: number): Promise<EventList>;
     delThrottling(triggerId: string): Promise<void>;
     delMetric(triggerId: string, metric: string): Promise<void>;
+    delNoDataMetric(triggerId: string): Promise<void>;
     getNotificationList(): Promise<NotificationList>;
     delNotification(id: string): Promise<void>;
     delAllNotifications(): Promise<void>;
     delAllNotificationEvents(): Promise<void>;
-    delSubscription(id: string): Promise<void>;
     getMoiraStatus(): Promise<MoiraStatus>;
 }
 
@@ -177,15 +177,6 @@ export default class MoiraApi implements IMoiraApi {
         });
         await this.checkStatus(response);
         return response.json();
-    }
-
-    async deleteSubscription(subscriptionId: string): Promise<void> {
-        const url = this.apiUrl + "/subscription/" + subscriptionId;
-        const response = await fetch(url, {
-            method: "DELETE",
-            credentials: "same-origin",
-        });
-        await this.checkStatus(response);
     }
 
     async testSubscription(subscriptionId: string): Promise<void> {
@@ -366,6 +357,15 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
+    async delNoDataMetric(triggerId: string): Promise<void> {
+        const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/metrics/nodata";
+        const response = await fetch(url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+        await this.checkStatus(response);
+    }
+
     async getNotificationList(): Promise<NotificationList> {
         const url = this.apiUrl + "/notification?start=0&end=-1";
         const response = await fetch(url, {
@@ -403,8 +403,8 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async delSubscription(id: string): Promise<void> {
-        const url = this.apiUrl + "/subscription/" + encodeURI(id);
+    async delSubscription(subscriptionId: string): Promise<void> {
+        const url = this.apiUrl + "/subscription/" + encodeURI(subscriptionId);
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",

@@ -23,6 +23,7 @@ type Props = {|
     onSort?: (sorting: SortingColum) => void,
     onChange: (maintenance: Maintenance, metric: string) => void,
     onRemove: (metric: string) => void,
+    onNoDataRemove: () => void,
 |};
 
 function checkMaintenance(maintenance: ?number): React.Node {
@@ -31,7 +32,7 @@ function checkMaintenance(maintenance: ?number): React.Node {
 }
 
 export default function MetricList(props: Props): React.Node {
-    const { status, items, onSort, onChange, onRemove, sortingColumn, sortingDown } = props;
+    const { status, items, onSort, onChange, onRemove, onNoDataRemove, sortingColumn, sortingDown } = props;
     const sortingIcon = sortingDown ? "ArrowBoldDown" : "ArrowBoldUp";
 
     return (
@@ -68,7 +69,13 @@ export default function MetricList(props: Props): React.Node {
                         )}
                     </span>
                 </div>
-                <div className={cn("controls")} />
+                <div className={cn("controls")}>
+                    {onNoDataRemove && (
+                        <Button use="link" icon="Trash" onClick={() => onNoDataRemove()}>
+                            Delete NODATA metrics
+                        </Button>
+                    )}
+                </div>
             </header>
             <div className={cn("items")}>
                 {Object.keys(items).map(metric => {
@@ -92,7 +99,7 @@ export default function MetricList(props: Props): React.Node {
                                     ))}
                                 </Dropdown>
                                 <Button use="link" icon="Trash" onClick={() => onRemove(metric)}>
-                                    Del
+                                    Delete
                                 </Button>
                             </div>
                         </div>
