@@ -204,7 +204,7 @@ class SettingsContainer extends React.Component<Props, State> {
             throw new Error("InvalidProgramState");
         }
         try {
-            await moiraApi.deleteSubscription(subscription.id);
+            await moiraApi.delSubscription(subscription.id);
             this.setState({
                 settings: {
                     ...settings,
