@@ -144,7 +144,6 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                         </Fit>
                                     </RowStack>
                                 </Fit>
-                                <Fit style={{ height: 50 }} />
                             </ColumnStack>
                         </form>
                     )}
