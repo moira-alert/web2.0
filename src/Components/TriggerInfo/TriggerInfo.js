@@ -7,9 +7,7 @@ import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import Link from "retail-ui/components/Link";
 import Icon from "retail-ui/components/Icon";
-import Button from "retail-ui/components/Button";
 import TagGroup from "../TagGroup/TagGroup";
-import { getJSONContent } from "../../helpers";
 import cn from "./TriggerInfo.less";
 
 type Props = {|
@@ -72,24 +70,18 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                     <RouterLink to={getPageLink("triggerEdit", id)} icon="Edit">
                         Edit
                     </RouterLink>
-                    <a
-                        href="#download"
-                        onClick={(event: Event) => {
-                            const target = event.currentTarget;
-                            if (target instanceof HTMLAnchorElement) {
-                                target.href = getJSONContent(data);
-                            }
-                        }}
-                        download={`trigger-${id}.json`}>
-                        <Button use="link" icon="Export">
-                            Export
-                        </Button>
-                    </a>
+                    <RouterLink to={getPageLink("triggerDuplicate", id)} icon="DocumentCopy">
+                        Duplicate
+                    </RouterLink>
                 </div>
             </header>
             <dl className={cn("list")}>
                 <dt>Target {isRemote && "(remote)"}</dt>
-                <dd>{targets.map((target, i) => <div key={i}>{target}</div>)}</dd>
+                <dd>
+                    {targets.map((target, i) => (
+                        <div key={i}>{target}</div>
+                    ))}
+                </dd>
                 {desc && <dt>Description</dt>}
                 {desc && <dd className={cn("description")}>{desc}</dd>}
                 {!expression && <dt>Value</dt>}
