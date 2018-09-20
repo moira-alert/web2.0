@@ -77,11 +77,7 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
             </header>
             <dl className={cn("list")}>
                 <dt>Target {isRemote && "(remote)"}</dt>
-                <dd>
-                    {targets.map((target, i) => (
-                        <div key={i}>{target}</div>
-                    ))}
-                </dd>
+                <dd>{targets.map((target, i) => <div key={i}>{target}</div>)}</dd>
                 {desc && <dt>Description</dt>}
                 {desc && <dd className={cn("description")}>{desc}</dd>}
                 {!expression && <dt>Value</dt>}
