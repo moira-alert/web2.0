@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import TriggerListContainer from "./Containers/TriggerListContainer";
 import TriggerContainer from "./Containers/TriggerContainer";
 import TriggerEditContainer from "./Containers/TriggerEditContainer";
+import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
 import TriggerAddContainer from "./Containers/TriggerAddContainer";
 import SettingsContainer from "./Containers/SettingsContainer";
 import NotificationListContainer from "./Containers/NotificationListContainer";
@@ -16,6 +17,7 @@ export default function DesktopApp(): React.Node {
         <Switch>
             <Route exact path={getPagePath("index")} component={TriggerListContainer} />
             <Route exact path={getPagePath("triggerAdd")} component={TriggerAddContainer} />
+            <Route exact path={getPagePath("triggerDuplicate")} component={TriggerDuplicateContainer} />
             <Route exact path={getPagePath("triggerEdit")} component={TriggerEditContainer} />
             <Route exact path={getPagePath("trigger")} component={TriggerContainer} />
             <Route exact path={getPagePath("settings")} component={SettingsContainer} />
