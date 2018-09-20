@@ -22,7 +22,7 @@ type State = {
     config: ?Config,
 };
 
-class TriggerEditContainer extends React.Component<Props, State> {
+class TriggerDuplicateContainer extends React.Component<Props, State> {
     props: Props;
     state: State = {
         loading: true,
@@ -42,6 +42,18 @@ class TriggerEditContainer extends React.Component<Props, State> {
         this.getData(nextProps);
     }
 
+    cleanTrigger(sourceTrigger: Trigger): Trigger {
+        const trigger = Object.assign({}, sourceTrigger);
+        delete trigger.id;
+        delete trigger.last_check;
+        delete trigger.throttling;
+        return {
+            ...trigger,
+            name: `${trigger.name} (copy)`,
+            sched: { ...trigger.sched, tzOffset: new Date().getTimezoneOffset() },
+        };
+    }
+
     async getData(props: Props): Promise<void> {
         const { moiraApi, match } = props;
         const { id } = match.params;
@@ -50,9 +62,10 @@ class TriggerEditContainer extends React.Component<Props, State> {
             return;
         }
         try {
-            const trigger = await moiraApi.getTrigger(id);
+            const sourceTrigger = await moiraApi.getTrigger(id);
             const { list } = await moiraApi.getTagList();
             const config = await moiraApi.getConfig();
+            const trigger = this.cleanTrigger(sourceTrigger);
             this.setState({ loading: false, trigger: trigger, tags: list, config: config });
         } catch (error) {
             this.setState({ error: error.message });
@@ -69,27 +82,15 @@ class TriggerEditContainer extends React.Component<Props, State> {
     async handleSubmit(): Promise<void> {
         const { trigger } = this.state;
         const { history, moiraApi } = this.props;
-
         const isValid = await this.validateForm();
         if (isValid && trigger) {
             this.setState({ loading: true });
             try {
-                await moiraApi.setTrigger(trigger.id, trigger);
-                history.push(getPageLink("trigger", trigger.id));
+                const { id } = await moiraApi.addTrigger(trigger);
+                history.push(getPageLink("trigger", id));
             } catch (error) {
                 this.setState({ error: error.message, loading: false });
             }
-        }
-    }
-
-    async deleteTrigger(id: string): Promise<void> {
-        const { history, moiraApi } = this.props;
-        this.setState({ loading: true });
-        try {
-            await moiraApi.delTrigger(id);
-            history.push(getPageLink("index"));
-        } catch (error) {
-            this.setState({ error: error.message, loading: false });
         }
     }
 
@@ -102,7 +103,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <LayoutTitle>Edit trigger</LayoutTitle>
+                    <LayoutTitle>Duplicate trigger</LayoutTitle>
                     {trigger && (
                         <form>
                             <ColumnStack block gap={6} horizontalAlign="stretch">
@@ -126,17 +127,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                                 onClick={() => {
                                                     this.handleSubmit();
                                                 }}>
-                                                Save trigger
-                                            </Button>
-                                        </Fit>
-                                        <Fit>
-                                            <Button
-                                                use="link"
-                                                icon="Trash"
-                                                onClick={() => {
-                                                    this.deleteTrigger(trigger.id);
-                                                }}>
-                                                Delete
+                                                Duplicate trigger
                                             </Button>
                                         </Fit>
                                         <Fit>
@@ -153,4 +144,4 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 }
 
-export default withMoiraApi(TriggerEditContainer);
+export default withMoiraApi(TriggerDuplicateContainer);
