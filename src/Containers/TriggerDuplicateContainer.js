@@ -131,7 +131,9 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
                                             </Button>
                                         </Fit>
                                         <Fit>
-                                            <RouterLink to={`/trigger/${trigger.id}`}>Cancel</RouterLink>
+                                            <RouterLink to={`/trigger/${this.props.match.params.id}`}>
+                                                Cancel
+                                            </RouterLink>
                                         </Fit>
                                     </RowStack>
                                 </Fit>
