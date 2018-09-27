@@ -8,16 +8,38 @@ import type { Notification } from "../../Domain/Notification";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./NotificationList.less";
+import { MoiraStates } from "../../Domain/MoiraStatus";
+import ToggleWithLabel from "../Toggle/Toggle";
+import type { MoiraStatus } from "../../Domain/MoiraStatus";
 
 type Props = {|
     items: { [id: string]: Notification },
     onRemove: (key: string) => void,
     onRemoveAll: () => void,
-    onRemoveEvents: () => void,
+    onChangeNotifierState: (state: string) => void,
+    notifier_state: MoiraStatus,
 |};
 
 export default function NotificationList(props: Props): React.Element<any> {
-    const { items, onRemove, onRemoveAll, onRemoveEvents } = props;
+    const { items, onRemove, onRemoveAll, onChangeNotifierState, notifier_state } = props;
+
+    const notification_actions = (
+        <div className={cn("actions-row")}>
+            <div className={cn("remove-notifications")}>
+                <Button icon="Trash" onClick={() => onRemoveAll()}>
+                    Remove all notifications
+                </Button>
+            </div>
+
+            <div className={cn("switch-notifier-state")}>
+                <ToggleWithLabel
+                    label={notifier_state.state === MoiraStates.OK ? "Notifications enabled" : "Notifications disabled"}
+                    checked={notifier_state.state === MoiraStates.OK}
+                    onChange={checked => onChangeNotifierState(checked ? MoiraStates.OK : MoiraStates.ERROR)}
+                />
+            </div>
+        </div>
+    );
 
     function renderContactIcon(type: string): React.Node {
         let name;
@@ -33,7 +55,7 @@ export default function NotificationList(props: Props): React.Element<any> {
     }
 
     return Object.keys(items).length === 0 ? (
-        <div className={cn("no-result")}>Empty :-)</div>
+        notification_actions
     ) : (
         <Gapped gap={30} vertical>
             <div className={cn("row", "header")}>
@@ -69,14 +91,7 @@ export default function NotificationList(props: Props): React.Element<any> {
                     </div>
                 );
             })}
-            <Gapped gap={15}>
-                <Button icon="Trash" onClick={() => onRemoveAll()}>
-                    Remove all notifications
-                </Button>
-                <Button icon="Trash" onClick={() => onRemoveEvents()}>
-                    Remove all events
-                </Button>
-            </Gapped>
+            notification_actions
         </Gapped>
     );
 }
