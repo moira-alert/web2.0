@@ -23,7 +23,20 @@ type Props = {|
 export default function NotificationList(props: Props): React.Element<any> {
     const { items, onRemove, onRemoveAll, onChangeNotifierState, notifier_state } = props;
 
-    const notification_actions = (
+    function renderContactIcon(type: string): React.Node {
+        let name;
+        switch (type) {
+            case "telegram":
+                name = "Telegram2";
+                break;
+            default:
+                name = "Mail2";
+                break;
+        }
+        return <Icon name={name} />;
+    }
+
+    return Object.keys(items).length === 0 ? (
         <div className={cn("actions-row")}>
             <div className={cn("remove-notifications")}>
                 <Button icon="Trash" onClick={() => onRemoveAll()}>
@@ -39,23 +52,6 @@ export default function NotificationList(props: Props): React.Element<any> {
                 />
             </div>
         </div>
-    );
-
-    function renderContactIcon(type: string): React.Node {
-        let name;
-        switch (type) {
-            case "telegram":
-                name = "Telegram2";
-                break;
-            default:
-                name = "Mail2";
-                break;
-        }
-        return <Icon name={name} />;
-    }
-
-    return Object.keys(items).length === 0 ? (
-        notification_actions
     ) : (
         <Gapped gap={30} vertical>
             <div className={cn("row", "header")}>
@@ -91,7 +87,23 @@ export default function NotificationList(props: Props): React.Element<any> {
                     </div>
                 );
             })}
-            notification_actions
+            <div className={cn("actions-row")}>
+                <div className={cn("remove-notifications")}>
+                    <Button icon="Trash" onClick={() => onRemoveAll()}>
+                        Remove all notifications
+                    </Button>
+                </div>
+
+                <div className={cn("switch-notifier-state")}>
+                    <ToggleWithLabel
+                        label={
+                            notifier_state.state === MoiraStates.OK ? "Notifications enabled" : "Notifications disabled"
+                        }
+                        checked={notifier_state.state === MoiraStates.OK}
+                        onChange={checked => onChangeNotifierState(checked ? MoiraStates.OK : MoiraStates.ERROR)}
+                    />
+                </div>
+            </div>
         </Gapped>
     );
 }
