@@ -52,7 +52,11 @@ export default function NotificationList(props: Props): React.Element<any> {
                     <div key={i} className={cn("row")}>
                         <div className={cn("timestamp")}>{moment.unix(timestamp).format("MMMM D, HH:mm:ss")}</div>
                         <div className={cn("trigger")}>
-                            <RouterLink to={getPageLink("trigger", id)}>{name}</RouterLink>
+                            {id ? (
+                                <RouterLink to={getPageLink("trigger", id)}>{name}</RouterLink>
+                            ) : (
+                                <span>&mdash;</span>
+                            )}
                         </div>
                         <div className={cn("contact")}>
                             {renderContactIcon(type)} {value}
