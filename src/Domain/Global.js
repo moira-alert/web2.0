@@ -13,9 +13,9 @@ export const PagesPaths = {
 
 export const PagesLinks = {
     index: "/",
-    trigger: "/trigger/%id%",
-    triggerEdit: "/trigger/%id%/edit",
-    triggerDuplicate: "/trigger/%id%/duplicate",
+    trigger: "/trigger/_id_",
+    triggerEdit: "/trigger/_id_/edit",
+    triggerDuplicate: "/trigger/_id_/duplicate",
     triggerAdd: "/trigger/new",
     settings: "/settings",
     notifications: "/notifications",
@@ -33,5 +33,5 @@ export function getPagePath(page: PagePath): string {
 }
 
 export function getPageLink(page: PageLink, id?: string): string {
-    return id ? PagesLinks[page].replace("%id%", id) : PagesLinks[page];
+    return id ? PagesLinks[page].replace("_id_", id) : PagesLinks[page];
 }
