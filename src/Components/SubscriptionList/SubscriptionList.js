@@ -77,6 +77,20 @@ export default class SubscriptionList extends React.Component<Props, State> {
         });
     };
 
+    handleCreateAndTestSubscription = async () => {
+        const { onAddSubscription, onTestSubscription } = this.props;
+        const { newSubscription } = this.state;
+        if (newSubscription == null) {
+            throw new Error("InvalidProgramState");
+        }
+        await onAddSubscription(newSubscription);
+        await onTestSubscription(newSubscription);
+        this.setState({
+            newSubscriptionModalVisible: false,
+            newSubscription: null,
+        });
+    };
+
     handleUpdateSubscription = async () => {
         const { onUpdateSubscription } = this.props;
         const { subscriptionToEdit } = this.state;
@@ -202,7 +216,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                             onChange={update => this.setState({ newSubscription: { ...newSubscription, ...update } })}
                             onCancel={() => this.setState({ newSubscriptionModalVisible: false })}
                             onCreateSubscription={this.handleCreateSubscription}
-                            onCreateAndTestSubscription={this.handleCreateSubscription}
+                            onCreateAndTestSubscription={this.handleCreateAndTestSubscription}
                         />
                     )}
                 {subscriptionEditModalVisible &&
