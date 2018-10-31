@@ -179,7 +179,7 @@ export default class ContactList extends React.Component<Props, State> {
             <Center>
                 <Gapped vertical gap={20}>
                     <div>
-                        To start receive notifications you have to{" "}
+                        To start receiving notifications you have to{" "}
                         <Link onClick={this.handleAddContact}>add delivery channel</Link> for notifications.
                     </div>
                     <Center>
