@@ -65,8 +65,8 @@ export interface IMoiraApi {
     delNotification(id: string): Promise<void>;
     delAllNotifications(): Promise<void>;
     delAllNotificationEvents(): Promise<void>;
-    getMoiraStatus(): Promise<NotifierState>;
-    setMoiraStatus(status: NotifierState): Promise<NotifierState>;
+    getNotifierState(): Promise<NotifierState>;
+    setNotifierState(status: NotifierState): Promise<NotifierState>;
 }
 
 export default class MoiraApi implements IMoiraApi {
@@ -413,7 +413,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async getMoiraStatus(): Promise<NotifierState> {
+    async getNotifierState(): Promise<NotifierState> {
         const url = this.apiUrl + "/health/notifier";
         const response = await fetch(url, {
             method: "GET",
@@ -423,7 +423,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async setMoiraStatus(status: NotifierState): Promise<NotifierState> {
+    async setNotifierState(status: NotifierState): Promise<NotifierState> {
         const url = this.apiUrl + "/health/notifier";
         const response = await fetch(url, {
             method: "PUT",

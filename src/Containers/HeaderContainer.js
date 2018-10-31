@@ -12,24 +12,24 @@ type Props = {
 };
 
 type State = {
-    moiraStatusMessage: ?string,
+    notifierStateMessage: ?string,
 };
 
 class HeaderContainer extends React.Component<Props, State> {
     state: State = {
-        moiraStatusMessage: null,
+        notifierStateMessage: null,
     };
 
     async getData(): Promise<void> {
         const { moiraApi } = this.props;
         try {
-            const { state, message } = await moiraApi.getMoiraStatus();
+            const { state, message } = await moiraApi.getNotifierState();
             switch (state) {
                 case MoiraServiceStates.OK:
-                    this.setState({ moiraStatusMessage: null });
+                    this.setState({ notifierStateMessage: null });
                     break;
                 case MoiraServiceStates.ERROR:
-                    this.setState({ moiraStatusMessage: message });
+                    this.setState({ notifierStateMessage: message });
                     break;
                 default:
                     break;
@@ -44,10 +44,10 @@ class HeaderContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { moiraStatusMessage } = this.state;
+        const { notifierStateMessage } = this.state;
         return (
             <div className={this.props.className}>
-                {moiraStatusMessage && <Bar message={moiraStatusMessage} />}
+                {notifierStateMessage && <Bar message={notifierStateMessage} />}
                 <Header />
             </div>
         );

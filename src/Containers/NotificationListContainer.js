@@ -6,7 +6,7 @@ import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import Layout, { LayoutContent, LayoutTitle, LayoutFooter } from "../Components/Layout/Layout";
-import { MoiraServiceStates, NotifierState } from "../Domain/MoiraServiceStates";
+import { MoiraServiceStates } from "../Domain/MoiraServiceStates";
 import cn from "./NotificationListContainer.less";
 import Button from "retail-ui/components/Button/Button";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
@@ -17,7 +17,7 @@ type State = {
     error: ?string,
     list: ?Array<Notification>,
     total: ?number,
-    notifierServiceState: NotifierState,
+    notifierEnabled: boolean,
 };
 
 class NotificationListContainer extends React.Component<Props, State> {
@@ -27,15 +27,15 @@ class NotificationListContainer extends React.Component<Props, State> {
         error: null,
         list: null,
         total: null,
-        notifierServiceState: { state: null },
+        notifierEnabled: true,
     };
 
     componentDidMount() {
-        this.getData(this.props);
-        this.getNotifierState(this.props);
+        this.getNotifications(this.props);
+        this.isNotifierEnabled(this.props);
     }
 
-    async getData(props: Props): Promise<void> {
+    async getNotifications(props: Props): Promise<void> {
         const { moiraApi } = props;
         try {
             const notifications = await moiraApi.getNotificationList();
@@ -45,11 +45,11 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     }
 
-    async getNotifierState(props: Props): Promise<void> {
+    async isNotifierEnabled(props: Props): Promise<void> {
         const { moiraApi } = props;
         try {
-            const notifierState = await moiraApi.getMoiraStatus();
-            this.setState({ notifierServiceState: notifierState });
+            const notifierState = await moiraApi.getNotifierState();
+            this.setState({ notifierEnabled: notifierState.state === MoiraServiceStates.OK });
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -69,7 +69,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         this.setState({ loading: true });
         try {
             await this.props.moiraApi.delNotification(id);
-            this.getData(this.props);
+            this.getNotifications(this.props);
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -80,25 +80,26 @@ class NotificationListContainer extends React.Component<Props, State> {
         try {
             await this.props.moiraApi.delAllNotifications();
             await this.props.moiraApi.delAllNotificationEvents();
-            this.getData(this.props);
+            this.getNotifications(this.props);
         } catch (error) {
             this.setState({ error: error.message });
         }
     }
 
-    async updateNotifierState(state: string): Promise<void> {
-        this.setState({ loading: true });
+    async enableNotifier(enable: boolean): Promise<void> {
         try {
-            await this.props.moiraApi.setMoiraStatus({ state: state });
-            this.getData(this.props);
-            this.getNotifierState(this.props);
+            const state = enable ? MoiraServiceStates.OK : MoiraServiceStates.ERROR;
+            await this.props.moiraApi.setNotifierState({
+                state: state,
+            });
+            this.setState({ notifierEnabled: enable });
         } catch (error) {
             this.setState({ error: error.message });
         }
     }
 
     render(): React.Node {
-        const { loading, error, list, notifierServiceState } = this.state;
+        const { loading, error, list, notifierEnabled } = this.state;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -122,15 +123,9 @@ class NotificationListContainer extends React.Component<Props, State> {
 
                         <div className={cn("switch-notifier-state")}>
                             <ToggleWithLabel
-                                label={
-                                    notifierServiceState.state === MoiraServiceStates.OK
-                                        ? "Notifications enabled"
-                                        : "Notifications disabled"
-                                }
-                                checked={notifierServiceState.state === MoiraServiceStates.OK}
-                                onChange={checked =>
-                                    this.updateNotifierState(checked ? MoiraServiceStates.OK : MoiraServiceStates.ERROR)
-                                }
+                                label={notifierEnabled ? "Notifications enabled" : "Notifications disabled"}
+                                checked={notifierEnabled}
+                                onChange={checked => this.enableNotifier(checked)}
                             />
                         </div>
                     </div>
