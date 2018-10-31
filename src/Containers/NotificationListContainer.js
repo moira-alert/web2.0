@@ -5,8 +5,11 @@ import type { IMoiraApi } from "../Api/MoiraAPI";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import NotificationList from "../Components/NotificationList/NotificationList";
-import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
-import { MoiraStates, MoiraStatus } from "../Domain/MoiraStatus";
+import Layout, { LayoutContent, LayoutTitle, LayoutPaging } from "../Components/Layout/Layout";
+import { MoiraServiceStates, NotifierState } from "../Domain/MoiraServiceStates";
+import cn from "./NotificationListContainer.less";
+import Button from "retail-ui/components/Button/Button";
+import ToggleWithLabel from "../Components/Toggle/Toggle";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -14,7 +17,7 @@ type State = {
     error: ?string,
     list: ?Array<Notification>,
     total: ?number,
-    notifier_state: MoiraStatus,
+    notifierServiceState: NotifierState,
 };
 
 class NotificationListContainer extends React.Component<Props, State> {
@@ -24,19 +27,29 @@ class NotificationListContainer extends React.Component<Props, State> {
         error: null,
         list: null,
         total: null,
-        notifier_state: { state: MoiraStates.OK },
+        notifierServiceState: { state: "ERROR" },
     };
 
     componentDidMount() {
         this.getData(this.props);
+        this.getNotifierState(this.props);
     }
 
     async getData(props: Props): Promise<void> {
         const { moiraApi } = props;
         try {
             const notifications = await moiraApi.getNotificationList();
+            this.setState({ loading: false, ...notifications });
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
+    }
+
+    async getNotifierState(props: Props): Promise<void> {
+        const { moiraApi } = props;
+        try {
             const notifierState = await moiraApi.getMoiraStatus();
-            this.setState({ loading: false, notifier_state: notifierState, ...notifications });
+            this.setState({ notifierServiceState: notifierState });
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -73,18 +86,19 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     }
 
-    async updateMoiraState(state: string): Promise<void> {
+    async updateNotifierState(state: string): Promise<void> {
         this.setState({ loading: true });
         try {
             await this.props.moiraApi.setMoiraStatus({ state: state });
             this.getData(this.props);
+            this.getNotifierState(this.props);
         } catch (error) {
             this.setState({ error: error.message });
         }
     }
 
     render(): React.Node {
-        const { loading, error, list, notifier_state } = this.state;
+        const { loading, error, list, notifierServiceState } = this.state;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -95,16 +109,32 @@ class NotificationListContainer extends React.Component<Props, State> {
                             onRemove={id => {
                                 this.removeNotification(id);
                             }}
-                            onRemoveAll={() => {
-                                this.removeAllNotifications();
-                            }}
-                            onChangeNotifierState={state => {
-                                this.updateMoiraState(state);
-                            }}
-                            notifier_state={notifier_state}
                         />
                     )}
                 </LayoutContent>
+                <LayoutPaging>
+                    <div className={cn("actions-row")}>
+                        <div className={cn("remove-notifications")}>
+                            <Button icon="Trash" onClick={() => this.removeAllNotifications()}>
+                                Remove all notifications
+                            </Button>
+                        </div>
+
+                        <div className={cn("switch-notifier-state")}>
+                            <ToggleWithLabel
+                                label={
+                                    notifierServiceState.state === MoiraServiceStates.OK
+                                        ? "Notifications enabled"
+                                        : "Notifications disabled"
+                                }
+                                checked={notifierServiceState.state === MoiraServiceStates.OK}
+                                onChange={checked =>
+                                    this.updateNotifierState(checked ? MoiraServiceStates.OK : MoiraServiceStates.ERROR)
+                                }
+                            />
+                        </div>
+                    </div>
+                </LayoutPaging>
             </Layout>
         );
     }

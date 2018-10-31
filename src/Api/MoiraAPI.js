@@ -11,7 +11,7 @@ import type { Contact, ContactList } from "../Domain/Contact";
 import type { ContactCreateInfo } from "../Domain/ContactCreateInfo";
 import type { Subscription } from "../Domain/Subscription";
 import type { Schedule } from "../Domain/Schedule";
-import type { MoiraStatus } from "../Domain/MoiraStatus";
+import type { NotifierState } from "../Domain/MoiraServiceStates";
 
 export type SubscriptionCreateInfo = {|
     sched: Schedule,
@@ -65,8 +65,8 @@ export interface IMoiraApi {
     delNotification(id: string): Promise<void>;
     delAllNotifications(): Promise<void>;
     delAllNotificationEvents(): Promise<void>;
-    getMoiraStatus(): Promise<MoiraStatus>;
-    setMoiraStatus(status: MoiraStatus): Promise<MoiraStatus>;
+    getMoiraStatus(): Promise<NotifierState>;
+    setMoiraStatus(status: NotifierState): Promise<NotifierState>;
 }
 
 export default class MoiraApi implements IMoiraApi {
@@ -413,7 +413,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async getMoiraStatus(): Promise<MoiraStatus> {
+    async getMoiraStatus(): Promise<NotifierState> {
         const url = this.apiUrl + "/health/notifier";
         const response = await fetch(url, {
             method: "GET",
@@ -423,7 +423,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async setMoiraStatus(status: MoiraStatus): Promise<MoiraStatus> {
+    async setMoiraStatus(status: NotifierState): Promise<NotifierState> {
         const url = this.apiUrl + "/health/notifier";
         const response = await fetch(url, {
             method: "PUT",

@@ -4,7 +4,7 @@ import type { IMoiraApi } from "../Api/MoiraAPI";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Bar from "../Components/Bar/Bar";
 import Header from "../Components/Header/Header";
-import { MoiraStates } from "../Domain/MoiraStatus";
+import { MoiraServiceStates } from "../Domain/MoiraServiceStates";
 
 type Props = {
     moiraApi: IMoiraApi,
@@ -25,10 +25,10 @@ class HeaderContainer extends React.Component<Props, State> {
         try {
             const { state, message } = await moiraApi.getMoiraStatus();
             switch (state) {
-                case MoiraStates.OK:
+                case MoiraServiceStates.OK:
                     this.setState({ moiraStatusMessage: null });
                     break;
-                case MoiraStates.ERROR:
+                case MoiraServiceStates.ERROR:
                     this.setState({ moiraStatusMessage: message });
                     break;
                 default:
