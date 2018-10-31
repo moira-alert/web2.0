@@ -27,7 +27,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         error: null,
         list: null,
         total: null,
-        notifierServiceState: { state: "ERROR" },
+        notifierServiceState: { state: null },
     };
 
     componentDidMount() {
