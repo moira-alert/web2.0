@@ -83,12 +83,17 @@ export default class SubscriptionList extends React.Component<Props, State> {
         if (newSubscription == null) {
             throw new Error("InvalidProgramState");
         }
-        await onAddSubscription(newSubscription);
-        await onTestSubscription(newSubscription);
-        this.setState({
-            newSubscriptionModalVisible: false,
-            newSubscription: null,
-        });
+        try {
+            const subscription = await onAddSubscription(newSubscription);
+            if (subscription != null) {
+                await onTestSubscription(subscription);
+            }
+        } finally {
+            this.setState({
+                newSubscriptionModalVisible: false,
+                newSubscription: null,
+            });
+        }
     };
 
     handleUpdateSubscription = async () => {
