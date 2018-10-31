@@ -55,9 +55,9 @@ storiesOf("Layout", module)
             <Layout.Content>
                 <SpaceFiller />
             </Layout.Content>
-            <Layout.Paging>
+            <Layout.Footer>
                 <SpaceFiller height={30} label="Paging" />
-            </Layout.Paging>
+            </Layout.Footer>
         </Layout>
     ))
     .add("With Plate and paging", () => (
@@ -68,8 +68,8 @@ storiesOf("Layout", module)
             <Layout.Content>
                 <SpaceFiller />
             </Layout.Content>
-            <Layout.Paging>
+            <Layout.Footer>
                 <SpaceFiller height={30} label="Paging" />
-            </Layout.Paging>
+            </Layout.Footer>
         </Layout>
     ));

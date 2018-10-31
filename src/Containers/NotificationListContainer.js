@@ -5,7 +5,7 @@ import type { IMoiraApi } from "../Api/MoiraAPI";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import NotificationList from "../Components/NotificationList/NotificationList";
-import Layout, { LayoutContent, LayoutTitle, LayoutPaging } from "../Components/Layout/Layout";
+import Layout, { LayoutContent, LayoutTitle, LayoutFooter } from "../Components/Layout/Layout";
 import { MoiraServiceStates, NotifierState } from "../Domain/MoiraServiceStates";
 import cn from "./NotificationListContainer.less";
 import Button from "retail-ui/components/Button/Button";
@@ -112,7 +112,7 @@ class NotificationListContainer extends React.Component<Props, State> {
                         />
                     )}
                 </LayoutContent>
-                <LayoutPaging>
+                <LayoutFooter>
                     <div className={cn("actions-row")}>
                         <div className={cn("remove-notifications")}>
                             <Button icon="Trash" onClick={() => this.removeAllNotifications()}>
@@ -134,7 +134,7 @@ class NotificationListContainer extends React.Component<Props, State> {
                             />
                         </div>
                     </div>
-                </LayoutPaging>
+                </LayoutFooter>
             </Layout>
         );
     }

@@ -45,7 +45,7 @@ export default class Layout extends React.Component<LayoutProps> {
         );
     };
 
-    static Paging = function Paging({ children }: PagingProps): React.Node {
+    static Footer = function Paging({ children }: PagingProps): React.Node {
         return (
             <div className={cn("paging")}>
                 <div className={cn("container")}>{children}</div>
@@ -73,4 +73,4 @@ export default class Layout extends React.Component<LayoutProps> {
 export const LayoutTitle = Layout.Title;
 export const LayoutPlate = Layout.Plate;
 export const LayoutContent = Layout.Content;
-export const LayoutPaging = Layout.Paging;
+export const LayoutFooter = Layout.Footer;
