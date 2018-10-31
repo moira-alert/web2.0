@@ -6,6 +6,7 @@ import type { Contact } from "../../Domain/Contact";
 import Button from "retail-ui/components/Button";
 import Icon from "retail-ui/components/Icon";
 import cn from "./TagList.less";
+import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 
 type Props = ReactExactProps<{
     items: Array<TagStat>,
@@ -53,19 +54,6 @@ class TagListItem extends React.Component<ItemProps, ItemState> {
         showInfo: false,
     };
 
-    renderContactIcon(type: string): React.Node {
-        let name;
-        switch (type) {
-            case "telegram":
-                name = "Telegram2";
-                break;
-            default:
-                name = "Mail2";
-                break;
-        }
-        return <Icon name={name} />;
-    }
-
     render(): React.Node {
         const { data, allContacts, onRemove, onRemoveContact } = this.props;
         const { showInfo } = this.state;
@@ -97,7 +85,7 @@ class TagListItem extends React.Component<ItemProps, ItemState> {
                                             {flatten(contacts.map(x => allContacts.filter(y => y.id === x))).map(
                                                 ({ id, type, value }) => (
                                                     <div key={id}>
-                                                        {this.renderContactIcon(type)} {value}
+                                                        <ContactTypeIcon type={type} /> {value}
                                                     </div>
                                                 )
                                             )}
