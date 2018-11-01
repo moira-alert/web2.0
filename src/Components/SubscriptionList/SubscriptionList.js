@@ -85,7 +85,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
         }
         try {
             const subscription = await onAddSubscription(newSubscription);
-            if (subscription != null) {
+            if (subscription !== null) {
                 await onTestSubscription(subscription);
             }
         } finally {
