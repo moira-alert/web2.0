@@ -92,7 +92,7 @@ class NotificationListContainer extends React.Component<Props, State> {
             await this.props.moiraApi.setNotifierState({
                 state: state,
             });
-            this.setState({ notifierEnabled: enable });
+            this.isNotifierEnabled(this.props);
         } catch (error) {
             this.setState({ error: error.message });
         }
