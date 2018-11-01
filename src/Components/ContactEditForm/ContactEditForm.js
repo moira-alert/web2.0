@@ -3,7 +3,7 @@ import * as React from "react";
 import Input from "retail-ui/components/Input";
 import Select from "retail-ui/components/Select";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
-import { getContactTypeCaption } from "../../Domain/ContactType";
+import { ContactTypes, getContactTypeCaption } from "../../Domain/ContactType";
 import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../Helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
@@ -35,19 +35,19 @@ export default class ContactEditForm extends React.Component<Props> {
             return "";
         }
         const contactType = contactConfig.type;
-        if (contactType === "telegram") {
+        if (contactType === ContactTypes.telegram) {
             return "Enter telegram #channel, @username or group";
         }
-        if (contactType === "twilio sms" || contactType === "twilio voice") {
+        if (contactType === ContactTypes["twilio sms"] || contactType === ContactTypes["twilio voice"]) {
             return "Enter your phone number (e.g. +79.......)";
         }
-        if (contactType === "pushover") {
+        if (contactType === ContactTypes.pushover) {
             return "Enter your pushover user key";
         }
-        if (contactType === "slack") {
+        if (contactType === ContactTypes.slack) {
             return "Enter slack #channel or @username";
         }
-        if (contactType === "email") {
+        if (contactType === ContactTypes.email) {
             return "Enter email address";
         }
         if (contactConfig.title != null) {

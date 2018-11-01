@@ -1,37 +1,38 @@
 // @flow
 import * as React from "react";
+import { ContactTypes } from "../Domain/ContactType";
 import { type ContactConfig } from "../Domain/Config";
 import type { ValidationInfo } from "react-ui-validations";
 
 export default function validateContact(contactConfig: ContactConfig, value: string): ?ValidationInfo {
     const contactType = contactConfig.type;
     switch (contactType) {
-        case "email": {
+        case ContactTypes.email: {
             if (value == null || value.trim() === "" || !value.includes("@")) {
                 return { message: "Please enter a valid email address", type: "submit" };
             }
             break;
         }
-        case "pushover": {
+        case ContactTypes.pushover: {
             if (value == null || value.trim() === "" || value.trim().includes(" ")) {
                 return { message: "Please enter a valid pushover user key", type: "submit" };
             }
             break;
         }
-        case "telegram": {
+        case ContactTypes.telegram: {
             if (value == null || value.trim() === "") {
                 return { message: "Enter a valid telegram #channel, @username or group", type: "submit" };
             }
             break;
         }
-        case "slack": {
+        case ContactTypes.slack: {
             if (value == null || value.trim() === "") {
                 return { message: "Enter a valid telegram #channel, @username or group", type: "submit" };
             }
             break;
         }
-        case "twilio sms":
-        case "twilio voice": {
+        case ContactTypes["twilio sms"]:
+        case ContactTypes["twilio voice"]: {
             if (value == null || value.trim() === "") {
                 return { message: "Enter your phone number", type: "submit" };
             }

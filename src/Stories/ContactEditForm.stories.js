@@ -4,6 +4,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { ValidationContainer } from "react-ui-validations";
 import ContactEditForm from "../Components/ContactEditForm/ContactEditForm";
+import { ContactTypes } from "../Domain/ContactType";
 import { contactConfigs } from "./Data/ContactConfigs";
 
 const commonProps = {
@@ -26,7 +27,7 @@ storiesOf("ContactEditForm", module)
         <ContactEditForm
             {...commonProps}
             contactInfo={{
-                type: "pushover",
+                type: ContactTypes.pushover,
                 value: "",
             }}
         />
@@ -35,7 +36,7 @@ storiesOf("ContactEditForm", module)
         <ContactEditForm
             {...commonProps}
             contactInfo={{
-                type: "telegram",
+                type: ContactTypes.telegram,
                 value: "",
             }}
         />
