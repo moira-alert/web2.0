@@ -8,6 +8,7 @@ import type { Notification } from "../../Domain/Notification";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./NotificationList.less";
+import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 
 type Props = {|
     items: { [id: string]: Notification },
@@ -16,19 +17,6 @@ type Props = {|
 
 export default function NotificationList(props: Props): React.Element<any> {
     const { items, onRemove } = props;
-
-    function renderContactIcon(type: string): React.Node {
-        let name;
-        switch (type) {
-            case "telegram":
-                name = "Telegram2";
-                break;
-            default:
-                name = "Mail2";
-                break;
-        }
-        return <Icon name={name} />;
-    }
 
     return Object.keys(items).length === 0 ? (
         <div className={cn("no-result")}>Empty :-)</div>
@@ -57,7 +45,7 @@ export default function NotificationList(props: Props): React.Element<any> {
                             )}
                         </div>
                         <div className={cn("contact")}>
-                            {renderContactIcon(type)} {value}
+                            <ContactTypeIcon type={type} /> {value}
                         </div>
                         <div className={cn("throttled", { true: throttled, false: !throttled })}>
                             {throttled ? <Icon name="Ok" /> : <Icon name="Delete" />}

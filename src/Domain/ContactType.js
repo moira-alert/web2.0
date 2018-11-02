@@ -3,6 +3,8 @@ import type { ContactConfig } from "./Config";
 
 export const ContactTypes = {
     mail: "mail",
+    email: "email",
+    phone: "phone",
     pushover: "pushover",
     telegram: "telegram",
     slack: "slack",
@@ -13,6 +15,7 @@ export const ContactTypes = {
 const ContactTypeCaptions = {
     mail: "EMail",
     email: "EMail",
+    phone: "Phone",
     pushover: "Pushover",
     telegram: "Telegram",
     "twilio sms": "Twilio SMS",
