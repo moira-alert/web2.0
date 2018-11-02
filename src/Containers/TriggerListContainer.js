@@ -13,7 +13,7 @@ import type { TriggerList } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
 import Paging from "../Components/Paging/Paging";
-import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from "../Components/Layout/Layout";
+import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../Components/Layout/Layout";
 import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSelect2";
 import TriggerListView from "../Components/TriggerList/TriggerList";
 import AddingButton from "../Components/AddingButton/AddingButton";
@@ -233,13 +233,13 @@ class TriggerListContainer extends React.Component<Props, State> {
                         </LayoutContent>
                     )}
                 {pageCount > 1 && (
-                    <LayoutPaging>
+                    <LayoutFooter>
                         <Paging
                             activePage={page}
                             pagesCount={pageCount}
                             onPageChange={page => this.changeLocationSearch({ page })}
                         />
-                    </LayoutPaging>
+                    </LayoutFooter>
                 )}
             </Layout>
         );

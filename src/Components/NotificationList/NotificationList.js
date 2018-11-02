@@ -12,12 +12,10 @@ import cn from "./NotificationList.less";
 type Props = {|
     items: { [id: string]: Notification },
     onRemove: (key: string) => void,
-    onRemoveAll: () => void,
-    onRemoveEvents: () => void,
 |};
 
 export default function NotificationList(props: Props): React.Element<any> {
-    const { items, onRemove, onRemoveAll, onRemoveEvents } = props;
+    const { items, onRemove } = props;
 
     function renderContactIcon(type: string): React.Node {
         let name;
@@ -73,14 +71,6 @@ export default function NotificationList(props: Props): React.Element<any> {
                     </div>
                 );
             })}
-            <Gapped gap={15}>
-                <Button icon="Trash" onClick={() => onRemoveAll()}>
-                    Remove all notifications
-                </Button>
-                <Button icon="Trash" onClick={() => onRemoveEvents()}>
-                    Remove all events
-                </Button>
-            </Gapped>
         </Gapped>
     );
 }
