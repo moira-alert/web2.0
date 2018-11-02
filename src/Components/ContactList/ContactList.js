@@ -44,7 +44,7 @@ export default class ContactList extends React.Component<Props, State> {
         }
         try {
             const contact = await onAddContact(newContact);
-            if (contact != null) {
+            if (contact !== null) {
                 await onTestContact(contact);
             }
         } finally {

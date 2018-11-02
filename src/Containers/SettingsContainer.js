@@ -171,9 +171,11 @@ class SettingsContainer extends React.Component<Props, State> {
                     subscriptions: [...settings.subscriptions, newSubscriptions],
                 },
             });
+            return newSubscriptions;
         } catch (error) {
             this.setState({ error: error.message });
         }
+        return null;
     };
 
     handleUpdateSubscription = async (subscription: Subscription): Promise<void> => {
