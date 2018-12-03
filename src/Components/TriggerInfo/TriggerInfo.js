@@ -89,7 +89,12 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                     </dd>
                 )}
                 {expression && <dt>Expression</dt>}
-                {expression && <dd>{expression}</dd>}
+                {expression && (
+                    <dd>
+                        {`${expression}. `}
+                        Set {ttlState} if has no value for {ttl} seconds
+                    </dd>
+                )}
                 {sched && <dt>Schedule</dt>}
                 {sched && (
                     <dd>
