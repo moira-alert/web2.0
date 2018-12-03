@@ -84,14 +84,12 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
         const notOkStatuses = metricStatuses.filter(x => x !== Statuses.OK);
         let statuses;
-        if (triggerStatus === Statuses.EXCEPTION) {
-            statuses = [Statuses.EXCEPTION];
-        } else if (metricStatuses.length === 0) {
+        if (triggerStatus && (triggerStatus !== Statuses.OK || metricStatuses.length === 0)) {
             statuses = [triggerStatus];
-        } else if (notOkStatuses.length === 0) {
-            statuses = [Statuses.OK];
-        } else {
+        } else if (notOkStatuses.length !== 0) {
             statuses = notOkStatuses;
+        } else {
+            statuses = [Statuses.OK];
         }
         return <MobileStatusIndicator size={40} statuses={statuses} />;
     }
