@@ -136,6 +136,16 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                                         className={cn("modal-button")}>
                                         1 WEEK
                                     </div>
+                                    <div
+                                        onClick={() => this.handleSetMaintenance(Maintenances.twoWeeks)}
+                                        className={cn("modal-button")}>
+                                        2 WEEKS
+                                    </div>
+                                    <div
+                                        onClick={() => this.handleSetMaintenance(Maintenances.oneMonth)}
+                                        className={cn("modal-button")}>
+                                        1 MONTH
+                                    </div>
                                 </div>
                             </Modal.Body>
                         </Modal>
