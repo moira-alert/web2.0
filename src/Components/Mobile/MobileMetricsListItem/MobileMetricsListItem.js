@@ -100,7 +100,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                         <Modal noClose onClose={() => this.setState({ buttonsState: "Default" })}>
                             <Modal.Body>
                                 <div className={cn("modal-content")}>
-                                    <div className={cn("modal-header")}>Maintenance</div>
+                                    <div className={cn("modal-header")}>Maintenance metric</div>
                                     <div
                                         onClick={() => this.handleSetMaintenance(Maintenances.off)}
                                         className={cn("modal-button")}>
