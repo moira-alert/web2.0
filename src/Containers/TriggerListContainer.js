@@ -149,17 +149,19 @@ class TriggerListContainer extends React.Component<Props, State> {
         );
     }
 
-    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+    async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
-            [metric]:
-                maintenanceTime > 0
-                    ? moment
-                          .utc()
-                          .add(maintenanceTime, "minutes")
-                          .unix()
-                    : maintenanceTime,
+            metrics: {
+                [metric]:
+                    maintenanceTime > 0
+                        ? moment
+                              .utc()
+                              .add(maintenanceTime, "minutes")
+                              .unix()
+                        : maintenanceTime,
+            },
         });
         this.getData(this.props);
     }
@@ -223,7 +225,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                                     supportEmail={config.supportEmail}
                                     items={triggers.list || []}
                                     onChange={(triggerId, maintenance, metric) => {
-                                        this.setMaintenance(triggerId, maintenance, metric);
+                                        this.setMetricMaintenance(triggerId, maintenance, metric);
                                     }}
                                     onRemove={(triggerId, metric) => {
                                         this.removeMetric(triggerId, metric);
