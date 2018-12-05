@@ -99,17 +99,34 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+    async setTriggerMaintenance(triggerId: string, maintenance: Maintenance): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
-            [metric]:
+            trigger:
                 maintenanceTime > 0
                     ? moment
                           .utc()
                           .add(maintenanceTime, "minutes")
                           .unix()
                     : maintenanceTime,
+        });
+        this.getData(this.props);
+    }
+
+    async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+        this.setState({ loading: true });
+        const maintenanceTime = getMaintenanceTime(maintenance);
+        await this.props.moiraApi.setMaintenance(triggerId, {
+            metrics: {
+                [metric]:
+                    maintenanceTime > 0
+                        ? moment
+                              .utc()
+                              .add(maintenanceTime, "minutes")
+                              .unix()
+                        : maintenanceTime,
+            },
         });
         this.getData(this.props);
     }
@@ -262,6 +279,9 @@ class TriggerContainer extends React.Component<Props, State> {
                                 onThrottlingRemove={triggerId => {
                                     this.disableTrhrottling(triggerId);
                                 }}
+                                onSetMaintenance={maintenance => {
+                                    this.setTriggerMaintenance(trigger.id, maintenance);
+                                }}
                             />
                         </LayoutPlate>
                     )}
@@ -293,7 +313,7 @@ class TriggerContainer extends React.Component<Props, State> {
                                             sortingColumn={sortingColumn}
                                             sortingDown={sortingDown}
                                             onChange={(maintenance, metric) => {
-                                                this.setMaintenance(trigger.id, maintenance, metric);
+                                                this.setMetricMaintenance(trigger.id, maintenance, metric);
                                             }}
                                             onRemove={metric => {
                                                 this.removeMetric(trigger.id, metric);

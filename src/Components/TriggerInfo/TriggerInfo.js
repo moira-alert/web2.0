@@ -3,10 +3,14 @@ import * as React from "react";
 import moment from "moment";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Schedule } from "../../Domain/Schedule";
+import type { Maintenance } from "../../Domain/Maintenance";
+import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import Link from "retail-ui/components/Link";
 import Icon from "retail-ui/components/Icon";
+import Dropdown from "retail-ui/components/Dropdown";
+import MenuItem from "retail-ui/components/MenuItem";
 import TagGroup from "../TagGroup/TagGroup";
 import cn from "./TriggerInfo.less";
 
@@ -15,7 +19,13 @@ type Props = {|
     triggerState: TriggerState,
     supportEmail: string,
     onThrottlingRemove: (triggerId: string) => void,
+    onSetMaintenance: (maintenance: Maintenance) => void,
 |};
+
+function checkMaintenance(maintenance: ?number): React.Node {
+    const delta = (maintenance || 0) - moment.utc().unix();
+    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+}
 
 function ScheduleView(props: { data: Schedule }): React.Node {
     const { days, startOffset, endOffset } = props.data;
@@ -36,7 +46,13 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     );
 }
 
-export default function TriggerInfo({ data, triggerState, supportEmail, onThrottlingRemove }: Props): React.Node {
+export default function TriggerInfo({
+    data,
+    triggerState,
+    supportEmail,
+    onThrottlingRemove,
+    onSetMaintenance,
+}: Props): React.Node {
     const {
         id,
         name,
@@ -52,7 +68,7 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
         throttling,
         is_remote: isRemote,
     } = data;
-    const { state, msg: exceptionMessage } = triggerState;
+    const { state, msg: exceptionMessage, maintenance } = triggerState;
 
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
@@ -73,6 +89,13 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                     <RouterLink to={getPageLink("triggerDuplicate", id)} icon="DocumentCopy">
                         Duplicate
                     </RouterLink>
+                    <Dropdown use="link" caption={checkMaintenance(maintenance)}>
+                        {Object.keys(Maintenances).map(key => (
+                            <MenuItem key={key} onClick={() => onSetMaintenance(key)}>
+                                {getMaintenanceCaption(key)}
+                            </MenuItem>
+                        ))}
+                    </Dropdown>
                 </div>
             </header>
             <dl className={cn("list")}>
