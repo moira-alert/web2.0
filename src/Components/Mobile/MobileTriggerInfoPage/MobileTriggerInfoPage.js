@@ -21,7 +21,8 @@ type Props = {|
     metrics: ?{ [metric: string]: Metric },
     loading?: boolean,
     onRemoveMetric: (metricName: string) => void,
-    onSetMaintenance: (metricName: string, maintenancesInterval: Maintenance) => void,
+    onSetMetricMaintenance: (metricName: string, maintenancesInterval: Maintenance) => void,
+    onSetTriggerMaintenance: (maintenancesInterval: Maintenance) => void,
     onThrottlingRemove: () => void,
 |};
 
@@ -65,11 +66,12 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
     render(): React.Node {
         const {
             data: trigger,
-            onSetMaintenance,
+            onSetMetricMaintenance,
             triggerState,
             loading,
             onRemoveMetric,
             onThrottlingRemove,
+            onSetTriggerMaintenance,
             metrics,
         } = this.props;
 
@@ -80,6 +82,7 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
                     triggerState={triggerState}
                     loading={loading}
                     onThrottlingRemove={onThrottlingRemove}
+                    onSetMaintenance={onSetTriggerMaintenance}
                 />
                 <div className={cn("content")}>{trigger == null && loading && <MobileEmptyContentLoading />}</div>
                 <div className={cn("metrics")}>
@@ -93,7 +96,7 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
                             <MobileMetricsList
                                 metrics={metrics}
                                 onRemove={onRemoveMetric}
-                                onSetMaintenance={onSetMaintenance}
+                                onSetMaintenance={onSetMetricMaintenance}
                             />
                         )}
                     </div>
