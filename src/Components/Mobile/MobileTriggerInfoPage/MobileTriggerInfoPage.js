@@ -52,7 +52,7 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
                 {Object.keys(Statuses)
                     .filter(x => counts[x])
                     .map(status => (
-                        <span className={cn("metric-stats")}>
+                        <span key={status} className={cn("metric-stats")}>
                             {status}:{" "}
                             <span style={{ color: getStatusColor(status) }} className={cn("value")}>
                                 {counts[status]}
