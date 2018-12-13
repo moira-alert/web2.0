@@ -164,6 +164,7 @@ class SettingsContainer extends React.Component<Props, State> {
                 user: settings.login,
                 ignore_warnings: subscription.ignore_warnings,
                 ignore_recoverings: subscription.ignore_recoverings,
+                plotting: subscription.plotting,
             });
             this.setState({
                 settings: {
