@@ -13,7 +13,7 @@ import type { Config } from "../Domain/Config";
 import type { SortingColum } from "../Components/MetricList/MetricList";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
-import { getStatusWeight } from "../Domain/Status";
+import { Statuses, getStatusWeight } from "../Domain/Status";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import MetricList from "../Components/MetricList/MetricList";
 import Tabs, { Tab } from "../Components/Tabs/Tabs";
@@ -247,6 +247,8 @@ class TriggerContainer extends React.Component<Props, State> {
         const { metrics } = triggerState || {};
         const { list: events, total, size } = triggerEvents || {};
         const isMetrics = metrics && Object.keys(metrics).length > 0;
+        const noDataMerticCount =
+            (metrics && Object.keys(metrics).filter(key => metrics[key].state === Statuses.NODATA).length) || 0;
         const isEvents = events && events.length > 0;
         const pageCount = Math.ceil(total / size) || 1;
         return (
@@ -298,9 +300,13 @@ class TriggerContainer extends React.Component<Props, State> {
                                             onRemove={metric => {
                                                 this.removeMetric(trigger.id, metric);
                                             }}
-                                            onNoDataRemove={() => {
-                                                this.removeNoDataMetric(trigger.id);
-                                            }}
+                                            onNoDataRemove={
+                                                noDataMerticCount > 1
+                                                    ? () => {
+                                                          this.removeNoDataMetric(trigger.id);
+                                                      }
+                                                    : null
+                                            }
                                         />
                                     </Tab>
                                 )}
