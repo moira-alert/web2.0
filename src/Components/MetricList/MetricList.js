@@ -23,7 +23,7 @@ type Props = {|
     onSort?: (sorting: SortingColum) => void,
     onChange: (maintenance: Maintenance, metric: string) => void,
     onRemove: (metric: string) => void,
-    onNoDataRemove: () => void,
+    onNoDataRemove?: () => void,
 |};
 
 function checkMaintenance(maintenance: ?number): React.Node {
