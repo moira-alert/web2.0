@@ -72,7 +72,7 @@ export default function MetricList(props: Props): React.Node {
                 <div className={cn("controls")}>
                     {onNoDataRemove && (
                         <Button use="link" icon="Trash" onClick={() => onNoDataRemove()}>
-                            Delete NODATA metrics
+                            Delete all NODATA
                         </Button>
                     )}
                 </div>
