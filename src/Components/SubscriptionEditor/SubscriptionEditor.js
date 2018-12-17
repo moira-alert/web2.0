@@ -207,11 +207,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     </Tooltip>
                 </div>
                 <div className={cn("row")}>
-                    <Checkbox checked={subscription.enabled} onChange={(e, checked) => onChange({ enabled: checked })}>
-                        Enabled
-                    </Checkbox>{" "}
-                </div>
-                <div className={cn("row")}>
                     <Checkbox
                         checked={plotting.enabled}
                         onChange={(evt, checked) => onChange({ plotting: { ...plotting, enabled: checked } })}>
@@ -231,6 +226,11 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             Dark theme
                         </div>
                     )}
+                </div>
+                <div className={cn("row")}>
+                    <Checkbox checked={subscription.enabled} onChange={(e, checked) => onChange({ enabled: checked })}>
+                        Enabled
+                    </Checkbox>{" "}
                 </div>
             </div>
         );
