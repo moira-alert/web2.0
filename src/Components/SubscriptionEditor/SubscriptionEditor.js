@@ -113,7 +113,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
 
     render(): React.Node {
         const { subscription, contacts, onChange, tags } = this.props;
-        const { plotting = { enabled: true, theme: "dark" } } = subscription;
+        const { plotting = { enabled: true, theme: "light" } } = subscription;
         return (
             <div className={cn("form")}>
                 <div className={cn("row")}>

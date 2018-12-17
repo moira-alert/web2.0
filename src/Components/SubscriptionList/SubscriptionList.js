@@ -62,7 +62,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 ignore_warnings: false,
                 plotting: {
                     enabled: true,
-                    theme: "dark",
+                    theme: "light",
                 },
             },
         });
