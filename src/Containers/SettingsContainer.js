@@ -67,9 +67,11 @@ class SettingsContainer extends React.Component<Props, State> {
                     value: this.normalizeContactValueForUi(x.type, x.value),
                 })),
             };
-            this.setState({ loading: false, settings: settings, config: config, tags: tags });
+            this.setState({ settings: settings, config: config, tags: tags });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 

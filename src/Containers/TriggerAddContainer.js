@@ -77,7 +77,6 @@ class TriggerEditContainer extends React.Component<Props, State> {
             const { list } = await moiraApi.getTagList();
             const config = await moiraApi.getConfig();
             this.setState({
-                loading: false,
                 config: config,
                 tags: list,
                 trigger: {
@@ -87,6 +86,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 

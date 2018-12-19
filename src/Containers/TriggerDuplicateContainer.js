@@ -58,7 +58,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
         const { moiraApi, match } = props;
         const { id } = match.params;
         if (typeof id !== "string") {
-            this.setState({ error: "Wrong trigger id" });
+            this.setState({ error: "Wrong trigger id", loading: false });
             return;
         }
         try {
@@ -66,9 +66,11 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
             const { list } = await moiraApi.getTagList();
             const config = await moiraApi.getConfig();
             const trigger = this.cleanTrigger(sourceTrigger);
-            this.setState({ loading: false, trigger: trigger, tags: list, config: config });
+            this.setState({ trigger: trigger, tags: list, config: config });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 

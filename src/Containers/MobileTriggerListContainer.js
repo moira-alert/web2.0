@@ -68,12 +68,13 @@ class TriggerListContainer extends React.Component<Props, State> {
             this.setState({
                 triggerList: [...(triggerList || []), ...(triggers.list || [])],
                 loadedPage: loadedPage + 1,
-                loading: false,
                 hasItems: (triggers.list || []).length > 0,
                 subscribedTags: selectedTags,
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     };
 
@@ -113,7 +114,6 @@ class TriggerListContainer extends React.Component<Props, State> {
 
             this.setState({
                 config: config,
-                loading: false,
                 error: null,
                 subscriptions: subscribedTags,
                 subscribedTags: subscribedTags,
@@ -125,6 +125,8 @@ class TriggerListContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 

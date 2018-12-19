@@ -81,7 +81,6 @@ class TriggerListContainer extends React.Component<Props, State> {
 
             this.setState({
                 config: config,
-                loading: false,
                 error: null,
                 subscriptions: uniq(flattenDeep(subscriptions.map(x => x.tags))),
                 tags: allTags,
@@ -89,6 +88,8 @@ class TriggerListContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 
