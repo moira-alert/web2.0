@@ -213,17 +213,23 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         Add graph to notification
                     </Checkbox>
                     {plotting.enabled && (
-                        <div className={cn("row-options", "graph-theme-switcher")}>
-                            Light theme
-                            <span className={cn("graph-theme-toggle")}>
-                                <Toggle
-                                    checked={plotting.theme === "dark"}
-                                    onChange={checked =>
-                                        onChange({ plotting: { ...plotting, theme: checked ? "dark" : "light" } })
-                                    }
-                                />
+                        <div className={cn("row-options")}>
+                            <span
+                                className={cn("graph-theme-switcher")}
+                                onClick={() =>
+                                    onChange({
+                                        plotting: {
+                                            ...plotting,
+                                            theme: plotting.theme === "dark" ? "light" : "dark",
+                                        },
+                                    })
+                                }>
+                                Light
+                                <span className={cn("graph-theme-toggle")}>
+                                    <Toggle checked={plotting.theme === "dark"} />
+                                </span>
+                                Dark
                             </span>
-                            Dark theme
                         </div>
                     )}
                 </div>
