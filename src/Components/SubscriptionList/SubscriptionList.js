@@ -60,6 +60,10 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 enabled: true,
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                plotting: {
+                    enabled: true,
+                    theme: "light",
+                },
             },
         });
     };
