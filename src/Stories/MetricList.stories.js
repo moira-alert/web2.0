@@ -42,7 +42,7 @@ storiesOf("MetricList", module)
     .add("With Status Indicator", () => (
         <MetricList items={items} status onChange={action("onChange")} onRemove={action("onRemove")} />
     ))
-    .add("With Remove Nodata", () => (
+    .add("With Remove all NODATA", () => (
         <MetricList
             items={items}
             status

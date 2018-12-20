@@ -23,7 +23,7 @@ type Props = {|
     onSort?: (sorting: SortingColum) => void,
     onChange: (maintenance: Maintenance, metric: string) => void,
     onRemove: (metric: string) => void,
-    onNoDataRemove: () => void,
+    onNoDataRemove?: () => void,
 |};
 
 function checkMaintenance(maintenance: ?number): React.Node {
@@ -71,9 +71,11 @@ export default function MetricList(props: Props): React.Node {
                 </div>
                 <div className={cn("controls")}>
                     {onNoDataRemove && (
-                        <Button use="link" icon="Trash" onClick={() => onNoDataRemove()}>
-                            Delete NODATA metrics
-                        </Button>
+                        <span className={cn("delete-all")}>
+                            <Button use="link" icon="Trash" onClick={() => onNoDataRemove()}>
+                                Delete all NODATA
+                            </Button>
+                        </span>
                     )}
                 </div>
             </header>
@@ -98,9 +100,11 @@ export default function MetricList(props: Props): React.Node {
                                         </MenuItem>
                                     ))}
                                 </Dropdown>
-                                <Button use="link" icon="Trash" onClick={() => onRemove(metric)}>
-                                    Delete
-                                </Button>
+                                <span className={cn("delete-metric")}>
+                                    <Button use="link" icon="Trash" onClick={() => onRemove(metric)}>
+                                        Delete
+                                    </Button>
+                                </span>
                             </div>
                         </div>
                     );
