@@ -101,11 +101,27 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+    async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
-            [metric]:
+            metrics: {
+                [metric]:
+                    maintenanceTime > 0
+                        ? moment
+                              .utc()
+                              .add(maintenanceTime, "minutes")
+                              .unix()
+                        : maintenanceTime,
+            },
+        });
+    }
+
+    async setTriggerMaintenance(triggerId: string, maintenance: Maintenance): Promise<void> {
+        this.setState({ loading: true });
+        const maintenanceTime = getMaintenanceTime(maintenance);
+        await this.props.moiraApi.setMaintenance(triggerId, {
+            trigger:
                 maintenanceTime > 0
                     ? moment
                           .utc()
@@ -113,7 +129,6 @@ class TriggerContainer extends React.Component<Props, State> {
                           .unix()
                     : maintenanceTime,
         });
-        this.getData(this.props);
     }
 
     async removeMetric(triggerId: string, metric: string): Promise<void> {
@@ -236,13 +251,23 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     };
 
-    handleSetMaintenance = async (metric: string, maintenanceInterval: Maintenance) => {
+    handleSetMetricMaintenance = async (metric: string, maintenanceInterval: Maintenance) => {
         const { match } = this.props;
         const { id } = match.params;
         if (typeof id !== "string") {
             return;
         }
-        await this.setMaintenance(id, maintenanceInterval, metric);
+        await this.setMetricMaintenance(id, maintenanceInterval, metric);
+        this.getData(this.props);
+    };
+
+    handleSetTriggerMaintenance = async (maintenanceInterval: Maintenance) => {
+        const { match } = this.props;
+        const { id } = match.params;
+        if (typeof id !== "string") {
+            return;
+        }
+        await this.setTriggerMaintenance(id, maintenanceInterval);
         this.getData(this.props);
     };
 
@@ -261,8 +286,11 @@ class TriggerContainer extends React.Component<Props, State> {
                 onThrottlingRemove={() => {
                     this.disableTrhrottling();
                 }}
-                onSetMaintenance={(x, y) => {
-                    this.handleSetMaintenance(x, y);
+                onSetMetricMaintenance={(x, y) => {
+                    this.handleSetMetricMaintenance(x, y);
+                }}
+                onSetTriggerMaintenance={x => {
+                    this.handleSetTriggerMaintenance(x);
                 }}
                 metrics={metrics}
             />

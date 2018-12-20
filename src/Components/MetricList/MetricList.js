@@ -28,7 +28,7 @@ type Props = {|
 
 function checkMaintenance(maintenance: ?number): React.Node {
     const delta = (maintenance || 0) - moment.utc().unix();
-    return <div className={cn("caption")}>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</div>;
+    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
 }
 
 export default function MetricList(props: Props): React.Node {

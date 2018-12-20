@@ -310,8 +310,11 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void> {
-        const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/maintenance";
+    async setMaintenance(
+        triggerId: string,
+        data: { trigger?: number, metrics?: { [metric: string]: number } }
+    ): Promise<void> {
+        const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/setMaintenance";
         const response = await fetch(url, {
             method: "PUT",
             body: JSON.stringify(data),

@@ -22,6 +22,7 @@ export default function MobileMetricsList(props: Props): React.Node {
         <div className={cn("root")}>
             {Object.keys(metrics).map(x => (
                 <MobileMetricsListItem
+                    key={x}
                     name={x}
                     value={metrics[x]}
                     onRemove={() => onRemove(x)}

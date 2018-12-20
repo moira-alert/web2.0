@@ -24,7 +24,7 @@
         flex-direction: row;
 
         .caption {
-            flex: 0 0 80px;
+            flex: 0 0 100px;
             color: rgba(255, 255, 255, 0.6);
         }
 
@@ -56,5 +56,25 @@
             top: 1px;
             left: 1px;
         }
+    }
+}
+
+@button-color: #418eef;
+
+.modal-content {
+    min-width: 300px;
+    margin: 0 -35px -26px -30px;
+
+    .modal-header {
+        font-size: 16px;
+        padding: 10px 15px;
+        font-weight: 600;
+    }
+
+    .modal-button {
+        font-size: 16px;
+        padding: 10px 15px;
+        color: @button-color;
+        font-weight: 600;
     }
 }
