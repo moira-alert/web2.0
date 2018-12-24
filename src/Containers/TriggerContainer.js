@@ -67,6 +67,7 @@ class TriggerContainer extends React.Component<Props, State> {
         const { page } = this.parseLocationSearch(location.search);
         const { id } = match.params;
         if (typeof id !== "string") {
+            this.setState({ error: "Wrong trigger id", loading: false });
             return;
         }
         try {
@@ -78,11 +79,9 @@ class TriggerContainer extends React.Component<Props, State> {
             if (page > Math.ceil(triggerEvents.total / triggerEvents.size) && triggerEvents.total !== 0) {
                 const rightLastPage = Math.ceil(triggerEvents.total / triggerEvents.size) || 1;
                 this.changeLocationSearch({ page: rightLastPage });
-                return;
             }
 
             this.setState({
-                loading: false,
                 config: config,
                 trigger,
                 triggerState,
@@ -90,6 +89,8 @@ class TriggerContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 
