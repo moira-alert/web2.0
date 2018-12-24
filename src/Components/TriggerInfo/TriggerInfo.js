@@ -24,7 +24,12 @@ type Props = {|
 
 function checkMaintenance(maintenance: ?number): React.Node {
     const delta = (maintenance || 0) - moment.utc().unix();
-    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+    return (
+        <span>
+            <Icon name="Clock" />&nbsp;
+            {delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}
+        </span>
+    );
 }
 
 function ScheduleView(props: { data: Schedule }): React.Node {
