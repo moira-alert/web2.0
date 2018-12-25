@@ -34,9 +34,11 @@ class TagListContainer extends React.Component<Props, State> {
         try {
             const tags = await moiraApi.getTagStats();
             const contacts = await moiraApi.getContactList();
-            this.setState({ loading: false, tags: tags.list, contacts: contacts.list });
+            this.setState({ tags: tags.list, contacts: contacts.list });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 
@@ -56,7 +58,7 @@ class TagListContainer extends React.Component<Props, State> {
             await this.props.moiraApi.delSubscription(subscriptionId);
             this.getData(this.props);
         } catch (error) {
-            this.setState({ error: error.message });
+            this.setState({ error: error.message, loading: false });
         }
     }
 

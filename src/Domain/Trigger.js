@@ -29,6 +29,7 @@ export type Trigger = {
     |},
     timestamp?: number,
     is_remote: boolean,
+    mute_new_metrics: boolean,
 };
 
 export type TriggerList = {|

@@ -3,11 +3,13 @@ import * as React from "react";
 import moment from "moment";
 import Sticky from "retail-ui/components/Sticky";
 import Icon from "retail-ui/components/Icon";
+import Modal from "retail-ui/components/Modal";
 
 import type { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
 import type { Status } from "../../../Domain/Status";
 import type { Trigger, TriggerState } from "../../../Domain/Trigger";
+import { Maintenances, type Maintenance } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 
@@ -20,6 +22,7 @@ type Props = {|
     triggerState: ?TriggerState,
     loading?: boolean,
     onThrottlingRemove: () => void,
+    onSetMaintenance: (maintenancesInterval: Maintenance) => void,
 |};
 
 type State = {
@@ -45,10 +48,16 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     );
 }
 
+function checkMaintenance(maintenance: ?number): React.Node {
+    const delta = (maintenance || 0) - moment.utc().unix();
+    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+}
+
 export default class MobileTriggerInfo extends React.Component<Props, State> {
     props: Props;
     state: State = {
         showThrottling: false,
+        showMaintenance: false,
     };
 
     getWorstTriggerState(): ?Status {
@@ -91,58 +100,132 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
         onThrottlingRemove();
     };
 
+    handleSetMaintenance = (interval: Maintenance) => {
+        const { onSetMaintenance } = this.props;
+        this.setState({ showMaintenance: false });
+        onSetMaintenance(interval);
+    };
+
     render(): React.Node {
         const { data: trigger, triggerState } = this.props;
-        const { showThrottling } = this.state;
+        const { showThrottling, showMaintenance } = this.state;
         const { sched } = trigger || {};
-        const { msg } = triggerState || {};
+        const { msg, maintenance } = triggerState || {};
 
         return (
-            <MobileHeader color={this.getHeaderColor()}>
-                <Sticky side="top">
-                    <MobileHeader.HeaderBlock color={this.getHeaderColor()}>
-                        <MobileHeader.LeftButton icon="ArrowChevronLeft" linkTo={getPageLink("index")} />
-                        <MobileHeader.Title>{trigger != null ? trigger.name : "Loading trigger..."}</MobileHeader.Title>
-                    </MobileHeader.HeaderBlock>
-                </Sticky>
-                <MobileHeader.DetailsBlock>
-                    {trigger != null && (
-                        <div className={cn("info")}>
-                            <div className={cn("plain-row", "description")}>{trigger.desc && trigger.desc}</div>
-                            {sched != null && (
-                                <div className={cn("form-row")}>
-                                    <div className={cn("caption")}>Schedule:</div>
-                                    <div className={cn("value")}>
-                                        <ScheduleView data={sched} />
-                                    </div>
-                                </div>
-                            )}
-                            <div className={cn("form-row")}>
-                                <div className={cn("caption")}>Tags:</div>
-                                <div className={cn("value")}>{trigger.tags.map(x => `#${x}`).join(", ")}</div>
-                            </div>
-                            {(trigger.throttling !== 0 || showThrottling) && (
-                                <div className={cn("plain-row", "description")}>
-                                    <Icon name="FlagSolid" />{" "}
-                                    {trigger.throttling !== 0 ? "Throttling enabled." : "No Throttling."}{" "}
-                                    <BorderlessButton
-                                        onClick={this.handleDisableThrottling}
-                                        disabled={trigger.throttling === 0}>
-                                        Disable
-                                    </BorderlessButton>
-                                </div>
-                            )}
-                            {msg != null &&
-                                msg !== "" && (
+            <div>
+                <MobileHeader color={this.getHeaderColor()}>
+                    <Sticky side="top">
+                        <MobileHeader.HeaderBlock color={this.getHeaderColor()}>
+                            <MobileHeader.LeftButton icon="ArrowChevronLeft" linkTo={getPageLink("index")} />
+                            <MobileHeader.Title>
+                                {trigger != null ? trigger.name : "Loading trigger..."}
+                            </MobileHeader.Title>
+                            <MobileHeader.RightButton
+                                icon="UserSettings"
+                                onClick={() => this.setState({ showMaintenance: true })}
+                            />
+                        </MobileHeader.HeaderBlock>
+                    </Sticky>
+                    <MobileHeader.DetailsBlock>
+                        {trigger != null && (
+                            <div className={cn("info")}>
+                                <div className={cn("plain-row", "description")}>{trigger.desc && trigger.desc}</div>
+                                {sched != null && (
                                     <div className={cn("form-row")}>
-                                        <div className={cn("caption")}>Exception:</div>
-                                        <div className={cn("value")}>{msg}</div>
+                                        <div className={cn("caption")}>Schedule:</div>
+                                        <div className={cn("value")}>
+                                            <ScheduleView data={sched} />
+                                        </div>
                                     </div>
                                 )}
-                        </div>
-                    )}
-                </MobileHeader.DetailsBlock>
-            </MobileHeader>
+                                <div className={cn("form-row")}>
+                                    <div className={cn("caption")}>Tags:</div>
+                                    <div className={cn("value")}>{trigger.tags.map(x => `#${x}`).join(", ")}</div>
+                                </div>
+                                {maintenance && (
+                                    <div className={cn("form-row")}>
+                                        <div className={cn("caption")}>Maintenance:</div>
+                                        <div className={cn("value")}>{checkMaintenance(maintenance)}</div>
+                                    </div>
+                                )}
+                                {(trigger.throttling !== 0 || showThrottling) && (
+                                    <div className={cn("plain-row", "description")}>
+                                        <Icon name="FlagSolid" />{" "}
+                                        {trigger.throttling !== 0 ? "Throttling enabled." : "No Throttling."}{" "}
+                                        <BorderlessButton
+                                            onClick={this.handleDisableThrottling}
+                                            disabled={trigger.throttling === 0}>
+                                            Disable
+                                        </BorderlessButton>
+                                    </div>
+                                )}
+                                {msg != null &&
+                                    msg !== "" && (
+                                        <div className={cn("form-row")}>
+                                            <div className={cn("caption")}>Exception:</div>
+                                            <div className={cn("value")}>{msg}</div>
+                                        </div>
+                                    )}
+                            </div>
+                        )}
+                    </MobileHeader.DetailsBlock>
+                </MobileHeader>
+                {showMaintenance && (
+                    <Modal noClose onClose={() => this.setState({ showMaintenance: false })}>
+                        <Modal.Body>
+                            <div className={cn("modal-content")}>
+                                <div className={cn("modal-header")}>Maintenance trigger</div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.off)}
+                                    className={cn("modal-button")}>
+                                    OFF
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.quarterHour)}
+                                    className={cn("modal-button")}>
+                                    15 MIN
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.oneHour)}
+                                    className={cn("modal-button")}>
+                                    1 HOUR
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.threeHours)}
+                                    className={cn("modal-button")}>
+                                    3 HOURS
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.sixHours)}
+                                    className={cn("modal-button")}>
+                                    6 HOURS
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.oneDay)}
+                                    className={cn("modal-button")}>
+                                    1 DAY
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.oneWeek)}
+                                    className={cn("modal-button")}>
+                                    1 WEEK
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.twoWeeks)}
+                                    className={cn("modal-button")}>
+                                    2 WEEKS
+                                </div>
+                                <div
+                                    onClick={() => this.handleSetMaintenance(Maintenances.oneMonth)}
+                                    className={cn("modal-button")}>
+                                    1 MONTH
+                                </div>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+                )}
+            </div>
         );
     }
 }

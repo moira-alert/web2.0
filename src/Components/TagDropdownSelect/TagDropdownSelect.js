@@ -94,7 +94,9 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                 }
                 case "Enter":
                     if (focusedIndex !== 0) {
-                        if (
+                        if (inputValue.trim() === "") {
+                            break;
+                        } else if (
                             allowCreateNewTags &&
                             !this.tagExists(inputValue) &&
                             focusedIndex === filtredTags.length + 1
@@ -105,10 +107,14 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         }
                     }
                     if (focusedIndex === 0) {
-                        if (allowCreateNewTags && !this.tagExists(inputValue)) {
+                        if (inputValue.trim() === "") {
+                            break;
+                        } else if (allowCreateNewTags && !this.tagExists(inputValue)) {
                             this.selectTag(inputValue);
-                        } else {
+                        } else if (filtredTags.length > 0) {
                             this.selectTag(filtredTags[filtredTags.length - 1]);
+                        } else {
+                            break;
                         }
                     }
                     this.setState({ inputValue: "" });

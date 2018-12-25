@@ -3,13 +3,15 @@ import * as React from "react";
 import moment from "moment";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Schedule } from "../../Domain/Schedule";
+import type { Maintenance } from "../../Domain/Maintenance";
+import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import Link from "retail-ui/components/Link";
 import Icon from "retail-ui/components/Icon";
-import Button from "retail-ui/components/Button";
+import Dropdown from "retail-ui/components/Dropdown";
+import MenuItem from "retail-ui/components/MenuItem";
 import TagGroup from "../TagGroup/TagGroup";
-import { getJSONContent } from "../../helpers";
 import cn from "./TriggerInfo.less";
 
 type Props = {|
@@ -17,7 +19,18 @@ type Props = {|
     triggerState: TriggerState,
     supportEmail: string,
     onThrottlingRemove: (triggerId: string) => void,
+    onSetMaintenance: (maintenance: Maintenance) => void,
 |};
+
+function checkMaintenance(maintenance: ?number): React.Node {
+    const delta = (maintenance || 0) - moment.utc().unix();
+    return (
+        <span>
+            <Icon name="Clock" />&nbsp;
+            {delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}
+        </span>
+    );
+}
 
 function ScheduleView(props: { data: Schedule }): React.Node {
     const { days, startOffset, endOffset } = props.data;
@@ -38,7 +51,13 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     );
 }
 
-export default function TriggerInfo({ data, triggerState, supportEmail, onThrottlingRemove }: Props): React.Node {
+export default function TriggerInfo({
+    data,
+    triggerState,
+    supportEmail,
+    onThrottlingRemove,
+    onSetMaintenance,
+}: Props): React.Node {
     const {
         id,
         name,
@@ -54,7 +73,7 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
         throttling,
         is_remote: isRemote,
     } = data;
-    const { state, msg: exceptionMessage } = triggerState;
+    const { state, msg: exceptionMessage, maintenance } = triggerState;
 
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
@@ -72,19 +91,16 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                     <RouterLink to={getPageLink("triggerEdit", id)} icon="Edit">
                         Edit
                     </RouterLink>
-                    <a
-                        href="#download"
-                        onClick={(event: Event) => {
-                            const target = event.currentTarget;
-                            if (target instanceof HTMLAnchorElement) {
-                                target.href = getJSONContent(data);
-                            }
-                        }}
-                        download={`trigger-${id}.json`}>
-                        <Button use="link" icon="Export">
-                            Export
-                        </Button>
-                    </a>
+                    <RouterLink to={getPageLink("triggerDuplicate", id)} icon="DocumentCopy">
+                        Duplicate
+                    </RouterLink>
+                    <Dropdown use="link" caption={checkMaintenance(maintenance)}>
+                        {Object.keys(Maintenances).map(key => (
+                            <MenuItem key={key} onClick={() => onSetMaintenance(key)}>
+                                {getMaintenanceCaption(key)}
+                            </MenuItem>
+                        ))}
+                    </Dropdown>
                 </div>
             </header>
             <dl className={cn("list")}>
@@ -101,7 +117,12 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                     </dd>
                 )}
                 {expression && <dt>Expression</dt>}
-                {expression && <dd>{expression}</dd>}
+                {expression && (
+                    <dd>
+                        {`${expression}. `}
+                        Set {ttlState} if has no value for {ttl} seconds
+                    </dd>
+                )}
                 {sched && <dt>Schedule</dt>}
                 {sched && (
                     <dd>
@@ -112,30 +133,27 @@ export default function TriggerInfo({ data, triggerState, supportEmail, onThrott
                 <dd>
                     <TagGroup tags={tags} />
                 </dd>
-                {state === "EXCEPTION" || (state === "ERROR" && <dt />)}
-                {state === "EXCEPTION" ||
-                    (state === "ERROR" && (
-                        <dd className={cn("exception-explanation")}>
-                            <div className={cn("line-1")}>
-                                <Icon name="Error" color={"#D43517"} size={16} /> Trigger in {state} state.{" "}
-                                {exceptionMessage}
-                            </div>
-                            <div className={cn("line-2")}>
-                                Please <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
-                                    ? "s"
-                                    : ""}
-                                {hasExpression ? " and expression" : ""} on{" "}
-                                <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
-                                {supportEmail != null && (
-                                    <span>
-                                        {" "}
-                                        Or <Link href={`mailto:${supportEmail}`}>contact</Link> with server
-                                        administrator.
-                                    </span>
-                                )}
-                            </div>
-                        </dd>
-                    ))}
+                {(state === "EXCEPTION" || state === "ERROR") && <dt />}
+                {(state === "EXCEPTION" || state === "ERROR") && (
+                    <dd className={cn("exception-explanation")}>
+                        <div className={cn("line-1")}>
+                            <Icon name="Error" color={"#D43517"} size={16} /> Trigger in {state} state.{" "}
+                            {exceptionMessage}
+                        </div>
+                        <div className={cn("line-2")}>
+                            Please verify trigger target
+                            {hasMultipleTargets ? "s" : ""}
+                            {hasExpression ? " and expression" : ""} on{" "}
+                            <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.
+                            {supportEmail != null && (
+                                <span>
+                                    {" "}
+                                    Or <Link href={`mailto:${supportEmail}`}>contact</Link> with server administrator.
+                                </span>
+                            )}
+                        </div>
+                    </dd>
+                )}
             </dl>
         </section>
     );

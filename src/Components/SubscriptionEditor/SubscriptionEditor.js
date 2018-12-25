@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import Toggle from "retail-ui/components/Toggle";
 import Checkbox from "retail-ui/components/Checkbox";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
@@ -20,6 +21,10 @@ export type SubscriptionInfo = {
     enabled: boolean,
     ignore_warnings: boolean,
     ignore_recoverings: boolean,
+    plotting?: {
+        enabled: boolean,
+        theme: "light" | "dark",
+    },
 };
 
 type Props = {
@@ -108,6 +113,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
 
     render(): React.Node {
         const { subscription, contacts, onChange, tags } = this.props;
+        const { plotting = { enabled: true, theme: "light" } } = subscription;
         return (
             <div className={cn("form")}>
                 <div className={cn("row")}>
@@ -199,6 +205,33 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         pos="right middle">
                         <Link use="grayed" icon="HelpDot" />
                     </Tooltip>
+                </div>
+                <div className={cn("row")}>
+                    <Checkbox
+                        checked={plotting.enabled}
+                        onChange={(evt, checked) => onChange({ plotting: { ...plotting, enabled: checked } })}>
+                        Add graph to notification
+                    </Checkbox>
+                    {plotting.enabled && (
+                        <div className={cn("row-options")}>
+                            <span
+                                className={cn("graph-theme-switcher")}
+                                onClick={() =>
+                                    onChange({
+                                        plotting: {
+                                            ...plotting,
+                                            theme: plotting.theme === "dark" ? "light" : "dark",
+                                        },
+                                    })
+                                }>
+                                Light
+                                <span className={cn("graph-theme-toggle")}>
+                                    <Toggle checked={plotting.theme === "dark"} />
+                                </span>
+                                Dark
+                            </span>
+                        </div>
+                    )}
                 </div>
                 <div className={cn("row")}>
                     <Checkbox checked={subscription.enabled} onChange={(e, checked) => onChange({ enabled: checked })}>

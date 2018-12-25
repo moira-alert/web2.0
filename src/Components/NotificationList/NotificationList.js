@@ -8,29 +8,15 @@ import type { Notification } from "../../Domain/Notification";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./NotificationList.less";
+import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 
 type Props = {|
     items: { [id: string]: Notification },
     onRemove: (key: string) => void,
-    onRemoveAll: () => void,
-    onRemoveEvents: () => void,
 |};
 
 export default function NotificationList(props: Props): React.Element<any> {
-    const { items, onRemove, onRemoveAll, onRemoveEvents } = props;
-
-    function renderContactIcon(type: string): React.Node {
-        let name;
-        switch (type) {
-            case "telegram":
-                name = "Telegram2";
-                break;
-            default:
-                name = "Mail2";
-                break;
-        }
-        return <Icon name={name} />;
-    }
+    const { items, onRemove } = props;
 
     return Object.keys(items).length === 0 ? (
         <div className={cn("no-result")}>Empty :-)</div>
@@ -52,10 +38,14 @@ export default function NotificationList(props: Props): React.Element<any> {
                     <div key={i} className={cn("row")}>
                         <div className={cn("timestamp")}>{moment.unix(timestamp).format("MMMM D, HH:mm:ss")}</div>
                         <div className={cn("trigger")}>
-                            <RouterLink to={getPageLink("trigger", id)}>{name}</RouterLink>
+                            {id ? (
+                                <RouterLink to={getPageLink("trigger", id)}>{name}</RouterLink>
+                            ) : (
+                                <span>&mdash;</span>
+                            )}
                         </div>
                         <div className={cn("contact")}>
-                            {renderContactIcon(type)} {value}
+                            <ContactTypeIcon type={type} /> {value}
                         </div>
                         <div className={cn("throttled", { true: throttled, false: !throttled })}>
                             {throttled ? <Icon name="Ok" /> : <Icon name="Delete" />}
@@ -69,14 +59,6 @@ export default function NotificationList(props: Props): React.Element<any> {
                     </div>
                 );
             })}
-            <Gapped gap={15}>
-                <Button icon="Trash" onClick={() => onRemoveAll()}>
-                    Remove all notifications
-                </Button>
-                <Button icon="Trash" onClick={() => onRemoveEvents()}>
-                    Remove all events
-                </Button>
-            </Gapped>
         </Gapped>
     );
 }

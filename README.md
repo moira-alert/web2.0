@@ -12,7 +12,7 @@ After cloning repo make sure you have installed all dependencies by running `yar
 
 All files will be prepared in **dist** folder.
 
-### Developing
+## Developing
 
 `yarn start`
 
@@ -33,3 +33,11 @@ Starts [Storybook](https://storybook.js.org) on port 9001.
 `yarn flow`
 
 Starts [Flow](https://flow.org) server for checking types. You can also run `yarn flow.status` for status, `yarn flow.check` for errors report, `yarn flow.coverage.html` to export html report with cute UI.
+
+## Contributing
+
+Put issues [in main repo](https://github.com/moira-alert/moira/issues), please. Even if you think, that your issue only about web interface. In many cases that's no so. Thank you!
+
+---
+
+[More about Moira](https://github.com/moira-alert/moira/blob/master/README.md)

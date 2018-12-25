@@ -36,6 +36,7 @@ const sourceData = {
     trigger_type: "falling",
     throttling: 0,
     expression: "",
+    notify_about_new_metrics: false,
 };
 
 const allTags = ["devops", "critical", "error", "warning", "del", "moira"];
@@ -123,6 +124,7 @@ const stories = [
                 "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 6, 8)",
             ],
             ttl_state: Statuses.OK,
+            notify_about_new_metrics: true,
         },
     },
 ];

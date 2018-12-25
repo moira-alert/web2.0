@@ -67,9 +67,11 @@ class SettingsContainer extends React.Component<Props, State> {
                     value: this.normalizeContactValueForUi(x.type, x.value),
                 })),
             };
-            this.setState({ loading: false, settings: settings, config: config, tags: tags });
+            this.setState({ settings: settings, config: config, tags: tags });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 
@@ -164,6 +166,7 @@ class SettingsContainer extends React.Component<Props, State> {
                 user: settings.login,
                 ignore_warnings: subscription.ignore_warnings,
                 ignore_recoverings: subscription.ignore_recoverings,
+                plotting: subscription.plotting,
             });
             this.setState({
                 settings: {
@@ -171,9 +174,11 @@ class SettingsContainer extends React.Component<Props, State> {
                     subscriptions: [...settings.subscriptions, newSubscriptions],
                 },
             });
+            return newSubscriptions;
         } catch (error) {
             this.setState({ error: error.message });
         }
+        return null;
     };
 
     handleUpdateSubscription = async (subscription: Subscription): Promise<void> => {
@@ -204,7 +209,7 @@ class SettingsContainer extends React.Component<Props, State> {
             throw new Error("InvalidProgramState");
         }
         try {
-            await moiraApi.deleteSubscription(subscription.id);
+            await moiraApi.delSubscription(subscription.id);
             this.setState({
                 settings: {
                     ...settings,

@@ -41,4 +41,13 @@ storiesOf("MetricList", module)
     .add("Default", () => <MetricList items={items} onChange={action("onChange")} onRemove={action("onRemove")} />)
     .add("With Status Indicator", () => (
         <MetricList items={items} status onChange={action("onChange")} onRemove={action("onRemove")} />
+    ))
+    .add("With Remove all NODATA", () => (
+        <MetricList
+            items={items}
+            status
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+            onNoDataRemove={action("onNoDataRemove")}
+        />
     ));

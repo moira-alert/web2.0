@@ -14,7 +14,6 @@ type Props = {
     tags: Array<string>,
     contacts: Array<Contact>,
     onChange: ($Shape<Subscription>) => void,
-
     onCancel: () => void,
     onRemoveSubscription: Subscription => Promise<void>,
     onUpdateSubscription: Subscription => Promise<void>,

@@ -23,15 +23,16 @@ type Props = {|
     onSort?: (sorting: SortingColum) => void,
     onChange: (maintenance: Maintenance, metric: string) => void,
     onRemove: (metric: string) => void,
+    onNoDataRemove?: () => void,
 |};
 
 function checkMaintenance(maintenance: ?number): React.Node {
     const delta = (maintenance || 0) - moment.utc().unix();
-    return <div className={cn("caption")}>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</div>;
+    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
 }
 
 export default function MetricList(props: Props): React.Node {
-    const { status, items, onSort, onChange, onRemove, sortingColumn, sortingDown } = props;
+    const { status, items, onSort, onChange, onRemove, onNoDataRemove, sortingColumn, sortingDown } = props;
     const sortingIcon = sortingDown ? "ArrowBoldDown" : "ArrowBoldUp";
 
     return (
@@ -68,7 +69,15 @@ export default function MetricList(props: Props): React.Node {
                         )}
                     </span>
                 </div>
-                <div className={cn("controls")} />
+                <div className={cn("controls")}>
+                    {onNoDataRemove && (
+                        <span className={cn("delete-all")}>
+                            <Button use="link" icon="Trash" onClick={() => onNoDataRemove()}>
+                                Delete all NODATA
+                            </Button>
+                        </span>
+                    )}
+                </div>
             </header>
             <div className={cn("items")}>
                 {Object.keys(items).map(metric => {
@@ -91,9 +100,11 @@ export default function MetricList(props: Props): React.Node {
                                         </MenuItem>
                                     ))}
                                 </Dropdown>
-                                <Button use="link" icon="Trash" onClick={() => onRemove(metric)}>
-                                    Del
-                                </Button>
+                                <span className={cn("delete-metric")}>
+                                    <Button use="link" icon="Trash" onClick={() => onRemove(metric)}>
+                                        Delete
+                                    </Button>
+                                </span>
                             </div>
                         </div>
                     );

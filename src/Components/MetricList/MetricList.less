@@ -19,6 +19,8 @@
 }
 
 .header {
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     color: #666;
     font-style: italic;
 }
@@ -60,13 +62,20 @@
 }
 
 .controls {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
     flex-shrink: 0;
-    width: 210px;
+    width: 270px;
+}
 
-    .caption {
-        width: 80px;
-        text-align: left;
-    }
+.delete-all {
+    height: 20px;
+}
+
+.delete-all,
+.delete-metric {
+    width: 134px;
 }
 
 .sorting {

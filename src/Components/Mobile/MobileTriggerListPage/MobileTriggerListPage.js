@@ -87,7 +87,8 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                 </MobileHeader>
                 <div className={cn("content")}>
                     {triggers == null && loading && <MobileEmptyContentLoading />}
-                    {triggers != null && triggers.map(trigger => <MobileTriggerListItem data={trigger} />)}
+                    {triggers != null &&
+                        triggers.map(trigger => <MobileTriggerListItem key={trigger.id} data={trigger} />)}
                     {triggers != null &&
                         loading && (
                             <div>

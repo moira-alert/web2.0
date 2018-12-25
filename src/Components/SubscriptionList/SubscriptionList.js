@@ -60,6 +60,10 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 enabled: true,
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                plotting: {
+                    enabled: true,
+                    theme: "light",
+                },
             },
         });
     };
@@ -75,6 +79,25 @@ export default class SubscriptionList extends React.Component<Props, State> {
             newSubscriptionModalVisible: false,
             newSubscription: null,
         });
+    };
+
+    handleCreateAndTestSubscription = async () => {
+        const { onAddSubscription, onTestSubscription } = this.props;
+        const { newSubscription } = this.state;
+        if (newSubscription == null) {
+            throw new Error("InvalidProgramState");
+        }
+        try {
+            const subscription = await onAddSubscription(newSubscription);
+            if (subscription !== null) {
+                await onTestSubscription(subscription);
+            }
+        } finally {
+            this.setState({
+                newSubscriptionModalVisible: false,
+                newSubscription: null,
+            });
+        }
     };
 
     handleUpdateSubscription = async () => {
@@ -151,7 +174,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
             <Center>
                 <Gapped vertical gap={20}>
                     <div>
-                        To start receive notifications you have to{" "}
+                        To start receiving notifications you have to{" "}
                         <Link onClick={this.handleAddSubscription}>add subscription</Link>.
                     </div>
                     <Center>
@@ -202,7 +225,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                             onChange={update => this.setState({ newSubscription: { ...newSubscription, ...update } })}
                             onCancel={() => this.setState({ newSubscriptionModalVisible: false })}
                             onCreateSubscription={this.handleCreateSubscription}
-                            onCreateAndTestSubscription={this.handleCreateSubscription}
+                            onCreateAndTestSubscription={this.handleCreateAndTestSubscription}
                         />
                     )}
                 {subscriptionEditModalVisible &&

@@ -7,6 +7,8 @@ export const Maintenances = {
     sixHours: "sixHours",
     oneDay: "oneDay",
     oneWeek: "oneWeek",
+    twoWeeks: "twoWeeks",
+    oneMonth: "oneMonth",
 };
 
 export const MaintenanceTimes = {
@@ -17,6 +19,8 @@ export const MaintenanceTimes = {
     sixHours: 360,
     oneDay: 1440,
     oneWeek: 10080,
+    twoWeeks: 20160,
+    oneMonth: 43200,
 };
 
 export const MaintenanceCaptions = {
@@ -27,6 +31,8 @@ export const MaintenanceCaptions = {
     sixHours: "6 hours",
     oneDay: "1 day",
     oneWeek: "1 week",
+    twoWeeks: "2 weeks",
+    oneMonth: "1 month",
 };
 
 export type Maintenance = $Keys<typeof Maintenances>;

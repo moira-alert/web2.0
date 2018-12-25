@@ -13,7 +13,7 @@ import type { Config } from "../Domain/Config";
 import type { SortingColum } from "../Components/MetricList/MetricList";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
-import { getStatusWeight } from "../Domain/Status";
+import { Statuses, getStatusWeight } from "../Domain/Status";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import MetricList from "../Components/MetricList/MetricList";
 import Tabs, { Tab } from "../Components/Tabs/Tabs";
@@ -67,6 +67,7 @@ class TriggerContainer extends React.Component<Props, State> {
         const { page } = this.parseLocationSearch(location.search);
         const { id } = match.params;
         if (typeof id !== "string") {
+            this.setState({ error: "Wrong trigger id", loading: false });
             return;
         }
         try {
@@ -78,11 +79,9 @@ class TriggerContainer extends React.Component<Props, State> {
             if (page > Math.ceil(triggerEvents.total / triggerEvents.size) && triggerEvents.total !== 0) {
                 const rightLastPage = Math.ceil(triggerEvents.total / triggerEvents.size) || 1;
                 this.changeLocationSearch({ page: rightLastPage });
-                return;
             }
 
             this.setState({
-                loading: false,
                 config: config,
                 trigger,
                 triggerState,
@@ -90,6 +89,8 @@ class TriggerContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 
@@ -99,11 +100,11 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+    async setTriggerMaintenance(triggerId: string, maintenance: Maintenance): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
-            [metric]:
+            trigger:
                 maintenanceTime > 0
                     ? moment
                           .utc()
@@ -114,9 +115,32 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
+    async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+        this.setState({ loading: true });
+        const maintenanceTime = getMaintenanceTime(maintenance);
+        await this.props.moiraApi.setMaintenance(triggerId, {
+            metrics: {
+                [metric]:
+                    maintenanceTime > 0
+                        ? moment
+                              .utc()
+                              .add(maintenanceTime, "minutes")
+                              .unix()
+                        : maintenanceTime,
+            },
+        });
+        this.getData(this.props);
+    }
+
     async removeMetric(triggerId: string, metric: string): Promise<void> {
         this.setState({ loading: true });
         await this.props.moiraApi.delMetric(triggerId, metric);
+        this.getData(this.props);
+    }
+
+    async removeNoDataMetric(triggerId: string): Promise<void> {
+        this.setState({ loading: true });
+        await this.props.moiraApi.delNoDataMetric(triggerId);
         this.getData(this.props);
     }
 
@@ -241,6 +265,8 @@ class TriggerContainer extends React.Component<Props, State> {
         const { metrics } = triggerState || {};
         const { list: events, total, size } = triggerEvents || {};
         const isMetrics = metrics && Object.keys(metrics).length > 0;
+        const noDataMerticCount =
+            (metrics && Object.keys(metrics).filter(key => metrics[key].state === Statuses.NODATA).length) || 0;
         const isEvents = events && events.length > 0;
         const pageCount = Math.ceil(total / size) || 1;
         return (
@@ -255,6 +281,9 @@ class TriggerContainer extends React.Component<Props, State> {
                                 supportEmail={config.supportEmail}
                                 onThrottlingRemove={triggerId => {
                                     this.disableTrhrottling(triggerId);
+                                }}
+                                onSetMaintenance={maintenance => {
+                                    this.setTriggerMaintenance(trigger.id, maintenance);
                                 }}
                             />
                         </LayoutPlate>
@@ -287,11 +316,18 @@ class TriggerContainer extends React.Component<Props, State> {
                                             sortingColumn={sortingColumn}
                                             sortingDown={sortingDown}
                                             onChange={(maintenance, metric) => {
-                                                this.setMaintenance(trigger.id, maintenance, metric);
+                                                this.setMetricMaintenance(trigger.id, maintenance, metric);
                                             }}
                                             onRemove={metric => {
                                                 this.removeMetric(trigger.id, metric);
                                             }}
+                                            onNoDataRemove={
+                                                noDataMerticCount > 1
+                                                    ? () => {
+                                                          this.removeNoDataMetric(trigger.id);
+                                                      }
+                                                    : null
+                                            }
                                         />
                                     </Tab>
                                 )}

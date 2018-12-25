@@ -7,7 +7,7 @@ import type { Trigger } from "../../Domain/Trigger.js";
 import type { Status } from "../../Domain/Status";
 import type { Metric, MetricList } from "../../Domain/Metric";
 import type { Maintenance } from "../../Domain/Maintenance";
-import { Statuses, getStatusColor, getStatusCaption } from "../../Domain/Status";
+import { Statuses, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import Icon from "retail-ui/components/Icon";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
@@ -91,11 +91,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     renderCounters(): React.Node {
-        const counters = Object.keys(Statuses)
-            .map(status => ({
-                status,
-                count: Object.keys(this.filterMetricsByStatus(status)).length,
-            }))
+        const counters = StatusesInOrder.map(status => ({
+            status,
+            count: Object.keys(this.filterMetricsByStatus(status)).length,
+        }))
             .filter(({ count }) => count !== 0)
             .map(({ status, count }) => (
                 <span key={status} style={{ color: getStatusColor(status) }}>
@@ -119,19 +118,15 @@ export default class TriggerListItem extends React.Component<Props, State> {
 
     renderStatus(): React.Node {
         const { state: triggerStatus } = this.props.data.last_check || {};
-        const metricStatuses = Object.keys(Statuses).filter(
-            x => Object.keys(this.filterMetricsByStatus(x)).length !== 0
-        );
+        const metricStatuses = StatusesInOrder.filter(x => Object.keys(this.filterMetricsByStatus(x)).length !== 0);
         const notOkStatuses = metricStatuses.filter(x => x !== Statuses.OK);
         let statuses;
-        if (triggerStatus === Statuses.EXCEPTION) {
-            statuses = [Statuses.EXCEPTION];
-        } else if (metricStatuses.length === 0) {
+        if (triggerStatus && (triggerStatus !== Statuses.OK || metricStatuses.length === 0)) {
             statuses = [triggerStatus];
-        } else if (notOkStatuses.length === 0) {
-            statuses = [Statuses.OK];
-        } else {
+        } else if (notOkStatuses.length !== 0) {
             statuses = notOkStatuses;
+        } else {
+            statuses = [Statuses.OK];
         }
         return (
             <div className={cn("indicator")}>
@@ -147,9 +142,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
         return (
             <div className={cn("exception-message")}>
                 <Icon name="Error" color={"#D43517"} size={16} /> Trigger in EXCEPTION state. Please{" "}
-                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target{hasMultipleTargets
-                    ? "s"
-                    : ""}
+                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target
+                {hasMultipleTargets ? "s" : ""}
                 {hasExpression ? " and expression" : ""} on{" "}
                 <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.{" "}
                 <RouterLink to={`/trigger/${data.id}`}>See more details</RouterLink> on trigger page.
@@ -162,7 +156,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         if (!onChange || !onRemove) {
             return null;
         }
-        const statuses = Object.keys(Statuses).filter(x => Object.keys(this.filterMetricsByStatus(x)).length !== 0);
+        const statuses = StatusesInOrder.filter(x => Object.keys(this.filterMetricsByStatus(x)).length !== 0);
         if (statuses.length === 0) {
             return null;
         }

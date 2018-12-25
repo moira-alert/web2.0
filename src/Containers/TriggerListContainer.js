@@ -13,7 +13,7 @@ import type { TriggerList } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
 import Paging from "../Components/Paging/Paging";
-import Layout, { LayoutPlate, LayoutContent, LayoutPaging } from "../Components/Layout/Layout";
+import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../Components/Layout/Layout";
 import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSelect2";
 import TriggerListView from "../Components/TriggerList/TriggerList";
 import AddingButton from "../Components/AddingButton/AddingButton";
@@ -81,7 +81,6 @@ class TriggerListContainer extends React.Component<Props, State> {
 
             this.setState({
                 config: config,
-                loading: false,
                 error: null,
                 subscriptions: uniq(flattenDeep(subscriptions.map(x => x.tags))),
                 tags: allTags,
@@ -89,6 +88,8 @@ class TriggerListContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 
@@ -149,17 +150,19 @@ class TriggerListContainer extends React.Component<Props, State> {
         );
     }
 
-    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+    async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
-            [metric]:
-                maintenanceTime > 0
-                    ? moment
-                          .utc()
-                          .add(maintenanceTime, "minutes")
-                          .unix()
-                    : maintenanceTime,
+            metrics: {
+                [metric]:
+                    maintenanceTime > 0
+                        ? moment
+                              .utc()
+                              .add(maintenanceTime, "minutes")
+                              .unix()
+                        : maintenanceTime,
+            },
         });
         this.getData(this.props);
     }
@@ -223,7 +226,7 @@ class TriggerListContainer extends React.Component<Props, State> {
                                     supportEmail={config.supportEmail}
                                     items={triggers.list || []}
                                     onChange={(triggerId, maintenance, metric) => {
-                                        this.setMaintenance(triggerId, maintenance, metric);
+                                        this.setMetricMaintenance(triggerId, maintenance, metric);
                                     }}
                                     onRemove={(triggerId, metric) => {
                                         this.removeMetric(triggerId, metric);
@@ -233,13 +236,13 @@ class TriggerListContainer extends React.Component<Props, State> {
                         </LayoutContent>
                     )}
                 {pageCount > 1 && (
-                    <LayoutPaging>
+                    <LayoutFooter>
                         <Paging
                             activePage={page}
                             pagesCount={pageCount}
                             onPageChange={page => this.changeLocationSearch({ page })}
                         />
-                    </LayoutPaging>
+                    </LayoutFooter>
                 )}
             </Layout>
         );

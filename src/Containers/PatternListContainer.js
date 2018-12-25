@@ -27,7 +27,6 @@ class PatternListContainer extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        this.setState({ loading: true });
         this.getData(nextProps);
     }
 
@@ -35,9 +34,11 @@ class PatternListContainer extends React.Component<Props, State> {
         const { moiraApi } = props;
         try {
             const patterns = await moiraApi.getPatternList();
-            this.setState({ loading: false, ...patterns });
+            this.setState({ ...patterns });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     }
 
