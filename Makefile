@@ -84,6 +84,6 @@ docker_latest_image:
 	docker push moira/web2:latest
 
 .PHONY: docker_release_image
-docker_release_images:
+docker_release_image:
 	docker build -t moira/web2:${VERSION} .
 	docker push moira/web2:${VERSION}
