@@ -1,8 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const config = argv => {
     const PROD = process.env.NODE_ENV === "production";
@@ -52,22 +50,12 @@ const config = argv => {
                 },
                 {
                     test: /\.less$/,
-                    use: PROD
-                        ? ExtractTextPlugin.extract({
-                              fallback: "style-loader",
-                              use: ["css-loader", "less-loader"],
-                          })
-                        : ["style-loader", "css-loader", "less-loader"],
+                    use: ["style-loader", "css-loader", "less-loader"],
                     include: /retail-ui/,
                 },
                 {
                     test: /\.css$/,
-                    use: PROD
-                        ? ExtractTextPlugin.extract({
-                              fallback: "style-loader",
-                              use: ["css-loader"],
-                          })
-                        : ["style-loader", "css-loader"],
+                    use: ["style-loader", "css-loader"],
                     include: /react-icons/,
                 },
                 {
@@ -75,21 +63,7 @@ const config = argv => {
                     rules: [
                         { use: "classnames-loader" },
                         {
-                            use: PROD
-                                ? ExtractTextPlugin.extract({
-                                      fallback: "style-loader",
                                       use: [
-                                          {
-                                              loader: "css-loader",
-                                              options: {
-                                                  modules: true,
-                                                  localIdentName: "[name]-[local]-[hash:base64:5]",
-                                              },
-                                          },
-                                          "less-loader",
-                                      ],
-                                  })
-                                : [
                                       "style-loader",
                                       {
                                           loader: "css-loader",
@@ -123,10 +97,6 @@ const config = argv => {
                 },
             }),
             new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: "app",
-                children: true,
-            }),
         ],
         devServer: {
             disableHostCheck: true,
@@ -143,11 +113,6 @@ const config = argv => {
                       },
         },
     };
-    if (PROD) {
-        config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
-        config.plugins.push(new ExtractTextPlugin("app.[hash].css"));
-        config.plugins.push(new UglifyJSPlugin({ extractComments: { banner: false } }));
-    }
     return config;
 };
 
