@@ -64,7 +64,7 @@
         "classnames": "^2.2.5",
         "classnames-loader": "^2.0.0",
         "cross-env": "^5.0.2",
-        "css-loader": "^0.28.4",
+        "css-loader": "2.1.0",
         "eslint": "5.12.0",
         "eslint-plugin-babel": "5.3.0",
         "eslint-plugin-flowtype": "3.2.1",
