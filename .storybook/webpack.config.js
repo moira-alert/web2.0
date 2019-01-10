@@ -8,7 +8,7 @@ const config = {
                 loader: "babel-loader",
                 include: /src|retail\-ui/,
                 options: {
-                    presets: ["env", "stage-0", "react"],
+                    presets: ["@babel/env", "@babel/react"],
                 },
             },
             {
