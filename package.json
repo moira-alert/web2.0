@@ -84,7 +84,7 @@
         "lodash": "^4.17.10",
         "prettier": "^1.7.4",
         "prettier-eslint": "8.8.2",
-        "react-hot-loader": "3.0.0-beta.7",
+        "react-hot-loader": "4.6.3",
         "react-ui-validations": "^0.2.10",
         "remarkable": "^1.7.1",
         "storybook-router": "^0.3.0",
