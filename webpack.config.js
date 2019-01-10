@@ -42,7 +42,10 @@ const config = argv => {
                             loader: "babel-loader",
                             options: {
                                 presets: ["@babel/env", "@babel/react"],
-                                plugins: ["transform-object-rest-spread", "transform-class-properties"],
+                                plugins: [
+                                    "@babel/plugin-proposal-object-rest-spread",
+                                    "@babel/plugin-proposal-class-properties",
+                                ],
                             },
                         },
                     ],
@@ -63,17 +66,17 @@ const config = argv => {
                     rules: [
                         { use: "classnames-loader" },
                         {
-                                      use: [
-                                      "style-loader",
-                                      {
-                                          loader: "css-loader",
-                                          options: {
-                                              modules: true,
-                                              localIdentName: "[name]-[local]-[hash:base64:5]",
-                                          },
-                                      },
-                                      "less-loader",
-                                  ],
+                            use: [
+                                "style-loader",
+                                {
+                                    loader: "css-loader",
+                                    options: {
+                                        modules: true,
+                                        localIdentName: "[name]-[local]-[hash:base64:5]",
+                                    },
+                                },
+                                "less-loader",
+                            ],
                         },
                     ],
                     exclude: /node_modules/,
