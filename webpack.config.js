@@ -9,7 +9,7 @@ const config = argv => {
     const API_MODE = getApiMode(argv);
     const config = {
         entry: {
-            app: ["babel-polyfill", "react-hot-loader/patch", "./src/index.js"],
+            app: ["@babel/polyfill", "react-hot-loader/patch", "./src/index.js"],
         },
         output: {
             publicPath: "/",
@@ -19,6 +19,11 @@ const config = argv => {
         },
         module: {
             rules: [
+                {
+                    test: /\.js$/,
+                    use: ["babel-loader"],
+                    exclude: /node_modules/,
+                },
                 {
                     test: /\.AppRoot\.js$/,
                     use: [
@@ -33,12 +38,13 @@ const config = argv => {
                     include: path.join(__dirname, "src"),
                 },
                 {
-                    test: /\.(js|jsx)?$/,
+                    test: /\.jsx?$/,
                     use: [
                         {
                             loader: "babel-loader",
                             options: {
-                                presets: ["env", "stage-0", "react"],
+                                presets: ["@babel/env", "@babel/react"],
+                                plugins: ["transform-object-rest-spread", "transform-class-properties"],
                             },
                         },
                     ],
