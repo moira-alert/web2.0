@@ -23,7 +23,7 @@
         "moment": "^2.22.1",
         "numeral": "^2.0.6",
         "prop-types": "^15.6.0",
-        "query-string": "^5.1.1",
+        "query-string": "6.2.0",
         "react": "^15.6.1",
         "react-addons-css-transition-group": "^15.6.0",
         "react-addons-test-utils": "^15.6.0",
