@@ -3,7 +3,7 @@ import * as React from "react";
 import { range } from "lodash";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-router";
+import StoryRouter from "storybook-react-router";
 import MobileDecorator from "../Utils/MobileDecorator";
 import MobileTriggerInfo from "../../Components/Mobile/MobileTriggerInfo/MobileTriggerInfo";
 
