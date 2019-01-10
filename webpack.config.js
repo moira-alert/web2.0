@@ -53,16 +53,6 @@ const config = argv => {
                 },
                 {
                     test: /\.less$/,
-                    use: ["style-loader", "css-loader", "less-loader"],
-                    include: /retail-ui/,
-                },
-                {
-                    test: /\.css$/,
-                    use: ["style-loader", "css-loader"],
-                    include: /react-icons/,
-                },
-                {
-                    test: /\.less$/,
                     rules: [
                         { use: "classnames-loader" },
                         {
@@ -79,7 +69,10 @@ const config = argv => {
                             ],
                         },
                     ],
-                    exclude: /node_modules/,
+                },
+                {
+                    test: /\.css$/,
+                    use: ["style-loader", "css-loader"],
                 },
                 {
                     test: /\.(png|woff|woff2|eot|svg)$/,
