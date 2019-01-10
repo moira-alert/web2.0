@@ -61,9 +61,14 @@ const config = argv => {
                     include: /retail-ui/,
                 },
                 {
-                    test: /\.js$/,
-                    use: ["babel-loader"],
-                    exclude: /node_modules/,
+                    test: /\.css$/,
+                    use: PROD
+                        ? ExtractTextPlugin.extract({
+                              fallback: "style-loader",
+                              use: ["css-loader"],
+                          })
+                        : ["style-loader", "css-loader"],
+                    include: /react-icons/,
                 },
                 {
                     test: /\.less$/,

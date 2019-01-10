@@ -27,6 +27,10 @@ const config = {
                 include: /retail\-ui/,
             },
             {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"],
+            },
+            {
                 test: /\.(png|woff|woff2|eot|svg)$/,
                 loader: "file-loader",
             },
