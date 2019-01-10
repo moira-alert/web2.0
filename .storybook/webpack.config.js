@@ -39,6 +39,7 @@ const config = {
     resolve: {
         modules: ["node_modules", "web_modules", "local_modules"],
     },
+    mode: "development",
 };
 
 module.exports = config;
