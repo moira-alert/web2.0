@@ -41,6 +41,7 @@ module.exports = {
                 },
             ],
         },
-        commonRules
+        commonRules,
+        { "flowtype/require-return-type": ["warn", "always", { excludeArrowFunctions: true }] }
     ),
 };

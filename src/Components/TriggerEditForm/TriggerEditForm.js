@@ -321,25 +321,24 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {remoteAllowed &&
-                    advancedMode && (
-                        <FormRow label="Data source" singleLineControlGroup>
-                            <RadioGroup
-                                name="data-source"
-                                defaultValue={!isRemote ? TriggerDataSources.REDIS : TriggerDataSources.GRAPHITE}
-                                onChange={(evt, value) => onChange({ is_remote: value !== TriggerDataSources.REDIS })}>
-                                <Gapped vertical gap={10}>
-                                    <Radio value={TriggerDataSources.REDIS}>Redis (default)</Radio>
-                                    <Radio value={TriggerDataSources.GRAPHITE}>
-                                        Graphite. Be careful, it may cause{" "}
-                                        <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">
-                                            extra load
-                                        </Link>
-                                    </Radio>
-                                </Gapped>
-                            </RadioGroup>
-                        </FormRow>
-                    )}
+                {remoteAllowed && advancedMode && (
+                    <FormRow label="Data source" singleLineControlGroup>
+                        <RadioGroup
+                            name="data-source"
+                            defaultValue={!isRemote ? TriggerDataSources.REDIS : TriggerDataSources.GRAPHITE}
+                            onChange={(evt, value) => onChange({ is_remote: value !== TriggerDataSources.REDIS })}>
+                            <Gapped vertical gap={10}>
+                                <Radio value={TriggerDataSources.REDIS}>Redis (default)</Radio>
+                                <Radio value={TriggerDataSources.GRAPHITE}>
+                                    Graphite. Be careful, it may cause{" "}
+                                    <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">
+                                        extra load
+                                    </Link>
+                                </Radio>
+                            </Gapped>
+                        </RadioGroup>
+                    </FormRow>
+                )}
             </Form>
         );
     }

@@ -160,13 +160,12 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                                         </BorderlessButton>
                                     </div>
                                 )}
-                                {msg != null &&
-                                    msg !== "" && (
-                                        <div className={cn("form-row")}>
-                                            <div className={cn("caption")}>Exception:</div>
-                                            <div className={cn("value")}>{msg}</div>
-                                        </div>
-                                    )}
+                                {msg != null && msg !== "" && (
+                                    <div className={cn("form-row")}>
+                                        <div className={cn("caption")}>Exception:</div>
+                                        <div className={cn("value")}>{msg}</div>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </MobileHeader.DetailsBlock>

@@ -246,20 +246,18 @@ class SettingsContainer extends React.Component<Props, State> {
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>Notifications</LayoutTitle>
-                    {config != null &&
-                        settings != null &&
-                        settings.contacts != null && (
-                            <div className={cn("contact-list")}>
-                                <ContactList
-                                    contactDescriptions={config.contacts}
-                                    items={settings.contacts}
-                                    onTestContact={this.handleTestContact}
-                                    onAddContact={this.handleAddContact}
-                                    onUpdateContact={this.handleUpdateContact}
-                                    onRemoveContact={this.handleRemoveContact}
-                                />
-                            </div>
-                        )}
+                    {config != null && settings != null && settings.contacts != null && (
+                        <div className={cn("contact-list")}>
+                            <ContactList
+                                contactDescriptions={config.contacts}
+                                items={settings.contacts}
+                                onTestContact={this.handleTestContact}
+                                onAddContact={this.handleAddContact}
+                                onUpdateContact={this.handleUpdateContact}
+                                onRemoveContact={this.handleRemoveContact}
+                            />
+                        </div>
+                    )}
                     {settings != null &&
                         tags != null &&
                         settings.subscriptions != null &&

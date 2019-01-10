@@ -217,24 +217,23 @@ class TriggerListContainer extends React.Component<Props, State> {
                         </Fit>
                     </RowStack>
                 </LayoutPlate>
-                {triggers &&
-                    config != null && (
-                        <LayoutContent>
-                            <ColumnStack block gap={6} horizontalAlign="stretch">
-                                <AddingButton to={getPageLink("triggerAdd")} />
-                                <TriggerListView
-                                    supportEmail={config.supportEmail}
-                                    items={triggers.list || []}
-                                    onChange={(triggerId, maintenance, metric) => {
-                                        this.setMetricMaintenance(triggerId, maintenance, metric);
-                                    }}
-                                    onRemove={(triggerId, metric) => {
-                                        this.removeMetric(triggerId, metric);
-                                    }}
-                                />
-                            </ColumnStack>
-                        </LayoutContent>
-                    )}
+                {triggers && config != null && (
+                    <LayoutContent>
+                        <ColumnStack block gap={6} horizontalAlign="stretch">
+                            <AddingButton to={getPageLink("triggerAdd")} />
+                            <TriggerListView
+                                supportEmail={config.supportEmail}
+                                items={triggers.list || []}
+                                onChange={(triggerId, maintenance, metric) => {
+                                    this.setMetricMaintenance(triggerId, maintenance, metric);
+                                }}
+                                onRemove={(triggerId, metric) => {
+                                    this.removeMetric(triggerId, metric);
+                                }}
+                            />
+                        </ColumnStack>
+                    </LayoutContent>
+                )}
                 {pageCount > 1 && (
                     <LayoutFooter>
                         <Paging

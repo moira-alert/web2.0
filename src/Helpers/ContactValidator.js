@@ -40,7 +40,8 @@ export default function validateContact(contactConfig: ContactConfig, value: str
                 return {
                     message: (
                         <span>
-                            Enter a valid russian phone number<br />
+                            Enter a valid russian phone number
+                            <br />
                             Phone number should starts with 8 or +7.
                         </span>
                     ),

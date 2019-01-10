@@ -271,23 +271,21 @@ class TriggerContainer extends React.Component<Props, State> {
         const pageCount = Math.ceil(total / size) || 1;
         return (
             <Layout loading={loading} error={error}>
-                {trigger != null &&
-                    triggerState != null &&
-                    config != null && (
-                        <LayoutPlate>
-                            <TriggerInfo
-                                data={trigger}
-                                triggerState={triggerState}
-                                supportEmail={config.supportEmail}
-                                onThrottlingRemove={triggerId => {
-                                    this.disableTrhrottling(triggerId);
-                                }}
-                                onSetMaintenance={maintenance => {
-                                    this.setTriggerMaintenance(trigger.id, maintenance);
-                                }}
-                            />
-                        </LayoutPlate>
-                    )}
+                {trigger != null && triggerState != null && config != null && (
+                    <LayoutPlate>
+                        <TriggerInfo
+                            data={trigger}
+                            triggerState={triggerState}
+                            supportEmail={config.supportEmail}
+                            onThrottlingRemove={triggerId => {
+                                this.disableTrhrottling(triggerId);
+                            }}
+                            onSetMaintenance={maintenance => {
+                                this.setTriggerMaintenance(trigger.id, maintenance);
+                            }}
+                        />
+                    </LayoutPlate>
+                )}
                 {!(isMetrics || isEvents) && (
                     <LayoutContent>
                         <Center>
@@ -300,52 +298,50 @@ class TriggerContainer extends React.Component<Props, State> {
                 {(isMetrics || isEvents) && (
                     <LayoutContent>
                         <Tabs value={isMetrics ? "state" : "events"}>
-                            {isMetrics &&
-                                trigger && (
-                                    <Tab id="state" label="Current state">
-                                        <MetricList
-                                            status
-                                            items={this.sortMetrics(metrics)}
-                                            onSort={sorting => {
-                                                if (sorting === sortingColumn) {
-                                                    this.setState({ sortingDown: !sortingDown });
-                                                } else {
-                                                    this.setState({ sortingColumn: sorting, sortingDown: true });
-                                                }
-                                            }}
-                                            sortingColumn={sortingColumn}
-                                            sortingDown={sortingDown}
-                                            onChange={(maintenance, metric) => {
-                                                this.setMetricMaintenance(trigger.id, maintenance, metric);
-                                            }}
-                                            onRemove={metric => {
-                                                this.removeMetric(trigger.id, metric);
-                                            }}
-                                            onNoDataRemove={
-                                                noDataMerticCount > 1
-                                                    ? () => {
-                                                          this.removeNoDataMetric(trigger.id);
-                                                      }
-                                                    : null
+                            {isMetrics && trigger && (
+                                <Tab id="state" label="Current state">
+                                    <MetricList
+                                        status
+                                        items={this.sortMetrics(metrics)}
+                                        onSort={sorting => {
+                                            if (sorting === sortingColumn) {
+                                                this.setState({ sortingDown: !sortingDown });
+                                            } else {
+                                                this.setState({ sortingColumn: sorting, sortingDown: true });
                                             }
-                                        />
-                                    </Tab>
-                                )}
-                            {isEvents &&
-                                trigger != null && (
-                                    <Tab id="events" label="Events history">
-                                        <ColumnStack block gap={6} horizontalAlign="stretch">
-                                            <EventList items={this.composeEvents(events, trigger.name)} />
-                                            {pageCount > 1 && (
-                                                <Paging
-                                                    activePage={page}
-                                                    pagesCount={pageCount}
-                                                    onPageChange={page => this.changeLocationSearch({ page })}
-                                                />
-                                            )}
-                                        </ColumnStack>
-                                    </Tab>
-                                )}
+                                        }}
+                                        sortingColumn={sortingColumn}
+                                        sortingDown={sortingDown}
+                                        onChange={(maintenance, metric) => {
+                                            this.setMetricMaintenance(trigger.id, maintenance, metric);
+                                        }}
+                                        onRemove={metric => {
+                                            this.removeMetric(trigger.id, metric);
+                                        }}
+                                        onNoDataRemove={
+                                            noDataMerticCount > 1
+                                                ? () => {
+                                                      this.removeNoDataMetric(trigger.id);
+                                                  }
+                                                : null
+                                        }
+                                    />
+                                </Tab>
+                            )}
+                            {isEvents && trigger != null && (
+                                <Tab id="events" label="Events history">
+                                    <ColumnStack block gap={6} horizontalAlign="stretch">
+                                        <EventList items={this.composeEvents(events, trigger.name)} />
+                                        {pageCount > 1 && (
+                                            <Paging
+                                                activePage={page}
+                                                pagesCount={pageCount}
+                                                onPageChange={page => this.changeLocationSearch({ page })}
+                                            />
+                                        )}
+                                    </ColumnStack>
+                                </Tab>
+                            )}
                         </Tabs>
                     </LayoutContent>
                 )}

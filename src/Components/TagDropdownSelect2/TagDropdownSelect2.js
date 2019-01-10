@@ -172,26 +172,18 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                 <div className={cn("menu-container")}>
                                     <ScrollContainer maxHeight={300}>
                                         <div className={cn("tags-menu")} ref="menu">
-                                            {subscribed.length !== 0 &&
-                                                value.length === 0 && (
-                                                    <div className={cn("group")}>
-                                                        <b className={cn("title")}>Subscriptions</b>
-                                                        <TagGroup
-                                                            tags={subscribed}
-                                                            onClick={tag => this.selectTag(tag)}
-                                                        />
-                                                    </div>
-                                                )}
-                                            {remained.length !== 0 &&
-                                                value.length === 0 && (
-                                                    <div className={cn("group")}>
-                                                        <b className={cn("title")}>All tags</b>
-                                                        <TagGroup
-                                                            tags={remained}
-                                                            onClick={tag => this.selectTag(tag)}
-                                                        />
-                                                    </div>
-                                                )}
+                                            {subscribed.length !== 0 && value.length === 0 && (
+                                                <div className={cn("group")}>
+                                                    <b className={cn("title")}>Subscriptions</b>
+                                                    <TagGroup tags={subscribed} onClick={tag => this.selectTag(tag)} />
+                                                </div>
+                                            )}
+                                            {remained.length !== 0 && value.length === 0 && (
+                                                <div className={cn("group")}>
+                                                    <b className={cn("title")}>All tags</b>
+                                                    <TagGroup tags={remained} onClick={tag => this.selectTag(tag)} />
+                                                </div>
+                                            )}
                                             {value.length !== 0 && (
                                                 <div className={cn("group")}>
                                                     <b className={cn("title")}>Search results</b>

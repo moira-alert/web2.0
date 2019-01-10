@@ -68,19 +68,18 @@ class TagListContainer extends React.Component<Props, State> {
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>Tags</LayoutTitle>
-                    {tags &&
-                        contacts && (
-                            <TagList
-                                items={tags}
-                                contacts={contacts}
-                                onRemove={tag => {
-                                    this.removeTag(tag);
-                                }}
-                                onRemoveContact={subscriptionId => {
-                                    this.removeContact(subscriptionId);
-                                }}
-                            />
-                        )}
+                    {tags && contacts && (
+                        <TagList
+                            items={tags}
+                            contacts={contacts}
+                            onRemove={tag => {
+                                this.removeTag(tag);
+                            }}
+                            onRemoveContact={subscriptionId => {
+                                this.removeContact(subscriptionId);
+                            }}
+                        />
+                    )}
                 </LayoutContent>
             </Layout>
         );

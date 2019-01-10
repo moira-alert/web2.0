@@ -160,7 +160,9 @@ export default class SubscriptionList extends React.Component<Props, State> {
                     {subscription.contacts
                         .map(x => contacts.find(y => y.id === x))
                         .filter(Boolean)
-                        .map((x, i) => <ContactInfo key={i} className={cn("contact")} contact={x} />)}
+                        .map((x, i) => (
+                            <ContactInfo key={i} className={cn("contact")} contact={x} />
+                        ))}
                 </td>
                 <td className={cn("enabled-cell")}>
                     {!subscription.enabled && <span className={cn("disabled-label")}>Disabled</span>}
@@ -216,33 +218,29 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 ) : (
                     this.renderAddSubscriptionMessage()
                 )}
-                {newSubscriptionModalVisible &&
-                    newSubscription != null && (
-                        <CreateSubscriptionModal
-                            subscription={newSubscription}
-                            tags={tags}
-                            contacts={contacts}
-                            onChange={update => this.setState({ newSubscription: { ...newSubscription, ...update } })}
-                            onCancel={() => this.setState({ newSubscriptionModalVisible: false })}
-                            onCreateSubscription={this.handleCreateSubscription}
-                            onCreateAndTestSubscription={this.handleCreateAndTestSubscription}
-                        />
-                    )}
-                {subscriptionEditModalVisible &&
-                    subscriptionToEdit != null && (
-                        <SubscriptionEditModal
-                            subscription={subscriptionToEdit}
-                            tags={tags}
-                            contacts={contacts}
-                            onChange={update =>
-                                this.setState({ subscriptionToEdit: { ...subscriptionToEdit, ...update } })
-                            }
-                            onCancel={() => this.setState({ subscriptionEditModalVisible: false })}
-                            onUpdateSubscription={this.handleUpdateSubscription}
-                            onUpdateAndTestSubscription={this.handleUpdateAndTestSubscription}
-                            onRemoveSubscription={this.handleRemoveSubscription}
-                        />
-                    )}
+                {newSubscriptionModalVisible && newSubscription != null && (
+                    <CreateSubscriptionModal
+                        subscription={newSubscription}
+                        tags={tags}
+                        contacts={contacts}
+                        onChange={update => this.setState({ newSubscription: { ...newSubscription, ...update } })}
+                        onCancel={() => this.setState({ newSubscriptionModalVisible: false })}
+                        onCreateSubscription={this.handleCreateSubscription}
+                        onCreateAndTestSubscription={this.handleCreateAndTestSubscription}
+                    />
+                )}
+                {subscriptionEditModalVisible && subscriptionToEdit != null && (
+                    <SubscriptionEditModal
+                        subscription={subscriptionToEdit}
+                        tags={tags}
+                        contacts={contacts}
+                        onChange={update => this.setState({ subscriptionToEdit: { ...subscriptionToEdit, ...update } })}
+                        onCancel={() => this.setState({ subscriptionEditModalVisible: false })}
+                        onUpdateSubscription={this.handleUpdateSubscription}
+                        onUpdateAndTestSubscription={this.handleUpdateAndTestSubscription}
+                        onRemoveSubscription={this.handleRemoveSubscription}
+                    />
+                )}
             </div>
         );
     }

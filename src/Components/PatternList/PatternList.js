@@ -21,7 +21,9 @@ export default function PatternList(props: Props): React.Node {
                 <div className={cn("metric-counter")}>Metrics</div>
                 <div className={cn("control")} />
             </div>
-            {items.map((item, i) => <PatternListItem key={i} data={item} onRemove={() => onRemove(item.pattern)} />)}
+            {items.map((item, i) => (
+                <PatternListItem key={i} data={item} onRemove={() => onRemove(item.pattern)} />
+            ))}
         </div>
     );
 }

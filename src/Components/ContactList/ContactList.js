@@ -225,29 +225,27 @@ export default class ContactList extends React.Component<Props, State> {
                 ) : (
                     this.renderEmptyListMessage()
                 )}
-                {newContactModalVisible &&
-                    newContact != null && (
-                        <NewContactModal
-                            contactDescriptions={contactDescriptions}
-                            contactInfo={newContact}
-                            onChange={this.handleChangeNewContact}
-                            onCancel={this.handleCancelCreateNewContact}
-                            onCreate={this.handleCreateNewContact}
-                            onCreateAndTest={this.handleCreateAndTestContact}
-                        />
-                    )}
-                {editContactModalVisible &&
-                    editableContact != null && (
-                        <ContactEditModal
-                            contactDescriptions={contactDescriptions}
-                            contactInfo={editableContact}
-                            onChange={this.handleChangeEditableContact}
-                            onCancel={this.handleCancelEditContact}
-                            onUpdate={this.handleUpdateContact}
-                            onUpdateAndTest={this.handleUpdateAndTestContact}
-                            onDelete={this.handleDeleteContact}
-                        />
-                    )}
+                {newContactModalVisible && newContact != null && (
+                    <NewContactModal
+                        contactDescriptions={contactDescriptions}
+                        contactInfo={newContact}
+                        onChange={this.handleChangeNewContact}
+                        onCancel={this.handleCancelCreateNewContact}
+                        onCreate={this.handleCreateNewContact}
+                        onCreateAndTest={this.handleCreateAndTestContact}
+                    />
+                )}
+                {editContactModalVisible && editableContact != null && (
+                    <ContactEditModal
+                        contactDescriptions={contactDescriptions}
+                        contactInfo={editableContact}
+                        onChange={this.handleChangeEditableContact}
+                        onCancel={this.handleCancelEditContact}
+                        onUpdate={this.handleUpdateContact}
+                        onUpdateAndTest={this.handleUpdateAndTestContact}
+                        onDelete={this.handleDeleteContact}
+                    />
+                )}
             </div>
         );
     }

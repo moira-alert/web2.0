@@ -179,9 +179,7 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
         return (
             <span className={cn("root")} ref="root">
                 <div className={cn("test-width")} ref="testWidth" />
-                {this.state.hintValue &&
-                    hintClip !== null &&
-                    hintClip !== undefined && (
+                {this.state.hintValue && hintClip !== null && hintClip !== undefined && (
                     <div className={cn("hint-container")} style={{ clip: `rect(auto,${hintClip}px,auto,0px)` }}>
                         <Input
                             {...restProps}
