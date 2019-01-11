@@ -1,4 +1,4 @@
-# Moira Web 2.0 [![Build Status](https://travis-ci.org/moira-alert/web2.0.svg?branch=master)](https://travis-ci.org/moira-alert/web2.0) [![Dependency Status](https://david-dm.org/moira-alert/web2.0.svg)](https://david-dm.org/moira-alert/web2.0)
+# Moira Web 2.0 [![Build Status](https://travis-ci.org/moira-alert/web2.0.svg?branch=master)](https://travis-ci.org/moira-alert/web2.0) [![Dependency Status](https://david-dm.org/moira-alert/web2.0.svg)](https://david-dm.org/moira-alert/web2.0) [![devDependencies Status](https://david-dm.org/moira-alert/web2.0/dev-status.svg)](https://david-dm.org/moira-alert/web2.0?type=dev)
 
 If you're new here, better check out our main [README](https://github.com/moira-alert/moira/blob/master/README.md).
 
