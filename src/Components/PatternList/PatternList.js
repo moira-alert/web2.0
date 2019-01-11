@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import Button from "retail-ui/components/Button";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
@@ -57,7 +58,7 @@ class PatternListItem extends React.Component<ItemProps, ItemState> {
                 <div className={cn("trigger-counter")}>{triggers.length}</div>
                 <div className={cn("metric-counter")}>{metrics.length}</div>
                 <div className={cn("control")}>
-                    <Button use="link" icon="Trash" onClick={() => onRemove()}>
+                    <Button use="link" icon={<TrashIcon />} onClick={() => onRemove()}>
                         Delete
                     </Button>
                 </div>

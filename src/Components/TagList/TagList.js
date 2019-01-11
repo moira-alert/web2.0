@@ -4,7 +4,9 @@ import { flatten } from "lodash";
 import type { TagStat } from "../../Domain/Tag";
 import type { Contact } from "../../Domain/Contact";
 import Button from "retail-ui/components/Button";
-import Icon from "retail-ui/components/Icon";
+import OkIcon from "@skbkontur/react-icons/Ok";
+import DeleteIcon from "@skbkontur/react-icons/Delete";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import cn from "./TagList.less";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 
@@ -67,7 +69,7 @@ class TagListItem extends React.Component<ItemProps, ItemState> {
                 <div className={cn("trigger-counter")}>{triggers.length}</div>
                 <div className={cn("subscription-counter")}>{subscriptions.length}</div>
                 <div className={cn("control")}>
-                    <Button use="link" icon="Trash" onClick={() => onRemove()}>
+                    <Button use="link" icon={<TrashIcon />} onClick={() => onRemove()}>
                         Delete
                     </Button>
                 </div>
@@ -77,9 +79,7 @@ class TagListItem extends React.Component<ItemProps, ItemState> {
                             <div className={cn("group")}>
                                 {subscriptions.map(({ id, enabled, user, contacts }) => (
                                     <div key={id} className={cn("item")}>
-                                        <div className={cn("enabled")}>
-                                            {enabled ? <Icon name="Ok" /> : <Icon name="Delete" />}
-                                        </div>
+                                        <div className={cn("enabled")}>{enabled ? <OkIcon /> : <DeleteIcon />}</div>
                                         <div className={cn("user")}>{user}</div>
                                         <div className={cn("contacts")}>
                                             {flatten(contacts.map(x => allContacts.filter(y => y.id === x))).map(
@@ -91,7 +91,7 @@ class TagListItem extends React.Component<ItemProps, ItemState> {
                                             )}
                                         </div>
                                         <div className={cn("sub-control")}>
-                                            <Button use="link" icon="Trash" onClick={() => onRemoveContact(id)}>
+                                            <Button use="link" icon={<TrashIcon />} onClick={() => onRemoveContact(id)}>
                                                 Delete
                                             </Button>
                                         </div>

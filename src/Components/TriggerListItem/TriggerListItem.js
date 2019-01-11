@@ -8,7 +8,8 @@ import type { Status } from "../../Domain/Status";
 import type { Metric, MetricList } from "../../Domain/Metric";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { Statuses, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
-import Icon from "retail-ui/components/Icon";
+import ErrorIcon from "@skbkontur/react-icons/Error";
+import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
@@ -141,7 +142,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const hasMultipleTargets = data.targets.length > 1;
         return (
             <div className={cn("exception-message")}>
-                <Icon name="Error" color={"#D43517"} size={16} /> Trigger in EXCEPTION state. Please{" "}
+                <ErrorIcon color={"#D43517"} /> Trigger in EXCEPTION state. Please{" "}
                 <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target
                 {hasMultipleTargets ? "s" : ""}
                 {hasExpression ? " and expression" : ""} on{" "}
@@ -201,7 +202,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                         title={
                                             "Throttling until " + moment.unix(throttling).format("MMMM D, HH:mm:ss")
                                         }>
-                                        <Icon name="FlagSolid" />
+                                        <FlagSolidIcon />
                                     </div>
                                 )}
                             </div>

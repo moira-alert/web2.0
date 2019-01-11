@@ -8,6 +8,7 @@ import Button from "retail-ui/components/Button";
 import Center from "retail-ui/components/Center";
 import Gapped from "retail-ui/components/Gapped";
 import Link from "retail-ui/components/Link";
+import AddIcon from "@skbkontur/react-icons/Add";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactList.less";
 
@@ -183,7 +184,7 @@ export default class ContactList extends React.Component<Props, State> {
                         <Link onClick={this.handleAddContact}>add delivery channel</Link> for notifications.
                     </div>
                     <Center>
-                        <Button use="primary" icon="Add" onClick={this.handleAddContact}>
+                        <Button use="primary" icon={<AddIcon />} onClick={this.handleAddContact}>
                             Add delivery channel
                         </Button>
                     </Center>
@@ -217,7 +218,7 @@ export default class ContactList extends React.Component<Props, State> {
                             </table>
                         </div>
                         <div className={cn("actions-block")}>
-                            <Button icon="Add" onClick={this.handleAddContact}>
+                            <Button icon={<AddIcon />} onClick={this.handleAddContact}>
                                 Add delivery channel
                             </Button>
                         </div>

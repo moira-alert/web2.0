@@ -2,7 +2,9 @@
 import * as React from "react";
 import moment from "moment";
 import Sticky from "retail-ui/components/Sticky";
-import Icon from "retail-ui/components/Icon";
+import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
+import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
+import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import Modal from "retail-ui/components/Modal";
 
 import type { Schedule } from "../../../Domain/Schedule";
@@ -117,12 +119,12 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                 <MobileHeader color={this.getHeaderColor()}>
                     <Sticky side="top">
                         <MobileHeader.HeaderBlock color={this.getHeaderColor()}>
-                            <MobileHeader.LeftButton icon="ArrowChevronLeft" linkTo={getPageLink("index")} />
+                            <MobileHeader.LeftButton icon={<ArrowChevronLeftIcon />} linkTo={getPageLink("index")} />
                             <MobileHeader.Title>
                                 {trigger != null ? trigger.name : "Loading trigger..."}
                             </MobileHeader.Title>
                             <MobileHeader.RightButton
-                                icon="UserSettings"
+                                icon={<UserSettingsIcon />}
                                 onClick={() => this.setState({ showMaintenance: true })}
                             />
                         </MobileHeader.HeaderBlock>
@@ -151,7 +153,7 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                                 )}
                                 {(trigger.throttling !== 0 || showThrottling) && (
                                     <div className={cn("plain-row", "description")}>
-                                        <Icon name="FlagSolid" />{" "}
+                                        <FlagSolidIcon />{" "}
                                         {trigger.throttling !== 0 ? "Throttling enabled." : "No Throttling."}{" "}
                                         <BorderlessButton
                                             onClick={this.handleDisableThrottling}

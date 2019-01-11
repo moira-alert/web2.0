@@ -6,6 +6,7 @@ import type { IMoiraApi } from "../Api/MoiraAPI";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { MoiraServiceStates } from "../Domain/MoiraServiceStates";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import Layout, { LayoutContent, LayoutTitle, LayoutFooter } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
@@ -127,7 +128,7 @@ class NotificationListContainer extends React.Component<Props, State> {
                 </LayoutContent>
                 <LayoutFooter>
                     <div className={cn("actions-row")}>
-                        <Button icon="Trash" onClick={() => this.removeAllNotifications()}>
+                        <Button icon={<TrashIcon />} onClick={() => this.removeAllNotifications()}>
                             Remove all notifications
                         </Button>
                         <ToggleWithLabel

@@ -1,7 +1,10 @@
 // @flow
 import * as React from "react";
 import moment from "moment";
-import Icon from "retail-ui/components/Icon";
+import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
+import MenuDotsIcon from "@skbkontur/react-icons/MenuDots";
+import TrashIcon from "@skbkontur/react-icons/Trash";
+import RedoIcon from "@skbkontur/react-icons/Redo";
 import Modal from "retail-ui/components/Modal";
 
 import type { Metric } from "../../../Domain/Metric";
@@ -67,7 +70,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                     {this.renderStatus()}
                     {isUnderkMaintenance(value.maintenance) && (
                         <div className={cn("maintenance-icon")}>
-                            <Icon name="UserSettings" />
+                            <UserSettingsIcon />
                         </div>
                     )}
                 </div>
@@ -82,18 +85,18 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                 <div className={cn("buttons")}>
                     <div className={cn("button-block", { visible: buttonsState === "Default" })}>
                         <div className={cn("button")} onClick={() => this.setState({ buttonsState: "SelectAction" })}>
-                            <Icon name="MenuDots" />
+                            <MenuDotsIcon />
                         </div>
                     </div>
                     <div className={cn("button-block", { visible: buttonsState === "SelectAction" })}>
                         <div className={cn("button")} onClick={() => this.setState({ buttonsState: "SetMaintenance" })}>
-                            <Icon name="UserSettings" />
+                            <UserSettingsIcon />
                         </div>
                         <div onClick={this.handleDeleteMetric} className={cn("button")}>
-                            <Icon name="Trash" />
+                            <TrashIcon />
                         </div>
                         <div className={cn("button")} onClick={() => this.setState({ buttonsState: "Default" })}>
-                            <Icon name="Redo" />
+                            <RedoIcon />
                         </div>
                     </div>
                     {buttonsState === "SetMaintenance" && (

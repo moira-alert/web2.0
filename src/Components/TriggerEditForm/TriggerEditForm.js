@@ -4,7 +4,9 @@ import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import type { Trigger } from "../../Domain/Trigger";
 import { TriggerDataSources } from "../../Domain/Trigger";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
-import Icon from "retail-ui/components/Icon";
+import RemoveIcon from "@skbkontur/react-icons/Remove";
+import AddIcon from "@skbkontur/react-icons/Add";
+import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import Gapped from "retail-ui/components/Gapped";
 import Input from "retail-ui/components/Input";
 import Textarea from "retail-ui/components/Textarea";
@@ -14,6 +16,7 @@ import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Radio from "retail-ui/components/Radio";
+import Checkbox from "retail-ui/components/Checkbox/Checkbox";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
@@ -23,7 +26,6 @@ import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
-import Checkbox from "retail-ui/components/Checkbox/Checkbox";
 
 type Props = {|
     data: $Shape<Trigger>,
@@ -205,14 +207,14 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 {targets.length > 1 && (
                                     <div className={cn("fgroup-control")}>
                                         <Button onClick={() => this.handleRemoveTarget(i)}>
-                                            <Icon name="Remove" />
+                                            <RemoveIcon />
                                         </Button>
                                     </div>
                                 )}
                             </div>
                         </div>
                     ))}
-                    <Button use="link" icon="Add" onClick={() => this.handleAddTarget()}>
+                    <Button use="link" icon={<AddIcon />} onClick={() => this.handleAddTarget()}>
                         Add one more
                     </Button>
                 </FormRow>
@@ -260,7 +262,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             </Fill>
                             <Fit>
                                 <Tooltip pos="top right" render={this.renderExpressionHelp} trigger="click">
-                                    <Link icon="HelpDot" />
+                                    <Link icon={<HelpDotIcon />} />
                                 </Tooltip>
                             </Fit>
                         </RowStack>
@@ -291,7 +293,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         Mute new metrics notifications
                     </Checkbox>
                     <Tooltip pos="bottom left" render={this.renderNewMetricsAlertingHelp} trigger="click">
-                        <Link icon="HelpDot" />
+                        <Link icon={<HelpDotIcon />} />
                     </Tooltip>
                 </FormRow>
                 <FormRow label="Watch time">

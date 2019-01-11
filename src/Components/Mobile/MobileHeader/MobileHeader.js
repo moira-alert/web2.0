@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Icon from "retail-ui/components/Icon";
+import DeleteIcon from "@skbkontur/react-icons/Delete";
 
 import cn from "./MobileHeader.less";
 
@@ -19,7 +19,7 @@ export default function MobileHeader({ color, children }: Props): React.Node {
 }
 
 type LeftButtonProps = {|
-    icon: string,
+    icon: React.Element,
     linkTo?: string,
     onClick?: () => void,
 |};
@@ -29,7 +29,7 @@ MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): React.Nod
     if (linkTo != null) {
         return (
             <Link className={cn("menu-button")} to={linkTo}>
-                <Icon name={icon} />
+                {icon}
             </Link>
         );
     }
@@ -42,26 +42,22 @@ MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): React.Nod
                     onClick();
                     return false;
                 }}>
-                <Icon name={icon} />
+                {icon}
             </a>
         );
     }
-    return (
-        <div className={cn("menu-button")}>
-            <Icon name={icon} />
-        </div>
-    );
+    return <div className={cn("menu-button")}>{icon}</div>;
 };
 
 type RightButtonProps = {|
-    icon: string,
+    icon: React.Element,
     onClick?: () => void,
 |};
 
 MobileHeader.RightButton = function RightButton({ icon, onClick }: RightButtonProps): React.Node {
     return (
         <div onClick={onClick} className={cn("filter-button")}>
-            <Icon name={icon} />
+            {icon}
         </div>
     );
 };
@@ -97,7 +93,7 @@ MobileHeader.HeaderInput = function HeaderInput({
                     placeholder={placeholder}
                 />
                 <div className={cn("clear-button")} onClick={onClear}>
-                    <Icon name="Delete" />
+                    <DeleteIcon />
                 </div>
             </div>
         </div>

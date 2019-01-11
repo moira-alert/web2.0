@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import Button from "retail-ui/components/Button";
+import AddIcon from "@skbkontur/react-icons/Add";
 import type { Subscription } from "../../Domain/Subscription";
 import type { Contact } from "../../Domain/Contact";
 import { createSchedule, WholeWeek } from "../../Domain/Schedule";
@@ -180,7 +181,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                         <Link onClick={this.handleAddSubscription}>add subscription</Link>.
                     </div>
                     <Center>
-                        <Button use="primary" icon="Add" onClick={this.handleAddSubscription}>
+                        <Button use="primary" icon={<AddIcon />} onClick={this.handleAddSubscription}>
                             Add subscription
                         </Button>
                     </Center>
@@ -210,7 +211,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                             </table>
                         </div>
                         <div className={cn("actions-block")}>
-                            <Button use="primary" icon="Add" onClick={this.handleAddSubscription}>
+                            <Button use="primary" icon={<AddIcon />} onClick={this.handleAddSubscription}>
                                 Add subscription
                             </Button>
                         </div>

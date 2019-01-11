@@ -8,7 +8,11 @@ import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import Link from "retail-ui/components/Link";
-import Icon from "retail-ui/components/Icon";
+import ErrorIcon from "@skbkontur/react-icons/Error";
+import ClockIcon from "@skbkontur/react-icons/Clock";
+import EditIcon from "@skbkontur/react-icons/Edit";
+import ClearIcon from "@skbkontur/react-icons/Clear";
+import DocumentCopyIcon from "@skbkontur/react-icons/DocumentCopy";
 import Dropdown from "retail-ui/components/Dropdown";
 import MenuItem from "retail-ui/components/MenuItem";
 import TagGroup from "../TagGroup/TagGroup";
@@ -26,7 +30,7 @@ function checkMaintenance(maintenance: ?number): React.Node {
     const delta = (maintenance || 0) - moment.utc().unix();
     return (
         <span>
-            <Icon name="Clock" />
+            <ClockIcon />
             &nbsp;
             {delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}
         </span>
@@ -85,23 +89,31 @@ export default function TriggerInfo({
                 <h1 className={cn("title")}>{name != null && name !== "" ? name : "[No name]"}</h1>
                 <div className={cn("controls")}>
                     {throttling !== 0 && (
-                        <Link use="danger" icon="Clear" onClick={() => onThrottlingRemove(id)}>
-                            Disable throttling
-                        </Link>
+                        <span className={cn("control")}>
+                            <Link use="danger" icon={<ClearIcon />} onClick={() => onThrottlingRemove(id)}>
+                                Disable throttling
+                            </Link>
+                        </span>
                     )}
-                    <RouterLink to={getPageLink("triggerEdit", id)} icon="Edit">
-                        Edit
-                    </RouterLink>
-                    <RouterLink to={getPageLink("triggerDuplicate", id)} icon="DocumentCopy">
-                        Duplicate
-                    </RouterLink>
-                    <Dropdown use="link" caption={checkMaintenance(maintenance)}>
-                        {Object.keys(Maintenances).map(key => (
-                            <MenuItem key={key} onClick={() => onSetMaintenance(key)}>
-                                {getMaintenanceCaption(key)}
-                            </MenuItem>
-                        ))}
-                    </Dropdown>
+                    <span className={cn("control")}>
+                        <RouterLink to={getPageLink("triggerEdit", id)} icon={<EditIcon />}>
+                            Edit
+                        </RouterLink>
+                    </span>
+                    <span className={cn("control")}>
+                        <RouterLink to={getPageLink("triggerDuplicate", id)} icon={<DocumentCopyIcon />}>
+                            Duplicate
+                        </RouterLink>
+                    </span>
+                    <span className={cn("control")}>
+                        <Dropdown use="link" caption={checkMaintenance(maintenance)}>
+                            {Object.keys(Maintenances).map(key => (
+                                <MenuItem key={key} onClick={() => onSetMaintenance(key)}>
+                                    {getMaintenanceCaption(key)}
+                                </MenuItem>
+                            ))}
+                        </Dropdown>
+                    </span>
                 </div>
             </header>
             <dl className={cn("list")}>
@@ -142,8 +154,7 @@ export default function TriggerInfo({
                 {(state === "EXCEPTION" || state === "ERROR") && (
                     <dd className={cn("exception-explanation")}>
                         <div className={cn("line-1")}>
-                            <Icon name="Error" color={"#D43517"} size={16} /> Trigger in {state} state.{" "}
-                            {exceptionMessage}
+                            <ErrorIcon color={"#D43517"} /> Trigger in {state} state. {exceptionMessage}
                         </div>
                         <div className={cn("line-2")}>
                             Please verify trigger target

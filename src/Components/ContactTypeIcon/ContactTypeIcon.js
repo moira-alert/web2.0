@@ -1,7 +1,9 @@
 // @flow
 import * as React from "react";
 import { ContactTypes } from "../../Domain/ContactType";
-import Icon from "retail-ui/components/Icon";
+import TelegramIcon from "@skbkontur/react-icons/Telegram2";
+import DeviceSmartphoneIcon from "@skbkontur/react-icons/DeviceSmartphone";
+import MailIcon from "@skbkontur/react-icons/Mail2";
 import SvgIcon from "../SvgIcon/SvgIcon";
 import PushoverLogo from "./pushover-logo.svg";
 import SlackLogo from "./slack-logo.svg";
@@ -13,10 +15,10 @@ type Props = {
 
 export default function ContactTypeIcon({ type }: Props): React.Element<any> {
     if (type === ContactTypes.telegram) {
-        return <Icon name={"Telegram2"} />;
+        return <TelegramIcon />;
     }
     if (type.includes("phone")) {
-        return <Icon name={"DeviceSmartphone"} />;
+        return <DeviceSmartphoneIcon />;
     }
     if (type === ContactTypes.pushover) {
         return <SvgIcon path={PushoverLogo} size={14} offsetTop={2} />;
@@ -31,10 +33,10 @@ export default function ContactTypeIcon({ type }: Props): React.Element<any> {
         return <SvgIcon path={TwilioLogo} size={14} offsetTop={2} />;
     }
     if (type.includes("sms")) {
-        return <Icon name={"DeviceSmartphone"} />;
+        return <DeviceSmartphoneIcon />;
     }
     if (type.includes("mail")) {
-        return <Icon name={"Mail2"} />;
+        return <MailIcon />;
     }
-    return <Icon name={"Mail2"} />;
+    return <MailIcon />;
 }
