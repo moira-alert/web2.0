@@ -72,7 +72,15 @@ const config = argv => {
                 },
                 {
                     test: /\.css$/,
-                    use: ["style-loader", "css-loader"],
+                    use: [
+                        "style-loader",
+                        {
+                            loader: "css-loader",
+                            options: {
+                                modules: "global",
+                            },
+                        },
+                    ],
                 },
                 {
                     test: /\.(png|woff|woff2|eot|svg)$/,
