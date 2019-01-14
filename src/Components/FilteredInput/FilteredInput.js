@@ -2,7 +2,6 @@
 import * as React from "react";
 import Input from "retail-ui/components/Input";
 import cn from "./FilteredInput.less";
-import warning from "warning";
 
 export type FilterValueResult<T> = {
     hintValue?: string,
@@ -153,7 +152,6 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
             ...this.getViewHintState(this.props.value),
         });
         const filteredValue = this.props.filterValue(displayValueForEdit);
-        warning(filteredValue !== null, "Filtered value cannot be null on blur");
         if (filteredValue !== null) {
             this.props.onChange(event, filteredValue.actualValue);
         }
@@ -181,20 +179,18 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
         return (
             <span className={cn("root")} ref="root">
                 <div className={cn("test-width")} ref="testWidth" />
-                {this.state.hintValue &&
-                    hintClip !== null &&
-                    hintClip !== undefined && (
-                        <div className={cn("hint-container")} style={{ clip: `rect(auto,${hintClip}px,auto,0px)` }}>
-                            <Input
-                                {...restProps}
-                                disabled
-                                borderless
-                                className={cn("hint")}
-                                placeholder={this.state.hintValue}
-                                value={""}
-                            />
-                        </div>
-                    )}
+                {this.state.hintValue && hintClip !== null && hintClip !== undefined && (
+                    <div className={cn("hint-container")} style={{ clip: `rect(auto,${hintClip}px,auto,0px)` }}>
+                        <Input
+                            {...restProps}
+                            disabled
+                            borderless
+                            className={cn("hint")}
+                            placeholder={this.state.hintValue}
+                            value={""}
+                        />
+                    </div>
+                )}
                 <Input
                     {...restProps}
                     data-tid="innerInput"

@@ -5,6 +5,7 @@ import Tooltip from "retail-ui/components/Tooltip";
 import Input from "retail-ui/components/Input";
 import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
+import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import cn from "./ScheduleEdit.less";
 import type { Schedule } from "../../Domain/Schedule";
 
@@ -116,7 +117,7 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                             onChange={(e, value) => onChange({ ...schedule, endOffset: this.parseTime(value) })}
                         />
                         <Tooltip pos="top right" render={this.renderTimeRangeHelp} trigger="click">
-                            <Link icon="HelpDot" />
+                            <Link icon={<HelpDotIcon />} />
                         </Tooltip>
                     </span>
                 </div>

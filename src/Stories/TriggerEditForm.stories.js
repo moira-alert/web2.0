@@ -2,7 +2,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-router";
+import StoryRouter from "storybook-react-router";
 import { Statuses } from "../Domain/Status";
 import { ValidationContainer } from "react-ui-validations";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";

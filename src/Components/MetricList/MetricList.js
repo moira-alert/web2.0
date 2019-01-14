@@ -1,7 +1,9 @@
 // @flow
 import * as React from "react";
 import moment from "moment";
-import Icon from "retail-ui/components/Icon";
+import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
+import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { Metric } from "../../Domain/Metric";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { roundValue } from "../../helpers";
@@ -33,7 +35,7 @@ function checkMaintenance(maintenance: ?number): React.Node {
 
 export default function MetricList(props: Props): React.Node {
     const { status, items, onSort, onChange, onRemove, onNoDataRemove, sortingColumn, sortingDown } = props;
-    const sortingIcon = sortingDown ? "ArrowBoldDown" : "ArrowBoldUp";
+    const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
 
     return (
         <section className={cn("table")}>
@@ -42,37 +44,23 @@ export default function MetricList(props: Props): React.Node {
                 <div className={cn("name")}>
                     <span className={cn({ sorting: onSort })} onClick={onSort && (() => onSort("name"))}>
                         Name
-                        {sortingColumn === "name" && (
-                            <span className={cn("icon")}>
-                                <Icon name={sortingIcon} />
-                            </span>
-                        )}
+                        {sortingColumn === "name" && <span className={cn("icon")}>{sortingIcon}</span>}
                     </span>
                 </div>
                 <div className={cn("event")}>
                     <span className={cn({ sorting: onSort })} onClick={onSort && (() => onSort("event"))}>
-                        Last event{" "}
-                        {sortingColumn === "event" && (
-                            <span className={cn("icon")}>
-                                <Icon name={sortingIcon} />
-                            </span>
-                        )}
+                        Last event {sortingColumn === "event" && <span className={cn("icon")}>{sortingIcon}</span>}
                     </span>
                 </div>
                 <div className={cn("value")}>
                     <span className={cn({ sorting: onSort })} onClick={onSort && (() => onSort("value"))}>
-                        Value{" "}
-                        {sortingColumn === "value" && (
-                            <span className={cn("icon")}>
-                                <Icon name={sortingIcon} />
-                            </span>
-                        )}
+                        Value {sortingColumn === "value" && <span className={cn("icon")}>{sortingIcon}</span>}
                     </span>
                 </div>
                 <div className={cn("controls")}>
                     {onNoDataRemove && (
                         <span className={cn("delete-all")}>
-                            <Button use="link" icon="Trash" onClick={() => onNoDataRemove()}>
+                            <Button use="link" icon={<TrashIcon />} onClick={() => onNoDataRemove()}>
                                 Delete all NODATA
                             </Button>
                         </span>
@@ -101,7 +89,7 @@ export default function MetricList(props: Props): React.Node {
                                     ))}
                                 </Dropdown>
                                 <span className={cn("delete-metric")}>
-                                    <Button use="link" icon="Trash" onClick={() => onRemove(metric)}>
+                                    <Button use="link" icon={<TrashIcon />} onClick={() => onRemove(metric)}>
                                         Delete
                                     </Button>
                                 </span>

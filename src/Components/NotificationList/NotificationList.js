@@ -1,7 +1,9 @@
 // @flow
 import * as React from "react";
 import moment from "moment";
-import Icon from "retail-ui/components/Icon";
+import OkIcon from "@skbkontur/react-icons/Ok";
+import DeleteIcon from "@skbkontur/react-icons/Delete";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import Gapped from "retail-ui/components/Gapped";
 import Button from "retail-ui/components/Button";
 import type { Notification } from "../../Domain/Notification";
@@ -48,11 +50,11 @@ export default function NotificationList(props: Props): React.Element<any> {
                             <ContactTypeIcon type={type} /> {value}
                         </div>
                         <div className={cn("throttled", { true: throttled, false: !throttled })}>
-                            {throttled ? <Icon name="Ok" /> : <Icon name="Delete" />}
+                            {throttled ? <OkIcon /> : <DeleteIcon />}
                         </div>
                         <div className={cn("fails")}>{fails}</div>
                         <div className={cn("remove")}>
-                            <Button use="link" icon="Trash" onClick={() => onRemove(key)}>
+                            <Button use="link" icon={<TrashIcon />} onClick={() => onRemove(key)}>
                                 Remove
                             </Button>
                         </div>

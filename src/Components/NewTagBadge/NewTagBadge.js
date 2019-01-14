@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import Icon from "retail-ui/components/Icon";
+import AddIcon from "@skbkontur/react-icons/Add";
+import DeleteIcon from "@skbkontur/react-icons/Delete";
 import cn from "./NewTagBadge.less";
 
 type Props = {|
@@ -18,18 +19,18 @@ export default function NewTagBadge(props: Props): React.Node {
         <div className={cn({ tag: true, removeable: onRemove, focused: focus })}>
             {onClick ? (
                 <div onClick={onClick} className={cn("title", "clickable")}>
-                    <Icon name="Add" /> {doNotShowNewTagCaption ? "" : "new tag "}
+                    <AddIcon /> {doNotShowNewTagCaption ? "" : "new tag "}
                     {title}
                 </div>
             ) : (
                 <div className={cn("title")}>
-                    <Icon name="Add" /> {doNotShowNewTagCaption ? "" : "new tag "}
+                    <AddIcon /> {doNotShowNewTagCaption ? "" : "new tag "}
                     {title}
                 </div>
             )}
             {onRemove && (
                 <div className={cn("remove")} onClick={onRemove}>
-                    <Icon name="Delete" />
+                    <DeleteIcon />
                 </div>
             )}
         </div>

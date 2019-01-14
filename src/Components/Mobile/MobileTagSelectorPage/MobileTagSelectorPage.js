@@ -2,6 +2,7 @@
 import * as React from "react";
 import { sortBy, union, difference } from "lodash";
 import Toggle from "retail-ui/components/Toggle";
+import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 
 import MobileHeader from "../MobileHeader/MobileHeader";
 
@@ -95,7 +96,7 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
             <div className={cn("root")}>
                 <MobileHeader>
                     <MobileHeader.HeaderBlock>
-                        <MobileHeader.LeftButton icon="ArrowChevronLeft" onClick={onClose} />
+                        <MobileHeader.LeftButton icon={<ArrowChevronLeftIcon />} onClick={onClose} />
                         <MobileHeader.HeaderInput
                             placeholder="Search tags..."
                             value={searchString}

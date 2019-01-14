@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import Button from "retail-ui/components/Button";
+import AddIcon from "@skbkontur/react-icons/Add";
 import type { Subscription } from "../../Domain/Subscription";
 import type { Contact } from "../../Domain/Contact";
 import { createSchedule, WholeWeek } from "../../Domain/Schedule";
@@ -160,7 +161,9 @@ export default class SubscriptionList extends React.Component<Props, State> {
                     {subscription.contacts
                         .map(x => contacts.find(y => y.id === x))
                         .filter(Boolean)
-                        .map((x, i) => <ContactInfo key={i} className={cn("contact")} contact={x} />)}
+                        .map((x, i) => (
+                            <ContactInfo key={i} className={cn("contact")} contact={x} />
+                        ))}
                 </td>
                 <td className={cn("enabled-cell")}>
                     {!subscription.enabled && <span className={cn("disabled-label")}>Disabled</span>}
@@ -178,7 +181,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                         <Link onClick={this.handleAddSubscription}>add subscription</Link>.
                     </div>
                     <Center>
-                        <Button use="primary" icon="Add" onClick={this.handleAddSubscription}>
+                        <Button use="primary" icon={<AddIcon />} onClick={this.handleAddSubscription}>
                             Add subscription
                         </Button>
                     </Center>
@@ -208,7 +211,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                             </table>
                         </div>
                         <div className={cn("actions-block")}>
-                            <Button use="primary" icon="Add" onClick={this.handleAddSubscription}>
+                            <Button use="primary" icon={<AddIcon />} onClick={this.handleAddSubscription}>
                                 Add subscription
                             </Button>
                         </div>
@@ -216,33 +219,29 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 ) : (
                     this.renderAddSubscriptionMessage()
                 )}
-                {newSubscriptionModalVisible &&
-                    newSubscription != null && (
-                        <CreateSubscriptionModal
-                            subscription={newSubscription}
-                            tags={tags}
-                            contacts={contacts}
-                            onChange={update => this.setState({ newSubscription: { ...newSubscription, ...update } })}
-                            onCancel={() => this.setState({ newSubscriptionModalVisible: false })}
-                            onCreateSubscription={this.handleCreateSubscription}
-                            onCreateAndTestSubscription={this.handleCreateAndTestSubscription}
-                        />
-                    )}
-                {subscriptionEditModalVisible &&
-                    subscriptionToEdit != null && (
-                        <SubscriptionEditModal
-                            subscription={subscriptionToEdit}
-                            tags={tags}
-                            contacts={contacts}
-                            onChange={update =>
-                                this.setState({ subscriptionToEdit: { ...subscriptionToEdit, ...update } })
-                            }
-                            onCancel={() => this.setState({ subscriptionEditModalVisible: false })}
-                            onUpdateSubscription={this.handleUpdateSubscription}
-                            onUpdateAndTestSubscription={this.handleUpdateAndTestSubscription}
-                            onRemoveSubscription={this.handleRemoveSubscription}
-                        />
-                    )}
+                {newSubscriptionModalVisible && newSubscription != null && (
+                    <CreateSubscriptionModal
+                        subscription={newSubscription}
+                        tags={tags}
+                        contacts={contacts}
+                        onChange={update => this.setState({ newSubscription: { ...newSubscription, ...update } })}
+                        onCancel={() => this.setState({ newSubscriptionModalVisible: false })}
+                        onCreateSubscription={this.handleCreateSubscription}
+                        onCreateAndTestSubscription={this.handleCreateAndTestSubscription}
+                    />
+                )}
+                {subscriptionEditModalVisible && subscriptionToEdit != null && (
+                    <SubscriptionEditModal
+                        subscription={subscriptionToEdit}
+                        tags={tags}
+                        contacts={contacts}
+                        onChange={update => this.setState({ subscriptionToEdit: { ...subscriptionToEdit, ...update } })}
+                        onCancel={() => this.setState({ subscriptionEditModalVisible: false })}
+                        onUpdateSubscription={this.handleUpdateSubscription}
+                        onUpdateAndTestSubscription={this.handleUpdateAndTestSubscription}
+                        onRemoveSubscription={this.handleRemoveSubscription}
+                    />
+                )}
             </div>
         );
     }

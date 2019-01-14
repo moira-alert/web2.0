@@ -55,7 +55,10 @@ export interface IMoiraApi {
     addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     delTrigger(id: string): Promise<void>;
-    setMaintenance(triggerId: string, data: { [metric: string]: number }): Promise<void>;
+    setMaintenance(
+        triggerId: string,
+        data: { trigger?: number, metrics?: { [metric: string]: number } }
+    ): Promise<void>;
     getTriggerState(id: string): Promise<TriggerState>;
     getTriggerEvents(id: string, page: number): Promise<EventList>;
     delThrottling(triggerId: string): Promise<void>;

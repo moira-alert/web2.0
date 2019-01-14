@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Icon from "retail-ui/components/Icon";
+import DeleteIcon from "@skbkontur/react-icons/Delete";
 import ColorHash from "color-hash";
 import cn from "./Tag.less";
 
@@ -38,7 +38,7 @@ export default function Tag(props: Props): React.Node {
             )}
             {onRemove && (
                 <div className={cn("remove")} onClick={onRemove}>
-                    <Icon name="Delete" />
+                    <DeleteIcon />
                 </div>
             )}
         </div>

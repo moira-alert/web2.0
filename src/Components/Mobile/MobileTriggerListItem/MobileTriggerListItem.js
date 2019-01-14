@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
-import Icon from "retail-ui/components/Icon";
+import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 
 import type { Trigger } from "../../../Domain/Trigger.js";
 import type { Status } from "../../../Domain/Status";
@@ -103,7 +103,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     {this.renderStatus()}
                     {throttling !== 0 && (
                         <div className={cn("throttling-flag")}>
-                            <Icon name="FlagSolid" />
+                            <FlagSolidIcon />
                         </div>
                     )}
                 </div>

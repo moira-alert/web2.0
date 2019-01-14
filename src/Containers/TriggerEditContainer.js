@@ -7,6 +7,7 @@ import { getPageLink } from "../Domain/Global";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { ValidationContainer } from "react-ui-validations";
 import Button from "retail-ui/components/Button";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
@@ -138,7 +139,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                         <Fit>
                                             <Button
                                                 use="link"
-                                                icon="Trash"
+                                                icon={<TrashIcon />}
                                                 onClick={() => {
                                                     this.deleteTrigger(trigger.id);
                                                 }}>

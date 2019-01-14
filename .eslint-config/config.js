@@ -20,6 +20,9 @@ module.exports = {
         flowtype: {
             onlyFilesWithFlowAnnotation: true,
         },
+        react: {
+            version: "detect",
+        },
     },
     rules: Object.assign(
         {},
@@ -38,6 +41,7 @@ module.exports = {
                 },
             ],
         },
-        commonRules
+        commonRules,
+        { "flowtype/require-return-type": ["warn", "always", { excludeArrowFunctions: true }] }
     ),
 };

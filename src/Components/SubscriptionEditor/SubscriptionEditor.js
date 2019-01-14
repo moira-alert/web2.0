@@ -4,6 +4,7 @@ import Toggle from "retail-ui/components/Toggle";
 import Checkbox from "retail-ui/components/Checkbox";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
+import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import type { Contact } from "../../Domain/Contact";
 import type { Schedule } from "../../Domain/Schedule";
@@ -138,7 +139,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             render={this.renderTagsExplanation}
                             closeButton={false}
                             pos="right middle">
-                            <Link use="grayed" icon="HelpDot" />
+                            <Link use="grayed" icon={<HelpDotIcon />} />
                         </Tooltip>
                     </div>
                     <div className={cn("value", "with-input")}>
@@ -175,7 +176,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         render={this.renderThrottlingExplanation}
                         closeButton={false}
                         pos="right middle">
-                        <Link use="grayed" icon="HelpDot" />
+                        <Link use="grayed" icon={<HelpDotIcon />} />
                     </Tooltip>
                 </div>
                 <div className={cn("row")}>
@@ -189,7 +190,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         render={this.renderDegradationExplanation}
                         closeButton={false}
                         pos="right middle">
-                        <Link use="grayed" icon="HelpDot" />
+                        <Link use="grayed" icon={<HelpDotIcon />} />
                     </Tooltip>
                 </div>
                 <div className={cn("row")}>
@@ -203,7 +204,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         render={this.renderWarnExclusionExplanation}
                         closeButton={false}
                         pos="right middle">
-                        <Link use="grayed" icon="HelpDot" />
+                        <Link use="grayed" icon={<HelpDotIcon />} />
                     </Tooltip>
                 </div>
                 <div className={cn("row")}>

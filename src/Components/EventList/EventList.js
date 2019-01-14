@@ -2,7 +2,7 @@
 import * as React from "react";
 import moment from "moment";
 import type { Event } from "../../Domain/Event";
-import Icon from "retail-ui/components/Icon";
+import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { roundValue } from "../../helpers";
 import cn from "./EventList.less";
@@ -36,7 +36,7 @@ export default function EventList(props: Props): React.Node {
                                             <StatusIndicator statuses={[oldState]} size={14} />
                                         </div>
                                         <div className={cn("arrow")}>
-                                            <Icon name="ArrowBoldRight" />
+                                            <ArrowBoldRightIcon />
                                         </div>
                                         <div className={cn("curr-state")}>
                                             <StatusIndicator statuses={[state]} size={14} />

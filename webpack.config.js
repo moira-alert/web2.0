@@ -1,15 +1,15 @@
+// @flow
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = argv => {
     const PROD = process.env.NODE_ENV === "production";
     const API_MODE = getApiMode(argv);
     const config = {
         entry: {
-            app: ["babel-polyfill", "react-hot-loader/patch", "./src/index.js"],
+            app: ["@babel/polyfill", "react-hot-loader/patch", "./src/index.js"],
         },
         output: {
             publicPath: "/",
@@ -19,6 +19,11 @@ const config = argv => {
         },
         module: {
             rules: [
+                {
+                    test: /\.js$/,
+                    use: ["babel-loader"],
+                    exclude: /node_modules/,
+                },
                 {
                     test: /\.AppRoot\.js$/,
                     use: [
@@ -33,12 +38,16 @@ const config = argv => {
                     include: path.join(__dirname, "src"),
                 },
                 {
-                    test: /\.(js|jsx)?$/,
+                    test: /\.jsx?$/,
                     use: [
                         {
                             loader: "babel-loader",
                             options: {
-                                presets: ["env", "stage-0", "react"],
+                                presets: ["@babel/env", "@babel/react"],
+                                plugins: [
+                                    "@babel/plugin-proposal-object-rest-spread",
+                                    "@babel/plugin-proposal-class-properties",
+                                ],
                             },
                         },
                     ],
@@ -46,52 +55,30 @@ const config = argv => {
                 },
                 {
                     test: /\.less$/,
-                    use: PROD
-                        ? ExtractTextPlugin.extract({
-                              fallback: "style-loader",
-                              use: ["css-loader", "less-loader"],
-                          })
-                        : ["style-loader", "css-loader", "less-loader"],
-                    include: /retail-ui/,
-                },
-                {
-                    test: /\.js$/,
-                    use: ["babel-loader"],
-                    exclude: /node_modules/,
-                },
-                {
-                    test: /\.less$/,
-                    rules: [
-                        { use: "classnames-loader" },
+                    use: [
+                        "classnames-loader",
+                        PROD ? MiniCssExtractPlugin.loader : "style-loader",
                         {
-                            use: PROD
-                                ? ExtractTextPlugin.extract({
-                                      fallback: "style-loader",
-                                      use: [
-                                          {
-                                              loader: "css-loader",
-                                              options: {
-                                                  modules: true,
-                                                  localIdentName: "[name]-[local]-[hash:base64:5]",
-                                              },
-                                          },
-                                          "less-loader",
-                                      ],
-                                  })
-                                : [
-                                      "style-loader",
-                                      {
-                                          loader: "css-loader",
-                                          options: {
-                                              modules: true,
-                                              localIdentName: "[name]-[local]-[hash:base64:5]",
-                                          },
-                                      },
-                                      "less-loader",
-                                  ],
+                            loader: "css-loader",
+                            options: {
+                                modules: true,
+                                localIdentName: "[name]-[local]-[hash:base64:5]",
+                            },
+                        },
+                        "less-loader",
+                    ],
+                },
+                {
+                    test: /\.css$/,
+                    use: [
+                        PROD ? MiniCssExtractPlugin.loader : "style-loader",
+                        {
+                            loader: "css-loader",
+                            options: {
+                                modules: "global",
+                            },
                         },
                     ],
-                    exclude: /node_modules/,
                 },
                 {
                     test: /\.(png|woff|woff2|eot|svg)$/,
@@ -112,11 +99,19 @@ const config = argv => {
                 },
             }),
             new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: "app",
-                children: true,
-            }),
         ],
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    styles: {
+                        name: "styles",
+                        test: /\.css$/,
+                        chunks: "all",
+                        enforce: true,
+                    },
+                },
+            },
+        },
         devServer: {
             disableHostCheck: true,
             proxy:
@@ -133,9 +128,11 @@ const config = argv => {
         },
     };
     if (PROD) {
-        config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
-        config.plugins.push(new ExtractTextPlugin("app.[hash].css"));
-        config.plugins.push(new UglifyJSPlugin({ extractComments: { banner: false } }));
+        config.plugins.push(
+            new MiniCssExtractPlugin({
+                filename: "app.[hash].css",
+            })
+        );
     }
     return config;
 };

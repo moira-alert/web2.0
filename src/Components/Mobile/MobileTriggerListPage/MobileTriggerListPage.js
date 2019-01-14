@@ -1,6 +1,8 @@
 // @flow
 import * as React from "react";
 import Spinner from "retail-ui/components/Spinner";
+import MenuIcon from "@skbkontur/react-icons/Menu";
+import FilterIcon from "@skbkontur/react-icons/Filter";
 
 import type { Trigger } from "../../../Domain/Trigger";
 
@@ -80,21 +82,20 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
             <div ref={x => (this.rootElement = x)}>
                 <MobileHeader>
                     <MobileHeader.HeaderBlock>
-                        <MobileHeader.LeftButton icon="Menu" />
+                        <MobileHeader.LeftButton icon={<MenuIcon />} />
                         <MobileHeader.Title>Moira: {this.renderTitle()}</MobileHeader.Title>
-                        <MobileHeader.RightButton icon="Filter" onClick={onOpenTagSelector} />
+                        <MobileHeader.RightButton icon={<FilterIcon />} onClick={onOpenTagSelector} />
                     </MobileHeader.HeaderBlock>
                 </MobileHeader>
                 <div className={cn("content")}>
                     {triggers == null && loading && <MobileEmptyContentLoading />}
                     {triggers != null &&
                         triggers.map(trigger => <MobileTriggerListItem key={trigger.id} data={trigger} />)}
-                    {triggers != null &&
-                        loading && (
-                            <div>
-                                <Spinner type="mini" caption="Loading..." />
-                            </div>
-                        )}
+                    {triggers != null && loading && (
+                        <div>
+                            <Spinner type="mini" caption="Loading..." />
+                        </div>
+                    )}
                 </div>
             </div>
         );

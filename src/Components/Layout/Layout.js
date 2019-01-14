@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import Loader from "retail-ui/components/Loader";
-import Icon from "retail-ui/components/Icon";
+import WarningIcon from "@skbkontur/react-icons/Warning";
 import cn from "./Layout.less";
 
 type LayoutProps = ReactExactProps<{
@@ -59,7 +59,7 @@ export default class Layout extends React.Component<LayoutProps> {
             <main className={cn("layout")}>
                 {error && (
                     <div className={cn("error")}>
-                        <Icon name="Warning" /> {error}
+                        <WarningIcon /> {error}
                     </div>
                 )}
                 <Loader className={cn("loading")} active={loading} caption="Loading">

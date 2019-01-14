@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
-import StoryRouter from "storybook-router";
+import StoryRouter from "storybook-react-router";
 import Bar from "../Components/Bar/Bar";
 
 storiesOf("Bar", module)

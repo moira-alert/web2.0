@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Icon from "retail-ui/components/Icon";
+import WarningIcon from "@skbkontur/react-icons/Warning";
 import cn from "./Bar.less";
 
 type Props = {|
@@ -11,7 +11,7 @@ export default function Bar(props: Props): React.Node {
     const { message } = props;
     return (
         <div className={cn("bar")}>
-            <Icon name="Warning" /> {message}
+            <WarningIcon /> {message}
         </div>
     );
 }

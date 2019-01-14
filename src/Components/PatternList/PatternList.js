@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import Button from "retail-ui/components/Button";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
@@ -21,7 +22,9 @@ export default function PatternList(props: Props): React.Node {
                 <div className={cn("metric-counter")}>Metrics</div>
                 <div className={cn("control")} />
             </div>
-            {items.map((item, i) => <PatternListItem key={i} data={item} onRemove={() => onRemove(item.pattern)} />)}
+            {items.map((item, i) => (
+                <PatternListItem key={i} data={item} onRemove={() => onRemove(item.pattern)} />
+            ))}
         </div>
     );
 }
@@ -55,7 +58,7 @@ class PatternListItem extends React.Component<ItemProps, ItemState> {
                 <div className={cn("trigger-counter")}>{triggers.length}</div>
                 <div className={cn("metric-counter")}>{metrics.length}</div>
                 <div className={cn("control")}>
-                    <Button use="link" icon="Trash" onClick={() => onRemove()}>
+                    <Button use="link" icon={<TrashIcon />} onClick={() => onRemove()}>
                         Delete
                     </Button>
                 </div>
