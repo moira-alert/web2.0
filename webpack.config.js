@@ -1,6 +1,8 @@
+// @flow
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = argv => {
     const PROD = process.env.NODE_ENV === "production";
@@ -53,27 +55,23 @@ const config = argv => {
                 },
                 {
                     test: /\.less$/,
-                    rules: [
-                        { use: "classnames-loader" },
+                    use: [
+                        "classnames-loader",
+                        PROD ? MiniCssExtractPlugin.loader : "style-loader",
                         {
-                            use: [
-                                "style-loader",
-                                {
-                                    loader: "css-loader",
-                                    options: {
-                                        modules: true,
-                                        localIdentName: "[name]-[local]-[hash:base64:5]",
-                                    },
-                                },
-                                "less-loader",
-                            ],
+                            loader: "css-loader",
+                            options: {
+                                modules: true,
+                                localIdentName: "[name]-[local]-[hash:base64:5]",
+                            },
                         },
+                        "less-loader",
                     ],
                 },
                 {
                     test: /\.css$/,
                     use: [
-                        "style-loader",
+                        PROD ? MiniCssExtractPlugin.loader : "style-loader",
                         {
                             loader: "css-loader",
                             options: {
@@ -102,6 +100,18 @@ const config = argv => {
             }),
             new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
         ],
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    styles: {
+                        name: "styles",
+                        test: /\.css$/,
+                        chunks: "all",
+                        enforce: true,
+                    },
+                },
+            },
+        },
         devServer: {
             disableHostCheck: true,
             proxy:
@@ -117,6 +127,13 @@ const config = argv => {
                       },
         },
     };
+    if (PROD) {
+        config.plugins.push(
+            new MiniCssExtractPlugin({
+                filename: "app.[hash].css",
+            })
+        );
+    }
     return config;
 };
 
