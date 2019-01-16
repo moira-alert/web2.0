@@ -16,18 +16,7 @@ module.exports = {
                 test: /\.jsx?$/,
                 use: ["babel-loader"],
                 exclude: /node_modules/,
-            },
-            {
-                test: /\.jsx?$/,
-                use: [
-                    {
-                        loader: "babel-loader",
-                        options: {
-                            plugins: ["@babel/plugin-proposal-object-rest-spread"],
-                        },
-                    },
-                ],
-                include: /retail-ui/,
+                include: [path.resolve(__dirname, "src"), path.resolve(__dirname, "node_modules/retail-ui")],
             },
             {
                 test: /\.(png|woff|woff2|eot|svg)$/,
