@@ -3,14 +3,12 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    mode: "development",
     entry: {
         app: ["@babel/polyfill", path.resolve(__dirname, "src/index.js")],
     },
     output: {
         publicPath: "/",
         path: path.resolve(__dirname, "dist"),
-        filename: "app.js",
     },
     module: {
         rules: [
@@ -32,34 +30,16 @@ module.exports = {
                 include: /retail-ui/,
             },
             {
-                test: /\.less$/,
-                use: [
-                    "classnames-loader",
-                    "style-loader",
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: true,
-                        },
-                    },
-                    "less-loader",
-                ],
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    "style-loader",
-                    {
-                        loader: "css-loader",
-                        options: {
-                            modules: "global",
-                        },
-                    },
-                ],
-            },
-            {
                 test: /\.(png|woff|woff2|eot|svg)$/,
-                use: "file-loader",
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "[name]-[hash:6].[ext]",
+                            outputPath: "assets",
+                        },
+                    },
+                ],
             },
         ],
     },
@@ -76,14 +56,4 @@ module.exports = {
             },
         }),
     ],
-    devtool: "cheap-eval-source-map",
-    devServer: {
-        disableHostCheck: true,
-        proxy: {
-            "/api": {
-                target: "http://localhost:9002",
-                pathRewrite: { "^/api": "" },
-            },
-        },
-    },
 };

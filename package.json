@@ -3,10 +3,11 @@
     "version": "1.1.0",
     "license": "MIT",
     "scripts": {
-        "start": "webpack-dev-server --history-api-fallback --port 9000 --content-base /dist",
-        "build": "webpack",
+        "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.dev.js",
+        "start-local-api": "cross-env API_MODE=local yarn start",
+        "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
+        "storybook": "cross-env NODE_ENV=development start-storybook -p 9001 -c .storybook",
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
-        "storybook": "start-storybook -p 9001 -c .storybook",
         "lint": "eslint src",
         "flow": "flow",
         "flow.status": "flow status",
@@ -73,6 +74,7 @@
         "webpack": "4.28.1",
         "webpack-bundle-analyzer": "3.0.3",
         "webpack-cli": "3.2.1",
-        "webpack-dev-server": "3.1.14"
+        "webpack-dev-server": "3.1.14",
+        "webpack-merge": "4.2.1"
     }
 }
