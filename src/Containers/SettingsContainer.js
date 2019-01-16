@@ -54,7 +54,7 @@ class SettingsContainer extends React.Component<Props, State> {
         return value;
     }
 
-    async getData(): Promise<void> {
+    async getData() {
         const { moiraApi } = this.props;
         try {
             const tags = (await moiraApi.getTagList()).list;
@@ -75,7 +75,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     }
 
-    handleTestContact = async (contact: Contact): Promise<void> => {
+    handleTestContact = async (contact: Contact) => {
         const { moiraApi } = this.props;
         try {
             await moiraApi.testContact(contact.id);
@@ -84,7 +84,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleTestSubscription = async (subscription: Subscription): Promise<void> => {
+    handleTestSubscription = async (subscription: Subscription) => {
         const { moiraApi } = this.props;
         try {
             await moiraApi.testSubscription(subscription.id);
@@ -126,7 +126,7 @@ class SettingsContainer extends React.Component<Props, State> {
         return null;
     };
 
-    handleUpdateContact = async (contact: Contact): Promise<void> => {
+    handleUpdateContact = async (contact: Contact) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
@@ -150,7 +150,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleAddSubscription = async (subscription: SubscriptionInfo): Promise<void> => {
+    handleAddSubscription = async (subscription: SubscriptionInfo) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
@@ -181,7 +181,7 @@ class SettingsContainer extends React.Component<Props, State> {
         return null;
     };
 
-    handleUpdateSubscription = async (subscription: Subscription): Promise<void> => {
+    handleUpdateSubscription = async (subscription: Subscription) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
@@ -202,7 +202,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleRemoveSubscription = async (subscription: Subscription): Promise<void> => {
+    handleRemoveSubscription = async (subscription: Subscription) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
@@ -221,7 +221,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleRemoveContact = async (contact: Contact): Promise<void> => {
+    handleRemoveContact = async (contact: Contact) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {

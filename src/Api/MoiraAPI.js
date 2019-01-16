@@ -82,7 +82,7 @@ export default class MoiraApi implements IMoiraApi {
         this.apiUrl = apiUrl;
     }
 
-    async checkStatus(response: Response): Promise<void> {
+    async checkStatus(response: Response) {
         if (!(response.status >= 200 && response.status < 300)) {
             const errorText = await response.text();
             let serverResponse;
@@ -109,11 +109,11 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     getConfig(): Promise<Config> {
-        return this.get("/config");
+        return this.get<Config>("/config");
     }
 
     async getSettings(): Promise<Settings> {
-        const result = await this.get("/user/settings");
+        const result = await this.get<Settings>("/user/settings");
         return result;
     }
 
@@ -138,7 +138,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async testContact(contactId: string): Promise<void> {
+    async testContact(contactId: string) {
         const url = this.apiUrl + "/contact/" + contactId + "/test";
         const response = await fetch(url, {
             method: "POST",
@@ -183,7 +183,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async testSubscription(subscriptionId: string): Promise<void> {
+    async testSubscription(subscriptionId: string) {
         const url = this.apiUrl + "/subscription/" + subscriptionId + "/test";
         const response = await fetch(url, {
             method: "PUT",
@@ -192,7 +192,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async deleteContact(contactId: string): Promise<void> {
+    async deleteContact(contactId: string) {
         const url = this.apiUrl + "/contact/" + contactId;
         const response = await fetch(url, {
             method: "DELETE",
@@ -211,7 +211,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async delPattern(pattern: string): Promise<void> {
+    async delPattern(pattern: string) {
         const url = this.apiUrl + "/pattern/" + encodeURI(pattern);
         const response = await fetch(url, {
             method: "DELETE",
@@ -240,7 +240,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async delTag(tag: string): Promise<void> {
+    async delTag(tag: string) {
         const url = this.apiUrl + "/tag/" + encodeURI(tag);
         const response = await fetch(url, {
             method: "DELETE",
@@ -304,7 +304,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async delTrigger(id: string): Promise<void> {
+    async delTrigger(id: string) {
         const url = this.apiUrl + "/trigger/" + encodeURI(id);
         const response = await fetch(url, {
             method: "DELETE",
@@ -313,10 +313,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async setMaintenance(
-        triggerId: string,
-        data: { trigger?: number, metrics?: { [metric: string]: number } }
-    ): Promise<void> {
+    async setMaintenance(triggerId: string, data: { trigger?: number, metrics?: { [metric: string]: number } }) {
         const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/setMaintenance";
         const response = await fetch(url, {
             method: "PUT",
@@ -346,7 +343,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async delThrottling(triggerId: string): Promise<void> {
+    async delThrottling(triggerId: string) {
         const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/throttling";
         const response = await fetch(url, {
             method: "DELETE",
@@ -355,7 +352,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async delMetric(triggerId: string, metric: string): Promise<void> {
+    async delMetric(triggerId: string, metric: string) {
         const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/metrics?name=" + encodeURI(metric);
         const response = await fetch(url, {
             method: "DELETE",
@@ -364,7 +361,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async delNoDataMetric(triggerId: string): Promise<void> {
+    async delNoDataMetric(triggerId: string) {
         const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/metrics/nodata";
         const response = await fetch(url, {
             method: "DELETE",
@@ -383,7 +380,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async delNotification(id: string): Promise<void> {
+    async delNotification(id: string) {
         const url = this.apiUrl + "/notification?id=" + encodeURI(id);
         const response = await fetch(url, {
             method: "DELETE",
@@ -392,7 +389,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async delAllNotifications(): Promise<void> {
+    async delAllNotifications() {
         const url = this.apiUrl + "/notification/all";
         const response = await fetch(url, {
             method: "DELETE",
@@ -401,7 +398,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async delAllNotificationEvents(): Promise<void> {
+    async delAllNotificationEvents() {
         const url = this.apiUrl + "/event/all";
         const response = await fetch(url, {
             method: "DELETE",
@@ -410,7 +407,7 @@ export default class MoiraApi implements IMoiraApi {
         await this.checkStatus(response);
     }
 
-    async delSubscription(subscriptionId: string): Promise<void> {
+    async delSubscription(subscriptionId: string) {
         const url = this.apiUrl + "/subscription/" + encodeURI(subscriptionId);
         const response = await fetch(url, {
             method: "DELETE",

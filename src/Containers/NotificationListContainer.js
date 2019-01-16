@@ -35,7 +35,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         this.fetch(this.props);
     }
 
-    async fetch(props: Props): Promise<void> {
+    async fetch(props: Props) {
         await this.getNotifications(props);
         await this.getNotifierState(props);
         this.setState({
@@ -43,7 +43,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         });
     }
 
-    async getNotifications(props: Props): Promise<void> {
+    async getNotifications(props: Props) {
         const { moiraApi } = props;
         try {
             const notifications = await moiraApi.getNotificationList();
@@ -53,7 +53,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     }
 
-    async getNotifierState(props: Props): Promise<void> {
+    async getNotifierState(props: Props) {
         const { moiraApi } = props;
         try {
             const notifier = await moiraApi.getNotifierState();
@@ -63,7 +63,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     }
 
-    async removeNotification(id: string): Promise<void> {
+    async removeNotification(id: string) {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         try {
@@ -76,7 +76,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     }
 
-    async removeAllNotifications(): Promise<void> {
+    async removeAllNotifications() {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         try {
@@ -90,7 +90,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     }
 
-    async enableNotifier(enable: boolean): Promise<void> {
+    async enableNotifier(enable: boolean) {
         const { moiraApi } = this.props;
         try {
             const state = enable ? MoiraServiceStates.OK : MoiraServiceStates.ERROR;

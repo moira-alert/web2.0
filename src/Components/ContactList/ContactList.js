@@ -70,7 +70,7 @@ export default class ContactList extends React.Component<Props, State> {
         });
     };
 
-    handleCreateNewContact = async (): Promise<void> => {
+    handleCreateNewContact = async () => {
         const { onAddContact } = this.props;
         const { newContact } = this.state;
         if (newContact == null) {
@@ -86,7 +86,7 @@ export default class ContactList extends React.Component<Props, State> {
         }
     };
 
-    handleDeleteContact = async (): Promise<void> => {
+    handleDeleteContact = async () => {
         const { onRemoveContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {

@@ -1,19 +1,17 @@
-// @flow
+// @noflow
 import * as React from "react";
 
-const ApiContext = React.createContext<>();
+const ApiContext = React.createContext();
 
-function withMoiraApi(Component) {
-    return class extends React.Component {
+export const ApiProvider = ApiContext.Provider;
+
+export function withMoiraApi(Component) {
+    class WrapperComponent extends React.Component {
         static displayName = `withApi(${Component.displayName || Component.name || "Component"})`;
         render() {
-            return (
-                <ApiContext.Consumer>
-                    {moiraApi => <Component moiraApi={moiraApi} {...this.props} />}
-                </ApiContext.Consumer>
-            );
+            return <Component moiraApi={this.context} {...this.props} />;
         }
-    };
+    }
+    WrapperComponent.contextType = ApiContext;
+    return WrapperComponent;
 }
-
-export { ApiContext, withMoiraApi };

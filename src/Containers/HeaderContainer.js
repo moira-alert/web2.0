@@ -20,7 +20,7 @@ class HeaderContainer extends React.Component<Props, State> {
         notifierStateMessage: null,
     };
 
-    async getData(): Promise<void> {
+    async getData() {
         const { moiraApi } = this.props;
         try {
             const { state, message } = await moiraApi.getNotifierState();

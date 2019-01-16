@@ -62,7 +62,7 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(nextProps);
     }
 
-    async getData(props: Props): Promise<void> {
+    async getData(props: Props) {
         const { moiraApi, match, location } = props;
         const { page } = this.parseLocationSearch(location.search);
         const { id } = match.params;
@@ -94,13 +94,13 @@ class TriggerContainer extends React.Component<Props, State> {
         }
     }
 
-    async disableTrhrottling(triggerId: string): Promise<void> {
+    async disableTrhrottling(triggerId: string) {
         this.setState({ loading: true });
         await this.props.moiraApi.delThrottling(triggerId);
         this.getData(this.props);
     }
 
-    async setTriggerMaintenance(triggerId: string, maintenance: Maintenance): Promise<void> {
+    async setTriggerMaintenance(triggerId: string, maintenance: Maintenance) {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
@@ -115,7 +115,7 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+    async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string) {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
@@ -132,13 +132,13 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async removeMetric(triggerId: string, metric: string): Promise<void> {
+    async removeMetric(triggerId: string, metric: string) {
         this.setState({ loading: true });
         await this.props.moiraApi.delMetric(triggerId, metric);
         this.getData(this.props);
     }
 
-    async removeNoDataMetric(triggerId: string): Promise<void> {
+    async removeNoDataMetric(triggerId: string) {
         this.setState({ loading: true });
         await this.props.moiraApi.delNoDataMetric(triggerId);
         this.getData(this.props);
