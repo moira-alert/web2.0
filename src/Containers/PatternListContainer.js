@@ -30,7 +30,7 @@ class PatternListContainer extends React.Component<Props, State> {
         this.getData(nextProps);
     }
 
-    async getData(props: Props): Promise<void> {
+    async getData(props: Props) {
         const { moiraApi } = props;
         try {
             const patterns = await moiraApi.getPatternList();
@@ -42,7 +42,7 @@ class PatternListContainer extends React.Component<Props, State> {
         }
     }
 
-    async removePattern(pattern: string): Promise<void> {
+    async removePattern(pattern: string) {
         this.setState({ loading: true });
         await this.props.moiraApi.delPattern(pattern);
         this.getData(this.props);

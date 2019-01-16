@@ -29,7 +29,7 @@ class TagListContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async getData(props: Props): Promise<void> {
+    async getData(props: Props) {
         const { moiraApi } = props;
         try {
             const tags = await moiraApi.getTagStats();
@@ -42,7 +42,7 @@ class TagListContainer extends React.Component<Props, State> {
         }
     }
 
-    async removeTag(tag: string): Promise<void> {
+    async removeTag(tag: string) {
         this.setState({ loading: true });
         try {
             await this.props.moiraApi.delTag(tag);
@@ -52,7 +52,7 @@ class TagListContainer extends React.Component<Props, State> {
         }
     }
 
-    async removeContact(subscriptionId: string): Promise<void> {
+    async removeContact(subscriptionId: string) {
         this.setState({ loading: true });
         try {
             await this.props.moiraApi.delSubscription(subscriptionId);

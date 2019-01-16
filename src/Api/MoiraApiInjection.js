@@ -1,8 +1,17 @@
-// @flow
-import type { IMoiraApi } from "./MoiraAPI";
-import { createApiProvider, createWithApiWrapper } from "./ApiInjection";
+// @noflow
+import * as React from "react";
 
-type ApiProps = { moiraApi: IMoiraApi };
+const ApiContext = React.createContext();
 
-export const ApiProvider = createApiProvider(["moiraApi"]);
-export const withMoiraApi = createWithApiWrapper("moiraApi", (null: ?ApiProps));
+export const ApiProvider = ApiContext.Provider;
+
+export function withMoiraApi(Component) {
+    class WrapperComponent extends React.Component {
+        static displayName = `withApi(${Component.displayName || Component.name || "Component"})`;
+        render() {
+            return <Component moiraApi={this.context} {...this.props} />;
+        }
+    }
+    WrapperComponent.contextType = ApiContext;
+    return WrapperComponent;
+}

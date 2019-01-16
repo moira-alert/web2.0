@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import { hot } from "react-hot-loader/root";
 import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
 import { Bundle } from "./Components/Bundle/Bundle";
@@ -8,7 +9,7 @@ import loadDesktopApp from "./Desktop.AppRoot";
 import loadMobileApp from "./Mobile.AppRoot";
 import cn from "./App.less";
 
-export default function App(): React.Node {
+function App(): React.Node {
     return (
         <div className={cn("layout")}>
             <Desktop>{x => x && <HeaderContainer className={cn("header")} />}</Desktop>
@@ -25,3 +26,5 @@ export default function App(): React.Node {
         </div>
     );
 }
+
+export default hot(App);

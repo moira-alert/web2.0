@@ -69,7 +69,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         this.getData(nextProps);
     }
 
-    async getData(props: Props): Promise<void> {
+    async getData(props: Props) {
         const { moiraApi } = props;
         const localDataString = localStorage.getItem("moiraSettings");
         const { tags: localTags } = typeof localDataString === "string" ? JSON.parse(localDataString) : { tags: [] };
@@ -91,7 +91,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         }
     }
 
-    async handleSubmit(): Promise<void> {
+    async handleSubmit() {
         const { trigger } = this.state;
         const { history, moiraApi } = this.props;
         const isValid: boolean = await this.refs.triggerForm.validate();

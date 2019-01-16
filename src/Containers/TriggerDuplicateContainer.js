@@ -54,7 +54,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
         };
     }
 
-    async getData(props: Props): Promise<void> {
+    async getData(props: Props) {
         const { moiraApi, match } = props;
         const { id } = match.params;
         if (typeof id !== "string") {
@@ -81,7 +81,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
         return await this.triggerForm.validate();
     }
 
-    async handleSubmit(): Promise<void> {
+    async handleSubmit() {
         const { trigger } = this.state;
         const { history, moiraApi } = this.props;
         const isValid = await this.validateForm();

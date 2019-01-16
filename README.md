@@ -18,7 +18,7 @@ All files will be prepared in **dist** folder.
 
 Starts dev server on port 9000. You'll have to run `yarn fakeapi` in separate terminal to provide mock API data. Mock API server starts on port 9002.
 
-`yarn start --env.API=local`
+`yarn start-local-api`
 
 Starts dev server with proxy to your API service. Make sure you setup local Moira API service and add it URL to `webpack.config.js` in `devServer.proxy` block.
 

@@ -78,7 +78,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         }
     };
 
-    async getData(props: Props): Promise<void> {
+    async getData(props: Props) {
         const { moiraApi, location } = props;
         const { page, onlyProblems, tags: parsedTags } = this.parseLocationSearch(location.search);
         const localDataString = localStorage.getItem("moiraSettings");
@@ -187,7 +187,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         );
     }
 
-    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string): Promise<void> {
+    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string) {
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
         await this.props.moiraApi.setMaintenance(triggerId, {
@@ -202,7 +202,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async removeMetric(triggerId: string, metric: string): Promise<void> {
+    async removeMetric(triggerId: string, metric: string) {
         this.setState({ loading: true });
         await this.props.moiraApi.delMetric(triggerId, metric);
         this.getData(this.props);
