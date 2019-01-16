@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = merge(common, {
     mode: "production",
     output: {
-        filename: "app.[hash].js",
+        filename: "app.[hash:6].js",
     },
     module: {
         rules: [
@@ -41,7 +41,7 @@ module.exports = merge(common, {
     devtool: "cheap-source-map",
     plugins: [
         new MiniCssExtractPlugin({
-            filename: "app.[hash].css",
+            filename: "app.[hash:6].css",
         }),
     ],
     optimization: {
