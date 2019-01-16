@@ -16,7 +16,6 @@
     "dependencies": {
         "@skbkontur/react-icons": "3.1.2",
         "babel-plugin-lodash": "3.3.4",
-        "color": "3.1.0",
         "color-hash": "1.0.3",
         "moment": "2.23.0",
         "numeral": "2.0.6",
@@ -60,7 +59,6 @@
         "flow-bin": "0.x",
         "flow-coverage-report": "0.6.1",
         "html-webpack-plugin": "3.2.0",
-        "json-loader": "0.5.7",
         "json-server": "0.14.2",
         "less": "3.9.0",
         "less-loader": "4.1.0",
@@ -70,7 +68,6 @@
         "prettier-eslint": "8.8.2",
         "react-hot-loader": "4.6.3",
         "regenerator-runtime": "^0.13.1",
-        "remarkable": "1.7.1",
         "storybook-react-router": "1.0.2",
         "style-loader": "0.23.1",
         "webpack": "4.28.1",
