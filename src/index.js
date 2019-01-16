@@ -2,20 +2,20 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { ApiContext } from "./Api/MoiraApiInjection";
 import MoiraApi from "./Api/MoiraAPI";
-import { ApiProvider } from "./Api/MoiraApiInjection";
 import App from "./App";
 
 import "./style.less";
 
-const api = new MoiraApi("/api");
+const moiraApi = new MoiraApi("/api");
 
 const render = Component => {
     ReactDOM.render(
         <BrowserRouter>
-            <ApiProvider moiraApi={api}>
+            <ApiContext.Provider value={moiraApi}>
                 <Component />
-            </ApiProvider>
+            </ApiContext.Provider>
         </BrowserRouter>,
         document.getElementById("root")
     );
