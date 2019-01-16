@@ -25,6 +25,5 @@ storiesOf("StatusIndicator", module)
     .add("NODATA & WARN", () => <StatusIndicator statuses={[Statuses.NODATA, Statuses.WARN]} />)
     .add("NODATA & ERROR", () => <StatusIndicator statuses={[Statuses.NODATA, Statuses.ERROR]} />)
     .add("ERROR & WARN", () => <StatusIndicator statuses={[Statuses.ERROR, Statuses.WARN]} />)
-    .add("NODATA & ERROR & WARN", () => (
-        <StatusIndicator statuses={[Statuses.NODATA, Statuses.ERROR, Statuses.WARN]} />
-    ));
+    .add("NODATA & ERROR & WARN", () => <StatusIndicator statuses={[Statuses.NODATA, Statuses.ERROR, Statuses.WARN]} />)
+    .add("disabled", () => <StatusIndicator disabled statuses={[Statuses.NODATA, Statuses.ERROR, Statuses.WARN]} />);
