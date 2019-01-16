@@ -13,6 +13,19 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.AppRoot\.jsx?$/,
+                use: [
+                    {
+                        loader: "bundle-loader",
+                        options: {
+                            lazy: true,
+                        },
+                    },
+                    "babel-loader",
+                ],
+                include: path.resolve(__dirname, "src"),
+            },
+            {
                 test: /\.jsx?$/,
                 use: ["babel-loader"],
                 exclude: /node_modules/,
