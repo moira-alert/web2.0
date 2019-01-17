@@ -1,6 +1,0 @@
-// @flow
-
-declare module 'warning' {
-    declare export default function warning(condition: boolean, message: string): void;
-    declare export default function warning(message: string): void;
-}
