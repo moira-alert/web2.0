@@ -327,6 +327,36 @@ const stories = [
         title: "Lot of all data",
         data: {
             ...sourceData,
+            throttling: Date.now(),
+            last_check: {
+                metrics: {
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
+                        timestamp: 1499416938,
+                        state: "OK",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)": {
+                        timestamp: 1499416938,
+                        state: "NODATA",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.PfrIos.Alive)": {
+                        timestamp: 1499416938,
+                        state: "WARN",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)": {
+                        timestamp: 1499416938,
+                        state: "ERROR",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)": {
+                        timestamp: 1499416938,
+                        state: "NODATA",
+                        suppressed: false,
+                        event_timestamp: 1499331679,
+                    },
+                },
+                timestamp: 1499418145,
+                state: "OK",
+                score: 14000,
+            },
             name:
                 "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
             targets: [
