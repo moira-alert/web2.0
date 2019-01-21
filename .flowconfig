@@ -2,9 +2,12 @@
 .*/node_modules/.*
 /dist
 
+[libs]
+flow/type
+
 [lints]
 all=warn
 
 [options]
-module.name_mapper='^.*\.AppRoot$' -> '<PROJECT_ROOT>/flow/stub/app-root.js'
-module.name_mapper.extension='less' -> '<PROJECT_ROOT>/flow/stub/css-modules.js'
+module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/stub/css-modules'
+module.name_mapper='^.*\.AppRoot$' -> '<PROJECT_ROOT>/flow/stub/app-root'

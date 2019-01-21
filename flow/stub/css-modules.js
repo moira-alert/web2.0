@@ -1,4 +1,2 @@
 // @flow
-type CSSModule = { [key: string]: string };
-const emptyCSSModule: CSSModule = {};
-export default emptyCSSModule;
+declare module.exports: { (...args: Array<*>): string, [key: string]: string };
