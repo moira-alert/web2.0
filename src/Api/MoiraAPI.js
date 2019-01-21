@@ -23,6 +23,10 @@ export type SubscriptionCreateInfo = {|
     id?: string,
     ignore_recoverings: boolean,
     ignore_warnings: boolean,
+    plotting?: {
+        enabled: boolean,
+        theme: "light" | "dark",
+    },
 |};
 
 export type TagList = {|

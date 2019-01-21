@@ -13,7 +13,7 @@ export type TriggerSimpleModeSettings = {
     error_value: ?number,
 };
 
-type WatchType = "rising" | "falling";
+type WatchType = "rising" | "falling" | "expression";
 
 type Props = {|
     triggerType: WatchType,

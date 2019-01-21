@@ -19,7 +19,7 @@ export default function MobileHeader({ color, children }: Props): React.Node {
 }
 
 type LeftButtonProps = {|
-    icon: React.Element,
+    icon: React.Element<any>,
     linkTo?: string,
     onClick?: () => void,
 |};
@@ -50,7 +50,7 @@ MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): React.Nod
 };
 
 type RightButtonProps = {|
-    icon: React.Element,
+    icon: React.Element<any>,
     onClick?: () => void,
 |};
 

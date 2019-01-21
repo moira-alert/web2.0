@@ -29,6 +29,7 @@ type Props = {|
 
 type State = {
     showThrottling: boolean,
+    showMaintenance: boolean,
 };
 
 function ScheduleView(props: { data: Schedule }): React.Node {
