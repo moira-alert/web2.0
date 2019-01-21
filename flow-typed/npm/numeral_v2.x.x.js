@@ -1,4 +1,3 @@
-// @flow
 // flow-typed signature: 1bc98c6c1fbfef19647934b13aa3505e
 // flow-typed version: b43dff3e0e/numeral_v2.x.x/flow_>=v0.25.x
 
