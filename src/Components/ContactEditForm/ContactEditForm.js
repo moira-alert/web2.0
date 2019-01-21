@@ -21,7 +21,7 @@ export type ContactInfoUpdate = $Shape<{
     value: string,
 }>;
 
-type Props = ReactExactProps<{
+type Props = $Exact<{
     contactDescriptions: Array<ContactConfig>,
     contactInfo: ContactInfo,
     onChange: ($Shape<ContactInfoUpdate>) => void,

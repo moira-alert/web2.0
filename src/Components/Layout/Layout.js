@@ -4,21 +4,21 @@ import Loader from "retail-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import cn from "./Layout.less";
 
-type LayoutProps = ReactExactProps<{
+type LayoutProps = $Exact<{
     children?: any,
     loading?: boolean,
     error?: ?string,
 }>;
-type PlateProps = ReactExactProps<{
+type PlateProps = $Exact<{
     children?: any,
 }>;
-type TitleProps = ReactExactProps<{
+type TitleProps = $Exact<{
     children: string,
 }>;
-type ContentProps = ReactExactProps<{
+type ContentProps = $Exact<{
     children?: any,
 }>;
-type PagingProps = ReactExactProps<{
+type PagingProps = $Exact<{
     children?: any,
 }>;
 

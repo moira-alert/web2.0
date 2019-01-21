@@ -12,7 +12,7 @@ import AddIcon from "@skbkontur/react-icons/Add";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactList.less";
 
-type Props = ReactExactProps<{
+type Props = $Exact<{
     items: Array<Contact>,
     contactDescriptions: Array<ContactConfig>,
     onTestContact: Contact => Promise<void>,

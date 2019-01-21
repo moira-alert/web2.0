@@ -7,7 +7,7 @@ import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./PatternList.less";
 
-type Props = ReactExactProps<{
+type Props = $Exact<{
     items: Array<Pattern>,
     onRemove: (pattern: string) => void,
 }>;
