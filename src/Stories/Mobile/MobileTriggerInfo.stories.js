@@ -4,10 +4,11 @@ import { range } from "lodash";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
-import MobileDecorator from "../Utils/MobileDecorator";
 import MobileTriggerInfo from "../../Components/Mobile/MobileTriggerInfo/MobileTriggerInfo";
 
 const sourceData = {
+    mute_new_metrics: false,
+    notify_about_new_metrics: false,
     is_remote: false,
     error_value: 1000.0,
     sched: {
@@ -40,6 +41,7 @@ const sourceData = {
 };
 
 const triggerState = {
+    maintenance: null,
     metrics: {
         About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
     },
@@ -141,12 +143,12 @@ const stories = [
 
 const story = storiesOf("Mobile/TriggerInfo", module)
     .addDecorator(StoryRouter())
-    .addDecorator(MobileDecorator)
     .add("Loading", () => (
         <MobileTriggerInfo
             data={null}
             triggerState={null}
             onThrottlingRemove={action("onThrottlingRemove")}
+            onSetMaintenance={action("onSetMaintenance")}
             loading={true}
         />
     ));
@@ -158,6 +160,7 @@ stories.forEach(({ title, data, triggerState }) => {
             triggerState={triggerState}
             data={data}
             onThrottlingRemove={action("onThrottlingRemove")}
+            onSetMaintenance={action("onSetMaintenance")}
         />
     ));
 });

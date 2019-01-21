@@ -3,6 +3,7 @@
 const data = [
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 100.0,
         sched: {
             endOffset: 1439,
@@ -60,6 +61,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 1500.0,
         sched: {
             tzOffset: -300,
@@ -115,6 +117,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 200.0,
         sched: {
             tzOffset: -300,
@@ -218,6 +221,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 2000.0,
         sched: {
             tzOffset: -300,
@@ -275,6 +279,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 99.0,
         sched: {
             endOffset: 1439,
@@ -330,6 +335,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 48.0,
         sched: {
             endOffset: 1439,
@@ -2637,6 +2643,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: null,
         sched: {
             endOffset: 1439,
@@ -2692,6 +2699,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 1.0,
         sched: {
             tzOffset: -300,
@@ -2741,6 +2749,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 10000000000000000.0,
         sched: {
             endOffset: 1439,
@@ -3248,6 +3257,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 100000000000.0,
         sched: {
             tzOffset: -180,

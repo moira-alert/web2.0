@@ -6,6 +6,7 @@ import StoryRouter from "storybook-react-router";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 
 const sourceData = {
+    mute_new_metrics: false,
     notify_about_new_metrics: false,
     is_remote: false,
     id: "3e93211b-7fec-4c70-b5e1-abb36d6a4a1d",
@@ -313,11 +314,17 @@ const stories = [
     },
     {
         title: "Long tags",
-        data: { ...sourceData, tags: ["dev-or-not-dev-what-is-question", "ke.notifications-dev-test-sort"] },
+        data: {
+            ...sourceData,
+            tags: ["dev-or-not-dev-what-is-question", "ke.notifications-dev-test-sort"],
+        },
     },
     {
         title: "Lot tags",
-        data: { ...sourceData, tags: ["dev", "test_", "ke.notifications", "ke.notifications-dev"] },
+        data: {
+            ...sourceData,
+            tags: ["dev", "test_", "ke.notifications", "ke.notifications-dev"],
+        },
     },
     {
         title: "Throttling flag",
