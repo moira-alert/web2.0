@@ -96,13 +96,12 @@ class SettingsContainer extends React.Component<Props, State> {
     handleAddContact = async (contact: NewContactInfo): Promise<?Contact> => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
-        if (settings == null) {
-            throw new Error("InvalidProgramState");
-        }
         const contactType = contact.type;
-        if (contactType == null) {
+
+        if (settings == null || contactType == null) {
             throw new Error("InvalidProgramState");
         }
+
         try {
             let newContact = await moiraApi.addContact({
                 value: this.normalizeContactValueForApi(contactType, contact.value),
@@ -122,8 +121,8 @@ class SettingsContainer extends React.Component<Props, State> {
             return newContact;
         } catch (error) {
             this.setState({ error: error.message });
+            return null;
         }
-        return null;
     };
 
     handleUpdateContact = async (contact: Contact) => {
@@ -150,7 +149,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleAddSubscription = async (subscription: SubscriptionInfo) => {
+    handleAddSubscription = async (subscription: SubscriptionInfo): Promise<?Subscription> => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         if (settings == null) {
@@ -177,8 +176,8 @@ class SettingsContainer extends React.Component<Props, State> {
             return newSubscriptions;
         } catch (error) {
             this.setState({ error: error.message });
+            return null;
         }
-        return null;
     };
 
     handleUpdateSubscription = async (subscription: Subscription) => {

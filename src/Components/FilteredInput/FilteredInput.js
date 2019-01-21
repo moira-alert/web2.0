@@ -85,7 +85,7 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
         }
     }
 
-    getHintState(hintValue: ?string, displayValue: ?string): $Shape<HintState> {
+    getHintState(hintValue: ?string, displayValue: ?string): ?$Shape<HintState> {
         if (hintValue === null || hintValue === undefined) {
             return null;
         }

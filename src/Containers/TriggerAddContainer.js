@@ -95,7 +95,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         const { trigger } = this.state;
         const { history, moiraApi } = this.props;
         const isValid: boolean = await this.refs.triggerForm.validate();
-        if (isValid) {
+        if (isValid && trigger) {
             this.setState({ loading: true });
             try {
                 const { id } = await moiraApi.addTrigger(trigger);

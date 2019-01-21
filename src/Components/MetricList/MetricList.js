@@ -22,6 +22,7 @@ type Props = {|
     },
     sortingColumn?: SortingColum,
     sortingDown?: boolean,
+    noDataMerticCount?: number,
     onSort?: (sorting: SortingColum) => void,
     onChange: (maintenance: Maintenance, metric: string) => void,
     onRemove: (metric: string) => void,
@@ -34,7 +35,17 @@ function checkMaintenance(maintenance: ?number): React.Node {
 }
 
 export default function MetricList(props: Props): React.Node {
-    const { status, items, onSort, onChange, onRemove, onNoDataRemove, sortingColumn, sortingDown } = props;
+    const {
+        status,
+        items,
+        onSort,
+        onChange,
+        onRemove,
+        noDataMerticCount,
+        onNoDataRemove,
+        sortingColumn,
+        sortingDown,
+    } = props;
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
 
     return (
@@ -58,7 +69,7 @@ export default function MetricList(props: Props): React.Node {
                     </span>
                 </div>
                 <div className={cn("controls")}>
-                    {onNoDataRemove && (
+                    {typeof noDataMerticCount === "number" && noDataMerticCount > 1 && onNoDataRemove && (
                         <span className={cn("delete-all")}>
                             <Button use="link" icon={<TrashIcon />} onClick={() => onNoDataRemove()}>
                                 Delete all NODATA

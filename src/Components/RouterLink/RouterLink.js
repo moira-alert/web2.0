@@ -3,13 +3,12 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import cn from "./RouterLink.less";
 
-export type RouterLinkWithIconProps = {
-    icon?: React.Element,
-    children?: any,
-    className?: string,
-};
+type Props = {
+    icon?: React.Node,
+} & React$ElementConfig<typeof Link>;
 
-export default function RouterLink({ icon, children, className, ...props }: RouterLinkWithIconProps): React.Node {
+export default function RouterLink(props: Props): React.Element<typeof Link> {
+    const { icon, className, children } = props;
     return (
         <Link className={cn(className, "link")} {...props}>
             {icon}

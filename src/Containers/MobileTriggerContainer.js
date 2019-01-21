@@ -140,11 +140,8 @@ class TriggerContainer extends React.Component<Props, State> {
     }
 
     parseLocationSearch(search: string): { page: number } {
-        const {
-            page,
-        }: {
-            [key: string]: string | Array<string>,
-        } = queryString.parse(search, { arrayFormat: "index" });
+        const location = queryString.parse(search, { arrayFormat: "index" });
+        const { page } = location;
         return {
             page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
         };

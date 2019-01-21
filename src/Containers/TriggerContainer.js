@@ -145,11 +145,7 @@ class TriggerContainer extends React.Component<Props, State> {
     }
 
     parseLocationSearch(search: string): { page: number } {
-        const {
-            page,
-        }: {
-            [key: string]: string | Array<string>,
-        } = queryString.parse(search, { arrayFormat: "index" });
+        const { page } = queryString.parse(search, { arrayFormat: "index" });
         return {
             page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
         };
@@ -318,13 +314,10 @@ class TriggerContainer extends React.Component<Props, State> {
                                         onRemove={metric => {
                                             this.removeMetric(trigger.id, metric);
                                         }}
-                                        onNoDataRemove={
-                                            noDataMerticCount > 1
-                                                ? () => {
-                                                      this.removeNoDataMetric(trigger.id);
-                                                  }
-                                                : null
-                                        }
+                                        noDataMerticCount={noDataMerticCount}
+                                        onNoDataRemove={() => {
+                                            this.removeNoDataMetric(trigger.id);
+                                        }}
                                     />
                                 </Tab>
                             )}

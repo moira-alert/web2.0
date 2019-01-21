@@ -18,7 +18,7 @@ import cn from "./SubscriptionList.less";
 export type { SubscriptionInfo };
 
 type Props = {
-    onAddSubscription: SubscriptionInfo => Promise<void>,
+    onAddSubscription: SubscriptionInfo => Promise<?Subscription>,
     onRemoveSubscription: Subscription => Promise<void>,
     onUpdateSubscription: Subscription => Promise<void>,
     onTestSubscription: Subscription => Promise<void>,
@@ -90,7 +90,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
         }
         try {
             const subscription = await onAddSubscription(newSubscription);
-            if (subscription !== null) {
+            if (subscription !== null && subscription !== undefined) {
                 await onTestSubscription(subscription);
             }
         } finally {
