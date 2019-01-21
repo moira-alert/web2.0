@@ -3,7 +3,7 @@ import * as React from "react";
 import moment from "moment";
 import queryString from "query-string";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger, TriggerState } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import type { Metric } from "../Domain/Metric";

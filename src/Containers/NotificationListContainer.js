@@ -2,7 +2,7 @@
 import * as React from "react";
 import Button from "retail-ui/components/Button/Button";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { MoiraServiceStates } from "../Domain/MoiraServiceStates";

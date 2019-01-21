@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Config } from "../Domain/Config";
 import type { Settings } from "../Domain/Settings";
 import type { Contact } from "../Domain/Contact";

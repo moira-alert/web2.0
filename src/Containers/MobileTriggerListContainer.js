@@ -7,7 +7,7 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
 import type { Config } from "../Domain/Config";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { TriggerList, Trigger } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import MobileTriggerListPage from "../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
