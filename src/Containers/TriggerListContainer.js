@@ -3,6 +3,7 @@ import * as React from "react";
 import queryString from "query-string";
 import { intersection, concat, difference, flattenDeep, uniq, isEqual } from "lodash";
 import moment from "moment";
+import Paging from "retail-ui/components/Paging";
 import { getPageLink } from "../Domain/Global";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
@@ -12,7 +13,6 @@ import type { IMoiraApi } from "../Api/MoiraApi";
 import type { TriggerList } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
-import Paging from "../Components/Paging/Paging";
 import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../Components/Layout/Layout";
 import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSelect2";
 import TriggerListView from "../Components/TriggerList/TriggerList";
@@ -231,9 +231,11 @@ class TriggerListContainer extends React.Component<Props, State> {
                 {pageCount > 1 && (
                     <LayoutFooter>
                         <Paging
+                            caption="Next page"
                             activePage={page}
                             pagesCount={pageCount}
                             onPageChange={page => this.changeLocationSearch({ page })}
+                            withoutNavigationHint
                         />
                     </LayoutFooter>
                 )}
