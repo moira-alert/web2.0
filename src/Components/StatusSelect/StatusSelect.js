@@ -11,7 +11,7 @@ type Props = {|
     onChange: Status => void,
 |};
 
-function renderItem(value: Status, item: string): React.Node {
+function renderItem(value: Status, item: ?string): React.Node {
     return (
         <RowStack baseline block gap={2}>
             <Fit>

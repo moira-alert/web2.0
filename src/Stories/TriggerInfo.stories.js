@@ -6,6 +6,7 @@ import StoryRouter from "storybook-react-router";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 
 const sourceData = {
+    mute_new_metrics: false,
     notify_about_new_metrics: false,
     is_remote: false,
     error_value: 1000.0,
@@ -39,6 +40,7 @@ const sourceData = {
 };
 
 const triggerState = {
+    maintenance: null,
     metrics: {
         About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
     },
@@ -121,6 +123,7 @@ stories.forEach(({ title, data, triggerState }) => {
             triggerState={triggerState}
             data={data}
             onThrottlingRemove={action("onThrottlingRemove")}
+            onSetMaintenance={action("onSetMaintenance")}
         />
     ));
 });

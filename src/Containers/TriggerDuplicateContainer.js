@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
@@ -133,7 +133,14 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
                                             </Button>
                                         </Fit>
                                         <Fit>
-                                            <RouterLink to={`/trigger/${this.props.match.params.id}`}>
+                                            <RouterLink
+                                                to={`/trigger/${
+                                                    this.props.match &&
+                                                    this.props.match.params &&
+                                                    this.props.match.params.id
+                                                        ? this.props.match.params.id
+                                                        : ""
+                                                }`}>
                                                 Cancel
                                             </RouterLink>
                                         </Fit>

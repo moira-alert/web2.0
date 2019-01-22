@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Bar from "../Components/Bar/Bar";
 import Header from "../Components/Header/Header";

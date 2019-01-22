@@ -73,7 +73,7 @@ export default class NewContactModal extends React.Component<Props, State> {
 
         return (
             <Modal onClose={onCancel} ignoreBackgroundClick>
-                <Modal.Header>Add delivery channel</Modal.Header>
+                <Modal.Header sticky={false}>Add delivery channel</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={x => (this.container = x)}>
                         <ContactEditForm
@@ -83,7 +83,7 @@ export default class NewContactModal extends React.Component<Props, State> {
                         />
                     </ValidationContainer>
                 </Modal.Body>
-                <Modal.Footer panel>
+                <Modal.Footer panel sticky>
                     <Gapped gap={10}>
                         <Button
                             disabled={idActionButtonsDisabled}

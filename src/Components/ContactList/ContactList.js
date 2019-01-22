@@ -12,7 +12,7 @@ import AddIcon from "@skbkontur/react-icons/Add";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactList.less";
 
-type Props = ReactExactProps<{
+type Props = $Exact<{
     items: Array<Contact>,
     contactDescriptions: Array<ContactConfig>,
     onTestContact: Contact => Promise<void>,
@@ -40,12 +40,12 @@ export default class ContactList extends React.Component<Props, State> {
     handleCreateAndTestContact = async () => {
         const { onAddContact, onTestContact } = this.props;
         const { newContact } = this.state;
-        if (newContact == null) {
+        if (newContact === null || newContact === undefined) {
             throw new Error("InvalidProgramState");
         }
         try {
             const contact = await onAddContact(newContact);
-            if (contact !== null) {
+            if (contact !== null && contact !== undefined) {
                 await onTestContact(contact);
             }
         } finally {

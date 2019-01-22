@@ -6,7 +6,7 @@ import TagGroup from "../TagGroup/TagGroup";
 import RenderLayer from "retail-ui/components/RenderLayer";
 import LayoutEvents from "retail-ui/lib/LayoutEvents";
 import DropdownContainer from "retail-ui/components/DropdownContainer/DropdownContainer";
-import ScrollContainer from "retail-ui/components/ScrollContainer/ScrollContainer";
+import ScrollContainer from "retail-ui/components/ScrollContainer";
 import Tag from "../Tag/Tag";
 import cn from "./TagDropdownSelect2.less";
 

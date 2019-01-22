@@ -3,10 +3,11 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
-import MobileDecorator from "../Utils/MobileDecorator";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 
 const sourceData = {
+    mute_new_metrics: false,
+    notify_about_new_metrics: false,
     is_remote: false,
     error_value: 1000.0,
     sched: {
@@ -39,6 +40,7 @@ const sourceData = {
 };
 
 const triggerState = {
+    maintenance: null,
     metrics: {
         About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
     },
@@ -110,7 +112,6 @@ const stories = [
 const story = storiesOf("Mobile/TriggerInfoPage", module);
 
 story.addDecorator(StoryRouter());
-story.addDecorator(MobileDecorator);
 story.add("Loading", () => (
     <MobileTriggerInfoPage
         data={null}
@@ -118,7 +119,8 @@ story.add("Loading", () => (
         metrics={null}
         loading={true}
         onRemoveMetric={action("onRemoveMetric")}
-        onSetMaintenance={action("onSetMaintenance")}
+        onSetMetricMaintenance={action("onSetMetricMaintenance")}
+        onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
         onThrottlingRemove={action("onThrottlingRemove")}
     />
 ));
@@ -130,7 +132,8 @@ stories.forEach(({ title, data, triggerState }) => {
             data={data}
             metrics={null}
             onRemoveMetric={action("onRemoveMetric")}
-            onSetMaintenance={action("onSetMaintenance")}
+            onSetMetricMaintenance={action("onSetMetricMaintenance")}
+            onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
             onThrottlingRemove={action("onThrottlingRemove")}
         />
     ));

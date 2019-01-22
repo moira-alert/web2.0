@@ -3,7 +3,7 @@ import * as React from "react";
 import moment from "moment";
 import queryString from "query-string";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger, TriggerState } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import type { Metric } from "../Domain/Metric";
@@ -140,11 +140,8 @@ class TriggerContainer extends React.Component<Props, State> {
     }
 
     parseLocationSearch(search: string): { page: number } {
-        const {
-            page,
-        }: {
-            [key: string]: string | Array<string>,
-        } = queryString.parse(search, { arrayFormat: "index" });
+        const location = queryString.parse(search, { arrayFormat: "index" });
+        const { page } = location;
         return {
             page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
         };

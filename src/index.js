@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import MoiraApi from "./Api/MoiraAPI";
+import MoiraApi from "./Api/MoiraApi";
 import { ApiProvider } from "./Api/MoiraApiInjection";
 import App from "./App";
 

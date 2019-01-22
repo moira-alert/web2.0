@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
-import Button from "retail-ui/components/Button/Button";
+import Button from "retail-ui/components/Button";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { MoiraServiceStates } from "../Domain/MoiraServiceStates";
@@ -128,7 +128,11 @@ class NotificationListContainer extends React.Component<Props, State> {
                 </LayoutContent>
                 <LayoutFooter>
                     <div className={cn("actions-row")}>
-                        <Button icon={<TrashIcon />} onClick={() => this.removeAllNotifications()}>
+                        <Button
+                            icon={<TrashIcon />}
+                            onClick={() => {
+                                this.removeAllNotifications();
+                            }}>
                             Remove all notifications
                         </Button>
                         <ToggleWithLabel

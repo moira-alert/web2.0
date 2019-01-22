@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Statuses } from "../Domain/Status";
@@ -95,7 +95,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         const { trigger } = this.state;
         const { history, moiraApi } = this.props;
         const isValid: boolean = await this.refs.triggerForm.validate();
-        if (isValid) {
+        if (isValid && trigger) {
             this.setState({ loading: true });
             try {
                 const { id } = await moiraApi.addTrigger(trigger);

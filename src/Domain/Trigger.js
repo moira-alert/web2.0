@@ -5,6 +5,7 @@ import type { MetricList } from "./Metric";
 import type { Schedule } from "./Schedule";
 
 export type Trigger = {
+    notify_about_new_metrics: boolean,
     id: string,
     name: string,
     targets: Array<string>,
@@ -40,6 +41,7 @@ export type TriggerList = {|
 |};
 
 export type TriggerState = {|
+    maintenance: ?number,
     metrics: MetricList,
     timestamp: number,
     state: Status,

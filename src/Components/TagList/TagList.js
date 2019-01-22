@@ -10,7 +10,7 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import cn from "./TagList.less";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 
-type Props = ReactExactProps<{
+type Props = $Exact<{
     items: Array<TagStat>,
     contacts: Array<Contact>,
     onRemove: (tag: string) => void,

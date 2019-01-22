@@ -3,8 +3,9 @@ import * as React from "react";
 import moment from "moment";
 import queryString from "query-string";
 import Center from "retail-ui/components/Center";
+import Paging from "retail-ui/components/Paging";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger, TriggerState } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import type { Metric } from "../Domain/Metric";
@@ -20,7 +21,6 @@ import Tabs, { Tab } from "../Components/Tabs/Tabs";
 import EventList from "../Components/EventList/EventList";
 import Layout, { LayoutPlate, LayoutContent } from "../Components/Layout/Layout";
 import { ColumnStack } from "../Components/ItemsStack/ItemsStack";
-import Paging from "../Components/Paging/Paging";
 import cn from "./TriggerContainer.less";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
@@ -145,11 +145,7 @@ class TriggerContainer extends React.Component<Props, State> {
     }
 
     parseLocationSearch(search: string): { page: number } {
-        const {
-            page,
-        }: {
-            [key: string]: string | Array<string>,
-        } = queryString.parse(search, { arrayFormat: "index" });
+        const { page } = queryString.parse(search, { arrayFormat: "index" });
         return {
             page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
         };
@@ -318,13 +314,10 @@ class TriggerContainer extends React.Component<Props, State> {
                                         onRemove={metric => {
                                             this.removeMetric(trigger.id, metric);
                                         }}
-                                        onNoDataRemove={
-                                            noDataMerticCount > 1
-                                                ? () => {
-                                                      this.removeNoDataMetric(trigger.id);
-                                                  }
-                                                : null
-                                        }
+                                        noDataMerticCount={noDataMerticCount}
+                                        onNoDataRemove={() => {
+                                            this.removeNoDataMetric(trigger.id);
+                                        }}
                                     />
                                 </Tab>
                             )}
@@ -334,9 +327,11 @@ class TriggerContainer extends React.Component<Props, State> {
                                         <EventList items={this.composeEvents(events, trigger.name)} />
                                         {pageCount > 1 && (
                                             <Paging
+                                                caption="Next page"
                                                 activePage={page}
                                                 pagesCount={pageCount}
                                                 onPageChange={page => this.changeLocationSearch({ page })}
+                                                withoutNavigationHint
                                             />
                                         )}
                                     </ColumnStack>

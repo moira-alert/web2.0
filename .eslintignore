@@ -1,2 +1,3 @@
 /node_modules/*
-interfaces/*.js.flow
+/flow-typed/*
+/flow/*

@@ -16,7 +16,7 @@ import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Radio from "retail-ui/components/Radio";
-import Checkbox from "retail-ui/components/Checkbox/Checkbox";
+import Checkbox from "retail-ui/components/Checkbox";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";

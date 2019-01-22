@@ -42,6 +42,7 @@ module.exports = {
             ],
         },
         commonRules,
-        { "flowtype/require-return-type": ["warn", "always", { excludeArrowFunctions: true }] }
+        { "flowtype/require-return-type": ["warn", "always", { excludeArrowFunctions: true }] },
+        { "react/prop-types": "off" }
     ),
 };

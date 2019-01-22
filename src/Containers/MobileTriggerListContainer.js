@@ -7,7 +7,7 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
 import type { Config } from "../Domain/Config";
 import type { ContextRouter } from "react-router-dom";
-import type { IMoiraApi } from "../Api/MoiraAPI";
+import type { IMoiraApi } from "../Api/MoiraApi";
 import type { TriggerList, Trigger } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import MobileTriggerListPage from "../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
@@ -157,13 +157,7 @@ class TriggerListContainer extends React.Component<Props, State> {
     }
 
     parseLocationSearch(search: string): LocationSearch {
-        const {
-            page,
-            tags,
-            onlyProblems,
-        }: {
-            [key: string]: string | Array<string>,
-        } = queryString.parse(search, { arrayFormat: "index" });
+        const { page, tags, onlyProblems } = queryString.parse(search, { arrayFormat: "index" });
         return {
             page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
             tags: Array.isArray(tags) ? tags : [],

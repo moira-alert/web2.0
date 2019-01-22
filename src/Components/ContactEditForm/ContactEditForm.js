@@ -16,12 +16,12 @@ export type ContactInfo = {
     value: string,
 };
 
-export type ContactInfoUpdate = $Shape<{
+export type ContactInfoUpdate = {
     type: string,
     value: string,
-}>;
+};
 
-type Props = ReactExactProps<{
+type Props = $Exact<{
     contactDescriptions: Array<ContactConfig>,
     contactInfo: ContactInfo,
     onChange: ($Shape<ContactInfoUpdate>) => void,
@@ -80,6 +80,7 @@ export default class ContactEditForm extends React.Component<Props> {
         const { onChange, contactInfo, contactDescriptions } = this.props;
         const { value, type } = contactInfo;
         const currentContactConfig = contactDescriptions.find(x => x.type === type);
+        const contactItems = contactDescriptions.map(x => [x.type, getContactTypeCaption(x)]);
 
         return (
             <div className={cn("form")}>
@@ -90,16 +91,18 @@ export default class ContactEditForm extends React.Component<Props> {
                         value={type}
                         renderItem={(value, item) => (
                             <span>
-                                <ContactTypeIcon type={value} /> {item}
+                                {value && <ContactTypeIcon type={value} />} {item}
                             </span>
                         )}
                         renderValue={(value, item) => (
                             <span>
-                                <ContactTypeIcon type={value} /> {item}
+                                {value && <ContactTypeIcon type={value} />} {item}
                             </span>
                         )}
-                        onChange={(e, value) => onChange({ type: value })}
-                        items={contactDescriptions.map(x => [x.type, getContactTypeCaption(x)])}
+                        onChange={(evt, value) => {
+                            value && onChange({ type: value });
+                        }}
+                        items={contactItems}
                     />
                 </div>
                 <div className={cn("row")}>
