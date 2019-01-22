@@ -91,14 +91,12 @@ export default class ContactEditForm extends React.Component<Props> {
                         value={type}
                         renderItem={(value, item) => (
                             <span>
-                                {value && <ContactTypeIcon type={value} />}
-                                {item}
+                                {value && <ContactTypeIcon type={value} />} {item}
                             </span>
                         )}
                         renderValue={(value, item) => (
                             <span>
-                                {value && <ContactTypeIcon type={value} />}
-                                {item}
+                                {value && <ContactTypeIcon type={value} />} {item}
                             </span>
                         )}
                         onChange={(evt, value) => {
