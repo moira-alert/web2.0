@@ -95,11 +95,11 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                             });
                             this.setState({ allDay: true });
                         }}>
-                        <Radio checked={allDay} />
+                        <Radio checked={allDay} value="all_day" />
                         All day
                     </span>
                     <span className={cn("radio")} onClick={() => this.setState({ allDay: false })}>
-                        <Radio checked={!allDay} />
+                        <Radio checked={!allDay} value="specific_interval" />
                         <span>At specific interval</span>
                         <Input
                             value={this.formatTime(startOffset)}

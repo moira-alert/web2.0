@@ -42,7 +42,7 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
         hintClip: null,
     };
     refs: {
-        innerInput: ?Input,
+        innerInput: ?HTMLInputElement,
         testWidth: ?HTMLElement,
         root: ?HTMLElement,
     };
@@ -185,17 +185,14 @@ export default class FilteredInput<T> extends React.Component<FilteredInputProps
                             {...restProps}
                             disabled
                             borderless
-                            className={cn("hint")}
-                            placeholder={this.state.hintValue}
+                            placeholder={this.state.hintValue ? this.state.hintValue : ""}
                             value={""}
                         />
                     </div>
                 )}
                 <Input
                     {...restProps}
-                    data-tid="innerInput"
                     ref="innerInput"
-                    className={cn("input") + " inner-input"}
                     value={this.state.displayValue || ""}
                     onChange={(event, value) => this.handleInputChange(event, value)}
                     onBlur={(event, ...rest) => {

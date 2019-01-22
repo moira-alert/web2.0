@@ -150,7 +150,9 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                         <ColumnStack block gap={2} stretch>
                             <Fit>
                                 <span className={cn("radio")} onClick={this.handleSetRisingWatchType}>
-                                    <Radio checked={watchFor === "rising"}>Watch for value rising:</Radio>
+                                    <Radio checked={watchFor === "rising"} value="rising">
+                                        Watch for value rising:
+                                    </Radio>
                                 </span>
                             </Fit>
                             <Fit className={cn("state-block")}>
@@ -215,7 +217,9 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                         <ColumnStack block gap={2} stretch>
                             <Fit>
                                 <span className={cn("radio")} onClick={this.handleSetFallingWatchType}>
-                                    <Radio checked={watchFor === "falling"}>Watch for value falling:</Radio>
+                                    <Radio checked={watchFor === "falling"} value="falling">
+                                        Watch for value falling:
+                                    </Radio>
                                 </span>
                             </Fit>
 

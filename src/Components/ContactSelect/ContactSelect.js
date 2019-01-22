@@ -4,6 +4,7 @@ import { union, difference } from "lodash";
 import type { Contact } from "../../Domain/Contact";
 import Link from "retail-ui/components/Link";
 import ComboBox from "retail-ui/components/ComboBox";
+import RemoveIcon from "@skbkontur/react-icons/Remove";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import cn from "./ContactSelect.less";
 
@@ -13,8 +14,8 @@ type Props = {
     availableContacts: Array<Contact>,
     error?: boolean,
     warning?: boolean,
-    onFocus?: Event => void,
-    onBlur?: Event => void,
+    onFocus?: () => void,
+    onBlur?: () => void,
     onMouseEnter?: Event => void,
     onMouseLeave?: Event => void,
 };
@@ -48,7 +49,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         return contact.value.toLowerCase().includes(query.toLowerCase());
     }
 
-    handleChangeContactToAdd = (e: Event, value: { value: string, label: string }) => {
+    handleChangeContactToAdd = <T: { value: string, label: string }>(evt: { target: { value: T } }, value: T) => {
         const { onChange, contactIds } = this.props;
         onChange(union(contactIds, [value.value]));
     };
@@ -77,7 +78,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     .map((x, i) => (
                         <div key={i} className={cn("contact")}>
                             <ContactInfo contact={x} />{" "}
-                            <Link icon={"remove"} use="danger" onClick={() => this.handleRemoveContact(x)} />
+                            <Link icon={<RemoveIcon />} use="danger" onClick={() => this.handleRemoveContact(x)} />
                         </div>
                     ))}
                 <div>
@@ -85,7 +86,6 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         error={error}
                         warning={warning}
                         width="100%"
-                        value={null}
                         onFocus={onFocus}
                         onBlur={onBlur}
                         onChange={this.handleChangeContactToAdd}

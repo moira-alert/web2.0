@@ -84,7 +84,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         const isActionButtonsDisabled = updateInProcess || updateAndTestInProcess || deleteInProcess;
         return (
             <Modal ignoreBackgroundClick onClose={onCancel}>
-                <Modal.Header>Edit subscription</Modal.Header>
+                <Modal.Header sticky={false}>Edit subscription</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={x => (this.container = x)}>
                         <SubscriptionEditor
@@ -95,7 +95,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                         />
                     </ValidationContainer>
                 </Modal.Body>
-                <Modal.Footer panel>
+                <Modal.Footer panel sticky>
                     <Gapped gap={10}>
                         <Button
                             use="primary"

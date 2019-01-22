@@ -67,7 +67,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
 
         return (
             <Modal ignoreBackgroundClick onClose={onCancel}>
-                <Modal.Header>Create subscription</Modal.Header>
+                <Modal.Header sticky={false}>Create subscription</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref="container">
                         <SubscriptionEditor
@@ -78,7 +78,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                         />
                     </ValidationContainer>
                 </Modal.Body>
-                <Modal.Footer panel>
+                <Modal.Footer panel sticky>
                     <Gapped gap={10}>
                         <Button
                             use="primary"
