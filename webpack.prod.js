@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -41,6 +42,9 @@ module.exports = merge(common, {
     plugins: [
         new MiniCssExtractPlugin({
             filename: "app.[hash:6].css",
+        }),
+        new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1
         }),
     ],
     optimization: {
