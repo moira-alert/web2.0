@@ -1,3 +1,4 @@
+const path = require("path");
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
@@ -23,6 +24,21 @@ module.exports = merge(common, {
                     },
                     "less-loader",
                 ],
+                include: path.resolve(__dirname, "src"),
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: "global",
+                        },
+                    },
+                    "less-loader",
+                ],
+                include: /retail-ui/,
             },
             {
                 test: /\.css$/,
@@ -44,7 +60,7 @@ module.exports = merge(common, {
             filename: "app.[hash:6].css",
         }),
         new webpack.optimize.LimitChunkCountPlugin({
-            maxChunks: 1
+            maxChunks: 1,
         }),
     ],
     optimization: {
