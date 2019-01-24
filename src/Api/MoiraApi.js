@@ -89,16 +89,14 @@ export default class MoiraApi implements IMoiraApi {
     async checkStatus(response: Response) {
         if (!(response.status >= 200 && response.status < 300)) {
             const errorText = await response.text();
-            let serverResponse;
             try {
-                serverResponse = JSON.parse(errorText);
+                let serverResponse: { status: string; error: string } | null = JSON.parse(errorText);
+                if (serverResponse != null) {
+                    throw new Error(serverResponse.error);
+                }
             } catch (error) {
-                serverResponse = null;
+                throw new Error(errorText);
             }
-            if (serverResponse != null) {
-                throw new Error(serverResponse.error);
-            }
-            throw new Error(errorText);
         }
     }
 
