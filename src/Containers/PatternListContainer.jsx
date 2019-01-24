@@ -16,6 +16,7 @@ type State = {
 
 class PatternListContainer extends React.Component<Props, State> {
     props: Props;
+
     state: State = {
         loading: true,
         error: null,
@@ -28,24 +29,6 @@ class PatternListContainer extends React.Component<Props, State> {
 
     componentWillReceiveProps(nextProps: Props) {
         this.getData(nextProps);
-    }
-
-    async getData(props: Props) {
-        const { moiraApi } = props;
-        try {
-            const patterns = await moiraApi.getPatternList();
-            this.setState({ ...patterns });
-        } catch (error) {
-            this.setState({ error: error.message });
-        } finally {
-            this.setState({ loading: false });
-        }
-    }
-
-    async removePattern(pattern: string) {
-        this.setState({ loading: true });
-        await this.props.moiraApi.delPattern(pattern);
-        this.getData(this.props);
     }
 
     render(): React.Node {
@@ -65,6 +48,25 @@ class PatternListContainer extends React.Component<Props, State> {
                 </LayoutContent>
             </Layout>
         );
+    }
+
+    async getData(props: Props) {
+        const { moiraApi } = props;
+        try {
+            const patterns = await moiraApi.getPatternList();
+            this.setState({ ...patterns });
+        } catch (error) {
+            this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
+        }
+    }
+
+    async removePattern(pattern: string) {
+        const { moiraApi } = this.props;
+        this.setState({ loading: true });
+        await moiraApi.delPattern(pattern);
+        this.getData(this.props);
     }
 }
 

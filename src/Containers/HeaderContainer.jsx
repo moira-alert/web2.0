@@ -20,6 +20,21 @@ class HeaderContainer extends React.Component<Props, State> {
         notifierStateMessage: null,
     };
 
+    componentDidMount() {
+        this.getData();
+    }
+
+    render(): React.Node {
+        const { notifierStateMessage } = this.state;
+        const { className } = this.props;
+        return (
+            <div className={className}>
+                {notifierStateMessage && <Bar message={notifierStateMessage} />}
+                <Header />
+            </div>
+        );
+    }
+
     async getData() {
         const { moiraApi } = this.props;
         try {
@@ -37,20 +52,6 @@ class HeaderContainer extends React.Component<Props, State> {
         } catch (error) {
             // ToDo: do something with this error
         }
-    }
-
-    componentDidMount() {
-        this.getData();
-    }
-
-    render(): React.Node {
-        const { notifierStateMessage } = this.state;
-        return (
-            <div className={this.props.className}>
-                {notifierStateMessage && <Bar message={notifierStateMessage} />}
-                <Header />
-            </div>
-        );
     }
 }
 

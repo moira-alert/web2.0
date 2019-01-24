@@ -18,6 +18,7 @@ type State = {
 
 class TagListContainer extends React.Component<Props, State> {
     props: Props;
+
     state: State = {
         loading: true,
         error: null,
@@ -27,39 +28,6 @@ class TagListContainer extends React.Component<Props, State> {
 
     componentDidMount() {
         this.getData(this.props);
-    }
-
-    async getData(props: Props) {
-        const { moiraApi } = props;
-        try {
-            const tags = await moiraApi.getTagStats();
-            const contacts = await moiraApi.getContactList();
-            this.setState({ tags: tags.list, contacts: contacts.list });
-        } catch (error) {
-            this.setState({ error: error.message });
-        } finally {
-            this.setState({ loading: false });
-        }
-    }
-
-    async removeTag(tag: string) {
-        this.setState({ loading: true });
-        try {
-            await this.props.moiraApi.delTag(tag);
-            this.getData(this.props);
-        } catch (error) {
-            this.setState({ error: error.message, loading: false });
-        }
-    }
-
-    async removeContact(subscriptionId: string) {
-        this.setState({ loading: true });
-        try {
-            await this.props.moiraApi.delSubscription(subscriptionId);
-            this.getData(this.props);
-        } catch (error) {
-            this.setState({ error: error.message, loading: false });
-        }
     }
 
     render(): React.Node {
@@ -83,6 +51,41 @@ class TagListContainer extends React.Component<Props, State> {
                 </LayoutContent>
             </Layout>
         );
+    }
+
+    async removeTag(tag: string) {
+        const { moiraApi } = this.props;
+        this.setState({ loading: true });
+        try {
+            await moiraApi.delTag(tag);
+            this.getData(this.props);
+        } catch (error) {
+            this.setState({ error: error.message, loading: false });
+        }
+    }
+
+    async removeContact(subscriptionId: string) {
+        const { moiraApi } = this.props;
+        this.setState({ loading: true });
+        try {
+            await moiraApi.delSubscription(subscriptionId);
+            this.getData(this.props);
+        } catch (error) {
+            this.setState({ error: error.message, loading: false });
+        }
+    }
+
+    async getData(props: Props) {
+        const { moiraApi } = props;
+        try {
+            const tags = await moiraApi.getTagStats();
+            const contacts = await moiraApi.getContactList();
+            this.setState({ tags: tags.list, contacts: contacts.list });
+        } catch (error) {
+            this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
+        }
     }
 }
 

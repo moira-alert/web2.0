@@ -8,7 +8,6 @@ import type { Trigger, TriggerState } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import type { Metric } from "../Domain/Metric";
 import type { Event } from "../Domain/Event";
-import type { Config } from "../Domain/Config";
 import type { SortingColum } from "../Components/MetricList/MetricList";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
@@ -18,29 +17,19 @@ import MobileTriggerInfoPage from "../Components/Mobile/MobileTriggerInfoPage/Mo
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
     loading: boolean,
-    error: ?string,
-    config: ?Config,
     trigger: ?Trigger,
     triggerState: ?TriggerState,
-    triggerEvents: ?{|
-        total: number,
-        list: Array<Event>,
-        page: number,
-        size: number,
-    |},
     sortingColumn: SortingColum,
     sortingDown: boolean,
 };
 
 class TriggerContainer extends React.Component<Props, State> {
     props: Props;
+
     state: State = {
         loading: true,
-        config: null,
-        error: null,
         trigger: null,
         triggerState: null,
-        triggerEvents: null,
         sortingColumn: "value",
         sortingDown: true,
     };
@@ -54,40 +43,121 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(nextProps);
     }
 
-    async getData(props: Props) {
-        const { moiraApi, match, location } = props;
-        const { page } = this.parseLocationSearch(location.search);
+    static composeEvents(
+        events: Array<Event>
+    ): {
+        [key: string]: Array<Event>,
+    } {
+        return events.reduce((data: { [key: string]: Array<Event> }, event: Event) => {
+            const metric = event.metric.length !== 0 ? event.metric : "No metric evaluated";
+            if (data[metric]) {
+                data[metric].push(event);
+            } else {
+                data[metric] = [event]; // eslint-disable-line no-param-reassign
+            }
+            return data;
+        }, {});
+    }
+
+    static parseLocationSearch(search: string): { page: number } {
+        const location = queryString.parse(search, { arrayFormat: "index" });
+        const { page } = location;
+        return {
+            page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
+        };
+    }
+
+    render(): React.Node {
+        const { loading, trigger, triggerState } = this.state;
+        const { metrics } = triggerState || {};
+
+        return (
+            <MobileTriggerInfoPage
+                loading={loading}
+                data={trigger}
+                triggerState={triggerState}
+                onRemoveMetric={x => {
+                    this.handleRemoveMetric(x);
+                }}
+                onThrottlingRemove={() => {
+                    this.disableTrhrottling();
+                }}
+                onSetMetricMaintenance={(x, y) => {
+                    this.handleSetMetricMaintenance(x, y);
+                }}
+                onSetTriggerMaintenance={x => {
+                    this.handleSetTriggerMaintenance(x);
+                }}
+                metrics={metrics}
+            />
+        );
+    }
+
+    handleRemoveMetric = async (metric: string) => {
+        const { moiraApi, match } = this.props;
         const { id } = match.params;
         if (typeof id !== "string") {
-            this.setState({ error: "Wrong trigger id", loading: false });
+            return;
+        }
+        await moiraApi.delMetric(id, metric);
+        this.getData(this.props);
+    };
+
+    handleSetMetricMaintenance = async (metric: string, maintenanceInterval: Maintenance) => {
+        const { match } = this.props;
+        const { id } = match.params;
+        if (typeof id !== "string") {
+            return;
+        }
+        await this.setMetricMaintenance(id, maintenanceInterval, metric);
+        this.getData(this.props);
+    };
+
+    handleSetTriggerMaintenance = async (maintenanceInterval: Maintenance) => {
+        const { match } = this.props;
+        const { id } = match.params;
+        if (typeof id !== "string") {
+            return;
+        }
+        await this.setTriggerMaintenance(id, maintenanceInterval);
+        this.getData(this.props);
+    };
+
+    async getData(props: Props) {
+        const { moiraApi, match, location } = props;
+        const { page } = TriggerContainer.parseLocationSearch(location.search);
+        const { id } = match.params;
+        if (typeof id !== "string") {
+            this.setState({ loading: false });
             return;
         }
         try {
             const trigger = await moiraApi.getTrigger(id);
             const triggerState = await moiraApi.getTriggerState(id);
             const triggerEvents = await moiraApi.getTriggerEvents(id, page - 1);
-            const config = await moiraApi.getConfig();
 
-            if (page > Math.ceil(triggerEvents.total / triggerEvents.size) && triggerEvents.total !== 0) {
+            if (
+                page > Math.ceil(triggerEvents.total / triggerEvents.size) &&
+                triggerEvents.total !== 0
+            ) {
                 const rightLastPage = Math.ceil(triggerEvents.total / triggerEvents.size) || 1;
                 this.changeLocationSearch({ page: rightLastPage });
                 return;
             }
 
             this.setState({
-                config: config,
                 trigger,
                 triggerState,
-                triggerEvents,
             });
         } catch (error) {
-            this.setState({ error: error.message });
+            // ToDo обработать ошибку
         } finally {
             this.setState({ loading: false });
         }
     }
 
     async disableTrhrottling() {
+        const { trigger } = this.state;
         const { moiraApi, match } = this.props;
         const { id } = match.params;
         if (typeof id !== "string") {
@@ -96,17 +166,25 @@ class TriggerContainer extends React.Component<Props, State> {
         await moiraApi.delThrottling(id);
         this.setState({
             trigger: {
-                ...this.state.trigger,
+                ...trigger,
                 throttling: 0,
             },
         });
         this.getData(this.props);
     }
 
+    async removeMetric(triggerId: string, metric: string) {
+        const { moiraApi } = this.props;
+        this.setState({ loading: true });
+        await moiraApi.delMetric(triggerId, metric);
+        this.getData(this.props);
+    }
+
     async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string) {
+        const { moiraApi } = this.props;
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
-        await this.props.moiraApi.setMaintenance(triggerId, {
+        await moiraApi.setMaintenance(triggerId, {
             metrics: {
                 [metric]:
                     maintenanceTime > 0
@@ -120,9 +198,10 @@ class TriggerContainer extends React.Component<Props, State> {
     }
 
     async setTriggerMaintenance(triggerId: string, maintenance: Maintenance) {
+        const { moiraApi } = this.props;
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);
-        await this.props.moiraApi.setMaintenance(triggerId, {
+        await moiraApi.setMaintenance(triggerId, {
             trigger:
                 maintenanceTime > 0
                     ? moment
@@ -133,32 +212,17 @@ class TriggerContainer extends React.Component<Props, State> {
         });
     }
 
-    async removeMetric(triggerId: string, metric: string) {
-        this.setState({ loading: true });
-        await this.props.moiraApi.delMetric(triggerId, metric);
-        this.getData(this.props);
-    }
-
-    parseLocationSearch(search: string): { page: number } {
-        const location = queryString.parse(search, { arrayFormat: "index" });
-        const { page } = location;
-        return {
-            page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
-        };
-    }
-
     changeLocationSearch(update: { page: number }) {
         const { location, history } = this.props;
         const search = {
-            ...this.parseLocationSearch(location.search),
+            ...TriggerContainer.parseLocationSearch(location.search),
             ...update,
         };
         history.push(
-            "?" +
-                queryString.stringify(search, {
-                    arrayFormat: "index",
-                    encode: true,
-                })
+            `?${queryString.stringify(search, {
+                arrayFormat: "index",
+                encode: true,
+            })}`
         );
     }
 
@@ -219,81 +283,7 @@ class TriggerContainer extends React.Component<Props, State> {
         };
         return Object.keys(metrics)
             .sort(sorting[sortingColumn])
-            .reduce((data, key) => {
-                return { ...data, [key]: metrics[key] };
-            }, {});
-    }
-
-    composeEvents(
-        events: Array<Event>
-    ): {
-        [key: string]: Array<Event>,
-    } {
-        return events.reduce((data, event) => {
-            const metric = event.metric.length !== 0 ? event.metric : "No metric evaluated";
-            if (data[metric]) {
-                data[metric].push(event);
-            } else {
-                data[metric] = [event];
-            }
-            return data;
-        }, {});
-    }
-
-    handleRemoveMetric = async (metric: string) => {
-        const { moiraApi, match } = this.props;
-        const { id } = match.params;
-        if (typeof id !== "string") {
-            return;
-        }
-        await moiraApi.delMetric(id, metric);
-        this.getData(this.props);
-    };
-
-    handleSetMetricMaintenance = async (metric: string, maintenanceInterval: Maintenance) => {
-        const { match } = this.props;
-        const { id } = match.params;
-        if (typeof id !== "string") {
-            return;
-        }
-        await this.setMetricMaintenance(id, maintenanceInterval, metric);
-        this.getData(this.props);
-    };
-
-    handleSetTriggerMaintenance = async (maintenanceInterval: Maintenance) => {
-        const { match } = this.props;
-        const { id } = match.params;
-        if (typeof id !== "string") {
-            return;
-        }
-        await this.setTriggerMaintenance(id, maintenanceInterval);
-        this.getData(this.props);
-    };
-
-    render(): React.Node {
-        const { loading, trigger, triggerState } = this.state;
-        const { metrics } = triggerState || {};
-
-        return (
-            <MobileTriggerInfoPage
-                loading={loading}
-                data={trigger}
-                triggerState={triggerState}
-                onRemoveMetric={x => {
-                    this.handleRemoveMetric(x);
-                }}
-                onThrottlingRemove={() => {
-                    this.disableTrhrottling();
-                }}
-                onSetMetricMaintenance={(x, y) => {
-                    this.handleSetMetricMaintenance(x, y);
-                }}
-                onSetTriggerMaintenance={x => {
-                    this.handleSetTriggerMaintenance(x);
-                }}
-                metrics={metrics}
-            />
-        );
+            .reduce((data, key) => ({ ...data, [key]: metrics[key] }), {});
     }
 }
 
