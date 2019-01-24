@@ -28,7 +28,10 @@ module.exports = {
                 test: /\.jsx?$/,
                 use: ["babel-loader"],
                 exclude: /node_modules/,
-                include: [path.resolve(__dirname, "src"), path.resolve(__dirname, "node_modules/retail-ui")],
+                include: [
+                    path.resolve(__dirname, "src"),
+                    path.resolve(__dirname, "node_modules/retail-ui"),
+                ],
             },
             {
                 test: /\.(png|woff|woff2|eot|svg)$/,
@@ -46,6 +49,7 @@ module.exports = {
     },
     resolve: {
         modules: ["node_modules", "local_modules"],
+        extensions: [".js", ".jsx"],
     },
     plugins: [
         new HtmlWebpackPlugin({

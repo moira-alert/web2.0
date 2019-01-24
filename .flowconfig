@@ -1,12 +1,17 @@
 [ignore]
 .*/node_modules/.*
-/dist
+./dist
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
 
 [libs]
 flow/type
 
 [lints]
 all=warn
+untyped-type-import=error
+sketchy-null-bool=off
 
 [options]
 module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/stub/css-modules'
