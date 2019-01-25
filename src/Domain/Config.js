@@ -1,5 +1,4 @@
 // @flow
-
 export type ContactConfig = {|
     type: string,
     validation: string,

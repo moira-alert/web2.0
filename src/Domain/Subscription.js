@@ -1,5 +1,4 @@
 // @flow
-
 import type { Schedule } from "./Schedule";
 
 export type Subscription = {

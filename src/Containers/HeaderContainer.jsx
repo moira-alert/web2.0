@@ -4,7 +4,7 @@ import type { IMoiraApi } from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Bar from "../Components/Bar/Bar";
 import Header from "../Components/Header/Header";
-import { MoiraServiceStates } from "../Domain/MoiraServiceStates";
+import MoiraServiceStates from "../Domain/MoiraServiceStates";
 
 type Props = {
     moiraApi: IMoiraApi,

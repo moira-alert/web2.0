@@ -1,5 +1,4 @@
 // @flow
-
 import type { Status } from "./Status";
 
 export type Metric = {|

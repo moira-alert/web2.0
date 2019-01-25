@@ -2,7 +2,7 @@
 import * as React from "react";
 import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import type { Trigger } from "../../Domain/Trigger";
-import { TriggerDataSources } from "../../Domain/Trigger";
+import TriggerDataSources from "../../Domain/Trigger";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
@@ -120,7 +120,10 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             <div className={cn("expression-help")}>
                 <div className={cn("main-description")}>
                     Expression uses{" "}
-                    <Link target="_blank" href="https://github.com/Knetic/govaluate/blob/master/MANUAL.md">
+                    <Link
+                        target="_blank"
+                        href="https://github.com/Knetic/govaluate/blob/master/MANUAL.md"
+                    >
                         govaluate
                     </Link>{" "}
                     with predefined constants:
@@ -129,17 +132,17 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     <CodeRef>t1</CodeRef>, <CodeRef>t2</CodeRef>, ... are values from your targets.
                 </div>
                 <div>
-                    <CodeRef>OK</CodeRef>, <CodeRef>WARN</CodeRef>, <CodeRef>ERROR</CodeRef>, <CodeRef>NODATA</CodeRef>{" "}
-                    are states that must be the result of evaluation.
+                    <CodeRef>OK</CodeRef>, <CodeRef>WARN</CodeRef>, <CodeRef>ERROR</CodeRef>,{" "}
+                    <CodeRef>NODATA</CodeRef> are states that must be the result of evaluation.
                 </div>
                 <div>
-                    <CodeRef>PREV_STATE</CodeRef> is equal to previously set state, and allows you to prevent frequent
-                    state changes.
+                    <CodeRef>PREV_STATE</CodeRef> is equal to previously set state, and allows you
+                    to prevent frequent state changes.
                 </div>
 
                 <div className={cn("note")}>
-                    NOTE: Only T1 target can resolve into multiple metrics in Advanced Mode. T2, T3, ... must resolve to
-                    single metrics.
+                    NOTE: Only T1 target can resolve into multiple metrics in Advanced Mode. T2, T3,
+                    ... must resolve to single metrics.
                 </div>
             </div>
         );
@@ -150,8 +153,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             <div className={cn("new-metrics-help")}>
                 <p>If disabled, Moira will notify you about new metrics.</p>
                 <p>
-                    In this case when you start sending new metric you will receive <CodeRef>NODATA</CodeRef> -{" "}
-                    <CodeRef>OK</CodeRef> notification.
+                    In this case when you start sending new metric you will receive{" "}
+                    <CodeRef>NODATA</CodeRef> - <CodeRef>OK</CodeRef> notification.
                 </p>
             </div>
         );
@@ -181,12 +184,21 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow label="Name">
                     <ValidationWrapperV1
                         validationInfo={this.validateRequiredString(name)}
-                        renderMessage={tooltip("right middle")}>
-                        <Input width="100%" value={name} onChange={(e, value) => onChange({ name: value })} />
+                        renderMessage={tooltip("right middle")}
+                    >
+                        <Input
+                            width="100%"
+                            value={name}
+                            onChange={(e, value) => onChange({ name: value })}
+                        />
                     </ValidationWrapperV1>
                 </FormRow>
                 <FormRow label="Description" useTopAlignForLabel>
-                    <Textarea width="100%" value={desc || ""} onChange={(e, value) => onChange({ desc: value })} />
+                    <Textarea
+                        width="100%"
+                        value={desc || ""}
+                        onChange={(e, value) => onChange({ desc: value })}
+                    />
                 </FormRow>
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets.map((x, i) => (
@@ -196,11 +208,14 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 <div className={cn("fgroup-field")}>
                                     <ValidationWrapperV1
                                         validationInfo={this.validateRequiredString(x)}
-                                        renderMessage={tooltip("right middle")}>
+                                        renderMessage={tooltip("right middle")}
+                                    >
                                         <Input
                                             width="100%"
                                             value={x}
-                                            onChange={(e, value) => this.handleUpdateTarget(i, value)}
+                                            onChange={(e, value) =>
+                                                this.handleUpdateTarget(i, value)
+                                            }
                                         />
                                     </ValidationWrapperV1>
                                 </div>
@@ -224,10 +239,16 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         onChange={(e, value) => {
                             if (targets.length === 1) {
                                 this.setState({ advancedMode: value === "advanced" });
-                                onChange({ trigger_type: value === "advanced" ? "expression" : "rising" });
+                                onChange({
+                                    trigger_type: value === "advanced" ? "expression" : "rising",
+                                });
                             }
-                        }}>
-                        <Tabs.Tab id="simple" style={{ color: targets.length > 1 ? "#888888" : undefined }}>
+                        }}
+                    >
+                        <Tabs.Tab
+                            id="simple"
+                            style={{ color: targets.length > 1 ? "#888888" : undefined }}
+                        >
                             Simple mode
                         </Tabs.Tab>
                         <Tabs.Tab id="advanced">Advanced mode</Tabs.Tab>
@@ -251,7 +272,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                         expression,
                                         "Expression can't be empty"
                                     )}
-                                    renderMessage={tooltip("right middle")}>
+                                    renderMessage={tooltip("right middle")}
+                                >
                                     <Input
                                         width="100%"
                                         value={expression}
@@ -261,7 +283,11 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 </ValidationWrapperV1>
                             </Fill>
                             <Fit>
-                                <Tooltip pos="top right" render={this.renderExpressionHelp} trigger="click">
+                                <Tooltip
+                                    pos="top right"
+                                    render={this.renderExpressionHelp}
+                                    trigger="click"
+                                >
                                     <Link icon={<HelpDotIcon />} />
                                 </Tooltip>
                             </Fit>
@@ -271,11 +297,16 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow singleLineControlGroup>
                     <StatusSelect
                         value={ttlState}
-                        availableStatuses={Object.keys(Statuses).filter(x => x !== Statuses.EXCEPTION)}
+                        availableStatuses={Object.keys(Statuses).filter(
+                            x => x !== Statuses.EXCEPTION
+                        )}
                         onChange={value => onChange({ ttl_state: value })}
                     />
                     <span>if has no value for</span>
-                    <ValidationWrapperV1 validationInfo={this.validateTTL(ttl)} renderMessage={tooltip("right middle")}>
+                    <ValidationWrapperV1
+                        validationInfo={this.validateTTL(ttl)}
+                        renderMessage={tooltip("right middle")}
+                    >
                         <FormattedNumberInput
                             width={80}
                             value={typeof ttl === "number" ? ttl : null}
@@ -289,15 +320,23 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow singleLineControlGroup>
                     <Checkbox
                         checked={muteNewMetrics}
-                        onChange={(evt, checked) => onChange({ mute_new_metrics: checked })}>
+                        onChange={(evt, checked) => onChange({ mute_new_metrics: checked })}
+                    >
                         Mute new metrics notifications
                     </Checkbox>
-                    <Tooltip pos="bottom left" render={this.renderNewMetricsAlertingHelp} trigger="click">
+                    <Tooltip
+                        pos="bottom left"
+                        render={this.renderNewMetricsAlertingHelp}
+                        trigger="click"
+                    >
                         <Link icon={<HelpDotIcon />} />
                     </Tooltip>
                 </FormRow>
                 <FormRow label="Watch time">
-                    <ScheduleEdit schedule={sched} onChange={schedule => onChange({ sched: schedule })} />
+                    <ScheduleEdit
+                        schedule={sched}
+                        onChange={schedule => onChange({ sched: schedule })}
+                    />
                 </FormRow>
                 <FormRow label="Tags" useTopAlignForLabel>
                     <ValidationWrapperV1
@@ -309,7 +348,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                   }
                                 : null
                         }
-                        renderMessage={tooltip("right top")}>
+                        renderMessage={tooltip("right top")}
+                    >
                         <TagDropdownSelect
                             allowCreateNewTags
                             value={tags}
@@ -327,8 +367,13 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     <FormRow label="Data source" singleLineControlGroup>
                         <RadioGroup
                             name="data-source"
-                            defaultValue={!isRemote ? TriggerDataSources.REDIS : TriggerDataSources.GRAPHITE}
-                            onChange={(evt, value) => onChange({ is_remote: value !== TriggerDataSources.REDIS })}>
+                            defaultValue={
+                                !isRemote ? TriggerDataSources.REDIS : TriggerDataSources.GRAPHITE
+                            }
+                            onChange={(evt, value) =>
+                                onChange({ is_remote: value !== TriggerDataSources.REDIS })
+                            }
+                        >
                             <Gapped vertical gap={10}>
                                 <Radio value={TriggerDataSources.REDIS}>Redis (default)</Radio>
                                 <Radio value={TriggerDataSources.GRAPHITE}>
@@ -362,10 +407,20 @@ type FormRowProps = {
     children?: any,
 };
 
-function FormRow({ label, useTopAlignForLabel, singleLineControlGroup, children, style }: FormRowProps): React.Node {
+function FormRow({
+    label,
+    useTopAlignForLabel,
+    singleLineControlGroup,
+    children,
+    style,
+}: FormRowProps): React.Node {
     return (
         <div className={cn("row")}>
-            {label != null && <div className={cn("label", { ["label-for-group"]: useTopAlignForLabel })}>{label}</div>}
+            {label != null && (
+                <div className={cn("label", { ["label-for-group"]: useTopAlignForLabel })}>
+                    {label}
+                </div>
+            )}
             <div className={cn("control")}>
                 <div style={style} className={cn({ ["group"]: singleLineControlGroup })}>
                     {children}

@@ -1,5 +1,4 @@
 // @flow
-
 import type { Trigger } from "./Trigger";
 
 export type Pattern = {|

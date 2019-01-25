@@ -1,5 +1,6 @@
 // @flow
 import type { Contact } from "./Contact";
+
 export type Notification = {|
     contact: Contact,
     event: {
@@ -23,6 +24,7 @@ export type Notification = {|
         warn_value: number,
     },
 |};
+
 export type NotificationList = {|
     list: Array<Notification>,
     total: number,
