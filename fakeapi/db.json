@@ -256,9 +256,7 @@
             {
                 "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
                 "name": "12321",
-                "targets": [
-                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"
-                ],
+                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
                 "warn_value": 11111111111,
                 "error_value": 22222222222,
                 "tags": ["devops"],
@@ -938,9 +936,7 @@
             {
                 "id": "b562ca35-5f48-40f2-91de-4078a237c227",
                 "name": "Front",
-                "targets": [
-                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
-                ],
+                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"],
                 "warn_value": 10000,
                 "error_value": 20000,
                 "tags": ["frontend"],
@@ -1633,9 +1629,7 @@
             {
                 "id": "351de571-015f-40ff-b16e-8ca57585b4e8",
                 "name": "Devops processes uptime DiTrace",
-                "targets": [
-                    "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"
-                ],
+                "targets": ["aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"],
                 "warn_value": 0.001,
                 "error_value": 0,
                 "tags": ["devops", "nodata"],
@@ -1863,9 +1857,7 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": [
-                    "focus.elasticsearch.focus351.*.cluster_health.status"
-                ],
+                "patterns": ["focus.elasticsearch.focus351.*.cluster_health.status"],
                 "trigger_type": "falling",
                 "throttling": 0,
                 "last_check": {
@@ -1957,11 +1949,10 @@
         ]
     },
     "trigger": {
+        "expression": "",
         "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
         "name": "12321",
-        "targets": [
-            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"
-        ],
+        "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
         "warn_value": 11111111111,
         "error_value": 22222222222,
         "tags": ["devops"],
@@ -3640,11 +3631,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 2,
-                    "__notifier_trigger_tags": [
-                        "ke.api",
-                        "setter",
-                        "ke_api_alerts"
-                    ]
+                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
                 },
                 "contact": {
                     "type": "slack",
@@ -3675,11 +3662,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 2,
-                    "__notifier_trigger_tags": [
-                        "ke.api",
-                        "setter",
-                        "ke_api_alerts"
-                    ]
+                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
                 },
                 "contact": {
                     "type": "slack",
