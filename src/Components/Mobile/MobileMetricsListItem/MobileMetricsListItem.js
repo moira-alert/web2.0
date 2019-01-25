@@ -9,7 +9,7 @@ import Modal from "retail-ui/components/Modal";
 
 import type { Metric } from "../../../Domain/Metric";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
-import { roundValue } from "../../../helpers";
+import roundValue from "../../../Helpers/roundValue";
 
 import cn from "./MobileMetricsListItem.less";
 import { Maintenances, type Maintenance } from "./../../../Domain/Maintenance";
@@ -75,7 +75,9 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                     )}
                 </div>
                 <div className={cn("info")}>
-                    <div className={cn("name")}>{name != null && name !== "" ? name : "[No name]"}</div>
+                    <div className={cn("name")}>
+                        {name != null && name !== "" ? name : "[No name]"}
+                    </div>
                     <div className={cn("tags")}>
                         {roundValue(value.value)}
                         {" @ "}
@@ -84,18 +86,29 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                 </div>
                 <div className={cn("buttons")}>
                     <div className={cn("button-block", { visible: buttonsState === "Default" })}>
-                        <div className={cn("button")} onClick={() => this.setState({ buttonsState: "SelectAction" })}>
+                        <div
+                            className={cn("button")}
+                            onClick={() => this.setState({ buttonsState: "SelectAction" })}
+                        >
                             <MenuDotsIcon />
                         </div>
                     </div>
-                    <div className={cn("button-block", { visible: buttonsState === "SelectAction" })}>
-                        <div className={cn("button")} onClick={() => this.setState({ buttonsState: "SetMaintenance" })}>
+                    <div
+                        className={cn("button-block", { visible: buttonsState === "SelectAction" })}
+                    >
+                        <div
+                            className={cn("button")}
+                            onClick={() => this.setState({ buttonsState: "SetMaintenance" })}
+                        >
                             <UserSettingsIcon />
                         </div>
                         <div onClick={this.handleDeleteMetric} className={cn("button")}>
                             <TrashIcon />
                         </div>
-                        <div className={cn("button")} onClick={() => this.setState({ buttonsState: "Default" })}>
+                        <div
+                            className={cn("button")}
+                            onClick={() => this.setState({ buttonsState: "Default" })}
+                        >
                             <RedoIcon />
                         </div>
                     </div>
@@ -106,47 +119,72 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                                     <div className={cn("modal-header")}>Maintenance metric</div>
                                     <div
                                         onClick={() => this.handleSetMaintenance(Maintenances.off)}
-                                        className={cn("modal-button")}>
+                                        className={cn("modal-button")}
+                                    >
                                         OFF
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.quarterHour)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.quarterHour)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         15 MIN
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.oneHour)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.oneHour)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         1 HOUR
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.threeHours)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.threeHours)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         3 HOURS
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.sixHours)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.sixHours)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         6 HOURS
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.oneDay)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.oneDay)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         1 DAY
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.oneWeek)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.oneWeek)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         1 WEEK
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.twoWeeks)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.twoWeeks)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         2 WEEKS
                                     </div>
                                     <div
-                                        onClick={() => this.handleSetMaintenance(Maintenances.oneMonth)}
-                                        className={cn("modal-button")}>
+                                        onClick={() =>
+                                            this.handleSetMaintenance(Maintenances.oneMonth)
+                                        }
+                                        className={cn("modal-button")}
+                                    >
                                         1 MONTH
                                     </div>
                                 </div>

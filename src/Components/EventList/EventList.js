@@ -4,7 +4,7 @@ import moment from "moment";
 import type { Event } from "../../Domain/Event";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import { roundValue } from "../../helpers";
+import roundValue from "../../Helpers/roundValue";
 import cn from "./EventList.less";
 
 type Props = {|
@@ -31,7 +31,9 @@ export default function EventList(props: Props): React.Node {
                                 <div key={i} className={cn("row")}>
                                     <div className={cn("name")}>{i === 0 && key}</div>
                                     <div className={cn("state-change")}>
-                                        <div className={cn("prev-value")}>{roundValue(oldValue, false)}</div>
+                                        <div className={cn("prev-value")}>
+                                            {roundValue(oldValue, false)}
+                                        </div>
                                         <div className={cn("prev-state")}>
                                             <StatusIndicator statuses={[oldState]} size={14} />
                                         </div>
@@ -41,7 +43,9 @@ export default function EventList(props: Props): React.Node {
                                         <div className={cn("curr-state")}>
                                             <StatusIndicator statuses={[state]} size={14} />
                                         </div>
-                                        <div className={cn("curr-value")}>{roundValue(value, false)}</div>
+                                        <div className={cn("curr-value")}>
+                                            {roundValue(value, false)}
+                                        </div>
                                     </div>
                                     <div className={cn("date")}>
                                         {moment.unix(timestamp).format("MMMM D, HH:mm:ss")}

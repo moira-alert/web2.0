@@ -1,5 +1,10 @@
 // @flow
-export function roundValue(value: number | string | void, placeholder: boolean | void): number | string {
+// ToDo написать тесты, а потом исправить ошибки eslint
+/* eslint-disable */
+export default function roundValue(
+    value: number | string | void,
+    placeholder: boolean | void
+): number | string {
     if (typeof value !== "number") {
         return placeholder === false ? "" : "—";
     }
@@ -25,3 +30,4 @@ export function roundValue(value: number | string | void, placeholder: boolean |
     }
     return prefix.substring(0, prefix.length - tailToCut) + (sizes[x] || "");
 }
+/* eslint-enable */
