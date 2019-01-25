@@ -17,11 +17,19 @@ export default function DesktopApp(): React.Node {
         <Switch>
             <Route exact path={getPagePath("index")} component={TriggerListContainer} />
             <Route exact path={getPagePath("triggerAdd")} component={TriggerAddContainer} />
-            <Route exact path={getPagePath("triggerDuplicate")} component={TriggerDuplicateContainer} />
+            <Route
+                exact
+                path={getPagePath("triggerDuplicate")}
+                component={TriggerDuplicateContainer}
+            />
             <Route exact path={getPagePath("triggerEdit")} component={TriggerEditContainer} />
             <Route exact path={getPagePath("trigger")} component={TriggerContainer} />
             <Route exact path={getPagePath("settings")} component={SettingsContainer} />
-            <Route exact path={getPagePath("notifications")} component={NotificationListContainer} />
+            <Route
+                exact
+                path={getPagePath("notifications")}
+                component={NotificationListContainer}
+            />
             <Route exact path={getPagePath("tags")} component={TagListContainer} />
             <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
             <Route render={() => <p>404. Page not found</p>} />
