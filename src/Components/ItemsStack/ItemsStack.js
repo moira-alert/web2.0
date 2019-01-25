@@ -1,5 +1,6 @@
 // @flow
-/* eslint-disable react/no-multi-comp */
+/* eslint-disable */
+// ToDo перевести на @skbkontur/react-stack-layout
 import * as React from "react";
 import cn from "./ItemsStacks.less";
 
@@ -29,7 +30,10 @@ export class RowStack extends React.Component<RowStackProps> {
         stretch: "stretch",
     };
 
-    getFlexBoxAlignItems(horizontalAlign: VerticalAlign | typeof undefined, baseline: boolean): string {
+    getFlexBoxAlignItems(
+        horizontalAlign: VerticalAlign | typeof undefined,
+        baseline: boolean
+    ): string {
         let resultHorizontalAlign = horizontalAlign || "top";
         if (baseline === true) {
             if (horizontalAlign !== undefined) {
@@ -61,11 +65,12 @@ export class RowStack extends React.Component<RowStackProps> {
         return (
             <TagComponent
                 id={id}
-                className={cn("row-stack", "gap-" + gap.toString(), { ["block"]: block }, className)}
+                className={cn("row-stack", `gap-${gap.toString()}`, { block }, className)}
                 style={{
                     ...style,
                     alignItems: this.getFlexBoxAlignItems(verticalAlign, baseline || false),
-                }}>
+                }}
+            >
                 {children}
             </TagComponent>
         );
@@ -88,6 +93,7 @@ type ColumnStackProps = {
 
 export class ColumnStack extends React.Component<ColumnStackProps> {
     props: ColumnStackProps;
+
     static alignMap = {
         left: "flex-start",
         right: "flex-end",
@@ -95,7 +101,10 @@ export class ColumnStack extends React.Component<ColumnStackProps> {
         stretch: "stretch",
     };
 
-    getFlexBoxAlignItems(horizontalAlign: HorizontalAlign | typeof undefined, stretch: boolean): string {
+    getFlexBoxAlignItems(
+        horizontalAlign: HorizontalAlign | typeof undefined,
+        stretch: boolean
+    ): string {
         let resultHorizontalAlign = horizontalAlign || "left";
         if (stretch === true) {
             if (horizontalAlign !== undefined) {
@@ -126,11 +135,12 @@ export class ColumnStack extends React.Component<ColumnStackProps> {
         const TagComponent = tag || "div";
         return (
             <TagComponent
-                className={cn("column-stack", "gap-" + gap.toString(), { ["block"]: block }, className)}
+                className={cn("column-stack", `gap-${gap.toString()}`, { block }, className)}
                 style={{
                     ...style,
                     alignItems: this.getFlexBoxAlignItems(horizontalAlign, stretch || false),
-                }}>
+                }}
+            >
                 {children}
             </TagComponent>
         );
@@ -177,13 +187,22 @@ type FixedProps = {|
     allowWrap?: boolean,
 |};
 
-export function Fixed({ tag, children, width, className, style, allowWrap, ...rest }: FixedProps): React.Node {
+export function Fixed({
+    tag,
+    children,
+    width,
+    className,
+    style,
+    allowWrap,
+    ...rest
+}: FixedProps): React.Node {
     const TagComponent = tag || "div";
     return (
         <TagComponent
             className={cn("fixed", { "no-overflow": !allowWrap }, className)}
-            style={{ ...style, width: width }}
-            {...rest}>
+            style={{ ...style, width }}
+            {...rest}
+        >
             {children}
         </TagComponent>
     );

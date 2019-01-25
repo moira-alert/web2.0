@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 import * as React from "react";
 import numeral from "numeral";
 import FilteredInput from "../FilteredInput/FilteredInput";
@@ -48,10 +49,15 @@ export default class FormattedNumberInput extends React.Component<FormattedNumbe
 
     render(): React.Node {
         // eslint-disable-next-line no-unused-vars
-        const { value, viewFormat: _viewFormat, editFormat: _editFormat, ...restProps } = this.props;
+        const {
+            value,
+            viewFormat: _viewFormat,
+            editFormat: _editFormat,
+            ...restProps
+        } = this.props;
         return (
             <FilteredInput
-                ref={"filteredInput"}
+                ref="filteredInput"
                 {...restProps}
                 value={value}
                 filterValue={value => this.handleFilterValue(value)}

@@ -3,7 +3,14 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import Layout from "../Components/Layout/Layout";
 
-function SpaceFiller(props: { width?: number | string, height?: number | string, label?: string }): React.Node {
+type Props = {
+    width?: number | string,
+    height?: number | string,
+    label?: string,
+};
+
+function SpaceFiller(props: Props): React.Node {
+    const { width = "100%", height = 300, label = "Children" } = props;
     return (
         <div
             style={{

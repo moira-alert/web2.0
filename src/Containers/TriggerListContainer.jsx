@@ -1,7 +1,12 @@
 // @flow
 import * as React from "react";
 import queryString from "query-string";
-import { intersection, concat, difference, flattenDeep, uniq, isEqual } from "lodash";
+import intersection from "lodash/intersection";
+import concat from "lodash/concat";
+import difference from "lodash/difference";
+import flattenDeep from "lodash/flattenDeep";
+import uniq from "lodash/uniq";
+import isEqual from "lodash/isEqual";
 import moment from "moment";
 import Paging from "retail-ui/components/Paging";
 import type { ContextRouter } from "react-router-dom";
@@ -133,7 +138,6 @@ class TriggerListContainer extends React.Component<Props, State> {
                         <ColumnStack block gap={6} horizontalAlign="stretch">
                             <AddingButton to={getPageLink("triggerAdd")} />
                             <TriggerListView
-                                supportEmail={config.supportEmail}
                                 items={triggers.list || []}
                                 onChange={(triggerId, maintenance, metric) => {
                                     this.setMetricMaintenance(triggerId, maintenance, metric);

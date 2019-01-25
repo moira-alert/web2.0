@@ -158,8 +158,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
         if (this.validationContainer.current == null) {
             return true;
         }
-        const response = await this.validationContainer.current.validate();
-        return response;
+        return this.validationContainer.current.validate();
     }
 }
 
