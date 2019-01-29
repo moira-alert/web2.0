@@ -25,8 +25,8 @@
             {
                 "order": [
                     "type-annotations",
-                    "static-methods",
                     "lifecycle",
+                    "static-methods",
                     "render",
                     "/^on[A-z0-9_]+$/",
                     "/^handle[A-z0-9_]+$/",
