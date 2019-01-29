@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -20,7 +21,7 @@ storiesOf("Mobile/TriggerListPage", module)
         <MobileTriggerListPage
             triggers={null}
             selectedTags={[]}
-            loading={true}
+            loading
             onLoadMore={action("onLoadMore")}
             onOpenTagSelector={action("onOpenTagSelector")}
         />

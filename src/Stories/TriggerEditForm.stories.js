@@ -1,10 +1,11 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
-import { Statuses } from "../Domain/Status";
 import { ValidationContainer } from "react-ui-validations";
+import { Statuses } from "../Domain/Status";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 
 const sourceData = {
@@ -134,7 +135,12 @@ const story = storiesOf("TriggerEditForm", module).addDecorator(StoryRouter());
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
         <ValidationContainer>
-            <TriggerEditForm data={data} tags={allTags} remoteAllowed={data.is_remote} onChange={action("onChange")} />
+            <TriggerEditForm
+                data={data}
+                tags={allTags}
+                remoteAllowed={data.is_remote}
+                onChange={action("onChange")}
+            />
         </ValidationContainer>
     ));
 });

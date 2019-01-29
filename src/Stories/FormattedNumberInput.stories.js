@@ -1,13 +1,21 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import FormattedNumberInput from "../Components/FormattedNumberInput/FormattedNumberInput";
 
 storiesOf("FormattedNumberInput", module)
-    .add("Default", () => <FormattedNumberInput id="id-1" width={200} value={null} onChange={action("onChange")} />)
+    .add("Default", () => (
+        <FormattedNumberInput id="id-1" width={200} value={null} onChange={action("onChange")} />
+    ))
     .add("With value", () => (
-        <FormattedNumberInput id="id-2" width={200} value={12.3456789} onChange={action("onChange")} />
+        <FormattedNumberInput
+            id="id-2"
+            width={200}
+            value={12.3456789}
+            onChange={action("onChange")}
+        />
     ))
     .add("With edit format", () => (
         <FormattedNumberInput
@@ -29,5 +37,11 @@ storiesOf("FormattedNumberInput", module)
         />
     ))
     .add("With custom align", () => (
-        <FormattedNumberInput id="id-5" width={200} align="right" value={12.3456789} onChange={action("onChange")} />
+        <FormattedNumberInput
+            id="id-5"
+            width={200}
+            align="right"
+            value={12.3456789}
+            onChange={action("onChange")}
+        />
     ));

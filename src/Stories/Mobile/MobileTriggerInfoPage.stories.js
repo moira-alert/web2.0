@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -42,7 +43,12 @@ const sourceData = {
 const triggerState = {
     maintenance: null,
     metrics: {
-        About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
+        About: {
+            event_timestamp: 1512204450,
+            state: "NODATA",
+            suppressed: false,
+            timestamp: 1512206430,
+        },
     },
     score: 75000,
     state: "OK",
@@ -117,7 +123,7 @@ story.add("Loading", () => (
         data={null}
         triggerState={null}
         metrics={null}
-        loading={true}
+        loading
         onRemoveMetric={action("onRemoveMetric")}
         onSetMetricMaintenance={action("onSetMetricMaintenance")}
         onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
@@ -125,10 +131,10 @@ story.add("Loading", () => (
     />
 ));
 
-stories.forEach(({ title, data, triggerState }) => {
+stories.forEach(({ title, data, triggerState: state }) => {
     story.add(title, () => (
         <MobileTriggerInfoPage
-            triggerState={triggerState}
+            triggerState={state}
             data={data}
             metrics={null}
             onRemoveMetric={action("onRemoveMetric")}

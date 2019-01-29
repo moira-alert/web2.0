@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -383,7 +384,13 @@ const stories = [
                 "sumSeries(KE-cloud.Notifications.*.MailSender.StatReport.Alive)",
                 "sumSeries(KE-cloud.Notifications.*.MailSender.Submission.Alive)",
             ],
-            tags: ["dev", "test", "ke.notifications", "ke.notifications-dev", "very.long.tag.why.you.choice.that.name"],
+            tags: [
+                "dev",
+                "test",
+                "ke.notifications",
+                "ke.notifications-dev",
+                "very.long.tag.why.you.choice.that.name",
+            ],
         },
     },
     {
@@ -423,11 +430,6 @@ const story = storiesOf("TriggerListItem", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
-        <TriggerListItem
-            supportEmail="support@moira-alert.com"
-            data={data}
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
+        <TriggerListItem data={data} onChange={action("onChange")} onRemove={action("onRemove")} />
     ));
 });

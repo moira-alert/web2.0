@@ -1,6 +1,7 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
-import { range } from "lodash";
+import range from "lodash/range";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
@@ -43,7 +44,12 @@ const sourceData = {
 const triggerState = {
     maintenance: null,
     metrics: {
-        About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
+        About: {
+            event_timestamp: 1512204450,
+            state: "NODATA",
+            suppressed: false,
+            timestamp: 1512206430,
+        },
     },
     score: 75000,
     state: "OK",
@@ -123,12 +129,9 @@ const stories = [
         triggerState: { ...triggerState },
         data: {
             ...sourceData,
-            desc:
-                "Some error " +
-                range(100)
-                    .map(() => "very")
-                    .join(" ") +
-                " long description",
+            desc: `Some error ${range(100)
+                .map(() => "very")
+                .join(" ")} long description`,
         },
     },
     {
@@ -141,23 +144,12 @@ const stories = [
     },
 ];
 
-const story = storiesOf("Mobile/TriggerInfo", module)
-    .addDecorator(StoryRouter())
-    .add("Loading", () => (
-        <MobileTriggerInfo
-            data={null}
-            triggerState={null}
-            onThrottlingRemove={action("onThrottlingRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
-            loading={true}
-        />
-    ));
+const story = storiesOf("Mobile/TriggerInfo", module).addDecorator(StoryRouter());
 
-stories.forEach(({ title, data, triggerState }) => {
+stories.forEach(({ title, data, triggerState: state }) => {
     story.add(title, () => (
         <MobileTriggerInfo
-            loading={false}
-            triggerState={triggerState}
+            triggerState={state}
             data={data}
             onThrottlingRemove={action("onThrottlingRemove")}
             onSetMaintenance={action("onSetMaintenance")}

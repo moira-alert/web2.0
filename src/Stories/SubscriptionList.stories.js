@@ -1,11 +1,12 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { ValidationContainer } from "react-ui-validations";
 import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
 import { ContactTypes } from "../Domain/ContactType";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
-import { actionWithDelay } from "./StoryUtils";
+import actionWithDelay from "./StoryUtils";
 
 const commonProps = {
     onAddSubscription: actionWithDelay("onAddSubscription", 2000),
