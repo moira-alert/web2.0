@@ -34,7 +34,8 @@
                     "everything-else"
                 ]
             }
-        ]
+        ],
+        "react/require-default-props": "off"
     },
     "settings": {
         "flowtype": {
