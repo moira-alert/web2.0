@@ -123,6 +123,7 @@ declare module "retail-ui/components/Gapped" {
 
 declare module "retail-ui/components/Input" {
     declare type InputProps = {
+        id?: string,
         borderless?: boolean,
         disabled?: boolean,
         mask?: ?string,
@@ -229,6 +230,7 @@ declare module "retail-ui/components/Radio" {
         checked?: boolean,
         children?: React$Node,
         value: T,
+        onChange?: (event: SyntheticEvent<T>, value: T) => void;
     };
     declare export default class Radio<T> extends React$Component<$Exact<RadioProps<T>>, void> {}
 }
@@ -347,7 +349,7 @@ declare module "retail-ui/components/Textarea" {
 declare module "retail-ui/components/Toggle" {
     declare type ToggleProps = {
         checked?: boolean,
-        onChange: (checked: boolean) => void | Promise<void>,
+        onChange?: (checked: boolean) => void | Promise<void>,
     };
     declare export default class Toggle extends React$Component<$Exact<ToggleProps>, void> {}
 }
