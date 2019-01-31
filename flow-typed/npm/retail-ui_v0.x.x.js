@@ -347,6 +347,7 @@ declare module "retail-ui/components/Textarea" {
 declare module "retail-ui/components/Toggle" {
     declare type ToggleProps = {
         checked?: boolean,
+        onChange: (checked: boolean) => void | Promise<void>,
     };
     declare export default class Toggle extends React$Component<$Exact<ToggleProps>, void> {}
 }
