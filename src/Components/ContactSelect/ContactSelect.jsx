@@ -2,11 +2,11 @@
 import * as React from "react";
 import union from "lodash/union";
 import difference from "lodash/difference";
-import Link from "retail-ui/components/Link";
 import ComboBox from "retail-ui/components/ComboBox";
-import RemoveIcon from "@skbkontur/react-icons/Remove";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { Contact } from "../../Domain/Contact";
 import ContactInfo from "../ContactInfo/ContactInfo";
+import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import cn from "./ContactSelect.less";
 
 type Props = {
@@ -50,11 +50,9 @@ export default class ContactSelect extends React.Component<Props> {
                     .map(x => (
                         <div key={x.id} className={cn("contact")}>
                             <ContactInfo contact={x} />{" "}
-                            <Link
-                                icon={<RemoveIcon />}
-                                use="danger"
-                                onClick={() => this.handleRemoveContact(x)}
-                            />
+                            <A11yButtonWrapper onClick={() => this.handleRemoveContact(x)}>
+                                <TrashIcon />
+                            </A11yButtonWrapper>
                         </div>
                     ))}
                 <div>
