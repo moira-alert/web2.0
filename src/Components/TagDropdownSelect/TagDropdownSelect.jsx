@@ -30,7 +30,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
 
     containerRef: { current: null | HTMLSpanElement };
 
-    tagsRef: { current: null | HTMLDivElement };
+    tagsRef: ?{ current: null | HTMLDivElement };
 
     focusAnchorRef: { current: null | HTMLSpanElement };
 
@@ -196,9 +196,11 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     }
 
     updateDropdownContainerMaxWidth() {
-        const node = this.tagsRef.current;
-        if (node !== null) {
-            node.style.maxWidth = `${node.getBoundingClientRect().width + 40}px`;
+        if (this.tagsRef) {
+            const node = this.tagsRef.current;
+            if (node !== null) {
+                node.style.maxWidth = `${node.getBoundingClientRect().width + 40}px`;
+            }
         }
     }
 
