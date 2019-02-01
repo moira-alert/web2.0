@@ -86,6 +86,7 @@ declare module "retail-ui/components/ComboBox" {
         value?: ?T,
         warning?: boolean,
         width?: string | number,
+        renderItem?: ((item: T, state?: void | "hover" | "selected" | null | undefined) => React$Node)
     };
     declare export default class ComboBox<T> extends React$Component<$Exact<ComboBoxProps<T>>, void> {}
 }

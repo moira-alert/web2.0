@@ -1,13 +1,14 @@
 // @flow
-import * as React from "react";
-import union from "lodash/union";
-import difference from "lodash/difference";
-import ComboBox from "retail-ui/components/ComboBox";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import type { Contact } from "../../Domain/Contact";
-import ContactInfo from "../ContactInfo/ContactInfo";
+import difference from "lodash/difference";
+import union from "lodash/union";
+import * as React from "react";
+import ComboBox from "retail-ui/components/ComboBox";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
+import ContactInfo from "../ContactInfo/ContactInfo";
+import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactSelect.less";
+import type { Contact } from "../../Domain/Contact";
 
 type Props = {
     contactIds: Array<string>,
@@ -66,6 +67,11 @@ export default class ContactSelect extends React.Component<Props> {
                         getItems={this.getContactsForComboBox}
                         placeholder="Select delivery channel"
                         renderNotFound={() => "No delivery channels found"}
+                        renderItem={item => (
+                            <React.Fragment>
+                                <ContactTypeIcon type={item.type} /> {item.label}
+                            </React.Fragment>
+                        )}
                     />
                 </div>
             </div>
@@ -87,7 +93,7 @@ export default class ContactSelect extends React.Component<Props> {
 
     getContactsForComboBox = async (
         query: string
-    ): Promise<Array<{ value: string, label: string }>> => {
+    ): Promise<Array<{ value: string, label: string, type: string }>> => {
         const { contactIds, availableContacts } = this.props;
         return availableContacts
             .filter(x => !contactIds.includes(x.id))
@@ -96,6 +102,7 @@ export default class ContactSelect extends React.Component<Props> {
             .map(x => ({
                 value: x.id,
                 label: x.value,
+                type: x.type,
             }));
     };
 }
