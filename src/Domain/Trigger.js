@@ -1,5 +1,4 @@
 // @flow
-
 import type { Status } from "./Status";
 import type { MetricList } from "./Metric";
 import type { Schedule } from "./Schedule";
@@ -50,7 +49,9 @@ export type TriggerState = {|
     msg?: string,
 |};
 
-export const TriggerDataSources = {
+const TriggerDataSources = {
     REDIS: "REDIS",
     GRAPHITE: "GRAPHITE",
 };
+
+export { TriggerDataSources as default };

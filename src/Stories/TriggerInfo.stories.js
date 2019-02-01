@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -42,7 +43,12 @@ const sourceData = {
 const triggerState = {
     maintenance: null,
     metrics: {
-        About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
+        About: {
+            event_timestamp: 1512204450,
+            state: "NODATA",
+            suppressed: false,
+            timestamp: 1512206430,
+        },
     },
     score: 75000,
     state: "OK",
@@ -116,11 +122,11 @@ const stories = [
 
 const story = storiesOf("TriggerInfo", module).addDecorator(StoryRouter());
 
-stories.forEach(({ title, data, triggerState }) => {
+stories.forEach(({ title, data, triggerState: state }) => {
     story.add(title, () => (
         <TriggerInfo
             supportEmail="support@mail.ru"
-            triggerState={triggerState}
+            triggerState={state}
             data={data}
             onThrottlingRemove={action("onThrottlingRemove")}
             onSetMaintenance={action("onSetMaintenance")}

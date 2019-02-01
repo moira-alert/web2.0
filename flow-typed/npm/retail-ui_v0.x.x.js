@@ -86,6 +86,7 @@ declare module "retail-ui/components/ComboBox" {
         value?: ?T,
         warning?: boolean,
         width?: string | number,
+        renderItem?: ((item: T, state?: void | "hover" | "selected") => React$Node)
     };
     declare export default class ComboBox<T> extends React$Component<$Exact<ComboBoxProps<T>>, void> {}
 }
@@ -123,6 +124,7 @@ declare module "retail-ui/components/Gapped" {
 
 declare module "retail-ui/components/Input" {
     declare type InputProps = {
+        id?: string,
         borderless?: boolean,
         disabled?: boolean,
         mask?: ?string,
@@ -229,6 +231,7 @@ declare module "retail-ui/components/Radio" {
         checked?: boolean,
         children?: React$Node,
         value: T,
+        onChange?: (event: SyntheticEvent<T>, value: T) => void;
     };
     declare export default class Radio<T> extends React$Component<$Exact<RadioProps<T>>, void> {}
 }
@@ -347,6 +350,7 @@ declare module "retail-ui/components/Textarea" {
 declare module "retail-ui/components/Toggle" {
     declare type ToggleProps = {
         checked?: boolean,
+        onChange?: (checked: boolean) => void | Promise<void>,
     };
     declare export default class Toggle extends React$Component<$Exact<ToggleProps>, void> {}
 }

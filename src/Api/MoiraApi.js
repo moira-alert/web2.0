@@ -78,27 +78,30 @@ export interface IMoiraApi {
 
 export default class MoiraApi implements IMoiraApi {
     apiUrl: string;
+
     config: Config;
+
     triggerListPageSize: number = 20;
+
     eventHistoryPageSize: number = 100;
 
     constructor(apiUrl: string) {
         this.apiUrl = apiUrl;
     }
 
-    async checkStatus(response: Response) {
+    static async checkStatus(response: Response) {
         if (!(response.status >= 200 && response.status < 300)) {
             const errorText = await response.text();
-            let serverResponse;
             try {
-                serverResponse = JSON.parse(errorText);
+                const serverResponse: { status: string, error: string } | null = JSON.parse(
+                    errorText
+                );
+                if (serverResponse != null) {
+                    throw new Error(serverResponse.error);
+                }
             } catch (error) {
-                serverResponse = null;
+                throw new Error(errorText);
             }
-            if (serverResponse != null) {
-                throw new Error(serverResponse.error);
-            }
-            throw new Error(errorText);
         }
     }
 
@@ -108,7 +111,7 @@ export default class MoiraApi implements IMoiraApi {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
@@ -122,48 +125,48 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     async getContactList(): Promise<ContactList> {
-        const url = this.apiUrl + "/contact";
+        const url = `${this.apiUrl}/contact`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
-        const url = this.apiUrl + "/contact";
+        const url = `${this.apiUrl}/contact`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
             body: JSON.stringify(contact),
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async testContact(contactId: string) {
-        const url = this.apiUrl + "/contact/" + contactId + "/test";
+        const url = `${this.apiUrl}/contact/${contactId}/test`;
         const response = await fetch(url, {
             method: "POST",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async updateContact(contact: Contact): Promise<Contact> {
-        const url = this.apiUrl + "/contact/" + contact.id;
+        const url = `${this.apiUrl}/contact/${contact.id}`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
             body: JSON.stringify(contact),
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async addSubscription(subscription: SubscriptionCreateInfo): Promise<Subscription> {
-        const url = this.apiUrl + "/subscription";
+        const url = `${this.apiUrl}/subscription`;
         if (subscription.id != null) {
             throw new Error("InvalidProgramState: id of subscription must be null or undefined");
         }
@@ -172,272 +175,280 @@ export default class MoiraApi implements IMoiraApi {
             credentials: "same-origin",
             body: JSON.stringify(subscription),
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async updateSubscription(subscription: Subscription): Promise<Subscription> {
-        const url = this.apiUrl + "/subscription/" + subscription.id;
+        const url = `${this.apiUrl}/subscription/${subscription.id}`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
             body: JSON.stringify(subscription),
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async testSubscription(subscriptionId: string) {
-        const url = this.apiUrl + "/subscription/" + subscriptionId + "/test";
+        const url = `${this.apiUrl}/subscription/${subscriptionId}/test`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async deleteContact(contactId: string) {
-        const url = this.apiUrl + "/contact/" + contactId;
+        const url = `${this.apiUrl}/contact/${contactId}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async getPatternList(): Promise<PatternList> {
-        const url = this.apiUrl + "/pattern";
+        const url = `${this.apiUrl}/pattern`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async delPattern(pattern: string) {
-        const url = this.apiUrl + "/pattern/" + encodeURI(pattern);
+        const url = `${this.apiUrl}/pattern/${encodeURI(pattern)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async getTagList(): Promise<TagList> {
-        const url = this.apiUrl + "/tag";
+        const url = `${this.apiUrl}/tag`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async getTagStats(): Promise<TagStatList> {
-        const url = this.apiUrl + "/tag/stats";
+        const url = `${this.apiUrl}/tag/stats`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async delTag(tag: string) {
-        const url = this.apiUrl + "/tag/" + encodeURI(tag);
+        const url = `${this.apiUrl}/tag/${encodeURI(tag)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
-    async getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList> {
-        const url =
-            this.apiUrl +
-            "/trigger/page?" +
-            queryString.stringify(
-                {
-                    /* eslint-disable */
-                    p: page,
-                    /* eslint-enable */
-                    size: this.triggerListPageSize,
-                    tags,
-                    onlyProblems,
-                },
-                { arrayFormat: "index", encode: true }
-            );
+    async getTriggerList(
+        page: number,
+        onlyProblems: boolean,
+        tags: Array<string>
+    ): Promise<TriggerList> {
+        const url = `${this.apiUrl}/trigger/page?${queryString.stringify(
+            {
+                /* eslint-disable */
+                p: page,
+                /* eslint-enable */
+                size: this.triggerListPageSize,
+                tags,
+                onlyProblems,
+            },
+            { arrayFormat: "index", encode: true }
+        )}`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async getTrigger(id: string): Promise<Trigger> {
-        const url = this.apiUrl + "/trigger/" + encodeURI(id);
+        const url = `${this.apiUrl}/trigger/${encodeURI(id)}`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
-        const url = this.apiUrl + "/trigger";
+        const url = `${this.apiUrl}/trigger`;
         const response = await fetch(url, {
             method: "PUT",
             body: JSON.stringify(data),
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }> {
-        const url = this.apiUrl + "/trigger/" + encodeURI(id);
+        const url = `${this.apiUrl}/trigger/${encodeURI(id)}`;
         const response = await fetch(url, {
             method: "PUT",
             body: JSON.stringify(data),
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async delTrigger(id: string) {
-        const url = this.apiUrl + "/trigger/" + encodeURI(id);
+        const url = `${this.apiUrl}/trigger/${encodeURI(id)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
-    async setMaintenance(triggerId: string, data: { trigger?: number, metrics?: { [metric: string]: number } }) {
-        const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/setMaintenance";
+    async setMaintenance(
+        triggerId: string,
+        data: { trigger?: number, metrics?: { [metric: string]: number } }
+    ) {
+        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/setMaintenance`;
         const response = await fetch(url, {
             method: "PUT",
             body: JSON.stringify(data),
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async getTriggerState(id: string): Promise<TriggerState> {
-        const url = this.apiUrl + "/trigger/" + encodeURI(id) + "/state";
+        const url = `${this.apiUrl}/trigger/${encodeURI(id)}/state`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async getTriggerEvents(id: string, page: number): Promise<EventList> {
-        const url = this.apiUrl + "/event/" + encodeURI(id) + "?p=" + page + "&size=" + this.eventHistoryPageSize;
+        const url = `${this.apiUrl}/event/${encodeURI(id)}?p=${page}&size=${
+            this.eventHistoryPageSize
+        }`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async delThrottling(triggerId: string) {
-        const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/throttling";
+        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/throttling`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async delMetric(triggerId: string, metric: string) {
-        const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/metrics?name=" + encodeURI(metric);
+        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/metrics?name=${encodeURI(
+            metric
+        )}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async delNoDataMetric(triggerId: string) {
-        const url = this.apiUrl + "/trigger/" + encodeURI(triggerId) + "/metrics/nodata";
+        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/metrics/nodata`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async getNotificationList(): Promise<NotificationList> {
-        const url = this.apiUrl + "/notification?start=0&end=-1";
+        const url = `${this.apiUrl}/notification?start=0&end=-1`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async delNotification(id: string) {
-        const url = this.apiUrl + "/notification?id=" + encodeURI(id);
+        const url = `${this.apiUrl}/notification?id=${encodeURI(id)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async delAllNotifications() {
-        const url = this.apiUrl + "/notification/all";
+        const url = `${this.apiUrl}/notification/all`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async delAllNotificationEvents() {
-        const url = this.apiUrl + "/event/all";
+        const url = `${this.apiUrl}/event/all`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async delSubscription(subscriptionId: string) {
-        const url = this.apiUrl + "/subscription/" + encodeURI(subscriptionId);
+        const url = `${this.apiUrl}/subscription/${encodeURI(subscriptionId)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
     }
 
     async getNotifierState(): Promise<NotifierState> {
-        const url = this.apiUrl + "/health/notifier";
+        const url = `${this.apiUrl}/health/notifier`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 
     async setNotifierState(status: NotifierState): Promise<NotifierState> {
-        const url = this.apiUrl + "/health/notifier";
+        const url = `${this.apiUrl}/health/notifier`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
             body: JSON.stringify(status),
         });
-        await this.checkStatus(response);
+        await MoiraApi.checkStatus(response);
         return response.json();
     }
 }

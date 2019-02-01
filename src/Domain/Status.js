@@ -1,5 +1,4 @@
 // @flow
-
 export const Statuses = {
     DEL: "DEL",
     EXCEPTION: "EXCEPTION",

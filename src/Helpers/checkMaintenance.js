@@ -1,6 +1,7 @@
 // @flow
 import moment from "moment";
 import { getMaintenanceCaption } from "../Domain/Maintenance";
+
 export default function checkMaintenance(maintenance: ?number): string {
     if (!maintenance) {
         return getMaintenanceCaption("off");

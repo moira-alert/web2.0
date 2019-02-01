@@ -1,10 +1,13 @@
 // @flow
 import * as React from "react";
+import type { ValidationInfo } from "react-ui-validations";
 import { ContactTypes } from "../Domain/ContactType";
 import { type ContactConfig } from "../Domain/Config";
-import type { ValidationInfo } from "react-ui-validations";
 
-export default function validateContact(contactConfig: ContactConfig, value: string): ?ValidationInfo {
+export default function validateContact(
+    contactConfig: ContactConfig,
+    value: string
+): ?ValidationInfo {
     const contactType = contactConfig.type;
     switch (contactType) {
         case ContactTypes.email: {
@@ -21,13 +24,19 @@ export default function validateContact(contactConfig: ContactConfig, value: str
         }
         case ContactTypes.telegram: {
             if (value == null || value.trim() === "") {
-                return { message: "Enter a valid telegram #channel, @username or group", type: "submit" };
+                return {
+                    message: "Enter a valid telegram #channel, @username or group",
+                    type: "submit",
+                };
             }
             break;
         }
         case ContactTypes.slack: {
             if (value == null || value.trim() === "") {
-                return { message: "Enter a valid telegram #channel, @username or group", type: "submit" };
+                return {
+                    message: "Enter a valid telegram #channel, @username or group",
+                    type: "submit",
+                };
             }
             break;
         }
@@ -39,11 +48,14 @@ export default function validateContact(contactConfig: ContactConfig, value: str
             if (!/((\+7)|8)?\d{10}/.test(value.trim())) {
                 return {
                     message: (
+                        // ToDo разделить логику и представление во время задачи по рефакторингу
+                        /* eslint-disable */
                         <span>
                             Enter a valid russian phone number
                             <br />
                             Phone number should starts with 8 or +7.
                         </span>
+                        /* eslint-enable */
                     ),
                     type: "submit",
                 };
@@ -58,13 +70,13 @@ export default function validateContact(contactConfig: ContactConfig, value: str
                         return {
                             message: `Please enter value in correct format${
                                 contactConfig.help != null && contactConfig.help !== ""
-                                    ? ": " + contactConfig.help
+                                    ? `: ${contactConfig.help}`
                                     : "."
                             }`,
                             type: "submit",
                         };
                     }
-                } catch (e) {
+                } catch (error) {
                     return null;
                 }
             }

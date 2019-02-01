@@ -86,10 +86,17 @@
 
     .button {
         min-width: @row-height;
+        margin: 0;
         padding: (@row-height - 40px) / 2;
+        border: none;
         box-sizing: border-box;
+        background: none;
+        color: inherit;
+        font: inherit;
         font-size: 26px;
         text-align: center;
+        -webkit-appearance: none;
+        appearance: none;
     }
 
     .info {
@@ -150,9 +157,19 @@
     }
 
     .modal-button {
-        font-size: 16px;
+        display: block;
+        margin: 0;
         padding: 10px 15px;
+        width: 100%;
+        border: none;
+        background: none;
         color: @button-color;
+        font: inherit;
+        font-size: 16px;
         font-weight: 600;
+        -webkit-appearance: none;
+        appearance: none;
+        box-sizing: border-box;
+        text-align: left;
     }
 }

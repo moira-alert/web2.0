@@ -1,10 +1,11 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import ContactList from "../Components/ContactList/ContactList";
 import { ContactTypes } from "../Domain/ContactType";
-import { actionWithDelay } from "./StoryUtils";
-import { contactConfigs } from "./Data/ContactConfigs";
+import actionWithDelay from "./StoryUtils";
+import contactConfigs from "./Data/ContactConfigs";
 
 const commonProps = {
     contactDescriptions: contactConfigs,

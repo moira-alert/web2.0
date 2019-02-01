@@ -1,8 +1,9 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import { ContactTypes } from "../../Domain/ContactType";
 import type { ContactConfig } from "../../Domain/Config";
 
-export const contactConfigs: Array<ContactConfig> = [
+const contactConfigs: Array<ContactConfig> = [
     {
         type: ContactTypes.email,
         validation: "^.+@.+..+$",
@@ -37,3 +38,5 @@ export const contactConfigs: Array<ContactConfig> = [
         help: "Phone number format +79*********",
     },
 ];
+
+export { contactConfigs as default };

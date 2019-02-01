@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -38,14 +39,29 @@ const items = {
 
 storiesOf("MetricList", module)
     .addDecorator(StoryRouter())
-    .add("Default", () => <MetricList items={items} onChange={action("onChange")} onRemove={action("onRemove")} />)
+    .add("Default", () => (
+        <MetricList
+            items={items}
+            sortingColumn="value"
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
+    ))
     .add("With Status Indicator", () => (
-        <MetricList items={items} status onChange={action("onChange")} onRemove={action("onRemove")} />
+        <MetricList
+            items={items}
+            status
+            sortingColumn="value"
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
     ))
     .add("With Remove all NODATA", () => (
         <MetricList
             items={items}
             status
+            noDataMerticCount={5}
+            sortingColumn="value"
             onChange={action("onChange")}
             onRemove={action("onRemove")}
             onNoDataRemove={action("onNoDataRemove")}

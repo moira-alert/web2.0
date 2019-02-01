@@ -32,8 +32,6 @@ clean:
 .PHONY: tar
 tar:
 	mkdir -p build/root/var/www/moira || true
-	cp -rf favicon.ico build/root/var/www/moira/
-	cp -rf config.json.example build/root/var/www/moira/
 	cp -rf dist/* build/root/var/www/moira/
 	tar -czvPf build/moira-web2-${VERSION}.tar.gz -C build/root  .
 
