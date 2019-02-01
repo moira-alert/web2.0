@@ -216,7 +216,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                     render={this.renderExpressionHelp}
                                     trigger="click"
                                 >
-                                    <HelpDotIcon />
+                                    <HelpDotIcon color="#3072c4" />
                                 </Tooltip>
                             </Fit>
                         </RowStack>
@@ -257,7 +257,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         render={this.renderNewMetricsAlertingHelp}
                         trigger="click"
                     >
-                        <HelpDotIcon />
+                        <HelpDotIcon color="#3072c4" />
                     </Tooltip>
                 </FormRow>
                 <FormRow label="Watch time">

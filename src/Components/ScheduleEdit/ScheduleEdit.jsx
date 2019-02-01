@@ -142,7 +142,7 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                             render={ScheduleEdit.renderTimeRangeHelp}
                             trigger="click"
                         >
-                            <HelpDotIcon />
+                            <HelpDotIcon color="#3072c4" />
                         </Tooltip>
                     </span>
                 </div>

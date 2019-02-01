@@ -66,7 +66,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             closeButton={false}
                             pos="right middle"
                         >
-                            <HelpDotIcon />
+                            <HelpDotIcon color="#3072c4" />
                         </Tooltip>
                     </div>
                     <div className={cn("value", "with-input")}>
@@ -109,7 +109,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         closeButton={false}
                         pos="right middle"
                     >
-                        <HelpDotIcon />
+                        <HelpDotIcon color="#3072c4" />
                     </Tooltip>
                 </div>
                 <div className={cn("row")}>
@@ -125,7 +125,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         closeButton={false}
                         pos="right middle"
                     >
-                        <HelpDotIcon />
+                        <HelpDotIcon color="#3072c4" />
                     </Tooltip>
                 </div>
                 <div className={cn("row")}>
@@ -141,7 +141,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         closeButton={false}
                         pos="right middle"
                     >
-                        <HelpDotIcon />
+                        <HelpDotIcon color="#3072c4" />
                     </Tooltip>
                 </div>
                 <div className={cn("row")}>
