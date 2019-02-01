@@ -25,7 +25,7 @@ type State = {
 };
 
 export default class TagDropdownSelect extends React.Component<Props, State> {
-    props: Props;
+    state: State;
 
     containerRef: { current: null | HTMLSpanElement };
 
@@ -33,11 +33,17 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
 
     focusAnchorRef: { current: null | HTMLSpanElement };
 
-    state: State = {
-        value: "",
-        isFocused: false,
-        focusedIndex: 0,
-    };
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            value: "",
+            isFocused: false,
+            focusedIndex: 0,
+        };
+        this.containerRef = React.createRef<HTMLSpanElement>();
+        this.tagsRef = React.createRef<HTMLDivElement>();
+        this.focusAnchorRef = React.createRef<HTMLSpanElement>();
+    }
 
     componentDidUpdate() {
         this.updateDropdownContainerMaxWidth();
@@ -48,7 +54,6 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const { subscribed, remained, width } = this.props;
         const { focusedIndex, isFocused: opened, value } = this.state;
         const filtredTags = this.filterTags(concat(subscribed, remained));
-
         return (
             <span className={cn("root")} style={{ width }} ref={this.containerRef}>
                 <RenderLayer
