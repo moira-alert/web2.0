@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import uniqueId from "lodash/uniqueId";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
@@ -129,12 +130,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 </FormRow>
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets.map((x, i) => (
-                        <div key={x} className={cn("target")}>
-                            {/* eslint-disable */}
-                            <label htmlFor={`target_${i + 1}`} className={cn("target-number")}>
-                                T{i + 1}
-                            </label>
-                            {/* eslint-enable */}
+                        <div key={uniqueId("target_")} className={cn("target")}>
+                            <span className={cn("target-number")}>T{i + 1}</span>
                             <div className={cn("fgroup")}>
                                 <div className={cn("fgroup-field")}>
                                     <ValidationWrapperV1
@@ -142,7 +139,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                         renderMessage={tooltip("right middle")}
                                     >
                                         <Input
-                                            id={`target_${i + 1}`}
                                             width="100%"
                                             value={x}
                                             onChange={(e, value) =>
