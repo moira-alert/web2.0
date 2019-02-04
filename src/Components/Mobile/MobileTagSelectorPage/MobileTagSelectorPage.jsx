@@ -101,16 +101,16 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
 
         return (
             /* eslint-disable */
-            <div
-                className={cn("toggle-item")}
-                onClick={() => this.setState({ nextOnlyProblems: !nextOnlyProblems })}
-            >
+            <label className={cn("toggle")}>
                 {/* eslint-enable */}
-                <div className={cn("caption")}>Show only problems</div>
-                <div className={cn("toggle-area")}>
-                    <Toggle checked={nextOnlyProblems} />
-                </div>
-            </div>
+                <span className={cn("toggle-label")}>Show only problems</span>
+                <span className={cn("toggle-control")}>
+                    <Toggle
+                        checked={nextOnlyProblems}
+                        onChange={() => this.setState({ nextOnlyProblems: !nextOnlyProblems })}
+                    />
+                </span>
+            </label>
         );
     }
 
