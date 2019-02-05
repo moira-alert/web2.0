@@ -57,7 +57,6 @@ module.exports = merge(common, {
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devtool: "cheap-eval-source-map",
     devServer: {
-        open: true,
         hot: true,
         contentBase: "./dist",
         port: 9000,
