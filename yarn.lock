@@ -2648,12 +2648,12 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
 
-bundle-loader@0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/bundle-loader/-/bundle-loader-0.5.5.tgz#11fd7b08edf86a1d708efcb1eca62ca51f6c368a"
-  integrity sha1-Ef17CO34ah1wjvyx7KYspR9sNoo=
+bundle-loader@0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/bundle-loader/-/bundle-loader-0.5.6.tgz#6c9042e62f1c89941458805a3a479d10f34c71fd"
+  integrity sha512-SUgX+u/LJzlJiuoIghuubZ66eflehnjmqSfh/ib9DTe08sxRJ5F/MhHSjp7GfSJivSp8NWgez4PVNAUuMg7vSg==
   dependencies:
-    loader-utils "^1.0.2"
+    loader-utils "^1.1.0"
 
 bytes@3.0.0:
   version "3.0.0"
