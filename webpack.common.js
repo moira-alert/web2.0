@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: {
-        app: ["@babel/polyfill", path.resolve(__dirname, "src/index.jsx")],
+        app: ["@babel/polyfill", path.resolve(__dirname, "src/index.js")],
     },
     output: {
         publicPath: "/",
@@ -12,17 +12,14 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.AppRoot\.jsx?$/,
-                use: [
-                    {
-                        loader: "bundle-loader",
-                        options: {
-                            lazy: true,
-                        },
+                test: /\.bundle\.js$/,
+                use: {
+                    loader: "bundle-loader",
+                    options: {
+                        name: "[name]",
+                        lazy: true,
                     },
-                    "babel-loader",
-                ],
-                include: path.resolve(__dirname, "src"),
+                },
             },
             {
                 test: /\.jsx?$/,
@@ -61,4 +58,22 @@ module.exports = {
             },
         }),
     ],
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+            minSize: 0,
+            cacheGroups: {
+                default: false,
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                },
+                common: {
+                    name: "common",
+                    minChunks: 2,
+                    reuseExistingChunk: true,
+                },
+            },
+        },
+    },
 };
