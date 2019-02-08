@@ -37,6 +37,7 @@ type Props = {|
 
 type State = {
     advancedMode: boolean,
+    targetKeys: Array<string>,
 };
 
 export default class TriggerEditForm extends React.Component<Props, State> {
@@ -49,6 +50,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { targets, trigger_type: triggerType } = props.data;
         this.state = {
             advancedMode: targets.length > 1 || triggerType === "expression",
+            targetKeys: targets.map(() => uniqueId("target_")),
         };
     }
 
@@ -89,7 +91,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { advancedMode } = this.state;
+        const { advancedMode, targetKeys } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -130,7 +132,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 </FormRow>
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets.map((x, i) => (
-                        <div key={uniqueId("target_")} className={cn("target")}>
+                        <div key={targetKeys[i]} className={cn("target")}>
                             <span className={cn("target-number")}>T{i + 1}</span>
                             <div className={cn("fgroup")}>
                                 <div className={cn("fgroup-field")}>
