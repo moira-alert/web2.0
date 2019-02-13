@@ -13,7 +13,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.bundle\.js$/,
+                test: /\.bundle\.jsx?$/,
                 use: {
                     loader: "bundle-loader",
                     options: {
