@@ -153,8 +153,6 @@ class TriggerContainer extends React.Component<Props, State> {
         } catch (error) {
             if (error.status === statusCode.NOT_FOUND) {
                 history.push("/404");
-            } else {
-                this.setState({ error: error.message });
             }
         } finally {
             this.setState({ loading: false });
