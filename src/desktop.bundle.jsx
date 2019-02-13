@@ -13,6 +13,7 @@ import SettingsContainer from "./Containers/SettingsContainer";
 import NotificationListContainer from "./Containers/NotificationListContainer";
 import TagListContainer from "./Containers/TagListContainer";
 import PatternListContainer from "./Containers/PatternListContainer";
+import ErrorContainer from "./Containers/ErrorContainer";
 import { getPagePath } from "./Domain/Global";
 import cn from "./desktop.less";
 
@@ -38,7 +39,7 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("tags")} component={TagListContainer} />
                 <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
-                <Route render={() => <p>404. Page not found</p>} />
+                <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />
         </div>
