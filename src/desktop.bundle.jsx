@@ -14,7 +14,7 @@ import NotificationListContainer from "./Containers/NotificationListContainer";
 import TagListContainer from "./Containers/TagListContainer";
 import PatternListContainer from "./Containers/PatternListContainer";
 import { getPagePath } from "./Domain/Global";
-import cn from "./App.less";
+import cn from "./desktop.less";
 
 function Desktop() {
     return (
