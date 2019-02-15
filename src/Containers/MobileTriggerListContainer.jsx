@@ -2,7 +2,6 @@
 import * as React from "react";
 import queryString from "query-string";
 import intersection from "lodash/intersection";
-import isEqual from "lodash/isEqual";
 import moment from "moment";
 import type { ContextRouter } from "react-router-dom";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
@@ -12,6 +11,8 @@ import type { TriggerList, Trigger } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
 import MobileTriggerListPage from "../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
 import MobileTagSelectorPage from "../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
+import parseLocationSearch from "../logic/parseLocationSearch";
+import type { LocationSearch } from "../logic/parseLocationSearch";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -23,12 +24,6 @@ type State = {
     loadedPage: number,
     triggerList: ?Array<Trigger>,
 };
-
-type LocationSearch = {|
-    page: number,
-    tags: Array<string>,
-    onlyProblems: boolean,
-|};
 
 class TriggerListContainer extends React.Component<Props, State> {
     props: Props;
@@ -50,40 +45,12 @@ class TriggerListContainer extends React.Component<Props, State> {
     componentWillReceiveProps(nextProps: Props) {
         this.setState({ loading: true });
         this.getData(nextProps);
-        if (TriggerListContainer.needScrollToTop(this.props, nextProps)) {
-            try {
-                window.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: "smooth",
-                });
-            } catch (error) {
-                // ToDo разобраться, зачем здесь эта конструкция и удалить её
-            }
-        }
-    }
-
-    static needScrollToTop(prevProps: Props, nextProps: Props): boolean {
-        const { page: prevPage } = this.parseLocationSearch(prevProps.location.search);
-        const { page: nextPage } = this.parseLocationSearch(nextProps.location.search);
-        return !isEqual(prevPage, nextPage);
-    }
-
-    static parseLocationSearch(search: string): LocationSearch {
-        const { page, tags, onlyProblems } = queryString.parse(search, { arrayFormat: "index" });
-        return {
-            page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
-            tags: Array.isArray(tags) ? tags : [],
-            onlyProblems: onlyProblems === "true" || false,
-        };
     }
 
     render(): React.Node {
         const { loading, tags, triggerList, showTagSelector } = this.state;
         const { location } = this.props;
-        const { onlyProblems, tags: parsedTags } = TriggerListContainer.parseLocationSearch(
-            location.search
-        );
+        const { onlyProblems, tags: parsedTags } = parseLocationSearch(location.search);
         const selectedTags = tags ? intersection(parsedTags, tags) : [];
 
         if (showTagSelector) {
@@ -114,9 +81,7 @@ class TriggerListContainer extends React.Component<Props, State> {
         const { triggers, hasItems } = this.state;
         const { moiraApi, location } = this.props;
         const { tags, loadedPage, triggerList } = this.state;
-        const { onlyProblems, tags: parsedTags } = TriggerListContainer.parseLocationSearch(
-            location.search
-        );
+        const { onlyProblems, tags: parsedTags } = parseLocationSearch(location.search);
         if (triggers == null) {
             return;
         }
@@ -162,9 +127,7 @@ class TriggerListContainer extends React.Component<Props, State> {
 
     async getData(props: Props) {
         const { moiraApi, location } = props;
-        const { page, onlyProblems, tags: parsedTags } = TriggerListContainer.parseLocationSearch(
-            location.search
-        );
+        const { page, onlyProblems, tags: parsedTags } = parseLocationSearch(location.search);
         const localDataString = localStorage.getItem("moiraSettings");
         const { tags: localTags, onlyProblems: localOnlyProblems } =
             typeof localDataString === "string" ? JSON.parse(localDataString) : {};
@@ -210,7 +173,7 @@ class TriggerListContainer extends React.Component<Props, State> {
     changeLocationSearch(update: $Shape<LocationSearch>) {
         const { location, history } = this.props;
         const search = {
-            ...TriggerListContainer.parseLocationSearch(location.search),
+            ...parseLocationSearch(location.search),
             ...update,
         };
         localStorage.setItem("moiraSettings", JSON.stringify(search));
