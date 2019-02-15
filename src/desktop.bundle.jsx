@@ -17,12 +17,24 @@ import ErrorContainer from "./Containers/ErrorContainer";
 import { getPagePath } from "./Domain/Global";
 import cn from "./desktop.less";
 
+import TriggerList from "./pages/trigger-list/trigger-list";
+import TriggerListDesktop from "./pages/trigger-list/trigger-list.desktop";
+
+const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => {
+    return <Route {...rest} render={props => <Container {...props} view={View} />} />;
+};
+
 function Desktop() {
     return (
         <div className={cn("layout")}>
             <HeaderContainer className={cn("header")} />
             <Switch>
-                <Route exact path={getPagePath("index")} component={TriggerListContainer} />
+                <ResponsiveRoute
+                    exact
+                    path={getPagePath("index")}
+                    container={TriggerList}
+                    view={TriggerListDesktop}
+                />
                 <Route exact path={getPagePath("triggerAdd")} component={TriggerAddContainer} />
                 <Route
                     exact
