@@ -5,7 +5,7 @@
  * @returns {number} программистский номер
  */
 function transformPageFromHumanToProgrammer(page: number): number {
-    return page - 1;
+    return page <= 0 ? 0 : page - 1;
 }
 
 export { transformPageFromHumanToProgrammer as default };
