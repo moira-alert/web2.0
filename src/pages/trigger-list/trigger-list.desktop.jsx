@@ -12,12 +12,6 @@ import TagDropdownSelect2 from "../../Components/TagDropdownSelect2/TagDropdownS
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
 
-/*
-    ToDo:
-    - заменить RowStack на Тихоновскую библиотеку
-    - отказаться от Layout
-    - добавить скролл вверх при пагинации
-*/
 function TriggerListDesktop(props) {
     const {
         selectedTags,

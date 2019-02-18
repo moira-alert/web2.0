@@ -18,15 +18,6 @@ type State = {
     tags: ?Array<string>,
 };
 
-/*
-    ToDo:
-    - скролить вверх при загрузке данных
-    - добавить сохранение выбранного в локалсторадж
-    - добавить ограничение на максимальную страницу
-    - обработать ошибки от АПИ
-    - разделить изменение тегов и пагинацию
-*/
-
 class TriggerListPage extends React.Component<Props, State> {
     state: State = {
         loading: true,
