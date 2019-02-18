@@ -23,7 +23,7 @@ type State = {
     config: ?Config,
 };
 
-class TriggerEditContainer extends React.Component<Props, State> {
+class TriggerAddContainer extends React.Component<Props, State> {
     state: State;
 
     validationContainer: { current: null | ValidationContainer };
@@ -125,13 +125,26 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 
     async handleSubmit() {
-        const { trigger } = this.state;
+        let { trigger } = this.state;
         const { history, moiraApi } = this.props;
         // ToDo отказаться от вереницы if
         if (this.validationContainer.current !== null) {
             const isValid: boolean = await this.validationContainer.current.validate();
             if (isValid && trigger) {
                 this.setState({ loading: true });
+                if (trigger.trigger_type === "expression") {
+                    trigger = {
+                        ...trigger,
+                        error_value: null,
+                        warn_value: null,
+                    };
+                }
+                if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
+                    trigger = {
+                        ...trigger,
+                        expression: "",
+                    };
+                }
                 try {
                     const { id } = await moiraApi.addTrigger(trigger);
                     history.push(getPageLink("trigger", id));
@@ -170,4 +183,4 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 }
 
-export default withMoiraApi(TriggerEditContainer);
+export default withMoiraApi(TriggerAddContainer);
