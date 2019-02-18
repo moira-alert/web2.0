@@ -53,6 +53,7 @@ class TriggerListContainer extends React.Component<Props, State> {
     };
 
     componentDidMount() {
+        document.title = "Moira - Triggers";
         this.getData(this.props);
     }
 
