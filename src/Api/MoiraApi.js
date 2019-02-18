@@ -146,7 +146,7 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     async testContact(contactId: string) {
-        const url = `${this.apiUrl}/contact/${contactId}/test`;
+        const url = `${this.apiUrl}/contact/${encodeURI(contactId)}/test`;
         const response = await fetch(url, {
             method: "POST",
             credentials: "same-origin",
@@ -155,7 +155,7 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     async updateContact(contact: Contact): Promise<Contact> {
-        const url = `${this.apiUrl}/contact/${contact.id}`;
+        const url = `${this.apiUrl}/contact/${encodeURI(contact.id)}`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
@@ -180,7 +180,7 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     async updateSubscription(subscription: Subscription): Promise<Subscription> {
-        const url = `${this.apiUrl}/subscription/${subscription.id}`;
+        const url = `${this.apiUrl}/subscription/${encodeURI(subscription.id)}`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
@@ -191,7 +191,7 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     async testSubscription(subscriptionId: string) {
-        const url = `${this.apiUrl}/subscription/${subscriptionId}/test`;
+        const url = `${this.apiUrl}/subscription/${encodeURI(subscriptionId)}/test`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
@@ -200,7 +200,7 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     async deleteContact(contactId: string) {
-        const url = `${this.apiUrl}/contact/${contactId}`;
+        const url = `${this.apiUrl}/contact/${encodeURI(contactId)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
