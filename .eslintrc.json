@@ -35,7 +35,8 @@
                 ]
             }
         ],
-        "react/require-default-props": "off"
+        "react/require-default-props": "off",
+        "react/prop-types": "off"
     },
     "settings": {
         "flowtype": {
