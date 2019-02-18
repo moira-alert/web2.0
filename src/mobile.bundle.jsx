@@ -9,9 +9,9 @@ import { getPagePath } from "./Domain/Global";
 import TriggerList from "./pages/trigger-list/trigger-list";
 import TriggerListMobile from "./pages/trigger-list/trigger-list.mobile";
 
-const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => {
-    return <Route {...rest} render={props => <Container {...props} view={View} />} />;
-};
+const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => (
+    <Route {...rest} render={props => <Container {...props} view={View} />} />
+);
 
 function Mobile() {
     return (

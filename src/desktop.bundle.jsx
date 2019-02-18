@@ -4,7 +4,6 @@ import { Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
-import TriggerListContainer from "./Containers/TriggerListContainer";
 import TriggerContainer from "./Containers/TriggerContainer";
 import TriggerEditContainer from "./Containers/TriggerEditContainer";
 import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
@@ -20,9 +19,9 @@ import cn from "./desktop.less";
 import TriggerList from "./pages/trigger-list/trigger-list";
 import TriggerListDesktop from "./pages/trigger-list/trigger-list.desktop";
 
-const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => {
-    return <Route {...rest} render={props => <Container {...props} view={View} />} />;
-};
+const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => (
+    <Route {...rest} render={props => <Container {...props} view={View} />} />
+);
 
 function Desktop() {
     return (
