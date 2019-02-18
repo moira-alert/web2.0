@@ -1,11 +1,11 @@
 // @flow
 import * as React from "react";
+import Paging from "retail-ui/components/Paging";
 import Spinner from "retail-ui/components/Spinner";
 import MenuIcon from "@skbkontur/react-icons/Menu";
 import FilterIcon from "@skbkontur/react-icons/Filter";
 import type { Trigger } from "../../../Domain/Trigger";
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
-import MobileEmptyContentLoading from "../MobileEmptyContentLoading/MobileEmptyContentLoading";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import cn from "./MobileTriggerListPage.less";
 
@@ -13,49 +13,58 @@ type MobileTriggerListPageProps = {
     loading?: boolean,
     triggers: ?Array<Trigger>,
     selectedTags: ?Array<string>,
-    onLoadMore: () => void,
+    activePage: number,
+    pageCount: number,
+    onChange: ({ page: number }) => void,
     onOpenTagSelector: () => void,
 };
 
-function getViewPortHeight(): number {
-    if (window.innerHeight) {
-        return window.innerHeight;
-    }
-    if (document.documentElement && document.documentElement.clientHeight) {
-        return document.documentElement.clientHeight;
-    }
-    if (document.body && document.body.clientHeight) {
-        return document.body.clientHeight;
-    }
-    return 0;
-}
+// function getViewPortHeight(): number {
+//     if (window.innerHeight) {
+//         return window.innerHeight;
+//     }
+//     if (document.documentElement && document.documentElement.clientHeight) {
+//         return document.documentElement.clientHeight;
+//     }
+//     if (document.body && document.body.clientHeight) {
+//         return document.body.clientHeight;
+//     }
+//     return 0;
+// }
 
-function getWindowScrollPosition(): number {
-    const doc = document.documentElement;
-    return (window.pageYOffset || ((doc && doc.scrollTop) || 0)) - ((doc && doc.clientTop) || 0);
-}
+// function getWindowScrollPosition(): number {
+//     const doc = document.documentElement;
+//     return (window.pageYOffset || ((doc && doc.scrollTop) || 0)) - ((doc && doc.clientTop) || 0);
+// }
 
 export default class MobileTriggerListPage extends React.Component<MobileTriggerListPageProps> {
     props: MobileTriggerListPageProps;
 
-    rootElement: ?HTMLDivElement;
+    // rootElement: ?HTMLDivElement;
 
-    componentDidMount() {
-        window.addEventListener("scroll", this.handleScroll);
-    }
+    // componentDidMount() {
+    //     window.addEventListener("scroll", this.handleScroll);
+    // }
 
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll);
-    }
+    // componentWillUnmount() {
+    //     window.removeEventListener("scroll", this.handleScroll);
+    // }
 
     render(): React.Node {
-        const { loading, triggers, onOpenTagSelector } = this.props;
+        const {
+            loading,
+            triggers,
+            onOpenTagSelector,
+            activePage,
+            pageCount,
+            onChange,
+        } = this.props;
 
         return (
             <div
-                ref={x => {
-                    this.rootElement = x;
-                }}
+            // ref={x => {
+            //     this.rootElement = x;
+            // }}
             >
                 <MobileHeader>
                     <MobileHeader.HeaderBlock>
@@ -68,7 +77,11 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                     </MobileHeader.HeaderBlock>
                 </MobileHeader>
                 <div className={cn("content")}>
-                    {triggers == null && loading && <MobileEmptyContentLoading />}
+                    {triggers.length === 0 && (
+                        <div style={{ padding: 30, color: "#666", textAlign: "center" }}>
+                            No results :-(
+                        </div>
+                    )}
                     {triggers != null &&
                         triggers.map(trigger => (
                             <MobileTriggerListItem key={trigger.id} data={trigger} />
@@ -79,20 +92,31 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                         </div>
                     )}
                 </div>
+                {pageCount > 1 && (
+                    <div style={{ padding: "25px 15px 50px" }}>
+                        <Paging
+                            caption="Next page"
+                            activePage={activePage}
+                            pagesCount={pageCount}
+                            onPageChange={page => onChange({ page })}
+                            withoutNavigationHint
+                        />
+                    </div>
+                )}
             </div>
         );
     }
 
-    handleScroll = () => {
-        const { loading, onLoadMore } = this.props;
-        if (loading || this.rootElement == null) {
-            return;
-        }
-        const totalHeight = this.rootElement.getBoundingClientRect().height;
-        if (totalHeight - (getWindowScrollPosition() + getViewPortHeight()) < 500) {
-            onLoadMore();
-        }
-    };
+    // handleScroll = () => {
+    //     const { loading, onLoadMore } = this.props;
+    //     if (loading || this.rootElement == null) {
+    //         return;
+    //     }
+    //     const totalHeight = this.rootElement.getBoundingClientRect().height;
+    //     if (totalHeight - (getWindowScrollPosition() + getViewPortHeight()) < 500) {
+    //         onLoadMore();
+    //     }
+    // };
 
     renderTitle(): string {
         const { triggers, loading, selectedTags } = this.props;

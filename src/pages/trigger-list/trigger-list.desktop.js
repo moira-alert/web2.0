@@ -16,6 +16,7 @@ import TriggerList from "../../Components/TriggerList/TriggerList";
     ToDo:
     - заменить RowStack на Тихоновскую библиотеку
     - отказаться от Layout
+    - добавить скролл вверх при пагинации
 */
 function TriggerListDesktop(props) {
     const {
@@ -26,6 +27,7 @@ function TriggerListDesktop(props) {
         triggers,
         activePage,
         pageCount,
+        onChange,
     } = props;
     return (
         <Layout>
@@ -37,12 +39,16 @@ function TriggerListDesktop(props) {
                             selected={selectedTags}
                             subscribed={difference(subscribedTags, selectedTags)}
                             remained={difference(allTags, concat(selectedTags, subscribedTags))}
-                            onSelect={() => {}}
-                            onRemove={() => {}}
+                            onSelect={tag => onChange({ tags: concat(selectedTags, [tag]) })}
+                            onRemove={tag => onChange({ tags: difference(selectedTags, [tag]) })}
                         />
                     </Fill>
                     <Fit>
-                        <Toggle checked={onlyProblems} onChange={() => {}} /> Only Problems
+                        <Toggle
+                            checked={onlyProblems}
+                            onChange={value => onChange({ onlyProblems: value })}
+                        />{" "}
+                        Only Problems
                     </Fit>
                 </RowStack>
             </LayoutPlate>
@@ -58,7 +64,7 @@ function TriggerListDesktop(props) {
                         caption="Next page"
                         activePage={activePage}
                         pagesCount={pageCount}
-                        onPageChange={() => {}}
+                        onPageChange={page => onChange({ page })}
                         withoutNavigationHint
                     />
                 </LayoutFooter>

@@ -23,6 +23,8 @@ type State = {
     - скролить вверх при загрузке данных
     - добавить сохранение выбранного в локалсторадж
     - добавить ограничение на максимальную страницу
+    - обработать ошибки от АПИ
+    - разделить изменение тегов и пагинацию
 */
 
 class TriggerListPage extends React.Component<Props, State> {
@@ -34,8 +36,9 @@ class TriggerListPage extends React.Component<Props, State> {
         this.loadData();
     }
 
-    componentDidUpdate(prevProps) {
-        if (!isEqual(prevProps.location, this.props.location)) {
+    componentDidUpdate({ location: prevLocation }) {
+        const { location: curentLocation } = this.props;
+        if (!isEqual(prevLocation, curentLocation)) {
             this.loadData();
         }
     }
@@ -43,6 +46,7 @@ class TriggerListPage extends React.Component<Props, State> {
     static parseLocationSearch(search: string): MoiraUrlParams {
         const START_PAGE = 1;
         const { page, tags, onlyProblems } = queryString.parse(search, { arrayFormat: "index" });
+
         return {
             page: Number.isNaN(Number(page)) ? START_PAGE : Math.abs(parseInt(page, 10)),
             tags: Array.isArray(tags) ? tags.map(value => value.toString()) : [],
@@ -62,6 +66,7 @@ class TriggerListPage extends React.Component<Props, State> {
             pageCount,
         } = this.state;
         const { view: TriggerListView } = this.props;
+
         return loading ? (
             <div>Loading...</div>
         ) : (
@@ -73,6 +78,7 @@ class TriggerListPage extends React.Component<Props, State> {
                 triggers={triggers}
                 activePage={activePage}
                 pageCount={pageCount}
+                onChange={this.changeLocationSearch}
             />
         );
     }
@@ -104,8 +110,9 @@ class TriggerListPage extends React.Component<Props, State> {
                     locationSearch.tags
                 ),
             ]);
+
             this.setState({
-                selectedTags: [],
+                selectedTags: locationSearch.tags,
                 subscribedTags: uniq(flattenDeep(settings.subscriptions.map(item => item.tags))),
                 allTags: tags.list,
                 onlyProblems: locationSearch.onlyProblems,
@@ -120,9 +127,10 @@ class TriggerListPage extends React.Component<Props, State> {
         }
     }
 
-    changeLocationSearch(update) {
+    changeLocationSearch = update => {
         const { history, location } = this.props;
         const locationSearch = TriggerListPage.parseLocationSearch(location.search);
+
         history.push(
             `?${queryString.stringify(
                 { ...locationSearch, ...update },
@@ -132,7 +140,7 @@ class TriggerListPage extends React.Component<Props, State> {
                 }
             )}`
         );
-    }
+    };
 }
 
 export default withMoiraApi(TriggerListPage);
