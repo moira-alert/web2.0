@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import uniqueId from "lodash/uniqueId";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
@@ -9,18 +8,16 @@ import Gapped from "retail-ui/components/Gapped";
 import Input from "retail-ui/components/Input";
 import Textarea from "retail-ui/components/Textarea";
 import Button from "retail-ui/components/Button";
-import Tabs from "retail-ui/components/Tabs";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
-import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
-import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
+import TriggerModeEditor from "../TriggerModeEditor/TriggerModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Statuses } from "../../Domain/Status";
@@ -37,7 +34,6 @@ type Props = {|
 
 type State = {
     advancedMode: boolean,
-    targetKeys: Array<string>,
 };
 
 export default class TriggerEditForm extends React.Component<Props, State> {
@@ -50,7 +46,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { targets, trigger_type: triggerType } = props.data;
         this.state = {
             advancedMode: targets.length > 1 || triggerType === "expression",
-            targetKeys: targets.map(() => uniqueId("target_")),
         };
     }
 
@@ -132,7 +127,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 </FormRow>
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets.map((x, i) => (
-                        <div key={targetKeys[i]} className={cn("target")}>
+                        /* eslint-disable-next-line react/no-array-index-key */
+                        <div key={`target-${i}`} className={cn("target")}>
                             <span className={cn("target-number")}>T{i + 1}</span>
                             <div className={cn("fgroup")}>
                                 <div className={cn("fgroup-field")}>
@@ -163,67 +159,18 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         Add one more
                     </Button>
                 </FormRow>
+
                 <FormRow>
-                    <Tabs
-                        value={advancedMode ? "advanced" : "simple"}
-                        onChange={(e, value) => {
-                            if (targets.length === 1) {
-                                this.setState({ advancedMode: value === "advanced" });
-                                onChange({
-                                    trigger_type: value === "advanced" ? "expression" : "rising",
-                                });
-                            }
-                        }}
-                    >
-                        <Tabs.Tab
-                            id="simple"
-                            style={{ color: targets.length > 1 ? "#888888" : undefined }}
-                        >
-                            Simple mode
-                        </Tabs.Tab>
-                        <Tabs.Tab id="advanced">Advanced mode</Tabs.Tab>
-                    </Tabs>
+                    <TriggerModeEditor
+                        triggerType={triggerType}
+                        value={{ error_value: data.error_value, warn_value: data.warn_value }}
+                        expression={expression}
+                        validateExpression={TriggerEditForm.validateRequiredString}
+                        disableSimpleMode={targets.length > 1}
+                        onChange={value => onChange(value)}
+                    />
                 </FormRow>
-                {!advancedMode && (
-                    <FormRow style={{ marginLeft: "-10px" }}>
-                        <TriggerSimpleModeEditor
-                            triggerType={triggerType}
-                            value={{ error_value: data.error_value, warn_value: data.warn_value }}
-                            onChange={value => onChange(value)}
-                        />
-                    </FormRow>
-                )}
-                {advancedMode && (
-                    <FormRow label="Expression">
-                        <RowStack baseline block gap={2}>
-                            <Fill>
-                                <ValidationWrapperV1
-                                    validationInfo={TriggerEditForm.validateRequiredString(
-                                        expression,
-                                        "Expression can't be empty"
-                                    )}
-                                    renderMessage={tooltip("right middle")}
-                                >
-                                    <Input
-                                        width="100%"
-                                        value={expression}
-                                        onChange={(e, value) => onChange({ expression: value })}
-                                        placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
-                                    />
-                                </ValidationWrapperV1>
-                            </Fill>
-                            <Fit>
-                                <Tooltip
-                                    pos="top right"
-                                    render={this.renderExpressionHelp}
-                                    trigger="click"
-                                >
-                                    <HelpDotIcon color="#3072c4" />
-                                </Tooltip>
-                            </Fit>
-                        </RowStack>
-                    </FormRow>
-                )}
+
                 <FormRow singleLineControlGroup>
                     <StatusSelect
                         value={ttlState}
@@ -348,37 +295,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             targets: [...targets, ""],
         });
     }
-
-    renderExpressionHelp = (): React.Node => (
-        <div className={cn("expression-help")}>
-            <div className={cn("main-description")}>
-                Expression uses{" "}
-                <Link
-                    target="_blank"
-                    href="https://github.com/Knetic/govaluate/blob/master/MANUAL.md"
-                >
-                    govaluate
-                </Link>{" "}
-                with predefined constants:
-            </div>
-            <div>
-                <CodeRef>t1</CodeRef>, <CodeRef>t2</CodeRef>, ... are values from your targets.
-            </div>
-            <div>
-                <CodeRef>OK</CodeRef>, <CodeRef>WARN</CodeRef>, <CodeRef>ERROR</CodeRef>,{" "}
-                <CodeRef>NODATA</CodeRef> are states that must be the result of evaluation.
-            </div>
-            <div>
-                <CodeRef>PREV_STATE</CodeRef> is equal to previously set state, and allows you to
-                prevent frequent state changes.
-            </div>
-
-            <div className={cn("note")}>
-                NOTE: Only T1 target can resolve into multiple metrics in Advanced Mode. T2, T3, ...
-                must resolve to single metrics.
-            </div>
-        </div>
-    );
 
     renderNewMetricsAlertingHelp = () => (
         <div className={cn("new-metrics-help")}>
