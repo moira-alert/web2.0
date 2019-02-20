@@ -86,7 +86,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { advancedMode, targetKeys } = this.state;
+        const { advancedMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,

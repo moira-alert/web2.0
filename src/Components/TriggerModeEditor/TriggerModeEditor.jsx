@@ -1,19 +1,14 @@
 // @flow
 import * as React from "react";
-import { ValidationWrapperV1, tooltip } from "react-ui-validations";
+import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Tabs from "retail-ui/components/Tabs";
-import Radio from "retail-ui/components/Radio";
 import Input from "retail-ui/components/Input";
 import Tooltip from "retail-ui/components/Tooltip";
 import Link from "retail-ui/components/Link";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
-import { ColumnStack, RowStack, Fit, Fill, Fixed } from "@skbkontur/react-stack-layout";
 import type { Trigger } from "../../Domain/Trigger";
-import { Statuses } from "../../Domain/Status";
-import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
-import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
-import StatusIcon from "../StatusIcon/StatusIcon";
+import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import CodeRef from "../CodeRef/CodeRef";
 import cn from "./TriggerModeEditor.less";
 
@@ -30,23 +25,21 @@ type Props = {|
     triggerType: TriggerType,
     value: ValueType,
     expression: string,
-    validateExpression: (value: string, message?: string) => void,
+    validateExpression: (value: string, message?: string) => ?ValidationInfo,
     onChange: (update: $Shape<Trigger>) => void,
 |};
 
 type State = {
-    mode: "advanced" | "simple",
+    mode: string,
     watchFor: WatchForType,
     risingValues: ValueType,
     fallingValues: ValueType,
 };
 
-class TriggerModeEditor extends React.Component {
-    props: Props;
-
+class TriggerModeEditor extends React.Component<Props, State> {
     state: State;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         const modeType = TriggerModeEditor.getModeType(props.triggerType);
         const watchForType = TriggerModeEditor.getWatchForType(props.triggerType);
@@ -60,7 +53,7 @@ class TriggerModeEditor extends React.Component {
         };
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: Props) {
         return props.triggerType === "expression" ? { mode: "advanced" } : null;
     }
 
@@ -68,7 +61,7 @@ class TriggerModeEditor extends React.Component {
         return type === "falling" ? type : "rising";
     }
 
-    static getModeType(type: string): WatchForType {
+    static getModeType(type: string): string {
         return type === "expression" ? "advanced" : "simple";
     }
 
@@ -127,7 +120,7 @@ class TriggerModeEditor extends React.Component {
         );
     }
 
-    handleTabChange = (evt, value) => {
+    handleTabChange = (evt: $Exact<{ target: $Exact<{ value: string }> }>, value: string) => {
         const { watchFor } = this.state;
         const { disableSimpleMode, onChange } = this.props;
         if (!disableSimpleMode) {
@@ -137,7 +130,7 @@ class TriggerModeEditor extends React.Component {
         }
     };
 
-    handleRadioChange = type => {
+    handleRadioChange = (type: WatchForType) => {
         const { risingValues, fallingValues } = this.state;
         const { onChange } = this.props;
         const value = type === "falling" ? { ...fallingValues } : { ...risingValues };
@@ -145,7 +138,7 @@ class TriggerModeEditor extends React.Component {
         onChange({ trigger_type: type, ...value });
     };
 
-    handleInputChange = (value, valueType) => {
+    handleInputChange = (value: number | null, valueType: string) => {
         const { watchFor, risingValues, fallingValues } = this.state;
         const { onChange } = this.props;
         if (watchFor === "rising") {

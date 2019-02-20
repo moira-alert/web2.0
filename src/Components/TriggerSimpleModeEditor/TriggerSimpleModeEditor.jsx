@@ -24,11 +24,11 @@ type Props = {|
     watchFor: WatchForType,
     risingValues: ValueType,
     fallingValues: ValueType,
-    onChange: () => void,
+    onChange: (value: number | null, valueType: string) => void,
     onSwitch: (type: WatchForType) => void,
 |};
 
-export default class TriggerSimpleModeEditor extends React.Component<Props, State> {
+export default class TriggerSimpleModeEditor extends React.Component<Props> {
     props: Props;
 
     render(): React.Node {
@@ -204,17 +204,17 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
         );
     }
 
-    handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: ?number) => {
+    handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: number | null) => {
         const { onChange } = this.props;
         onChange(warnValue, "warn_value");
     };
 
-    handleChangeErrorValue = (e: SyntheticEvent<>, errorValue: ?number) => {
+    handleChangeErrorValue = (e: SyntheticEvent<>, errorValue: number | null) => {
         const { onChange } = this.props;
         onChange(errorValue, "error_value");
     };
 
-    handleSetWatchType = (e: SyntheticEvent<>, type: WatchForType) => {
+    handleSetWatchType = (e: SyntheticEvent<string>, type: WatchForType) => {
         const { onSwitch } = this.props;
         onSwitch(type);
     };
