@@ -24,6 +24,7 @@ class PatternListContainer extends React.Component<Props, State> {
     };
 
     componentDidMount() {
+        document.title = "Moira - Patterns";
         this.getData(this.props);
     }
 
