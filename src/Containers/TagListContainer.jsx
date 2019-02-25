@@ -27,6 +27,7 @@ class TagListContainer extends React.Component<Props, State> {
     };
 
     componentDidMount() {
+        document.title = "Moira - Tags";
         this.getData(this.props);
     }
 

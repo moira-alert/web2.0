@@ -68,6 +68,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        document.title = "Moira - Add trigger";
         this.getData(this.props);
     }
 

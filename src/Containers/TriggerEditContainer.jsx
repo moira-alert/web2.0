@@ -41,6 +41,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        document.title = "Moira - Edit trigger";
         this.getData(this.props);
     }
 
