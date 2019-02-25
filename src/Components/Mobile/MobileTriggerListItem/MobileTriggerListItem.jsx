@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import moment from "moment";
 import { Link as ReactRouterLink } from "react-router-dom";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
@@ -51,6 +52,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const { data } = this.props;
         const { id, name, tags, throttling, last_check: lastCheck = {} } = data;
         const { maintenance = 0 } = lastCheck;
+        const delta = maintenance - moment.utc().unix();
 
         return (
             <ReactRouterLink className={cn("root")} to={getPageLink("trigger", id)}>
@@ -61,7 +63,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                             <FlagSolidIcon />
                         </div>
                     )}
-                    {maintenance !== 0 && (
+                    {delta > 0 && (
                         <div className={cn("maintenance")}>
                             <UserSettingsIcon />
                         </div>
