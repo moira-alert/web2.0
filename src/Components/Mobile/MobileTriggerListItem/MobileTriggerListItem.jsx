@@ -11,6 +11,9 @@ import { getPageLink } from "../../../Domain/Global";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
+
+import groupMetricsByStatuses from "../../../helpers/group-metrics-by-statuses";
+
 import cn from "./MobileTriggerListItem.less";
 
 type Props = {|
@@ -38,14 +41,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     static groupMetricsByStatuses(
         metrics: MetricList
     ): { [status: Status]: { [metric: string]: Metric } } {
-        return Object.keys(metrics).reduce((result, metricName) => {
-            const metric = metrics[metricName];
-            if (result[metric.state] == null) {
-                result[metric.state] = {}; // eslint-disable-line
-            }
-            result[metric.state][metricName] = metric; // eslint-disable-line
-            return result;
-        }, {});
+        return groupMetricsByStatuses(metrics);
     }
 
     render(): React.Node {

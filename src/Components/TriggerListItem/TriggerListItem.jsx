@@ -15,6 +15,9 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
+
+import groupMetricsByStatuses from "../../helpers/group-metrics-by-statuses";
+
 import cn from "./TriggerListItem.less";
 
 type Props = {|
@@ -37,9 +40,9 @@ export default class TriggerListItem extends React.Component<Props, State> {
         super(props);
         this.state = {
             showMetrics: false,
-            groupedMetrics: TriggerListItem.groupMetricsByStatuses(
-                (props.data.last_check || {}).metrics
-            ),
+            groupedMetrics: props.data.last_check
+                ? groupMetricsByStatuses(props.data.last_check.metrics)
+                : {},
         };
     }
 
@@ -47,24 +50,11 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const { data } = this.props;
         if (data !== nextProps.data) {
             this.setState({
-                groupedMetrics: TriggerListItem.groupMetricsByStatuses(
-                    (nextProps.data.last_check || {}).metrics
-                ),
+                groupedMetrics: nextProps.data.last_check
+                    ? groupMetricsByStatuses(nextProps.data.last_check.metrics)
+                    : {},
             });
         }
-    }
-
-    static groupMetricsByStatuses(
-        metrics: MetricList
-    ): { [status: Status]: { [metric: string]: Metric } } {
-        return Object.keys(metrics).reduce((result, metricName) => {
-            const metric = metrics[metricName];
-            if (result[metric.state] == null) {
-                result[metric.state] = {}; // eslint-disable-line
-            }
-            result[metric.state][metricName] = metric; // eslint-disable-line
-            return result;
-        }, {});
     }
 
     static sortMetricsByValue(metrics: { [metric: string]: Metric }): { [metric: string]: Metric } {
