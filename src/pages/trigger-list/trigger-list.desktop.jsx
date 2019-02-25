@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable react/jsx-filename-extension */
 import * as React from "react";
 import concat from "lodash/concat";
 import difference from "lodash/difference";
