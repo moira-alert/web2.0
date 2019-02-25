@@ -2,6 +2,7 @@
 import * as React from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
+import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import type { Trigger } from "../../../Domain/Trigger";
 import type { Status } from "../../../Domain/Status";
 import type { Metric, MetricList } from "../../../Domain/Metric";
@@ -37,7 +38,6 @@ export default class TriggerListItem extends React.Component<Props, State> {
         metrics: MetricList
     ): { [status: Status]: { [metric: string]: Metric } } {
         return Object.keys(metrics).reduce((result, metricName) => {
-            // ToDo разобраться с ошибкой eslint
             const metric = metrics[metricName];
             if (result[metric.state] == null) {
                 result[metric.state] = {}; // eslint-disable-line
@@ -49,7 +49,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
 
     render(): React.Node {
         const { data } = this.props;
-        const { id, name, tags, throttling } = data;
+        const { id, name, tags, throttling, last_check: lastCheck = {} } = data;
+        const { maintenance = 0 } = lastCheck;
 
         return (
             <ReactRouterLink className={cn("root")} to={getPageLink("trigger", id)}>
@@ -58,6 +59,11 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     {throttling !== 0 && (
                         <div className={cn("throttling-flag")}>
                             <FlagSolidIcon />
+                        </div>
+                    )}
+                    {maintenance !== 0 && (
+                        <div className={cn("maintenance")}>
+                            <UserSettingsIcon />
                         </div>
                     )}
                 </div>
