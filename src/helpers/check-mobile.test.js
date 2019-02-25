@@ -1,5 +1,3 @@
-// @noflow
-/* eslint-disable */
 import checkMobile from "./check-mobile";
 
 const tests = [

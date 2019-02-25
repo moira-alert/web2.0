@@ -8,13 +8,15 @@
         "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
         "storybook": "cross-env NODE_ENV=development start-storybook -p 9001 -c .storybook --ci",
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
-        "lint": "eslint --ext .jsx --ext .js src/"
+        "lint": "eslint --ext .jsx --ext .js src/",
+        "test": "cross-env NODE_ENV=testing jest \"./src\""
     },
     "dependencies": {
         "@skbkontur/react-icons": "3.1.2",
-        "bundle-loader": "0.5.6",
         "@skbkontur/react-stack-layout": "^1.0.3",
+        "bundle-loader": "0.5.6",
         "color-hash": "1.0.3",
+        "jest": "24.1.0",
         "lodash": "4.17.11",
         "moment": "2.23.0",
         "numeral": "2.0.6",
