@@ -40,6 +40,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        document.title = "Moira - Duplicate trigger";
         this.getData(this.props);
     }
 
@@ -116,11 +117,24 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
     }
 
     async handleSubmit() {
-        const { trigger } = this.state;
+        let { trigger } = this.state;
         const { history, moiraApi } = this.props;
         const isValid = await this.validateForm();
         if (isValid && trigger) {
             this.setState({ loading: true });
+            if (trigger.trigger_type === "expression") {
+                trigger = {
+                    ...trigger,
+                    error_value: null,
+                    warn_value: null,
+                };
+            }
+            if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
+                trigger = {
+                    ...trigger,
+                    expression: "",
+                };
+            }
             try {
                 const { id } = await moiraApi.addTrigger(trigger);
                 history.push(getPageLink("trigger", id));

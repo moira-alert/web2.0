@@ -17,8 +17,8 @@ export type Trigger = {
     sched?: Schedule,
     desc?: string,
     trigger_type: "rising" | "falling" | "expression",
-    warn_value: ?number,
-    error_value: ?number,
+    warn_value: number | null,
+    error_value: number | null,
     last_check?: {|
         state: Status,
         timestamp: number,

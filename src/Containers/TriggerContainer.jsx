@@ -55,6 +55,7 @@ class TriggerContainer extends React.Component<Props, State> {
     };
 
     componentDidMount() {
+        document.title = "Moira - Trigger";
         this.getData(this.props);
     }
 
@@ -231,6 +232,8 @@ class TriggerContainer extends React.Component<Props, State> {
                 const rightLastPage = Math.ceil(triggerEvents.total / triggerEvents.size) || 1;
                 this.changeLocationSearch({ page: rightLastPage });
             }
+
+            document.title = `Moira - Trigger - ${trigger.name}`;
 
             this.setState({
                 config,

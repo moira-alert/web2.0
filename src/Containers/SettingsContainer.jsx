@@ -35,6 +35,7 @@ class SettingsContainer extends React.Component<Props, State> {
     };
 
     componentDidMount() {
+        document.title = "Moira - Settings";
         this.getData();
     }
 
