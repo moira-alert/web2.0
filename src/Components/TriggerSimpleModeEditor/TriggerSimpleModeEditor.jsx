@@ -13,48 +13,26 @@ export type TriggerSimpleModeSettings = {
     error_value: ?number,
 };
 
-type WatchType = "rising" | "falling" | "expression";
+type WatchForType = "rising" | "falling";
 
-type Props = {|
-    triggerType: WatchType,
-    value: TriggerSimpleModeSettings,
-    onChange: TriggerSimpleModeSettings => void,
-|};
-
-type State = {
-    watchFor: WatchType,
-    risingValues: TriggerSimpleModeSettings,
-    fallingValues: TriggerSimpleModeSettings,
+type ValueType = {
+    warn_value: number | null,
+    error_value: number | null,
 };
 
-export default class TriggerSimpleModeEditor extends React.Component<Props, State> {
+type Props = {|
+    watchFor: WatchForType,
+    risingValues: ValueType,
+    fallingValues: ValueType,
+    onChange: (value: number | null, valueType: string) => void,
+    onSwitch: (type: WatchForType) => void,
+|};
+
+export default class TriggerSimpleModeEditor extends React.Component<Props> {
     props: Props;
 
-    state: State;
-
-    constructor(props: Props) {
-        super(props);
-        const watchForType = TriggerSimpleModeEditor.getWatchForType(props.triggerType);
-        this.state = {
-            watchFor: watchForType,
-            risingValues:
-                watchForType === "rising" ? props.value : { warn_value: null, error_value: null },
-            fallingValues:
-                watchForType === "falling" ? props.value : { warn_value: null, error_value: null },
-        };
-    }
-
-    static getWatchForType(type: string): WatchType {
-        if (type === "falling") {
-            return type;
-        }
-        return "rising";
-    }
-
     render(): React.Node {
-        const { watchFor, risingValues, fallingValues } = this.state;
-        const { value } = this.props;
-
+        const { watchFor, risingValues, fallingValues } = this.props;
         return (
             <div>
                 <ColumnStack block gap={4} stretch>
@@ -65,7 +43,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                     <Radio
                                         checked={watchFor === "rising"}
                                         value="rising"
-                                        onChange={this.handleSetRisingWatchType}
+                                        onChange={this.handleSetWatchType}
                                     >
                                         Watch for value rising:
                                     </Radio>
@@ -96,11 +74,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                                 width={120}
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
-                                                value={
-                                                    watchFor === "rising"
-                                                        ? value.warn_value
-                                                        : risingValues.warn_value
-                                                }
+                                                value={risingValues.warn_value}
                                                 onChange={this.handleChangeWarnValue}
                                                 disabled={watchFor !== "rising"}
                                             />
@@ -133,11 +107,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                                 width={120}
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
-                                                value={
-                                                    watchFor === "rising"
-                                                        ? value.error_value
-                                                        : risingValues.error_value
-                                                }
+                                                value={risingValues.error_value}
                                                 onChange={this.handleChangeErrorValue}
                                                 disabled={watchFor !== "rising"}
                                             />
@@ -154,7 +124,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                     <Radio
                                         checked={watchFor === "falling"}
                                         value="falling"
-                                        onChange={this.handleSetFallingWatchType}
+                                        onChange={this.handleSetWatchType}
                                     >
                                         Watch for value falling:
                                     </Radio>
@@ -186,11 +156,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                                 width={120}
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
-                                                value={
-                                                    watchFor === "falling"
-                                                        ? value.warn_value
-                                                        : fallingValues.warn_value
-                                                }
+                                                value={fallingValues.warn_value}
                                                 onChange={this.handleChangeWarnValue}
                                                 disabled={watchFor !== "falling"}
                                             />
@@ -223,11 +189,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
                                                 width={120}
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
-                                                value={
-                                                    watchFor === "falling"
-                                                        ? value.error_value
-                                                        : fallingValues.error_value
-                                                }
+                                                value={fallingValues.error_value}
                                                 onChange={this.handleChangeErrorValue}
                                                 disabled={watchFor !== "falling"}
                                             />
@@ -242,48 +204,26 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
         );
     }
 
-    handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: ?number) => {
-        const { value, onChange } = this.props;
-        const { watchFor } = this.state;
-        if (watchFor === "rising") {
-            this.setState({ risingValues: { ...value, warn_value: warnValue } });
-        } else {
-            this.setState({ fallingValues: { ...value, warn_value: warnValue } });
-        }
-        onChange({ ...value, warn_value: warnValue });
-    };
-
-    handleChangeErrorValue = (e: SyntheticEvent<>, errorValue: ?number) => {
-        const { value, onChange } = this.props;
-        const { watchFor } = this.state;
-        if (watchFor === "rising") {
-            this.setState({ risingValues: { ...value, error_value: errorValue } });
-        } else {
-            this.setState({ fallingValues: { ...value, error_value: errorValue } });
-        }
-        onChange({ ...value, error_value: errorValue });
-    };
-
-    handleSetRisingWatchType = () => {
+    handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: number | null) => {
         const { onChange } = this.props;
-        const { risingValues } = this.state;
-        this.setState({ watchFor: "rising" });
-        onChange({ trigger_type: "rising", ...risingValues });
+        onChange(warnValue, "warn_value");
     };
 
-    handleSetFallingWatchType = () => {
+    handleChangeErrorValue = (e: SyntheticEvent<>, errorValue: number | null) => {
         const { onChange } = this.props;
-        const { fallingValues } = this.state;
-        this.setState({ watchFor: "falling" });
-        onChange({ trigger_type: "falling", ...fallingValues });
+        onChange(errorValue, "error_value");
+    };
+
+    handleSetWatchType = (e: SyntheticEvent<string>, type: WatchForType) => {
+        const { onSwitch } = this.props;
+        onSwitch(type);
     };
 
     validateRisingWarn(): ?ValidationInfo {
-        const { watchFor } = this.state;
+        const { watchFor, risingValues: value } = this.props;
         if (watchFor !== "rising") {
             return null;
         }
-        const { value } = this.props;
         if (value.warn_value == null && value.error_value == null) {
             return { message: "At least one of values must be filled", type: "submit" };
         }
@@ -292,11 +232,10 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
     }
 
     validateRisingError(): ?ValidationInfo {
-        const { watchFor } = this.state;
+        const { watchFor, risingValues: value } = this.props;
         if (watchFor !== "rising") {
             return null;
         }
-        const { value } = this.props;
         if (value.error_value == null && value.warn_value == null) {
             return { message: "At least one of values must be filled", type: "submit" };
         }
@@ -311,11 +250,10 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
     }
 
     validateFallingWarn(): ?ValidationInfo {
-        const { watchFor } = this.state;
+        const { watchFor, fallingValues: value } = this.props;
         if (watchFor !== "falling") {
             return null;
         }
-        const { value } = this.props;
         if (value.warn_value == null && value.error_value == null) {
             return { message: "At least one of values must be filled", type: "submit" };
         }
@@ -323,11 +261,10 @@ export default class TriggerSimpleModeEditor extends React.Component<Props, Stat
     }
 
     validateFallingError(): ?ValidationInfo {
-        const { watchFor } = this.state;
+        const { watchFor, fallingValues: value } = this.props;
         if (watchFor !== "falling") {
             return null;
         }
-        const { value } = this.props;
         if (value.error_value == null && value.warn_value == null) {
             return { message: "At least one of values must be filled", type: "submit" };
         }

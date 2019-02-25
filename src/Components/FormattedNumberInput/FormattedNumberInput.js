@@ -10,7 +10,7 @@ type FormattedNumberInputProps = {
     editFormat?: ?string,
     value: ?number,
     align?: "left" | "center" | "right",
-    onChange: (event: SyntheticEvent<>, value: ?number) => any,
+    onChange: (event: SyntheticEvent<>, value: number | null) => any,
     width: string | number,
 };
 
@@ -19,7 +19,7 @@ export default class FormattedNumberInput extends React.Component<FormattedNumbe
 
     static numberRegexp = /^\-?\s*\d*(\.\d*)?\s*$/;
 
-    handleFilterValue(value: string): FilterValueResult<?number> | null {
+    handleFilterValue(value: string): FilterValueResult<number | null> | null {
         const str = value ? value.replace(",", ".") : value;
 
         if (FormattedNumberInput.numberRegexp.test(str)) {

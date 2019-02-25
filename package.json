@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@skbkontur/react-icons": "3.1.2",
+        "@skbkontur/react-stack-layout": "^1.0.3",
         "color-hash": "1.0.3",
         "lodash": "4.17.11",
         "moment": "2.23.0",
