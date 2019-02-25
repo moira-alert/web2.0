@@ -6,7 +6,7 @@ import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-vali
 import Remarkable from "remarkable";
 import { ContactTypes, getContactTypeCaption } from "../../Domain/ContactType";
 import type { ContactConfig } from "../../Domain/Config";
-import validateContact from "../../Helpers/ContactValidator";
+import validateContact from "../../helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
 

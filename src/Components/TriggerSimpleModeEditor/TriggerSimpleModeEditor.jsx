@@ -5,7 +5,7 @@ import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-vali
 import { ColumnStack, RowStack, Fit, Fixed } from "../ItemsStack/ItemsStack";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import StatusIcon from "../StatusIcon/StatusIcon";
-import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
+import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import cn from "./TriggerSimpleModeEditor.less";
 
 export type TriggerSimpleModeSettings = {

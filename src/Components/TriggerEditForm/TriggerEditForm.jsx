@@ -22,7 +22,7 @@ import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
-import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
+import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import cn from "./TriggerEditForm.less";
 
 type Props = {|

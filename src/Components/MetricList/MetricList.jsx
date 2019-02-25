@@ -9,7 +9,7 @@ import Button from "retail-ui/components/Button";
 import MenuItem from "retail-ui/components/MenuItem";
 import type { Maintenance } from "../../Domain/Maintenance";
 import type { Metric } from "../../Domain/Metric";
-import roundValue from "../../Helpers/roundValue";
+import roundValue from "../../helpers/roundValue";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import cn from "./MetricList.less";

@@ -8,7 +8,7 @@ import RedoIcon from "@skbkontur/react-icons/Redo";
 import Modal from "retail-ui/components/Modal";
 import type { Metric } from "../../../Domain/Metric";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
-import roundValue from "../../../Helpers/roundValue";
+import roundValue from "../../../helpers/roundValue";
 import { Maintenances, type Maintenance } from "../../../Domain/Maintenance";
 import cn from "./MobileMetricsListItem.less";
 

@@ -6,7 +6,7 @@ import MoiraApi from "./Api/MoiraApi";
 import { ApiProvider } from "./Api/MoiraApiInjection";
 import mobile from "./mobile.bundle";
 import desktop from "./desktop.bundle";
-import checkMobile from "./Helpers/check-mobile";
+import checkMobile from "./helpers/check-mobile";
 import "./style.less";
 
 const root = document.getElementById("root");
