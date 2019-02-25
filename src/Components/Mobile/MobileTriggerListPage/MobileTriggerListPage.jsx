@@ -19,36 +19,8 @@ type MobileTriggerListPageProps = {
     onOpenTagSelector: () => void,
 };
 
-// function getViewPortHeight(): number {
-//     if (window.innerHeight) {
-//         return window.innerHeight;
-//     }
-//     if (document.documentElement && document.documentElement.clientHeight) {
-//         return document.documentElement.clientHeight;
-//     }
-//     if (document.body && document.body.clientHeight) {
-//         return document.body.clientHeight;
-//     }
-//     return 0;
-// }
-
-// function getWindowScrollPosition(): number {
-//     const doc = document.documentElement;
-//     return (window.pageYOffset || ((doc && doc.scrollTop) || 0)) - ((doc && doc.clientTop) || 0);
-// }
-
 export default class MobileTriggerListPage extends React.Component<MobileTriggerListPageProps> {
     props: MobileTriggerListPageProps;
-
-    // rootElement: ?HTMLDivElement;
-
-    // componentDidMount() {
-    //     window.addEventListener("scroll", this.handleScroll);
-    // }
-
-    // componentWillUnmount() {
-    //     window.removeEventListener("scroll", this.handleScroll);
-    // }
 
     render(): React.Node {
         const {
@@ -61,11 +33,7 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
         } = this.props;
 
         return (
-            <div
-            // ref={x => {
-            //     this.rootElement = x;
-            // }}
-            >
+            <div>
                 <MobileHeader>
                     <MobileHeader.HeaderBlock>
                         <MobileHeader.LeftButton icon={<MenuIcon />} />
@@ -106,17 +74,6 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
             </div>
         );
     }
-
-    // handleScroll = () => {
-    //     const { loading, onLoadMore } = this.props;
-    //     if (loading || this.rootElement == null) {
-    //         return;
-    //     }
-    //     const totalHeight = this.rootElement.getBoundingClientRect().height;
-    //     if (totalHeight - (getWindowScrollPosition() + getViewPortHeight()) < 500) {
-    //         onLoadMore();
-    //     }
-    // };
 
     renderTitle(): string {
         const { triggers, loading, selectedTags } = this.props;
