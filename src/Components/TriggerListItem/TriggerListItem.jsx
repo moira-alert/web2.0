@@ -59,7 +59,6 @@ export default class TriggerListItem extends React.Component<Props, State> {
     ): { [status: Status]: { [metric: string]: Metric } } {
         return Object.keys(metrics).reduce((result, metricName) => {
             const metric = metrics[metricName];
-            // ToDo разобраться с ошибкой eslint
             if (result[metric.state] == null) {
                 result[metric.state] = {}; // eslint-disable-line
             }
