@@ -40,6 +40,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        document.title = "Moira - Duplicate trigger";
         this.getData(this.props);
     }
 

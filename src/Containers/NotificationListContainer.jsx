@@ -30,6 +30,7 @@ class NotificationListContainer extends React.Component<Props, State> {
     };
 
     componentDidMount() {
+        document.title = "Moira - Notifications";
         this.fetch(this.props);
     }
 
