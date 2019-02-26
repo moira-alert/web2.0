@@ -247,8 +247,16 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             selectedItems={tags}
                             getItems={getItems}
                             onChange={selectedTags => onChange({ tags: selectedTags })}
-                            renderToken={(item, { onRemove }) => (
-                                <Token key={item.toString()} onRemove={onRemove}>
+                            renderToken={(item, { isActive, onRemove }) => (
+                                <Token
+                                    key={item.toString()}
+                                    colors={{
+                                        idle: "defaultIdle",
+                                        active: "defaultActive",
+                                    }}
+                                    isActive={isActive}
+                                    onRemove={onRemove}
+                                >
                                     {item}
                                 </Token>
                             )}

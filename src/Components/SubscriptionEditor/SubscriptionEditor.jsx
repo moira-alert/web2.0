@@ -93,8 +93,16 @@ export default class SubscriptionEditor extends React.Component<Props> {
                                 selectedItems={subscription.tags}
                                 getItems={getItems}
                                 onChange={nextTags => onChange({ tags: nextTags })}
-                                renderToken={(item, { onRemove }) => (
-                                    <Token key={item.toString()} onRemove={onRemove}>
+                                renderToken={(item, { isActive, onRemove }) => (
+                                    <Token
+                                        key={item.toString()}
+                                        colors={{
+                                            idle: "defaultIdle",
+                                            active: "defaultActive",
+                                        }}
+                                        isActive={isActive}
+                                        onRemove={onRemove}
+                                    >
                                         {item}
                                     </Token>
                                 )}
