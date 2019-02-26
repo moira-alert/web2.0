@@ -23,6 +23,8 @@ import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSele
 import TriggerListView from "../Components/TriggerList/TriggerList";
 import AddingButton from "../Components/AddingButton/AddingButton";
 import { ColumnStack, RowStack, Fill, Fit } from "../Components/ItemsStack/ItemsStack";
+import parseLocationSearch from "../logic/parseLocationSearch";
+import type { LocationSearch } from "../logic/parseLocationSearch";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -33,12 +35,6 @@ type State = {
     triggers: ?TriggerList,
     config: ?Config,
 };
-
-type LocationSearch = {|
-    page: number,
-    tags: Array<string>,
-    onlyProblems: boolean,
-|};
 
 class TriggerListContainer extends React.Component<Props, State> {
     props: Props;
@@ -61,39 +57,24 @@ class TriggerListContainer extends React.Component<Props, State> {
         this.setState({ loading: true });
         this.getData(nextProps);
         if (TriggerListContainer.needScrollToTop(this.props, nextProps)) {
-            try {
-                window.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: "smooth",
-                });
-            } catch (error) {
-                // ToDo разобраться, зачем здесь эта конструкция и удалить её
-            }
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+            });
         }
     }
 
-    static parseLocationSearch(search: string): LocationSearch {
-        const { page, tags, onlyProblems } = queryString.parse(search, { arrayFormat: "index" });
-        return {
-            page: typeof page === "string" ? Number(page.replace(/\D/g, "")) || 1 : 1,
-            tags: Array.isArray(tags) ? tags : [],
-            onlyProblems: onlyProblems === "true" || false,
-        };
-    }
-
     static needScrollToTop(prevProps: Props, nextProps: Props): boolean {
-        const { page: prevPage } = this.parseLocationSearch(prevProps.location.search);
-        const { page: nextPage } = this.parseLocationSearch(nextProps.location.search);
+        const { page: prevPage } = parseLocationSearch(prevProps.location.search);
+        const { page: nextPage } = parseLocationSearch(nextProps.location.search);
         return !isEqual(prevPage, nextPage);
     }
 
     render(): React.Node {
         const { loading, error, triggers, tags, subscriptions, config } = this.state;
         const { location } = this.props;
-        const { page, onlyProblems, tags: parsedTags } = TriggerListContainer.parseLocationSearch(
-            location.search
-        );
+        const { page, onlyProblems, tags: parsedTags } = parseLocationSearch(location.search);
         const selectedTags = tags ? intersection(parsedTags, tags) : [];
         const subscribedTags = subscriptions ? difference(subscriptions, selectedTags) : [];
         const remainedTags = difference(tags, concat(selectedTags, subscribedTags));
@@ -167,9 +148,7 @@ class TriggerListContainer extends React.Component<Props, State> {
 
     async getData(props: Props) {
         const { moiraApi, location } = props;
-        const { page, onlyProblems, tags: parsedTags } = TriggerListContainer.parseLocationSearch(
-            location.search
-        );
+        const { page, onlyProblems, tags: parsedTags } = parseLocationSearch(location.search);
         const localDataString = localStorage.getItem("moiraSettings");
         const { tags: localTags, onlyProblems: localOnlyProblems } =
             typeof localDataString === "string" ? JSON.parse(localDataString) : {};
@@ -217,7 +196,7 @@ class TriggerListContainer extends React.Component<Props, State> {
     changeLocationSearch(update: $Shape<LocationSearch>) {
         const { location, history } = this.props;
         const search = {
-            ...TriggerListContainer.parseLocationSearch(location.search),
+            ...parseLocationSearch(location.search),
             ...update,
         };
         localStorage.setItem("moiraSettings", JSON.stringify(search));

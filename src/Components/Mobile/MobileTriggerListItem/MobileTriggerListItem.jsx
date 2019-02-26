@@ -1,7 +1,9 @@
 // @flow
 import * as React from "react";
+import moment from "moment";
 import { Link as ReactRouterLink } from "react-router-dom";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
+import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import type { Trigger } from "../../../Domain/Trigger";
 import type { Status } from "../../../Domain/Status";
 import type { Metric, MetricList } from "../../../Domain/Metric";
@@ -9,6 +11,9 @@ import { getPageLink } from "../../../Domain/Global";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
+
+import groupMetricsByStatuses from "../../../helpers/group-metrics-by-statuses";
+
 import cn from "./MobileTriggerListItem.less";
 
 type Props = {|
@@ -36,20 +41,14 @@ export default class TriggerListItem extends React.Component<Props, State> {
     static groupMetricsByStatuses(
         metrics: MetricList
     ): { [status: Status]: { [metric: string]: Metric } } {
-        return Object.keys(metrics).reduce((result, metricName) => {
-            // ToDo разобраться с ошибкой eslint
-            const metric = metrics[metricName];
-            if (result[metric.state] == null) {
-                result[metric.state] = {}; // eslint-disable-line
-            }
-            result[metric.state][metricName] = metric; // eslint-disable-line
-            return result;
-        }, {});
+        return groupMetricsByStatuses(metrics);
     }
 
     render(): React.Node {
         const { data } = this.props;
-        const { id, name, tags, throttling } = data;
+        const { id, name, tags, throttling, last_check: lastCheck = {} } = data;
+        const { maintenance = 0 } = lastCheck;
+        const delta = maintenance - moment.utc().unix();
 
         return (
             <ReactRouterLink className={cn("root")} to={getPageLink("trigger", id)}>
@@ -58,6 +57,11 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     {throttling !== 0 && (
                         <div className={cn("throttling-flag")}>
                             <FlagSolidIcon />
+                        </div>
+                    )}
+                    {delta > 0 && (
+                        <div className={cn("maintenance")}>
+                            <UserSettingsIcon />
                         </div>
                     )}
                 </div>

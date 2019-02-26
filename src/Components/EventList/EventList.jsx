@@ -4,7 +4,7 @@ import moment from "moment";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import type { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import roundValue from "../../Helpers/roundValue";
+import roundValue from "../../helpers/roundValue";
 import cn from "./EventList.less";
 
 type Props = {|

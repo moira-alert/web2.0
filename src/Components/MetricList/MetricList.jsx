@@ -9,7 +9,7 @@ import Button from "retail-ui/components/Button";
 import MenuItem from "retail-ui/components/MenuItem";
 import type { Maintenance } from "../../Domain/Maintenance";
 import type { Metric } from "../../Domain/Metric";
-import roundValue from "../../Helpers/roundValue";
+import roundValue from "../../helpers/roundValue";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import cn from "./MetricList.less";
@@ -25,7 +25,7 @@ type Props = {|
     sortingDown?: boolean,
     noDataMerticCount?: number,
     onSort?: (sorting: SortingColum) => void,
-    onChange: (maintenance: Maintenance, metric: string) => void,
+    onChange: (metric: string, maintenance: Maintenance) => void,
     onRemove: (metric: string) => void,
     onNoDataRemove?: () => void,
 |};
@@ -129,7 +129,7 @@ export default function MetricList(props: Props): React.Node {
                             <div className={cn("controls")}>
                                 <Dropdown caption={checkMaintenance(maintenance)} use="link">
                                     {Object.keys(Maintenances).map(key => (
-                                        <MenuItem key={key} onClick={() => onChange(key, metric)}>
+                                        <MenuItem key={key} onClick={() => onChange(metric, key)}>
                                             {getMaintenanceCaption(key)}
                                         </MenuItem>
                                     ))}

@@ -6,7 +6,6 @@ import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import Modal from "retail-ui/components/Modal";
-
 import type { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
 import type { Status } from "../../../Domain/Status";
@@ -117,7 +116,7 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                                     </div>
                                 )}
                                 {(trigger.throttling !== 0 || showThrottling) && (
-                                    <div className={cn("plain-row", "description")}>
+                                    <div className={cn("plain-row")}>
                                         <FlagSolidIcon />{" "}
                                         {trigger.throttling !== 0
                                             ? "Throttling enabled."

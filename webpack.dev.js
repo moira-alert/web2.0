@@ -7,6 +7,7 @@ module.exports = merge(common, {
     mode: "development",
     output: {
         filename: "app.js",
+        chunkFilename: "[name].js",
     },
     module: {
         rules: [

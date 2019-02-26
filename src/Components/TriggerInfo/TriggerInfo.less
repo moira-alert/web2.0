@@ -1,20 +1,22 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
 
-.title {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-weight: 300;
-    font-size: 32px;
-    line-height: 40px;
-}
-
 .header {
     display: flex;
     align-items: baseline;
 }
 
+.title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    flex-grow: 1;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 40px;
+}
+
 .controls {
+    flex-shrink: 0;
     display: flex;
     align-items: baseline;
     margin-left: auto;
@@ -43,6 +45,8 @@
         width: calc(~'100% - 150px');
 
         &.description {
+            overflow: hidden;
+            word-break: break-word;
             white-space: pre-wrap;
         }
     }

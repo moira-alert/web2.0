@@ -8,6 +8,7 @@ module.exports = merge(common, {
     mode: "production",
     output: {
         filename: "app.[hash:6].js",
+        chunkFilename: "[name].[chunkhash:6].js",
     },
     module: {
         rules: [
@@ -59,15 +60,5 @@ module.exports = merge(common, {
         new MiniCssExtractPlugin({
             filename: "app.[hash:6].css",
         }),
-        new webpack.optimize.LimitChunkCountPlugin({
-            maxChunks: 1,
-        }),
     ],
-    optimization: {
-        splitChunks: {
-            cacheGroups: {
-                default: false,
-            },
-        },
-    },
 });

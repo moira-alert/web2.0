@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import { action } from "@storybook/addon-actions";
-import delay from "../Helpers/PromiseUtils";
+import delay from "../helpers/PromiseUtils";
 
 export default function actionWithDelay(
     name: string,

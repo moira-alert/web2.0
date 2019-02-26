@@ -101,7 +101,6 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
         return Object.keys(metrics)
             .map(x => metrics[x].state)
             .reduce((result, state) => {
-                // ToDo разобраться с ошибкой eslint
                 result[state] = (result[state] || 0) + 1; // eslint-disable-line
                 return result;
             }, {});

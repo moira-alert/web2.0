@@ -9,6 +9,7 @@ import type { Maintenance } from "../Domain/Maintenance";
 import type { Metric } from "../Domain/Metric";
 import type { Event } from "../Domain/Event";
 import type { SortingColum } from "../Components/MetricList/MetricList";
+import { statusCode } from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../Domain/Maintenance";
 import { getStatusWeight } from "../Domain/Status";
@@ -125,7 +126,7 @@ class TriggerContainer extends React.Component<Props, State> {
     };
 
     async getData(props: Props) {
-        const { moiraApi, match, location } = props;
+        const { moiraApi, match, location, history } = props;
         const { page } = TriggerContainer.parseLocationSearch(location.search);
         const { id } = match.params;
         if (typeof id !== "string") {
@@ -153,7 +154,9 @@ class TriggerContainer extends React.Component<Props, State> {
                 triggerState,
             });
         } catch (error) {
-            // ToDo обработать ошибку
+            if (error.status === statusCode.NOT_FOUND) {
+                history.push("/404");
+            }
         } finally {
             this.setState({ loading: false });
         }

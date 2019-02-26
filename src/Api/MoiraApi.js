@@ -76,6 +76,22 @@ export interface IMoiraApi {
     setNotifierState(status: NotifierState): Promise<NotifierState>;
 }
 
+class ApiError extends Error {
+    status: number;
+
+    constructor({ message, status }) {
+        super(message);
+        this.name = "ApiError";
+        this.status = status;
+    }
+}
+
+const statusCode = {
+    NOT_FOUND: 404,
+};
+
+export { statusCode };
+
 export default class MoiraApi implements IMoiraApi {
     apiUrl: string;
 
@@ -91,17 +107,17 @@ export default class MoiraApi implements IMoiraApi {
 
     static async checkStatus(response: Response) {
         if (!(response.status >= 200 && response.status < 300)) {
+            let serverResponse: { status: string, error: string } | null = null;
             const errorText = await response.text();
             try {
-                const serverResponse: { status: string, error: string } | null = JSON.parse(
-                    errorText
-                );
-                if (serverResponse != null) {
-                    throw new Error(serverResponse.error);
-                }
+                serverResponse = JSON.parse(errorText);
             } catch (error) {
-                throw new Error(errorText);
+                throw new ApiError({ message: errorText, status: response.status });
             }
+            throw new ApiError({
+                message: serverResponse != null ? serverResponse.status : errorText,
+                status: response.status,
+            });
         }
     }
 
