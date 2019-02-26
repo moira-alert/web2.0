@@ -132,8 +132,8 @@ class TriggerDesktop extends React.Component<Props, State> {
                                         }}
                                         sortingColumn={sortingColumn}
                                         sortingDown={sortingDown}
-                                        onChange={(maintenance, metric) => {
-                                            setMetricMaintenance(trigger.id, maintenance, metric);
+                                        onChange={(metric, maintenance) => {
+                                            setMetricMaintenance(trigger.id, metric, maintenance);
                                         }}
                                         onRemove={metric => removeMetric(trigger.id, metric)}
                                         noDataMerticCount={noDataMerticCount}

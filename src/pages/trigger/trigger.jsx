@@ -157,8 +157,7 @@ class TriggerPage extends React.Component<Props, State> {
         this.loadData();
     };
 
-    setMetricMaintenance = async (triggerId: string, maintenance: Maintenance, metric: string) => {
-        console.log(triggerId, maintenance, metric);
+    setMetricMaintenance = async (triggerId: string, metric: string, maintenance: Maintenance) => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         const maintenanceTime = getMaintenanceTime(maintenance);

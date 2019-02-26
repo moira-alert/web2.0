@@ -25,7 +25,7 @@ type Props = {|
     sortingDown?: boolean,
     noDataMerticCount?: number,
     onSort?: (sorting: SortingColum) => void,
-    onChange: (maintenance: Maintenance, metric: string) => void,
+    onChange: (metric: string, maintenance: Maintenance) => void,
     onRemove: (metric: string) => void,
     onNoDataRemove?: () => void,
 |};
@@ -129,7 +129,7 @@ export default function MetricList(props: Props): React.Node {
                             <div className={cn("controls")}>
                                 <Dropdown caption={checkMaintenance(maintenance)} use="link">
                                     {Object.keys(Maintenances).map(key => (
-                                        <MenuItem key={key} onClick={() => onChange(key, metric)}>
+                                        <MenuItem key={key} onClick={() => onChange(metric, key)}>
                                             {getMaintenanceCaption(key)}
                                         </MenuItem>
                                     ))}

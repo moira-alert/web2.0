@@ -40,7 +40,7 @@ class TriggerMobile extends React.Component {
                 onRemoveMetric={metric => removeMetric(trigger.id, metric)}
                 onThrottlingRemove={() => disableTrhrottling(trigger.id)}
                 onSetMetricMaintenance={(metric, maintenance) =>
-                    setMetricMaintenance(trigger.id, maintenance, metric)
+                    setMetricMaintenance(trigger.id, metric, maintenance)
                 }
                 onSetTriggerMaintenance={maintenance =>
                     setTriggerMaintenance(trigger.id, maintenance)
