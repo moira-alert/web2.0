@@ -46,8 +46,16 @@ function TriggerListDesktop(props) {
                             selectedItems={selectedTags}
                             getItems={getItems}
                             onChange={tags => onChange({ tags })}
-                            renderToken={(item, { onRemove }) => (
-                                <Token key={item.toString()} onRemove={onRemove}>
+                            renderToken={(item, { isActive, onRemove }) => (
+                                <Token
+                                    key={item.toString()}
+                                    colors={{
+                                        idle: "defaultIdle",
+                                        active: "defaultActive",
+                                    }}
+                                    isActive={isActive}
+                                    onRemove={onRemove}
+                                >
                                     {item}
                                 </Token>
                             )}
