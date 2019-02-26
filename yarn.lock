@@ -1131,7 +1131,7 @@
     dot "^1.1.1"
     svgo "^1.1.1"
 
-"@skbkontur/react-icons@3.1.2", "@skbkontur/react-icons@^3.0.0":
+"@skbkontur/react-icons@3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.2.tgz#aa685e4ba57b1f72fdc364e123478bb9500caaae"
   integrity sha512-Yo8YxTEYnJA4iKY33nhKdodqW3JpmmcLCwmS1WWtpftIN3KP1nlLzJywMh17nZbDVY5WKb1YS2VD2rQLHeDxtQ==
@@ -3619,6 +3619,11 @@ cssstyle@^1.0.0:
   integrity sha512-7DYm8qe+gPx/h77QlCyFmX80+fGaE/6A/Ekl0zaszYOubvySO2saYFdQ78P29D0UsULxFKCetDGNaNRUdSF+2A==
   dependencies:
     cssom "0.3.x"
+
+csstype@^2.6.1:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.2.tgz#3043d5e065454579afc7478a18de41909c8a2f01"
+  integrity sha512-Rl7PvTae0pflc1YtxtKbiSqq20Ts6vpIYOD5WBafl4y123DyHUeLrRdQP66sQW8/6gmX8jrYJLXwNeMqYVJcow==
 
 cyclist@~0.2.2:
   version "0.2.2"
@@ -9293,15 +9298,15 @@ ret@~0.1.10:
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
-retail-ui@0.34.0:
-  version "0.34.0"
-  resolved "https://registry.yarnpkg.com/retail-ui/-/retail-ui-0.34.0.tgz#47a9ed88c7490fdf9baf423adffd8ed282dc04b3"
-  integrity sha512-1ujkWY9iTnVip0vjvXLKFji/w53CII6yuzsyoa5VIXLs8fZiZKExx62PbURyhQL/+i5M69ZtXBVhLhLc0+R0TA==
+retail-ui@0.41.0:
+  version "0.41.0"
+  resolved "https://registry.yarnpkg.com/retail-ui/-/retail-ui-0.41.0.tgz#e0571c74cb1db793ad7ff34f6dc9fd81498da964"
+  integrity sha512-mBjmlCrxR0/cAkMjkYQoAgzjJIHq9N43lu+YvAECEOS0gCd/GH5msJioplekBsRdNaLRmrsZd4xvOUNQTEJqhQ==
   dependencies:
-    "@skbkontur/react-icons" "^3.0.0"
     add-event-listener "0.0.1"
     classnames "^2.2.6"
     create-react-context "^0.2.2"
+    csstype "^2.6.1"
     exenv "^1.2.2"
     fbemitter "^2.1.1"
     fbjs "^0.8.17"
