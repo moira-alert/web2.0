@@ -4,7 +4,6 @@ import { Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
-import TriggerContainer from "./Containers/TriggerContainer";
 import TriggerEditContainer from "./Containers/TriggerEditContainer";
 import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
 import TriggerAddContainer from "./Containers/TriggerAddContainer";
@@ -18,6 +17,9 @@ import cn from "./desktop.less";
 
 import TriggerList from "./pages/trigger-list/trigger-list";
 import TriggerListDesktop from "./pages/trigger-list/trigger-list.desktop";
+
+import Trigger from "./pages/trigger/trigger";
+import TriggerDesktop from "./pages/trigger/trigger.desktop";
 
 const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => (
     <Route {...rest} render={props => <Container {...props} view={View} />} />
@@ -41,7 +43,12 @@ function Desktop() {
                     component={TriggerDuplicateContainer}
                 />
                 <Route exact path={getPagePath("triggerEdit")} component={TriggerEditContainer} />
-                <Route exact path={getPagePath("trigger")} component={TriggerContainer} />
+                <ResponsiveRoute
+                    exact
+                    path={getPagePath("trigger")}
+                    container={Trigger}
+                    view={TriggerDesktop}
+                />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
                 <Route
                     exact
