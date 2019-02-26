@@ -3,6 +3,7 @@ import * as React from "react";
 import MobileTriggerListPage from "../../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
 import MobileTagSelectorPage from "../../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
 
+// ToDo типизация State и Props
 class TriggerListMobile extends React.Component {
     state = {
         showTagSelector: false,

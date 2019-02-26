@@ -5,7 +5,9 @@ import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 import intersection from "lodash/intersection";
 import queryString from "query-string";
+import type { ContextRouter } from "react-router-dom";
 import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
+import type { IMoiraApi } from "../../Api/MoiraApi";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 
@@ -13,17 +15,29 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 
 type State = {
     loading: boolean,
-    subscriptions: ?Array<any>,
+    selectedTags: string[],
+    subscribedTags: string[],
+    allTags: string[],
+    onlyProblems: boolean,
     triggers: ?TriggerList,
-    tags: ?Array<string>,
+    activePage: number,
+    pageCount: number,
 };
 
 class TriggerListPage extends React.Component<Props, State> {
     state: State = {
         loading: true,
+        selectedTags: [],
+        subscribedTags: [],
+        allTags: [],
+        onlyProblems: false,
+        triggers: [],
+        activePage: 1,
+        pageCount: 1,
     };
 
     componentDidMount() {
+        document.title = "Moira - Triggers";
         this.loadData();
     }
 
@@ -87,10 +101,13 @@ class TriggerListPage extends React.Component<Props, State> {
 
         const validSelectedTags = intersection(locationSearch.tags, tags.list);
 
+        // ToDo объяснить условие
         if (locationSearch.tags.length > validSelectedTags.length) {
             this.changeLocationSearch({ tags: validSelectedTags });
             return;
         }
+
+        // ToDo написать проверку на превышение страниц
 
         try {
             const [settings, triggers] = await Promise.all([
