@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
-import type { Event } from "../../Domain/Event";
 import type { Maintenance } from "../../Domain/Maintenance";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 

@@ -7,7 +7,7 @@ import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
 import type { Trigger } from "../../Domain/Trigger";
 import type { Status } from "../../Domain/Status";
-import type { Metric, MetricList } from "../../Domain/Metric";
+import type { Metric } from "../../Domain/Metric";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { Statuses, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import RouterLink from "../RouterLink/RouterLink";
