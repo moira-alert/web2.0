@@ -63,11 +63,14 @@ function TriggerListDesktop(props) {
                         />
                     </Fill>
                     <Fit>
-                        <Toggle
-                            checked={onlyProblems}
-                            onChange={value => onChange({ onlyProblems: value })}
-                        />{" "}
-                        Only Problems
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */}
+                        <label>
+                            <Toggle
+                                checked={onlyProblems}
+                                onChange={value => onChange({ onlyProblems: value })}
+                            />{" "}
+                            Only Problems
+                        </label>
                     </Fit>
                 </RowStack>
             </LayoutPlate>
