@@ -13,13 +13,14 @@ import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
+import TokenInput, { TokenInputType } from "retail-ui/components/TokenInput";
+import Token from "retail-ui/components/Token";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerModeEditor from "../TriggerModeEditor/TriggerModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
-import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
@@ -101,9 +102,21 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             trigger_type: triggerType,
             mute_new_metrics: muteNewMetrics,
         } = data;
+
         if (sched == null) {
             throw new Error("InvalidProgramState");
         }
+
+        const getItems = query => {
+            if (query.trim() === "") {
+                return Promise.resolve(allTags);
+            }
+
+            return Promise.resolve(
+                allTags.filter(x => x.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+            );
+        };
+
         return (
             <Form>
                 <FormRow label="Name">
@@ -227,16 +240,19 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         }
                         renderMessage={tooltip("right top")}
                     >
-                        <TagDropdownSelect
-                            allowCreateNewTags
-                            value={tags}
-                            availableTags={allTags}
-                            width={650}
-                            onChange={selectedTags =>
-                                onChange({
-                                    tags: selectedTags,
-                                })
-                            }
+                        <TokenInput
+                            type={TokenInputType.WithReference}
+                            width="100%"
+                            placeholder="Select a tag"
+                            selectedItems={tags}
+                            getItems={getItems}
+                            onChange={selectedTags => onChange({ tags: selectedTags })}
+                            renderToken={(item, { onRemove }) => (
+                                <Token key={item.toString()} onRemove={onRemove}>
+                                    {item}
+                                </Token>
+                            )}
+                            hideMenuIfEmptyInputValue
                         />
                     </ValidationWrapperV1>
                 </FormRow>

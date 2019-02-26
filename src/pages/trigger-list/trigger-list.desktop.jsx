@@ -1,20 +1,19 @@
 // @flow
 import * as React from "react";
-import concat from "lodash/concat";
 import difference from "lodash/difference";
 import Paging from "retail-ui/components/Paging";
 import Toggle from "retail-ui/components/Toggle";
+import TokenInput, { TokenInputType } from "retail-ui/components/TokenInput";
+import Token from "retail-ui/components/Token";
 import { getPageLink } from "../../Domain/Global";
 import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../../Components/Layout/Layout";
 import { ColumnStack, RowStack, Fill, Fit } from "../../Components/ItemsStack/ItemsStack";
-import TagDropdownSelect2 from "../../Components/TagDropdownSelect2/TagDropdownSelect2";
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
 
 function TriggerListDesktop(props) {
     const {
         selectedTags,
-        subscribedTags,
         allTags,
         onlyProblems,
         triggers,
@@ -22,18 +21,37 @@ function TriggerListDesktop(props) {
         pageCount,
         onChange,
     } = props;
+
+    const items = difference(allTags, selectedTags);
+
+    const getItems = query => {
+        if (query.trim() === "") {
+            return Promise.resolve(items);
+        }
+
+        return Promise.resolve(
+            items.filter(x => x.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+        );
+    };
+
     return (
         <Layout>
             <LayoutPlate>
                 <RowStack verticalAlign="baseline" block gap={3}>
                     <Fill>
-                        <TagDropdownSelect2
+                        <TokenInput
+                            type={TokenInputType.WithReference}
                             width="100%"
-                            selected={selectedTags}
-                            subscribed={difference(subscribedTags, selectedTags)}
-                            remained={difference(allTags, concat(selectedTags, subscribedTags))}
-                            onSelect={tag => onChange({ tags: concat(selectedTags, [tag]) })}
-                            onRemove={tag => onChange({ tags: difference(selectedTags, [tag]) })}
+                            placeholder="Select a tag for filter triggers"
+                            selectedItems={selectedTags}
+                            getItems={getItems}
+                            onChange={tags => onChange({ tags })}
+                            renderToken={(item, { onRemove }) => (
+                                <Token key={item.toString()} onRemove={onRemove}>
+                                    {item}
+                                </Token>
+                            )}
+                            hideMenuIfEmptyInputValue
                         />
                     </Fill>
                     <Fit>
