@@ -2,13 +2,13 @@
 import * as React from "react";
 import queryString from "query-string";
 import intersection from "lodash/intersection";
-import concat from "lodash/concat";
 import difference from "lodash/difference";
-import flattenDeep from "lodash/flattenDeep";
-import uniq from "lodash/uniq";
 import isEqual from "lodash/isEqual";
 import moment from "moment";
 import Paging from "retail-ui/components/Paging";
+import Toggle from "retail-ui/components/Toggle";
+import TokenInput, { TokenInputType } from "retail-ui/components/TokenInput";
+import Token from "retail-ui/components/Token";
 import type { ContextRouter } from "react-router-dom";
 import { getPageLink } from "../Domain/Global";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
@@ -17,9 +17,7 @@ import type { Config } from "../Domain/Config";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { TriggerList } from "../Domain/Trigger";
 import type { Maintenance } from "../Domain/Maintenance";
-import ToggleWithLabel from "../Components/Toggle/Toggle";
 import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../Components/Layout/Layout";
-import TagDropdownSelect2 from "../Components/TagDropdownSelect2/TagDropdownSelect2";
 import TriggerListView from "../Components/TriggerList/TriggerList";
 import AddingButton from "../Components/AddingButton/AddingButton";
 import { ColumnStack, RowStack, Fill, Fit } from "../Components/ItemsStack/ItemsStack";
@@ -28,7 +26,6 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
     loading: boolean,
     error: ?string,
-    subscriptions: ?Array<string>,
     tags: ?Array<string>,
     triggers: ?TriggerList,
     config: ?Config,
@@ -46,7 +43,6 @@ class TriggerListContainer extends React.Component<Props, State> {
     state: State = {
         loading: true,
         error: null,
-        subscriptions: null,
         tags: null,
         triggers: null,
         config: null,
@@ -89,48 +85,67 @@ class TriggerListContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { loading, error, triggers, tags, subscriptions, config } = this.state;
+        const { loading, error, triggers, tags, config } = this.state;
         const { location } = this.props;
         const { page, onlyProblems, tags: parsedTags } = TriggerListContainer.parseLocationSearch(
             location.search
         );
         const selectedTags = tags ? intersection(parsedTags, tags) : [];
-        const subscribedTags = subscriptions ? difference(subscriptions, selectedTags) : [];
-        const remainedTags = difference(tags, concat(selectedTags, subscribedTags));
         const pageCount = triggers ? Math.ceil(triggers.total / triggers.size) : 1;
+
+        const remainedTags = difference(tags, selectedTags);
+
+        const getItems = query => {
+            if (query.trim() === "") {
+                return Promise.resolve(remainedTags);
+            }
+
+            return Promise.resolve(
+                remainedTags.filter(x => x.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+            );
+        };
 
         return (
             <Layout loading={loading} error={error}>
                 <LayoutPlate>
                     <RowStack verticalAlign="baseline" block gap={3}>
                         <Fill>
-                            <TagDropdownSelect2
+                            <TokenInput
+                                type={TokenInputType.WithReference}
                                 width="100%"
-                                selected={selectedTags}
-                                subscribed={subscribedTags}
-                                remained={remainedTags}
-                                onSelect={tag =>
-                                    this.changeLocationSearch({
-                                        tags: concat(selectedTags, [tag]),
-                                    })
-                                }
-                                onRemove={tag =>
-                                    this.changeLocationSearch({
-                                        tags: difference(selectedTags, [tag]),
-                                    })
-                                }
+                                placeholder="Select a tag for filter triggers"
+                                selectedItems={selectedTags}
+                                getItems={getItems}
+                                onChange={items => this.changeLocationSearch({ tags: items })}
+                                renderToken={(item, { isActive, onRemove }) => (
+                                    <Token
+                                        key={item.toString()}
+                                        colors={{
+                                            idle: "defaultIdle",
+                                            active: "defaultActive",
+                                        }}
+                                        isActive={isActive}
+                                        onRemove={onRemove}
+                                    >
+                                        {item}
+                                    </Token>
+                                )}
+                                hideMenuIfEmptyInputValue
                             />
                         </Fill>
                         <Fit>
-                            <ToggleWithLabel
-                                checked={onlyProblems}
-                                label="Only Problems"
-                                onChange={checked =>
-                                    this.changeLocationSearch({
-                                        onlyProblems: checked,
-                                    })
-                                }
-                            />
+                            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */}
+                            <label>
+                                <Toggle
+                                    checked={onlyProblems}
+                                    onChange={checked =>
+                                        this.changeLocationSearch({
+                                            onlyProblems: checked,
+                                        })
+                                    }
+                                />{" "}
+                                Only problems
+                            </label>
                         </Fit>
                     </RowStack>
                 </LayoutPlate>
@@ -188,7 +203,6 @@ class TriggerListContainer extends React.Component<Props, State> {
         }
 
         try {
-            const { subscriptions } = await moiraApi.getSettings();
             const { list: allTags } = await moiraApi.getTagList();
             const config = await moiraApi.getConfig();
             const selectedTags = intersection(parsedTags, allTags);
@@ -203,7 +217,6 @@ class TriggerListContainer extends React.Component<Props, State> {
             this.setState({
                 config,
                 error: null,
-                subscriptions: uniq(flattenDeep(subscriptions.map(x => x.tags))),
                 tags: allTags,
                 triggers,
             });
