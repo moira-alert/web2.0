@@ -241,7 +241,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         renderMessage={tooltip("right top")}
                     >
                         <TokenInput
-                            type={TokenInputType.WithReference}
+                            type={TokenInputType.Combined}
                             width="100%"
                             placeholder="Select a tag"
                             selectedItems={tags}
