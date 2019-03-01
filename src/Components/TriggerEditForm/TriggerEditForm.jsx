@@ -113,7 +113,13 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             }
 
             return Promise.resolve(
-                allTags.filter(x => x.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+                allTags
+                    .filter(
+                        tag =>
+                            tag.toLowerCase().includes(query.toLowerCase()) ||
+                            tag.toString(10) === query
+                    )
+                    .sort((a, b) => a.length - b.length)
             );
         };
 

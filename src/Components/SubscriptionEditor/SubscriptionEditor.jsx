@@ -48,7 +48,13 @@ export default class SubscriptionEditor extends React.Component<Props> {
             }
 
             return Promise.resolve(
-                tags.filter(x => x.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+                tags
+                    .filter(
+                        tag =>
+                            tag.toLowerCase().includes(query.toLowerCase()) ||
+                            tag.toString(10) === query
+                    )
+                    .sort((a, b) => a.length - b.length)
             );
         };
 

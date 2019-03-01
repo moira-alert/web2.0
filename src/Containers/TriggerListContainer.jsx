@@ -101,7 +101,13 @@ class TriggerListContainer extends React.Component<Props, State> {
             }
 
             return Promise.resolve(
-                remainedTags.filter(x => x.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+                remainedTags
+                    .filter(
+                        tag =>
+                            tag.toLowerCase().includes(query.toLowerCase()) ||
+                            tag.toString(10) === query
+                    )
+                    .sort((a, b) => a.length - b.length)
             );
         };
 
