@@ -27,6 +27,7 @@ export default function NotificationList(props: Props): React.Element<any> {
             <div className={cn("row", "header")}>
                 <div className={cn("timestamp")}>Timestamp</div>
                 <div className={cn("trigger")}>Trigger</div>
+                <div className={cn("user")}>User</div>
                 <div className={cn("contact")}>Contact</div>
                 <div className={cn("throttled")}>Throttled</div>
                 <div className={cn("fails")}>Fails</div>
@@ -34,7 +35,7 @@ export default function NotificationList(props: Props): React.Element<any> {
             </div>
             {Object.keys(items).map(key => {
                 const { timestamp, trigger, contact, throttled, send_fail: fails } = items[key];
-                const { type, value } = contact;
+                const { type, value, user } = contact;
                 const { id, name } = trigger;
                 return (
                     <div key={id} className={cn("row")}>
@@ -48,6 +49,7 @@ export default function NotificationList(props: Props): React.Element<any> {
                                 <span>&mdash;</span>
                             )}
                         </div>
+                        <div className={cn("user")}>{user}</div>
                         <div className={cn("contact")}>
                             <ContactTypeIcon type={type} /> {value}
                         </div>
