@@ -80,6 +80,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                             Update and test
                         </Button>
                         <Button
+                            use="danger"
                             disabled={isActionButtonsDisabled}
                             loading={deleteInProcess}
                             onClick={() => {
@@ -87,9 +88,6 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                             }}
                         >
                             Delete
-                        </Button>
-                        <Button use="link" disabled={isActionButtonsDisabled} onClick={onCancel}>
-                            Cancel
                         </Button>
                     </Gapped>
                 </Modal.Footer>
