@@ -78,6 +78,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
                             Update channel
                         </Button>
                         <Button
+                            use="danger"
                             loading={deleteInProcess}
                             disabled={isActionButtonDisabled}
                             onClick={() => {
@@ -85,9 +86,6 @@ export default class ContactEditModal extends React.Component<Props, State> {
                             }}
                         >
                             Delete channel
-                        </Button>
-                        <Button use="link" disabled={isActionButtonDisabled} onClick={onCancel}>
-                            Cancel
                         </Button>
                     </Gapped>
                 </Modal.Footer>
