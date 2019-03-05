@@ -3,8 +3,6 @@ import * as React from "react";
 import Toggle from "retail-ui/components/Toggle";
 import Checkbox from "retail-ui/components/Checkbox";
 import Tooltip from "retail-ui/components/Tooltip";
-import TokenInput, { TokenInputType } from "retail-ui/components/TokenInput";
-import Token from "retail-ui/components/Token";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import type { Contact } from "../../Domain/Contact";
@@ -12,6 +10,7 @@ import type { Schedule } from "../../Domain/Schedule";
 import ContactSelect from "../ContactSelect/ContactSelect";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import CodeRef from "../CodeRef/CodeRef";
+import TagSelector from "../TagSelector/TagSelector";
 import cn from "./SubscriptionEditor.less";
 
 export type SubscriptionInfo = {
@@ -41,22 +40,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
     render(): React.Node {
         const { subscription, contacts, onChange, tags } = this.props;
         const { plotting = { enabled: true, theme: "light" } } = subscription;
-
-        const getItems = query => {
-            if (query.trim() === "") {
-                return Promise.resolve(tags);
-            }
-
-            return Promise.resolve(
-                tags
-                    .filter(
-                        tag =>
-                            tag.toLowerCase().includes(query.toLowerCase()) ||
-                            tag.toString(10) === query
-                    )
-                    .sort((a, b) => a.length - b.length)
-            );
-        };
 
         return (
             <div className={cn("form")}>
@@ -92,27 +75,10 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             renderMessage={tooltip("right middle")}
                             validationInfo={this.validateTags()}
                         >
-                            <TokenInput
-                                type={TokenInputType.WithReference}
-                                width="100%"
-                                placeholder="Select a tag"
+                            <TagSelector
+                                allItems={tags}
                                 selectedItems={subscription.tags}
-                                getItems={getItems}
-                                onChange={nextTags => onChange({ tags: nextTags })}
-                                renderToken={(item, { isActive, onRemove }) => (
-                                    <Token
-                                        key={item.toString()}
-                                        colors={{
-                                            idle: "defaultIdle",
-                                            active: "defaultActive",
-                                        }}
-                                        isActive={isActive}
-                                        onRemove={onRemove}
-                                    >
-                                        {item}
-                                    </Token>
-                                )}
-                                hideMenuIfEmptyInputValue
+                                onChange={selectedTags => onChange({ tags: selectedTags })}
                             />
                         </ValidationWrapperV1>
                     </div>

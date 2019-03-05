@@ -13,8 +13,6 @@ import Tooltip from "retail-ui/components/Tooltip";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
-import TokenInput, { TokenInputType } from "retail-ui/components/TokenInput";
-import Token from "retail-ui/components/Token";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
@@ -23,6 +21,7 @@ import TriggerModeEditor from "../TriggerModeEditor/TriggerModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
+import TagSelector from "../TagSelector/TagSelector";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../Helpers/Formats";
 import cn from "./TriggerEditForm.less";
 
@@ -106,22 +105,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         if (sched == null) {
             throw new Error("InvalidProgramState");
         }
-
-        const getItems = query => {
-            if (query.trim() === "") {
-                return Promise.resolve(allTags);
-            }
-
-            return Promise.resolve(
-                allTags
-                    .filter(
-                        tag =>
-                            tag.toLowerCase().includes(query.toLowerCase()) ||
-                            tag.toString(10) === query
-                    )
-                    .sort((a, b) => a.length - b.length)
-            );
-        };
 
         return (
             <Form>
@@ -246,27 +229,11 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         }
                         renderMessage={tooltip("right top")}
                     >
-                        <TokenInput
-                            type={TokenInputType.Combined}
-                            width="100%"
-                            placeholder="Select a tag"
+                        <TagSelector
+                            allItems={allTags}
                             selectedItems={tags}
-                            getItems={getItems}
                             onChange={selectedTags => onChange({ tags: selectedTags })}
-                            renderToken={(item, { isActive, onRemove }) => (
-                                <Token
-                                    key={item.toString()}
-                                    colors={{
-                                        idle: "defaultIdle",
-                                        active: "defaultActive",
-                                    }}
-                                    isActive={isActive}
-                                    onRemove={onRemove}
-                                >
-                                    {item}
-                                </Token>
-                            )}
-                            hideMenuIfEmptyInputValue
+                            allowAddTag
                         />
                     </ValidationWrapperV1>
                 </FormRow>
