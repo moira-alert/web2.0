@@ -77,9 +77,6 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                         >
                             Create and test
                         </Button>
-                        <Button use="link" disabled={isActionButtonsDisabled} onClick={onCancel}>
-                            Cancel
-                        </Button>
                     </Gapped>
                 </Modal.Footer>
             </Modal>

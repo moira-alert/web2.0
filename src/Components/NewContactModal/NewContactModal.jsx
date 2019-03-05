@@ -77,13 +77,6 @@ export default class NewContactModal extends React.Component<Props, State> {
                         >
                             Add delivery channel
                         </Button>
-                        <Button
-                            use="link"
-                            onClick={onCancel}
-                            disabled={createInProcess || createAndTestInProcess}
-                        >
-                            Cancel
-                        </Button>
                     </Gapped>
                 </Modal.Footer>
             </Modal>
