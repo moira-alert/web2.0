@@ -11,7 +11,8 @@
         "flow": "flow",
         "flow.status": "flow status",
         "flow.check": "flow check",
-        "flow.coverage.html": "flow-coverage-report -i \"src/**/*.js\" -t html"
+        "flow.coverage.html": "flow-coverage-report -i \"src/**/*.js\" -t html",
+        "dev": "concurrently \"npm run fakeapi\"  \"npm start --env.API=local\" "
     },
     "dependencies": {
         "@types/react": "15.x",
@@ -46,6 +47,7 @@
         "bundle-loader": "^0.5.5",
         "classnames": "^2.2.5",
         "classnames-loader": "^2.0.0",
+        "concurrently": "^4.1.0",
         "cross-env": "^5.0.2",
         "css-loader": "^0.28.4",
         "eslint": "^4.12.1",
