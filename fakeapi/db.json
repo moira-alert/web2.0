@@ -262,6 +262,7 @@
                 "tags": ["devops"],
                 "ttl_state": "NODATA",
                 "ttl": 600,
+                "desc": "## Heading\n**bold text**",
                 "sched": {
                     "days": [
                         {
@@ -1952,6 +1953,7 @@
         "expression": "",
         "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
         "name": "12321",
+        "desc":"## Heading\n**bold text**",
         "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
         "warn_value": 11111111111,
         "error_value": 22222222222,

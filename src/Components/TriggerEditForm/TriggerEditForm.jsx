@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
+import Remarkable from "remarkable";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
@@ -10,6 +11,7 @@ import Textarea from "retail-ui/components/Textarea";
 import Button from "retail-ui/components/Button";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
+import Tabs from "retail-ui/components/Tabs";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
@@ -24,6 +26,8 @@ import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import cn from "./TriggerEditForm.less";
+
+const md = new Remarkable({ breaks: true });
 
 type Props = {|
     data: $Shape<Trigger>,
@@ -46,6 +50,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { targets, trigger_type: triggerType } = props.data;
         this.state = {
             advancedMode: targets.length > 1 || triggerType === "expression",
+            activeTab: "edit",
         };
     }
 
@@ -88,6 +93,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     render(): React.Node {
         const { advancedMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
+        console.log(data);
         const {
             name,
             desc,
@@ -119,11 +125,30 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     </ValidationWrapperV1>
                 </FormRow>
                 <FormRow label="Description" useTopAlignForLabel>
-                    <Textarea
-                        width="100%"
-                        value={desc || ""}
-                        onChange={(e, value) => onChange({ desc: value })}
-                    />
+                    <div className={cn("tabs-div")}>
+                        <Tabs
+                            value={this.state.activeTab}
+                            onChange={(_, val) => this.setState({ activeTab: val })}
+                        >
+                            <Tabs.Tab id="edit">Edit</Tabs.Tab>
+                            <Tabs.Tab id="preview">Preview</Tabs.Tab>
+                        </Tabs>
+                    </div>
+                    {this.state.activeTab === "edit" ? (
+                        <Textarea
+                            width="100%"
+                            value={desc || ""}
+                            onChange={(e, value) => {
+                                onChange({ desc: value });
+                            }}
+                        />
+                    ) : (
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: md.render(desc),
+                            }}
+                        />
+                    )}
                 </FormRow>
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets.map((x, i) => (
