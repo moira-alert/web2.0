@@ -4,7 +4,7 @@ import Input from "retail-ui/components/Input";
 import Select from "retail-ui/components/Select";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Remarkable from "remarkable";
-import { ContactTypes, getContactTypeCaption } from "../../Domain/ContactType";
+import { ContactTypes } from "../../Domain/ContactType";
 import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
@@ -74,7 +74,7 @@ export default class ContactEditForm extends React.Component<Props> {
         const { onChange, contactInfo, contactDescriptions } = this.props;
         const { value, type } = contactInfo;
         const currentContactConfig = contactDescriptions.find(x => x.type === type);
-        const contactItems = contactDescriptions.map(x => [x.type, getContactTypeCaption(x)]);
+        const contactItems = contactDescriptions.map(x => [x.type, "Contact label"]);
 
         return (
             <div className={cn("form")}>
