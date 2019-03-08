@@ -2,6 +2,7 @@
 import * as React from "react";
 import moment from "moment";
 import Remarkable from "remarkable";
+import dompurify from "dompurify";
 import Link from "retail-ui/components/Link";
 import Button from "retail-ui/components/Button";
 import ErrorIcon from "@skbkontur/react-icons/Error";
@@ -21,6 +22,7 @@ import RouterLink from "../RouterLink/RouterLink";
 import cn from "./TriggerInfo.less";
 
 const md = new Remarkable({ breaks: true });
+const { sanitize } = dompurify;
 
 type Props = {|
     data: Trigger,
@@ -140,7 +142,7 @@ export default function TriggerInfo({
                     <dd
                         className={cn("description")}
                         dangerouslySetInnerHTML={{
-                            __html: md.render(desc),
+                            __html: sanitize(md.render(desc)),
                         }}
                     />
                 )}
