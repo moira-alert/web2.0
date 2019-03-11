@@ -2,7 +2,7 @@
 import * as React from "react";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Remarkable from "remarkable";
-import dompurify from "dompurify";
+import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
@@ -29,7 +29,6 @@ import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/
 import cn from "./TriggerEditForm.less";
 
 const md = new Remarkable({ breaks: true });
-const { sanitize } = dompurify;
 
 type Props = {|
     data: $Shape<Trigger>,
@@ -52,7 +51,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { targets, trigger_type: triggerType } = props.data;
         this.state = {
             advancedMode: targets.length > 1 || triggerType === "expression",
-            activeTab: "edit",
+            descriptionMode: "edit",
         };
     }
 
@@ -93,7 +92,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { advancedMode, activeTab } = this.state;
+        const { advancedMode, descriptionMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -128,14 +127,14 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow label="Description" useTopAlignForLabel>
                     <div className={cn("tabs-div")}>
                         <Tabs
-                            value={activeTab}
-                            onChange={(_, val) => this.setState({ activeTab: val })}
+                            value={descriptionMode}
+                            onChange={(_, val) => this.setState({ descriptionMode: val })}
                         >
                             <Tabs.Tab id="edit">Edit</Tabs.Tab>
                             <Tabs.Tab id="preview">Preview</Tabs.Tab>
                         </Tabs>
                     </div>
-                    {activeTab === "edit" ? (
+                    {descriptionMode === "edit" ? (
                         <Textarea
                             width="100%"
                             value={desc || ""}
@@ -145,6 +144,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     ) : (
                         <div
+                            className={cn("wysiwyg", "description-preview")}
                             dangerouslySetInnerHTML={{
                                 __html: sanitize(md.render(desc)),
                             }}
