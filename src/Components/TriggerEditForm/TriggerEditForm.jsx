@@ -38,8 +38,8 @@ type Props = {|
 |};
 
 type State = {
-    advancedMode: boolean,
-};
+  descriptionMode: "edit" | "preview",
+}
 
 export default class TriggerEditForm extends React.Component<Props, State> {
     props: Props;
@@ -48,9 +48,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        const { targets, trigger_type: triggerType } = props.data;
         this.state = {
-            advancedMode: targets.length > 1 || triggerType === "expression",
             descriptionMode: "edit",
         };
     }
@@ -92,7 +90,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { advancedMode, descriptionMode } = this.state;
+        const { descriptionMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -266,7 +264,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {remoteAllowed && advancedMode && (
+                {remoteAllowed && (
                     <FormRow label="Data source" singleLineControlGroup>
                         <RadioGroup
                             name="data-source"
@@ -315,7 +313,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { onChange, data } = this.props;
         const { targets } = data;
 
-        this.setState({ advancedMode: true });
         onChange({
             trigger_type: "expression",
             targets: [...targets, ""],
