@@ -6,7 +6,7 @@ import Gapped from "retail-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
 import type { Contact } from "../../Domain/Contact";
 import type { ContactConfig } from "../../Domain/Config";
-import NewContactModal, { type NewContactInfo } from "../NewContactModal/NewContactModal";
+import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactList.less";
@@ -15,16 +15,16 @@ type Props = $Exact<{
     items: Array<Contact>,
     contactDescriptions: Array<ContactConfig>,
     onTestContact: Contact => Promise<void>,
-    onAddContact: NewContactInfo => Promise<?Contact>,
+    onAddContact: ($Shape<Contact>) => Promise<?Contact>,
     onUpdateContact: Contact => Promise<void>,
     onRemoveContact: Contact => Promise<void>,
 }>;
 
 type State = {
     newContactModalVisible: boolean,
-    newContact: ?NewContactInfo,
+    newContact: $Shape<Contact> | null,
     editContactModalVisible: boolean,
-    editableContact: ?Contact,
+    editableContact: Contact | null,
 };
 
 export default class ContactList extends React.Component<Props, State> {
@@ -82,7 +82,7 @@ export default class ContactList extends React.Component<Props, State> {
                 ) : (
                     this.renderEmptyListMessage()
                 )}
-                {newContactModalVisible && newContact != null && (
+                {newContactModalVisible && (
                     <NewContactModal
                         contactDescriptions={contactDescriptions}
                         contactInfo={newContact}
@@ -92,7 +92,7 @@ export default class ContactList extends React.Component<Props, State> {
                         onCreateAndTest={this.handleCreateAndTestContact}
                     />
                 )}
-                {editContactModalVisible && editableContact != null && (
+                {editContactModalVisible && editableContact !== null && (
                     <ContactEditModal
                         contactDescriptions={contactDescriptions}
                         contactInfo={editableContact}
@@ -133,7 +133,7 @@ export default class ContactList extends React.Component<Props, State> {
         });
     };
 
-    handleChangeNewContact = (newContactUpdate: $Shape<NewContactInfo>) => {
+    handleChangeNewContact = (newContactUpdate: $Shape<Contact>) => {
         const { newContact } = this.state;
         this.setState({
             newContact: { ...newContact, ...newContactUpdate },
@@ -175,10 +175,6 @@ export default class ContactList extends React.Component<Props, State> {
     handleAddContact = () => {
         this.setState({
             newContactModalVisible: true,
-            newContact: {
-                type: null,
-                value: "",
-            },
         });
     };
 

@@ -5,26 +5,16 @@ import Select from "retail-ui/components/Select";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Remarkable from "remarkable";
 import type { ContactConfig } from "../../Domain/Config";
-import validateContact from "../../helpers/ContactValidator";
+import type { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
 
 const md = new Remarkable({ breaks: true });
 
-export type ContactInfo = {
-    type: ?string,
-    value: string,
-};
-
-export type ContactInfoUpdate = {
-    type: string,
-    value: string,
-};
-
 type Props = $Exact<{
     contactDescriptions: Array<ContactConfig>,
-    contactInfo: ContactInfo,
-    onChange: ($Shape<ContactInfoUpdate>) => void,
+    contactInfo: $Shape<Contact> | null,
+    onChange: ($Shape<Contact>) => void,
 }>;
 
 export default class ContactEditForm extends React.Component<Props> {
@@ -32,7 +22,7 @@ export default class ContactEditForm extends React.Component<Props> {
 
     render(): React.Node {
         const { onChange, contactInfo, contactDescriptions } = this.props;
-        const { value, type } = contactInfo;
+        const { value = "", type } = contactInfo || {};
         const currentContactConfig = contactDescriptions.find(contact => contact.type === type);
         const contactItems = contactDescriptions.map(contact => [contact.type, contact.label]);
 
@@ -42,7 +32,7 @@ export default class ContactEditForm extends React.Component<Props> {
                     <Select
                         placeholder="Select channel type"
                         width="100%"
-                        value={type}
+                        value={type || null}
                         renderItem={(v, item) => (
                             <span>
                                 {v && <ContactTypeIcon type={v} />} {item}
