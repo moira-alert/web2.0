@@ -123,7 +123,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     </ValidationWrapperV1>
                 </FormRow>
                 <FormRow label="Description" useTopAlignForLabel>
-                    <div className={cn("tabs-div")}>
+                    <div className={cn("description-mode-tabs")}>
                         <Tabs
                             value={descriptionMode}
                             onChange={(_, val) => this.setState({ descriptionMode: val })}
