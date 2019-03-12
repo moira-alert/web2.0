@@ -1,6 +1,8 @@
 // @flow
 import * as React from "react";
 import moment from "moment";
+import Remarkable from "remarkable";
+import { sanitize } from "dompurify";
 import Link from "retail-ui/components/Link";
 import Button from "retail-ui/components/Button";
 import ErrorIcon from "@skbkontur/react-icons/Error";
@@ -16,8 +18,11 @@ import type { Schedule } from "../../Domain/Schedule";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
+import { purifyConfig } from "../../Domain/DOMPurify";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./TriggerInfo.less";
+
+const md = new Remarkable({ breaks: true });
 
 type Props = {|
     data: Trigger,
@@ -68,8 +73,8 @@ export default function TriggerInfo({
     const {
         id,
         name,
-        targets,
         desc,
+        targets,
         expression,
         error_value: errorValue,
         warn_value: warnValue,
@@ -133,7 +138,14 @@ export default function TriggerInfo({
                     ))}
                 </dd>
                 {desc && <dt>Description</dt>}
-                {desc && <dd className={cn("description")}>{desc}</dd>}
+                {desc && (
+                    <dd
+                        className={cn("description", "wysiwyg")}
+                        dangerouslySetInnerHTML={{
+                            __html: sanitize(md.render(desc), purifyConfig),
+                        }}
+                    />
+                )}
                 {!expression && <dt>Value</dt>}
                 {!expression && (
                     <dd>
