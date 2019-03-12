@@ -83,11 +83,25 @@ export default class ContactEditForm extends React.Component<Props> {
 
     validateValue(): ?ValidationInfo {
         const { contactInfo, contactDescriptions } = this.props;
-        const { value, type } = contactInfo;
-        const currentContactConfig = contactDescriptions.find(x => x.type === type);
-        if (type == null || currentContactConfig == null) {
+
+        if (!contactInfo) {
             return null;
         }
-        return validateContact(currentContactConfig, value);
+
+        const { value = "", type } = contactInfo;
+        const currentContactConfig = contactDescriptions.find(x => x.type === type);
+
+        if (!currentContactConfig || !currentContactConfig.validation) {
+            return null;
+        }
+
+        const re = new RegExp(currentContactConfig.validation, "i");
+
+        return value.trim().match(re)
+            ? null
+            : {
+                  message: "Invalid format",
+                  type: "submit",
+              };
     }
 }
