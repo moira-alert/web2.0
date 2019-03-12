@@ -32,22 +32,8 @@ type Props = {|
     remoteAllowed: ?boolean,
 |};
 
-type State = {
-    advancedMode: boolean,
-};
-
 export default class TriggerEditForm extends React.Component<Props, State> {
     props: Props;
-
-    state: State;
-
-    constructor(props: Props) {
-        super(props);
-        const { targets, trigger_type: triggerType } = props.data;
-        this.state = {
-            advancedMode: targets.length > 1 || triggerType === "expression",
-        };
-    }
 
     static validateRequiredString(value: string, message?: string): ?ValidationInfo {
         return value.trim().length === 0
@@ -86,7 +72,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { advancedMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -240,7 +225,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {remoteAllowed && advancedMode && (
+                {remoteAllowed && (
                     <FormRow label="Data source" singleLineControlGroup>
                         <RadioGroup
                             name="data-source"
@@ -289,7 +274,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { onChange, data } = this.props;
         const { targets } = data;
 
-        this.setState({ advancedMode: true });
         onChange({
             trigger_type: "expression",
             targets: [...targets, ""],
