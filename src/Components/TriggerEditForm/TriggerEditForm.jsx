@@ -38,8 +38,8 @@ type Props = {|
 |};
 
 type State = {
-  descriptionMode: "edit" | "preview",
-}
+    descriptionMode: "edit" | "preview",
+};
 
 export default class TriggerEditForm extends React.Component<Props, State> {
     props: Props;
