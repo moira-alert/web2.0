@@ -4,7 +4,6 @@ import Input from "retail-ui/components/Input";
 import Select from "retail-ui/components/Select";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
 import Remarkable from "remarkable";
-import { ContactTypes } from "../../Domain/ContactType";
 import type { ContactConfig } from "../../Domain/Config";
 import validateContact from "../../helpers/ContactValidator";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
@@ -31,50 +30,11 @@ type Props = $Exact<{
 export default class ContactEditForm extends React.Component<Props> {
     props: Props;
 
-    static getPlaceholderForContactType(contactConfig: ?ContactConfig): string {
-        if (contactConfig == null) {
-            return "";
-        }
-        const contactType = contactConfig.type;
-        if (contactType === ContactTypes.telegram) {
-            return "Enter telegram #channel, @username or group";
-        }
-        if (
-            contactType === ContactTypes["twilio sms"] ||
-            contactType === ContactTypes["twilio voice"]
-        ) {
-            return "Enter your phone number (e.g. +79.......)";
-        }
-        if (contactType === ContactTypes.pushover) {
-            return "Enter your pushover user key";
-        }
-        if (contactType === ContactTypes.slack) {
-            return "Enter slack #channel or @username";
-        }
-        if (contactType === ContactTypes.email) {
-            return "Enter email address";
-        }
-        if (contactConfig.title != null) {
-            return contactConfig.title;
-        }
-        if (contactType.includes("mail")) {
-            return "Enter email address";
-        }
-        return "";
-    }
-
-    static getCommentTextFor(contactConfig: ?ContactConfig): string {
-        if (contactConfig == null || !contactConfig.help) {
-            return "";
-        }
-        return md.render(contactConfig.help);
-    }
-
     render(): React.Node {
         const { onChange, contactInfo, contactDescriptions } = this.props;
         const { value, type } = contactInfo;
-        const currentContactConfig = contactDescriptions.find(x => x.type === type);
-        const contactItems = contactDescriptions.map(x => [x.type, "Contact label"]);
+        const currentContactConfig = contactDescriptions.find(contact => contact.type === type);
+        const contactItems = contactDescriptions.map(contact => [contact.type, contact.label]);
 
         return (
             <div className={cn("form")}>
@@ -108,20 +68,20 @@ export default class ContactEditForm extends React.Component<Props> {
                         <Input
                             width="100%"
                             disabled={type == null}
-                            placeholder={ContactEditForm.getPlaceholderForContactType(
-                                currentContactConfig
-                            )}
+                            placeholder={
+                                (currentContactConfig && currentContactConfig.placeholder) || ""
+                            }
                             value={value}
                             onChange={(e, v) => onChange({ value: v })}
                         />
                     </ValidationWrapperV1>
                 </div>
-                {currentContactConfig !== null && (
+                {currentContactConfig && currentContactConfig.help && (
                     /* ToDo избавиться от dangerouslySetInnerHTML */
                     /* eslint-disable */
                     <div
                         dangerouslySetInnerHTML={{
-                            __html: ContactEditForm.getCommentTextFor(currentContactConfig),
+                            __html: md.render(currentContactConfig.help),
                         }}
                         className={cn("row", "comment")}
                     />
