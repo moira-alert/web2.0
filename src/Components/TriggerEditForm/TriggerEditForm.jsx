@@ -1,6 +1,8 @@
 // @flow
 import * as React from "react";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
+import Remarkable from "remarkable";
+import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
@@ -10,6 +12,7 @@ import Textarea from "retail-ui/components/Textarea";
 import Button from "retail-ui/components/Button";
 import Link from "retail-ui/components/Link";
 import Tooltip from "retail-ui/components/Tooltip";
+import Tabs from "retail-ui/components/Tabs";
 import RadioGroup from "retail-ui/components/RadioGroup";
 import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
@@ -25,6 +28,8 @@ import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import cn from "./TriggerEditForm.less";
 
+const md = new Remarkable({ breaks: true });
+
 type Props = {|
     data: $Shape<Trigger>,
     tags: Array<string>,
@@ -32,8 +37,21 @@ type Props = {|
     remoteAllowed: ?boolean,
 |};
 
+type State = {
+    descriptionMode: "edit" | "preview",
+};
+
 export default class TriggerEditForm extends React.Component<Props, State> {
     props: Props;
+
+    state: State;
+
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            descriptionMode: "edit",
+        };
+    }
 
     static validateRequiredString(value: string, message?: string): ?ValidationInfo {
         return value.trim().length === 0
@@ -72,6 +90,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
+        const { descriptionMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -104,11 +123,31 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     </ValidationWrapperV1>
                 </FormRow>
                 <FormRow label="Description" useTopAlignForLabel>
-                    <Textarea
-                        width="100%"
-                        value={desc || ""}
-                        onChange={(e, value) => onChange({ desc: value })}
-                    />
+                    <div className={cn("description-mode-tabs")}>
+                        <Tabs
+                            value={descriptionMode}
+                            onChange={(_, val) => this.setState({ descriptionMode: val })}
+                        >
+                            <Tabs.Tab id="edit">Edit</Tabs.Tab>
+                            <Tabs.Tab id="preview">Preview</Tabs.Tab>
+                        </Tabs>
+                    </div>
+                    {descriptionMode === "edit" ? (
+                        <Textarea
+                            width="100%"
+                            value={desc || ""}
+                            onChange={(e, value) => {
+                                onChange({ desc: value });
+                            }}
+                        />
+                    ) : (
+                        <div
+                            className={cn("wysiwyg", "description-preview")}
+                            dangerouslySetInnerHTML={{
+                                __html: sanitize(md.render(desc)),
+                            }}
+                        />
+                    )}
                 </FormRow>
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets.map((x, i) => (
