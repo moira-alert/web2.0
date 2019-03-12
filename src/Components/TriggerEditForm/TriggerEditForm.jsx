@@ -18,6 +18,7 @@ import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
+import { purifyConfig } from "../../Domain/DOMPurify";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerModeEditor from "../TriggerModeEditor/TriggerModeEditor";
@@ -144,7 +145,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <div
                             className={cn("wysiwyg", "description-preview")}
                             dangerouslySetInnerHTML={{
-                                __html: sanitize(md.render(desc)),
+                                __html: sanitize(md.render(desc), purifyConfig),
                             }}
                         />
                     )}
