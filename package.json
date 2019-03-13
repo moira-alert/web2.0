@@ -24,6 +24,7 @@
         "query-string": "6.2.0",
         "react": "16.7.0",
         "react-dom": "16.7.0",
+        "react-foco": "1.2.0",
         "react-hot-loader": "4.6.3",
         "react-media": "1.9.2",
         "react-router": "4.3.1",
