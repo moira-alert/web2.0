@@ -11,6 +11,16 @@ import type { IMoiraApi } from "../../Api/MoiraApi";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 
+// ToDo вынести в хелперы
+const clearInput = (input: string) => {
+    let cleared = input;
+
+    cleared = cleared.trim();
+    cleared = cleared.replace(/[\s]+/g, " ");
+
+    return cleared;
+};
+
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 
 type State = {
@@ -50,12 +60,15 @@ class TriggerListPage extends React.Component<Props, State> {
 
     static parseLocationSearch(search: string): MoiraUrlParams {
         const START_PAGE = 1;
-        const { page, tags, onlyProblems } = queryString.parse(search, { arrayFormat: "index" });
+        const { page, tags, onlyProblems, searchText } = queryString.parse(search, {
+            arrayFormat: "index",
+        });
 
         return {
             page: Number.isNaN(Number(page)) ? START_PAGE : Math.abs(parseInt(page, 10)),
             tags: Array.isArray(tags) ? tags.map(value => value.toString()) : [],
             onlyProblems: onlyProblems === "false" ? false : Boolean(onlyProblems),
+            searchText: clearInput(searchText || ""),
         };
     }
 
@@ -69,6 +82,7 @@ class TriggerListPage extends React.Component<Props, State> {
             triggers,
             activePage,
             pageCount,
+            searchText,
         } = this.state;
         const { view: TriggerListView } = this.props;
 
@@ -76,6 +90,7 @@ class TriggerListPage extends React.Component<Props, State> {
             <div>Loading...</div>
         ) : (
             <TriggerListView
+                searchText={searchText}
                 selectedTags={selectedTags}
                 subscribedTags={subscribedTags}
                 allTags={allTags}
@@ -115,7 +130,8 @@ class TriggerListPage extends React.Component<Props, State> {
                 moiraApi.getTriggerList(
                     transformPageFromHumanToProgrammer(locationSearch.page),
                     locationSearch.onlyProblems,
-                    locationSearch.tags
+                    locationSearch.tags,
+                    locationSearch.searchText
                 ),
             ]);
 
@@ -127,6 +143,7 @@ class TriggerListPage extends React.Component<Props, State> {
                 triggers: triggers.list,
                 activePage: locationSearch.page,
                 pageCount: Math.ceil(triggers.total / triggers.size),
+                searchText: locationSearch.searchText,
             });
         } catch (error) {
             // ToDo
