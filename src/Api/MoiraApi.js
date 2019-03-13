@@ -54,7 +54,12 @@ export interface IMoiraApi {
     getTagList(): Promise<TagList>;
     getTagStats(): Promise<TagStatList>;
     delTag(tag: string): Promise<void>;
-    getTriggerList(page: number, onlyProblems: boolean, tags: Array<string>): Promise<TriggerList>;
+    getTriggerList(
+        page: number,
+        onlyProblems: boolean,
+        tags: Array<string>,
+        searchText: string
+    ): Promise<TriggerList>;
     getTrigger(id: string): Promise<Trigger>;
     addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
@@ -275,7 +280,8 @@ export default class MoiraApi implements IMoiraApi {
     async getTriggerList(
         page: number,
         onlyProblems: boolean,
-        tags: Array<string>
+        tags: Array<string>,
+        searchText: string
     ): Promise<TriggerList> {
         const url = `${this.apiUrl}/trigger/search?${queryString.stringify(
             {
@@ -285,6 +291,7 @@ export default class MoiraApi implements IMoiraApi {
                 size: this.triggerListPageSize,
                 tags,
                 onlyProblems,
+                searchText,
             },
             { arrayFormat: "index", encode: true }
         )}`;
