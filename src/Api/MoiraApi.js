@@ -277,7 +277,7 @@ export default class MoiraApi implements IMoiraApi {
         onlyProblems: boolean,
         tags: Array<string>
     ): Promise<TriggerList> {
-        const url = `${this.apiUrl}/trigger/page?${queryString.stringify(
+        const url = `${this.apiUrl}/trigger/search?${queryString.stringify(
             {
                 /* eslint-disable */
                 p: page,
