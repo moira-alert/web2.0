@@ -66,9 +66,11 @@ class SearchSelector extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        const { search = "" } = props;
+
         this.state = {
-            searchText: props.search || "",
-            clearedSearchValue: clearInput(props.search || ""),
+            searchText: search,
+            clearedSearchValue: clearInput(search),
         };
 
         this.dropdownAnchorRef = React.createRef();
@@ -77,12 +79,13 @@ class SearchSelector extends React.Component<Props, State> {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const { search = "" } = this.props;
         const { searchText } = this.state;
         if (searchText !== "" && searchText === prevState.searchText) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                searchText: "",
-                clearedSearchValue: "",
+                searchText: search,
+                clearedSearchValue: clearInput(search),
             });
         }
     }
