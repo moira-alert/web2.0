@@ -98,9 +98,16 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     <div className={cn("header")}>
                         <ReactRouterLink className={cn("link")} to={getPageLink("trigger", id)}>
                             <div className={cn("title")}>
-                                <div className={cn("name")}>
-                                    {searchMode ? highlights.name : name}
-                                </div>
+                                {searchMode ? (
+                                    <div
+                                        className={cn("name")}
+                                        dangerouslySetInnerHTML={{
+                                            __html: highlights.name,
+                                        }}
+                                    />
+                                ) : (
+                                    <div className={cn("name")}>{name}</div>
+                                )}
                                 {throttling !== 0 && (
                                     <div
                                         className={cn("flag")}
