@@ -77,12 +77,13 @@ class SearchSelector extends React.Component<Props, State> {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (
-            this.props.search === "" &&
-            prevProps.search === "" &&
-            this.state.searchText === prevState.searchText
-        ) {
-            console.log("route");
+        const { searchText } = this.state;
+        if (searchText !== "" && searchText === prevState.searchText) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                searchText: "",
+                clearedSearchValue: "",
+            });
         }
     }
 
