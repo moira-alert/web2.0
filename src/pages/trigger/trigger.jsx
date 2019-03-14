@@ -125,11 +125,11 @@ class TriggerPage extends React.Component<Props, State> {
                 trigger,
                 triggerState,
                 triggerEvents: triggerEvents.list || [],
+                loading: false,
             });
         } catch (error) {
-            // ToDo
-        } finally {
             this.setState({ loading: false });
+            // ToDo обработать ошибку
         }
     }
 

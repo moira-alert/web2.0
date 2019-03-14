@@ -144,11 +144,11 @@ class TriggerListPage extends React.Component<Props, State> {
                 activePage: locationSearch.page,
                 pageCount: Math.ceil(triggers.total / triggers.size),
                 searchText: locationSearch.searchText,
+                loading: false,
             });
         } catch (error) {
-            // ToDo
-        } finally {
             this.setState({ loading: false });
+            // ToDo обработать ошибку
         }
     }
 
