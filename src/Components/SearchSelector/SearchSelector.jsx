@@ -82,6 +82,7 @@ class SearchSelector extends React.Component<Props, State> {
         const { search = "" } = this.props;
         const { searchText } = this.state;
         if (searchText !== "" && searchText === prevState.searchText) {
+            // ToDo придумать способ по очистке поля ввода без использования componentDidUpdate
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 searchText: search,
