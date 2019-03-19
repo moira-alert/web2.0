@@ -55,6 +55,11 @@ module.exports = merge(common, {
             },
         ],
     },
+    resolve: {
+        alias: {
+            "react-dom": "@hot-loader/react-dom",
+        },
+    },
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devtool: "cheap-eval-source-map",
     devServer: {
