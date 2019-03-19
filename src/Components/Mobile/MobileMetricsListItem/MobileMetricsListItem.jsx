@@ -9,7 +9,7 @@ import Modal from "retail-ui/components/Modal";
 import type { Metric } from "../../../Domain/Metric";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
 import roundValue from "../../../helpers/roundValue";
-import { Maintenances, type Maintenance, MaintenanceCaptions } from "../../../Domain/Maintenance";
+import { Maintenances, type Maintenance, getMaintenanceCaption } from "../../../Domain/Maintenance";
 import cn from "./MobileMetricsListItem.less";
 
 type Props = {|
@@ -115,7 +115,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                                             className={cn("modal-button")}
                                             key={key}
                                         >
-                                            {MaintenanceCaptions[key]}
+                                            {getMaintenanceCaption(key)}
                                         </button>
                                     ))}
                                 </div>

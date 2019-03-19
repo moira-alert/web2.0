@@ -10,7 +10,7 @@ import type { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
 import type { Status } from "../../../Domain/Status";
 import type { Trigger, TriggerState } from "../../../Domain/Trigger";
-import { Maintenances, MaintenanceCaptions, type Maintenance } from "../../../Domain/Maintenance";
+import { Maintenances, getMaintenanceCaption, type Maintenance } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 
@@ -151,7 +151,7 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                                         className={cn("modal-button")}
                                         key={key}
                                     >
-                                        {MaintenanceCaptions[key]}
+                                        {getMaintenanceCaption(key)}
                                     </button>
                                 ))}
                             </div>
