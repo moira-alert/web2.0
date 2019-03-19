@@ -3,35 +3,20 @@
         "contacts": [
             {
                 "type": "email",
-                "validation": "^.+@.+\\..+$"
-            },
-            {
-                "type": "phone",
-                "validation": "^9\\d{9}$",
-                "title": "kontur sms",
-                "help": "Phone number format 9*********"
-            },
-            {
-                "type": "pushover",
-                "validation": "",
-                "title": "pushover user key"
+                "label": "E-mail"
             },
             {
                 "type": "slack",
+                "label": "Slack",
                 "validation": "^[@#][a-zA-Z0-9-_]+",
-                "title": "slack #channel / @user"
+                "placeholder": "Slack #channel or @user"
             },
             {
-                "type": "telegram",
-                "validation": "",
-                "title": "#channel, @username, group",
-                "help": "Required to grant [@KonturMoiraBot](https://t.me/KonturMoiraBot) admin privileges for channels,\nor `/start` command in groups and personal chats"
-            },
-            {
-                "type": "twilio voice",
-                "validation": "^\\+79\\d{9}$",
-                "title": "twilio voice",
-                "help": "Phone number format +79*********"
+                "type": "phone",
+                "label": "Phone",
+                "validation": "^9\\d{9}$",
+                "placeholder": "In format 98743210",
+                "help": "Phone for Kontur SMS"
             }
         ],
         "supportEmail": "devopsteam@skbkontur.ru"
@@ -63,20 +48,14 @@
             {
                 "type": "phone",
                 "user": "testuser",
-                "value": "+70981234567",
-                "id": "0ef1df0c-7187-4eb6-8a1f-6ee2c296eac8"
-            },
-            {
-                "type": "telegram",
-                "user": "testuser",
-                "value": "@testuser",
-                "id": "728b26d9-1947-4856-a285-145923fd9bcb"
+                "value": "9876543210",
+                "id": "0000-0000-0000-0000-0001"
             },
             {
                 "type": "email",
                 "user": "testuser",
                 "value": "testuser@skbkontur.ru",
-                "id": "06a684b5-53d4-4cae-8bbf-14acee20198d"
+                "id": "0000-0000-0000-0000-0002"
             }
         ],
         "subscriptions": [
@@ -118,7 +97,7 @@
                 },
                 "tags": ["devops", "frontend", "backend"],
                 "throttling": true,
-                "contacts": ["0ef1df0c-7187-4eb6-8a1f-6ee2c296eac8"],
+                "contacts": ["0000-0000-0000-0000-0001", "0000-0000-0000-0000-0002"],
                 "enabled": false,
                 "user": "testuser",
                 "id": "85b14755-6cbe-429d-860c-21f7c01569c2"
@@ -161,7 +140,7 @@
                 },
                 "tags": ["errors", "warnings"],
                 "throttling": true,
-                "contacts": ["728b26d9-1947-4856-a285-145923fd9bcb"],
+                "contacts": ["0000-0000-0000-0000-0001"],
                 "enabled": true,
                 "user": "testuser",
                 "id": "ad1c71aa-9f8b-4d29-b8ac-cd76c6f7b4c9"
@@ -204,7 +183,7 @@
                 },
                 "tags": ["critical", "devops", "frontend", "backend", "test"],
                 "throttling": false,
-                "contacts": ["06a684b5-53d4-4cae-8bbf-14acee20198d"],
+                "contacts": ["0000-0000-0000-0000-0002"],
                 "enabled": true,
                 "user": "testuser",
                 "id": "b2a37dcf-a347-4128-b53b-c13c5c5f0c08"
@@ -247,7 +226,7 @@
                 },
                 "tags": ["devops", "frontend"],
                 "throttling": false,
-                "contacts": ["06a684b5-53d4-4cae-8bbf-14acee20198d"],
+                "contacts": ["0000-0000-0000-0000-0002"],
                 "enabled": false,
                 "user": "testuser",
                 "id": "9f1ce01c-2de5-4324-b1fb-bc38140e585f"

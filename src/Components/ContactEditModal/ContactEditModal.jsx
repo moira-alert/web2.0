@@ -5,8 +5,8 @@ import Gapped from "retail-ui/components/Gapped";
 import Button from "retail-ui/components/Button";
 import { ValidationContainer } from "react-ui-validations";
 import type { ContactConfig } from "../../Domain/Config";
-import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import type { Contact } from "../../Domain/Contact";
+import ContactEditForm from "../ContactEditForm/ContactEditForm";
 
 type Props = {|
     contactDescriptions: Array<ContactConfig>,
@@ -51,7 +51,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
                     <ValidationContainer ref={this.validationContainer}>
                         <ContactEditForm
                             contactDescriptions={contactDescriptions}
-                            contactInfo={{ type: contactInfo.type, value: contactInfo.value }}
+                            contactInfo={contactInfo}
                             onChange={update => onChange({ ...contactInfo, ...update })}
                         />
                     </ValidationContainer>
