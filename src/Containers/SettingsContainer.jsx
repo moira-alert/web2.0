@@ -12,7 +12,6 @@ import ContactList from "../Components/ContactList/ContactList";
 import SubscriptionList, {
     type SubscriptionInfo,
 } from "../Components/SubscriptionList/SubscriptionList";
-import type { NewContactInfo } from "../Components/NewContactModal/NewContactModal";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -113,7 +112,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleAddContact = async (contact: NewContactInfo): Promise<?Contact> => {
+    handleAddContact = async (contact: $Shape<Contact>): Promise<?Contact> => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
         const contactType = contact.type;

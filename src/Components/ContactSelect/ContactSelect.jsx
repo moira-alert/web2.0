@@ -7,8 +7,8 @@ import ComboBox from "retail-ui/components/ComboBox";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import cn from "./ContactSelect.less";
 import type { Contact } from "../../Domain/Contact";
+import cn from "./ContactSelect.less";
 
 type Props = {
     contactIds: Array<string>,
