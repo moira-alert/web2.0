@@ -28,23 +28,40 @@ function getColor(title: string): ColorTheme {
 export default function Tag(props: Props): React.Node {
     const { title, focus, onRemove, onClick } = props;
 
+    if (typeof onClick === "function") {
+        return (
+            <div className={cn({ tag: true, focused: focus })} style={getColor(title)}>
+                <button type="button" onClick={onClick} className={cn("title", "clickable")}>
+                    {title}
+                </button>
+            </div>
+        );
+    }
+
+    if (typeof onRemove === "function") {
+        const handleRemove = () => {
+            onRemove(title);
+        };
+
+        return (
+            <div
+                className={cn({ tag: true, removeable: true, focused: focus })}
+                style={getColor(title)}
+            >
+                <div className={cn("title")}>{title}</div>
+                <button type="button" className={cn("remove")} onClick={handleRemove}>
+                    <DeleteIcon />
+                </button>
+            </div>
+        );
+    }
+
     return (
         <div
             className={cn({ tag: true, removeable: onRemove, focused: focus })}
             style={getColor(title)}
         >
-            {onClick ? (
-                <button type="button" onClick={onClick} className={cn("title", "clickable")}>
-                    {title}
-                </button>
-            ) : (
-                <div className={cn("title")}>{title}</div>
-            )}
-            {onRemove && (
-                <button type="button" className={cn("remove")} onClick={onRemove}>
-                    <DeleteIcon />
-                </button>
-            )}
+            <div className={cn("title")}>{title}</div>
         </div>
     );
 }
