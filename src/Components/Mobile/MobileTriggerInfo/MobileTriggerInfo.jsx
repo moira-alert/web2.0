@@ -10,7 +10,7 @@ import type { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
 import type { Status } from "../../../Domain/Status";
 import type { Trigger, TriggerState } from "../../../Domain/Trigger";
-import { Maintenances, type Maintenance } from "../../../Domain/Maintenance";
+import { Maintenances, getMaintenanceCaption, type Maintenance } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 
@@ -144,73 +144,16 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                         <Modal.Body>
                             <div className={cn("modal-content")}>
                                 <div className={cn("modal-header")}>Maintenance trigger</div>
-                                <button
-                                    type="button"
-                                    onClick={() => this.handleSetMaintenance(Maintenances.off)}
-                                    className={cn("modal-button")}
-                                >
-                                    OFF
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        this.handleSetMaintenance(Maintenances.quarterHour)
-                                    }
-                                    className={cn("modal-button")}
-                                >
-                                    15 MIN
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => this.handleSetMaintenance(Maintenances.oneHour)}
-                                    className={cn("modal-button")}
-                                >
-                                    1 HOUR
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        this.handleSetMaintenance(Maintenances.threeHours)
-                                    }
-                                    className={cn("modal-button")}
-                                >
-                                    3 HOURS
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => this.handleSetMaintenance(Maintenances.sixHours)}
-                                    className={cn("modal-button")}
-                                >
-                                    6 HOURS
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => this.handleSetMaintenance(Maintenances.oneDay)}
-                                    className={cn("modal-button")}
-                                >
-                                    1 DAY
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => this.handleSetMaintenance(Maintenances.oneWeek)}
-                                    className={cn("modal-button")}
-                                >
-                                    1 WEEK
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => this.handleSetMaintenance(Maintenances.twoWeeks)}
-                                    className={cn("modal-button")}
-                                >
-                                    2 WEEKS
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => this.handleSetMaintenance(Maintenances.oneMonth)}
-                                    className={cn("modal-button")}
-                                >
-                                    1 MONTH
-                                </button>
+                                {Object.keys(Maintenances).map(key => (
+                                    <button
+                                        type="button"
+                                        onClick={() => this.handleSetMaintenance(Maintenances[key])}
+                                        className={cn("modal-button")}
+                                        key={key}
+                                    >
+                                        {getMaintenanceCaption(key)}
+                                    </button>
+                                ))}
                             </div>
                         </Modal.Body>
                     </Modal>
