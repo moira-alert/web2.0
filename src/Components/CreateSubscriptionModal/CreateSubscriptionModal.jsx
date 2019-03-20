@@ -45,7 +45,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
 
         return (
             <Modal ignoreBackgroundClick onClose={onCancel}>
-                <Modal.Header sticky={false}>Create subscription</Modal.Header>
+                <Modal.Header sticky={false}>Subscription adding</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>
                         <SubscriptionEditor
@@ -66,7 +66,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                                 this.handleCreate();
                             }}
                         >
-                            Create
+                            Add
                         </Button>
                         <Button
                             disabled={isActionButtonsDisabled}
@@ -75,7 +75,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                                 this.handleCreateAndTest();
                             }}
                         >
-                            Create and test
+                            Add and test
                         </Button>
                     </Gapped>
                 </Modal.Footer>

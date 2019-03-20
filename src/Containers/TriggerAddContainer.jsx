@@ -61,6 +61,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
                 error_value: null,
                 warn_value: null,
                 trigger_type: "rising",
+                mute_new_metrics: false,
             },
             tags: null,
         };
