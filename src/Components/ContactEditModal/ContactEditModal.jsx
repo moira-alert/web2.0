@@ -46,7 +46,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
 
         return (
             <Modal onClose={onCancel} ignoreBackgroundClick>
-                <Modal.Header sticky={false}>Edit delivery channel</Modal.Header>
+                <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>
                         <ContactEditForm
@@ -59,23 +59,23 @@ export default class ContactEditModal extends React.Component<Props, State> {
                 <Modal.Footer panel sticky>
                     <Gapped gap={10}>
                         <Button
-                            loading={updateAndTestInProcess}
                             use="primary"
-                            disabled={isActionButtonDisabled}
-                            onClick={() => {
-                                this.handleUpdateAndTestContact();
-                            }}
-                        >
-                            Update and test channel
-                        </Button>
-                        <Button
                             disabled={isActionButtonDisabled}
                             loading={updateInProcess}
                             onClick={() => {
                                 this.handleUpdateContact();
                             }}
                         >
-                            Update channel
+                            Save
+                        </Button>
+                        <Button
+                            loading={updateAndTestInProcess}
+                            disabled={isActionButtonDisabled}
+                            onClick={() => {
+                                this.handleUpdateAndTestContact();
+                            }}
+                        >
+                            Save and test
                         </Button>
                         <Button
                             use="danger"
@@ -85,7 +85,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
                                 this.handleDeleteContact();
                             }}
                         >
-                            Delete channel
+                            Delete
                         </Button>
                     </Gapped>
                 </Modal.Footer>
