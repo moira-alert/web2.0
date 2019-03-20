@@ -47,7 +47,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
             updateInProcess || updateAndTestInProcess || deleteInProcess;
         return (
             <Modal ignoreBackgroundClick onClose={onCancel}>
-                <Modal.Header sticky={false}>Edit subscription</Modal.Header>
+                <Modal.Header sticky={false}>Subscription editing</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>
                         <SubscriptionEditor
@@ -68,7 +68,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                                 this.handleUpdate();
                             }}
                         >
-                            Update
+                            Save
                         </Button>
                         <Button
                             disabled={isActionButtonsDisabled}
@@ -77,7 +77,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                                 this.handleUpdateAndTest();
                             }}
                         >
-                            Update and test
+                            Save and test
                         </Button>
                         <Button
                             use="danger"
