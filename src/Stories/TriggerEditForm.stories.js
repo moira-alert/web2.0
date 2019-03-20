@@ -38,6 +38,7 @@ const sourceData = {
     throttling: 0,
     expression: "",
     notify_about_new_metrics: false,
+    mute_new_metrics: false,
 };
 
 const allTags = ["devops", "critical", "error", "warning", "del", "moira"];
