@@ -18,6 +18,7 @@ import Radio from "retail-ui/components/Radio";
 import Checkbox from "retail-ui/components/Checkbox";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
+import { purifyConfig } from "../../Domain/DOMPurify";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerModeEditor from "../TriggerModeEditor/TriggerModeEditor";
@@ -38,7 +39,7 @@ type Props = {|
 |};
 
 type State = {
-    advancedMode: boolean,
+    descriptionMode: "edit" | "preview",
 };
 
 export default class TriggerEditForm extends React.Component<Props, State> {
@@ -48,9 +49,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        const { targets, trigger_type: triggerType } = props.data;
         this.state = {
-            advancedMode: targets.length > 1 || triggerType === "expression",
             descriptionMode: "edit",
         };
     }
@@ -92,7 +91,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { advancedMode, descriptionMode } = this.state;
+        const { descriptionMode } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -125,7 +124,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     </ValidationWrapperV1>
                 </FormRow>
                 <FormRow label="Description" useTopAlignForLabel>
-                    <div className={cn("tabs-div")}>
+                    <div className={cn("description-mode-tabs")}>
                         <Tabs
                             value={descriptionMode}
                             onChange={(_, val) => this.setState({ descriptionMode: val })}
@@ -146,7 +145,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <div
                             className={cn("wysiwyg", "description-preview")}
                             dangerouslySetInnerHTML={{
-                                __html: sanitize(md.render(desc)),
+                                __html: sanitize(md.render(desc), purifyConfig),
                             }}
                         />
                     )}
@@ -266,7 +265,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {remoteAllowed && advancedMode && (
+                {remoteAllowed && (
                     <FormRow label="Data source" singleLineControlGroup>
                         <RadioGroup
                             name="data-source"
@@ -315,7 +314,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { onChange, data } = this.props;
         const { targets } = data;
 
-        this.setState({ advancedMode: true });
         onChange({
             trigger_type: "expression",
             targets: [...targets, ""],

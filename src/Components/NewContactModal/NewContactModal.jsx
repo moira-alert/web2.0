@@ -5,14 +5,13 @@ import Gapped from "retail-ui/components/Gapped";
 import Button from "retail-ui/components/Button";
 import { ValidationContainer } from "react-ui-validations";
 import type { ContactConfig } from "../../Domain/Config";
-import ContactEditForm, { type ContactInfo } from "../ContactEditForm/ContactEditForm";
-
-export type NewContactInfo = ContactInfo;
+import type { Contact } from "../../Domain/Contact";
+import ContactEditForm from "../ContactEditForm/ContactEditForm";
 
 type Props = {|
     contactDescriptions: Array<ContactConfig>,
-    contactInfo: ContactInfo,
-    onChange: ($Shape<ContactInfo>) => void,
+    contactInfo: $Shape<Contact> | null,
+    onChange: ($Shape<Contact>) => void,
     onCancel: () => void,
     onCreate: () => Promise<void>,
     onCreateAndTest: () => Promise<void>,
@@ -40,13 +39,13 @@ export default class NewContactModal extends React.Component<Props, State> {
     render(): React.Node {
         const { onChange, onCancel, contactInfo, contactDescriptions } = this.props;
         const { createInProcess, createAndTestInProcess } = this.state;
-        const { value, type } = contactInfo;
+        const { value, type } = contactInfo || {};
         const idActionButtonsDisabled =
-            type == null || value == null || createInProcess || createAndTestInProcess;
+            !value || !type || createInProcess || createAndTestInProcess;
 
         return (
             <Modal onClose={onCancel} ignoreBackgroundClick>
-                <Modal.Header sticky={false}>Add delivery channel</Modal.Header>
+                <Modal.Header sticky={false}>Delivery channel adding</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>
                         <ContactEditForm
@@ -59,23 +58,23 @@ export default class NewContactModal extends React.Component<Props, State> {
                 <Modal.Footer panel sticky>
                     <Gapped gap={10}>
                         <Button
-                            disabled={idActionButtonsDisabled}
-                            loading={createAndTestInProcess}
                             use="primary"
-                            onClick={() => {
-                                this.handleCreateAndTestContact();
-                            }}
-                        >
-                            Add channel and test
-                        </Button>
-                        <Button
                             loading={createInProcess}
                             disabled={idActionButtonsDisabled}
                             onClick={() => {
                                 this.handleCreateContact();
                             }}
                         >
-                            Add delivery channel
+                            Add
+                        </Button>
+                        <Button
+                            disabled={idActionButtonsDisabled}
+                            loading={createAndTestInProcess}
+                            onClick={() => {
+                                this.handleCreateAndTestContact();
+                            }}
+                        >
+                            Add and test
                         </Button>
                     </Gapped>
                 </Modal.Footer>

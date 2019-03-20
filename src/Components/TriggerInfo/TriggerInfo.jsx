@@ -18,6 +18,7 @@ import type { Schedule } from "../../Domain/Schedule";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
+import { purifyConfig } from "../../Domain/DOMPurify";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./TriggerInfo.less";
 
@@ -141,7 +142,7 @@ export default function TriggerInfo({
                     <dd
                         className={cn("description", "wysiwyg")}
                         dangerouslySetInnerHTML={{
-                            __html: sanitize(md.render(desc)),
+                            __html: sanitize(md.render(desc), purifyConfig),
                         }}
                     />
                 )}
