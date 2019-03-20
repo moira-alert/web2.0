@@ -45,7 +45,7 @@ export default class NewContactModal extends React.Component<Props, State> {
 
         return (
             <Modal onClose={onCancel} ignoreBackgroundClick>
-                <Modal.Header sticky={false}>Add delivery channel</Modal.Header>
+                <Modal.Header sticky={false}>Delivery channel adding</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>
                         <ContactEditForm
@@ -58,23 +58,23 @@ export default class NewContactModal extends React.Component<Props, State> {
                 <Modal.Footer panel sticky>
                     <Gapped gap={10}>
                         <Button
-                            disabled={idActionButtonsDisabled}
-                            loading={createAndTestInProcess}
                             use="primary"
-                            onClick={() => {
-                                this.handleCreateAndTestContact();
-                            }}
-                        >
-                            Add channel and test
-                        </Button>
-                        <Button
                             loading={createInProcess}
                             disabled={idActionButtonsDisabled}
                             onClick={() => {
                                 this.handleCreateContact();
                             }}
                         >
-                            Add delivery channel
+                            Add
+                        </Button>
+                        <Button
+                            disabled={idActionButtonsDisabled}
+                            loading={createAndTestInProcess}
+                            onClick={() => {
+                                this.handleCreateAndTestContact();
+                            }}
+                        >
+                            Add and test
                         </Button>
                     </Gapped>
                 </Modal.Footer>
