@@ -62,7 +62,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     active={opened}
                 >
                     {/* eslint-disable-next-line */}
-                    <label className={cn("wrapper")}>
+                    <div className={cn("wrapper")}>
                         {this.renderInput()}
                         {opened && (
                             <DropdownContainer
@@ -119,7 +119,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                 </div>
                             </DropdownContainer>
                         )}
-                    </label>
+                    </div>
                 </RenderLayer>
                 <span tabIndex="-1" ref={this.focusAnchorRef}>
                     {" "}
