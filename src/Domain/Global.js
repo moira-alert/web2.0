@@ -9,7 +9,6 @@ export const PagesPaths = {
     notifications: "/notifications",
     tags: "/tags",
     patterns: "/patterns",
-    collection: "/collection",
 };
 
 export const PagesLinks = {
@@ -23,7 +22,6 @@ export const PagesLinks = {
     tags: "/tags",
     patterns: "/patterns",
     docs: "//moira.readthedocs.org/",
-    collection: "/collection",
 };
 
 export type PagePath = $Keys<typeof PagesPaths>;

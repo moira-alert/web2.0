@@ -21,9 +21,6 @@ import TriggerListDesktop from "./pages/trigger-list/trigger-list.desktop";
 import Trigger from "./pages/trigger/trigger";
 import TriggerDesktop from "./pages/trigger/trigger.desktop";
 
-import Collection from "./pages/collection/collection";
-import CollectionDesktop from "./pages/collection/collection.desktop";
-
 const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => (
     <Route {...rest} render={props => <Container {...props} view={View} />} />
 );
@@ -60,12 +57,6 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("tags")} component={TagListContainer} />
                 <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
-                <ResponsiveRoute
-                    exact
-                    path={getPagePath("collection")}
-                    container={Collection}
-                    view={CollectionDesktop}
-                />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

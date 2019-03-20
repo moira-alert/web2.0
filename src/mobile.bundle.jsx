@@ -11,9 +11,6 @@ import TriggerListMobile from "./pages/trigger-list/trigger-list.mobile";
 import Trigger from "./pages/trigger/trigger";
 import TriggerMobile from "./pages/trigger/trigger.mobile";
 
-import Collection from "./pages/collection/collection";
-import CollectionDesktop from "./pages/collection/collection.desktop";
-
 const ResponsiveRoute = ({ container: Container, view: View, component: Component, ...rest }) => (
     <Route {...rest} render={props => <Container {...props} view={View} />} />
 );
@@ -32,12 +29,6 @@ function Mobile() {
                 path={getPagePath("trigger")}
                 container={Trigger}
                 view={TriggerMobile}
-            />
-            <ResponsiveRoute
-                exact
-                path={getPagePath("collection")}
-                container={Collection}
-                view={CollectionDesktop}
             />
             <Route component={MobileErrorContainer} />
         </Switch>
