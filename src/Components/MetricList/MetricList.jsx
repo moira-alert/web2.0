@@ -4,9 +4,11 @@ import moment from "moment";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import Dropdown from "retail-ui/components/Dropdown";
-import Button from "retail-ui/components/Button";
+import DropdownMenu from "retail-ui/components/DropdownMenu";
+import MenuHeader from "retail-ui/components/MenuHeader";
+import MenuSeparator from "retail-ui/components/MenuSeparator";
 import MenuItem from "retail-ui/components/MenuItem";
+import Button from "retail-ui/components/Button";
 import type { Maintenance } from "../../Domain/Maintenance";
 import type { Metric } from "../../Domain/Metric";
 import roundValue from "../../helpers/roundValue";
@@ -90,19 +92,18 @@ export default function MetricList(props: Props): React.Node {
                         )}
                     </button>
                 </div>
-                <div className={cn("controls")}>
+                <div className={cn("maintenance")} />
+                <div className={cn("delete")}>
                     {typeof noDataMerticCount === "number" &&
                         noDataMerticCount > 1 &&
                         onNoDataRemove && (
-                            <span className={cn("delete-all")}>
-                                <Button
-                                    use="link"
-                                    icon={<TrashIcon />}
-                                    onClick={() => onNoDataRemove()}
-                                >
-                                    Delete all NODATA
-                                </Button>
-                            </span>
+                            <Button
+                                use="link"
+                                icon={<TrashIcon />}
+                                onClick={() => onNoDataRemove()}
+                            >
+                                Delete all NODATA
+                            </Button>
                         )}
                 </div>
             </header>
@@ -113,6 +114,7 @@ export default function MetricList(props: Props): React.Node {
                         event_timestamp: eventTimestamp = 0,
                         state,
                         maintenance,
+                        maintenance_who: maintenanceWho,
                     } = items[metric];
                     return (
                         <div key={metric} className={cn("row")}>
@@ -126,23 +128,42 @@ export default function MetricList(props: Props): React.Node {
                                 {moment.unix(eventTimestamp).format("MMMM D, HH:mm:ss")}
                             </div>
                             <div className={cn("value")}>{roundValue(value)}</div>
-                            <div className={cn("controls")}>
-                                <Dropdown caption={checkMaintenance(maintenance)} use="link">
+                            <div className={cn("maintenance")}>
+                                <DropdownMenu
+                                    caption={
+                                        <Button use="link">{checkMaintenance(maintenance)}</Button>
+                                    }
+                                >
                                     {Object.keys(Maintenances).map(key => (
                                         <MenuItem key={key} onClick={() => onChange(metric, key)}>
                                             {getMaintenanceCaption(key)}
                                         </MenuItem>
                                     ))}
-                                </Dropdown>
-                                <span className={cn("delete-metric")}>
-                                    <Button
-                                        use="link"
-                                        icon={<TrashIcon />}
-                                        onClick={() => onRemove(metric)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </span>
+                                    {maintenanceWho.start_user && maintenanceWho.start_time && (
+                                        <MenuSeparator />
+                                    )}
+                                    {maintenanceWho.start_user && maintenanceWho.start_time && (
+                                        <MenuHeader>
+                                            Maintenance was set
+                                            <br />
+                                            by {maintenanceWho.start_user}
+                                            <br />
+                                            at{" "}
+                                            {moment
+                                                .unix(maintenanceWho.start_time)
+                                                .format("MMMM D, HH:mm:ss")}
+                                        </MenuHeader>
+                                    )}
+                                </DropdownMenu>
+                            </div>
+                            <div className={cn("delete")}>
+                                <Button
+                                    use="link"
+                                    icon={<TrashIcon />}
+                                    onClick={() => onRemove(metric)}
+                                >
+                                    Delete
+                                </Button>
                             </div>
                         </div>
                     );
