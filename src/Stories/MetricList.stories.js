@@ -13,6 +13,13 @@ const items = {
         suppressed: false,
         value: 10.453,
         timestamp: 1503496225,
+        maintenance: 1555804800,
+        maintenance_who: {
+            start_user: "Superman",
+            start_time: 1553158221,
+            stop_user: null,
+            stop_time: null,
+        },
     },
     "vm-ditrace3.ditrace": {
         event_timestamp: 1503486527,
@@ -20,6 +27,12 @@ const items = {
         suppressed: false,
         timestamp: 1503496225,
         maintenance: 1504100565,
+        maintenance_who: {
+            start_user: null,
+            start_time: null,
+            stop_user: null,
+            stop_time: null,
+        },
     },
     "vm-ditrace3.elasticsearch": {
         event_timestamp: 1503486527,
@@ -28,12 +41,24 @@ const items = {
         timestamp: 1503496225,
         value: 109389189,
         maintenance: 1504118563,
+        maintenance_who: {
+            start_user: null,
+            start_time: null,
+            stop_user: null,
+            stop_time: null,
+        },
     },
     "vm-ditrace3.nginx": {
         event_timestamp: 1503484033,
         state: "OK",
         suppressed: false,
         timestamp: 1503496225,
+        maintenance_who: {
+            start_user: null,
+            start_time: null,
+            stop_user: null,
+            stop_time: null,
+        },
     },
 };
 
