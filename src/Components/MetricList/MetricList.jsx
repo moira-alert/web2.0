@@ -4,7 +4,7 @@ import moment from "moment";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import DropdownMenu from "retail-ui/components/DropdownMenu";
+import Dropdown from "retail-ui/components/Dropdown";
 import MenuHeader from "retail-ui/components/MenuHeader";
 import MenuSeparator from "retail-ui/components/MenuSeparator";
 import MenuItem from "retail-ui/components/MenuItem";
@@ -129,7 +129,7 @@ export default function MetricList(props: Props): React.Node {
                             </div>
                             <div className={cn("value")}>{roundValue(value)}</div>
                             <div className={cn("maintenance")}>
-                                <DropdownMenu
+                                <Dropdown
                                     caption={
                                         <Button use="link">{checkMaintenance(maintenance)}</Button>
                                     }
@@ -154,7 +154,7 @@ export default function MetricList(props: Props): React.Node {
                                                 .format("MMMM D, HH:mm:ss")}
                                         </MenuHeader>
                                     )}
-                                </DropdownMenu>
+                                </Dropdown>
                             </div>
                             <div className={cn("delete")}>
                                 <Button
