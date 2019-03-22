@@ -114,7 +114,7 @@ export default function MetricList(props: Props): React.Node {
                         event_timestamp: eventTimestamp = 0,
                         state,
                         maintenance,
-                        maintenance_who: maintenanceWho,
+                        maintenance_info: maintenanceInfo,
                     } = items[metric];
                     return (
                         <div key={metric} className={cn("row")}>
@@ -138,17 +138,17 @@ export default function MetricList(props: Props): React.Node {
                                 </Dropdown>
                             </div>
                             <div className={cn("author")}>
-                                {maintenanceWho.start_user && maintenanceWho.start_time && (
+                                {maintenanceInfo.author_name && maintenanceInfo.setup_time && (
                                     <Tooltip
                                         render={() => (
                                             <div>
                                                 Maintenance was set
                                                 <br />
-                                                by {maintenanceWho.start_user}
+                                                by {maintenanceInfo.author_name}
                                                 <br />
                                                 at{" "}
                                                 {moment
-                                                    .unix(maintenanceWho.start_time)
+                                                    .unix(maintenanceInfo.setup_time)
                                                     .format("MMMM D, HH:mm:ss")}
                                             </div>
                                         )}
