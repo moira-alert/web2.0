@@ -3,10 +3,10 @@ import * as React from "react";
 import moment from "moment";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
+import UserIcon from "@skbkontur/react-icons/User";
 import TrashIcon from "@skbkontur/react-icons/Trash";
+import Tooltip from "retail-ui/components/Tooltip";
 import Dropdown from "retail-ui/components/Dropdown";
-import MenuHeader from "retail-ui/components/MenuHeader";
-import MenuSeparator from "retail-ui/components/MenuSeparator";
 import MenuItem from "retail-ui/components/MenuItem";
 import Button from "retail-ui/components/Button";
 import type { Maintenance } from "../../Domain/Maintenance";
@@ -130,6 +130,7 @@ export default function MetricList(props: Props): React.Node {
                             <div className={cn("value")}>{roundValue(value)}</div>
                             <div className={cn("maintenance")}>
                                 <Dropdown
+                                    use="link"
                                     caption={
                                         <Button use="link">{checkMaintenance(maintenance)}</Button>
                                     }
@@ -139,22 +140,27 @@ export default function MetricList(props: Props): React.Node {
                                             {getMaintenanceCaption(key)}
                                         </MenuItem>
                                     ))}
-                                    {maintenanceWho.start_user && maintenanceWho.start_time && (
-                                        <MenuSeparator />
-                                    )}
-                                    {maintenanceWho.start_user && maintenanceWho.start_time && (
-                                        <MenuHeader>
-                                            Maintenance was set
-                                            <br />
-                                            by {maintenanceWho.start_user}
-                                            <br />
-                                            at{" "}
-                                            {moment
-                                                .unix(maintenanceWho.start_time)
-                                                .format("MMMM D, HH:mm:ss")}
-                                        </MenuHeader>
-                                    )}
                                 </Dropdown>
+                            </div>
+                            <div className={cn("author")}>
+                                {maintenanceWho.start_user && maintenanceWho.start_time && (
+                                    <Tooltip
+                                        render={() => (
+                                            <div>
+                                                Maintenance was set
+                                                <br />
+                                                by {maintenanceWho.start_user}
+                                                <br />
+                                                at{" "}
+                                                {moment
+                                                    .unix(maintenanceWho.start_time)
+                                                    .format("MMMM D, HH:mm:ss")}
+                                            </div>
+                                        )}
+                                    >
+                                        <UserIcon />
+                                    </Tooltip>
+                                )}
                             </div>
                             <div className={cn("delete")}>
                                 <Button
