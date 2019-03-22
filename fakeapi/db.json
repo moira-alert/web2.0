@@ -2619,11 +2619,9 @@
                 "timestamp": 1504516241,
                 "value": 82.47,
                 "maintenance": 1555804800,
-                "maintenance_who": {
-                    "start_user": "Superman",
-                    "start_time": 1553158221,
-                    "stop_user": null,
-                    "stop_time": null
+                "maintenance_info": {
+                    "author_name": "Superman",
+                    "setup_time": 1553158221
                 }
             },
             "vm-elk-l1": {
@@ -2632,11 +2630,9 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "value": 96.39,
-                "maintenance_who": {
-                    "start_user": null,
-                    "start_time": null,
-                    "stop_user": null,
-                    "stop_time": null
+                "maintenance_info": {
+                    "author_name": null,
+                    "setup_time": null
                 }
             },
             "vm-elk-r1": {
@@ -2645,11 +2641,9 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "value": 93.18,
-                "maintenance_who": {
-                    "start_user": null,
-                    "start_time": null,
-                    "stop_user": null,
-                    "stop_time": null
+                "maintenance_info": {
+                    "author_name": null,
+                    "setup_time": null
                 }
             },
             "vm-elk-r2": {
@@ -2658,11 +2652,9 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "value": 89.53,
-                "maintenance_who": {
-                    "start_user": null,
-                    "start_time": null,
-                    "stop_user": null,
-                    "stop_time": null
+                "maintenance_info": {
+                    "author_name": null,
+                    "setup_time": null
                 }
             },
             "vm-elk-s1": {
@@ -2671,11 +2663,9 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "value": 10.29,
-                "maintenance_who": {
-                    "start_user": null,
-                    "start_time": null,
-                    "stop_user": null,
-                    "stop_time": null
+                "maintenance_info": {
+                    "author_name": null,
+                    "setup_time": null
                 }
             },
             "vm-elk-s2": {
@@ -2684,11 +2674,9 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "value": 12.33,
-                "maintenance_who": {
-                    "start_user": null,
-                    "start_time": null,
-                    "stop_user": null,
-                    "stop_time": null
+                "maintenance_info": {
+                    "author_name": null,
+                    "setup_time": null
                 }
             },
             "vm-elk-s3": {
@@ -2697,11 +2685,9 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "value": 24.36,
-                "maintenance_who": {
-                    "start_user": null,
-                    "start_time": null,
-                    "stop_user": null,
-                    "stop_time": null
+                "maintenance_info": {
+                    "author_name": null,
+                    "setup_time": null
                 }
             }
         },
