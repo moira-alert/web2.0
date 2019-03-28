@@ -138,24 +138,26 @@ export default function MetricList(props: Props): React.Node {
                                 </Dropdown>
                             </div>
                             <div className={cn("author")}>
-                                {maintenanceInfo.author_name && maintenanceInfo.setup_time && (
-                                    <Tooltip
-                                        render={() => (
-                                            <div>
-                                                Maintenance was set
-                                                <br />
-                                                by {maintenanceInfo.author_name}
-                                                <br />
-                                                at{" "}
-                                                {moment
-                                                    .unix(maintenanceInfo.setup_time)
-                                                    .format("MMMM D, HH:mm:ss")}
-                                            </div>
-                                        )}
-                                    >
-                                        <UserIcon />
-                                    </Tooltip>
-                                )}
+                                {maintenanceInfo &&
+                                    maintenanceInfo.author_name &&
+                                    maintenanceInfo.setup_time && (
+                                        <Tooltip
+                                            render={() => (
+                                                <div>
+                                                    Maintenance was set
+                                                    <br />
+                                                    by {maintenanceInfo.author_name}
+                                                    <br />
+                                                    at{" "}
+                                                    {moment
+                                                        .unix(maintenanceInfo.setup_time)
+                                                        .format("MMMM D, HH:mm:ss")}
+                                                </div>
+                                            )}
+                                        >
+                                            <UserIcon />
+                                        </Tooltip>
+                                    )}
                             </div>
                             <div className={cn("delete")}>
                                 <Button

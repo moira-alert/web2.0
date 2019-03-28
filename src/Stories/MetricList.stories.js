@@ -25,10 +25,6 @@ const items = {
         suppressed: false,
         timestamp: 1503496225,
         maintenance: 1504100565,
-        maintenance_info: {
-            author_name: null,
-            setup_time: null,
-        },
     },
     "vm-ditrace3.elasticsearch": {
         event_timestamp: 1503486527,

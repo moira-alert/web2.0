@@ -8,7 +8,7 @@ export type Metric = {|
     event_timestamp?: number,
     value?: number,
     maintenance?: number,
-    maintenance_info: {
+    maintenance_info?: {
         author_name: ?string,
         setup_time: ?number,
     },
