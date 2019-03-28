@@ -83,3 +83,4 @@ docker_develop_image:
 docker_release_image:
 	docker build -t moira/web2:${VERSION_RELEASE} -t moira/web2:latest .
 	docker push moira/web2:${VERSION_RELEASE}
+	docker push moira/web2:latest
