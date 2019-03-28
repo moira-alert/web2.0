@@ -12,6 +12,8 @@ import ClearIcon from "@skbkontur/react-icons/Clear";
 import DocumentCopyIcon from "@skbkontur/react-icons/DocumentCopy";
 import Dropdown from "retail-ui/components/Dropdown";
 import MenuItem from "retail-ui/components/MenuItem";
+import UserIcon from "@skbkontur/react-icons/User";
+import Tooltip from "retail-ui/components/Tooltip";
 import TagGroup from "../TagGroup/TagGroup";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Schedule } from "../../Domain/Schedule";
@@ -85,7 +87,12 @@ export default function TriggerInfo({
         throttling,
         is_remote: isRemote,
     } = data;
-    const { state, msg: exceptionMessage, maintenance } = triggerState;
+    const {
+        state,
+        msg: exceptionMessage,
+        maintenance,
+        maintenance_info: maintenanceInfo,
+    } = triggerState;
 
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
@@ -127,6 +134,28 @@ export default function TriggerInfo({
                                 </MenuItem>
                             ))}
                         </Dropdown>
+                    </span>
+                    <span>
+                        {maintenanceInfo &&
+                            maintenanceInfo.author_name &&
+                            maintenanceInfo.setup_time && (
+                                <Tooltip
+                                    render={() => (
+                                        <div>
+                                            Maintenance was set
+                                            <br />
+                                            by {maintenanceInfo.author_name}
+                                            <br />
+                                            at{" "}
+                                            {moment
+                                                .unix(maintenanceInfo.setup_time)
+                                                .format("MMMM D, HH:mm:ss")}
+                                        </div>
+                                    )}
+                                >
+                                    <UserIcon className={cn("maintenance-info")} />
+                                </Tooltip>
+                            )}
                     </span>
                 </div>
             </header>

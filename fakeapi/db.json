@@ -2694,7 +2694,12 @@
         "score": 2,
         "state": "OK",
         "timestamp": 1504516361,
-        "trigger_id": "69b1-91c1-423f-ab3b-d1a8"
+        "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
+        "maintenance": 1655804800,
+        "maintenance_info": {
+            "author_name": "Batman",
+            "setup_time": 1653158221
+        }
     },
     "event": {
         "page": 0,

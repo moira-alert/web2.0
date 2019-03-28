@@ -118,6 +118,23 @@ const stories = [
             },
         },
     },
+    {
+        title: "With maintenance",
+        triggerState: { ...triggerState, maintenance: Date.now() / 1000 + 3600 },
+        data: { ...sourceData },
+    },
+    {
+        title: "With maintenance and maintenance info",
+        triggerState: {
+            ...triggerState,
+            maintenance: Date.now() / 1000 + 3600,
+            maintenance_info: {
+                author_name: "Batman",
+                setup_time: 1553158221,
+            },
+        },
+        data: { ...sourceData },
+    },
 ];
 
 const story = storiesOf("TriggerInfo", module).addDecorator(StoryRouter());

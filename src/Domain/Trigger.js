@@ -41,6 +41,10 @@ export type TriggerList = {|
 
 export type TriggerState = {|
     maintenance: ?number,
+    maintenanceInfo?: {
+        author_name: ?string,
+        setup_time: ?number,
+    },
     metrics: MetricList,
     timestamp: number,
     state: Status,
