@@ -93,6 +93,7 @@ export default function MetricList(props: Props): React.Node {
                     </button>
                 </div>
                 <div className={cn("maintenance")} />
+                <div className={cn("author")} />
                 <div className={cn("delete")}>
                     {typeof noDataMerticCount === "number" &&
                         noDataMerticCount > 1 &&
