@@ -50,7 +50,7 @@ export type TriggerState = {|
 |};
 
 const TriggerDataSources = {
-    REDIS: "REDIS",
+    LOCAL: "LOCAL",
     GRAPHITE: "GRAPHITE",
 };
 
