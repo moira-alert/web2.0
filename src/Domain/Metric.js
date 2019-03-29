@@ -9,7 +9,7 @@ export type Metric = {|
     value?: number,
     maintenance?: number,
     maintenance_info?: {
-        author_name: ?string,
+        setup_user: ?string,
         setup_time: ?number,
     },
 |};

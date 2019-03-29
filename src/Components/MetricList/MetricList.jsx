@@ -140,14 +140,14 @@ export default function MetricList(props: Props): React.Node {
                             </div>
                             <div className={cn("author")}>
                                 {maintenanceInfo &&
-                                    maintenanceInfo.author_name &&
+                                    maintenanceInfo.setup_user &&
                                     maintenanceInfo.setup_time && (
                                         <Tooltip
                                             render={() => (
                                                 <div>
                                                     Maintenance was set
                                                     <br />
-                                                    by {maintenanceInfo.author_name}
+                                                    by {maintenanceInfo.setup_user}
                                                     <br />
                                                     at{" "}
                                                     {moment
@@ -156,7 +156,7 @@ export default function MetricList(props: Props): React.Node {
                                                 </div>
                                             )}
                                         >
-                                            <UserIcon />
+                                            <UserIcon className={cn("maintenance-info")} />
                                         </Tooltip>
                                     )}
                             </div>

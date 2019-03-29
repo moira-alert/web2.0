@@ -15,7 +15,7 @@ const items = {
         timestamp: 1503496225,
         maintenance: 1555804800,
         maintenance_info: {
-            author_name: "Superman",
+            setup_user: "Superman",
             setup_time: 1553158221,
         },
     },
@@ -34,7 +34,7 @@ const items = {
         value: 109389189,
         maintenance: 1504118563,
         maintenance_info: {
-            author_name: null,
+            setup_user: null,
             setup_time: null,
         },
     },
@@ -44,7 +44,7 @@ const items = {
         suppressed: false,
         timestamp: 1503496225,
         maintenance_info: {
-            author_name: null,
+            setup_user: null,
             setup_time: null,
         },
     },

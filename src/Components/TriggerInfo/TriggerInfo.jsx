@@ -137,14 +137,14 @@ export default function TriggerInfo({
                     </span>
                     <span>
                         {maintenanceInfo &&
-                            maintenanceInfo.author_name &&
+                            maintenanceInfo.setup_user &&
                             maintenanceInfo.setup_time && (
                                 <Tooltip
                                     render={() => (
                                         <div>
                                             Maintenance was set
                                             <br />
-                                            by {maintenanceInfo.author_name}
+                                            by {maintenanceInfo.setup_user}
                                             <br />
                                             at{" "}
                                             {moment

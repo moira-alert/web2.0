@@ -129,7 +129,7 @@ const stories = [
             ...triggerState,
             maintenance: Date.now() / 1000 + 3600,
             maintenance_info: {
-                author_name: "Batman",
+                setup_user: "Batman",
                 setup_time: 1553158221,
             },
         },

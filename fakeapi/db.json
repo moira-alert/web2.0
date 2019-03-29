@@ -2620,7 +2620,7 @@
                 "value": 82.47,
                 "maintenance": 1555804800,
                 "maintenance_info": {
-                    "author_name": "Superman",
+                    "setup_user": "Superman",
                     "setup_time": 1553158221
                 }
             },
@@ -2631,7 +2631,7 @@
                 "timestamp": 1504516241,
                 "value": 96.39,
                 "maintenance_info": {
-                    "author_name": null,
+                    "setup_user": null,
                     "setup_time": null
                 }
             },
@@ -2642,7 +2642,7 @@
                 "timestamp": 1504516241,
                 "value": 93.18,
                 "maintenance_info": {
-                    "author_name": null,
+                    "setup_user": null,
                     "setup_time": null
                 }
             },
@@ -2653,7 +2653,7 @@
                 "timestamp": 1504516241,
                 "value": 89.53,
                 "maintenance_info": {
-                    "author_name": null,
+                    "setup_user": null,
                     "setup_time": null
                 }
             },
@@ -2664,7 +2664,7 @@
                 "timestamp": 1504516241,
                 "value": 10.29,
                 "maintenance_info": {
-                    "author_name": null,
+                    "setup_user": null,
                     "setup_time": null
                 }
             },
@@ -2675,7 +2675,7 @@
                 "timestamp": 1504516241,
                 "value": 12.33,
                 "maintenance_info": {
-                    "author_name": null,
+                    "setup_user": null,
                     "setup_time": null
                 }
             },
@@ -2686,7 +2686,7 @@
                 "timestamp": 1504516241,
                 "value": 24.36,
                 "maintenance_info": {
-                    "author_name": null,
+                    "setup_user": null,
                     "setup_time": null
                 }
             }
@@ -2697,7 +2697,7 @@
         "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
         "maintenance": 1655804800,
         "maintenance_info": {
-            "author_name": "Batman",
+            "setup_user": "Batman",
             "setup_time": 1653158221
         }
     },
