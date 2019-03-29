@@ -32,9 +32,12 @@ type Props = {|
     onNoDataRemove?: () => void,
 |};
 
-function checkMaintenance(maintenance: ?number): React.Node {
-    const delta = (maintenance || 0) - moment.utc().unix();
+function maintenanceCaption(delta: number): React.Node {
     return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+}
+
+function maintenanceDelta(maintenance: ?number): React.Node {
+    return (maintenance || 0) - moment.utc().unix();
 }
 
 export default function MetricList(props: Props): React.Node {
@@ -117,6 +120,7 @@ export default function MetricList(props: Props): React.Node {
                         maintenance,
                         maintenance_info: maintenanceInfo,
                     } = items[metric];
+                    const delta = maintenanceDelta(maintenance);
                     return (
                         <div key={metric} className={cn("row")}>
                             {status && (
@@ -130,7 +134,7 @@ export default function MetricList(props: Props): React.Node {
                             </div>
                             <div className={cn("value")}>{roundValue(value)}</div>
                             <div className={cn("maintenance")}>
-                                <Dropdown use="link" caption={checkMaintenance(maintenance)}>
+                                <Dropdown use="link" caption={maintenanceCaption(delta)}>
                                     {Object.keys(Maintenances).map(key => (
                                         <MenuItem key={key} onClick={() => onChange(metric, key)}>
                                             {getMaintenanceCaption(key)}
@@ -139,7 +143,8 @@ export default function MetricList(props: Props): React.Node {
                                 </Dropdown>
                             </div>
                             <div className={cn("author")}>
-                                {maintenanceInfo &&
+                                {delta > 0 &&
+                                    maintenanceInfo &&
                                     maintenanceInfo.setup_user &&
                                     maintenanceInfo.setup_time && (
                                         <Tooltip

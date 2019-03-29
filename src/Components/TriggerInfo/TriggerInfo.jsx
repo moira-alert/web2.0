@@ -34,8 +34,11 @@ type Props = {|
     onSetMaintenance: (maintenance: Maintenance) => void,
 |};
 
-function checkMaintenance(maintenance: ?number): React.Node {
-    const delta = (maintenance || 0) - moment.utc().unix();
+function maintenanceDelta(maintenance: ?number): React.Node {
+    return (maintenance || 0) - moment.utc().unix();
+}
+
+function maintenanceCaption(delta: number): React.Node {
     return (
         <span>
             <ClockIcon />
@@ -96,6 +99,7 @@ export default function TriggerInfo({
 
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
+    const delta = maintenanceDelta(maintenance);
 
     return (
         <section>
@@ -127,7 +131,7 @@ export default function TriggerInfo({
                         </RouterLink>
                     </span>
                     <span className={cn("control")}>
-                        <Dropdown use="link" caption={checkMaintenance(maintenance)}>
+                        <Dropdown use="link" caption={maintenanceCaption(delta)}>
                             {Object.keys(Maintenances).map(key => (
                                 <MenuItem key={key} onClick={() => onSetMaintenance(key)}>
                                     {getMaintenanceCaption(key)}
@@ -136,7 +140,8 @@ export default function TriggerInfo({
                         </Dropdown>
                     </span>
                     <span>
-                        {maintenanceInfo &&
+                        {delta > 0 &&
+                            maintenanceInfo &&
                             maintenanceInfo.setup_user &&
                             maintenanceInfo.setup_time && (
                                 <Tooltip
