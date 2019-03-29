@@ -115,12 +115,10 @@ export default class MoiraApi implements IMoiraApi {
                 throw new ApiError({ message: errorText, status: response.status });
             }
             throw new ApiError({
-                message:
-                    serverResponse != null
-                        ? `${serverResponse.status}${
-                              serverResponse.error != null ? ` : ${serverResponse.error}` : ""
-                          }`
-                        : errorText,
+                message: serverResponse
+                    ? serverResponse.status +
+                      (serverResponse.error ? `: ${serverResponse.error}` : "")
+                    : errorText,
                 status: response.status,
             });
         }
