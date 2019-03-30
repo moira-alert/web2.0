@@ -38,7 +38,7 @@ class TriggerDesktop extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            sortingColumn: "value",
+            sortingColumn: "state",
             sortingDown: false,
         };
     }
