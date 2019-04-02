@@ -32,9 +32,12 @@ type Props = {|
     onNoDataRemove?: () => void,
 |};
 
-function checkMaintenance(maintenance: ?number): React.Node {
-    const delta = (maintenance || 0) - moment.utc().unix();
+function maintenanceCaption(delta: number): React.Node {
     return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+}
+
+function maintenanceDelta(maintenance: ?number): React.Node {
+    return (maintenance || 0) - moment.utc().unix();
 }
 
 export default function MetricList(props: Props): React.Node {
@@ -93,6 +96,7 @@ export default function MetricList(props: Props): React.Node {
                     </button>
                 </div>
                 <div className={cn("maintenance")} />
+                <div className={cn("author")} />
                 <div className={cn("delete")}>
                     {typeof noDataMerticCount === "number" &&
                         noDataMerticCount > 1 &&
@@ -116,6 +120,7 @@ export default function MetricList(props: Props): React.Node {
                         maintenance,
                         maintenance_info: maintenanceInfo,
                     } = items[metric];
+                    const delta = maintenanceDelta(maintenance);
                     return (
                         <div key={metric} className={cn("row")}>
                             {status && (
@@ -129,7 +134,7 @@ export default function MetricList(props: Props): React.Node {
                             </div>
                             <div className={cn("value")}>{roundValue(value)}</div>
                             <div className={cn("maintenance")}>
-                                <Dropdown use="link" caption={checkMaintenance(maintenance)}>
+                                <Dropdown use="link" caption={maintenanceCaption(delta)}>
                                     {Object.keys(Maintenances).map(key => (
                                         <MenuItem key={key} onClick={() => onChange(metric, key)}>
                                             {getMaintenanceCaption(key)}
@@ -138,24 +143,27 @@ export default function MetricList(props: Props): React.Node {
                                 </Dropdown>
                             </div>
                             <div className={cn("author")}>
-                                {maintenanceInfo.author_name && maintenanceInfo.setup_time && (
-                                    <Tooltip
-                                        render={() => (
-                                            <div>
-                                                Maintenance was set
-                                                <br />
-                                                by {maintenanceInfo.author_name}
-                                                <br />
-                                                at{" "}
-                                                {moment
-                                                    .unix(maintenanceInfo.setup_time)
-                                                    .format("MMMM D, HH:mm:ss")}
-                                            </div>
-                                        )}
-                                    >
-                                        <UserIcon />
-                                    </Tooltip>
-                                )}
+                                {delta > 0 &&
+                                    maintenanceInfo &&
+                                    maintenanceInfo.setup_user &&
+                                    maintenanceInfo.setup_time && (
+                                        <Tooltip
+                                            render={() => (
+                                                <div>
+                                                    Maintenance was set
+                                                    <br />
+                                                    by {maintenanceInfo.setup_user}
+                                                    <br />
+                                                    at{" "}
+                                                    {moment
+                                                        .unix(maintenanceInfo.setup_time)
+                                                        .format("MMMM D, HH:mm:ss")}
+                                                </div>
+                                            )}
+                                        >
+                                            <UserIcon className={cn("maintenance-info")} />
+                                        </Tooltip>
+                                    )}
                             </div>
                             <div className={cn("delete")}>
                                 <Button
