@@ -3,6 +3,7 @@ import * as React from "react";
 import moment from "moment";
 import queryString from "query-string";
 import type { ContextRouter } from "react-router-dom";
+import isEqual from "lodash/isEqual";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
 import type { IMoiraApi } from "../../Api/MoiraApi";
@@ -10,7 +11,6 @@ import type { Maintenance } from "../../Domain/Maintenance";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
-import isEqual from "lodash/isEqual";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 
