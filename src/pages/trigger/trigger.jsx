@@ -10,6 +10,7 @@ import type { Maintenance } from "../../Domain/Maintenance";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { getMaintenanceTime } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
+import isEqual from "lodash/isEqual";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 
@@ -39,8 +40,11 @@ class TriggerPage extends React.Component<Props, State> {
         this.loadData();
     }
 
-    componentDidUpdate() {
-        // ToDo определиться, как понять, что нужно обновить данные
+    componentDidUpdate({ location: prevLocation }) {
+        const { location: currentLocation } = this.props;
+        if (!isEqual(prevLocation, currentLocation)) {
+            this.loadData();
+        }
     }
 
     static parseLocationSearch(search: string): MoiraUrlParams {
