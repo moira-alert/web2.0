@@ -52,8 +52,8 @@ class TriggerListPage extends React.Component<Props, State> {
     }
 
     componentDidUpdate({ location: prevLocation }) {
-        const { location: curentLocation } = this.props;
-        if (!isEqual(prevLocation, curentLocation)) {
+        const { location: currentLocation } = this.props;
+        if (!isEqual(prevLocation, currentLocation)) {
             this.loadData();
         }
     }
@@ -106,21 +106,15 @@ class TriggerListPage extends React.Component<Props, State> {
     async loadData() {
         const { location, moiraApi } = this.props;
         const locationSearch = TriggerListPage.parseLocationSearch(location.search);
-        let tags;
+        const redirected = this.loadLocalSettingsAndRedirectIfNeed(
+            locationSearch.tags,
+            locationSearch.onlyProblems
+        );
 
-        try {
-            tags = await moiraApi.getTagList();
-        } catch (error) {
-            // ToDo
-        }
+        if (redirected) return;
 
-        const validSelectedTags = intersection(locationSearch.tags, tags.list);
-
-        // ToDo объяснить условие
-        if (locationSearch.tags.length > validSelectedTags.length) {
-            this.changeLocationSearch({ tags: validSelectedTags });
-            return;
-        }
+        const tags = await this.loadTags();
+        if (this.compareTagsAndRedirectIfHasUnknownTags(locationSearch.tags, tags.list)) return;
 
         // ToDo написать проверку на превышение страниц
 
@@ -152,18 +146,57 @@ class TriggerListPage extends React.Component<Props, State> {
         }
     }
 
+    async loadTags() {
+        const { moiraApi } = this.props;
+        try {
+            return await moiraApi.getTagList();
+        } catch (error) {
+            // TODO
+            return {
+                list: [],
+            };
+        }
+    }
+
+    loadLocalSettingsAndRedirectIfNeed(tags: string, onlyProblems: boolean) {
+        const localDataString = localStorage.getItem("moiraSettings");
+        const { tags: localTags, onlyProblems: localOnlyProblems } =
+            typeof localDataString === "string" ? JSON.parse(localDataString) : {};
+
+        let searchToUpdate = null;
+        if (tags.length === 0 && localTags && localTags.length) {
+            searchToUpdate = { ...(searchToUpdate || {}), tags: localTags };
+        }
+        if (!onlyProblems && localOnlyProblems) {
+            searchToUpdate = { ...(searchToUpdate || {}), onlyProblems: localOnlyProblems };
+        }
+        if (searchToUpdate != null) {
+            this.changeLocationSearch(searchToUpdate);
+            return true;
+        }
+        return false;
+    }
+
+    compareTagsAndRedirectIfHasUnknownTags(parsedTags: string[], moiraTags: string[]) {
+        const validSelectedTags = intersection(parsedTags, moiraTags);
+        if (parsedTags.length > validSelectedTags.length) {
+            this.changeLocationSearch({ tags: validSelectedTags });
+            return true;
+        }
+        return false;
+    }
+
     changeLocationSearch = update => {
         const { history, location } = this.props;
         const locationSearch = TriggerListPage.parseLocationSearch(location.search);
+        const settings = { ...locationSearch, ...update };
+        localStorage.setItem("moiraSettings", JSON.stringify({ ...settings, searchText: "" }));
 
         history.push(
-            `?${queryString.stringify(
-                { ...locationSearch, ...update },
-                {
-                    arrayFormat: "index",
-                    encode: true,
-                }
-            )}`
+            `?${queryString.stringify(settings, {
+                arrayFormat: "index",
+                encode: true,
+            })}`
         );
     };
 }

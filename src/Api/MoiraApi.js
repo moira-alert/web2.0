@@ -294,7 +294,7 @@ export default class MoiraApi implements IMoiraApi {
                 size: this.triggerListPageSize,
                 tags,
                 onlyProblems,
-                searchText,
+                text: searchText,
             },
             { arrayFormat: "index", encode: true }
         )}`;

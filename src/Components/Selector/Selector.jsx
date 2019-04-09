@@ -82,6 +82,7 @@ class Selector extends React.Component<Props, State> {
                             id="selector"
                             type="text"
                             value={search}
+                            autoComplete="off"
                             ref={this.searchInputRef}
                             onChange={this.handleInputChange}
                             onKeyDown={this.handleInputKeyDown}
