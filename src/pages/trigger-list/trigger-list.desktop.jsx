@@ -22,10 +22,12 @@ class TriggerListDesktop extends React.Component {
             pageCount,
             onChange,
             searchText,
+            loading,
+            error,
         } = this.props;
 
         return (
-            <Layout>
+            <Layout loading={loading} error={error}>
                 <LayoutPlate>
                     <RowStack verticalAlign="baseline" block gap={3}>
                         <Fill>

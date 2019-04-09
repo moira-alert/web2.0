@@ -26,6 +26,7 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 
 type State = {
     loading: boolean,
+    error: ?string,
     subscribedTags: string[],
     allTags: string[],
     triggers: ?TriggerList,
@@ -36,6 +37,7 @@ type State = {
 class TriggerListPage extends React.Component<Props, State> {
     state: State = {
         loading: true,
+        error: null,
         subscribedTags: [],
         allTags: [],
         triggers: [],
@@ -76,6 +78,7 @@ class TriggerListPage extends React.Component<Props, State> {
 
         const {
             loading,
+            error,
             subscribedTags,
             allTags,
             triggers,
@@ -85,9 +88,7 @@ class TriggerListPage extends React.Component<Props, State> {
         } = this.state;
         const { view: TriggerListView } = this.props;
 
-        return loading ? (
-            <div>Loading...</div>
-        ) : (
+        return (
             <TriggerListView
                 searchText={searchText}
                 selectedTags={tags}
@@ -97,6 +98,8 @@ class TriggerListPage extends React.Component<Props, State> {
                 triggers={triggers}
                 activePage={activePage}
                 pageCount={pageCount}
+                loading={loading}
+                error={error}
                 onChange={this.changeLocationSearch}
             />
         );
@@ -113,12 +116,10 @@ class TriggerListPage extends React.Component<Props, State> {
         if (redirected) return;
 
         try {
-            const programmerPage = transformPageFromHumanToProgrammer(locationSearch.page);
-
             const [settings, triggers, tags] = await Promise.all([
                 moiraApi.getSettings(),
                 moiraApi.getTriggerList(
-                    programmerPage,
+                    transformPageFromHumanToProgrammer(locationSearch.page),
                     locationSearch.onlyProblems,
                     locationSearch.tags,
                     locationSearch.searchText
@@ -139,8 +140,7 @@ class TriggerListPage extends React.Component<Props, State> {
                 loading: false,
             });
         } catch (error) {
-            this.setState({ loading: false });
-            // ToDo обработать ошибку
+            this.setState({ loading: false, error: error.message });
         }
     }
 
