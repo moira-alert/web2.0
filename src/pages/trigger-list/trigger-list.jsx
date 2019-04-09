@@ -73,12 +73,14 @@ class TriggerListPage extends React.Component<Props, State> {
     }
 
     render() {
+        const { location } = this.props;
+        const locationSearch = TriggerListPage.parseLocationSearch(location.search);
+        const { onlyProblems, tags } = locationSearch;
+
         const {
             loading,
-            selectedTags,
             subscribedTags,
             allTags,
-            onlyProblems,
             triggers,
             activePage,
             pageCount,
@@ -91,7 +93,7 @@ class TriggerListPage extends React.Component<Props, State> {
         ) : (
             <TriggerListView
                 searchText={searchText}
-                selectedTags={selectedTags}
+                selectedTags={tags}
                 subscribedTags={subscribedTags}
                 allTags={allTags}
                 onlyProblems={onlyProblems}
