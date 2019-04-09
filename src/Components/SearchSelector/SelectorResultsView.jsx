@@ -20,8 +20,8 @@ function SelectorResultsView({
             ) : (
                 <React.Fragment>
                     <p className={cn("help-search")}>
-                        Press <span className={cn("keyboard-key")}>Enter</span> for full text search or select
-                        a tag from list with mouse click
+                        Press <span className={cn("keyboard-key")}>Enter</span> for full text search
+                        or select a tag from list with mouse click
                     </p>
                     <ul className={cn("token-list")}>
                         {tokens.map(token => (
