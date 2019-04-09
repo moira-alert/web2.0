@@ -144,9 +144,8 @@ class SearchSelector extends React.Component<Props, State> {
 
     handleTokenSelect = (token: string) => {
         const { selectedTokens, onChange } = this.props;
-        const { clearedSearchValue } = this.state;
 
-        onChange([...selectedTokens, token], clearedSearchValue);
+        onChange([...selectedTokens, token], "");
 
         this.setState({
             searchText: "",
