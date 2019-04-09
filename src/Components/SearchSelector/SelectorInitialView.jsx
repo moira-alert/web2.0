@@ -14,7 +14,7 @@ function SelectorInitialView({
         <React.Fragment>
             <p className={cn("help-search")}>
                 Input query then press <span className={cn("keyboard-key")}>Enter</span> for full
-                text search or select tag from list by mouse click
+                text search or select tag from list with mouse click
             </p>
             {tokens.length > 0 && (
                 <React.Fragment>
