@@ -51,7 +51,7 @@ type Props = {|
     selectedTokens: string[],
     subscribedTokens: string[],
     remainingTokens: string[],
-    onChange: (string[]) => void,
+    onChange: (tags: string[], searchString: string) => void,
     onSearch: string => void,
 |};
 
@@ -123,11 +123,12 @@ class SearchSelector extends React.Component<Props, State> {
     }
 
     onRemoveLastToken = () => {
-        const { selectedTokens } = this.props;
+        const { selectedTokens, onChange } = this.props;
 
         if (!selectedTokens.length) return;
+        const index = selectedTokens.length - 1;
 
-        this.removeTokenByIndex(selectedTokens.length - 1);
+        onChange([...selectedTokens.slice(0, index), ...selectedTokens.slice(index + 1)], "");
     };
 
     handleInputChange = (value: string) => {
@@ -143,8 +144,9 @@ class SearchSelector extends React.Component<Props, State> {
 
     handleTokenSelect = (token: string) => {
         const { selectedTokens, onChange } = this.props;
+        const { clearedSearchValue } = this.state;
 
-        onChange([...selectedTokens, token]);
+        onChange([...selectedTokens, token], clearedSearchValue);
 
         this.setState({
             searchText: "",
@@ -153,20 +155,16 @@ class SearchSelector extends React.Component<Props, State> {
     };
 
     handleTokenRemove = (token: string) => {
-        const { selectedTokens } = this.props;
+        const { selectedTokens, onChange } = this.props;
+        const { clearedSearchValue } = this.state;
 
         const index = selectedTokens.indexOf(token);
-        this.removeTokenByIndex(index);
-    };
+        if (index === -1) return;
 
-    removeTokenByIndex = (tokenIndex: int) => {
-        const { selectedTokens, onChange } = this.props;
-
-        if (tokenIndex === -1) {
-            return;
-        }
-
-        onChange([...selectedTokens.slice(0, tokenIndex), ...selectedTokens.slice(tokenIndex + 1)]);
+        onChange(
+            [...selectedTokens.slice(0, index), ...selectedTokens.slice(index + 1)],
+            clearedSearchValue
+        );
     };
 
     renderToken = token => (

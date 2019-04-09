@@ -34,7 +34,7 @@ class TriggerListDesktop extends React.Component {
                                 selectedTokens={selectedTags}
                                 subscribedTokens={difference(subscribedTags, selectedTags)}
                                 remainingTokens={difference(allTags, selectedTags)}
-                                onChange={this.handleChangeTags}
+                                onChange={this.handleChange}
                                 onSearch={this.handleSearch}
                             />
                         </Fill>
@@ -73,9 +73,9 @@ class TriggerListDesktop extends React.Component {
         );
     }
 
-    handleChangeTags = tags => {
+    handleChange = (tags, searchText) => {
         const { onChange } = this.props;
-        onChange({ tags });
+        onChange({ tags, searchText });
     };
 
     handleSearch = searchText => {
