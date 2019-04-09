@@ -235,7 +235,7 @@
     },
     "triggers": {
         "page": 0,
-        "size": 5,
+        "size": 20,
         "total": 5,
         "list": [
             {

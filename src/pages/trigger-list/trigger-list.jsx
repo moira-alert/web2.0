@@ -6,6 +6,7 @@ import uniq from "lodash/uniq";
 import intersection from "lodash/intersection";
 import queryString from "query-string";
 import type { ContextRouter } from "react-router-dom";
+import type { TriggerList } from "../../Domain/Trigger";
 import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import type { IMoiraApi } from "../../Api/MoiraApi";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
@@ -111,21 +112,22 @@ class TriggerListPage extends React.Component<Props, State> {
 
         if (redirected) return;
 
-        const tags = await this.loadTags();
-        if (this.compareTagsAndRedirectIfHasUnknownTags(locationSearch.tags, tags.list)) return;
-
-        // ToDo написать проверку на превышение страниц
-
         try {
-            const [settings, triggers] = await Promise.all([
+            const programmerPage = transformPageFromHumanToProgrammer(locationSearch.page);
+
+            const [settings, triggers, tags] = await Promise.all([
                 moiraApi.getSettings(),
                 moiraApi.getTriggerList(
-                    transformPageFromHumanToProgrammer(locationSearch.page),
+                    programmerPage,
                     locationSearch.onlyProblems,
                     locationSearch.tags,
                     locationSearch.searchText
                 ),
+                moiraApi.getTagList(),
             ]);
+
+            if (this.compareTagsAndRedirectIfHasUnknownTags(locationSearch.tags, tags.list)) return;
+            if (this.checkPageAndRedirectIfNeed(triggers, locationSearch.page)) return;
 
             this.setState({
                 subscribedTags: uniq(flattenDeep(settings.subscriptions.map(item => item.tags))),
@@ -142,16 +144,14 @@ class TriggerListPage extends React.Component<Props, State> {
         }
     }
 
-    async loadTags() {
-        const { moiraApi } = this.props;
-        try {
-            return await moiraApi.getTagList();
-        } catch (error) {
-            // TODO
-            return {
-                list: [],
-            };
+    checkPageAndRedirectIfNeed(triggers: TriggerList, page: int) {
+        const pages = Math.ceil(triggers.total / triggers.size);
+        if (page > pages && triggers.total !== 0) {
+            const rightLastPage = pages || 1;
+            this.changeLocationSearch({ page: rightLastPage });
+            return true;
         }
+        return false;
     }
 
     loadLocalSettingsAndRedirectIfNeed(tags: string, onlyProblems: boolean) {
