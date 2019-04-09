@@ -37,6 +37,7 @@ type Props = {|
     renderToken: (value: string) => React.Node,
     children: React.Node,
     onEnterKeyDown: () => void,
+    onBackspaceKeyDown: () => void,
     onInputChange: (value: string) => void,
 |};
 
@@ -105,15 +106,16 @@ class Selector extends React.Component<Props, State> {
     };
 
     handleInputKeyDown = evt => {
-        if (evt.key !== "Enter") {
-            return;
+        const { search } = this.props;
+        if (evt.key === "Enter") {
+            const { onEnterKeyDown } = this.props;
+            onEnterKeyDown();
+            this.closeDropdown();
         }
-
-        const { onEnterKeyDown } = this.props;
-
-        onEnterKeyDown();
-
-        this.closeDropdown();
+        if (evt.key === "Backspace" && !search.length) {
+            const { onBackspaceKeyDown } = this.props;
+            onBackspaceKeyDown();
+        }
     };
 
     openDropdown = () => {

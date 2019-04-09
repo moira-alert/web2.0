@@ -102,6 +102,7 @@ class SearchSelector extends React.Component<Props, State> {
                 tokens={selectedTokens}
                 renderToken={this.renderToken}
                 onEnterKeyDown={this.handleEnterKeyDown}
+                onBackspaceKeyDown={this.onRemoveLastToken}
                 onInputChange={this.handleInputChange}
             >
                 <div className={cn("container")}>
@@ -120,6 +121,14 @@ class SearchSelector extends React.Component<Props, State> {
             </Selector>
         );
     }
+
+    onRemoveLastToken = () => {
+        const { selectedTokens } = this.props;
+
+        if (!selectedTokens.length) return;
+
+        this.removeTokenByIndex(selectedTokens.length - 1);
+    };
 
     handleInputChange = (value: string) => {
         this.setState({ clearedSearchValue: clearInput(value), searchText: value });
@@ -144,15 +153,20 @@ class SearchSelector extends React.Component<Props, State> {
     };
 
     handleTokenRemove = (token: string) => {
-        const { selectedTokens, onChange } = this.props;
+        const { selectedTokens } = this.props;
 
         const index = selectedTokens.indexOf(token);
+        this.removeTokenByIndex(index);
+    };
 
-        if (index === -1) {
+    removeTokenByIndex = (tokenIndex: int) => {
+        const { selectedTokens, onChange } = this.props;
+
+        if (tokenIndex === -1) {
             return;
         }
 
-        onChange([...selectedTokens.slice(0, index), ...selectedTokens.slice(index + 1)]);
+        onChange([...selectedTokens.slice(0, tokenIndex), ...selectedTokens.slice(tokenIndex + 1)]);
     };
 
     renderToken = token => (
