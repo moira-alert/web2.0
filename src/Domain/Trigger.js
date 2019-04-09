@@ -41,6 +41,10 @@ export type TriggerList = {|
 
 export type TriggerState = {|
     maintenance: ?number,
+    maintenanceInfo?: {
+        setup_user: ?string,
+        setup_time: ?number,
+    },
     metrics: MetricList,
     timestamp: number,
     state: Status,
@@ -50,7 +54,7 @@ export type TriggerState = {|
 |};
 
 const TriggerDataSources = {
-    REDIS: "REDIS",
+    LOCAL: "LOCAL",
     GRAPHITE: "GRAPHITE",
 };
 

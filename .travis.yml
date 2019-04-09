@@ -56,12 +56,6 @@ deploy:
       branch: develop
   - provider: script
     script:
-      - make docker_latest_image
-    skip_cleanup: true
-    on:
-      branch: master
-  - provider: script
-    script:
       - make docker_release_image
     skip_cleanup: true
     on:

@@ -59,20 +59,19 @@
     box-sizing: border-box;
 }
 
-.controls {
-    display: flex;
-    align-items: baseline;
-    justify-content: flex-end;
+.author {
     flex-shrink: 0;
-    width: 270px;
+    width: 20px;
 }
 
-.delete-all {
-    height: 20px;
+.maintenance {
+    flex-shrink: 0;
+    width: 120px;
+    text-align: right;
 }
 
-.delete-all,
-.delete-metric {
+.delete {
+    flex-shrink: 0;
     width: 134px;
 }
 
@@ -86,6 +85,10 @@
     font-style: italic;
     -webkit-appearance: none;
     appearance: none;
+}
+
+.maintenance-info {
+    color: @linkColor
 }
 
 .sorting {

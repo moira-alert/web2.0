@@ -73,7 +73,11 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                 offsetY={1}
                             >
                                 <ScrollContainer maxHeight={300}>
-                                    <div className={cn("tags-menu")} ref={this.tagsRef}>
+                                    <div
+                                        className={cn("tags-menu")}
+                                        style={{ width }}
+                                        ref={this.tagsRef}
+                                    >
                                         {filtredTags.length > 0 || allowCreateNewTags ? (
                                             <div className={cn("tag-list")}>
                                                 {filtredTags.map((tag, i) => (

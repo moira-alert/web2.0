@@ -270,14 +270,14 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <RadioGroup
                             name="data-source"
                             defaultValue={
-                                !isRemote ? TriggerDataSources.REDIS : TriggerDataSources.GRAPHITE
+                                !isRemote ? TriggerDataSources.LOCAL : TriggerDataSources.GRAPHITE
                             }
                             onChange={(evt, value) =>
-                                onChange({ is_remote: value !== TriggerDataSources.REDIS })
+                                onChange({ is_remote: value !== TriggerDataSources.LOCAL })
                             }
                         >
                             <Gapped vertical gap={10}>
-                                <Radio value={TriggerDataSources.REDIS}>Redis (default)</Radio>
+                                <Radio value={TriggerDataSources.LOCAL}>Local (default)</Radio>
                                 <Radio value={TriggerDataSources.GRAPHITE}>
                                     Graphite. Be careful, it may cause{" "}
                                     <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">

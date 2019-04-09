@@ -8,6 +8,10 @@ export type Metric = {|
     event_timestamp?: number,
     value?: number,
     maintenance?: number,
+    maintenance_info?: {
+        setup_user: ?string,
+        setup_time: ?number,
+    },
 |};
 
 export type MetricList = {

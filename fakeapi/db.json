@@ -2640,55 +2640,89 @@
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 82.47
+                "value": 82.47,
+                "maintenance": 1555804800,
+                "maintenance_info": {
+                    "setup_user": "Superman",
+                    "setup_time": 1553158221
+                }
             },
             "vm-elk-l1": {
                 "event_timestamp": 1503992686,
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 96.39
+                "value": 96.39,
+                "maintenance_info": {
+                    "setup_user": null,
+                    "setup_time": null
+                }
             },
             "vm-elk-r1": {
                 "event_timestamp": 1503992698,
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 93.18
+                "value": 93.18,
+                "maintenance_info": {
+                    "setup_user": null,
+                    "setup_time": null
+                }
             },
             "vm-elk-r2": {
                 "event_timestamp": 1503992299,
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 89.53
+                "value": 89.53,
+                "maintenance_info": {
+                    "setup_user": null,
+                    "setup_time": null
+                }
             },
             "vm-elk-s1": {
                 "event_timestamp": 1504407083,
                 "state": "WARN",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 10.29
+                "value": 10.29,
+                "maintenance_info": {
+                    "setup_user": null,
+                    "setup_time": null
+                }
             },
             "vm-elk-s2": {
                 "event_timestamp": 1504390505,
                 "state": "WARN",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 12.33
+                "value": 12.33,
+                "maintenance_info": {
+                    "setup_user": null,
+                    "setup_time": null
+                }
             },
             "vm-elk-s3": {
                 "event_timestamp": 1503992825,
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 24.36
+                "value": 24.36,
+                "maintenance_info": {
+                    "setup_user": null,
+                    "setup_time": null
+                }
             }
         },
         "score": 2,
         "state": "OK",
         "timestamp": 1504516361,
-        "trigger_id": "69b1-91c1-423f-ab3b-d1a8"
+        "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
+        "maintenance": 1655804800,
+        "maintenance_info": {
+            "setup_user": "Batman",
+            "setup_time": 1653158221
+        }
     },
     "event": {
         "page": 0,

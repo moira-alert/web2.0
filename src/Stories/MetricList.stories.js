@@ -13,6 +13,11 @@ const items = {
         suppressed: false,
         value: 10.453,
         timestamp: 1503496225,
+        maintenance: 1555804800,
+        maintenance_info: {
+            setup_user: "Superman",
+            setup_time: 1553158221,
+        },
     },
     "vm-ditrace3.ditrace": {
         event_timestamp: 1503486527,
@@ -28,12 +33,20 @@ const items = {
         timestamp: 1503496225,
         value: 109389189,
         maintenance: 1504118563,
+        maintenance_info: {
+            setup_user: null,
+            setup_time: null,
+        },
     },
     "vm-ditrace3.nginx": {
         event_timestamp: 1503484033,
         state: "OK",
         suppressed: false,
         timestamp: 1503496225,
+        maintenance_info: {
+            setup_user: null,
+            setup_time: null,
+        },
     },
 };
 

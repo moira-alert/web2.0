@@ -12,6 +12,8 @@ import ClearIcon from "@skbkontur/react-icons/Clear";
 import DocumentCopyIcon from "@skbkontur/react-icons/DocumentCopy";
 import Dropdown from "retail-ui/components/Dropdown";
 import MenuItem from "retail-ui/components/MenuItem";
+import UserIcon from "@skbkontur/react-icons/User";
+import Tooltip from "retail-ui/components/Tooltip";
 import TagGroup from "../TagGroup/TagGroup";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Schedule } from "../../Domain/Schedule";
@@ -32,8 +34,11 @@ type Props = {|
     onSetMaintenance: (maintenance: Maintenance) => void,
 |};
 
-function checkMaintenance(maintenance: ?number): React.Node {
-    const delta = (maintenance || 0) - moment.utc().unix();
+function maintenanceDelta(maintenance: ?number): React.Node {
+    return (maintenance || 0) - moment.utc().unix();
+}
+
+function maintenanceCaption(delta: number): React.Node {
     return (
         <span>
             <ClockIcon />
@@ -85,10 +90,16 @@ export default function TriggerInfo({
         throttling,
         is_remote: isRemote,
     } = data;
-    const { state, msg: exceptionMessage, maintenance } = triggerState;
+    const {
+        state,
+        msg: exceptionMessage,
+        maintenance,
+        maintenance_info: maintenanceInfo,
+    } = triggerState;
 
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
+    const delta = maintenanceDelta(maintenance);
 
     return (
         <section>
@@ -120,13 +131,36 @@ export default function TriggerInfo({
                         </RouterLink>
                     </span>
                     <span className={cn("control")}>
-                        <Dropdown use="link" caption={checkMaintenance(maintenance)}>
+                        <Dropdown use="link" caption={maintenanceCaption(delta)}>
                             {Object.keys(Maintenances).map(key => (
                                 <MenuItem key={key} onClick={() => onSetMaintenance(key)}>
                                     {getMaintenanceCaption(key)}
                                 </MenuItem>
                             ))}
                         </Dropdown>
+                    </span>
+                    <span>
+                        {delta > 0 &&
+                            maintenanceInfo &&
+                            maintenanceInfo.setup_user &&
+                            maintenanceInfo.setup_time && (
+                                <Tooltip
+                                    render={() => (
+                                        <div>
+                                            Maintenance was set
+                                            <br />
+                                            by {maintenanceInfo.setup_user}
+                                            <br />
+                                            at{" "}
+                                            {moment
+                                                .unix(maintenanceInfo.setup_time)
+                                                .format("MMMM D, HH:mm:ss")}
+                                        </div>
+                                    )}
+                                >
+                                    <UserIcon className={cn("maintenance-info")} />
+                                </Tooltip>
+                            )}
                     </span>
                 </div>
             </header>
