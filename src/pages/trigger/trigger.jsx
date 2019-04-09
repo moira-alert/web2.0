@@ -3,6 +3,7 @@ import * as React from "react";
 import moment from "moment";
 import queryString from "query-string";
 import type { ContextRouter } from "react-router-dom";
+import isEqual from "lodash/isEqual";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
 import type { IMoiraApi } from "../../Api/MoiraApi";
@@ -39,8 +40,11 @@ class TriggerPage extends React.Component<Props, State> {
         this.loadData();
     }
 
-    componentDidUpdate() {
-        // ToDo определиться, как понять, что нужно обновить данные
+    componentDidUpdate({ location: prevLocation }) {
+        const { location: currentLocation } = this.props;
+        if (!isEqual(prevLocation, currentLocation)) {
+            this.loadData();
+        }
     }
 
     static parseLocationSearch(search: string): MoiraUrlParams {
