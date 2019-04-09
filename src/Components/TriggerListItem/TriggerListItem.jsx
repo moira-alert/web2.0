@@ -102,7 +102,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     <div
                                         className={cn("name")}
                                         dangerouslySetInnerHTML={{
-                                            __html: highlights.name,
+                                            __html: highlights.name ? highlights.name : name,
                                         }}
                                     />
                                 ) : (
