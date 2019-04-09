@@ -14,14 +14,14 @@ function SelectorResultsView({
         <React.Fragment>
             {tokens.length === 0 ? (
                 <p className={cn("help-search")}>
-                    There is no tags by your request. Press{" "}
+                    There are no tags for your request. Press{" "}
                     <span className={cn("keyboard-key")}>Enter</span> for full text search
                 </p>
             ) : (
                 <React.Fragment>
                     <p className={cn("help-search")}>
-                        Press <span className={cn("keyboard-key")}>Enter</span> for search or select
-                        tag from list by mouse click
+                        Press <span className={cn("keyboard-key")}>Enter</span> for full text search or select
+                        a tag from list with mouse click
                     </p>
                     <ul className={cn("token-list")}>
                         {tokens.map(token => (
