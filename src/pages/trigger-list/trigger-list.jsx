@@ -25,10 +25,8 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 
 type State = {
     loading: boolean,
-    selectedTags: string[],
     subscribedTags: string[],
     allTags: string[],
-    onlyProblems: boolean,
     triggers: ?TriggerList,
     activePage: number,
     pageCount: number,
@@ -37,10 +35,8 @@ type State = {
 class TriggerListPage extends React.Component<Props, State> {
     state: State = {
         loading: true,
-        selectedTags: [],
         subscribedTags: [],
         allTags: [],
-        onlyProblems: false,
         triggers: [],
         activePage: 1,
         pageCount: 1,
@@ -132,10 +128,8 @@ class TriggerListPage extends React.Component<Props, State> {
             ]);
 
             this.setState({
-                selectedTags: locationSearch.tags,
                 subscribedTags: uniq(flattenDeep(settings.subscriptions.map(item => item.tags))),
                 allTags: tags.list,
-                onlyProblems: locationSearch.onlyProblems,
                 triggers: triggers.list,
                 activePage: locationSearch.page,
                 pageCount: Math.ceil(triggers.total / triggers.size),
