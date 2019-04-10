@@ -124,11 +124,15 @@ class SearchSelector extends React.Component<Props, State> {
 
     onRemoveLastToken = () => {
         const { selectedTokens, onChange } = this.props;
+        const { clearedSearchValue } = this.state;
 
         if (!selectedTokens.length) return;
         const index = selectedTokens.length - 1;
 
-        onChange([...selectedTokens.slice(0, index), ...selectedTokens.slice(index + 1)], "");
+        onChange(
+            [...selectedTokens.slice(0, index), ...selectedTokens.slice(index + 1)],
+            clearedSearchValue
+        );
     };
 
     handleInputChange = (value: string) => {

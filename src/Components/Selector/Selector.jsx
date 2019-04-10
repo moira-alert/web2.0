@@ -106,13 +106,13 @@ class Selector extends React.Component<Props, State> {
     };
 
     handleInputKeyDown = evt => {
-        const { search } = this.props;
+        const { tokens } = this.props;
         if (evt.key === "Enter") {
             const { onEnterKeyDown } = this.props;
             onEnterKeyDown();
             this.closeDropdown();
         }
-        if (evt.key === "Backspace" && !search.length) {
+        if (evt.key === "Backspace" && evt.target.selectionStart === 0 && tokens.length !== 0) {
             const { onBackspaceKeyDown } = this.props;
             onBackspaceKeyDown();
         }
