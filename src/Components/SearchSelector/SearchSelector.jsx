@@ -78,16 +78,13 @@ class SearchSelector extends React.Component<Props, State> {
         this.searchInputRef = React.createRef();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const { searchText } = this.state;
-        if (searchText !== prevState.searchText) {
-            // ToDo придумать способ по очистке поля ввода без использования componentDidUpdate
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({
-                searchText,
-                clearedSearchValue: clearInput(searchText),
-            });
-        }
+    componentDidMount() {
+        const { search = "" } = this.props;
+
+        this.setState({
+            searchText: search,
+            clearedSearchValue: clearInput(search),
+        });
     }
 
     render() {

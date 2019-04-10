@@ -74,7 +74,7 @@ class TriggerListPage extends React.Component<Props, State> {
     render() {
         const { location } = this.props;
         const locationSearch = TriggerListPage.parseLocationSearch(location.search);
-        const { onlyProblems, tags } = locationSearch;
+        const { onlyProblems, tags, searchText } = locationSearch;
 
         const {
             loading,
@@ -84,7 +84,6 @@ class TriggerListPage extends React.Component<Props, State> {
             triggers,
             activePage,
             pageCount,
-            searchText,
         } = this.state;
         const { view: TriggerListView } = this.props;
 
@@ -136,7 +135,6 @@ class TriggerListPage extends React.Component<Props, State> {
                 triggers: triggers.list,
                 activePage: locationSearch.page,
                 pageCount: Math.ceil(triggers.total / triggers.size),
-                searchText: locationSearch.searchText,
                 loading: false,
             });
         } catch (error) {
