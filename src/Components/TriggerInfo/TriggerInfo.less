@@ -1,27 +1,29 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
 
-.title {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-weight: 300;
-    font-size: 32px;
-    line-height: 40px;
-}
-
 .header {
     display: flex;
     align-items: baseline;
 }
 
+.title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    flex-grow: 1;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 40px;
+}
+
 .controls {
+    flex-shrink: 0;
     display: flex;
     align-items: baseline;
     margin-left: auto;
+}
 
-    a {
-        margin-left: 15px;
-    }
+.control {
+    margin-left: 15px;
 }
 
 .list {
@@ -43,9 +45,13 @@
         width: calc(~'100% - 150px');
 
         &.description {
-            white-space: pre-wrap;
+            overflow: hidden;
         }
     }
+}
+
+.maintenance-info {
+    color: @linkColor
 }
 
 .exception-explanation {

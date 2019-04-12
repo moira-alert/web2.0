@@ -11,7 +11,7 @@ export const Maintenances = {
     oneMonth: "oneMonth",
 };
 
-export const MaintenanceTimes = {
+const MaintenanceTimes = {
     off: 0,
     quarterHour: 15,
     oneHour: 60,
@@ -23,7 +23,7 @@ export const MaintenanceTimes = {
     oneMonth: 43200,
 };
 
-export const MaintenanceCaptions = {
+const MaintenanceCaptions = {
     off: "Off",
     quarterHour: "15 min",
     oneHour: "1 hour",

@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 import * as React from "react";
 import numeral from "numeral";
 import FilteredInput from "../FilteredInput/FilteredInput";
@@ -9,7 +10,7 @@ type FormattedNumberInputProps = {
     editFormat?: ?string,
     value: ?number,
     align?: "left" | "center" | "right",
-    onChange: (event: SyntheticEvent<>, value: ?number) => any,
+    onChange: (event: SyntheticEvent<>, value: number | null) => any,
     width: string | number,
 };
 
@@ -18,7 +19,7 @@ export default class FormattedNumberInput extends React.Component<FormattedNumbe
 
     static numberRegexp = /^\-?\s*\d*(\.\d*)?\s*$/;
 
-    handleFilterValue(value: string): FilterValueResult<?number> | null {
+    handleFilterValue(value: string): FilterValueResult<number | null> | null {
         const str = value ? value.replace(",", ".") : value;
 
         if (FormattedNumberInput.numberRegexp.test(str)) {
@@ -48,10 +49,15 @@ export default class FormattedNumberInput extends React.Component<FormattedNumbe
 
     render(): React.Node {
         // eslint-disable-next-line no-unused-vars
-        const { value, viewFormat: _viewFormat, editFormat: _editFormat, ...restProps } = this.props;
+        const {
+            value,
+            viewFormat: _viewFormat,
+            editFormat: _editFormat,
+            ...restProps
+        } = this.props;
         return (
             <FilteredInput
-                ref={"filteredInput"}
+                ref="filteredInput"
                 {...restProps}
                 value={value}
                 filterValue={value => this.handleFilterValue(value)}

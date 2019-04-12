@@ -1,8 +1,9 @@
 {
     "/user/settings": "/settings",
-    "/trigger/page\\?*": "/triggers",
+    "/trigger/search\\?*": "/triggers",
     "/trigger/:id": "/trigger",
     "/trigger/:id/state": "/state",
-    "/event/:id\\?*": "/event",
+    "/event/:id\\?p=0*": "/event",
+    "/event/:id\\?p=1*": "/event1",
     "/health/notifier": "/health"
 }

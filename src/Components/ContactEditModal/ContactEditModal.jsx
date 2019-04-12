@@ -1,0 +1,138 @@
+// @flow
+import * as React from "react";
+import Modal from "retail-ui/components/Modal";
+import Gapped from "retail-ui/components/Gapped";
+import Button from "retail-ui/components/Button";
+import { ValidationContainer } from "react-ui-validations";
+import type { ContactConfig } from "../../Domain/Config";
+import type { Contact } from "../../Domain/Contact";
+import ContactEditForm from "../ContactEditForm/ContactEditForm";
+
+type Props = {|
+    contactDescriptions: Array<ContactConfig>,
+    contactInfo: Contact,
+    onChange: ($Shape<Contact>) => void,
+    onCancel: () => void,
+    onUpdate: () => Promise<void>,
+    onUpdateAndTest: () => Promise<void>,
+    onDelete: () => Promise<void>,
+|};
+
+type State = {
+    updateAndTestInProcess: boolean,
+    updateInProcess: boolean,
+    deleteInProcess: boolean,
+};
+
+export default class ContactEditModal extends React.Component<Props, State> {
+    state: State;
+
+    validationContainer: { current: ValidationContainer | null };
+
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            updateAndTestInProcess: false,
+            updateInProcess: false,
+            deleteInProcess: false,
+        };
+        this.validationContainer = React.createRef<ValidationContainer>();
+    }
+
+    render(): React.Node {
+        const { onChange, onCancel, contactInfo, contactDescriptions } = this.props;
+        const { updateAndTestInProcess, updateInProcess, deleteInProcess } = this.state;
+        const isActionButtonDisabled = updateAndTestInProcess || updateInProcess || deleteInProcess;
+
+        return (
+            <Modal onClose={onCancel} ignoreBackgroundClick>
+                <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
+                <Modal.Body>
+                    <ValidationContainer ref={this.validationContainer}>
+                        <ContactEditForm
+                            contactDescriptions={contactDescriptions}
+                            contactInfo={contactInfo}
+                            onChange={update => onChange({ ...contactInfo, ...update })}
+                        />
+                    </ValidationContainer>
+                </Modal.Body>
+                <Modal.Footer panel sticky>
+                    <Gapped gap={10}>
+                        <Button
+                            use="primary"
+                            disabled={isActionButtonDisabled}
+                            loading={updateInProcess}
+                            onClick={() => {
+                                this.handleUpdateContact();
+                            }}
+                        >
+                            Save
+                        </Button>
+                        <Button
+                            loading={updateAndTestInProcess}
+                            disabled={isActionButtonDisabled}
+                            onClick={() => {
+                                this.handleUpdateAndTestContact();
+                            }}
+                        >
+                            Save and test
+                        </Button>
+                        <Button
+                            use="danger"
+                            loading={deleteInProcess}
+                            disabled={isActionButtonDisabled}
+                            onClick={() => {
+                                this.handleDeleteContact();
+                            }}
+                        >
+                            Delete
+                        </Button>
+                    </Gapped>
+                </Modal.Footer>
+            </Modal>
+        );
+    }
+
+    handleUpdateAndTestContact = async () => {
+        if (!(await this.validateForm())) {
+            return;
+        }
+        const { onUpdateAndTest } = this.props;
+        this.setState({ updateAndTestInProcess: true });
+        try {
+            await onUpdateAndTest();
+        } catch (error) {
+            this.setState({ updateAndTestInProcess: false });
+        }
+    };
+
+    handleUpdateContact = async () => {
+        if (!(await this.validateForm())) {
+            return;
+        }
+        const { onUpdate } = this.props;
+        this.setState({ updateInProcess: true });
+        try {
+            await onUpdate();
+        } catch (error) {
+            this.setState({ updateInProcess: false });
+        }
+    };
+
+    handleDeleteContact = async () => {
+        const { onDelete } = this.props;
+        this.setState({ deleteInProcess: true });
+        try {
+            await onDelete();
+        } catch (error) {
+            this.setState({ deleteInProcess: false });
+        }
+    };
+
+    async validateForm(): Promise<boolean> {
+        if (this.validationContainer.current == null) {
+            return true;
+        }
+        return this.validationContainer.current.validate();
+    }
+}

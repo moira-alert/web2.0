@@ -8,8 +8,8 @@ export const ContactTypes = {
     pushover: "pushover",
     telegram: "telegram",
     slack: "slack",
-    ["twilio sms"]: "twilio sms",
-    ["twilio voice"]: "twilio voice",
+    "twilio sms": "twilio sms",
+    "twilio voice": "twilio voice",
 };
 
 const ContactTypeCaptions = {
@@ -24,7 +24,7 @@ const ContactTypeCaptions = {
 };
 
 export function getContactTypeCaption(contactConfig: ContactConfig): string {
-    if (ContactTypeCaptions[contactConfig.type] != null) {
+    if (ContactTypeCaptions[contactConfig.type] !== null) {
         return ContactTypeCaptions[contactConfig.type];
     }
     return contactConfig.type;

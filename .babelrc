@@ -1,26 +1,27 @@
 {
-    "plugins": ["lodash"],
+    "plugins": [
+        "react-hot-loader/babel",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-transform-destructuring",
+        "@babel/plugin-proposal-object-rest-spread"
+    ],
     "presets": [
-        "flow",
+        "@babel/preset-flow",
         [
-            "env",
+            "@babel/preset-env",
             {
                 "modules": false
             }
         ],
-        "stage-0",
-        "react"
+        "@babel/preset-react"
     ],
     "env": {
-        "development": {
-            "plugins": [
-                "react-hot-loader/babel"
-            ]
-        },
-        "storybook": {
-            "plugins": [
-                "react-hot-loader/babel"
-            ]
+        "testing": {
+            "presets":[
+                "@babel/preset-flow",
+                "@babel/preset-env",
+                "@babel/preset-react"
+            ],
         }
     }
 }

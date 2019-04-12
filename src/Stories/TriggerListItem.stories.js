@@ -1,11 +1,13 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-router";
+import StoryRouter from "storybook-react-router";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 
 const sourceData = {
+    mute_new_metrics: false,
     notify_about_new_metrics: false,
     is_remote: false,
     id: "3e93211b-7fec-4c70-b5e1-abb36d6a4a1d",
@@ -313,11 +315,17 @@ const stories = [
     },
     {
         title: "Long tags",
-        data: { ...sourceData, tags: ["dev-or-not-dev-what-is-question", "ke.notifications-dev-test-sort"] },
+        data: {
+            ...sourceData,
+            tags: ["dev-or-not-dev-what-is-question", "ke.notifications-dev-test-sort"],
+        },
     },
     {
         title: "Lot tags",
-        data: { ...sourceData, tags: ["dev", "test_", "ke.notifications", "ke.notifications-dev"] },
+        data: {
+            ...sourceData,
+            tags: ["dev", "test_", "ke.notifications", "ke.notifications-dev"],
+        },
     },
     {
         title: "Throttling flag",
@@ -327,6 +335,36 @@ const stories = [
         title: "Lot of all data",
         data: {
             ...sourceData,
+            throttling: Date.now(),
+            last_check: {
+                metrics: {
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
+                        timestamp: 1499416938,
+                        state: "OK",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)": {
+                        timestamp: 1499416938,
+                        state: "NODATA",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.PfrIos.Alive)": {
+                        timestamp: 1499416938,
+                        state: "WARN",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)": {
+                        timestamp: 1499416938,
+                        state: "ERROR",
+                    },
+                    "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)": {
+                        timestamp: 1499416938,
+                        state: "NODATA",
+                        suppressed: false,
+                        event_timestamp: 1499331679,
+                    },
+                },
+                timestamp: 1499418145,
+                state: "OK",
+                score: 14000,
+            },
             name:
                 "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
             targets: [
@@ -346,7 +384,13 @@ const stories = [
                 "sumSeries(KE-cloud.Notifications.*.MailSender.StatReport.Alive)",
                 "sumSeries(KE-cloud.Notifications.*.MailSender.Submission.Alive)",
             ],
-            tags: ["dev", "test", "ke.notifications", "ke.notifications-dev", "very.long.tag.why.you.choice.that.name"],
+            tags: [
+                "dev",
+                "test",
+                "ke.notifications",
+                "ke.notifications-dev",
+                "very.long.tag.why.you.choice.that.name",
+            ],
         },
     },
     {
@@ -386,11 +430,6 @@ const story = storiesOf("TriggerListItem", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
-        <TriggerListItem
-            supportEmail="support@moira-alert.com"
-            data={data}
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
+        <TriggerListItem data={data} onChange={action("onChange")} onRemove={action("onRemove")} />
     ));
 });

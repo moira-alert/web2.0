@@ -1,12 +1,21 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { RowStack, ColumnStack, Fit, Fill, Fixed } from "../Components/ItemsStack/ItemsStack";
 
 function Outline(props: { children: React.Node }): React.Node {
+    const { children } = props;
     return (
-        <div style={{ padding: "5px 3px", height: "100%", border: "1px solid #333", boxSizing: "border-box" }}>
-            {props.children}
+        <div
+            style={{
+                padding: "5px 3px",
+                height: "100%",
+                border: "1px solid #333",
+                boxSizing: "border-box",
+            }}
+        >
+            {children}
         </div>
     );
 }

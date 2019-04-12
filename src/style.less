@@ -13,36 +13,61 @@
         font-family: 'Segoe UI', sans-serif;
     }
 
-    h1 {
-        font-weight: 100;
-        font-size: 42px;
-        line-height: 50px;
-    }
+    .wysiwyg {
+        *:first-child {
+            margin-top: 0 !important;
+        }
 
-    h2 {
-        font-weight: 300;
-        font-size: 32px;
-        line-height: 40px;
-    }
+        *:last-child {
+            margin-bottom: 0 !important;
+        }
 
-    h3 {
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 25px;
-    }
+        h1 {
+            font-weight: 100;
+            font-size: 42px;
+            line-height: 50px;
+        }
 
-    .x-large {
-        font-size: 18px;
-        line-height: 25px;
-    }
+        h2 {
+            font-weight: 100;
+            font-size: 32px;
+            line-height: 40px;
+        }
 
-    .large {
-        font-size: 16px;
-        line-height: 20px;
-    }
+        h3 {
+            font-weight: normal;
+            font-size: 22px;
+            line-height: 30px;
+        }
 
-    .small {
-        font-size: 12px;
-        line-height: 15px;
+        h4,
+        h5,
+        h6 {
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 25px;
+        }
+
+        a {
+            color: #3072c4;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        blockquote {
+            margin-left: 0;
+            padding-left: 10px;
+            border-left: 3px solid #ccc;
+            color: #666;
+        }
     }
 }

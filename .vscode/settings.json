@@ -1,8 +1,6 @@
 {
-    "prettier.tabWidth": 4,
-    "prettier.singleQuote": true,
-    "prettier.eslintIntegration": true,
-    "prettier.trailingComma": "es5",
+    // Чтобы показывались только ошибки Flow в тултипах
     "javascript.validate.enable": false,
-    "flow.useNPMPackagedFlow": true
+    // Чтобы Prettier форматировал при сохранении
+    "editor.formatOnSave": true
 }

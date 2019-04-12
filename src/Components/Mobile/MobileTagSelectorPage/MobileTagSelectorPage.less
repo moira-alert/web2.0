@@ -1,26 +1,24 @@
 @import '../Styles/variables.less';
 
-.toggle-item {
-    display: flex;
-    flex-direction: row;
-    height: 55px;
+.no-result {
+    padding: 30px;
+    color: #666;
+    text-align: center;
+}
 
-    .caption {
-        padding: 0 0 0 15px;
-        flex: 0 1 100%;
+.toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    height: 55px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
+
+    .toggle-label {
         font-size: 18px;
         color: #333;
-        line-height: 55px;
     }
-
-    .toggle-area {
-        flex: 0 1 55px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    border-bottom: 1px solid #ddd;
 }
 
 .bottom-fixed-button-container {

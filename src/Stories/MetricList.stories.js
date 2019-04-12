@@ -1,8 +1,9 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-router";
+import StoryRouter from "storybook-react-router";
 import MetricList from "../Components/MetricList/MetricList";
 
 const items = {
@@ -12,6 +13,11 @@ const items = {
         suppressed: false,
         value: 10.453,
         timestamp: 1503496225,
+        maintenance: 1555804800,
+        maintenance_info: {
+            setup_user: "Superman",
+            setup_time: 1553158221,
+        },
     },
     "vm-ditrace3.ditrace": {
         event_timestamp: 1503486527,
@@ -27,25 +33,48 @@ const items = {
         timestamp: 1503496225,
         value: 109389189,
         maintenance: 1504118563,
+        maintenance_info: {
+            setup_user: null,
+            setup_time: null,
+        },
     },
     "vm-ditrace3.nginx": {
         event_timestamp: 1503484033,
         state: "OK",
         suppressed: false,
         timestamp: 1503496225,
+        maintenance_info: {
+            setup_user: null,
+            setup_time: null,
+        },
     },
 };
 
 storiesOf("MetricList", module)
     .addDecorator(StoryRouter())
-    .add("Default", () => <MetricList items={items} onChange={action("onChange")} onRemove={action("onRemove")} />)
+    .add("Default", () => (
+        <MetricList
+            items={items}
+            sortingColumn="value"
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
+    ))
     .add("With Status Indicator", () => (
-        <MetricList items={items} status onChange={action("onChange")} onRemove={action("onRemove")} />
+        <MetricList
+            items={items}
+            status
+            sortingColumn="value"
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
     ))
     .add("With Remove all NODATA", () => (
         <MetricList
             items={items}
             status
+            noDataMerticCount={5}
+            sortingColumn="value"
             onChange={action("onChange")}
             onRemove={action("onRemove")}
             onNoDataRemove={action("onNoDataRemove")}

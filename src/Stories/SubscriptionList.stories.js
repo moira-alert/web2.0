@@ -1,11 +1,11 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { ValidationContainer } from "react-ui-validations";
 import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
-import { ContactTypes } from "../Domain/ContactType";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
-import { actionWithDelay } from "./StoryUtils";
+import actionWithDelay from "./StoryUtils";
 
 const commonProps = {
     onAddSubscription: actionWithDelay("onAddSubscription", 2000),
@@ -19,19 +19,13 @@ const tags = ["tag1", "tag2"];
 const contacts = [
     {
         id: "1",
-        type: ContactTypes.pushover,
+        type: "phone",
         user: "1",
-        value: "u13XsadLKJjh273jafksaja7asjdkds ",
-    },
-    {
-        id: "3",
-        type: ContactTypes.pushover,
-        user: "1",
-        value: "u13XsadLKJjh273jafksaja7asjdkds ",
+        value: "9876543210",
     },
     {
         id: "2",
-        type: ContactTypes.mail,
+        type: "email",
         user: "1",
         value: "test@mail.ru",
     },
@@ -60,7 +54,7 @@ storiesOf("SubscriptionList", module)
                     sched: createSchedule(WholeWeek),
                     tags: ["1"],
                     throttling: false,
-                    contacts: ["1"],
+                    contacts: ["2"],
                     enabled: true,
                     user: "1",
                     id: "2",
@@ -91,7 +85,7 @@ storiesOf("SubscriptionList", module)
                     sched: createSchedule(WholeWeek),
                     tags: ["1"],
                     throttling: false,
-                    contacts: ["1"],
+                    contacts: ["2"],
                     enabled: false,
                     user: "1",
                     id: "2",
@@ -122,7 +116,7 @@ storiesOf("SubscriptionList", module)
                     sched: createSchedule(WholeWeek),
                     tags: ["1"],
                     throttling: false,
-                    contacts: ["1", "3"],
+                    contacts: ["1", "2"],
                     enabled: false,
                     user: "1",
                     id: "2",
@@ -145,7 +139,7 @@ storiesOf("SubscriptionList", module)
                     contacts: ["1"],
                     enabled: false,
                     user: "1",
-                    id: "2",
+                    id: "1",
                     ignore_recoverings: false,
                     ignore_warnings: false,
                 },
@@ -165,7 +159,7 @@ storiesOf("SubscriptionList", module)
                     contacts: ["1"],
                     enabled: true,
                     user: "1",
-                    id: "1",
+                    id: "2",
                     ignore_recoverings: false,
                     ignore_warnings: false,
                 },
@@ -173,10 +167,10 @@ storiesOf("SubscriptionList", module)
                     sched: createSchedule(WholeWeek),
                     tags: ["1"],
                     throttling: false,
-                    contacts: ["1"],
+                    contacts: ["2"],
                     enabled: false,
                     user: "1",
-                    id: "2",
+                    id: "3",
                     ignore_recoverings: false,
                     ignore_warnings: false,
                 },

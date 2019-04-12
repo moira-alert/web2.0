@@ -1,8 +1,9 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { range } from "lodash";
+import range from "lodash/range";
 import TagDropdownSelect from "../Components/TagDropdownSelect/TagDropdownSelect";
 
 type Props = {
@@ -16,15 +17,17 @@ type State = {
 
 class TagDropdownSelectContainer extends React.Component<Props, State> {
     props: Props;
+
     state: State = {
         tags: [],
     };
 
     render(): React.Element<any> {
-        const { availableTags, allowCreateNewTags } = this.props;
+        const { availableTags, allowCreateNewTags = false } = this.props;
         const { tags } = this.state;
         return (
             <TagDropdownSelect
+                width={500}
                 allowCreateNewTags={allowCreateNewTags}
                 value={tags}
                 onChange={x => this.setState({ tags: x })}
@@ -36,10 +39,17 @@ class TagDropdownSelectContainer extends React.Component<Props, State> {
 
 storiesOf("TagDropdownSelect", module)
     .add("Default", () => (
-        <TagDropdownSelect value={[]} onChange={action("onChange")} availableTags={["tag1", "tag2"]} />
+        <TagDropdownSelect
+            width={500}
+            value={[]}
+            onChange={action("onChange")}
+            availableTags={["tag1", "tag2"]}
+        />
     ))
     .add("Statefull", () => <TagDropdownSelectContainer availableTags={["tag1", "tag2"]} />)
-    .add("AllowCreateNewTags", () => <TagDropdownSelectContainer allowCreateNewTags availableTags={["tag1", "tag2"]} />)
+    .add("AllowCreateNewTags", () => (
+        <TagDropdownSelectContainer allowCreateNewTags availableTags={["tag1", "tag2"]} />
+    ))
     .add("StatefullManyTags", () => (
         <TagDropdownSelectContainer
             availableTags={[
@@ -70,6 +80,7 @@ storiesOf("TagDropdownSelect", module)
     ))
     .add("ManySelectedTags", () => (
         <TagDropdownSelect
+            width={500}
             value={[...range(0, 30).map(x => `'a-tag${x}'`)]}
             onChange={action("onChange")}
             availableTags={[...range(0, 50).map(x => `'a-tag${x}'`)]}

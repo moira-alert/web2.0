@@ -1,11 +1,13 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-router";
+import StoryRouter from "storybook-react-router";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 
 const sourceData = {
+    mute_new_metrics: false,
     notify_about_new_metrics: false,
     is_remote: false,
     error_value: 1000.0,
@@ -39,8 +41,14 @@ const sourceData = {
 };
 
 const triggerState = {
+    maintenance: null,
     metrics: {
-        About: { event_timestamp: 1512204450, state: "NODATA", suppressed: false, timestamp: 1512206430 },
+        About: {
+            event_timestamp: 1512204450,
+            state: "NODATA",
+            suppressed: false,
+            timestamp: 1512206430,
+        },
     },
     score: 75000,
     state: "OK",
@@ -110,17 +118,35 @@ const stories = [
             },
         },
     },
+    {
+        title: "With maintenance",
+        triggerState: { ...triggerState, maintenance: Date.now() / 1000 + 3600 },
+        data: { ...sourceData },
+    },
+    {
+        title: "With maintenance and maintenance info",
+        triggerState: {
+            ...triggerState,
+            maintenance: Date.now() / 1000 + 3600,
+            maintenance_info: {
+                setup_user: "Batman",
+                setup_time: 1553158221,
+            },
+        },
+        data: { ...sourceData },
+    },
 ];
 
 const story = storiesOf("TriggerInfo", module).addDecorator(StoryRouter());
 
-stories.forEach(({ title, data, triggerState }) => {
+stories.forEach(({ title, data, triggerState: state }) => {
     story.add(title, () => (
         <TriggerInfo
             supportEmail="support@mail.ru"
-            triggerState={triggerState}
+            triggerState={state}
             data={data}
             onThrottlingRemove={action("onThrottlingRemove")}
+            onSetMaintenance={action("onSetMaintenance")}
         />
     ));
 });

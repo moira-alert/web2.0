@@ -1,10 +1,10 @@
 // @flow
-
 import type { Status } from "./Status";
 import type { MetricList } from "./Metric";
 import type { Schedule } from "./Schedule";
 
 export type Trigger = {
+    notify_about_new_metrics: boolean,
     id: string,
     name: string,
     targets: Array<string>,
@@ -17,8 +17,8 @@ export type Trigger = {
     sched?: Schedule,
     desc?: string,
     trigger_type: "rising" | "falling" | "expression",
-    warn_value: ?number,
-    error_value: ?number,
+    warn_value: number | null,
+    error_value: number | null,
     last_check?: {|
         state: Status,
         timestamp: number,
@@ -40,6 +40,11 @@ export type TriggerList = {|
 |};
 
 export type TriggerState = {|
+    maintenance: ?number,
+    maintenanceInfo?: {
+        setup_user: ?string,
+        setup_time: ?number,
+    },
     metrics: MetricList,
     timestamp: number,
     state: Status,
@@ -48,7 +53,9 @@ export type TriggerState = {|
     msg?: string,
 |};
 
-export const TriggerDataSources = {
-    REDIS: "REDIS",
+const TriggerDataSources = {
+    LOCAL: "LOCAL",
     GRAPHITE: "GRAPHITE",
 };
+
+export { TriggerDataSources as default };

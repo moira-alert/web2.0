@@ -1,39 +1,25 @@
 // @flow
-import { ContactTypes } from "../../Domain/ContactType";
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import type { ContactConfig } from "../../Domain/Config";
 
-export const contactConfigs: Array<ContactConfig> = [
+const contactConfigs: Array<ContactConfig> = [
     {
-        type: ContactTypes.email,
-        validation: "^.+@.+..+$",
+        type: "email",
+        label: "E-mail",
     },
     {
-        type: ContactTypes.phone,
-        validation: "^9d{9}$",
-        title: "kontur sms",
-        help: "Phone number format 9*********",
-    },
-    {
-        type: ContactTypes.pushover,
-        validation: "",
-        title: "Pushover user key",
-    },
-    {
-        type: ContactTypes.slack,
+        type: "slack",
+        label: "Slack",
         validation: "^[@#][a-zA-Z0-9-_]+",
-        title: "slack #channel / @user",
+        placeholder: "Slack #channel or @user",
     },
     {
-        type: ContactTypes.telegram,
-        validation: "",
-        title: "#channel, @username, group",
-        help:
-            "Required to grant [@KonturMoiraBot](https://t.me/KonturMoiraBot) admin privileges for channels,\nor `/start` command in groups and personal chats",
-    },
-    {
-        type: ContactTypes["twilio voice"],
-        validation: "^+79d{9}$",
-        title: "twilio voice",
-        help: "Phone number format +79*********",
+        type: "phone",
+        label: "Phone",
+        validation: "^9\\d{9}$",
+        placeholder: "In format 98743210",
+        help: "Phone for Kontur SMS",
     },
 ];
+
+export { contactConfigs as default };

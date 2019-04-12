@@ -1,3 +1,0 @@
-// Hacky exact type for spread support
-// see https://github.com/facebook/flow/issues/2405
-declare type ReactExactProps<T> = T & $Shape<T>;

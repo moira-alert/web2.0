@@ -1,9 +1,9 @@
 // @flow
-
 export type ContactConfig = {|
     type: string,
-    validation: string,
-    title?: string,
+    label: string,
+    validation?: string,
+    placeholder?: string,
     help?: string,
 |};
 

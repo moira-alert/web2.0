@@ -1,10 +1,10 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-router";
+import StoryRouter from "storybook-react-router";
 import MobileMetricsList from "../../Components/Mobile/MobileMetricsList/MobileMetricsList";
-import MobileDecorator from "../Utils/MobileDecorator";
 
 const items = {
     "vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace": {
@@ -39,7 +39,6 @@ const items = {
 
 storiesOf("Mobile/MetricsList", module)
     .addDecorator(StoryRouter())
-    .addDecorator(MobileDecorator)
     .add("With Status Indicator", () => (
         <MobileMetricsList
             metrics={items}

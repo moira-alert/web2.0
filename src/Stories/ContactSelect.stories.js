@@ -1,8 +1,8 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { ContactTypes } from "../Domain/ContactType";
 import ContactSelect from "../Components/ContactSelect/ContactSelect";
 
 storiesOf("ContactSelect", module)
@@ -13,13 +13,13 @@ storiesOf("ContactSelect", module)
             availableContacts={[
                 {
                     id: "1",
-                    type: ContactTypes.pushover,
+                    type: "phone",
                     user: "1",
-                    value: "u13XsadLKJjh273jafksaja7asjdkds ",
+                    value: "9876543210",
                 },
                 {
                     id: "2",
-                    type: ContactTypes.mail,
+                    type: "email",
                     user: "1",
                     value: "test@mail.ru",
                 },
@@ -33,13 +33,13 @@ storiesOf("ContactSelect", module)
             availableContacts={[
                 {
                     id: "1",
-                    type: ContactTypes.pushover,
+                    type: "phone",
                     user: "1",
-                    value: "u13XsadLKJjh273jafksaja7asjdkds ",
+                    value: "9876543210",
                 },
                 {
                     id: "2",
-                    type: ContactTypes.mail,
+                    type: "email",
                     user: "1",
                     value: "test@mail.ru",
                 },

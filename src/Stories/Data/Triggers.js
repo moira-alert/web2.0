@@ -1,8 +1,10 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 
 const data = [
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 100.0,
         sched: {
             endOffset: 1439,
@@ -54,12 +56,15 @@ const data = [
             score: 3000,
         },
         expression: "",
-        targets: ['groupByNode(EDITest.Cassandra.*.*.DownEndpointCount.DownEndpointCount,2,"maxSeries")'],
+        targets: [
+            'groupByNode(EDITest.Cassandra.*.*.DownEndpointCount.DownEndpointCount,2,"maxSeries")',
+        ],
         desc:
             "\u041a\u0430\u0436\u0434\u0430\u044f \u043d\u043e\u0434\u0430 \u0441\u043e\u043e\u0431\u0449\u0430\u0435\u0442, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u043e \u0435\u0435 \u043c\u043d\u0435\u043d\u0438\u044e \u0434\u0440\u0443\u0433\u0438\u0445 \u043d\u043e\u0434 \u0432 \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0435 \u0443\u043f\u0430\u043b\u043e. \u041c\u044b \u0431\u0435\u0440\u0435\u043c \u043c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u0441\u0440\u0435\u0434\u0438 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430 \u0438 \u0441\u043b\u0435\u0434\u0438\u043c, \u0447\u0442\u043e\u0431\u044b \u043e\u043d\u043e \u0431\u044b\u043b\u043e \u043a\u0430\u043a \u043c\u043e\u0436\u043d\u043e \u0431\u043b\u0438\u0436\u0435 \u043a \u043d\u0443\u043b\u044e. \u041f\u043e \u044d\u0442\u043e\u043c\u0443 \u0442\u0440\u0438\u0433\u0433\u0435\u0440\u0443 \u043c\u043e\u0436\u043d\u043e \u043f\u043e\u043d\u044f\u0442\u044c, \u0447\u0442\u043e \u0443\u043f\u0430\u043b\u0430 \u043a\u0430\u043a\u0430\u044f-\u0442\u043e \u043d\u043e\u0434\u0430, \u043d\u043e \u043a\u0430\u043a\u0430\u044f \u0438\u043c\u0435\u043d\u043d\u043e - \u043d\u0435 \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442\u0441\u044f.",
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 1500.0,
         sched: {
             tzOffset: -300,
@@ -111,10 +116,13 @@ const data = [
             score: 3000,
         },
         expression: "",
-        targets: ["nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.*.jvm.gc.collection.time)"],
+        targets: [
+            "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.*.jvm.gc.collection.time)",
+        ],
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 200.0,
         sched: {
             tzOffset: -300,
@@ -136,7 +144,9 @@ const data = [
         throttling: 0,
         tags: ["Highlander-WebApi", "KE"],
         id: "234225c0-7e6d-4aa5-9681-39ee17ffec0c",
-        patterns: ["KE.Highlander-webapi.*.AfterThrottling.anyAction.status.status.4*.Count-Requests"],
+        patterns: [
+            "KE.Highlander-webapi.*.AfterThrottling.anyAction.status.status.4*.Count-Requests",
+        ],
         trigger_type: "falling",
         ttl: 600,
         warn_value: 50.0,
@@ -218,6 +228,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 2000.0,
         sched: {
             tzOffset: -300,
@@ -239,7 +250,9 @@ const data = [
         throttling: 0,
         tags: ["Billy"],
         id: "03f11d7c-2260-455a-b296-6db6e094b1f0",
-        patterns: ["Billy.elasticsearch.vm-sps-nix.metrics.*.indices._all.search.query_time_in_millis"],
+        patterns: [
+            "Billy.elasticsearch.vm-sps-nix.metrics.*.indices._all.search.query_time_in_millis",
+        ],
         trigger_type: "falling",
         ttl: 600,
         warn_value: 1500.0,
@@ -275,6 +288,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 99.0,
         sched: {
             endOffset: 1439,
@@ -330,6 +344,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 48.0,
         sched: {
             endOffset: 1439,
@@ -2637,6 +2652,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: null,
         sched: {
             endOffset: 1439,
@@ -2687,11 +2703,13 @@ const data = [
             state: "OK",
             score: 2000,
         },
-        expression: "ERROR if (800*(t1+t2)/(t3+t4)) > 95 else WARN if (800*(t1+t2)/(t3+t4)) > 90 else OK",
+        expression:
+            "ERROR if (800*(t1+t2)/(t3+t4)) > 95 else WARN if (800*(t1+t2)/(t3+t4)) > 90 else OK",
         id: "ee8abb13-fdf3-4651-9676-8abc01a4037f",
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 1.0,
         sched: {
             tzOffset: -300,
@@ -2741,6 +2759,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 10000000000000000.0,
         sched: {
             endOffset: 1439,
@@ -2761,7 +2780,9 @@ const data = [
         throttling: 0,
         ttl_state: "NODATA",
         notify_about_new_metrics: false,
-        targets: ["aliasByNode({Alko,EDI,EDITest,KE,KE-cloud,KE-dev}.Cassandra.*.*.GC.StopTheWorld.sum, 0, 2, 3)"],
+        targets: [
+            "aliasByNode({Alko,EDI,EDITest,KE,KE-cloud,KE-dev}.Cassandra.*.*.GC.StopTheWorld.sum, 0, 2, 3)",
+        ],
         patterns: ["{Alko,EDI,EDITest,KE,KE-cloud,KE-dev}.Cassandra.*.*.GC.StopTheWorld.sum"],
         trigger_type: "expression",
         ttl: 1800,
@@ -3248,6 +3269,7 @@ const data = [
     },
     {
         is_remote: false,
+        mute_new_metrics: false,
         error_value: 100000000000.0,
         sched: {
             tzOffset: -180,

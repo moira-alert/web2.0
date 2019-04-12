@@ -1,16 +1,18 @@
 [ignore]
 .*/node_modules/.*
-/dist
-
-[include]
+./dist
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
 
 [libs]
-interfaces/
+flow/type
 
 [lints]
 all=warn
 untyped-type-import=error
+sketchy-null-bool=off
 
 [options]
-module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/StylesFlowStub'
-module.name_mapper='^.*\.AppRoot$' -> '<PROJECT_ROOT>/flow/AppRootStub'
+module.name_mapper='^.*\.less+$' -> '<PROJECT_ROOT>/flow/stub/css-modules'
+module.name_mapper='^.*\.AppRoot$' -> '<PROJECT_ROOT>/flow/stub/app-root'

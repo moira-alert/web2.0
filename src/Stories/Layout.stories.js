@@ -1,14 +1,22 @@
 // @flow
+/* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import Layout from "../Components/Layout/Layout";
 
-function SpaceFiller(props: { width?: number | string, height?: number | string, label?: string }): React.Node {
+type Props = {
+    width?: number | string,
+    height?: number | string,
+    label?: string,
+};
+
+function SpaceFiller(props: Props): React.Node {
+    const { width = "100%", height = 300, label = "Children" } = props;
     return (
         <div
             style={{
-                height: props.height || 300,
-                width: props.width || "100%",
+                height,
+                width,
                 border: "1px solid #dee0e3",
                 boxSizing: "border-box",
                 color: "#000",
@@ -19,11 +27,18 @@ function SpaceFiller(props: { width?: number | string, height?: number | string,
                 justifyContent: "center",
                 background:
                     "repeating-linear-gradient(45deg, rgba(0,0,0,0.05), rgba(0,0,0,0.05) 10px, rgba(255,255,255,0) 10px, rgba(255,255,255,0) 20px )",
-            }}>
-            {props.label || "Children"}
+            }}
+        >
+            {label}
         </div>
     );
 }
+
+SpaceFiller.defaultProps = {
+    width: 300,
+    height: "100%",
+    label: "Children",
+};
 
 storiesOf("Layout", module)
     .add("Default", () => (
