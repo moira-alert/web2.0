@@ -1,6 +1,6 @@
 {
     "/user/settings": "/settings",
-    "/trigger/page\\?*": "/triggers",
+    "/trigger/search\\?*": "/triggers",
     "/trigger/:id": "/trigger",
     "/trigger/:id/state": "/state",
     "/event/:id\\?p=0*": "/event",

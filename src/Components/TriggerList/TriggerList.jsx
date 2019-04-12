@@ -7,12 +7,13 @@ import cn from "./TriggerList.less";
 
 type Props = {|
     items: Array<Trigger>,
+    searchMode: boolean,
     onChange?: (triggerId: string, maintenance: Maintenance, metric: string) => void,
     onRemove?: (triggerId: string, metric: string) => void,
 |};
 
 export default function TriggerList(props: Props): React.Node {
-    const { items, onChange, onRemove } = props;
+    const { items, searchMode, onChange, onRemove } = props;
     return (
         <div>
             {items.length === 0 ? (
@@ -21,6 +22,7 @@ export default function TriggerList(props: Props): React.Node {
                 items.map(item => (
                     <div className={cn("item")} key={item.id}>
                         <TriggerListItem
+                            searchMode={searchMode}
                             data={item}
                             onChange={
                                 onChange &&

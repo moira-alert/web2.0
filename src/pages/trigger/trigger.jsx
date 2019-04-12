@@ -16,6 +16,7 @@ type Props = ContextRouter & { moiraApi: IMoiraApi };
 
 type State = {
     loading: boolean,
+    error: ?string,
     page: number,
     pageCount: number,
     trigger: ?Trigger,
@@ -28,6 +29,7 @@ type State = {
 class TriggerPage extends React.Component<Props, State> {
     state: State = {
         loading: true,
+        error: null,
         page: 1,
         pageCount: 1,
         trigger: null,
@@ -81,18 +83,26 @@ class TriggerPage extends React.Component<Props, State> {
     }
 
     render() {
-        const { loading, page, pageCount, trigger, triggerState, triggerEvents } = this.state;
+        const {
+            loading,
+            error,
+            page,
+            pageCount,
+            trigger,
+            triggerState,
+            triggerEvents,
+        } = this.state;
         const { view: TriggerView } = this.props;
 
-        return loading ? (
-            <div>Loading...</div>
-        ) : (
+        return (
             <TriggerView
                 trigger={trigger}
                 state={triggerState}
                 events={triggerEvents}
                 page={page}
                 pageCount={pageCount}
+                loading={loading}
+                error={error}
                 disableTrhrottling={this.disableTrhrottling}
                 setTriggerMaintenance={this.setTriggerMaintenance}
                 setMetricMaintenance={this.setMetricMaintenance}
@@ -129,11 +139,10 @@ class TriggerPage extends React.Component<Props, State> {
                 trigger,
                 triggerState,
                 triggerEvents: triggerEvents.list || [],
+                loading: false,
             });
         } catch (error) {
-            // ToDo
-        } finally {
-            this.setState({ loading: false });
+            this.setState({ loading: false, error: error.message });
         }
     }
 

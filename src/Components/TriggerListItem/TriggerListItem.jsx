@@ -22,6 +22,7 @@ import cn from "./TriggerListItem.less";
 
 type Props = {|
     data: Trigger,
+    searchMode: boolean,
     onChange?: (maintenance: Maintenance, metric: string) => void,
     onRemove?: (metric: string) => void,
 |};
@@ -77,8 +78,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { data } = this.props;
-        const { id, name, targets, tags, throttling } = data;
+        const { searchMode, data } = this.props;
+        const { id, name, targets, tags, throttling, highlights } = data;
         const { showMetrics } = this.state;
         const metrics = this.renderMetrics();
 
@@ -97,9 +98,16 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     <div className={cn("header")}>
                         <ReactRouterLink className={cn("link")} to={getPageLink("trigger", id)}>
                             <div className={cn("title")}>
-                                <div className={cn("name")}>
-                                    {name != null && name !== "" ? name : "[No name]"}
-                                </div>
+                                {searchMode ? (
+                                    <div
+                                        className={cn("name")}
+                                        dangerouslySetInnerHTML={{
+                                            __html: highlights.name ? highlights.name : name,
+                                        }}
+                                    />
+                                ) : (
+                                    <div className={cn("name")}>{name}</div>
+                                )}
                                 {throttling !== 0 && (
                                     <div
                                         className={cn("flag")}

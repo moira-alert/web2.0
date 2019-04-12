@@ -25,6 +25,8 @@ type Props = {|
     removeMetric: (id: string, metric: string) => void,
     removeNoDataMetric: (id: string) => void,
     onPageChange: ({ page: number }) => {},
+    loading: boolean,
+    error?: string,
 |};
 
 type State = {
@@ -81,8 +83,10 @@ class TriggerDesktop extends React.Component<Props, State> {
             removeMetric,
             removeNoDataMetric,
             onPageChange,
+            loading,
+            error,
         } = this.props;
-        const { metrics } = state;
+        const { metrics } = state || {};
         const isMetrics = metrics && Object.keys(metrics).length > 0;
         const isEvents = events && events.length > 0;
         const noDataMerticCount =
@@ -92,7 +96,7 @@ class TriggerDesktop extends React.Component<Props, State> {
             0;
 
         return (
-            <Layout>
+            <Layout loading={loading} error={error}>
                 {trigger && state && (
                     <LayoutPlate>
                         <TriggerInfo
