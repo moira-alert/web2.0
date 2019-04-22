@@ -21,7 +21,7 @@ install:
 before_script:
   - make lint
 script:
-  - make packages
+  - if [[ ! -z "$TRAVIS_TAG" ]]; then make packages; fi
 before_deploy:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
