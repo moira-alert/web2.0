@@ -17,9 +17,9 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 install:
-  - make lint
-before_script:
   - gem install fpm
+before_script:
+  - make lint
 script:
   - make packages
 before_deploy:
@@ -45,10 +45,10 @@ deploy:
       condition: $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH =~ ^(feature|hotfix).*$
   - provider: script
     script:
-      - make docker_develop_image
+      - make docker_nightly_images
     skip_cleanup: true
     on:
-      branch: develop
+      branch: master
   - provider: script
     script:
       - make docker_release_image
