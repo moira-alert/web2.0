@@ -12,6 +12,8 @@ import PushoverLogo from "./pushover-logo.svg";
 import SlackLogo from "./slack-logo.svg";
 import TwilioLogo from "./twilio-logo.svg";
 import WebhookLogo from "./webhook-logo.svg";
+import DiscordLogo from "./discord-logo.svg";
+import PagerdutyLogo from "./pagerduty-logo.svg";
 
 type Props = {
     type: string,
@@ -29,6 +31,8 @@ const TypeToIcon = {
     pushover: <SvgIcon path={PushoverLogo} size={14} offsetTop={2} />,
     twilio: <SvgIcon path={TwilioLogo} size={14} offsetTop={2} />,
     webhook: <SvgIcon path={WebhookLogo} size={14} offsetTop={2} />,
+    discord: <SvgIcon path={DiscordLogo} size={14} offsetTop={2} />,
+    pagerduty: <SvgIcon path={PagerdutyLogo} size={14} offsetTop={2} />,
     phone: <PhoneIcon />,
     tel: <PhoneIcon />,
     sms: <PhoneIcon />,

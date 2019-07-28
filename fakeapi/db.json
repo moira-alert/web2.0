@@ -17,6 +17,16 @@
                 "validation": "^9\\d{9}$",
                 "placeholder": "In format 98743210",
                 "help": "Phone for Kontur SMS"
+            },
+            {
+                "type": "discord",
+                "label": "Discord",
+                "placeholder": "Discord channel (eg: general-text) or user (eg: @user)"
+            },
+            {
+                "type": "pagerduty",
+                "label": "Pagerduty",
+                "placeholder": "Enter the pagerduty routing key"
             }
         ],
         "supportEmail": "devopsteam@skbkontur.ru"
