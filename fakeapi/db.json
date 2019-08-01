@@ -27,6 +27,11 @@
                 "type": "pagerduty",
                 "label": "Pagerduty",
                 "placeholder": "Enter the pagerduty routing key"
+            },
+            {
+                "type": "victorops",
+                "label": "Victorops",
+                "placeholder": "Enter the victorops routing key"
             }
         ],
         "supportEmail": "devopsteam@skbkontur.ru"
