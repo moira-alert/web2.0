@@ -32,6 +32,11 @@
                 "type": "victorops",
                 "label": "Victorops",
                 "placeholder": "Enter the victorops routing key"
+            },
+            {
+                "type": "opsgenie",
+                "label": "Opsgenie",
+                "placeholder": "Enter the responder id"
             }
         ],
         "supportEmail": "devopsteam@skbkontur.ru"
