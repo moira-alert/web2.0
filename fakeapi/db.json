@@ -36,7 +36,7 @@
             {
                 "type": "opsgenie",
                 "label": "Opsgenie",
-                "placeholder": "Enter responder id"
+                "placeholder": "Enter the responder id"
             }
         ],
         "supportEmail": "devopsteam@skbkontur.ru"
@@ -115,16 +115,9 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": [
-                    "devops",
-                    "frontend",
-                    "backend"
-                ],
+                "tags": ["devops", "frontend", "backend"],
                 "throttling": true,
-                "contacts": [
-                    "0000-0000-0000-0000-0001",
-                    "0000-0000-0000-0000-0002"
-                ],
+                "contacts": ["0000-0000-0000-0000-0001", "0000-0000-0000-0000-0002"],
                 "enabled": false,
                 "user": "testuser",
                 "id": "85b14755-6cbe-429d-860c-21f7c01569c2"
@@ -165,14 +158,9 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": [
-                    "errors",
-                    "warnings"
-                ],
+                "tags": ["errors", "warnings"],
                 "throttling": true,
-                "contacts": [
-                    "0000-0000-0000-0000-0001"
-                ],
+                "contacts": ["0000-0000-0000-0000-0001"],
                 "enabled": true,
                 "user": "testuser",
                 "id": "ad1c71aa-9f8b-4d29-b8ac-cd76c6f7b4c9"
@@ -213,17 +201,9 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": [
-                    "critical",
-                    "devops",
-                    "frontend",
-                    "backend",
-                    "test"
-                ],
+                "tags": ["critical", "devops", "frontend", "backend", "test"],
                 "throttling": false,
-                "contacts": [
-                    "0000-0000-0000-0000-0002"
-                ],
+                "contacts": ["0000-0000-0000-0000-0002"],
                 "enabled": true,
                 "user": "testuser",
                 "id": "b2a37dcf-a347-4128-b53b-c13c5c5f0c08"
@@ -264,14 +244,9 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": [
-                    "devops",
-                    "frontend"
-                ],
+                "tags": ["devops", "frontend"],
                 "throttling": false,
-                "contacts": [
-                    "0000-0000-0000-0000-0002"
-                ],
+                "contacts": ["0000-0000-0000-0000-0002"],
                 "enabled": false,
                 "user": "testuser",
                 "id": "9f1ce01c-2de5-4324-b1fb-bc38140e585f"
@@ -286,14 +261,10 @@
             {
                 "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
                 "name": "Элитарный сангвиник в XXI веке",
-                "targets": [
-                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"
-                ],
+                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
                 "warn_value": 11111111111,
                 "error_value": 22222222222,
-                "tags": [
-                    "devops"
-                ],
+                "tags": ["devops"],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "desc": "Развивая эту тему, метафора дает миракль. Ирония образует суггестивный реализм. Возвышенное однократно. Пушкин подарил Гоголю фабулу \"Мертвых душ\" не потому, что одиночество диссонирует невротический этикет.",
@@ -332,9 +303,7 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": [
-                    "Egais.Api.Front.Controllers.Time.*.*.*.*.p95"
-                ],
+                "patterns": ["Egais.Api.Front.Controllers.Time.*.*.*.*.p95"],
                 "trigger_type": "rising",
                 "throttling": 0,
                 "last_check": {
@@ -977,14 +946,10 @@
             {
                 "id": "b562ca35-5f48-40f2-91de-4078a237c227",
                 "name": "Деструктивный импрессионизм — актуальная национальная задача",
-                "targets": [
-                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
-                ],
+                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"],
                 "warn_value": 10000,
                 "error_value": 20000,
-                "tags": [
-                    "frontend"
-                ],
+                "tags": ["frontend"],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -1022,9 +987,7 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": [
-                    "Egais.Api.Front.Controllers.Time.*.*.*.*.count"
-                ],
+                "patterns": ["Egais.Api.Front.Controllers.Time.*.*.*.*.count"],
                 "trigger_type": "rising",
                 "throttling": 0,
                 "last_check": {
@@ -1680,15 +1643,10 @@
                 "id": "351de571-015f-40ff-b16e-8ca57585b4e8",
                 "name": "Энергия либидо как лабораторность художественной культуры",
                 "desc": "Драматизм, следовательно, монотонно дает персональный метод кластерного анализа. Экспрессионизм многопланово представляет собой персональный хорал, однако само по себе состояние игры всегда амбивалентно.",
-                "targets": [
-                    "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"
-                ],
+                "targets": ["aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"],
                 "warn_value": 0.001,
                 "error_value": 0,
-                "tags": [
-                    "devops",
-                    "nodata"
-                ],
+                "tags": ["devops", "nodata"],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -1726,9 +1684,7 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": [
-                    "DevOps.system.*ditrace*.process.*.uptime"
-                ],
+                "patterns": ["DevOps.system.*ditrace*.process.*.uptime"],
                 "trigger_type": "falling",
                 "throttling": 0,
                 "last_check": {
@@ -1880,9 +1836,7 @@
                 ],
                 "warn_value": 1,
                 "error_value": 0,
-                "tags": [
-                    "devops"
-                ],
+                "tags": ["devops"],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -1920,9 +1874,7 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": [
-                    "focus.elasticsearch.focus351.*.cluster_health.status"
-                ],
+                "patterns": ["focus.elasticsearch.focus351.*.cluster_health.status"],
                 "trigger_type": "falling",
                 "throttling": 0,
                 "last_check": {
@@ -1949,14 +1901,10 @@
             {
                 "id": "e872a927-e6d2-4b2e-b1fb-63d2345357f2",
                 "name": "Почему возможна фабула?",
-                "targets": [
-                    "KE.system.busc.*.cpu.usage"
-                ],
+                "targets": ["KE.system.busc.*.cpu.usage"],
                 "warn_value": 80,
                 "error_value": 90,
-                "tags": [
-                    "test"
-                ],
+                "tags": ["test"],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -1994,9 +1942,7 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": [
-                    "KE.system.busc.*.cpu.usage"
-                ],
+                "patterns": ["KE.system.busc.*.cpu.usage"],
                 "trigger_type": "rising",
                 "throttling": 0,
                 "last_check": {
@@ -2029,15 +1975,11 @@
         "expression": "",
         "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
         "name": "12321",
-        "desc": "## Heading\n**bold text**",
-        "targets": [
-            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"
-        ],
+        "desc":"## Heading\n**bold text**",
+        "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
         "warn_value": 11111111111,
         "error_value": 22222222222,
-        "tags": [
-            "devops"
-        ],
+        "tags": ["devops"],
         "ttl_state": "NODATA",
         "ttl": 600,
         "sched": {
@@ -2075,9 +2017,7 @@
             "startOffset": 0,
             "endOffset": 1439
         },
-        "patterns": [
-            "Egais.Api.Front.Controllers.Time.*.*.*.*.p95"
-        ],
+        "patterns": ["Egais.Api.Front.Controllers.Time.*.*.*.*.p95"],
         "trigger_type": "rising",
         "throttling": 0,
         "last_check": {
@@ -3648,10 +3588,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": [
-                        "ADK",
-                        "Alko"
-                    ]
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3682,10 +3619,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": [
-                        "ADK",
-                        "Alko"
-                    ]
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3716,10 +3650,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": [
-                        "ADK",
-                        "Alko"
-                    ]
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3750,10 +3681,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": [
-                        "ADK",
-                        "Alko"
-                    ]
+                    "__notifier_trigger_tags": ["ADK", "Alko"]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3784,11 +3712,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 2,
-                    "__notifier_trigger_tags": [
-                        "ke.api",
-                        "setter",
-                        "ke_api_alerts"
-                    ]
+                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
                 },
                 "contact": {
                     "type": "slack",
@@ -3819,11 +3743,7 @@
                     ],
                     "warn_value": 1,
                     "error_value": 2,
-                    "__notifier_trigger_tags": [
-                        "ke.api",
-                        "setter",
-                        "ke_api_alerts"
-                    ]
+                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
                 },
                 "contact": {
                     "type": "slack",
@@ -3853,9 +3773,7 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "portal-cloud"
-                    ]
+                    "__notifier_trigger_tags": ["portal-cloud"]
                 },
                 "contact": {
                     "type": "slack",
@@ -3885,9 +3803,7 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "portal-cloud"
-                    ]
+                    "__notifier_trigger_tags": ["portal-cloud"]
                 },
                 "contact": {
                     "type": "slack",
@@ -3917,9 +3833,7 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "portal-cloud"
-                    ]
+                    "__notifier_trigger_tags": ["portal-cloud"]
                 },
                 "contact": {
                     "type": "slack",
@@ -3949,9 +3863,7 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "portal-cloud"
-                    ]
+                    "__notifier_trigger_tags": ["portal-cloud"]
                 },
                 "contact": {
                     "type": "slack",
@@ -3977,15 +3889,10 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": [
-                        "KE.transport.exceptions_caught.type.Irud*"
-                    ],
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "dc.utilities",
-                        "KE"
-                    ]
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
                 },
                 "contact": {
                     "type": "slack",
@@ -4010,15 +3917,10 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": [
-                        "KE.transport.exceptions_caught.type.Irud*"
-                    ],
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "dc.utilities",
-                        "KE"
-                    ]
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
                 },
                 "contact": {
                     "type": "slack",
@@ -4044,15 +3946,10 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": [
-                        "KE.transport.exceptions_caught.type.Irud*"
-                    ],
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "dc.utilities",
-                        "KE"
-                    ]
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
                 },
                 "contact": {
                     "type": "slack",
@@ -4078,15 +3975,10 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": [
-                        "KE.transport.exceptions_caught.type.Irud*"
-                    ],
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "dc.utilities",
-                        "KE"
-                    ]
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
                 },
                 "contact": {
                     "type": "slack",
@@ -4112,15 +4004,10 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": [
-                        "KE.transport.exceptions_caught.type.Irud*"
-                    ],
+                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": [
-                        "dc.utilities",
-                        "KE"
-                    ]
+                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
                 },
                 "contact": {
                     "type": "slack",
