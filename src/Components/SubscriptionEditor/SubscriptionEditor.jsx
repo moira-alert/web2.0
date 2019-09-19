@@ -84,7 +84,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                                     });
                                 }}
                                 availableTags={tags}
-                                isDisabled={false}
+                                isDisabled={subscription.any_tags}
                             />
                         </ValidationWrapperV1>
                     </div>
@@ -92,13 +92,9 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <span className={cn("any_tags")}>
                         <Toggle
-                            checked={subscription.any_tags}
                             onChange={() =>
                                 onChange({
-                                    subscription: {
-                                        ...subscription,
-                                        any_tags: !subscription.any_tags,
-                                    },
+                                    any_tags: !subscription.any_tags,
                                 })
                             }
                         />
