@@ -97,11 +97,12 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
                                         </Fit>
                                         <Fit>
                                             <RouterLink
-                                                to={`/trigger/${
+                                                to={getPageLink(
+                                                    "trigger",
                                                     match && match.params && match.params.id
                                                         ? match.params.id
                                                         : ""
-                                                }`}
+                                                )}
                                             >
                                                 Cancel
                                             </RouterLink>
