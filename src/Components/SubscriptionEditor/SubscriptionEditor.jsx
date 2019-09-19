@@ -19,6 +19,7 @@ export type SubscriptionInfo = {
     throttling: boolean,
     contacts: Array<string>,
     enabled: boolean,
+    any_tags: boolean,
     ignore_warnings: boolean,
     ignore_recoverings: boolean,
     plotting?: {
@@ -59,7 +60,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 </div>
                 <div className={cn("row")}>
                     <div className={cn("caption")}>
-                        Tags:{" "}
+                        Tags asdasdasd:{" "}
                         <Tooltip
                             trigger="click"
                             render={this.renderTagsExplanation}
@@ -83,9 +84,26 @@ export default class SubscriptionEditor extends React.Component<Props> {
                                     });
                                 }}
                                 availableTags={tags}
+                                isDisabled={false}
                             />
                         </ValidationWrapperV1>
                     </div>
+                </div>
+                <div className={cn("row")}>
+                    <span className={cn("any_tags")}>
+                        <Toggle
+                            checked={subscription.any_tags}
+                            onChange={() =>
+                                onChange({
+                                    subscription: {
+                                        ...subscription,
+                                        any_tags: !subscription.any_tags,
+                                    },
+                                })
+                            }
+                        />
+                        Any tags
+                    </span>
                 </div>
                 <div className={cn("row")}>
                     <div className={cn("caption")}>Delivery schedule:</div>

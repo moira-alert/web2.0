@@ -15,6 +15,7 @@ type Props = {
     onChange: (Array<string>) => void,
     availableTags: Array<string>,
     error?: boolean,
+    isDisabled?: boolean,
     width: number,
     allowCreateNewTags?: boolean,
 };
@@ -236,8 +237,9 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     }
 
     renderInput(): React.Node {
-        const { error, value } = this.props;
+        const { error, value, isDisabled } = this.props;
         const { isFocused, inputValue } = this.state;
+        console.log("ahsdfgakjsdfgkjasdgfkjasgdfkjasdgfkjagsdfkfagsdfkjgadf")
         return (
             <div className={cn("input-area", { focused: isFocused, error })}>
                 {value.length !== 0 &&
@@ -260,6 +262,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                             : null
                     }
                     onFocus={() => this.setState({ isFocused: true })}
+                    disabled={isDisabled ? "disabled" : "enabled"}
                 />
             </div>
         );
