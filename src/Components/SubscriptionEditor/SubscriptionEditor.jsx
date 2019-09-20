@@ -60,7 +60,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 </div>
                 <div className={cn("row")}>
                     <div className={cn("caption")}>
-                        Tags asdasdasd:{" "}
+                        Tags:{" "}
                         <Tooltip
                             trigger="click"
                             render={this.renderTagsExplanation}
@@ -265,7 +265,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
 
     validateTags(): ?ValidationInfo {
         const { subscription } = this.props;
-        if (subscription.tags.length === 0) {
+        if (subscription.tags.length === 0 && !subscription.any_tags) {
             return {
                 message: "Please add one or more tags",
                 type: "submit",
