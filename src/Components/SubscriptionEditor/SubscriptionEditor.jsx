@@ -41,6 +41,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
     render(): React.Node {
         const { subscription, contacts, onChange, tags } = this.props;
         const { plotting = { enabled: true, theme: "light" } } = subscription;
+        subscription.tags = subscription.any_tags ? [] : subscription.tags;
         return (
             <div className={cn("form")}>
                 <div className={cn("row")}>
@@ -77,7 +78,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         >
                             <TagDropdownSelect
                                 width={470}
-                                value={subscription.any_tags ? [] : subscription.tags}
+                                value={subscription.tags}
                                 onChange={nextTags => {
                                     onChange({
                                         tags: nextTags,

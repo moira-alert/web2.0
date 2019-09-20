@@ -241,14 +241,15 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const { error, value, isDisabled } = this.props;
         const { isFocused, inputValue } = this.state;
         return (
-            <div className={isDisabled ? cn("disabled") : cn("input-area", { focused: isFocused, error })}>
+            <div
+                className={
+                    isDisabled ? cn("disabled") : cn("input-area", { focused: isFocused, error })
+                }
+            >
                 {value.length !== 0 &&
                     value.map(tag => (
                         <span className={cn("tag-wrap")} key={tag}>
-                            <Tag
-                                title={tag}
-                                onRemove={isDisabled ? null : () => this.handleRemoveTag(tag)}
-                            />
+                            <Tag title={tag} onRemove={() => this.handleRemoveTag(tag)} />
                         </span>
                     ))}
                 <input
