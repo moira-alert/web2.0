@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import Input from "retail-ui/components/Input";
 import union from "lodash/union";
 import difference from "lodash/difference";
 import RenderLayer from "retail-ui/components/RenderLayer";
@@ -243,7 +242,9 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         return (
             <div
                 className={
-                    isDisabled ? cn("input-area-disabled") : cn("input-area", { focused: isFocused, error })
+                    isDisabled
+                        ? cn("input-area-disabled")
+                        : cn("input-area", { focused: isFocused, error })
                 }
             >
                 {value.length !== 0 &&
