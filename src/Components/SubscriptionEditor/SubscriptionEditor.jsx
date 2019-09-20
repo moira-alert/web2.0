@@ -80,7 +80,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                                 value={subscription.tags}
                                 onChange={nextTags => {
                                     onChange({
-                                        tags: subscription.any_tags ? null : nextTags,
+                                        tags: nextTags,
                                     });
                                 }}
                                 availableTags={tags}
