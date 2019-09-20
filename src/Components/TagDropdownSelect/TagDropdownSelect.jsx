@@ -243,7 +243,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         return (
             <div
                 className={
-                    isDisabled ? cn("disabled") : cn("input-area", { focused: isFocused, error })
+                    isDisabled ? cn("input-area-disabled") : cn("input-area", { focused: isFocused, error })
                 }
             >
                 {value.length !== 0 &&
