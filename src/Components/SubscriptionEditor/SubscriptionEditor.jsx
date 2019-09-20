@@ -70,14 +70,14 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             <HelpDotIcon color="#3072c4" />
                         </Tooltip>
                     </div>
-                    <div className={cn("value", "with-input")}>
+                    <div className={cn("value", "with-input", "radio")}>
                         <ValidationWrapperV1
                             renderMessage={tooltip("right middle")}
                             validationInfo={this.validateTags()}
                         >
                             <TagDropdownSelect
                                 width={470}
-                                value={subscription.tags}
+                                value={subscription.any_tags ? [] : subscription.tags}
                                 onChange={nextTags => {
                                     onChange({
                                         tags: nextTags,

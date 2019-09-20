@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import Input from "retail-ui/components/Input";
 import union from "lodash/union";
 import difference from "lodash/difference";
 import RenderLayer from "retail-ui/components/RenderLayer";
@@ -240,7 +241,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const { error, value, isDisabled } = this.props;
         const { isFocused, inputValue } = this.state;
         return (
-            <div className={cn("input-area", { focused: isFocused, error })}>
+            <div className={isDisabled ? cn("disabled") : cn("input-area", { focused: isFocused, error })}>
                 {value.length !== 0 &&
                     value.map(tag => (
                         <span className={cn("tag-wrap")} key={tag}>
