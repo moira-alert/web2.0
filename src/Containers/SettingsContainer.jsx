@@ -184,6 +184,7 @@ class SettingsContainer extends React.Component<Props, State> {
                 throttling: subscription.throttling,
                 contacts: subscription.contacts,
                 enabled: subscription.enabled,
+                any_tags: subscription.any_tags,
                 user: settings.login,
                 ignore_warnings: subscription.ignore_warnings,
                 ignore_recoverings: subscription.ignore_recoverings,
