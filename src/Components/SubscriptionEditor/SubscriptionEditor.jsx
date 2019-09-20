@@ -90,7 +90,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     </div>
                 </div>
                 <div className={cn("row")}>
-                    <span className={cn("any_tags")}>
+                    <span>
                         <Toggle
                             onChange={checked =>
                                 onChange({
@@ -98,7 +98,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                                 })
                             }
                         />
-                        Any tags
+                        {" Any tags"}
                     </span>
                 </div>
                 <div className={cn("row")}>
