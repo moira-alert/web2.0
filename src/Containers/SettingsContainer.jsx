@@ -179,15 +179,8 @@ class SettingsContainer extends React.Component<Props, State> {
         }
         try {
             const newSubscriptions = await moiraApi.addSubscription({
-                sched: subscription.sched,
-                tags: subscription.tags,
-                throttling: subscription.throttling,
-                contacts: subscription.contacts,
-                enabled: subscription.enabled,
+                ...subscription,
                 user: settings.login,
-                ignore_warnings: subscription.ignore_warnings,
-                ignore_recoverings: subscription.ignore_recoverings,
-                plotting: subscription.plotting,
             });
             this.setState({
                 settings: {

@@ -19,6 +19,7 @@ export type SubscriptionCreateInfo = {|
     throttling: boolean,
     contacts: Array<string>,
     enabled: boolean,
+    any_tags: boolean,
     user: string,
     id?: string,
     ignore_recoverings: boolean,
