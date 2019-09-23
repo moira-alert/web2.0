@@ -41,7 +41,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
     render(): React.Node {
         const { subscription, contacts, onChange, tags } = this.props;
         const { plotting = { enabled: true, theme: "light" } } = subscription;
-        subscription.tags = subscription.any_tags ? [] : subscription.tags;
         return (
             <div className={cn("form")}>
                 <div className={cn("row")}>
@@ -96,6 +95,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             onChange={checked =>
                                 onChange({
                                     any_tags: checked,
+                                    tags: checked ? [] : subscription.tags,
                                 })
                             }
                         />
