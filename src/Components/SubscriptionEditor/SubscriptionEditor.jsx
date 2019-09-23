@@ -92,6 +92,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <span>
                         <Toggle
+                            checked={subscription.any_tags}
                             onChange={checked =>
                                 onChange({
                                     any_tags: checked,
