@@ -10,6 +10,7 @@ import ViberIcon from "@skbkontur/react-icons/Viber2";
 import SvgIcon from "../SvgIcon/SvgIcon";
 import PushoverLogo from "./pushover-logo.svg";
 import SlackLogo from "./slack-logo.svg";
+import MsTeamsLogo from "./msteams-logo.svg";
 import TwilioLogo from "./twilio-logo.svg";
 import WebhookLogo from "./webhook-logo.svg";
 import DiscordLogo from "./discord-logo.svg";
@@ -23,6 +24,7 @@ type Props = {
 
 const TypeToIcon = {
     slack: <SvgIcon path={SlackLogo} size={15} offsetTop={2} />,
+    msteams: <SvgIcon path={MsTeamsLogo} size={15} offsetTop={2} />,
     telegram: <TelegramIcon />,
     facebook: <FacebookIcon />,
     viber: <ViberIcon />,

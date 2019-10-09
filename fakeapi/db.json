@@ -12,6 +12,11 @@
                 "placeholder": "Slack #channel or @user"
             },
             {
+                "type": "msteams",
+                "label": "Microsoft Teams",
+                "placeholder": "Microsoft Teams Channel Incoming WebHook"
+            },
+            {
                 "type": "phone",
                 "label": "Phone",
                 "validation": "^9\\d{9}$",
