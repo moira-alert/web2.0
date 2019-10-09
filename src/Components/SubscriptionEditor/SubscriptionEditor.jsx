@@ -19,6 +19,7 @@ export type SubscriptionInfo = {
     throttling: boolean,
     contacts: Array<string>,
     enabled: boolean,
+    any_tags: boolean,
     ignore_warnings: boolean,
     ignore_recoverings: boolean,
     plotting?: {
@@ -83,9 +84,24 @@ export default class SubscriptionEditor extends React.Component<Props> {
                                     });
                                 }}
                                 availableTags={tags}
+                                isDisabled={subscription.any_tags}
                             />
                         </ValidationWrapperV1>
                     </div>
+                </div>
+                <div className={cn("row")}>
+                    <span>
+                        <Toggle
+                            checked={subscription.any_tags}
+                            onChange={checked =>
+                                onChange({
+                                    any_tags: checked,
+                                    tags: checked ? [] : subscription.tags,
+                                })
+                            }
+                        />
+                        {" Any tags"}
+                    </span>
                 </div>
                 <div className={cn("row")}>
                     <div className={cn("caption")}>Delivery schedule:</div>
@@ -251,7 +267,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
 
     validateTags(): ?ValidationInfo {
         const { subscription } = this.props;
-        if (subscription.tags.length === 0) {
+        if (subscription.tags.length === 0 && !subscription.any_tags) {
             return {
                 message: "Please add one or more tags",
                 type: "submit",
