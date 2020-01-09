@@ -3885,7 +3885,7 @@
                     "timestamp": 1527598616,
                     "metric": "KE.transport.exceptions_caught.type.IrudProcessed_CheckAll",
                     "value": 160,
-                    "state": "ERROR",
+                    "state": "NODATA",
                     "trigger_id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "sub_id": "070abd46-21ca-4637-be37-b5576e226d3f",
                     "old_state": "OK"
