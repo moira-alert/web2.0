@@ -42,7 +42,7 @@ export default function NotificationList(props: Props): React.Element<any> {
                 const { type, value, user } = contact;
                 const { id, name } = trigger;
                 return (
-                    <div key={id} className={cn("row")}>
+                    <div key={key} className={cn("row")}>
                         <div className={cn("timestamp")}>
                             {moment.unix(timestamp).format("MMMM D, HH:mm:ss")}
                             {items[key].length > 1 ? ` (${items[key].length}×)` : ""}
