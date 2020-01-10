@@ -1,6 +1,4 @@
 {
     // Чтобы показывались только ошибки Flow в тултипах
-    "javascript.validate.enable": false,
-    // Чтобы Prettier форматировал при сохранении
-    "editor.formatOnSave": true
+    "javascript.validate.enable": false
 }
