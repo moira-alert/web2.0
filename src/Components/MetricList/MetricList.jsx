@@ -11,10 +11,10 @@ import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import type { Maintenance } from "../../Domain/Maintenance";
 import type { Metric } from "../../Domain/Metric";
-import roundValue from "../../helpers/roundValue";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import cn from "./MetricList.less";
+import MetricValues from "../MetricValues/MetricValues";
 
 export type SortingColum = "state" | "name" | "event" | "value";
 
@@ -115,6 +115,7 @@ export default function MetricList(props: Props): React.Node {
                 {Object.keys(items).map(metric => {
                     const {
                         value,
+                        values,
                         event_timestamp: eventTimestamp = 0,
                         state,
                         maintenance,
@@ -132,7 +133,9 @@ export default function MetricList(props: Props): React.Node {
                             <div className={cn("event")}>
                                 {moment.unix(eventTimestamp).format("MMMM D, HH:mm:ss")}
                             </div>
-                            <div className={cn("value")}>{roundValue(value)}</div>
+                            <div className={cn("value")}>
+                                <MetricValues value={value} values={values} placeholder />
+                            </div>
                             <div className={cn("maintenance")}>
                                 <Dropdown use="link" caption={maintenanceCaption(delta)}>
                                     {Object.keys(Maintenances).map(key => (
