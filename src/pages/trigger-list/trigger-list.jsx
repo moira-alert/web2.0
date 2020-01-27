@@ -99,6 +99,8 @@ class TriggerListPage extends React.Component<Props, State> {
                 pageCount={pageCount}
                 loading={loading}
                 error={error}
+                moiraApi={this.props.moiraApi}
+                location={this.props.location}
                 onChange={this.changeLocationSearch}
             />
         );
