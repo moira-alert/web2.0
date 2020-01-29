@@ -50,7 +50,7 @@ function maintenanceCaption(delta: number): React.Node {
 
 function ScheduleView(props: { data: Schedule }): React.Node {
     const { data } = props;
-    const { days, startOffset, endOffset } = data;
+    const { days, startOffset, endOffset, tzOffset } = data;
     const enabledDays = days.filter(({ enabled }) => enabled);
     const viewDays =
         days.length === enabledDays.length
@@ -61,9 +61,14 @@ function ScheduleView(props: { data: Schedule }): React.Node {
         .format("HH:mm")}–${moment("1900-01-01 00:00:00")
         .add(endOffset, "minutes")
         .format("HH:mm")}`;
+
+    const timeZone = "GMT " + (tzOffset < 0 ? "- " : "+ ") +
+        `0${Math.abs(tzOffset) / 60 ^ 0}`.slice(-2) + ':' +
+        ('0' + Math.abs(tzOffset) % 60).slice(-2);
+    
     return (
         <div>
-            {viewDays} {viewTime}
+            {viewDays} {viewTime} ({timeZone})
         </div>
     );
 }
