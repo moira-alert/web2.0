@@ -62,10 +62,12 @@ function ScheduleView(props: { data: Schedule }): React.Node {
         .add(endOffset, "minutes")
         .format("HH:mm")}`;
 
-    const timeZone = "GMT " + (tzOffset < 0 ? "- " : "+ ") +
-        `0${Math.abs(tzOffset) / 60 ^ 0}`.slice(-2) + ':' +
-        ('0' + Math.abs(tzOffset) % 60).slice(-2);
-    
+    const sign = tzOffset < 0 ? "-" : "+";
+    const timeOffset = moment
+        .utc(moment.duration(Math.abs(tzOffset), "minutes").asMilliseconds())
+        .format("HH:mm");
+    const timeZone = `GMT ${sign} ${timeOffset}`;
+
     return (
         <div>
             {viewDays} {viewTime} ({timeZone})
