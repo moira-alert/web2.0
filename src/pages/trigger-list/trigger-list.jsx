@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import moment from "moment";
 import isEqual from "lodash/isEqual";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
@@ -9,8 +10,10 @@ import type { ContextRouter } from "react-router-dom";
 import type { TriggerList } from "../../Domain/Trigger";
 import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import type { IMoiraApi } from "../../Api/MoiraApi";
+import type { Maintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
+import { getMaintenanceTime } from "../../Domain/Maintenance";
 
 // ToDo вынести в хелперы
 const clearInput = (input: string) => {
@@ -100,6 +103,8 @@ class TriggerListPage extends React.Component<Props, State> {
                 loading={loading}
                 error={error}
                 onChange={this.changeLocationSearch}
+                onSetMetricMaintenance={this.setMetricMaintenance}
+                onRemoveMetric={this.removeMetric}
             />
         );
     }
@@ -192,6 +197,31 @@ class TriggerListPage extends React.Component<Props, State> {
                 encode: true,
             })}`
         );
+    };
+
+    setMetricMaintenance = async (triggerId: string, maintenance: Maintenance, metric: string) => {
+        this.setState({ loading: true });
+        const { moiraApi } = this.props;
+        const maintenanceTime = getMaintenanceTime(maintenance);
+        await moiraApi.setMaintenance(triggerId, {
+            metrics: {
+                [metric]:
+                    maintenanceTime > 0
+                        ? moment
+                              .utc()
+                              .add(maintenanceTime, "minutes")
+                              .unix()
+                        : maintenanceTime,
+            },
+        });
+        this.getData(this.props);
+    };
+
+    removeMetric = async (triggerId: string, metric: string): Promise<void> => {
+        this.setState({ loading: true });
+        const { moiraApi } = this.props;
+        await moiraApi.delMetric(triggerId, metric);
+        this.getData(this.props);
     };
 }
 
