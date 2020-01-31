@@ -82,7 +82,7 @@ class TriggerContainer extends React.Component<Props, State> {
                     this.handleRemoveMetric(x);
                 }}
                 onThrottlingRemove={() => {
-                    this.disableTrhrottling();
+                    this.disableThrottling();
                 }}
                 onSetMetricMaintenance={(x, y) => {
                     this.handleSetMetricMaintenance(x, y);
@@ -162,7 +162,7 @@ class TriggerContainer extends React.Component<Props, State> {
         }
     }
 
-    async disableTrhrottling() {
+    async disableThrottling() {
         const { trigger } = this.state;
         const { moiraApi, match } = this.props;
         const { id } = match.params;
