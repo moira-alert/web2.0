@@ -102,7 +102,7 @@ class TriggerPage extends React.Component<Props, State> {
                 pageCount={pageCount}
                 loading={loading}
                 error={error}
-                disableTrhrottling={this.disableTrhrottling}
+                disableThrottling={this.disableThrottling}
                 setTriggerMaintenance={this.setTriggerMaintenance}
                 setMetricMaintenance={this.setMetricMaintenance}
                 removeMetric={this.removeMetric}
@@ -145,7 +145,7 @@ class TriggerPage extends React.Component<Props, State> {
         }
     }
 
-    disableTrhrottling = async (triggerId: string) => {
+    disableThrottling = async (triggerId: string) => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         await moiraApi.delThrottling(triggerId);

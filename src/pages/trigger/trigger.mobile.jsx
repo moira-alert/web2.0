@@ -7,7 +7,7 @@ import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage
 type Props = {|
     trigger: ?Trigger,
     state: ?TriggerState,
-    disableTrhrottling: (id: string) => void,
+    disableThrottling: (id: string) => void,
     setTriggerMaintenance: (id: string, maintenance: Maintenance) => void,
     setMetricMaintenance: (id: string, maintenance: Maintenance, metric: string) => void,
     removeMetric: (id: string, metric: string) => void,
@@ -24,7 +24,7 @@ class TriggerMobile extends React.Component {
         const {
             trigger,
             state,
-            disableTrhrottling,
+            disableThrottling,
             setTriggerMaintenance,
             setMetricMaintenance,
             removeMetric,
@@ -37,7 +37,7 @@ class TriggerMobile extends React.Component {
                 triggerState={state}
                 metrics={metrics}
                 onRemoveMetric={metric => removeMetric(trigger.id, metric)}
-                onThrottlingRemove={() => disableTrhrottling(trigger.id)}
+                onThrottlingRemove={() => disableThrottling(trigger.id)}
                 onSetMetricMaintenance={(metric, maintenance) =>
                     setMetricMaintenance(trigger.id, metric, maintenance)
                 }

@@ -19,7 +19,7 @@ type Props = {|
     events: Array<Event>,
     page: number,
     pageCount: number,
-    disableTrhrottling: (id: string) => void,
+    disableThrottling: (id: string) => void,
     setTriggerMaintenance: (id: string, maintenance: Maintenance) => void,
     setMetricMaintenance: (id: string, maintenance: Maintenance, metric: string) => void,
     removeMetric: (id: string, metric: string) => void,
@@ -77,7 +77,7 @@ class TriggerDesktop extends React.Component<Props, State> {
             events,
             page,
             pageCount,
-            disableTrhrottling,
+            disableThrottling,
             setTriggerMaintenance,
             setMetricMaintenance,
             removeMetric,
@@ -102,7 +102,7 @@ class TriggerDesktop extends React.Component<Props, State> {
                         <TriggerInfo
                             data={trigger}
                             triggerState={state}
-                            onThrottlingRemove={() => disableTrhrottling(trigger.id)}
+                            onThrottlingRemove={() => disableThrottling(trigger.id)}
                             onSetMaintenance={maintenance =>
                                 setTriggerMaintenance(trigger.id, maintenance)
                             }
