@@ -53,4 +53,4 @@ First of all thank you for your help!
 For contributors we have two major rules:
 
 - Put issues [in main repo](https://github.com/moira-alert/moira/issues), please. Even if you think, that your issue only about web interface. In many cases that's no so.
-- If you want to send PR, checkout you feature branch from `develop` and name it by template `feature/%feautre_name%`. When you send PR alson choice `develop` as base.
+- If you want to send PR, checkout you feature branch from `master` and name it by template `feature/%feautre_name%`. When you send PR alson choice `master` as base.
