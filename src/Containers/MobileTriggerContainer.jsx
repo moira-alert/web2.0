@@ -110,7 +110,7 @@ class TriggerContainer extends React.Component<Props, State> {
         if (typeof id !== "string") {
             return;
         }
-        await this.setMetricMaintenance(id, maintenanceInterval, metric);
+        await this.setMetricMaintenance(id, metric, maintenanceInterval);
         this.getData(this.props);
     };
 

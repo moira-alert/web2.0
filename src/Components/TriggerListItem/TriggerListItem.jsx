@@ -234,7 +234,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     items={TriggerListItem.sortMetricsByValue(this.filterMetricsByStatus(x))}
                     sortingColumn="value"
                     sortingDown
-                    onChange={(maintenance, metric) => onChange(maintenance, metric)}
+                    onChange={(metric, maintenance) => onChange(metric, maintenance)}
                     onRemove={metric => onRemove(metric)}
                 />
             </Tab>

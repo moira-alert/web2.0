@@ -26,7 +26,7 @@ export default function TriggerList(props: Props): React.Node {
                             data={item}
                             onChange={
                                 onChange &&
-                                ((maintenance, metric) => onChange(item.id, maintenance, metric))
+                                ((metric, maintenance) => onChange(item.id, metric, maintenance))
                             }
                             onRemove={onRemove && (metric => onRemove(item.id, metric))}
                         />

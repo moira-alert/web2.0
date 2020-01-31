@@ -57,8 +57,8 @@ class TriggerListDesktop extends React.Component {
                         <TriggerList
                             searchMode={searchText !== ""}
                             items={triggers}
-                            onChange={(triggerId, maintenance, metric) => {
-                                onSetMetricMaintenance(triggerId, maintenance, metric);
+                            onChange={(triggerId, metric, maintenance) => {
+                                onSetMetricMaintenance(triggerId, metric, maintenance);
                             }}
                             onRemove={(triggerId, metric) => {
                                 onRemoveMetric(triggerId, metric);
