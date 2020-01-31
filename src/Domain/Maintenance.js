@@ -44,8 +44,18 @@ export function getMaintenanceCaption(maintenance: Maintenance): string {
     return MaintenanceCaptions[maintenance];
 }
 
-export function getMaintenanceTime(maintenance: Maintenance): number {
+function getMaintenanceInterval(maintenance: Maintenance): number {
     return MaintenanceTimes[maintenance];
+}
+
+function calculateMaintenanceTime(maintenance: Maintenance): number {
+    const maintenanceTime = getMaintenanceInterval(maintenance);
+    return maintenanceTime > 0
+        ? moment
+              .utc()
+              .add(maintenanceTime, "minutes")
+              .unix()
+        : maintenanceTime;
 }
 
 export async function setMetricMaintenance(
@@ -54,17 +64,8 @@ export async function setMetricMaintenance(
     metric: string,
     maintenance: Maintenance
 ) {
-    const maintenanceTime = getMaintenanceTime(maintenance);
     await moiraApi.setMaintenance(triggerId, {
-        metrics: {
-            [metric]:
-                maintenanceTime > 0
-                    ? moment
-                          .utc()
-                          .add(maintenanceTime, "minutes")
-                          .unix()
-                    : maintenanceTime,
-        },
+        metrics: { [metric]: calculateMaintenanceTime(maintenance) },
     });
 }
 
@@ -73,14 +74,5 @@ export async function setTriggerMaintenance(
     triggerId: string,
     maintenance: Maintenance
 ) {
-    const maintenanceTime = getMaintenanceTime(maintenance);
-    await moiraApi.setMaintenance(triggerId, {
-        trigger:
-            maintenanceTime > 0
-                ? moment
-                      .utc()
-                      .add(maintenanceTime, "minutes")
-                      .unix()
-                : maintenanceTime,
-    });
+    await moiraApi.setMaintenance(triggerId, { trigger: calculateMaintenanceTime(maintenance) });
 }
