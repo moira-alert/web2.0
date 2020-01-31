@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
 import queryString from "query-string";
 import type { ContextRouter } from "react-router-dom";
 import isEqual from "lodash/isEqual";
@@ -9,7 +8,7 @@ import type { Event } from "../../Domain/Event";
 import type { IMoiraApi } from "../../Api/MoiraApi";
 import type { Maintenance } from "../../Domain/Maintenance";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
-import { getMaintenanceTime } from "../../Domain/Maintenance";
+import { setMetricMaintenance, setTriggerMaintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
@@ -153,38 +152,17 @@ class TriggerPage extends React.Component<Props, State> {
         this.loadData();
     };
 
-    // ToDo свести setTriggerMaintenance setMetricMaintenance и до одной функции
     setTriggerMaintenance = async (triggerId: string, maintenance: Maintenance) => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
-        const maintenanceTime = getMaintenanceTime(maintenance);
-        await moiraApi.setMaintenance(triggerId, {
-            trigger:
-                maintenanceTime > 0
-                    ? moment
-                          .utc()
-                          .add(maintenanceTime, "minutes")
-                          .unix()
-                    : maintenanceTime,
-        });
+        await setTriggerMaintenance(moiraApi, triggerId, maintenance);
         this.loadData();
     };
 
     setMetricMaintenance = async (triggerId: string, metric: string, maintenance: Maintenance) => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
-        const maintenanceTime = getMaintenanceTime(maintenance);
-        await moiraApi.setMaintenance(triggerId, {
-            metrics: {
-                [metric]:
-                    maintenanceTime > 0
-                        ? moment
-                              .utc()
-                              .add(maintenanceTime, "minutes")
-                              .unix()
-                        : maintenanceTime,
-            },
-        });
+        await setMetricMaintenance(moiraApi, triggerId, metric, maintenance);
         this.loadData();
     };
 

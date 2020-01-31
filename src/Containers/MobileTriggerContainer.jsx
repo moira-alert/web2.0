@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
 import queryString from "query-string";
 import type { ContextRouter } from "react-router-dom";
 import type { IMoiraApi } from "../Api/MoiraApi";
@@ -11,7 +10,7 @@ import type { Event } from "../Domain/Event";
 import type { SortingColum } from "../Components/MetricList/MetricList";
 import { statusCode } from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { getMaintenanceTime } from "../Domain/Maintenance";
+import { setMetricMaintenance, setTriggerMaintenance } from "../Domain/Maintenance";
 import { getStatusWeight } from "../Domain/Status";
 import MobileTriggerInfoPage from "../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 
@@ -189,33 +188,13 @@ class TriggerContainer extends React.Component<Props, State> {
     async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string) {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
-        const maintenanceTime = getMaintenanceTime(maintenance);
-        await moiraApi.setMaintenance(triggerId, {
-            metrics: {
-                [metric]:
-                    maintenanceTime > 0
-                        ? moment
-                              .utc()
-                              .add(maintenanceTime, "minutes")
-                              .unix()
-                        : maintenanceTime,
-            },
-        });
+        await setMetricMaintenance(moiraApi, triggerId, metric, maintenance);
     }
 
     async setTriggerMaintenance(triggerId: string, maintenance: Maintenance) {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
-        const maintenanceTime = getMaintenanceTime(maintenance);
-        await moiraApi.setMaintenance(triggerId, {
-            trigger:
-                maintenanceTime > 0
-                    ? moment
-                          .utc()
-                          .add(maintenanceTime, "minutes")
-                          .unix()
-                    : maintenanceTime,
-        });
+        await setTriggerMaintenance(moiraApi, triggerId, maintenance);
     }
 
     changeLocationSearch(update: { page: number }) {

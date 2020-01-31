@@ -7,12 +7,11 @@ import difference from "lodash/difference";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 import isEqual from "lodash/isEqual";
-import moment from "moment";
 import Paging from "retail-ui/components/Paging";
 import type { ContextRouter } from "react-router-dom";
 import { getPageLink } from "../Domain/Global";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { getMaintenanceTime } from "../Domain/Maintenance";
+import { setMetricMaintenance } from "../Domain/Maintenance";
 import type { Config } from "../Domain/Config";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { TriggerList } from "../Domain/Trigger";
@@ -211,18 +210,7 @@ class TriggerListContainer extends React.Component<Props, State> {
     async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string) {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
-        const maintenanceTime = getMaintenanceTime(maintenance);
-        await moiraApi.setMaintenance(triggerId, {
-            metrics: {
-                [metric]:
-                    maintenanceTime > 0
-                        ? moment
-                              .utc()
-                              .add(maintenanceTime, "minutes")
-                              .unix()
-                        : maintenanceTime,
-            },
-        });
+        await setMetricMaintenance(moiraApi, triggerId, metric, maintenance);
         this.getData(this.props);
     }
 

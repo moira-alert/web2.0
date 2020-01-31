@@ -1,4 +1,7 @@
 // @flow
+import moment from "moment";
+import type { IMoiraApi } from "../Api/MoiraApi";
+
 export const Maintenances = {
     off: "off",
     quarterHour: "quarterHour",
@@ -43,4 +46,41 @@ export function getMaintenanceCaption(maintenance: Maintenance): string {
 
 export function getMaintenanceTime(maintenance: Maintenance): number {
     return MaintenanceTimes[maintenance];
+}
+
+export async function setMetricMaintenance(
+    moiraApi: IMoiraApi,
+    triggerId: string,
+    metric: string,
+    maintenance: Maintenance
+) {
+    const maintenanceTime = getMaintenanceTime(maintenance);
+    await moiraApi.setMaintenance(triggerId, {
+        metrics: {
+            [metric]:
+                maintenanceTime > 0
+                    ? moment
+                          .utc()
+                          .add(maintenanceTime, "minutes")
+                          .unix()
+                    : maintenanceTime,
+        },
+    });
+}
+
+export async function setTriggerMaintenance(
+    moiraApi: IMoiraApi,
+    triggerId: string,
+    maintenance: Maintenance
+) {
+    const maintenanceTime = getMaintenanceTime(maintenance);
+    await moiraApi.setMaintenance(triggerId, {
+        trigger:
+            maintenanceTime > 0
+                ? moment
+                      .utc()
+                      .add(maintenanceTime, "minutes")
+                      .unix()
+                : maintenanceTime,
+    });
 }

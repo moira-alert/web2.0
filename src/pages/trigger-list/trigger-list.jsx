@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
 import isEqual from "lodash/isEqual";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
@@ -13,7 +12,7 @@ import type { IMoiraApi } from "../../Api/MoiraApi";
 import type { Maintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
-import { getMaintenanceTime } from "../../Domain/Maintenance";
+import { setMetricMaintenance } from "../../Domain/Maintenance";
 
 // ToDo вынести в хелперы
 const clearInput = (input: string) => {
@@ -202,18 +201,7 @@ class TriggerListPage extends React.Component<Props, State> {
     setMetricMaintenance = async (triggerId: string, maintenance: Maintenance, metric: string) => {
         this.setState({ loading: true });
         const { moiraApi } = this.props;
-        const maintenanceTime = getMaintenanceTime(maintenance);
-        await moiraApi.setMaintenance(triggerId, {
-            metrics: {
-                [metric]:
-                    maintenanceTime > 0
-                        ? moment
-                              .utc()
-                              .add(maintenanceTime, "minutes")
-                              .unix()
-                        : maintenanceTime,
-            },
-        });
+        await setMetricMaintenance(moiraApi, triggerId, metric, maintenance);
         this.getData(this.props);
     };
 
