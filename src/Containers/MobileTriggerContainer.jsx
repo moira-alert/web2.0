@@ -178,13 +178,6 @@ class TriggerContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    async removeMetric(triggerId: string, metric: string) {
-        const { moiraApi } = this.props;
-        this.setState({ loading: true });
-        await moiraApi.delMetric(triggerId, metric);
-        this.getData(this.props);
-    }
-
     async setMetricMaintenance(triggerId: string, maintenance: Maintenance, metric: string) {
         const { moiraApi } = this.props;
         this.setState({ loading: true });

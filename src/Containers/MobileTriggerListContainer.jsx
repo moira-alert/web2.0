@@ -2,13 +2,10 @@
 import * as React from "react";
 import queryString from "query-string";
 import intersection from "lodash/intersection";
-import moment from "moment";
 import type { ContextRouter } from "react-router-dom";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { getMaintenanceTime } from "../Domain/Maintenance";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { TriggerList, Trigger } from "../Domain/Trigger";
-import type { Maintenance } from "../Domain/Maintenance";
 import MobileTriggerListPage from "../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
 import MobileTagSelectorPage from "../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
 import parseLocationSearch from "../logic/parseLocationSearch";
@@ -184,29 +181,6 @@ class TriggerListContainer extends React.Component<Props, State> {
                 encode: true,
             })}`
         );
-    }
-
-    async setMaintenance(triggerId: string, maintenance: Maintenance, metric: string) {
-        const { moiraApi } = this.props;
-        this.setState({ loading: true });
-        const maintenanceTime = getMaintenanceTime(maintenance);
-        await moiraApi.setMaintenance(triggerId, {
-            [metric]:
-                maintenanceTime > 0
-                    ? moment
-                          .utc()
-                          .add(maintenanceTime, "minutes")
-                          .unix()
-                    : maintenanceTime,
-        });
-        this.getData(this.props);
-    }
-
-    async removeMetric(triggerId: string, metric: string) {
-        const { moiraApi } = this.props;
-        this.setState({ loading: true });
-        await moiraApi.delMetric(triggerId, metric);
-        this.getData(this.props);
     }
 }
 
