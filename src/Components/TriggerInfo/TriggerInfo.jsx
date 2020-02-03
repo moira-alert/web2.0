@@ -50,21 +50,34 @@ function maintenanceCaption(delta: number): React.Node {
 
 function ScheduleView(props: { data: Schedule }): React.Node {
     const { data } = props;
-    const { days, startOffset, endOffset } = data;
-    const enabledDays = days.filter(({ enabled }) => enabled);
-    const viewDays =
-        days.length === enabledDays.length
-            ? "Everyday"
-            : enabledDays.map(({ name }) => name).join(", ");
-    const viewTime = `${moment("1900-01-01 00:00:00")
+    const { days, startOffset, endOffset, tzOffset } = data;
+
+    const startTime = moment()
+        .utc()
+        .startOf("day")
         .add(startOffset, "minutes")
-        .format("HH:mm")}–${moment("1900-01-01 00:00:00")
+        .format("HH:mm");
+    const endTime = moment()
+        .utc()
+        .startOf("day")
         .add(endOffset, "minutes")
-        .format("HH:mm")}`;
+        .format("HH:mm");
+    const timeZone = moment()
+        .utc()
+        .startOf("day")
+        .add(Math.abs(tzOffset), "minutes")
+        .format("HH:mm");
+    const timeZoneSign = tzOffset < 0 ? "−" : "+";
+    const enabledDays = days.filter(({ enabled }) => enabled);
+
     return (
-        <div>
-            {viewDays} {viewTime}
-        </div>
+        <React.Fragment>
+            {days.length === enabledDays.length
+                ? "Everyday"
+                : enabledDays.map(({ name }) => name).join(", ")}{" "}
+            {startTime}—{endTime} (GMT {timeZoneSign}
+            {timeZone})
+        </React.Fragment>
     );
 }
 
