@@ -9,8 +9,10 @@ import type { ContextRouter } from "react-router-dom";
 import type { TriggerList } from "../../Domain/Trigger";
 import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import type { IMoiraApi } from "../../Api/MoiraApi";
+import type { Maintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
+import { setMetricMaintenance } from "../../Domain/Maintenance";
 
 // ToDo вынести в хелперы
 const clearInput = (input: string) => {
@@ -100,6 +102,8 @@ class TriggerListPage extends React.Component<Props, State> {
                 loading={loading}
                 error={error}
                 onChange={this.changeLocationSearch}
+                onSetMetricMaintenance={this.setMetricMaintenance}
+                onRemoveMetric={this.removeMetric}
             />
         );
     }
@@ -192,6 +196,20 @@ class TriggerListPage extends React.Component<Props, State> {
                 encode: true,
             })}`
         );
+    };
+
+    setMetricMaintenance = async (triggerId: string, metric: string, maintenance: Maintenance) => {
+        this.setState({ loading: true });
+        const { moiraApi } = this.props;
+        await setMetricMaintenance(moiraApi, triggerId, metric, maintenance);
+        this.getData(this.props);
+    };
+
+    removeMetric = async (triggerId: string, metric: string): Promise<void> => {
+        this.setState({ loading: true });
+        const { moiraApi } = this.props;
+        await moiraApi.delMetric(triggerId, metric);
+        this.getData(this.props);
     };
 }
 
