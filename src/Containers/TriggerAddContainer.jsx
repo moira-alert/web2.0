@@ -112,7 +112,9 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                             </Button>
                                         </Fit>
                                         <Fit>
-                                            <RouterLink to="/">Cancel</RouterLink>
+                                            <RouterLink to={getPageLink("index")}>
+                                                Cancel
+                                            </RouterLink>
                                         </Fit>
                                     </RowStack>
                                 </Fit>

@@ -1,14 +1,17 @@
 MARK_NIGHTLY := "nightly"
 MARK_UNSTABLE := "unstable"
+
 GIT_BRANCH := "unknown"
 GIT_HASH := $(shell git log --pretty=format:%H -n 1)
 GIT_HASH_SHORT := $(shell echo "${GIT_HASH}" | cut -c1-7)
 GIT_TAG := $(shell git describe --always --tags --abbrev=0 | tail -c+2)
 GIT_COMMIT := $(shell git rev-list v${GIT_TAG}..HEAD --count)
 GIT_COMMIT_DATE := $(shell git show -s --format=%ci | cut -d\  -f1)
-VERSION_FEATURE := ${GIT_TAG}-${GIT_BRANCH}
-VERSION_DEVELOP := ${GIT_COMMIT_DATE}-${GIT_HASH_SHORT}
+
+VERSION_FEATURE := ${GIT_TAG}-$(shell echo $(GIT_BRANCH) | cut -c1-100).${GIT_COMMIT_DATE}.${GIT_HASH_SHORT}
+VERSION_NIGHTLY := ${GIT_COMMIT_DATE}.${GIT_HASH_SHORT}
 VERSION_RELEASE := ${GIT_TAG}.${GIT_COMMIT}
+
 VENDOR := "SKB Kontur"
 URL := "https://github.com/moira-alert/web2.0"
 LICENSE := "MIT"
@@ -74,10 +77,10 @@ docker_feature_image:
 	docker build -t moira/web2-${MARK_UNSTABLE}:${VERSION_FEATURE} .
 	docker push moira/web2-${MARK_UNSTABLE}:${VERSION_FEATURE}
 
-.PHONY: docker_develop_image
-docker_develop_image:
-	docker build -t moira/web2-${MARK_NIGHTLY}:${VERSION_DEVELOP} .
-	docker push moira/web2-${MARK_NIGHTLY}:${VERSION_DEVELOP}
+.PHONY: docker_nightly_images
+docker_nightly_images:
+	docker build -t moira/web2-${MARK_NIGHTLY}:${VERSION_NIGHTLY} .
+	docker push moira/web2-${MARK_NIGHTLY}:${VERSION_NIGHTLY}
 
 .PHONY: docker_release_image
 docker_release_image:

@@ -10,8 +10,13 @@ import ViberIcon from "@skbkontur/react-icons/Viber2";
 import SvgIcon from "../SvgIcon/SvgIcon";
 import PushoverLogo from "./pushover-logo.svg";
 import SlackLogo from "./slack-logo.svg";
+import MsTeamsLogo from "./msteams-logo.svg";
 import TwilioLogo from "./twilio-logo.svg";
 import WebhookLogo from "./webhook-logo.svg";
+import DiscordLogo from "./discord-logo.svg";
+import PagerdutyLogo from "./pagerduty-logo.svg";
+import VictoropsLogo from "./victorops-logo.svg";
+import OpsgenieLogo from "./opsgenie-logo.svg";
 
 type Props = {
     type: string,
@@ -19,6 +24,7 @@ type Props = {
 
 const TypeToIcon = {
     slack: <SvgIcon path={SlackLogo} size={15} offsetTop={2} />,
+    msteams: <SvgIcon path={MsTeamsLogo} size={15} offsetTop={2} />,
     telegram: <TelegramIcon />,
     facebook: <FacebookIcon />,
     viber: <ViberIcon />,
@@ -29,6 +35,10 @@ const TypeToIcon = {
     pushover: <SvgIcon path={PushoverLogo} size={14} offsetTop={2} />,
     twilio: <SvgIcon path={TwilioLogo} size={14} offsetTop={2} />,
     webhook: <SvgIcon path={WebhookLogo} size={14} offsetTop={2} />,
+    discord: <SvgIcon path={DiscordLogo} size={14} offsetTop={2} />,
+    pagerduty: <SvgIcon path={PagerdutyLogo} size={14} offsetTop={2} />,
+    victorops: <SvgIcon path={VictoropsLogo} size={14} offsetTop={2} />,
+    opsgenie: <SvgIcon path={OpsgenieLogo} size={14} offsetTop={2} />,
     phone: <PhoneIcon />,
     tel: <PhoneIcon />,
     sms: <PhoneIcon />,

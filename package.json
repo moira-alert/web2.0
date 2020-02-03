@@ -18,7 +18,7 @@
         "color-hash": "1.0.3",
         "dompurify": "^1.0.10",
         "jest": "24.5.0",
-        "lodash": "4.17.11",
+        "lodash": "4.17.13",
         "moment": "2.24.0",
         "numeral": "2.0.6",
         "query-string": "6.4.0",
@@ -73,7 +73,7 @@
         "storybook-react-router": "1.0.3",
         "style-loader": "0.23.1",
         "webpack": "4.29.6",
-        "webpack-bundle-analyzer": "3.1.0",
+        "webpack-bundle-analyzer": "3.3.2",
         "webpack-cli": "3.3.0",
         "webpack-dev-server": "3.2.1",
         "webpack-merge": "4.2.1"

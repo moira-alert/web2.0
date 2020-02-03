@@ -95,7 +95,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                             </Button>
                                         </Fit>
                                         <Fit>
-                                            <RouterLink to={`/trigger/${trigger.id}`}>
+                                            <RouterLink to={getPageLink("trigger", trigger.id)}>
                                                 Cancel
                                             </RouterLink>
                                         </Fit>

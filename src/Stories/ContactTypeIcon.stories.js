@@ -6,6 +6,7 @@ import ContactTypeIcon from "../Components/ContactTypeIcon/ContactTypeIcon";
 
 const iconTypes = [
     "slack",
+    "msteams",
     "telegram",
     "facebook",
     "viber",
