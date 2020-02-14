@@ -39,6 +39,7 @@ const sourceData = {
     expression: "",
     notify_about_new_metrics: false,
     mute_new_metrics: false,
+    alone_metrics: {},
 };
 
 const allTags = ["devops", "critical", "error", "warning", "del", "moira"];
@@ -70,6 +71,7 @@ const stories = [
                     { name: "Sun", enabled: true },
                 ],
             },
+            alone_metrics: {},
         },
     },
     {
@@ -127,6 +129,7 @@ const stories = [
             ],
             ttl_state: Statuses.OK,
             notify_about_new_metrics: true,
+            alone_metrics: { t2: true },
         },
     },
 ];

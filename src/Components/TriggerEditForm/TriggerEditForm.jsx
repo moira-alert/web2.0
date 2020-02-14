@@ -105,6 +105,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             is_remote: isRemote,
             trigger_type: triggerType,
             mute_new_metrics: muteNewMetrics,
+            alone_metrics: aloneMetrics,
         } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
@@ -168,6 +169,21 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                         />
                                     </ValidationWrapperV1>
                                 </div>
+                                {targets.length > 1 && (
+                                    <div className={cn("target-alone")}>
+                                        <Checkbox
+                                            checked={
+                                                aloneMetrics[`t${i + 1}`] !== undefined &&
+                                                aloneMetrics[`t${i + 1}`]
+                                            }
+                                            onChange={(e, value) =>
+                                                this.handleUpdateAloneMetrics(i, value)
+                                            }
+                                        >
+                                            Single
+                                        </Checkbox>
+                                    </div>
+                                )}
                                 {targets.length > 1 && (
                                     <div className={cn("fgroup-control")}>
                                         <Button onClick={() => this.handleRemoveTarget(i)}>
@@ -296,6 +312,17 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
         onChange({
             targets: [...targets.slice(0, targetIndex), value, ...targets.slice(targetIndex + 1)],
+        });
+    }
+
+    handleUpdateAloneMetrics(targetIndex: number, value: boolean) {
+        const { onChange, data } = this.props;
+        const { alone_metrics: aloneMetrics } = data;
+        const target = `t${targetIndex + 1}`;
+
+        aloneMetrics[target] = value;
+        onChange({
+            alone_metrics: aloneMetrics,
         });
     }
 

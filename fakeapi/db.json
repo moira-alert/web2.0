@@ -2716,7 +2716,10 @@
             "state": "OK",
             "timestamp": 1504511501
         },
-        "is_remote": false
+        "is_remote": false,
+        "alone_metrics": {
+            "t2": true
+        }
     },
     "state": {
         "metrics": {
