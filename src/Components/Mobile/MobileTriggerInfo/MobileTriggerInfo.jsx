@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
-import { Sticky } from "@skbkontur/react-ui/components/Sticky";
-import { Modal } from "@skbkontur/react-ui/components/Modal";
+import { addMinutes, format, formatDistance } from "date-fns";
+import Sticky from "retail-ui/components/Sticky";
+import Modal from "retail-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
@@ -13,6 +13,7 @@ import type { Trigger, TriggerState } from "../../../Domain/Trigger";
 import { Maintenances, getMaintenanceCaption, type Maintenance } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
+import { getCurrentUnixTime } from "../../../helpers/DateUtil";
 
 import MobileHeader from "../MobileHeader/MobileHeader";
 
@@ -38,11 +39,8 @@ function ScheduleView(props: { data: Schedule }): React.Node {
         days.length === enabledDays.length
             ? "Everyday"
             : enabledDays.map(({ name }) => name).join(", ");
-    const viewTime = `${moment("1900-01-01 00:00:00")
-        .add(startOffset, "minutes")
-        .format("HH:mm")} – ${moment("1900-01-01 00:00:00")
-        .add(endOffset, "minutes")
-        .format("HH:mm")}`;
+    const viewTime = `${format(addMinutes(new Date("1900-01-01 00:00:00"), startOffset), "hh:mm")}
+        - ${format(addMinutes(new Date("1900-01-01 00:00:00"), endOffset), "hh:mm")}}`;
     return (
         <span>
             {viewDays} {viewTime}
@@ -51,8 +49,8 @@ function ScheduleView(props: { data: Schedule }): React.Node {
 }
 
 function checkMaintenance(maintenance: ?number): React.Node {
-    const delta = (maintenance || 0) - moment.utc().unix();
-    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+    const delta = (maintenance || 0) - getCurrentUnixTime();
+    return <span>{delta <= 0 ? "Maintenance" : formatDistance(0, delta * 1000)}</span>;
 }
 
 export default class MobileTriggerInfo extends React.Component<Props, State> {

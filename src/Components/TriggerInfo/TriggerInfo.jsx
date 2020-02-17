@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { formatDistance, startOfDay } from "date-fns";
+import { getCurrentUnixTime } from "../../helpers/DateUtil";
 import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
 import { Link } from "@skbkontur/react-ui/components/Link";
@@ -35,7 +36,7 @@ type Props = {|
 |};
 
 function maintenanceDelta(maintenance: ?number): React.Node {
-    return (maintenance || 0) - moment.utc().unix();
+    return (maintenance || 0) - getCurrentUnixTime();
 }
 
 function maintenanceCaption(delta: number): React.Node {
@@ -43,7 +44,7 @@ function maintenanceCaption(delta: number): React.Node {
         <span>
             <ClockIcon />
             &nbsp;
-            {delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}
+            {delta <= 0 ? "Maintenance" : formatDistance(0, delta * 1000)}
         </span>
     );
 }
@@ -52,22 +53,13 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     const { data } = props;
     const { days, startOffset, endOffset, tzOffset } = data;
 
-    const startTime = moment()
-        .utc()
-        .startOf("day")
-        .add(startOffset, "minutes")
-        .format("HH:mm");
-    const endTime = moment()
-        .utc()
-        .startOf("day")
-        .add(endOffset, "minutes")
-        .format("HH:mm");
-    const timeZone = moment()
-        .utc()
-        .startOf("day")
-        .add(Math.abs(tzOffset), "minutes")
-        .format("HH:mm");
-    const timeZoneSign = tzOffset < 0 ? "+" : "−";
+    const startTime = format(addMinutes(startOfDay(getCurrentDate()), startOffset), "hh:mm");
+
+    const endTime = format(addMinutes(startOfDay(getCurrentDate()), endOffset), "hh:mm");
+
+    const timeZone = format(addMinutes(startOfDay(getCurrentDate()), tzOffset), "hh:mm");
+
+    const timeZoneSign = tzOffset < 0 ? "−" : "+";
     const enabledDays = days.filter(({ enabled }) => enabled);
 
     return (
@@ -165,9 +157,10 @@ export default function TriggerInfo({
                                             by {maintenanceInfo.setup_user}
                                             <br />
                                             at{" "}
-                                            {moment
-                                                .unix(maintenanceInfo.setup_time)
-                                                .format("MMMM D, HH:mm:ss")}
+                                            {format(
+                                                fromUnixTime(maintenanceInfo.setup_time),
+                                                "MMMM d, HH:mm:ss"
+                                            )}
                                         </div>
                                     )}
                                 >

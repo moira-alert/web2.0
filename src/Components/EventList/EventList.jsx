@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { format, fromUnixTime } from "date-fns";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import type { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
@@ -47,7 +47,7 @@ export default function EventList(props: Props): React.Node {
                                     </div>
                                 </div>
                                 <div className={cn("date")}>
-                                    {moment.unix(timestamp).format("MMMM D, HH:mm:ss")}
+                                    {format(fromUnixTime(timestamp), "MMMM d, HH:mm:ss")}
                                 </div>
                             </div>
                         );
