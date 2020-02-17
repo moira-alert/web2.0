@@ -1,6 +1,7 @@
 const path = require("path");
-const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ContextReplacementPlugin = require("webpack").ContextReplacementPlugin;
+const supportedLocales = ['en', 'ru', 'es-us']
 
 module.exports = {
     entry: {
@@ -50,7 +51,10 @@ module.exports = {
         extensions: [".js", ".jsx"],
     },
     plugins: [
-        new MomentLocalesPlugin(),
+        new ContextReplacementPlugin(
+            date\-fns[\/\\]/,
+            new RegExp(`[/\\\\\](${supportedLocales.join('|')})[/\\\\\]`)
+        ),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             favicon: "./src/favicon.ico",
