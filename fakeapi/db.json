@@ -4025,6 +4025,1130 @@
             }
         ]
     },
+    "pattern": {
+        "list": [
+            {
+                "pattern": "DevOps.system.*ditrace*.process.*.uptime",
+                "metrics": [
+                    "ditrace-lt.elasticsearch",
+                    "ditrace-lt.nginx",
+                    "vm-ditrace1.ditrace",
+                    "vm-ditrace1.elasticsearch"
+                ],
+                "triggers": [
+                    {
+                        "id": "yL6ibwZie7aleY2KgbNWD6Tnwd1wOUqF",
+                        "name": "Test0",
+                        "targets": [
+                            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
+                        ],
+                        "tags": [
+                            "Front End"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Mon"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20000",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "Egais.Api.Front.Controllers.Time.*.*.*.*.p95",
+                "metrics": [
+                    "ditrace-lt.nginx",
+                    "vm-ditrace1.ditrace",
+                    "vm-ditrace1.elasticsearch"
+                ],
+                "triggers": [
+                    {
+                        "id": "yL6ibwZie7aleY2KgbNWD6Tnwd1wOUqF",
+                        "name": "Test0",
+                        "targets": [
+                            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
+                        ],
+                        "tags": [
+                            "Front End"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Mon"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20000",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "OXq68qkYjLPNO8hIwBVSU2Ko5dmWmNgZ",
+                        "name": "Test1",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20001",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "OXq68qkYjLPNO8hIwBVSU2Ko5dmWmNgZ",
+                        "name": "Test1",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Mon"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20001",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "Egais.Api.Front.Controllers.Time.*.*.*.*.*",
+                "metrics": [
+
+                    "ditrace-lt.ditrace",
+                    "ditrace-lt.elasticsearch",
+                    "ditrace-lt.nginx",
+                    "vm-ditrace1.ditrace",
+                    "vm-ditrace1.elasticsearch"
+                ],
+                "triggers": [
+                    {
+                        "id": "nBPQwJPybcqMXvZgLNkPSMkaoifm4pc1",
+                        "name": "Test2",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sat"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20002",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "KE.system.busc.*.memory.usage",
+                "metrics": [
+                    {
+                        "ditrace-lt.ditrace": {
+                            "event_timestamp": 1503992566,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "53594813",
+                            "maintenance": 1504002302
+                        }
+                    },
+                    {
+                        "ditrace-lt.elasticsearch": {
+                            "event_timestamp": 1503992386,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "118249603",
+                            "maintenance": 1504520708
+                        }
+                    },
+                    {
+                        "ditrace-lt.nginx": {
+                            "event_timestamp": 1503992566,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "359812063",
+                            "maintenance": 1504521622
+                        }
+                    },
+                    {
+                        "vm-ditrace1.ditrace": {
+                            "event_timestamp": 1503992299,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "6028623"
+                        }
+                    },
+                    {
+                        "vm-ditrace1.elasticsearch": {
+                            "event_timestamp": 1503992400,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "54390353"
+                        }
+                    }
+                ],
+                "triggers": [
+                    {
+                        "id": "nq7tvjOJvMK5P1OiFz5avCshSTL3DPXQ",
+                        "name": "Test3",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sat"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20003",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "nq7tvjOJvMK5P1OiFz5avCshSTL3DPXQ",
+                        "name": "Test3",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20003",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "DevOps.system.*.loadavg.load_normalized",
+                "metrics": [
+                    "ditrace-lt.ditrace"
+                ],
+                "triggers": [
+                    {
+                        "id": "N7RY2Sc6hDsQ3BJhrAS4Ym6QDhYfGQXZ",
+                        "name": "Test4",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20004",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "N7RY2Sc6hDsQ3BJhrAS4Ym6QDhYfGQXZ",
+                        "name": "Test4",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20004",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "DevOps.moira.*.filter.received.total_count",
+                "metrics": [
+                    {
+                        "ditrace-lt.ditrace": {
+                            "event_timestamp": 1503992566,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "53594815",
+                            "maintenance": 1504002302
+                        }
+                    },
+                    {
+                        "ditrace-lt.elasticsearch": {
+                            "event_timestamp": 1503992386,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "118249605",
+                            "maintenance": 1504520708
+                        }
+                    },
+                    {
+                        "ditrace-lt.nginx": {
+                            "event_timestamp": 1503992566,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "359812065",
+                            "maintenance": 1504521622
+                        }
+                    },
+                    {
+                        "vm-ditrace1.ditrace": {
+                            "event_timestamp": 1503992299,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "6028625"
+                        }
+                    },
+                    {
+                        "vm-ditrace1.elasticsearch": {
+                            "event_timestamp": 1503992400,
+                            "state": "OK",
+                            "suppressed": "true",
+                            "timestamp": 1504511381,
+                            "value": "54390355"
+                        }
+                    }
+                ],
+                "triggers": [
+                    {
+                        "id": "h10T4D47NYl1bIx134sJCaXPW48hvToi",
+                        "name": "Test5",
+                        "targets": [
+                            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
+                        ],
+                        "tags": [
+                            "Front End"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Mon"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20005",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "h10T4D47NYl1bIx134sJCaXPW48hvToi",
+                        "name": "Test5",
+                        "targets": [
+                            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
+                        ],
+                        "tags": [
+                            "Front End"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Mon"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Tue"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Wed"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Thu"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Fri"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20005",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "KE.system.busc.*.cpu.usage",
+                "metrics": [
+                    "ditrace-lt.ditrace",
+                    "ditrace-lt.elasticsearch",
+                    "ditrace-lt.nginx",
+                    "vm-ditrace1.ditrace"
+                ],
+                "triggers": [
+                    {
+                        "id": "oSnuthcZKSXkivMxFTjDxM0UNvQjk8YS",
+                        "name": "Test6",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sat"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20006",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "oSnuthcZKSXkivMxFTjDxM0UNvQjk8YS",
+                        "name": "Test6",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sat"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20006",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "focus.elasticsearch.focus351.*.cluster_health.status",
+                "metrics": [
+                    "ditrace-lt.ditrace",
+                    "ditrace-lt.elasticsearch",
+                    "ditrace-lt.nginx",
+                    "vm-ditrace1.ditrace",
+                    "vm-ditrace1.elasticsearch"
+                ],
+                "triggers": [
+                    {
+                        "id": "6ioMHFqOPv86FKlNcMMvIOf7MWC26Cjs",
+                        "name": "Test7",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20007",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "6ioMHFqOPv86FKlNcMMvIOf7MWC26Cjs",
+                        "name": "Test7",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20007",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "Egais.Api.Front.Controllers.Time.*.*.*.*.count",
+                "metrics": [
+                    "vm-ditrace1.ditrace",
+                    "vm-ditrace1.elasticsearch"
+                ],
+                "triggers": [
+                    {
+                        "id": "jgvlmJhE93IwXIbJGCuTZo0Nh0YhykqS",
+                        "name": "Test8",
+                        "targets": [
+                            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
+                        ],
+                        "tags": [
+                            "Front End"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sat"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20008",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "jgvlmJhE93IwXIbJGCuTZo0Nh0YhykqS",
+                        "name": "Test8",
+                        "targets": [
+                            "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
+                        ],
+                        "tags": [
+                            "Front End"
+                        ],
+                        "patterns": [
+                            "Egais.Api.Front.Controllers.Time.*.*.*.*.count\""
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "rising",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20008",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            },
+            {
+                "pattern": "DevOps.system.*ditrace*.process.*.*",
+                "metrics": [
+                    "ditrace-lt.ditrace",
+                    "ditrace-lt.elasticsearch",
+                    "vm-ditrace1.elasticsearch",
+                    "ditrace-lt.nginx"
+                ],
+                "triggers": [
+                    {
+                        "id": "dM7mFHwYdU4bUw2DK9U29uT9yafKzZPu",
+                        "name": "Test9",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Fri"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sat"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20009",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    },
+                    {
+                        "id": "dM7mFHwYdU4bUw2DK9U29uT9yafKzZPu",
+                        "name": "Test9",
+                        "targets": [
+                            "Devops processes uptime DiTrace"
+                        ],
+                        "tags": [
+                            "Dev Ops"
+                        ],
+                        "patterns": [
+                            "DevOps.system.*ditrace*.process.*.uptime"
+                        ],
+                        "ttl": 600,
+                        "ttl_state": "NODATA",
+                        "throttling": 0,
+                        "sched": {
+                            "days": [
+                                {
+                                    "enabled": true,
+                                    "name": "Sat"
+                                },
+                                {
+                                    "enabled": true,
+                                    "name": "Sun"
+                                }
+                            ],
+                            "tzOffset": -300,
+                            "startOffset": 0,
+                            "endOffset": 1439
+                        },
+                        "trigger_type": "falling",
+                        "warn_value": 1,
+                        "error_value": 2,
+                        "last_check": {
+                            "metrics": {
+                                "cluster_health": {
+                                    "event_timestamp": 1504380008,
+                                    "state": "NODATA",
+                                    "suppressed": false,
+                                    "timestamp": 1504452999,
+                                    "maintenance": 1504078439
+                                }
+                            },
+                            "score": "20009",
+                            "state": "NODATA",
+                            "timestamp": 1504511501,
+                            "event_timestamp": 1504511501,
+                            "msg": "Trigger has no metrics"
+                        },
+                        "is_remote": true
+                    }
+                ]
+            }
+        ]
+    },
     "health": {
         "state": "OK",
         "message": null
