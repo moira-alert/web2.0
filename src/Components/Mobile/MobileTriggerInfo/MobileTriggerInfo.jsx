@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { addMinutes, format, formatDistance } from "date-fns";
+import { addMinutes, format, getUnixTime } from "date-fns";
 import Sticky from "retail-ui/components/Sticky";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
@@ -13,7 +13,7 @@ import type { Trigger, TriggerState } from "../../../Domain/Trigger";
 import { Maintenances, getMaintenanceCaption, type Maintenance } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
-import { getCurrentUnixTime } from "../../../helpers/DateUtil";
+import { getUTCDate, parseUnixTimestampToJS } from "../../../helpers/DateUtil";
 
 import MobileHeader from "../MobileHeader/MobileHeader";
 
@@ -49,8 +49,8 @@ function ScheduleView(props: { data: Schedule }): React.Node {
 }
 
 function checkMaintenance(maintenance: ?number): React.Node {
-    const delta = (maintenance || 0) - getCurrentUnixTime();
-    return <span>{delta <= 0 ? "Maintenance" : formatDistance(0, delta * 1000)}</span>;
+    const delta = (maintenance || 0) - getUnixTime(getUTCDate());
+    return <span>{delta <= 0 ? "Maintenance" : parseUnixTimestampToJS(delta)}</span>;
 }
 
 export default class MobileTriggerInfo extends React.Component<Props, State> {

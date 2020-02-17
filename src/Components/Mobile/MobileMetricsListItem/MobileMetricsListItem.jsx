@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { format, fromUnixTime } from "date-fns";
+import { format, fromUnixTime, getUnixTime } from "date-fns";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import MenuDotsIcon from "@skbkontur/react-icons/MenuDots";
 import TrashIcon from "@skbkontur/react-icons/Trash";
@@ -11,7 +11,7 @@ import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicato
 import roundValue from "../../../helpers/roundValue";
 import { Maintenances, type Maintenance, getMaintenanceCaption } from "../../../Domain/Maintenance";
 import cn from "./MobileMetricsListItem.less";
-import { getCurrentUnixTime } from "../../../helpers/DateUtil";
+import { getUTCDate } from "../../../helpers/DateUtil";
 
 type Props = {|
     name: string,
@@ -31,7 +31,7 @@ function isUnderkMaintenance(maintenance: ?number): boolean {
     if (maintenance == null) {
         return false;
     }
-    const delta = (maintenance || 0) - getCurrentUnixTime();
+    const delta = (maintenance || 0) - getUnixTime(getUTCDate());
     return delta > 0;
 }
 

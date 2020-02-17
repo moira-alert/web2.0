@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { format, fromUnixTime, formatDistance } from "date-fns";
+import { format, fromUnixTime, getUnixTime } from "date-fns";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import UserIcon from "@skbkontur/react-icons/User";
@@ -15,7 +15,7 @@ import roundValue from "../../helpers/roundValue";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import cn from "./MetricList.less";
-import { getCurrentUnixTime } from "../../helpers/DateUtil";
+import { getUTCDate, parseUnixTimestampToJS } from "../../helpers/DateUtil";
 
 export type SortingColum = "state" | "name" | "event" | "value";
 
@@ -34,11 +34,11 @@ type Props = {|
 |};
 
 function maintenanceCaption(delta: number): React.Node {
-    return <span>{delta <= 0 ? "Maintenance" : formatDistance(0, delta * 1000)}</span>;
+    return <span>{delta <= 0 ? "Maintenance" : parseUnixTimestampToJS(delta)}</span>;
 }
 
 function maintenanceDelta(maintenance: ?number): React.Node {
-    return (maintenance || 0) - getCurrentUnixTime();
+    return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
 export default function MetricList(props: Props): React.Node {

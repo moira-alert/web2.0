@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ContextReplacementPlugin = require("webpack").ContextReplacementPlugin;
-const supportedLocales = ['en', 'ru', 'es-us']
+const supportedLocales = ["en"];
 
 module.exports = {
     entry: {
@@ -52,8 +52,8 @@ module.exports = {
     },
     plugins: [
         new ContextReplacementPlugin(
-            date\-fns[\/\\]/,
-            new RegExp(`[/\\\\\](${supportedLocales.join('|')})[/\\\\\]`)
+            /date\-fns[\/\\]/,
+            new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
         ),
         new HtmlWebpackPlugin({
             template: "./src/index.html",

@@ -1,12 +1,12 @@
 // @flow
-import { getCurrentUnixTime } from "../helpers/DateUtil";
-import { formatDistance } from "date-fns";
+import { getUnixTime } from "date-fns";
+import { getUTCDate, parseUnixTimestampToJS } from "./DateUtil";
 import { getMaintenanceCaption } from "../Domain/Maintenance";
 
 export default function checkMaintenance(maintenance: ?number): string {
     if (!maintenance) {
         return getMaintenanceCaption("off");
     }
-    const delta = maintenance - getCurrentUnixTime();
-    return delta <= 0 ? getMaintenanceCaption("off") : formatDistance(0, delta * 1000);
+    const delta = maintenance - getUnixTime(getUTCDate());
+    return delta <= 0 ? getMaintenanceCaption("off") : parseUnixTimestampToJS(delta);
 }

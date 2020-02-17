@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
-import { formatDistance, startOfDay } from "date-fns";
-import { getCurrentUnixTime } from "../../helpers/DateUtil";
+import { format, addMinutes, startOfDay, fromUnixTime, getUnixTime } from "date-fns";
 import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
 import Link from "retail-ui/components/Link";
@@ -24,6 +23,7 @@ import { getPageLink } from "../../Domain/Global";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./TriggerInfo.less";
+import { getUTCDate, parseUnixTimestampToJS } from "../../helpers/DateUtil";
 
 const md = new Remarkable({ breaks: true });
 
@@ -36,7 +36,7 @@ type Props = {|
 |};
 
 function maintenanceDelta(maintenance: ?number): React.Node {
-    return (maintenance || 0) - getCurrentUnixTime();
+    return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
 function maintenanceCaption(delta: number): React.Node {
@@ -44,7 +44,7 @@ function maintenanceCaption(delta: number): React.Node {
         <span>
             <ClockIcon />
             &nbsp;
-            {delta <= 0 ? "Maintenance" : formatDistance(0, delta * 1000)}
+            {delta <= 0 ? "Maintenance" : parseUnixTimestampToJS(delta)}
         </span>
     );
 }
@@ -53,11 +53,11 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     const { data } = props;
     const { days, startOffset, endOffset, tzOffset } = data;
 
-    const startTime = format(addMinutes(startOfDay(getCurrentDate()), startOffset), "hh:mm");
+    const startTime = format(addMinutes(startOfDay(getUTCDate()), startOffset), "hh:mm");
 
-    const endTime = format(addMinutes(startOfDay(getCurrentDate()), endOffset), "hh:mm");
+    const endTime = format(addMinutes(startOfDay(getUTCDate()), endOffset), "hh:mm");
 
-    const timeZone = format(addMinutes(startOfDay(getCurrentDate()), tzOffset), "hh:mm");
+    const timeZone = format(addMinutes(startOfDay(getUTCDate()), tzOffset), "hh:mm");
 
     const timeZoneSign = tzOffset < 0 ? "−" : "+";
     const enabledDays = days.filter(({ enabled }) => enabled);
