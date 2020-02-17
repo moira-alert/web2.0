@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "serve": "cross-env NODE_ENV=development webpack-dev-server --config webpack.dev.js",
-        "start-with-local-api": "cross-env API_MODE=local yarn start",
+        "start-with-local-api": "cross-env API_MODE=local yarn serve",
         "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js",
         "storybook": "cross-env NODE_ENV=development start-storybook -p 9001 -c .storybook --ci",
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
