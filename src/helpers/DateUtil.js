@@ -1,20 +1,22 @@
-import { getUnixTime } from "date-fns";
+// @flow
+import { formatDistance } from "date-fns";
 
-function getCurrentUnixTime(): String {
-    return getUnixTime(getCurrentDate());
-}
-
-function getCurrentDate() {
-    var date = new Date();
-    var now_utc = Date.UTC(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate(),
-        date.getUTCHours(),
-        date.getUTCMinutes(),
-        date.getUTCSeconds()
+function getUTCDate() {
+    const date = new Date();
+    return new Date(
+        Date.UTC(
+            date.getUTCFullYear(),
+            date.getUTCMonth(),
+            date.getUTCDate(),
+            date.getUTCHours(),
+            date.getUTCMinutes(),
+            date.getUTCSeconds()
+        )
     );
-    return new Date(now_utc);
 }
 
-export { getCurrentUnixTime, getCurrentDate };
+function parseUnixTimestampToJS(unixTimestamp) {
+    return formatDistance(0, unixTimestamp * 1000);
+}
+
+export { parseUnixTimestampToJS, getUTCDate };

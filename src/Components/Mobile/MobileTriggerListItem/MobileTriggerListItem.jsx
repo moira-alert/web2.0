@@ -11,7 +11,7 @@ import { getPageLink } from "../../../Domain/Global";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
-
+import { getUTCDate } from "../../../helpers/DateUtil";
 import groupMetricsByStatuses from "../../../helpers/group-metrics-by-statuses";
 
 import cn from "./MobileTriggerListItem.less";
@@ -45,19 +45,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        var date = new Date();
-        var now_utc = Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate(),
-            date.getUTCHours(),
-            date.getUTCMinutes(),
-            date.getUTCSeconds()
-        );
         const { data } = this.props;
         const { id, name, tags, throttling, last_check: lastCheck = {} } = data;
         const { maintenance = 0 } = lastCheck;
-        const delta = maintenance - getUnixTime(new Date(now_utc));
+        const delta = maintenance - getUnixTime(getUTCDate());
 
         return (
             <ReactRouterLink className={cn("root")} to={getPageLink("trigger", id)}>

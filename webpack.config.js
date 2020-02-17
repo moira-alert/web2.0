@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
-const supportedLocales = ['en', 'ru', 'es-us']
+const supportedLocales = ['en']
 
 module.exports = {
     entry: {
@@ -73,8 +73,8 @@ module.exports = {
     devtool: "cheap-source-map",
     plugins: [
         new ContextReplacementPlugin(
-            date\-fns[\/\\]/,
-            new RegExp(`[/\\\\\](${supportedLocales.join('|')})[/\\\\\]`)
+            /date\-fns[\/\\]/,
+            new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
         ),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
