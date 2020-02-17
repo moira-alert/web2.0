@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { getUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
@@ -45,10 +45,19 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     render(): React.Node {
+        var date = new Date();
+        var now_utc = Date.UTC(
+            date.getUTCFullYear(),
+            date.getUTCMonth(),
+            date.getUTCDate(),
+            date.getUTCHours(),
+            date.getUTCMinutes(),
+            date.getUTCSeconds()
+        );
         const { data } = this.props;
         const { id, name, tags, throttling, last_check: lastCheck = {} } = data;
         const { maintenance = 0 } = lastCheck;
-        const delta = maintenance - moment.utc().unix();
+        const delta = maintenance - getUnixTime(new Date(now_utc));
 
         return (
             <ReactRouterLink className={cn("root")} to={getPageLink("trigger", id)}>
