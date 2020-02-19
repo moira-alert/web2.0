@@ -2,131 +2,79 @@
 import * as React from "react";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import TrashIcon from "@skbkontur/react-icons/Trash";
-import type { Pattern } from "../../Domain/Pattern";
-import { getPageLink } from "../../Domain/Global";
-import RouterLink from "../RouterLink/RouterLink";
 import cn from "./PatternList.less";
+import PatternListItem from "../PatternListItem/PatternListItem";
 
 export type SortingColumn = "metric" | "trigger";
 
-type Props = {|
-    items: Array<Pattern>,
-    onRemove: (pattern: string) => void,
-    sortingColumn: SortingColumn,
-    sortingDown?: boolean,
-    onSort?: (sorting: sortingColumn) => void,
-|};
+export default class PatternList extends React.Component {
+    constructor(props) {
+        super(props);
+        const { items } = this.props;
+        this.state = {
+            patternItems: items.slice(0, 1),
+        };
+    }
 
-export default function PatternList(props: Props): React.Node {
-    const { items, onRemove, sortingColumn, sortingDown, onSort } = props;
-    const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
-    return (
-        <div>
-            <div className={cn("row", "header")}>
-                <div className={cn("name")}>Pattern</div>
-                <button
-                    type="button"
-                    className={cn("trigger-counter", { sorting: onSort })}
-                    onClick={onSort && (() => onSort("trigger"))}
-                >
-                    Triggers{" "}
-                    {sortingColumn === "trigger" && (
-                        <span className={cn("icon")}>{sortingIcon}</span>
-                    )}
-                </button>
-                <button
-                    type="button"
-                    className={cn("metric-counter", { sorting: onSort })}
-                    onClick={onSort && (() => onSort("metric"))}
-                >
-                    Metric{" "}
-                    {sortingColumn === "metric" && (
-                        <span className={cn("icon")}>{sortingIcon}</span>
-                    )}
-                </button>
-                <div className={cn("control")} />
-            </div>
-            {items.map(item => (
-                <PatternListItem
-                    key={item.pattern}
-                    data={item}
-                    onRemove={() => onRemove(item.pattern)}
-                />
-            ))}
-        </div>
-    );
-}
+    componentDidMount() {
+        this.updateItemList();
+    }
 
-type ItemProps = {
-    data: Pattern,
-    onRemove: () => void,
-};
-type ItemState = {
-    showInfo: boolean,
-};
+    componentDidUpdate() {
+        this.updateItemList();
+    }
 
-class PatternListItem extends React.Component<ItemProps, ItemState> {
-    props: ItemProps;
+    render() {
+        const { patternItems } = this.state;
+        const { onRemove, sortingColumn, sortingDown, onSort } = this.props;
+        const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
 
-    state: ItemState = {
-        showInfo: false,
-    };
-
-    render(): React.Node {
-        const { data, onRemove } = this.props;
-        const { pattern, triggers, metrics } = data;
-        const { showInfo } = this.state;
-        const isTriggers = triggers.length !== 0;
-        const isMetrics = metrics.length !== 0;
         return (
-            <div className={cn("row", { active: showInfo, clicable: isTriggers || isMetrics })}>
-                {isTriggers || isMetrics ? (
+            <div>
+                <div className={cn("row", "header")}>
+                    <div className={cn("name")}>Pattern</div>
                     <button
                         type="button"
-                        className={cn("name", "clicked")}
-                        onClick={() => this.setState({ showInfo: !showInfo })}
+                        className={cn("trigger-counter", { sorting: onSort })}
+                        onClick={onSort && (() => onSort("trigger"))}
                     >
-                        {pattern}
+                        Triggers{" "}
+                        {sortingColumn === "trigger" && (
+                            <span className={cn("icon")}>{sortingIcon}</span>
+                        )}
                     </button>
-                ) : (
-                    <div className={cn("name")}>{pattern}</div>
-                )}
-                <div className={cn("trigger-counter")}>{triggers.length}</div>
-                <div className={cn("metric-counter")}>{metrics.length}</div>
-                <div className={cn("control")}>
-                    <Button use="link" icon={<TrashIcon />} onClick={() => onRemove()}>
-                        Delete
-                    </Button>
+                    <button
+                        type="button"
+                        className={cn("metric-counter", { sorting: onSort })}
+                        onClick={onSort && (() => onSort("metric"))}
+                    >
+                        Metric{" "}
+                        {sortingColumn === "metric" && (
+                            <span className={cn("icon")}>{sortingIcon}</span>
+                        )}
+                    </button>
+                    <div className={cn("control")} />
                 </div>
-                {showInfo && (
-                    <div className={cn("info")}>
-                        {isTriggers && (
-                            <div className={cn("group")}>
-                                <b>Triggers</b>
-                                {triggers.map(({ id, name }) => (
-                                    <div key={id} className={cn("item")}>
-                                        <RouterLink to={getPageLink("trigger", id)}>
-                                            {name}
-                                        </RouterLink>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        {isMetrics && (
-                            <div className={cn("group")}>
-                                <b>Metrics</b>
-                                {metrics.map(metric => (
-                                    <div key={metric} className={cn("item")}>
-                                        {metric}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                )}
+                {patternItems.map(item => (
+                    <PatternListItem
+                        key={item.pattern}
+                        data={item}
+                        onRemove={() => onRemove(item.pattern)}
+                    />
+                ))}
             </div>
         );
+    }
+
+    updateItemList() {
+        const { patternItems } = this.state;
+        const { items } = this.props;
+        setTimeout(() => {
+            const hasMoreItems = patternItems.length + 1 < items.length;
+            this.setState((prev, props) => ({
+                patternItems: props.items.slice(0, prev.patternItems.length + 1),
+            }));
+            if (hasMoreItems) this.updateItemList();
+        }, 0);
     }
 }
