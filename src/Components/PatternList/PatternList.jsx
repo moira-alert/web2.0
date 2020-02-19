@@ -12,25 +12,48 @@ type Props = $Exact<{
     onRemove: (pattern: string) => void,
 }>;
 
-export default function PatternList(props: Props): React.Node {
-    const { items, onRemove } = props;
-    return (
-        <div>
-            <div className={cn("row", "header")}>
-                <div className={cn("name")}>Pattern</div>
-                <div className={cn("trigger-counter")}>Triggers</div>
-                <div className={cn("metric-counter")}>Metrics</div>
-                <div className={cn("control")} />
+export default class PatternList extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            items: this.props.items.slice(0, 1)
+        }
+    }
+
+    updateItemList = () => {
+        setTimeout(() => {
+            let hasMoreItems = this.state.items.length + 1 < this.props.items.length;
+            this.setState((prev, props) => ({
+                items: props.items.slice(0, prev.items.length + 1)
+            }));
+            if (hasMoreItems) {this.updateItemList()}
+        }, 0)
+    };
+
+    componentDidMount() {
+        this.updateItemList()
+    };
+
+    render() {
+        return (
+            <div>
+                <div className={cn("row", "header")}>
+                    <div className={cn("name")}>Pattern</div>
+                    <div className={cn("trigger-counter")}>Triggers</div>
+                    <div className={cn("metric-counter")}>Metrics</div>
+                    <div className={cn("control")}/>
+                </div>
+                {this.state.items.map(item => (
+                    <PatternListItem
+                        key={item.pattern}
+                        data={item}
+                        onRemove={() => this.props.onRemove(item.pattern)}
+                    />
+                ))}
             </div>
-            {items.map(item => (
-                <PatternListItem
-                    key={item.pattern}
-                    data={item}
-                    onRemove={() => onRemove(item.pattern)}
-                />
-            ))}
-        </div>
-    );
+        );
+    }
 }
 
 type ItemProps = {
