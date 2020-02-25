@@ -11,7 +11,7 @@ type Props = {|
 |};
 
 function renderPath(statuses: Array<Status>): React.Element<any> {
-    const [status1, status2, status3] = statuses;
+    const [status1, status2, status3, status4] = statuses;
 
     switch (statuses.length) {
         case 1:
@@ -55,6 +55,15 @@ function renderPath(statuses: Array<Status>): React.Element<any> {
                         d="M -0.48175367410171527 -0.8763066800438636 A 1 1 0 0 1 1 -2.4492935982947064e-16 L 0 0"
                         fill={getStatusColor(status3)}
                     />
+                </g>
+            );
+        case 4:
+            return (
+                <g>
+                    <path d="M0 0-0.7 0.7A1 1 0 0 1-0.7-0.7Z" fill={getStatusColor(status1)} />
+                    <path d="M0 0-0.7-0.7A1 1 0 0 1 0.7-0.7Z" fill={getStatusColor(status2)} />
+                    <path d="M0 0 0.7-0.7A1 1 0 0 1 0.7 0.7Z" fill={getStatusColor(status3)} />
+                    <path d="M0 0 0.7 0.7A1 1 0 0 1-0.7 0.7Z" fill={getStatusColor(status4)} />
                 </g>
             );
         default:
