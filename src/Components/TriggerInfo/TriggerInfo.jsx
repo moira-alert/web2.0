@@ -67,7 +67,7 @@ function ScheduleView(props: { data: Schedule }): React.Node {
         .startOf("day")
         .add(Math.abs(tzOffset), "minutes")
         .format("HH:mm");
-    const timeZoneSign = tzOffset < 0 ? "−" : "+";
+    const timeZoneSign = tzOffset < 0 ? "+" : "−";
     const enabledDays = days.filter(({ enabled }) => enabled);
 
     return (
