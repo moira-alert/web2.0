@@ -11,7 +11,6 @@ import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { setMetricMaintenance, setTriggerMaintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 
-
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 
 type State = {

@@ -138,7 +138,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
             }
             try {
                 const { id } = await moiraApi.addTrigger(trigger);
-                const history = useHistory()
+                const history = useHistory();
                 history.push(getPageLink("trigger", id));
             } catch (error) {
                 this.setState({ error: error.message, loading: false });

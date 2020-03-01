@@ -23,7 +23,6 @@ type State = {
     config: ?Config,
 };
 
-
 class TriggerEditContainer extends React.Component<Props, State> {
     state: State;
 
