@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import type { ContextRouter } from "react-router-dom";
+import type { ContextRouter, useHistory } from "react-router-dom";
 import { ValidationContainer } from "react-ui-validations";
 import Button from "retail-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
@@ -22,6 +22,7 @@ type State = {
     tags: ?Array<string>,
     config: ?Config,
 };
+
 
 class TriggerEditContainer extends React.Component<Props, State> {
     state: State;
@@ -111,7 +112,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
 
     async handleSubmit() {
         let { trigger } = this.state;
-        const { history, moiraApi } = this.props;
+        const { moiraApi } = this.props;
 
         const isValid = await this.validateForm();
         if (isValid && trigger) {
@@ -131,6 +132,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
             }
             try {
                 await moiraApi.setTrigger(trigger.id, trigger);
+                const history = useHistory();
                 history.push(getPageLink("trigger", trigger.id));
             } catch (error) {
                 this.setState({ error: error.message, loading: false });
@@ -143,10 +145,11 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 
     async deleteTrigger(id: string) {
-        const { history, moiraApi } = this.props;
+        const { moiraApi } = this.props;
         this.setState({ loading: true });
         try {
             await moiraApi.delTrigger(id);
+            const history = useHistory();
             history.push(getPageLink("index"));
         } catch (error) {
             this.setState({ error: error.message, loading: false });
