@@ -26,7 +26,7 @@ Starts dev server on port 9000 and fakeapi server (provides mock api data) on po
 yarn start-with-local-api
 ```
 
-Starts dev server with proxy to your API service. Make sure you setup local Moira API service and add it URL to `webpack.config.js` in `devServer.proxy` block.
+Starts dev server with proxy to your API service. Make sure you setup local Moira API service and add it URL to `webpack.dev.js` in `devServer.proxy` block.
 
 ```bash
 yarn storybook
