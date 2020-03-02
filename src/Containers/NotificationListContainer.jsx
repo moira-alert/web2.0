@@ -51,7 +51,7 @@ class NotificationListContainer extends React.Component<Props, State> {
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>
-                        Notifications ({Array.isArray(list) ? `(${list.length})` : null})
+                        Notifications {Array.isArray(list) ? `(${list.length})` : null}
                     </LayoutTitle>
                     {list && (
                         <NotificationList
