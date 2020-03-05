@@ -24,6 +24,10 @@ export default class PatternList extends React.Component {
         this.updateItemList();
     }
 
+    componentDidUpdate() {
+        this.updateItemList();
+    }
+
     render() {
         const { patternItems } = this.state;
         const { onRemove, sortingColumn, sortingDown, onSort } = this.props;
