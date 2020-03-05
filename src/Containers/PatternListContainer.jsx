@@ -89,7 +89,6 @@ class PatternListContainer extends React.Component<Props, State> {
 
     sortPatterns(patterns: Array<Pattern>): Array<Pattern> {
         const { sortingColumn, sortingDown } = this.state;
-        console.info(`sorting by ${sortingColumn}...`);
         const sorting = {
             trigger: (x, y) => {
                 const valA = x.triggers.length || 0;
