@@ -1,5 +1,7 @@
 // @flow
 import * as React from "react";
+import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
+import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import Button from "retail-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { Pattern } from "../../Domain/Pattern";
@@ -7,19 +9,43 @@ import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./PatternList.less";
 
-type Props = $Exact<{
+export type SortingColumn = "metric" | "trigger";
+
+type Props = {|
     items: Array<Pattern>,
     onRemove: (pattern: string) => void,
-}>;
+    sortingColumn: SortingColumn,
+    sortingDown?: boolean,
+    onSort?: (sorting: sortingColumn) => void,
+|};
 
 export default function PatternList(props: Props): React.Node {
-    const { items, onRemove } = props;
+    const { items, onRemove, sortingColumn, sortingDown, onSort } = props;
+    const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     return (
         <div>
             <div className={cn("row", "header")}>
                 <div className={cn("name")}>Pattern</div>
-                <div className={cn("trigger-counter")}>Triggers</div>
-                <div className={cn("metric-counter")}>Metrics</div>
+                <button
+                    type="button"
+                    className={cn("trigger-counter", { sorting: onSort })}
+                    onClick={onSort && (() => onSort("trigger"))}
+                >
+                    Triggers{" "}
+                    {sortingColumn === "trigger" && (
+                        <span className={cn("icon")}>{sortingIcon}</span>
+                    )}
+                </button>
+                <button
+                    type="button"
+                    className={cn("metric-counter", { sorting: onSort })}
+                    onClick={onSort && (() => onSort("metric"))}
+                >
+                    Metric{" "}
+                    {sortingColumn === "metric" && (
+                        <span className={cn("icon")}>{sortingIcon}</span>
+                    )}
+                </button>
                 <div className={cn("control")} />
             </div>
             {items.map(item => (
