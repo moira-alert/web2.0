@@ -112,6 +112,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     async handleSubmit() {
         let { trigger } = this.state;
         const { moiraApi } = this.props;
+        const history = useHistory();
 
         const isValid = await this.validateForm();
         if (isValid && trigger) {
@@ -131,7 +132,6 @@ class TriggerEditContainer extends React.Component<Props, State> {
             }
             try {
                 await moiraApi.setTrigger(trigger.id, trigger);
-                const history = useHistory();
                 history.push(getPageLink("trigger", trigger.id));
             } catch (error) {
                 this.setState({ error: error.message, loading: false });
@@ -145,10 +145,10 @@ class TriggerEditContainer extends React.Component<Props, State> {
 
     async deleteTrigger(id: string) {
         const { moiraApi } = this.props;
+        const history = useHistory();
         this.setState({ loading: true });
         try {
             await moiraApi.delTrigger(id);
-            const history = useHistory();
             history.push(getPageLink("index"));
         } catch (error) {
             this.setState({ error: error.message, loading: false });

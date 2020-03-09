@@ -130,6 +130,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
     async handleSubmit() {
         let { trigger } = this.state;
         const { moiraApi } = this.props;
+        const history = useHistory();
         // ToDo отказаться от вереницы if
         if (this.validationContainer.current !== null) {
             const isValid: boolean = await this.validationContainer.current.validate();
@@ -150,7 +151,6 @@ class TriggerAddContainer extends React.Component<Props, State> {
                 }
                 try {
                     const { id } = await moiraApi.addTrigger(trigger);
-                    const history = useHistory();
                     history.push(getPageLink("trigger", id));
                 } catch (error) {
                     this.setState({ error: error.message, loading: false });
