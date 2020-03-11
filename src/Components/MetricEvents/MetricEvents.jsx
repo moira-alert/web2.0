@@ -66,7 +66,7 @@ class MetricEvents extends React.Component<Props, State> {
                             </div>
                         </>
                         <div className={cn("dropdown")}>
-                            {i === 0 && (
+                            {i === 0 && events.length > 1 && (
                                 <Button
                                     use="link"
                                     onClick={() => {
