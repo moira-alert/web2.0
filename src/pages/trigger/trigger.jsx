@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import queryString from "query-string";
-import type { ContextRouter } from "react-router-dom";
+import type { ContextRouter, useHistory } from "react-router-dom";
 import isEqual from "lodash/isEqual";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
@@ -181,9 +181,9 @@ class TriggerPage extends React.Component<Props, State> {
     };
 
     changeLocationSearch = update => {
-        const { history, location } = this.props;
+        const { location } = this.props;
         const locationSearch = TriggerPage.parseLocationSearch(location.search);
-
+        const history = useHistory();
         history.push(
             `?${queryString.stringify(
                 { ...locationSearch, ...update },
