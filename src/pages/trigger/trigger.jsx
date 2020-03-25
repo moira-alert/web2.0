@@ -99,8 +99,6 @@ class TriggerPage extends React.Component<Props, State> {
                 moiraApi.getTriggerEvents(id),
             ]);
 
-            // ToDo написать проверку на превышение страниц
-
             document.title = `Moira - Trigger - ${trigger.name}`;
 
             this.setState({
