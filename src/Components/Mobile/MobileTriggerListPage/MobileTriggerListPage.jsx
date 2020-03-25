@@ -45,7 +45,7 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                     </MobileHeader.HeaderBlock>
                 </MobileHeader>
                 <div className={cn("content")}>
-                    {triggers.length === 0 && (
+                    {triggers != null && triggers.length === 0 && (
                         <div style={{ padding: 30, color: "#666", textAlign: "center" }}>
                             No results :-(
                         </div>
