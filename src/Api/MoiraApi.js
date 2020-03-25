@@ -105,7 +105,7 @@ export default class MoiraApi implements IMoiraApi {
 
     triggerListPageSize: number = 20;
 
-    eventHistoryPageSize: number = 0;
+    eventHistoryPageSize: number = -1;
 
     constructor(apiUrl: string) {
         this.apiUrl = apiUrl;
