@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import ScrollUpButton from "react-scroll-up-button";
 import type { Event } from "../../Domain/Event";
 import cn from "./EventList.less";
 import MetricEvents from "../MetricEvents/MetricEvents";
@@ -20,6 +21,7 @@ export default function EventList(props: Props): React.Node {
                 <div className={cn("count")}>Events count</div>
                 <div className={cn("date")}>Event time</div>
                 <div className={cn("dropdown")} />
+                {<ScrollUpButton style={{ width: 45, height: 45 }} />}
             </div>
             {Object.keys(items).map(key => (
                 <div key={key} className={cn("group")}>
