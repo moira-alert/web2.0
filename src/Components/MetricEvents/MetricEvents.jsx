@@ -13,6 +13,7 @@ import type { Event } from "../../Domain/Event";
 type Props = {|
     metricName: string,
     events: Array<Event>,
+    count: Number,
 |};
 
 type State = {
@@ -30,7 +31,7 @@ class MetricEvents extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { events, metricName } = this.props;
+        const { events, metricName, count } = this.props;
         const { expand } = this.state;
 
         return events.map(({ old_state: oldState, state, timestamp, value }, i) => {
@@ -61,6 +62,7 @@ class MetricEvents extends React.Component<Props, State> {
                                 </div>
                                 <div className={cn("curr-value")}>{roundValue(value, false)}</div>
                             </div>
+                            <div className={cn("count")}>{i === 0 && count}</div>
                             <div className={cn("date")}>
                                 {moment.unix(timestamp).format("MMMM D, HH:mm:ss")}
                             </div>

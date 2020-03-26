@@ -52,14 +52,16 @@ class TriggerDesktop extends React.Component<Props, State> {
         events: Array<Event>,
         triggerName: string
     ): {
-        [key: string]: Array<Event>,
+        [key: string]: Array<Array<Event>, Number>,
     } {
         return events.reduce((data, event) => {
             const metric = this.getEventMetricName(event, triggerName);
             if (data[metric]) {
-                data[metric].push(event);
+                data[metric][0].push(event);
+                // eslint-disable-next-line no-param-reassign
+                data[metric][1] += 1;
             } else {
-                data[metric] = [event]; // eslint-disable-line no-param-reassign
+                data[metric] = [[event], 1]; // eslint-disable-line no-param-reassign
             }
             return data;
         }, {});
