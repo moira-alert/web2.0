@@ -37,6 +37,7 @@
         "react-hot-loader": "4.8.0",
         "react-router": "5.1.2",
         "react-router-dom": "5.1.2",
+        "react-scroll-up-button": "^1.6.4",
         "react-ui-validations": "0.3.0",
         "remarkable": "1.7.1",
         "retail-ui": "0.44.1"
