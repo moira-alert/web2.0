@@ -1,11 +1,6 @@
 // @flow
 import * as React from "react";
-<<<<<<< HEAD
-import queryString from "query-string";
-import type { ContextRouter, useHistory } from "react-router-dom";
-=======
 import type { ContextRouter } from "react-router-dom";
->>>>>>> feat(trigger.desktop, trigger): removed paging mechanism
 import isEqual from "lodash/isEqual";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
