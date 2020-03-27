@@ -2749,9 +2749,6 @@
         }
     },
     "event": {
-        "page": 0,
-        "size": 100,
-        "total": 102,
         "list": [
             {
                 "timestamp": 1504407083,
@@ -3544,14 +3541,7 @@
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
                 "old_state": "OK"
-            }
-        ]
-    },
-    "event1": {
-        "page": 1,
-        "size": 100,
-        "total": 102,
-        "list": [
+            },
             {
                 "timestamp": 1504407083,
                 "metric": "vm-elk-s1",

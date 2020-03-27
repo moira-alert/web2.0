@@ -3,7 +3,6 @@
     "/trigger/search\\?*": "/triggers",
     "/trigger/:id": "/trigger",
     "/trigger/:id/state": "/state",
-    "/event/:id\\?p=0*": "/event",
-    "/event/:id\\?p=1*": "/event1",
+    "/event/:id": "/event",
     "/health/notifier": "/health"
 }
