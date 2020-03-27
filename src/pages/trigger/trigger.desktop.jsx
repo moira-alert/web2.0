@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import Paging from "retail-ui/components/Paging";
 import Center from "retail-ui/components/Center";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
@@ -17,14 +16,11 @@ type Props = {|
     trigger: ?Trigger,
     state: ?TriggerState,
     events: Array<Event>,
-    page: number,
-    pageCount: number,
     disableThrottling: (id: string) => void,
     setTriggerMaintenance: (id: string, maintenance: Maintenance) => void,
     setMetricMaintenance: (id: string, maintenance: Maintenance, metric: string) => void,
     removeMetric: (id: string, metric: string) => void,
     removeNoDataMetric: (id: string) => void,
-    onPageChange: ({ page: number }) => {},
     loading: boolean,
     error?: string,
 |};
@@ -56,14 +52,16 @@ class TriggerDesktop extends React.Component<Props, State> {
         events: Array<Event>,
         triggerName: string
     ): {
-        [key: string]: Array<Event>,
+        [key: string]: Array<Array<Event>, Number>,
     } {
         return events.reduce((data, event) => {
             const metric = this.getEventMetricName(event, triggerName);
             if (data[metric]) {
-                data[metric].push(event);
+                data[metric][0].push(event);
+                // eslint-disable-next-line no-param-reassign
+                data[metric][1] += 1;
             } else {
-                data[metric] = [event]; // eslint-disable-line no-param-reassign
+                data[metric] = [[event], 1]; // eslint-disable-line no-param-reassign
             }
             return data;
         }, {});
@@ -75,14 +73,11 @@ class TriggerDesktop extends React.Component<Props, State> {
             trigger,
             state,
             events,
-            page,
-            pageCount,
             disableThrottling,
             setTriggerMaintenance,
             setMetricMaintenance,
             removeMetric,
             removeNoDataMetric,
-            onPageChange,
             loading,
             error,
         } = this.props;
@@ -118,7 +113,7 @@ class TriggerDesktop extends React.Component<Props, State> {
                         </Center>
                     ) : (
                         // eslint-disable-next-line no-nested-ternary
-                        <Tabs value={isMetrics ? (page > 1 ? "events" : "state") : "state"}>
+                        <Tabs value={isMetrics ? "state" : "events"}>
                             {isMetrics && trigger.id && (
                                 <Tab id="state" label="Current state">
                                     <MetricList
@@ -150,19 +145,6 @@ class TriggerDesktop extends React.Component<Props, State> {
                                     <EventList
                                         items={TriggerDesktop.composeEvents(events, trigger.name)}
                                     />
-                                    {pageCount > 1 && (
-                                        <div style={{ paddingTop: 20 }}>
-                                            <Paging
-                                                caption="Next page"
-                                                activePage={page}
-                                                pagesCount={pageCount}
-                                                onPageChange={newPage =>
-                                                    onPageChange({ page: newPage })
-                                                }
-                                                withoutNavigationHint
-                                            />
-                                        </div>
-                                    )}
                                 </Tab>
                             )}
                         </Tabs>

@@ -5,20 +5,6 @@
     margin-top: 5px;
 }
 
-.group {
-    margin: 0 -5px;
-    padding: 10px 5px;
-}
-
-.group:nth-child(odd) {
-    background-color: #f6f6f6;
-}
-
-.header {
-    color: #666;
-    font-style: italic;
-}
-
 .row {
     display: flex;
     align-items: center;
@@ -38,6 +24,22 @@
     justify-content: center;
     flex-shrink: 0;
     width: 300px;
+}
+
+.prev-value,
+.curr-value {
+    width: 60px;
+    font-size: 12px;
+    color: #666;
+}
+
+.prev-value {
+    margin-right: 10px;
+    text-align: right;
+}
+
+.curr-value {
+    margin-left: 10px;
 }
 
 .arrow {

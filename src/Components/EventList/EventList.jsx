@@ -1,15 +1,13 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
-import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
+import ScrollUpButton from "react-scroll-up-button";
 import type { Event } from "../../Domain/Event";
-import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import roundValue from "../../helpers/roundValue";
 import cn from "./EventList.less";
+import MetricEvents from "../MetricEvents/MetricEvents";
 
 type Props = {|
     items: {
-        [key: string]: Array<Event>,
+        [key: string]: Array<Array<Event>, Number>,
     },
 |};
 
@@ -20,38 +18,14 @@ export default function EventList(props: Props): React.Node {
             <div className={cn("row", "header")}>
                 <div className={cn("name")}>Metric</div>
                 <div className={cn("state-change")}>State change</div>
+                <div className={cn("count")}>Events count</div>
                 <div className={cn("date")}>Event time</div>
+                <div className={cn("dropdown")} />
+                {<ScrollUpButton style={{ width: 45, height: 45 }} />}
             </div>
             {Object.keys(items).map(key => (
                 <div key={key} className={cn("group")}>
-                    {items[key].map(({ old_state: oldState, state, timestamp, value }, i) => {
-                        const oldValue = items[key][i + 1] && items[key][i + 1].value;
-                        return (
-                            <div key={`${key}-${timestamp}`} className={cn("row")}>
-                                <div className={cn("name")}>{i === 0 && key}</div>
-                                <div className={cn("state-change")}>
-                                    <div className={cn("prev-value")}>
-                                        {roundValue(oldValue, false)}
-                                    </div>
-                                    <div className={cn("prev-state")}>
-                                        <StatusIndicator statuses={[oldState]} size={14} />
-                                    </div>
-                                    <div className={cn("arrow")}>
-                                        <ArrowBoldRightIcon />
-                                    </div>
-                                    <div className={cn("curr-state")}>
-                                        <StatusIndicator statuses={[state]} size={14} />
-                                    </div>
-                                    <div className={cn("curr-value")}>
-                                        {roundValue(value, false)}
-                                    </div>
-                                </div>
-                                <div className={cn("date")}>
-                                    {moment.unix(timestamp).format("MMMM D, HH:mm:ss")}
-                                </div>
-                            </div>
-                        );
-                    })}
+                    <MetricEvents metricName={key} events={items[key][0]} count={items[key][1]} />
                 </div>
             ))}
         </section>
