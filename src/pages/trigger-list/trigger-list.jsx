@@ -5,7 +5,7 @@ import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 import intersection from "lodash/intersection";
 import queryString from "query-string";
-import type { ContextRouter, useHistory } from "react-router-dom";
+import type { ContextRouter } from "react-router-dom";
 import type { TriggerList } from "../../Domain/Trigger";
 import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import type { IMoiraApi } from "../../Api/MoiraApi";
@@ -185,11 +185,10 @@ class TriggerListPage extends React.Component<Props, State> {
     }
 
     changeLocationSearch = update => {
-        const { location } = this.props;
+        const { location, history } = this.props;
         const locationSearch = TriggerListPage.parseLocationSearch(location.search);
         const settings = { ...locationSearch, ...update };
         localStorage.setItem("moiraSettings", JSON.stringify({ ...settings, searchText: "" }));
-        const history = useHistory();
         history.push(
             `?${queryString.stringify(settings, {
                 arrayFormat: "index",

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import type { ContextRouter, useHistory } from "react-router-dom";
+import type { ContextRouter } from "react-router-dom";
 import { ValidationContainer } from "react-ui-validations";
 import Button from "retail-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
@@ -111,8 +111,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
 
     async handleSubmit() {
         let { trigger } = this.state;
-        const { moiraApi } = this.props;
-        const history = useHistory();
+        const { moiraApi, history } = this.props;
 
         const isValid = await this.validateForm();
         if (isValid && trigger) {
@@ -144,8 +143,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 
     async deleteTrigger(id: string) {
-        const { moiraApi } = this.props;
-        const history = useHistory();
+        const { moiraApi, history } = this.props;
         this.setState({ loading: true });
         try {
             await moiraApi.delTrigger(id);

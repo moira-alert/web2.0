@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import type { ContextRouter, useHistory } from "react-router-dom";
+import type { ContextRouter } from "react-router-dom";
 import { ValidationContainer } from "react-ui-validations";
 import Button from "retail-ui/components/Button";
 import type { IMoiraApi } from "../Api/MoiraApi";
@@ -119,8 +119,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
 
     async handleSubmit() {
         let { trigger } = this.state;
-        const { moiraApi } = this.props;
-        const history = useHistory();
+        const { moiraApi, history } = this.props;
         const isValid = await this.validateForm();
         if (isValid && trigger) {
             this.setState({ loading: true });
