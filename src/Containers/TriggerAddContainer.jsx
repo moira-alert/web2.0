@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import type { ContextRouter, useHistory } from "react-router-dom";
+import type { ContextRouter } from "react-router-dom";
 import { ValidationContainer } from "react-ui-validations";
 import Button from "retail-ui/components/Button";
 import type { IMoiraApi } from "../Api/MoiraApi";
@@ -129,8 +129,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
 
     async handleSubmit() {
         let { trigger } = this.state;
-        const { moiraApi } = this.props;
-        const history = useHistory();
+        const { moiraApi, history } = this.props;
         // ToDo отказаться от вереницы if
         if (this.validationContainer.current !== null) {
             const isValid: boolean = await this.validationContainer.current.validate();
