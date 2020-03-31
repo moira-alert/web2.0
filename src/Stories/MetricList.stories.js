@@ -52,6 +52,11 @@ const items = {
 
 storiesOf("MetricList", module)
     .addDecorator(StoryRouter())
+    .addParameters({
+        creevey: {
+            skip: "Travis CI time is different",
+        },
+    })
     .add("Default", () => (
         <MetricList
             items={items}

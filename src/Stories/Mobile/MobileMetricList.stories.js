@@ -39,6 +39,11 @@ const items = {
 
 storiesOf("Mobile/MetricsList", module)
     .addDecorator(StoryRouter())
+    .addParameters({
+        creevey: {
+            skip: "Travis CI time is different",
+        },
+    })
     .add("With Status Indicator", () => (
         <MobileMetricsList
             metrics={items}

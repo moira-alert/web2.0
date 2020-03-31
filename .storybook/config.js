@@ -1,5 +1,8 @@
-import { configure } from "@storybook/react";
-import styles from "../src/style.less";
+const { configure, addDecorator } = require("@storybook/react");
+const { withCreevey } = require('creevey');
+const styles = require("../src/style.less");
+
+addDecorator(withCreevey({ captureElement: '#root' }));
 
 const req = require.context("../src/Stories", true, /.stories.js$/);
 
