@@ -102,7 +102,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         );
     }
 
-    async handleSubmit() {
+    handleSubmit = async () => {
         let { trigger } = this.state;
         const { moiraApi, history } = this.props;
 
@@ -129,13 +129,13 @@ class TriggerEditContainer extends React.Component<Props, State> {
                 this.setState({ error: error.message, loading: false });
             }
         }
-    }
+    };
 
     handleChange(update: $Shape<Trigger>) {
         this.setState((prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }));
     }
 
-    async deleteTrigger(id: string) {
+    deleteTrigger = async (id: string) => {
         const { moiraApi, history } = this.props;
         this.setState({ loading: true });
         try {
@@ -144,7 +144,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         } catch (error) {
             this.setState({ error: error.message, loading: false });
         }
-    }
+    };
 
     async getData(props: Props) {
         const { moiraApi, match } = props;

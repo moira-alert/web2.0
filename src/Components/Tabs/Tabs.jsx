@@ -45,7 +45,7 @@ export default class TabsCustom extends React.Component<Props, State> {
         }
         return (
             <div>
-                <div className={cn("heyarader")}>
+                <div className={cn("header")}>
                     <Tabs value={active} onValueChange={value => this.setState({ active: value })}>
                         {React.Children.map(children, ({ props }) => (
                             <TabsTab id={props.id}>{props.label}</TabsTab>
