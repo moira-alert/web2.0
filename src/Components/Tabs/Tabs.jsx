@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Tabs from "retail-ui/components/Tabs";
+import { Tabs } from "@skbkontur/react-ui";
 import cn from "./Tabs.less";
 
 type Props = {|
@@ -45,11 +45,8 @@ export default class TabsCustom extends React.Component<Props, State> {
         }
         return (
             <div>
-                <div className={cn("header")}>
-                    <Tabs
-                        value={active}
-                        onChange={(target, value) => this.setState({ active: value })}
-                    >
+                <div className={cn("heyarader")}>
+                    <Tabs value={active} onValueChange={value => this.setState({ active: value })}>
                         {React.Children.map(children, ({ props }) => (
                             <TabsTab id={props.id}>{props.label}</TabsTab>
                         ))}

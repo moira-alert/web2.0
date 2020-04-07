@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
-import Input from "retail-ui/components/Input";
-import Select from "retail-ui/components/Select";
-import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
+import { Input, Select } from "@skbkontur/react-ui";
+import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import Remarkable from "remarkable";
 import type { ContactConfig } from "../../Domain/Config";
 import type { Contact } from "../../Domain/Contact";
@@ -43,7 +42,7 @@ export default class ContactEditForm extends React.Component<Props> {
                                 {v && <ContactTypeIcon type={v} />} {item}
                             </span>
                         )}
-                        onChange={(evt, v) => {
+                        onValueChange={v => {
                             // ToDo разобраться, почему value может отсутствовать
                             v && onChange({ type: v }); // eslint-disable-line
                         }}
@@ -62,7 +61,7 @@ export default class ContactEditForm extends React.Component<Props> {
                                 (currentContactConfig && currentContactConfig.placeholder) || ""
                             }
                             value={value}
-                            onChange={(e, v) => onChange({ value: v })}
+                            onValueChange={v => onChange({ value: v })}
                         />
                     </ValidationWrapperV1>
                 </div>

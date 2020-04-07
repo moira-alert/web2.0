@@ -1,9 +1,6 @@
 // @flow
 import * as React from "react";
-import Tooltip from "retail-ui/components/Tooltip";
-import Input from "retail-ui/components/Input";
-import Radio from "retail-ui/components/Radio";
-import Checkbox from "retail-ui/components/Checkbox";
+import { Tooltip, Input, Radio, Checkbox } from "@skbkontur/react-ui";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import cn from "./ScheduleEdit.less";
 import type { Schedule } from "../../Domain/Schedule";
@@ -75,7 +72,7 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                         <Checkbox
                             key={name}
                             checked={enabled}
-                            onChange={(e, checked) =>
+                            onValueChange={checked =>
                                 onChange({
                                     ...schedule,
                                     days: [
@@ -94,7 +91,7 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                     <span className={cn("radio")}>
                         <Radio
                             checked={allDay}
-                            onChange={() => {
+                            onValueChange={() => {
                                 onChange({
                                     ...schedule,
                                     startOffset: 0,
@@ -111,7 +108,7 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                         <Radio
                             checked={!allDay}
                             value="specific_interval"
-                            onChange={() => this.setState({ allDay: false })}
+                            onValueChange={() => this.setState({ allDay: false })}
                         >
                             At specific interval
                         </Radio>
@@ -120,7 +117,7 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                             width={60}
                             mask="99:99"
                             disabled={allDay}
-                            onChange={(e, value) =>
+                            onValueChange={value =>
                                 onChange({
                                     ...schedule,
                                     startOffset: ScheduleEdit.parseTime(value),
@@ -133,7 +130,7 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                             width={60}
                             mask="99:99"
                             disabled={allDay}
-                            onChange={(e, value) =>
+                            onValueChange={value =>
                                 onChange({ ...schedule, endOffset: ScheduleEdit.parseTime(value) })
                             }
                         />

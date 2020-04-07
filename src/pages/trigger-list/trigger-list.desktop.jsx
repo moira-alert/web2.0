@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
 import difference from "lodash/difference";
-import Paging from "retail-ui/components/Paging";
-import Toggle from "retail-ui/components/Toggle";
+import { Paging, Toggle } from "@skbkontur/react-ui";
 import { getPageLink } from "../../Domain/Global";
 import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../../Components/Layout/Layout";
 import { ColumnStack, RowStack, Fill, Fit } from "../../Components/ItemsStack/ItemsStack";

@@ -10,6 +10,7 @@ const auth = fs.existsSync(localAuthPath)
     };
 
 const config = {
+    enableFastStoriesLoading: true,
     gridUrl: "http://hub-cloud.browserstack.com/wd/hub",
     storybookUrl: "http://localhost:9001",
     screenDir: path.join(__dirname, "images"),

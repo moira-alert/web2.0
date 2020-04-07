@@ -1,8 +1,6 @@
 // @flow
 import * as React from "react";
-import Button from "retail-ui/components/Button";
-import Center from "retail-ui/components/Center";
-import Gapped from "retail-ui/components/Gapped";
+import { Button, Center, Gapped } from "@skbkontur/react-ui";
 import AddIcon from "@skbkontur/react-icons/Add";
 import type { Contact } from "../../Domain/Contact";
 import type { ContactConfig } from "../../Domain/Config";

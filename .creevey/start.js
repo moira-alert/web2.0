@@ -1,3 +1,4 @@
+const path = require("path");
 // `@babel/preset-env: modules: false` is leaves `import`, that don't work on nodejs
 
 require("@babel/register")({
@@ -8,16 +9,22 @@ require("@babel/register")({
         [
             "@babel/preset-env",
             {
-                "targets": { "node": true }
+                "targets": {
+                    "node": true,
+                },
             }
         ],
         "@babel/preset-react"
     ],
     plugins: [
-        "react-hot-loader/babel",
         "@babel/plugin-proposal-class-properties",
         "@babel/plugin-transform-destructuring",
-        "@babel/plugin-proposal-object-rest-spread"
+        "@babel/plugin-proposal-object-rest-spread",
+        ["module-resolver", {
+            "alias": {
+                "^@skbkontur/react-icons/(.+)": path.join(__dirname, "./emptyModule"),
+            }
+        }]
     ],
 });
 

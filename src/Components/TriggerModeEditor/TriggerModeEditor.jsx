@@ -1,10 +1,7 @@
 // @flow
 import * as React from "react";
-import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
-import Tabs from "retail-ui/components/Tabs";
-import Input from "retail-ui/components/Input";
-import Tooltip from "retail-ui/components/Tooltip";
-import Link from "retail-ui/components/Link";
+import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
+import { Tabs, Input, Tooltip, Link } from "@skbkontur/react-ui";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
@@ -71,7 +68,7 @@ class TriggerModeEditor extends React.Component<Props, State> {
         return (
             <React.Fragment>
                 <div className={cn("tabs")}>
-                    <Tabs value={mode} onChange={this.handleTabChange}>
+                    <Tabs value={mode} onValueChange={this.handleTabChange}>
                         <Tabs.Tab id="simple" style={{ color: disableSimpleMode ? "#888888" : "" }}>
                             Simple mode
                         </Tabs.Tab>
@@ -100,7 +97,7 @@ class TriggerModeEditor extends React.Component<Props, State> {
                                 <Input
                                     width="100%"
                                     value={expression}
-                                    onChange={(e, value) => onChange({ expression: value })}
+                                    onValueChange={value => onChange({ expression: value })}
                                     placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
                                 />
                             </ValidationWrapperV1>
@@ -120,7 +117,7 @@ class TriggerModeEditor extends React.Component<Props, State> {
         );
     }
 
-    handleTabChange = (evt: $Exact<{ target: $Exact<{ value: string }> }>, value: string) => {
+    handleTabChange = (value: string) => {
         const { watchFor } = this.state;
         const { disableSimpleMode, onChange } = this.props;
         if (!disableSimpleMode) {

@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
-import Button from "retail-ui/components/Button";
-import { ValidationContainer } from "react-ui-validations";
-import Modal from "retail-ui/components/Modal";
-import Gapped from "retail-ui/components/Gapped";
+import { Button, Modal, Gapped } from "@skbkontur/react-ui";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import type { Contact } from "../../Domain/Contact";
 import SubscriptionEditor, {
     type SubscriptionInfo,

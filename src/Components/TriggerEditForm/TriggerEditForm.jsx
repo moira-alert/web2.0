@@ -1,21 +1,23 @@
 // @flow
 import * as React from "react";
-import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
+import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
-import Gapped from "retail-ui/components/Gapped";
-import Input from "retail-ui/components/Input";
-import Textarea from "retail-ui/components/Textarea";
-import Button from "retail-ui/components/Button";
-import Link from "retail-ui/components/Link";
-import Tooltip from "retail-ui/components/Tooltip";
-import Tabs from "retail-ui/components/Tabs";
-import RadioGroup from "retail-ui/components/RadioGroup";
-import Radio from "retail-ui/components/Radio";
-import Checkbox from "retail-ui/components/Checkbox";
+import {
+    Gapped,
+    Input,
+    Textarea,
+    Button,
+    Link,
+    Tooltip,
+    Tabs,
+    RadioGroup,
+    Radio,
+    Checkbox,
+} from "@skbkontur/react-ui";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
@@ -119,7 +121,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <Input
                             width="100%"
                             value={name}
-                            onChange={(e, value) => onChange({ name: value })}
+                            onValueChange={value => onChange({ name: value })}
                         />
                     </ValidationWrapperV1>
                 </FormRow>
@@ -127,7 +129,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     <div className={cn("description-mode-tabs")}>
                         <Tabs
                             value={descriptionMode}
-                            onChange={(_, val) => this.setState({ descriptionMode: val })}
+                            onValueChange={value => this.setState({ descriptionMode: value })}
                         >
                             <Tabs.Tab id="edit">Edit</Tabs.Tab>
                             <Tabs.Tab id="preview">Preview</Tabs.Tab>
@@ -137,9 +139,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <Textarea
                             width="100%"
                             value={desc || ""}
-                            onChange={(e, value) => {
-                                onChange({ desc: value });
-                            }}
+                            onValueChange={value => onChange({ desc: value })}
                         />
                     ) : (
                         <div
@@ -164,7 +164,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                         <Input
                                             width="100%"
                                             value={x}
-                                            onChange={(e, value) =>
+                                            onValueChange={value =>
                                                 this.handleUpdateTarget(i, value)
                                             }
                                         />
@@ -214,7 +214,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             value={typeof ttl === "number" ? ttl : null}
                             editFormat={defaultNumberEditFormat}
                             viewFormat={defaultNumberViewFormat}
-                            onChange={(e, value) => onChange({ ttl: value || 0 })}
+                            onChange={value => onChange({ ttl: value || 0 })}
                         />
                     </ValidationWrapperV1>
                     <span>seconds</span>
@@ -222,7 +222,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow singleLineControlGroup>
                     <Checkbox
                         checked={muteNewMetrics}
-                        onChange={(evt, checked) => onChange({ mute_new_metrics: checked })}
+                        onValueChange={checked => onChange({ mute_new_metrics: checked })}
                     >
                         Mute new metrics notifications
                     </Checkbox>
@@ -272,7 +272,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             defaultValue={
                                 !isRemote ? TriggerDataSources.LOCAL : TriggerDataSources.GRAPHITE
                             }
-                            onChange={(evt, value) =>
+                            onValueChange={value =>
                                 onChange({ is_remote: value !== TriggerDataSources.LOCAL })
                             }
                         >

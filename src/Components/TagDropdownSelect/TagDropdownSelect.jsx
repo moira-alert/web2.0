@@ -2,10 +2,10 @@
 import * as React from "react";
 import union from "lodash/union";
 import difference from "lodash/difference";
-import RenderLayer from "retail-ui/components/RenderLayer";
-import LayoutEvents from "retail-ui/lib/LayoutEvents";
-import DropdownContainer from "retail-ui/components/DropdownContainer/DropdownContainer";
-import ScrollContainer from "retail-ui/components/ScrollContainer";
+import { ScrollContainer } from "@skbkontur/react-ui";
+import { DropdownContainer } from "@skbkontur/react-ui/internal/DropdownContainer";
+import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
+import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
 import Tag from "../Tag/Tag";
 import NewTagBadge from "../NewTagBadge/NewTagBadge";
 import cn from "./TagDropdownSelect.less";

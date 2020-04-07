@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
-import { ValidationContainer } from "react-ui-validations";
-import Button from "retail-ui/components/Button";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
+import { Button } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
@@ -74,12 +74,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                 <Fit>
                                     <RowStack gap={3} baseline>
                                         <Fit>
-                                            <Button
-                                                use="primary"
-                                                onClick={() => {
-                                                    this.handleSubmit();
-                                                }}
-                                            >
+                                            <Button use="primary" onClick={this.handleSubmit}>
                                                 Save trigger
                                             </Button>
                                         </Fit>
@@ -87,9 +82,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                             <Button
                                                 use="link"
                                                 icon={<TrashIcon />}
-                                                onClick={() => {
-                                                    this.deleteTrigger(trigger.id);
-                                                }}
+                                                onClick={() => this.deleteTrigger(trigger.id)}
                                             >
                                                 Delete
                                             </Button>

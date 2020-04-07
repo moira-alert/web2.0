@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { Link } from "react-router-dom";
-import LinkUI from "retail-ui/components/Link";
+import { Link as LinkUI } from "@skbkontur/react-ui";
 import SettingsIcon from "@skbkontur/react-icons/Settings";
 import HelpBookIcon from "@skbkontur/react-icons/HelpBook";
 import { getPageLink } from "../../Domain/Global";

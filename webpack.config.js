@@ -1,12 +1,16 @@
 const path = require("path");
+const webpack = require("webpack");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
-        app: ["@babel/polyfill", path.resolve(__dirname, "src/index.js")],
+        app: path.resolve(__dirname, "src/index.js"),
     },
     output: {
+        filename: "app.[hash:6].js",
+        chunkFilename: "[name].[chunkhash:6].js",
         publicPath: "/",
         path: path.resolve(__dirname, "dist"),
     },
@@ -28,7 +32,6 @@ module.exports = {
                 exclude: /node_modules/,
                 include: [
                     path.resolve(__dirname, "src"),
-                    path.resolve(__dirname, "node_modules/retail-ui"),
                 ],
             },
             {
@@ -43,12 +46,30 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.(css|less)$/,
+                use: [
+                    "classnames-loader",
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: true,
+                        },
+                    },
+                    "less-loader",
+                ],
+            },
         ],
     },
     resolve: {
         modules: ["node_modules", "local_modules"],
         extensions: [".js", ".jsx"],
+        alias: {
+            "react-dom": "@hot-loader/react-dom"
+        },
     },
+    devtool: "cheap-source-map",
     plugins: [
         new MomentLocalesPlugin(),
         new HtmlWebpackPlugin({
@@ -59,6 +80,12 @@ module.exports = {
                 collapseWhitespace: true,
             },
         }),
+        new MiniCssExtractPlugin({
+            filename: "app.[hash:6].css",
+            chunkFilename: "[name].[chunkhash:6].css",
+        }),
+
+        new webpack.HotModuleReplacementPlugin()
     ],
     optimization: {
         splitChunks: {
@@ -76,6 +103,21 @@ module.exports = {
                     reuseExistingChunk: true,
                 },
             },
+        },
+    },
+    devServer: {
+        hot: true,
+        contentBase: "./dist",
+        port: 9000,
+        historyApiFallback: true,
+        proxy: {
+            "/api":
+                process.env.API_MODE === "local"
+                    ? "" // Place you API url here. More options see on https://webpack.js.org/configuration/dev-server/#devserver-proxy
+                    : {
+                        target: "http://localhost:9002",
+                        pathRewrite: { "^/api": "" },
+                    },
         },
     },
 };
