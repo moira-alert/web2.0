@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import flatten from "lodash/flatten";
-import { Button } from "@skbkontur/react-ui";
+import { Button } from "@skbkontur/react-ui/components/Button";
 import OkIcon from "@skbkontur/react-icons/Ok";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import TrashIcon from "@skbkontur/react-icons/Trash";

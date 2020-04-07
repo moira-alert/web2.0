@@ -1,6 +1,9 @@
 // @flow
 import * as React from "react";
-import { Tooltip, Input, Radio, Checkbox } from "@skbkontur/react-ui";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
+import { Input } from "@skbkontur/react-ui/components/Input";
+import { Radio } from "@skbkontur/react-ui/components/Radio";
+import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import cn from "./ScheduleEdit.less";
 import type { Schedule } from "../../Domain/Schedule";

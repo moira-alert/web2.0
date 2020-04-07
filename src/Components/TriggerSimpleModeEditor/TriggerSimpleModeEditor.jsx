@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Radio } from "@skbkontur/react-ui";
+import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import { ColumnStack, RowStack, Fit, Fixed } from "../ItemsStack/ItemsStack";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";

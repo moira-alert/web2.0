@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import { Paging, Spinner } from "@skbkontur/react-ui";
+import { Paging } from "@skbkontur/react-ui/components/Paging";
+import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import MenuIcon from "@skbkontur/react-icons/Menu";
 import FilterIcon from "@skbkontur/react-icons/Filter";
 import type { Trigger } from "../../../Domain/Trigger";

@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
-import { Input, Select } from "@skbkontur/react-ui";
+import { Input } from "@skbkontur/react-ui/components/Input";
+import { Select } from "@skbkontur/react-ui/components/Select";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import Remarkable from "remarkable";
 import type { ContactConfig } from "../../Domain/Config";

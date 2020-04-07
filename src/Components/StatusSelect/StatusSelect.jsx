@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Select } from "@skbkontur/react-ui";
+import { Select } from "@skbkontur/react-ui/components/Select";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { getStatusCaption, type Status } from "../../Domain/Status";
 import { RowStack, Fit } from "../ItemsStack/ItemsStack";

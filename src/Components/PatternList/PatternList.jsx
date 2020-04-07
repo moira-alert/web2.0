@@ -2,7 +2,7 @@
 import * as React from "react";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
-import { Button } from "@skbkontur/react-ui";
+import { Button } from "@skbkontur/react-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";

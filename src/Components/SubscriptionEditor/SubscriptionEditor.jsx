@@ -1,6 +1,8 @@
 // @flow
 import * as React from "react";
-import { Toggle, Checkbox, Tooltip } from "@skbkontur/react-ui";
+import { Toggle } from "@skbkontur/react-ui/components/Toggle";
+import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import type { Contact } from "../../Domain/Contact";

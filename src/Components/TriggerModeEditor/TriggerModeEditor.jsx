@@ -1,7 +1,10 @@
 // @flow
 import * as React from "react";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
-import { Tabs, Input, Tooltip, Link } from "@skbkontur/react-ui";
+import { Tabs } from "@skbkontur/react-ui/components/Tabs";
+import { Input } from "@skbkontur/react-ui/components/Input";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
+import { Link } from "@skbkontur/react-ui/components/Link";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";

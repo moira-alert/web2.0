@@ -2,7 +2,7 @@
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Button } from "@skbkontur/react-ui";
+import { Button } from "@skbkontur/react-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";

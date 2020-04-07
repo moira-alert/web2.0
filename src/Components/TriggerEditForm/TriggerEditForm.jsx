@@ -6,18 +6,16 @@ import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
-import {
-    Gapped,
-    Input,
-    Textarea,
-    Button,
-    Link,
-    Tooltip,
-    Tabs,
-    RadioGroup,
-    Radio,
-    Checkbox,
-} from "@skbkontur/react-ui";
+import { Gapped } from "@skbkontur/react-ui/components/Gapped";
+import { Input } from "@skbkontur/react-ui/components/Input";
+import { Textarea } from "@skbkontur/react-ui/components/Textarea";
+import { Button } from "@skbkontur/react-ui/components/Button";
+import { Link } from "@skbkontur/react-ui/components/Link";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
+import { Tabs } from "@skbkontur/react-ui/components/Tabs";
+import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
+import { Radio } from "@skbkontur/react-ui/components/Radio";
+import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";

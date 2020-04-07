@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Tabs } from "@skbkontur/react-ui";
+import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import cn from "./Tabs.less";
 
 type Props = {|

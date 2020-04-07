@@ -5,7 +5,7 @@ import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import MenuDotsIcon from "@skbkontur/react-icons/MenuDots";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import RedoIcon from "@skbkontur/react-icons/Redo";
-import { Modal } from "@skbkontur/react-ui";
+import { Modal } from "@skbkontur/react-ui/components/Modal";
 import type { Metric } from "../../../Domain/Metric";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
 import roundValue from "../../../helpers/roundValue";

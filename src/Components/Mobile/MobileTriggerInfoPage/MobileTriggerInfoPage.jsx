@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Sticky } from "@skbkontur/react-ui";
+import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 
 import type { Metric } from "../../../Domain/Metric";
 import type { Status } from "../../../Domain/Status";

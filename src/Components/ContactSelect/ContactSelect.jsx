@@ -3,7 +3,7 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import difference from "lodash/difference";
 import union from "lodash/union";
 import * as React from "react";
-import { ComboBox } from "@skbkontur/react-ui";
+import { ComboBox } from "@skbkontur/react-ui/components/ComboBox";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";

@@ -1,6 +1,8 @@
 // @flow
 import * as React from "react";
-import { Button, Center, Gapped } from "@skbkontur/react-ui";
+import { Button } from "@skbkontur/react-ui/components/Button";
+import { Center } from "@skbkontur/react-ui/components/Center";
+import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
 import type { Subscription } from "../../Domain/Subscription";
 import type { Contact } from "../../Domain/Contact";

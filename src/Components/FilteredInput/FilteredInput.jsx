@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable */
 import * as React from "react";
-import { Input } from "@skbkontur/react-ui";
+import { Input } from "@skbkontur/react-ui/components/Input";
 import cn from "./FilteredInput.less";
 
 export type FilterValueResult<T> = {

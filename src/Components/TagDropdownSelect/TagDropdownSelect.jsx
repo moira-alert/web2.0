@@ -2,7 +2,7 @@
 import * as React from "react";
 import union from "lodash/union";
 import difference from "lodash/difference";
-import { ScrollContainer } from "@skbkontur/react-ui";
+import { ScrollContainer } from "@skbkontur/react-ui/components/ScrollContainer";
 import { DropdownContainer } from "@skbkontur/react-ui/internal/DropdownContainer";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";

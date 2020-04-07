@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Loader } from "@skbkontur/react-ui";
+import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import cn from "./Layout.less";
 

@@ -1,7 +1,8 @@
 // @flow
 import * as React from "react";
 import moment from "moment";
-import { Sticky, Modal } from "@skbkontur/react-ui";
+import { Sticky } from "@skbkontur/react-ui/components/Sticky";
+import { Modal } from "@skbkontur/react-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
