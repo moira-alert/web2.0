@@ -65,9 +65,9 @@ module.exports = {
     resolve: {
         modules: ["node_modules", "local_modules"],
         extensions: [".js", ".jsx"],
-        alias: {
-            "react-dom": "@hot-loader/react-dom"
-        },
+        alias: process.argv.includes("--mode=development")
+            ? {"react-dom": "@hot-loader/react-dom" }
+            : undefined
     },
     devtool: "cheap-source-map",
     plugins: [
@@ -88,6 +88,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     optimization: {
+        usedExports: true,
         splitChunks: {
             chunks: "all",
             minSize: 0,
