@@ -76,13 +76,5 @@ const items = {
 
 storiesOf("NotificationList", module)
     .addDecorator(StoryRouter())
-    .addParameters({
-        creevey: {
-            skip: {
-                stories: "Default",
-                reasons: "Travis CI time is different",
-            },
-        },
-    })
     .add("Default", () => <NotificationList items={items} onRemove={action("onRemove")} />)
     .add("Empty", () => <NotificationList items={{}} onRemove={action("onRemove")} />);

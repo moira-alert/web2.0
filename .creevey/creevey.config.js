@@ -28,6 +28,7 @@ const config = {
             "os_version" : "10",
             "browser_version" : "80.0",
             "browserstack.selenium_version" : "3.5.2",
+            "browserstack.timezone" : "UTC",
             "browserstack.localIdentifier": process.env["BROWSERSTACK_LOCAL_IDENTIFIER"],
         }
     },

@@ -27,7 +27,7 @@ storiesOf("ContactTypeIcon", module)
             tests: {
                 async AllIcons() {
                     // Some icons get by url and loaded with a delay
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    await new Promise(resolve => setTimeout(resolve, 1000));
                     await this.expect(await this.takeScreenshot()).to.matchImage();
                 },
             },

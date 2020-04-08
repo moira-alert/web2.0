@@ -123,13 +123,4 @@ const items = {
     ],
 };
 
-storiesOf("EventList", module)
-    .addParameters({
-        creevey: {
-            skip: {
-                stories: "Default",
-                reasons: "Travis CI time is different",
-            },
-        },
-    })
-    .add("Default", () => <EventList items={items} />);
+storiesOf("EventList", module).add("Default", () => <EventList items={items} />);

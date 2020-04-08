@@ -121,7 +121,7 @@ const story = storiesOf("Mobile/TriggerInfoPage", module)
         creevey: {
             skip: {
                 stories: "Loading",
-                reasons: "Loader Animation",
+                reasons: "Loader animation",
             },
         },
     });
