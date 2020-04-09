@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
-import { ValidationContainer } from "react-ui-validations";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
 import actionWithDelay from "./StoryUtils";

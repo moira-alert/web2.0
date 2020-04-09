@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
-import Modal from "retail-ui/components/Modal";
-import Gapped from "retail-ui/components/Gapped";
-import Button from "retail-ui/components/Button";
-import { ValidationContainer } from "react-ui-validations";
+import { Modal } from "@skbkontur/react-ui/components/Modal";
+import { Gapped } from "@skbkontur/react-ui/components/Gapped";
+import { Button } from "@skbkontur/react-ui/components/Button";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import type { ContactConfig } from "../../Domain/Config";
 import type { Contact } from "../../Domain/Contact";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";

@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */
 import * as React from "react";
-import Toggle from "retail-ui/components/Toggle";
+import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import cn from "./Toggle.less";
 
 type Props = {|

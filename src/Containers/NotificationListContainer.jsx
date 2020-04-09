@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Button from "retail-ui/components/Button";
+import { Button } from "@skbkontur/react-ui/components/Button";
 import type { ContextRouter } from "react-router-dom";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { IMoiraApi } from "../Api/MoiraApi";

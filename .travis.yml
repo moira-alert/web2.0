@@ -7,6 +7,11 @@ node_js:
 addons:
   apt:
     packages: rpm
+  browserstack:
+    username: moirakontur1
+    access_key:
+      secure: "r0NINoCkNM2JRjiFWX1CjrfNaePXzlc6zbn0N/UpBEyln2hTaBgIL1Jt+9aLvr8Hsek7JBPnqe9qccX3p+ZS573LkRVUc0fFfhiITbKi4UP3Pw5yQJF8L5y/NuqSftob95ZZU4oJQRAe2jg7i1ApZXuDfYda5OfUKqGLDfkQGe+O3cjb+dRvJyncfNV6M20XIXFCxLikuoZ7/LLuag9d1wk7YIRvoM7dlAWaQHnWM2GHKoxO1oZPqGT+Uj2oRMzyxuWZqCFs6vnLHs34C3HxHdYRTOQl/KrJD+Tgl+nU6+NuYifHMsN6knsSiadtGnUwBzIYuQ440oJArzXS3/Vidf7jDU9igs3HIcSZDh1cwMmCJZBPCNuHgxVsNC7D4OOD9BUV41BE7A9hBK+/0sPYo97TgujEiu+ZlN3236CUkfFY5Ez3HzpSTRxWvEX3g/5dMXernfjqdv+bDEI8Q2nhC91LK9F+XsQ+/Uwm5ts9ofnlcQKYXkLIXa918qmm2XPP3jawoQ4tVBzaLdVndoSSBMhonmsHRE6+K8W//SLhL3YHln3lNlHmQQwRkzfzlT8p4Em6dJmMtejSZaaHXHFPg2vqmihoIUBsZe15C/Z5HCJ2X7PweUsemXReq8MhcM6zyRGYEiYUhFCN0ToA8Hb2VMM5P94TnH2QsrAdZbTfGYo="
+    forcelocal: true
 notifications:
   slack:
     rooms:
@@ -18,10 +23,14 @@ before_install:
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 install:
   - gem install fpm
+  - yarn install
 before_script:
   - make lint
 script:
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then  node ./.creevey/startCI; fi
   - if [[ ! -z "$TRAVIS_TAG" ]]; then make packages; fi
+cache:
+    yarn: true
 before_deploy:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:

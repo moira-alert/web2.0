@@ -115,9 +115,17 @@ const stories = [
     },
 ];
 
-const story = storiesOf("Mobile/TriggerInfoPage", module);
+const story = storiesOf("Mobile/TriggerInfoPage", module)
+    .addDecorator(StoryRouter())
+    .addParameters({
+        creevey: {
+            skip: {
+                stories: "Loading",
+                reasons: "Loader animation",
+            },
+        },
+    });
 
-story.addDecorator(StoryRouter());
 story.add("Loading", () => (
     <MobileTriggerInfoPage
         data={null}

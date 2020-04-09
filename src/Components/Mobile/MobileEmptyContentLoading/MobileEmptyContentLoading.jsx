@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Loader from "retail-ui/components/Loader";
+import { Loader } from "@skbkontur/react-ui/components/Loader";
 import cn from "./MobileEmptyContentLoading.less";
 
 export default function MobileEmptyContentLoading(): React.Node {

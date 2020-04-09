@@ -4,7 +4,7 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
-import { ValidationContainer } from "react-ui-validations";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Statuses } from "../Domain/Status";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 

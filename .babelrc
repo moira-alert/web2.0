@@ -21,7 +21,7 @@
                 "@babel/preset-flow",
                 "@babel/preset-env",
                 "@babel/preset-react"
-            ],
+            ]
         }
     }
 }
