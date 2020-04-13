@@ -1,10 +1,10 @@
 // @flow
 import * as React from "react";
-import Toggle from "retail-ui/components/Toggle";
-import Checkbox from "retail-ui/components/Checkbox";
-import Tooltip from "retail-ui/components/Tooltip";
+import { Toggle } from "@skbkontur/react-ui/components/Toggle";
+import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
-import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
+import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import type { Contact } from "../../Domain/Contact";
 import type { Schedule } from "../../Domain/Schedule";
 import ContactSelect from "../ContactSelect/ContactSelect";
@@ -93,7 +93,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     <span>
                         <Toggle
                             checked={subscription.any_tags}
-                            onChange={checked =>
+                            onValueChange={checked =>
                                 onChange({
                                     any_tags: checked,
                                     tags: checked ? [] : subscription.tags,
@@ -115,7 +115,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <Checkbox
                         checked={subscription.throttling}
-                        onChange={(e, checked) => onChange({ throttling: checked })}
+                        onValueChange={checked => onChange({ throttling: checked })}
                     >
                         Throttle messages
                     </Checkbox>{" "}
@@ -131,7 +131,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <Checkbox
                         checked={subscription.ignore_recoverings}
-                        onChange={(e, checked) => onChange({ ignore_recoverings: checked })}
+                        onValueChange={checked => onChange({ ignore_recoverings: checked })}
                     >
                         Send notifications when triggers degraded only
                     </Checkbox>{" "}
@@ -147,7 +147,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <Checkbox
                         checked={subscription.ignore_warnings}
-                        onChange={(e, checked) => onChange({ ignore_warnings: checked })}
+                        onValueChange={checked => onChange({ ignore_warnings: checked })}
                     >
                         Do not send <CodeRef>WARN</CodeRef> notifications
                     </Checkbox>{" "}
@@ -163,7 +163,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <Checkbox
                         checked={plotting.enabled}
-                        onChange={(evt, checked) =>
+                        onValueChange={checked =>
                             onChange({ plotting: { ...plotting, enabled: checked } })
                         }
                     >
@@ -199,7 +199,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <Checkbox
                         checked={subscription.enabled}
-                        onChange={(e, checked) => onChange({ enabled: checked })}
+                        onValueChange={checked => onChange({ enabled: checked })}
                     >
                         Enabled
                     </Checkbox>{" "}

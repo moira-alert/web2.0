@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import Paging from "retail-ui/components/Paging";
-import Center from "retail-ui/components/Center";
+import { Paging } from "@skbkontur/react-ui/components/Paging";
+import { Center } from "@skbkontur/react-ui/components/Center";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
 import type { SortingColum } from "../../Components/MetricList/MetricList";

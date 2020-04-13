@@ -181,9 +181,8 @@ class TriggerPage extends React.Component<Props, State> {
     };
 
     changeLocationSearch = update => {
-        const { history, location } = this.props;
+        const { location, history } = this.props;
         const locationSearch = TriggerPage.parseLocationSearch(location.search);
-
         history.push(
             `?${queryString.stringify(
                 { ...locationSearch, ...update },

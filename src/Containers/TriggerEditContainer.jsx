@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
-import { ValidationContainer } from "react-ui-validations";
-import Button from "retail-ui/components/Button";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
+import { Button } from "@skbkontur/react-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
@@ -74,12 +74,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                 <Fit>
                                     <RowStack gap={3} baseline>
                                         <Fit>
-                                            <Button
-                                                use="primary"
-                                                onClick={() => {
-                                                    this.handleSubmit();
-                                                }}
-                                            >
+                                            <Button use="primary" onClick={this.handleSubmit}>
                                                 Save trigger
                                             </Button>
                                         </Fit>
@@ -87,9 +82,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                             <Button
                                                 use="link"
                                                 icon={<TrashIcon />}
-                                                onClick={() => {
-                                                    this.deleteTrigger(trigger.id);
-                                                }}
+                                                onClick={() => this.deleteTrigger(trigger.id)}
                                             >
                                                 Delete
                                             </Button>
@@ -109,9 +102,9 @@ class TriggerEditContainer extends React.Component<Props, State> {
         );
     }
 
-    async handleSubmit() {
+    handleSubmit = async () => {
         let { trigger } = this.state;
-        const { history, moiraApi } = this.props;
+        const { moiraApi, history } = this.props;
 
         const isValid = await this.validateForm();
         if (isValid && trigger) {
@@ -136,14 +129,14 @@ class TriggerEditContainer extends React.Component<Props, State> {
                 this.setState({ error: error.message, loading: false });
             }
         }
-    }
+    };
 
     handleChange(update: $Shape<Trigger>) {
         this.setState((prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }));
     }
 
-    async deleteTrigger(id: string) {
-        const { history, moiraApi } = this.props;
+    deleteTrigger = async (id: string) => {
+        const { moiraApi, history } = this.props;
         this.setState({ loading: true });
         try {
             await moiraApi.delTrigger(id);
@@ -151,7 +144,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         } catch (error) {
             this.setState({ error: error.message, loading: false });
         }
-    }
+    };
 
     async getData(props: Props) {
         const { moiraApi, match } = props;

@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import Paging from "retail-ui/components/Paging";
-import Spinner from "retail-ui/components/Spinner";
+import { Paging } from "@skbkontur/react-ui/components/Paging";
+import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import MenuIcon from "@skbkontur/react-icons/Menu";
 import FilterIcon from "@skbkontur/react-icons/Filter";
 import type { Trigger } from "../../../Domain/Trigger";
@@ -45,7 +45,7 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                     </MobileHeader.HeaderBlock>
                 </MobileHeader>
                 <div className={cn("content")}>
-                    {triggers.length === 0 && (
+                    {triggers != null && triggers.length === 0 && (
                         <div style={{ padding: 30, color: "#666", textAlign: "center" }}>
                             No results :-(
                         </div>

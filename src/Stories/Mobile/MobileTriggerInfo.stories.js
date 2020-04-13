@@ -1,7 +1,6 @@
 // @flow
 /* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import * as React from "react";
-import range from "lodash/range";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
@@ -129,8 +128,8 @@ const stories = [
         triggerState: { ...triggerState },
         data: {
             ...sourceData,
-            desc: `Some error ${range(100)
-                .map(() => "very")
+            desc: `Some error ${Array(100)
+                .fill("very")
                 .join(" ")} long description`,
         },
     },

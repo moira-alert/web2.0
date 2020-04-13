@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
-import { ValidationContainer } from "react-ui-validations";
-import Button from "retail-ui/components/Button";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
+import { Button } from "@skbkontur/react-ui/components/Button";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
@@ -129,7 +129,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
 
     async handleSubmit() {
         let { trigger } = this.state;
-        const { history, moiraApi } = this.props;
+        const { moiraApi, history } = this.props;
         // ToDo отказаться от вереницы if
         if (this.validationContainer.current !== null) {
             const isValid: boolean = await this.validationContainer.current.validate();

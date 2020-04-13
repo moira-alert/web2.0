@@ -3,7 +3,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { ValidationContainer } from "react-ui-validations";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import ScheduleEdit from "../Components/ScheduleEdit/ScheduleEdit";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
 

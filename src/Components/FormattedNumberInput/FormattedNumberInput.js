@@ -10,7 +10,7 @@ type FormattedNumberInputProps = {
     editFormat?: ?string,
     value: ?number,
     align?: "left" | "center" | "right",
-    onChange: (event: SyntheticEvent<>, value: number | null) => any,
+    onChange: (value: number | null) => any,
     width: string | number,
 };
 

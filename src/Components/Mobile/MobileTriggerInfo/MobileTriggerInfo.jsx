@@ -1,11 +1,11 @@
 // @flow
 import * as React from "react";
 import moment from "moment";
-import Sticky from "retail-ui/components/Sticky";
+import { Sticky } from "@skbkontur/react-ui/components/Sticky";
+import { Modal } from "@skbkontur/react-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
-import Modal from "retail-ui/components/Modal";
 import type { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
 import type { Status } from "../../../Domain/Status";

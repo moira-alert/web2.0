@@ -3,7 +3,7 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import difference from "lodash/difference";
 import union from "lodash/union";
 import * as React from "react";
-import ComboBox from "retail-ui/components/ComboBox";
+import { ComboBox } from "@skbkontur/react-ui/components/ComboBox";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
@@ -63,7 +63,7 @@ export default class ContactSelect extends React.Component<Props> {
                         width="100%"
                         onFocus={onFocus}
                         onBlur={onBlur}
-                        onChange={this.handleChangeContactToAdd}
+                        onValueChange={this.handleChangeContactToAdd}
                         getItems={this.getContactsForComboBox}
                         placeholder="Select delivery channel"
                         renderNotFound={() => "No delivery channels found"}
@@ -78,10 +78,7 @@ export default class ContactSelect extends React.Component<Props> {
         );
     }
 
-    handleChangeContactToAdd = <T: { value: string, label: string }>(
-        evt: { target: { value: T } },
-        value: T
-    ) => {
+    handleChangeContactToAdd = <T: { value: string, label: string }>(value: T) => {
         const { onChange, contactIds } = this.props;
         onChange(union(contactIds, [value.value]));
     };

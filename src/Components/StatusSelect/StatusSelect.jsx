@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Select from "retail-ui/components/Select";
+import { Select } from "@skbkontur/react-ui/components/Select";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { getStatusCaption, type Status } from "../../Domain/Status";
 import { RowStack, Fit } from "../ItemsStack/ItemsStack";
@@ -32,7 +32,7 @@ export default function StatusSelect(props: Props): React.Node {
             renderItem={renderItem}
             renderValue={renderItem}
             items={availableStatuses.map(x => [x, getStatusCaption(x)])}
-            onChange={(e, v: Status) => onChange(v)}
+            onValueChange={(v: Status) => onChange(v)}
         />
     );
 }

@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import Radio from "retail-ui/components/Radio";
-import { ValidationWrapperV1, tooltip, type ValidationInfo } from "react-ui-validations";
+import { Radio } from "@skbkontur/react-ui/components/Radio";
+import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import { ColumnStack, RowStack, Fit, Fixed } from "../ItemsStack/ItemsStack";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import StatusIcon from "../StatusIcon/StatusIcon";
@@ -43,7 +43,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Radio
                                         checked={watchFor === "rising"}
                                         value="rising"
-                                        onChange={this.handleSetWatchType}
+                                        onValueChange={this.handleSetWatchType}
                                     >
                                         Watch for value rising:
                                     </Radio>
@@ -204,17 +204,17 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
         );
     }
 
-    handleChangeWarnValue = (e: SyntheticEvent<>, warnValue: number | null) => {
+    handleChangeWarnValue = (warnValue: number | null) => {
         const { onChange } = this.props;
         onChange(warnValue, "warn_value");
     };
 
-    handleChangeErrorValue = (e: SyntheticEvent<>, errorValue: number | null) => {
+    handleChangeErrorValue = (errorValue: number | null) => {
         const { onChange } = this.props;
         onChange(errorValue, "error_value");
     };
 
-    handleSetWatchType = (e: SyntheticEvent<string>, type: WatchForType) => {
+    handleSetWatchType = (type: WatchForType) => {
         const { onSwitch } = this.props;
         onSwitch(type);
     };

@@ -1,10 +1,10 @@
 // @flow
 import * as React from "react";
 import concat from "lodash/concat";
-import RenderLayer from "retail-ui/components/RenderLayer";
-import LayoutEvents from "retail-ui/lib/LayoutEvents";
-import DropdownContainer from "retail-ui/components/DropdownContainer/DropdownContainer";
-import ScrollContainer from "retail-ui/components/ScrollContainer";
+import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
+import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
+import { ScrollContainer } from "@skbkontur/react-ui/components/ScrollContainer";
+import { DropdownContainer } from "@skbkontur/react-ui/internal/DropdownContainer";
 import TagGroup from "../TagGroup/TagGroup";
 import Tag from "../Tag/Tag";
 import cn from "./TagDropdownSelect2.less";

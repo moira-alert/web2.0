@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import Button from "retail-ui/components/Button";
+import { Button } from "@skbkontur/react-ui/components/Button";
 import type { ContextRouter } from "react-router-dom";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import type { IMoiraApi } from "../Api/MoiraApi";
@@ -51,7 +51,7 @@ class NotificationListContainer extends React.Component<Props, State> {
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>
-                        Notifications ({Array.isArray(list) ? `(${list.length})` : null})
+                        Notifications {Array.isArray(list) ? `(${list.length})` : null}
                     </LayoutTitle>
                     {list && (
                         <NotificationList

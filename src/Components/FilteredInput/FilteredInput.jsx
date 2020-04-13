@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable */
 import * as React from "react";
-import Input from "retail-ui/components/Input";
+import { Input } from "@skbkontur/react-ui/components/Input";
 import cn from "./FilteredInput.less";
 
 export type FilterValueResult<T> = {
@@ -14,7 +14,7 @@ function usedForDestructuring(_value: *) {}
 
 type FilteredInputProps<T> = {
     value: T,
-    onChange: (event: SyntheticEvent<>, value: T) => void,
+    onChange: (value: T) => void,
     filterValue: (value: string) => FilterValueResult<T> | null,
     valueForView: (value: T) => string,
     valueForEdit: (value: T) => string,
@@ -76,7 +76,7 @@ export default class FilteredInput<T> extends React.Component<
         }
     }
 
-    handleInputChange(event: SyntheticEvent<>, value: string) {
+    handleInputChange(value: string) {
         const { onChange, filterValue } = this.props;
         const filteredValue = filterValue(value);
         if (filteredValue !== null) {
@@ -84,7 +84,7 @@ export default class FilteredInput<T> extends React.Component<
                 displayValue: filteredValue.displayValue,
                 ...this.getHintState(filteredValue.hintValue, filteredValue.displayValue),
             });
-            onChange(event, filteredValue.actualValue);
+            onChange(filteredValue.actualValue);
         } else if (this.refs.innerInput != null) {
             this.setState({}, () => {
                 if (this.refs.innerInput != null) {
@@ -162,7 +162,7 @@ export default class FilteredInput<T> extends React.Component<
         });
         const filteredValue = this.props.filterValue(displayValueForEdit);
         if (filteredValue !== null) {
-            this.props.onChange(event, filteredValue.actualValue);
+            this.props.onChange(filteredValue.actualValue);
         }
         if (this.props.onBlur) {
             this.props.onBlur(event);
@@ -206,7 +206,7 @@ export default class FilteredInput<T> extends React.Component<
                     {...restProps}
                     ref="innerInput"
                     value={this.state.displayValue || ""}
-                    onChange={(event, value) => this.handleInputChange(event, value)}
+                    onValueChange={(event, value) => this.handleInputChange(event, value)}
                     onBlur={(event, ...rest) => {
                         this.focused = false;
                         this.handleBlur(event);

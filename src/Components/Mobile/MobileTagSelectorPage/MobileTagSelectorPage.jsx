@@ -3,7 +3,7 @@ import * as React from "react";
 import sortBy from "lodash/sortBy";
 import union from "lodash/union";
 import difference from "lodash/difference";
-import Toggle from "retail-ui/components/Toggle";
+import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import cn from "./MobileTagSelectorPage.less";

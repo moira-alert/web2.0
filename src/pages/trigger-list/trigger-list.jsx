@@ -185,11 +185,10 @@ class TriggerListPage extends React.Component<Props, State> {
     }
 
     changeLocationSearch = update => {
-        const { history, location } = this.props;
+        const { location, history } = this.props;
         const locationSearch = TriggerListPage.parseLocationSearch(location.search);
         const settings = { ...locationSearch, ...update };
         localStorage.setItem("moiraSettings", JSON.stringify({ ...settings, searchText: "" }));
-
         history.push(
             `?${queryString.stringify(settings, {
                 arrayFormat: "index",
