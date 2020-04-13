@@ -61,7 +61,7 @@ export interface IMoiraApi {
         tags: Array<string>,
         searchText: string
     ): Promise<TriggerList>;
-    getTrigger(id: string): Promise<Trigger>;
+    getTrigger(id: string, params: Object): Promise<Trigger>;
     addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     delTrigger(id: string): Promise<void>;
@@ -311,8 +311,11 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async getTrigger(id: string): Promise<Trigger> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(id)}`;
+    async getTrigger(id: string, params: Object): Promise<Trigger> {
+        const url = `${this.apiUrl}/trigger/${encodeURI(id)}${
+            params ? `?${queryString.stringify(params)}` : ""
+        }`;
+
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",

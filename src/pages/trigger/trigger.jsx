@@ -121,7 +121,7 @@ class TriggerPage extends React.Component<Props, State> {
 
         try {
             const [trigger, triggerState, triggerEvents] = await Promise.all([
-                moiraApi.getTrigger(id),
+                moiraApi.getTrigger(id, { populated: true }),
                 moiraApi.getTriggerState(id),
                 moiraApi.getTriggerEvents(id, transformPageFromHumanToProgrammer(page)),
             ]);
