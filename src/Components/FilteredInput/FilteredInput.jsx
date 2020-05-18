@@ -206,7 +206,7 @@ export default class FilteredInput<T> extends React.Component<
                     {...restProps}
                     ref="innerInput"
                     value={this.state.displayValue || ""}
-                    onValueChange={(event, value) => this.handleInputChange(event, value)}
+                    onValueChange={(event) => this.handleInputChange(event)}
                     onBlur={(event, ...rest) => {
                         this.focused = false;
                         this.handleBlur(event);

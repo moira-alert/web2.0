@@ -26,6 +26,7 @@ export type Trigger = {
         event_timestamp?: number,
         score: number,
         msg?: string,
+        maintenance?: number,
     |},
     timestamp?: number,
     is_remote: boolean,

@@ -36,7 +36,7 @@ function maintenanceCaption(delta: number): React.Node {
     return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
 }
 
-function maintenanceDelta(maintenance: ?number): React.Node {
+function maintenanceDelta(maintenance: ?number): number {
     return (maintenance || 0) - moment.utc().unix();
 }
 
@@ -156,7 +156,7 @@ export default function MetricList(props: Props): React.Node {
                                                     <br />
                                                     at{" "}
                                                     {moment
-                                                        .unix(maintenanceInfo.setup_time)
+                                                        .unix(maintenanceInfo.setup_time || 0)
                                                         .format("MMMM D, HH:mm:ss")}
                                                 </div>
                                             )}
