@@ -143,7 +143,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <div
                             className={cn("wysiwyg", "description-preview")}
                             dangerouslySetInnerHTML={{
-                                __html: sanitize(md.render(desc), purifyConfig),
+                                __html: sanitize(md.render(desc || ""), purifyConfig),
                             }}
                         />
                     )}

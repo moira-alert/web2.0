@@ -109,14 +109,14 @@ class Selector extends React.Component<Props, State> {
         );
     }
 
-    handleInputChange = evt => {
+    handleInputChange = (evt: SyntheticEvent) => {
         const { onInputChange } = this.props;
         const { value } = evt.target;
 
         onInputChange(value);
     };
 
-    handleInputKeyDown = evt => {
+    handleInputKeyDown = (evt: SyntheticEvent) => {
         const { tokens } = this.props;
         if (evt.key === "Enter") {
             const { onEnterKeyDown } = this.props;

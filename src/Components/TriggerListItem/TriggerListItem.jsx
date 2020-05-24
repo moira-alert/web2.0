@@ -154,10 +154,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     getHasExceptionState(): boolean {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
-        if (triggerStatus === Statuses.EXCEPTION) {
-            return true;
-        }
-        return false;
+        return triggerStatus === Statuses.EXCEPTION;
     }
 
     renderCounters(): React.Node {
@@ -234,7 +231,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     items={TriggerListItem.sortMetricsByValue(this.filterMetricsByStatus(x))}
                     sortingColumn="value"
                     sortingDown
-                    onChange={(metric, maintenance) => onChange(metric, maintenance)}
+                    onChange={(metric, maintenance) => onChange(maintenance, metric)}
                     onRemove={metric => onRemove(metric)}
                 />
             </Tab>

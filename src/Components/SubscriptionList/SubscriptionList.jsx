@@ -122,6 +122,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
         this.setState({
             newSubscriptionModalVisible: true,
             newSubscription: {
+                any_tags: false,
                 sched: createSchedule(WholeWeek),
                 tags: [],
                 throttling: false,

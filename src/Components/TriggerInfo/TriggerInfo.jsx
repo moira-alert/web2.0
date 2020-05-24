@@ -34,7 +34,7 @@ type Props = {|
     onSetMaintenance: (maintenance: Maintenance) => void,
 |};
 
-function maintenanceDelta(maintenance: ?number): React.Node {
+function maintenanceDelta(maintenance: ?number): number {
     return (maintenance || 0) - moment.utc().unix();
 }
 
@@ -103,12 +103,7 @@ export default function TriggerInfo({
         throttling,
         is_remote: isRemote,
     } = data;
-    const {
-        state,
-        msg: exceptionMessage,
-        maintenance,
-        maintenance_info: maintenanceInfo,
-    } = triggerState;
+    const { state, msg: exceptionMessage, maintenance, maintenanceInfo } = triggerState;
 
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;

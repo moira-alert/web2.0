@@ -12,6 +12,8 @@ storiesOf("Mobile/TriggerListPage", module)
     .add("Default", () => (
         <MobileTriggerListPage
             triggers={data}
+            pageCount={0}
+            activePage={0}
             selectedTags={[]}
             onLoadMore={action("onLoadMore")}
             onOpenTagSelector={action("onOpenTagSelector")}
@@ -21,6 +23,8 @@ storiesOf("Mobile/TriggerListPage", module)
         <MobileTriggerListPage
             triggers={null}
             selectedTags={[]}
+            pageCount={0}
+            activePage={0}
             loading
             onLoadMore={action("onLoadMore")}
             onOpenTagSelector={action("onOpenTagSelector")}
