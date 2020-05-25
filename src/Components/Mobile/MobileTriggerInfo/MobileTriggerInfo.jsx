@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import { addMinutes, format, getUnixTime } from "date-fns";
-import Sticky from "retail-ui/components/Sticky";
-import Modal from "retail-ui/components/Modal";
+import { Sticky } from "@skbkontur/react-ui/components/Sticky";
+import { Modal } from "@skbkontur/react-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
