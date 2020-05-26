@@ -45,7 +45,7 @@ class TriggerListDesktop extends React.Component {
                         <Fit>
                             <Toggle
                                 checked={onlyProblems}
-                                onChange={value => onChange({ onlyProblems: value })}
+                                onValueChange={value => onChange({ onlyProblems: value })}
                             />{" "}
                             Only Problems
                         </Fit>
