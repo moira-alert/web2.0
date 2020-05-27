@@ -5,13 +5,11 @@ import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
-import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Textarea } from "@skbkontur/react-ui/components/Textarea";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Link } from "@skbkontur/react-ui/components/Link";
-import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
@@ -28,6 +26,7 @@ import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import cn from "./TriggerEditForm.less";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
 const md = new Remarkable({ breaks: true });
 
@@ -224,13 +223,15 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     >
                         Mute new metrics notifications
                     </Checkbox>
-                    <Tooltip
-                        pos="bottom left"
-                        render={this.renderNewMetricsAlertingHelp}
-                        trigger="click"
-                    >
-                        <HelpDotIcon color="#3072c4" />
-                    </Tooltip>
+                    <HelpTooltip>
+                        <div className={cn("new-metrics-help")}>
+                            <p>If disabled, Moira will notify you about new metrics.</p>
+                            <p>
+                                In this case when you start sending new metric you will receive{" "}
+                                <CodeRef>NODATA</CodeRef> - <CodeRef>OK</CodeRef> notification.
+                            </p>
+                        </div>
+                    </HelpTooltip>
                 </FormRow>
                 <FormRow label="Watch time">
                     <ScheduleEdit
@@ -317,16 +318,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             targets: [...targets, ""],
         });
     }
-
-    renderNewMetricsAlertingHelp = () => (
-        <div className={cn("new-metrics-help")}>
-            <p>If disabled, Moira will notify you about new metrics.</p>
-            <p>
-                In this case when you start sending new metric you will receive{" "}
-                <CodeRef>NODATA</CodeRef> - <CodeRef>OK</CodeRef> notification.
-            </p>
-        </div>
-    );
 }
 
 type FormProps = {
