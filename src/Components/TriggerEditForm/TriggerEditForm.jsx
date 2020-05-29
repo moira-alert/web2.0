@@ -154,10 +154,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     {targets.map((x, i) => (
                         /* eslint-disable-next-line react/no-array-index-key */
                         <div key={`target-${i}`} className={cn("target")}>
+                            <span className={cn("target-number")}>T{i + 1}</span>
                             <RowStack block verticalAlign="baseline" gap={1}>
-                                <Fit>
-                                    <span className={cn("target-number")}>T{i + 1}</span>
-                                </Fit>
                                 <Fill>
                                     <ValidationWrapperV1
                                         validationInfo={TriggerEditForm.validateRequiredString(x)}
