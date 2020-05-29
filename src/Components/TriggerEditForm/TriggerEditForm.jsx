@@ -128,7 +128,42 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             value={descriptionMode}
                             onValueChange={value => this.setState({ descriptionMode: value })}
                         >
-                            <Tabs.Tab id="edit">Edit</Tabs.Tab>
+                            <Tabs.Tab id="edit">
+                                Edit
+                                <HelpTooltip>
+                                    <div className={cn("new-metrics-help")}>
+                                        <p>Example:</p>
+                                        Trigger name: <CodeRef>{"{{.Trigger.Name}}"}</CodeRef>
+                                        <br />
+                                        Events:
+                                        <br />
+                                        <CodeRef>{"{{range $v := .Events }}"}</CodeRef>
+                                        <br />
+                                        Metric: <CodeRef>{"{{$v.Metric}}"}</CodeRef>
+                                        <br />
+                                        Metric elements:
+                                        <br />
+                                        <CodeRef>
+                                            {
+                                                "{{range $i, $e := $v.MetricElements}}{{$i}}={{$e}}{{end}}"
+                                            }
+                                        </CodeRef>
+                                        <br />
+                                        Value metric: <CodeRef>{"{{$v.Value}}"}</CodeRef>
+                                        <br />
+                                        State: <CodeRef>{"{{$v.State}}"}</CodeRef>
+                                        <br />
+                                        Time: <CodeRef>{"{{$v.Timestamp}}"}</CodeRef>
+                                        <br />
+                                        <CodeRef>
+                                            {"[Dashboard: {{$v.Metric}}](https://grafana/?orgId=1)"}
+                                        </CodeRef>
+                                        <br />
+                                        <CodeRef>{"{{end}}"}</CodeRef>
+                                        <br />
+                                    </div>
+                                </HelpTooltip>
+                            </Tabs.Tab>
                             <Tabs.Tab id="preview">Preview</Tabs.Tab>
                         </Tabs>
                     </div>
