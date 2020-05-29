@@ -16,6 +16,7 @@ import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
@@ -153,9 +154,11 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     {targets.map((x, i) => (
                         /* eslint-disable-next-line react/no-array-index-key */
                         <div key={`target-${i}`} className={cn("target")}>
-                            <span className={cn("target-number")}>T{i + 1}</span>
-                            <div className={cn("fgroup")}>
-                                <div className={cn("fgroup-field")}>
+                            <RowStack block verticalAlign="baseline" gap={1}>
+                                <Fit>
+                                    <span className={cn("target-number")}>T{i + 1}</span>
+                                </Fit>
+                                <Fill>
                                     <ValidationWrapperV1
                                         validationInfo={TriggerEditForm.validateRequiredString(x)}
                                         renderMessage={tooltip("right middle")}
@@ -168,30 +171,30 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                             }
                                         />
                                     </ValidationWrapperV1>
-                                </div>
+                                </Fill>
                                 {targets.length > 1 && (
-                                    <div className={cn("target-alone")}>
+                                    <Fit>
                                         <Checkbox
                                             checked={
                                                 aloneMetrics[`t${i + 1}`] !== undefined &&
                                                 aloneMetrics[`t${i + 1}`]
                                             }
-                                            onChange={(e, value) =>
+                                            onValueChange={value =>
                                                 this.handleUpdateAloneMetrics(i, value)
                                             }
                                         >
                                             Single
                                         </Checkbox>
-                                    </div>
+                                    </Fit>
                                 )}
                                 {targets.length > 1 && (
-                                    <div className={cn("fgroup-control")}>
+                                    <Fit>
                                         <Button onClick={() => this.handleRemoveTarget(i)}>
                                             <RemoveIcon />
                                         </Button>
-                                    </div>
+                                    </Fit>
                                 )}
-                            </div>
+                            </RowStack>
                         </div>
                     ))}
                     <Button use="link" icon={<AddIcon />} onClick={() => this.handleAddTarget()}>

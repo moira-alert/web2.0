@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import roundValue from "../../helpers/roundValue";
-import cn from "./MetricValues.less";
 
 type Props = {|
     values: {
@@ -21,7 +20,7 @@ export default function MetricValues(props: Props): React.Node {
         <div>
             {Object.keys(values).map(key => (
                 <div>
-                    <span className={cn("target-name")}>{key}:</span> {roundValue(values[key])}
+                    <b>{key}:</b> {roundValue(values[key])}
                 </div>
             ))}
         </div>
