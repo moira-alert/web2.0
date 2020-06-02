@@ -13,8 +13,8 @@ import type { Maintenance } from "../../Domain/Maintenance";
 import type { Metric } from "../../Domain/Metric";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import cn from "./MetricList.less";
 import MetricValues from "../MetricValues/MetricValues";
+import cn from "./MetricList.less";
 
 export type SortingColum = "state" | "name" | "event" | "value";
 

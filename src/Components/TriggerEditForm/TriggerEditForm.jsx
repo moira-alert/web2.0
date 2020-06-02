@@ -174,7 +174,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                     <Fit>
                                         <Checkbox
                                             checked={
-                                                aloneMetrics[`t${i + 1}`] !== undefined &&
+                                                aloneMetrics !== undefined &&
+                                                aloneMetrics !== null &&
                                                 aloneMetrics[`t${i + 1}`]
                                             }
                                             onValueChange={value =>
@@ -318,8 +319,12 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     handleUpdateAloneMetrics(targetIndex: number, value: boolean) {
         const { onChange, data } = this.props;
-        const { alone_metrics: aloneMetrics } = data;
+        let { alone_metrics: aloneMetrics } = data;
         const target = `t${targetIndex + 1}`;
+
+        if (aloneMetrics === undefined || aloneMetrics === null) {
+            aloneMetrics = {};
+        }
 
         aloneMetrics[target] = value;
         onChange({

@@ -4,10 +4,10 @@ import * as React from "react";
 import roundValue from "../../helpers/roundValue";
 
 type Props = {|
-    values: {
+    values?: {
         [metric: string]: number,
     },
-    value: number,
+    value?: number,
     placeholder: boolean,
 |};
 
