@@ -107,3 +107,20 @@
     padding: 20px;
     border: 1px dashed #ccc;
 }
+
+.edit-description-help {
+    position: absolute;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.edit-description-help-message {
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: 110px auto;
+    row-gap: 14px;
+
+    &-row {
+        grid-column: 1 / span 2;
+    }
+}
