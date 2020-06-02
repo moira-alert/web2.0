@@ -9,6 +9,7 @@ import type { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+import InvalidContact from "./InvalidContact/InvalidContact";
 import cn from "./ContactList.less";
 
 type Props = $Exact<{
@@ -37,12 +38,8 @@ export default class ContactList extends React.Component<Props, State> {
         editableContact: null,
     };
 
-    static renderContactIcon(type: string): React.Element<any> {
-        return <ContactTypeIcon type={type} />;
-    }
-
     render(): React.Element<any> {
-        const { items, contactDescriptions } = this.props;
+        const { items, contactDescriptions, onRemoveContact } = this.props;
         const {
             newContact,
             newContactModalVisible,
@@ -58,18 +55,35 @@ export default class ContactList extends React.Component<Props, State> {
                         <div className={cn("items-cotnainer")}>
                             <table className={cn("items")}>
                                 <tbody>
-                                    {items.map(contact => (
-                                        <tr
-                                            key={contact.id}
-                                            className={cn("item")}
-                                            onClick={() => this.handleBeginEditContact(contact)}
-                                        >
-                                            <td className={cn("icon")}>
-                                                {ContactList.renderContactIcon(contact.type)}
-                                            </td>
-                                            <td className={cn("value")}>{contact.value}</td>
-                                        </tr>
-                                    ))}
+                                    {items.map(contact => {
+                                        if (
+                                            contactDescriptions.some(
+                                                description => description.type === contact.type
+                                            )
+                                        ) {
+                                            return (
+                                                <tr
+                                                    key={contact.id}
+                                                    className={cn("item")}
+                                                    onClick={() =>
+                                                        this.handleBeginEditContact(contact)
+                                                    }
+                                                >
+                                                    <td className={cn("icon")}>
+                                                        <ContactTypeIcon type={contact.type} />
+                                                    </td>
+                                                    <td>{contact.value}</td>
+                                                </tr>
+                                            );
+                                        }
+                                        return (
+                                            <InvalidContact
+                                                key={contact.id}
+                                                contact={contact}
+                                                onRemove={() => onRemoveContact(contact)}
+                                            />
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
