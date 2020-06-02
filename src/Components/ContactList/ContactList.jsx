@@ -4,6 +4,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
+import WarningIcon from "@skbkontur/react-icons/Warning";
 import type { Contact } from "../../Domain/Contact";
 import type { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
@@ -37,12 +38,8 @@ export default class ContactList extends React.Component<Props, State> {
         editableContact: null,
     };
 
-    static renderContactIcon(type: string): React.Element<any> {
-        return <ContactTypeIcon type={type} />;
-    }
-
     render(): React.Element<any> {
-        const { items, contactDescriptions } = this.props;
+        const { items, contactDescriptions, onRemoveContact } = this.props;
         const {
             newContact,
             newContactModalVisible,
@@ -58,18 +55,49 @@ export default class ContactList extends React.Component<Props, State> {
                         <div className={cn("items-cotnainer")}>
                             <table className={cn("items")}>
                                 <tbody>
-                                    {items.map(contact => (
-                                        <tr
-                                            key={contact.id}
-                                            className={cn("item")}
-                                            onClick={() => this.handleBeginEditContact(contact)}
-                                        >
-                                            <td className={cn("icon")}>
-                                                {ContactList.renderContactIcon(contact.type)}
-                                            </td>
-                                            <td className={cn("value")}>{contact.value}</td>
-                                        </tr>
-                                    ))}
+                                    {items.map(contact => {
+                                        if (
+                                            contactDescriptions.some(
+                                                description => description.type === contact.type
+                                            )
+                                        ) {
+                                            return (
+                                                <tr
+                                                    key={contact.id}
+                                                    className={cn("item")}
+                                                    onClick={() =>
+                                                        this.handleBeginEditContact(contact)
+                                                    }
+                                                >
+                                                    <td className={cn("icon")}>
+                                                        <ContactTypeIcon type={contact.type} />
+                                                    </td>
+                                                    <td>{contact.value}</td>
+                                                </tr>
+                                            );
+                                        }
+
+                                        return (
+                                            <tr className={cn("item")} key={contact.id}>
+                                                <td className={cn("error-icon")}>
+                                                    <WarningIcon />
+                                                </td>
+                                                <td>
+                                                    {contact.value}
+                                                    <span className={cn("error-message")}>
+                                                        Contact type {contact.type} not more
+                                                        support.{" "}
+                                                        <Button
+                                                            use="link"
+                                                            onClick={() => onRemoveContact(contact)}
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
