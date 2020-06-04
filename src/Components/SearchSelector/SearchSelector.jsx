@@ -163,7 +163,7 @@ class SearchSelector extends React.Component<Props, State> {
         );
     };
 
-    renderToken = token => (
+    renderToken = (token: string) => (
         <Token type="removable" onRemove={this.handleTokenRemove}>
             {token}
         </Token>

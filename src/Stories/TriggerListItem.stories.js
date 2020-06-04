@@ -430,6 +430,11 @@ const story = storiesOf("TriggerListItem", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
-        <TriggerListItem data={data} onChange={action("onChange")} onRemove={action("onRemove")} />
+        <TriggerListItem
+            searchMode={false}
+            data={data}
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
     ));
 });

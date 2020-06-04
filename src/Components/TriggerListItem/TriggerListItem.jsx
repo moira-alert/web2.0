@@ -82,6 +82,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const { id, name, targets, tags, throttling, highlights } = data;
         const { showMetrics } = this.state;
         const metrics = this.renderMetrics();
+        const searchModeName = highlights && highlights.name;
 
         return (
             <div className={cn("row", { active: showMetrics })}>
@@ -102,7 +103,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     <div
                                         className={cn("name")}
                                         dangerouslySetInnerHTML={{
-                                            __html: highlights.name ? highlights.name : name,
+                                            __html: searchModeName || name,
                                         }}
                                     />
                                 ) : (

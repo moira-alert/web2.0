@@ -66,7 +66,11 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                             caption="Next page"
                             activePage={activePage}
                             pagesCount={pageCount}
-                            onPageChange={page => onChange({ page })}
+                            onPageChange={page => {
+                                if (onChange) {
+                                    onChange({ page });
+                                }
+                            }}
                             withoutNavigationHint
                         />
                     </div>

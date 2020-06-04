@@ -9,8 +9,26 @@ import { ColumnStack, RowStack, Fill, Fit } from "../../Components/ItemsStack/It
 import SearchSelector from "../../Components/SearchSelector/SearchSelector";
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
+import type { Trigger } from "../../Domain/Trigger";
+import type { Maintenance } from "../../Domain/Maintenance";
 
-class TriggerListDesktop extends React.Component {
+type Props = {|
+    selectedTags: string[],
+    subscribedTags: string[],
+    allTags: string[],
+    onlyProblems: boolean,
+    triggers: Array<Trigger>,
+    activePage: number,
+    pageCount: number,
+    onChange: object => void,
+    searchText: string,
+    loading: boolean,
+    error: string,
+    onSetMetricMaintenance: (triggerId: string, maintenance: Maintenance, metric: string) => void,
+    onRemoveMetric: (triggerId: string, metric: string) => void,
+|};
+
+class TriggerListDesktop extends React.Component<Props> {
     render() {
         const {
             selectedTags,
@@ -77,12 +95,12 @@ class TriggerListDesktop extends React.Component {
         );
     }
 
-    handleChange = (tags, searchText) => {
+    handleChange = (tags: string[], searchText: string) => {
         const { onChange } = this.props;
         onChange({ tags, searchText });
     };
 
-    handleSearch = searchText => {
+    handleSearch = (searchText: string) => {
         const { onChange } = this.props;
         onChange({ searchText });
     };

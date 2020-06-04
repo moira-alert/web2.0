@@ -2,9 +2,23 @@
 import * as React from "react";
 import MobileTriggerListPage from "../../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
 import MobileTagSelectorPage from "../../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
+import type { Trigger } from "../../Domain/Trigger";
 
-// ToDo типизация State и Props
-class TriggerListMobile extends React.Component {
+type Props = {
+    selectedTags: string[],
+    allTags: string[],
+    onlyProblems: boolean,
+    triggers: Array<Trigger>,
+    activePage: number,
+    pageCount: number,
+    onChange?: ({ page: number }) => void,
+};
+
+type State = {
+    showTagSelector: boolean,
+};
+
+class TriggerListMobile extends React.Component<Props, State> {
     state = {
         showTagSelector: false,
     };

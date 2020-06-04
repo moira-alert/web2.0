@@ -206,7 +206,7 @@ export default class FilteredInput<T> extends React.Component<
                     {...restProps}
                     ref="innerInput"
                     value={this.state.displayValue || ""}
-                    onValueChange={(event) => this.handleInputChange(event)}
+                    onValueChange={(value) => this.handleInputChange(value)} // I suggested to rename properties from on*Change to on*ChangeHandler which not about DOM Events to make understandable that its not React event handler. (I know its component from kontur library but we can change same in moira components)
                     onBlur={(event, ...rest) => {
                         this.focused = false;
                         this.handleBlur(event);

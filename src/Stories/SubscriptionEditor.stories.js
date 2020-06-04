@@ -25,6 +25,7 @@ storiesOf("SubscriptionEditor", module)
                 sched: createSchedule(WholeWeek),
                 tags: [],
                 throttling: false,
+                any_tags: false,
                 contacts: [],
                 enabled: true,
                 ignore_recoverings: false,
@@ -54,6 +55,7 @@ storiesOf("SubscriptionEditor", module)
                 throttling: false,
                 contacts: ["1"],
                 enabled: true,
+                any_tags: false,
                 user: "1",
                 id: "1",
                 ignore_recoverings: false,
@@ -83,6 +85,7 @@ storiesOf("SubscriptionEditor", module)
                 id: "1",
                 ignore_recoverings: true,
                 ignore_warnings: false,
+                any_tags: false,
             }}
         />
     ))
@@ -108,6 +111,7 @@ storiesOf("SubscriptionEditor", module)
                 id: "1",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                any_tags: false,
                 plotting: {
                     enabled: false,
                     theme: "dark",
@@ -137,6 +141,7 @@ storiesOf("SubscriptionEditor", module)
                 id: "1",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                any_tags: false,
                 plotting: {
                     enabled: true,
                     theme: "dark",
@@ -166,6 +171,7 @@ storiesOf("SubscriptionEditor", module)
                 id: "1",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                any_tags: false,
                 plotting: {
                     enabled: true,
                     theme: "light",

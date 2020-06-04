@@ -29,7 +29,7 @@ const md = new Remarkable({ breaks: true });
 type Props = {|
     data: Trigger,
     triggerState: TriggerState,
-    supportEmail: string,
+    supportEmail?: string,
     onThrottlingRemove: (triggerId: string) => void,
     onSetMaintenance: (maintenance: Maintenance) => void,
 |};

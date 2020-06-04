@@ -12,6 +12,7 @@ import TriggerInfo from "../../Components/TriggerInfo/TriggerInfo";
 import MetricList from "../../Components/MetricList/MetricList";
 import EventList from "../../Components/EventList/EventList";
 import { Statuses, getStatusWeight } from "../../Domain/Status";
+import type { Metric } from "../../Domain/Metric";
 
 type Props = {|
     trigger: ?Trigger,
@@ -119,7 +120,7 @@ class TriggerDesktop extends React.Component<Props, State> {
                     ) : (
                         // eslint-disable-next-line no-nested-ternary
                         <Tabs value={isMetrics ? (page > 1 ? "events" : "state") : "state"}>
-                            {isMetrics && trigger.id && (
+                            {isMetrics && trigger && trigger.id && (
                                 <Tab id="state" label="Current state">
                                     <MetricList
                                         status
@@ -137,15 +138,23 @@ class TriggerDesktop extends React.Component<Props, State> {
                                         sortingColumn={sortingColumn}
                                         sortingDown={sortingDown}
                                         onChange={(metric, maintenance) => {
-                                            setMetricMaintenance(trigger.id, metric, maintenance);
+                                            setMetricMaintenance(
+                                                trigger ? trigger.id : "",
+                                                maintenance,
+                                                metric
+                                            );
                                         }}
-                                        onRemove={metric => removeMetric(trigger.id, metric)}
+                                        onRemove={metric =>
+                                            removeMetric(trigger ? trigger.id : "", metric)
+                                        }
                                         noDataMerticCount={noDataMerticCount}
-                                        onNoDataRemove={() => removeNoDataMetric(trigger.id)}
+                                        onNoDataRemove={() =>
+                                            removeNoDataMetric(trigger ? trigger.id : "")
+                                        }
                                     />
                                 </Tab>
                             )}
-                            {isEvents && trigger.name && (
+                            {isEvents && trigger && trigger.name && (
                                 <Tab id="events" label="Events history">
                                     <EventList
                                         items={TriggerDesktop.composeEvents(events, trigger.name)}

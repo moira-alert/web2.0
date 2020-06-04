@@ -7,8 +7,14 @@ import type { MoiraUrlParams } from "../Domain/MoiraUrlParams";
  * @returns {Object} результат разбора
  */
 function parseLocalStorage(localData: string): MoiraUrlParams {
+    const DEFAULT_MOIRA_URL_PARAMS: MoiraUrlParams = {
+        page: 0,
+        tags: [],
+        onlyProblems: false,
+    };
+
     try {
-        const result = {};
+        const result: MoiraUrlParams = { ...DEFAULT_MOIRA_URL_PARAMS };
         const { tags, onlyProblems } = JSON.parse(localData);
         /*
             Данные пользовательские, поэтому нужно быть уверенным:
@@ -23,7 +29,7 @@ function parseLocalStorage(localData: string): MoiraUrlParams {
         }
         return result;
     } catch (error) {
-        return {};
+        return { ...DEFAULT_MOIRA_URL_PARAMS };
     }
 }
 

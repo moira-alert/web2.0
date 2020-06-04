@@ -8,7 +8,7 @@ function SelectorResultsView({
     onSelect,
 }: {
     tokens: string[],
-    onSelect: string => void,
+    onSelect: () => void,
 }): React.Node {
     return (
         <React.Fragment>

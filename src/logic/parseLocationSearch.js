@@ -8,7 +8,12 @@ import type { MoiraUrlParams } from "../Domain/MoiraUrlParams";
  * @returns {Object} результат разбора
  */
 function parseLocationSearch(search: string): MoiraUrlParams {
-    const result = {};
+    const result: MoiraUrlParams = {
+        page: 0,
+        tags: [],
+        onlyProblems: false,
+    };
+
     const { page, tags, onlyProblems } = queryString.parse(search, { arrayFormat: "index" });
     /*
         Данные пользовательские, поэтому нужно быть уверенным:
