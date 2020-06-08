@@ -124,7 +124,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Radio
                                         checked={watchFor === "falling"}
                                         value="falling"
-                                        onChange={this.handleSetWatchType}
+                                        onValueChange={this.handleSetWatchType}
                                     >
                                         Watch for value falling:
                                     </Radio>
