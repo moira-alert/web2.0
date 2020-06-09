@@ -43,7 +43,6 @@ function ScheduleView(props: { data: Schedule }): React.Node {
 
     const timeZoneSign = tzOffset < 0 ? "+" : "−";
     const enabledDays = days.filter(({ enabled }) => enabled);
-
     return (
         <span>
             {days.length === enabledDays.length
