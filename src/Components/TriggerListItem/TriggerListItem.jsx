@@ -89,6 +89,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                 <div
                     className={cn("state", { active: metrics })}
                     onClick={metrics && (() => this.toggleMetrics())}
+                    data-tid="TriggerListItem_status"
                 >
                     {/* eslint-enable */}
                     {this.renderStatus()}
