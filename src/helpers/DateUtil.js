@@ -15,8 +15,8 @@ function getUTCDate() {
     );
 }
 
-function parseUnixTimestampToJS(unixTimestamp) {
+function humanizeDuration(unixTimestamp) {
     return formatDistance(0, unixTimestamp * 1000);
 }
 
-export { parseUnixTimestampToJS, getUTCDate };
+export { humanizeDuration, getUTCDate };

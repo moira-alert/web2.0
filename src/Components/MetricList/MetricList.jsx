@@ -15,7 +15,7 @@ import roundValue from "../../helpers/roundValue";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import cn from "./MetricList.less";
-import { getUTCDate, parseUnixTimestampToJS } from "../../helpers/DateUtil";
+import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 
 export type SortingColum = "state" | "name" | "event" | "value";
 
@@ -34,7 +34,7 @@ type Props = {|
 |};
 
 function maintenanceCaption(delta: number): React.Node {
-    return <span>{delta <= 0 ? "Maintenance" : parseUnixTimestampToJS(delta)}</span>;
+    return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
 function maintenanceDelta(maintenance: ?number): React.Node {

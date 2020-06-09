@@ -1,6 +1,6 @@
 // @flow
 import { getUnixTime } from "date-fns";
-import { getUTCDate, parseUnixTimestampToJS } from "./DateUtil";
+import { getUTCDate, humanizeDuration } from "./DateUtil";
 import { getMaintenanceCaption } from "../Domain/Maintenance";
 
 export default function checkMaintenance(maintenance: ?number): string {
@@ -8,5 +8,5 @@ export default function checkMaintenance(maintenance: ?number): string {
         return getMaintenanceCaption("off");
     }
     const delta = maintenance - getUnixTime(getUTCDate());
-    return delta <= 0 ? getMaintenanceCaption("off") : parseUnixTimestampToJS(delta);
+    return delta <= 0 ? getMaintenanceCaption("off") : humanizeDuration(delta);
 }

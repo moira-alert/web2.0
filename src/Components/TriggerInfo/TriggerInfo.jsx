@@ -23,7 +23,7 @@ import { getPageLink } from "../../Domain/Global";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./TriggerInfo.less";
-import { getUTCDate, parseUnixTimestampToJS } from "../../helpers/DateUtil";
+import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 
 const md = new Remarkable({ breaks: true });
 
@@ -44,7 +44,7 @@ function maintenanceCaption(delta: number): React.Node {
         <span>
             <ClockIcon />
             &nbsp;
-            {delta <= 0 ? "Maintenance" : parseUnixTimestampToJS(delta)}
+            {delta <= 0 ? "Maintenance" : humanizeDuration(delta)}
         </span>
     );
 }
@@ -53,13 +53,13 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     const { data } = props;
     const { days, startOffset, endOffset, tzOffset } = data;
 
-    const startTime = format(addMinutes(startOfDay(getUTCDate()), startOffset), "hh:mm");
+    const startTime = format(addMinutes(startOfDay(getUTCDate()), startOffset), "HH:mm");
 
-    const endTime = format(addMinutes(startOfDay(getUTCDate()), endOffset), "hh:mm");
+    const endTime = format(addMinutes(startOfDay(getUTCDate()), endOffset), "HH:mm");
 
-    const timeZone = format(addMinutes(startOfDay(getUTCDate()), tzOffset), "hh:mm");
+    const timeZone = format(addMinutes(startOfDay(getUTCDate()), Math.abs(tzOffset)), "HH:mm");
 
-    const timeZoneSign = tzOffset < 0 ? "−" : "+";
+    const timeZoneSign = tzOffset < 0 ? "+" : "−";
     const enabledDays = days.filter(({ enabled }) => enabled);
 
     return (
