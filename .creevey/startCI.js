@@ -10,6 +10,25 @@ const exexAsync = util.promisify(exec);
 const root = path.join(__dirname, "..");
 let storybook;
 
+if (process.env["BROWSERSTACK_KEY"]) {
+    // Only run if has access
+    runScreenshotTests()
+        .then(async (code) => {
+            storybook.kill();
+            const reportName = `report-${new Date().toISOString().split(":").join("-")}.gz`;
+            await exexAsync(`npx tar -czf ${reportName} report`, { cwd: __dirname });
+            await s3Upload(reportName);
+            process.exit(code);
+        })
+        .catch((e) => {
+            console.error(e);
+            if (storybook) {
+                storybook.kill();
+            }
+            process.exit(1);
+        });
+}
+
 function runScreenshotTests() {
     // spawn need for kill storybook process
     storybook = spawn("node", ["node_modules/@storybook/react/bin/index.js", "-p 9001", "--ci"], {
@@ -27,22 +46,6 @@ function runScreenshotTests() {
 
     return new Promise(resolve => creevey.on("exit", resolve));
 }
-runScreenshotTests()
-    .then(async (code) => {
-        storybook.kill();
-        const reportName = `report-${new Date().toISOString().split(":").join("-")}.gz`;
-        await exexAsync(`npx tar -czf ${reportName} report`, { cwd: __dirname });
-        await s3Upload(reportName);
-        process.exit(code);
-    })
-    .catch((e) => {
-        console.error(e);
-        if (storybook) {
-            storybook.kill();
-        }
-        process.exit(1);
-    });
-
 
 function s3Upload(fileName) {
     const s3 = new AWS.S3({
