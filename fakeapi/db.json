@@ -2786,7 +2786,7 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "values": {
-                    "t1": 18.95,
+                    "t1": 180095,
                     "t2": 19.39
                 },
                 "maintenance_info": {
@@ -2800,8 +2800,7 @@
                 "suppressed": false,
                 "timestamp": 1504516241,
                 "values": {
-                    "t1": 19.83,
-                    "t2": 19.27
+                    "t1": 19.83
                 },
                 "maintenance_info": {
                     "setup_user": null,
@@ -2846,7 +2845,7 @@
                 "old_state": "OK",
                 "values": {
                     "t1": 18.95,
-                    "t2": 19.39
+                    "t2": 190039
                 }
             },
             {
@@ -2856,7 +2855,7 @@
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
                 "old_state": "WARN",
                 "values": {
-                    "t1": 20.89,
+                    "t1": 200089,
                     "t2": 20.5
                 }
             },

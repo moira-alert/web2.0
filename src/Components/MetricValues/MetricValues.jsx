@@ -16,11 +16,15 @@ export default function MetricValues(props: Props): React.Node {
     if (values === undefined) {
         return <div>{roundValue(value, placeholder)}</div>;
     }
+    const arr = Object.keys(values).map(key => values[key]);
+    if (arr.length === 1) {
+        return <div>{roundValue(arr[0], placeholder)}</div>;
+    }
     return (
         <div>
-            {Object.keys(values).map(key => (
+            {arr.map((val, i) => (
                 <div>
-                    <b>{key}:</b> {roundValue(values[key])}
+                    <b>T{i + 1}:</b> {roundValue(val)}
                 </div>
             ))}
         </div>
