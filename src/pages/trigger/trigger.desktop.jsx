@@ -217,19 +217,29 @@ class TriggerDesktop extends React.Component<Props, State> {
                 return 0;
             },
             value: (x, y) => {
-                const valueA =
-                    Number.isFinite(metrics[x].value) && metrics[x].value != null
-                        ? metrics[x].value
-                        : Number.MIN_SAFE_INTEGER;
-                const valueB =
-                    Number.isFinite(metrics[y].value) && metrics[y].value != null
-                        ? metrics[y].value
-                        : Number.MIN_SAFE_INTEGER;
-                if (valueA < valueB) {
-                    return sortingDown ? -1 : 1;
-                }
-                if (valueA > valueB) {
-                    return sortingDown ? 1 : -1;
+                const getValue = val =>
+                    Number.isFinite(val) && val != null ? val : Number.MIN_SAFE_INTEGER;
+
+                const xKeys = Object.keys(metrics[x].values);
+                const yKeys = Object.keys(metrics[y].values);
+                const maxKeysCount = Math.max(xKeys.length, yKeys.length);
+
+                for (let i = 0; i < maxKeysCount; i += 1) {
+                    const valueA =
+                        xKeys.length > i
+                            ? getValue(metrics[x].values[xKeys[i]])
+                            : Number.MIN_SAFE_INTEGER;
+                    const valueB =
+                        yKeys.length > i
+                            ? getValue(metrics[y].values[yKeys[i]])
+                            : Number.MIN_SAFE_INTEGER;
+
+                    if (valueA < valueB) {
+                        return sortingDown ? -1 : 1;
+                    }
+                    if (valueA > valueB) {
+                        return sortingDown ? 1 : -1;
+                    }
                 }
                 return 0;
             },
