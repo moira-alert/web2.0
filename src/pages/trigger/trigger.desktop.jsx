@@ -220,8 +220,8 @@ class TriggerDesktop extends React.Component<Props, State> {
                 const getValue = val =>
                     Number.isFinite(val) && val != null ? val : Number.MIN_SAFE_INTEGER;
 
-                const xKeys = Object.keys(metrics[x].values);
-                const yKeys = Object.keys(metrics[y].values);
+                const xKeys = metrics[x].values !== undefined ? Object.keys(metrics[x].values) : [];
+                const yKeys = metrics[y].values !== undefined ? Object.keys(metrics[y].values) : [];
                 const maxKeysCount = Math.max(xKeys.length, yKeys.length);
 
                 for (let i = 0; i < maxKeysCount; i += 1) {

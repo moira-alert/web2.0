@@ -2740,13 +2740,9 @@
             },
             "vm-elk-l1": {
                 "event_timestamp": 1503992686,
-                "state": "OK",
+                "state": "NODATA",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "values": {
-                    "t1": 96.54,
-                    "t2": 19.87
-                },
                 "maintenance_info": {
                     "setup_user": null,
                     "setup_time": null

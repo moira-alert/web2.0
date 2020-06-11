@@ -55,6 +55,10 @@ export default function MetricList(props: Props): React.Node {
     } = props;
 
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+    const hideTargetsNames = Object.keys(items).every(metric => {
+        const { values } = items[metric];
+        return !values || Object.keys(values).length === 1;
+    });
 
     return (
         <section className={cn("table")}>
@@ -135,7 +139,12 @@ export default function MetricList(props: Props): React.Node {
                                 {format(fromUnixTime(eventTimestamp), "MMMM d, HH:mm:ss")}
                             </div>
                             <div className={cn("value")}>
-                                <MetricValues value={value} values={values} placeholder />
+                                <MetricValues
+                                    value={value}
+                                    values={values}
+                                    placeholder
+                                    hideTargetsNames={hideTargetsNames}
+                                />
                             </div>
                             <div className={cn("maintenance")}>
                                 <Dropdown use="link" caption={maintenanceCaption(delta)}>

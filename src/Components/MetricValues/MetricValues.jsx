@@ -9,22 +9,28 @@ type Props = {|
     },
     value?: number,
     placeholder: boolean,
+    hideTargetsNames?: boolean,
 |};
 
 export default function MetricValues(props: Props): React.Node {
-    const { value, values, placeholder } = props;
+    const { value, values, placeholder, hideTargetsNames } = props;
     if (values === undefined) {
         return <div>{roundValue(value, placeholder)}</div>;
     }
-    const arr = Object.keys(values).map(key => values[key]);
-    if (arr.length === 1) {
-        return <div>{roundValue(arr[0], placeholder)}</div>;
+    const arr = Object.keys(values).map(key => {
+        return {
+            key,
+            value: values[key],
+        };
+    });
+    if (arr.length === 1 && hideTargetsNames === true) {
+        return <div>{roundValue(arr[0].value, placeholder)}</div>;
     }
     return (
         <div>
-            {arr.map((val, i) => (
-                <div>
-                    <b>T{i + 1}:</b> {roundValue(val)}
+            {arr.map(val => (
+                <div key={val.key}>
+                    <b>{val.key.toUpperCase()}:</b> {roundValue(val.value)}
                 </div>
             ))}
         </div>
