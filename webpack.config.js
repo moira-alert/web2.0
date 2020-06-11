@@ -1,8 +1,9 @@
 const path = require("path");
 const webpack = require("webpack");
-const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
+const supportedLocales = ['en']
 
 module.exports = {
     entry: {
@@ -71,7 +72,10 @@ module.exports = {
     },
     devtool: "cheap-source-map",
     plugins: [
-        new MomentLocalesPlugin(),
+        new ContextReplacementPlugin(
+            /date\-fns[\/\\]/,
+            new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
+        ),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             favicon: "./src/favicon.ico",

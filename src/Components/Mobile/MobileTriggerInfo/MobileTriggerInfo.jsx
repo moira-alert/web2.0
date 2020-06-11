@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { addMinutes, format, getUnixTime, startOfDay } from "date-fns";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
@@ -13,6 +13,7 @@ import type { Trigger, TriggerState } from "../../../Domain/Trigger";
 import { Maintenances, getMaintenanceCaption, type Maintenance } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
+import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 
 import MobileHeader from "../MobileHeader/MobileHeader";
 
@@ -32,27 +33,30 @@ type State = {
 
 function ScheduleView(props: { data: Schedule }): React.Node {
     const { data } = props;
-    const { days, startOffset, endOffset } = data;
+    const { days, startOffset, endOffset, tzOffset } = data;
+
+    const startTime = format(addMinutes(startOfDay(getUTCDate()), startOffset), "HH:mm");
+
+    const endTime = format(addMinutes(startOfDay(getUTCDate()), endOffset), "HH:mm");
+
+    const timeZone = format(addMinutes(startOfDay(getUTCDate()), Math.abs(tzOffset)), "HH:mm");
+
+    const timeZoneSign = tzOffset < 0 ? "+" : "−";
     const enabledDays = days.filter(({ enabled }) => enabled);
-    const viewDays =
-        days.length === enabledDays.length
-            ? "Everyday"
-            : enabledDays.map(({ name }) => name).join(", ");
-    const viewTime = `${moment("1900-01-01 00:00:00")
-        .add(startOffset, "minutes")
-        .format("HH:mm")} – ${moment("1900-01-01 00:00:00")
-        .add(endOffset, "minutes")
-        .format("HH:mm")}`;
     return (
         <span>
-            {viewDays} {viewTime}
+            {days.length === enabledDays.length
+                ? "Everyday"
+                : enabledDays.map(({ name }) => name).join(", ")}{" "}
+            {startTime}—{endTime} (GMT {timeZoneSign}
+            {timeZone})
         </span>
     );
 }
 
 function checkMaintenance(maintenance: ?number): React.Node {
-    const delta = (maintenance || 0) - moment.utc().unix();
-    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+    const delta = (maintenance || 0) - getUnixTime(getUTCDate());
+    return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
 export default class MobileTriggerInfo extends React.Component<Props, State> {

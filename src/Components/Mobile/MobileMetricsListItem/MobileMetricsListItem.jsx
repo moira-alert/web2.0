@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { format, fromUnixTime, getUnixTime } from "date-fns";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import MenuDotsIcon from "@skbkontur/react-icons/MenuDots";
 import TrashIcon from "@skbkontur/react-icons/Trash";
@@ -11,6 +11,7 @@ import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicato
 import roundValue from "../../../helpers/roundValue";
 import { Maintenances, type Maintenance, getMaintenanceCaption } from "../../../Domain/Maintenance";
 import cn from "./MobileMetricsListItem.less";
+import { getUTCDate } from "../../../helpers/DateUtil";
 
 type Props = {|
     name: string,
@@ -30,7 +31,7 @@ function isUnderkMaintenance(maintenance: ?number): boolean {
     if (maintenance == null) {
         return false;
     }
-    const delta = (maintenance || 0) - moment.utc().unix();
+    const delta = (maintenance || 0) - getUnixTime(getUTCDate());
     return delta > 0;
 }
 
@@ -63,7 +64,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                     <div className={cn("tags")}>
                         {roundValue(value.value)}
                         {" @ "}
-                        {moment.unix(value.event_timestamp || 0).format("MMMM D, HH:mm:ss")}
+                        {format(fromUnixTime(value.event_timestamp || 0), "MMMM d, HH:mm:ss")}
                     </div>
                 </div>
                 <div className={cn("buttons")}>

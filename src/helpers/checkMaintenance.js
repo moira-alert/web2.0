@@ -1,11 +1,12 @@
 // @flow
-import moment from "moment";
+import { getUnixTime } from "date-fns";
+import { getUTCDate, humanizeDuration } from "./DateUtil";
 import { getMaintenanceCaption } from "../Domain/Maintenance";
 
 export default function checkMaintenance(maintenance: ?number): string {
     if (!maintenance) {
         return getMaintenanceCaption("off");
     }
-    const delta = maintenance - moment.utc().unix();
-    return delta <= 0 ? getMaintenanceCaption("off") : moment.duration(delta * 1000).humanize();
+    const delta = maintenance - getUnixTime(getUTCDate());
+    return delta <= 0 ? getMaintenanceCaption("off") : humanizeDuration(delta);
 }
