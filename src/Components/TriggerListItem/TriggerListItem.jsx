@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
@@ -113,7 +113,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     <div
                                         className={cn("flag")}
                                         title={`Throttling until
-                                            ${moment.unix(throttling).format("MMMM D, HH:mm:ss")}`}
+                                            ${format(
+                                                fromUnixTime(throttling),
+                                                "MMMM d, HH:mm:ss"
+                                            )}`}
                                     >
                                         <FlagSolidIcon />
                                     </div>

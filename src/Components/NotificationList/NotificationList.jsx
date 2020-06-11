@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { format, fromUnixTime } from "date-fns";
 import OkIcon from "@skbkontur/react-icons/Ok";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import TrashIcon from "@skbkontur/react-icons/Trash";
@@ -44,7 +44,7 @@ export default function NotificationList(props: Props): React.Element<any> {
                 return (
                     <div key={key} className={cn("row")}>
                         <div className={cn("timestamp")}>
-                            {moment.unix(timestamp).format("MMMM D, HH:mm:ss")}
+                            {format(fromUnixTime(timestamp), "MMMM d, HH:mm:ss")}
                             {items[key].length > 1 ? ` (${items[key].length}×)` : ""}
                         </div>
                         <div className={cn("state")}>
