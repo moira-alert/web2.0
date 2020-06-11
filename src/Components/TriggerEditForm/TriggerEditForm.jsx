@@ -334,10 +334,31 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     handleRemoveTarget(targetIndex: number) {
         const { onChange, data } = this.props;
-        const { targets } = data;
+        const { targets, alone_metrics: aloneMetrics } = data;
+        const aloneMetricsIndex = [];
+
+        for (let i = 0; i < targets.length; i += 1) {
+            const target = `t${i + 1}`;
+            aloneMetricsIndex[i] =
+                aloneMetrics !== undefined && aloneMetrics !== null && aloneMetrics[target];
+        }
+
+        const newAloneMetricsIndex = [
+            ...aloneMetricsIndex.slice(0, targetIndex),
+            ...aloneMetricsIndex.slice(targetIndex + 1),
+        ];
+
+        const newAloneMetrics = {};
+        for (let i = 0; i < targets.length; i += 1) {
+            const target = `t${i + 1}`;
+            if (newAloneMetricsIndex[i]) {
+                newAloneMetrics[target] = newAloneMetricsIndex[i];
+            }
+        }
 
         onChange({
             targets: [...targets.slice(0, targetIndex), ...targets.slice(targetIndex + 1)],
+            alone_metrics: newAloneMetrics,
         });
     }
 
