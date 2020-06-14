@@ -24,7 +24,7 @@ const clearInput = (input: string | Array<string>) => {
     return cleared;
 };
 
-export type Props = ContextRouter & { moiraApi: IMoiraApi };
+type Props = ContextRouter & { moiraApi: IMoiraApi };
 
 type State = {
     loading: boolean,

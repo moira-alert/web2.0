@@ -17,6 +17,7 @@ storiesOf("Mobile/TriggerListPage", module)
             selectedTags={[]}
             onLoadMore={action("onLoadMore")}
             onOpenTagSelector={action("onOpenTagSelector")}
+            onChange={() => {}}
         />
     ))
     .add("Loading", () => (
@@ -28,5 +29,6 @@ storiesOf("Mobile/TriggerListPage", module)
             loading
             onLoadMore={action("onLoadMore")}
             onOpenTagSelector={action("onOpenTagSelector")}
+            onChange={() => {}}
         />
     ));

@@ -23,7 +23,7 @@ import cn from "./TriggerListItem.less";
 type Props = {|
     data: Trigger,
     searchMode: boolean,
-    onChange?: (maintenance: Maintenance, metric: string) => void,
+    onChange?: (triggerId: string, maintenance: Maintenance, metric: string) => void,
     onRemove?: (metric: string) => void,
 |};
 
@@ -216,7 +216,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     renderMetrics(): ?React.Node {
-        const { onChange, onRemove } = this.props;
+        const { onChange, onRemove, data } = this.props;
         if (!onChange || !onRemove) {
             return null;
         }
@@ -232,7 +232,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     items={TriggerListItem.sortMetricsByValue(this.filterMetricsByStatus(x))}
                     sortingColumn="value"
                     sortingDown
-                    onChange={(metric, maintenance) => onChange(maintenance, metric)}
+                    onChange={
+                        onChange &&
+                        ((metric, maintenance) => onChange(data.id, metric, maintenance))
+                    }
                     onRemove={metric => onRemove(metric)}
                 />
             </Tab>

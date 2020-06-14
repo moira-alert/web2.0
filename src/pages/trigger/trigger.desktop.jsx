@@ -90,6 +90,7 @@ class TriggerDesktop extends React.Component<Props, State> {
         const { metrics } = state || {};
         const isMetrics = metrics && Object.keys(metrics).length > 0;
         const isEvents = events && events.length > 0;
+        const triggerId = trigger ? trigger.id : "";
         const noDataMerticCount =
             (metrics &&
                 Object.keys(metrics).filter(key => metrics[key].state === Statuses.NODATA)
@@ -138,19 +139,11 @@ class TriggerDesktop extends React.Component<Props, State> {
                                         sortingColumn={sortingColumn}
                                         sortingDown={sortingDown}
                                         onChange={(metric, maintenance) => {
-                                            setMetricMaintenance(
-                                                trigger ? trigger.id : "",
-                                                maintenance,
-                                                metric
-                                            );
+                                            setMetricMaintenance(triggerId, maintenance, metric);
                                         }}
-                                        onRemove={metric =>
-                                            removeMetric(trigger ? trigger.id : "", metric)
-                                        }
+                                        onRemove={metric => removeMetric(triggerId, metric)}
                                         noDataMerticCount={noDataMerticCount}
-                                        onNoDataRemove={() =>
-                                            removeNoDataMetric(trigger ? trigger.id : "")
-                                        }
+                                        onNoDataRemove={() => removeNoDataMetric(triggerId)}
                                     />
                                 </Tab>
                             )}

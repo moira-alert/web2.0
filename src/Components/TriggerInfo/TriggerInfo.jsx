@@ -228,7 +228,7 @@ export default function TriggerInfo({
                                 trigger edit page
                             </RouterLink>
                             .
-                            {supportEmail != null && (
+                            {supportEmail && (
                                 <span>
                                     {" "}
                                     Or <Link href={`mailto:${supportEmail}`}>contact</Link> with
