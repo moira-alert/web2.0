@@ -426,8 +426,49 @@ const stories = [
     },
 ];
 
-const story = storiesOf("TriggerListItem", module).addDecorator(StoryRouter());
+const story = storiesOf("TriggerListItem", module)
+    .addDecorator(StoryRouter())
+    .addParameters({
+        creevey: {
+            tests: {
+                async States() {
+                    await this.browser
+                        .actions({ bridge: true })
+                        .move({
+                            origin: this.browser.findElement({
+                                css: "#root",
+                            }),
+                            // default cursor coordinate x=1, y=1 and element has hover
+                            y: 720,
+                        })
+                        .perform();
 
+                    await this.expect(await this.takeScreenshot()).to.matchImage("simple");
+
+                    await this.browser
+                        .actions({ bridge: true })
+                        .move({
+                            origin: this.browser.findElement({
+                                css: 'div[data-tid="TriggerListItem_status"]',
+                            }),
+                        })
+                        .perform();
+                    await this.expect(await this.takeScreenshot()).to.matchImage("hovered");
+
+                    await this.browser
+                        .actions({ bridge: true })
+                        .click(
+                            this.browser.findElement({
+                                css: 'div[data-tid="TriggerListItem_status"]',
+                            })
+                        )
+                        .perform();
+
+                    await this.expect(await this.takeScreenshot()).to.matchImage("clicked");
+                },
+            },
+        },
+    });
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
         <TriggerListItem

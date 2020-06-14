@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { format, fromUnixTime, getUnixTime } from "date-fns";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import UserIcon from "@skbkontur/react-icons/User";
@@ -15,6 +15,7 @@ import roundValue from "../../helpers/roundValue";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import cn from "./MetricList.less";
+import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 
 export type SortingColum = "state" | "name" | "event" | "value";
 
@@ -33,11 +34,11 @@ type Props = {|
 |};
 
 function maintenanceCaption(delta: number): React.Node {
-    return <span>{delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}</span>;
+    return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
 function maintenanceDelta(maintenance: ?number): number {
-    return (maintenance || 0) - moment.utc().unix();
+    return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
 export default function MetricList(props: Props): React.Node {
@@ -130,7 +131,7 @@ export default function MetricList(props: Props): React.Node {
                             )}
                             <div className={cn("name")}>{metric}</div>
                             <div className={cn("event")}>
-                                {moment.unix(eventTimestamp).format("MMMM D, HH:mm:ss")}
+                                {format(fromUnixTime(eventTimestamp), "MMMM d, HH:mm:ss")}
                             </div>
                             <div className={cn("value")}>{roundValue(value)}</div>
                             <div className={cn("maintenance")}>
@@ -155,9 +156,12 @@ export default function MetricList(props: Props): React.Node {
                                                     by {maintenanceInfo.setup_user}
                                                     <br />
                                                     at{" "}
-                                                    {moment
-                                                        .unix(maintenanceInfo.setup_time || 0)
-                                                        .format("MMMM D, HH:mm:ss")}
+                                                    {format(
+                                                        fromUnixTime(
+                                                            maintenanceInfo.setup_time || 0
+                                                        ),
+                                                        "MMMM d, HH:mm:ss"
+                                                    )}
                                                 </div>
                                             )}
                                         >

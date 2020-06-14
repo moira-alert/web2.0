@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import moment from "moment";
+import { format, addMinutes, startOfDay, fromUnixTime, getUnixTime } from "date-fns";
 import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
 import { Link } from "@skbkontur/react-ui/components/Link";
@@ -23,6 +23,7 @@ import { getPageLink } from "../../Domain/Global";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import RouterLink from "../RouterLink/RouterLink";
 import cn from "./TriggerInfo.less";
+import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 
 const md = new Remarkable({ breaks: true });
 
@@ -35,7 +36,7 @@ type Props = {|
 |};
 
 function maintenanceDelta(maintenance: ?number): number {
-    return (maintenance || 0) - moment.utc().unix();
+    return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
 function maintenanceCaption(delta: number): React.Node {
@@ -43,7 +44,7 @@ function maintenanceCaption(delta: number): React.Node {
         <span>
             <ClockIcon />
             &nbsp;
-            {delta <= 0 ? "Maintenance" : moment.duration(delta * 1000).humanize()}
+            {delta <= 0 ? "Maintenance" : humanizeDuration(delta)}
         </span>
     );
 }
@@ -52,21 +53,12 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     const { data } = props;
     const { days, startOffset, endOffset, tzOffset } = data;
 
-    const startTime = moment()
-        .utc()
-        .startOf("day")
-        .add(startOffset, "minutes")
-        .format("HH:mm");
-    const endTime = moment()
-        .utc()
-        .startOf("day")
-        .add(endOffset, "minutes")
-        .format("HH:mm");
-    const timeZone = moment()
-        .utc()
-        .startOf("day")
-        .add(Math.abs(tzOffset), "minutes")
-        .format("HH:mm");
+    const startTime = format(addMinutes(startOfDay(getUTCDate()), startOffset), "HH:mm");
+
+    const endTime = format(addMinutes(startOfDay(getUTCDate()), endOffset), "HH:mm");
+
+    const timeZone = format(addMinutes(startOfDay(getUTCDate()), Math.abs(tzOffset)), "HH:mm");
+
     const timeZoneSign = tzOffset < 0 ? "+" : "−";
     const enabledDays = days.filter(({ enabled }) => enabled);
 
@@ -160,9 +152,10 @@ export default function TriggerInfo({
                                             by {maintenanceInfo.setup_user}
                                             <br />
                                             at{" "}
-                                            {moment
-                                                .unix(maintenanceInfo.setup_time)
-                                                .format("MMMM D, HH:mm:ss")}
+                                            {format(
+                                                fromUnixTime(maintenanceInfo.setup_time),
+                                                "MMMM d, HH:mm:ss"
+                                            )}
                                         </div>
                                     )}
                                 >
