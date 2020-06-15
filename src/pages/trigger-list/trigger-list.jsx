@@ -209,7 +209,7 @@ class TriggerListPage extends React.Component<Props, State> {
     removeMetric = async (triggerId: string, metric: string): Promise<void> => {
         this.setState({ loading: true });
         const { moiraApi } = this.props;
-        moiraApi.delMetric(triggerId, metric);
+        await moiraApi.delMetric(triggerId, metric);
     };
 }
 
