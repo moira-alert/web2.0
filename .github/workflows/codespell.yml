@@ -12,4 +12,4 @@ jobs:
     - name: install prerequisites
       run: sudo pip install codespell
     - name: check
-      run: codespell -c -q 2
+      run: codespell -c -q 2 --skip="yarn.lock"
