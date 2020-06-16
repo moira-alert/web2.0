@@ -1,5 +1,5 @@
 // @flow
-import { getUnixTime, addMinutes, startOfDay } from "date-fns";
+import { getUnixTime, addMinutes } from "date-fns";
 import { getUTCDate } from "../helpers/DateUtil";
 import type { IMoiraApi } from "../Api/MoiraApi";
 
@@ -52,7 +52,7 @@ function getMaintenanceInterval(maintenance: Maintenance): number {
 function calculateMaintenanceTime(maintenance: Maintenance): number {
     const maintenanceTime = getMaintenanceInterval(maintenance);
     return maintenanceTime > 0
-        ? getUnixTime(addMinutes(startOfDay(getUTCDate()), maintenanceTime))
+        ? getUnixTime(addMinutes(getUTCDate(), maintenanceTime))
         : maintenanceTime;
 }
 
