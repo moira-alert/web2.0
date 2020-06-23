@@ -10,8 +10,8 @@ type Props = {
 export default function ContactInfo(props: Props): React.Node {
     const { contact } = props;
     return (
-        <React.Fragment>
+        <>
             <ContactTypeIcon type={contact.type} /> {contact.value}
-        </React.Fragment>
+        </>
     );
 }

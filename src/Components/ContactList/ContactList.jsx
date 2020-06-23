@@ -213,11 +213,6 @@ export default class ContactList extends React.Component<Props, State> {
         });
     };
 
-    handleRemoveContact = (contact: Contact) => {
-        const { onRemoveContact } = this.props;
-        onRemoveContact(contact);
-    };
-
     handleChangeEditableContact = (contactUpdate: $Shape<Contact>) => {
         const { editableContact } = this.state;
         this.setState({

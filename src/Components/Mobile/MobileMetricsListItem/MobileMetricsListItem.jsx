@@ -36,8 +36,6 @@ function isUnderkMaintenance(maintenance: ?number): boolean {
 }
 
 export default class MobileMetricsListItem extends React.Component<Props, State> {
-    props: Props;
-
     state: State = {
         buttonsState: "Default",
         deleted: false,

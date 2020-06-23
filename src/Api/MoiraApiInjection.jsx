@@ -14,10 +14,10 @@ export function withMoiraApi<Config: {}>(
 
         static displayName = `withApi(${Component.displayName || Component.name || "Component"})`;
 
-        static contextType = ApiContext;
-
         render(): React.Element<typeof Component> {
             return <Component moiraApi={this.context} {...this.props} />;
         }
+
+        static contextType = ApiContext;
     };
 }

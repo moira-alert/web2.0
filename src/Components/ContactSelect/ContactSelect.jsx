@@ -68,9 +68,9 @@ export default class ContactSelect extends React.Component<Props> {
                         placeholder="Select delivery channel"
                         renderNotFound={() => "No delivery channels found"}
                         renderItem={item => (
-                            <React.Fragment>
+                            <>
                                 <ContactTypeIcon type={item.type} /> {item.label}
-                            </React.Fragment>
+                            </>
                         )}
                     />
                 </div>

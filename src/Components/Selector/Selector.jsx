@@ -77,7 +77,7 @@ class Selector extends React.Component<Props, State> {
         const { search, tokens, renderToken, children } = this.props;
 
         return (
-            <React.Fragment>
+            <>
                 <Foco className={cn("wrapper")} onClickOutside={this.closeDropdown}>
                     <label
                         className={cn({ selector: true, focused })}
@@ -105,7 +105,7 @@ class Selector extends React.Component<Props, State> {
                         <Dropdown anchor={this.dropdownAnchorRef.current}>{children}</Dropdown>
                     )}
                 </Foco>
-            </React.Fragment>
+            </>
         );
     }
 
