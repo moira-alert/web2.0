@@ -55,6 +55,9 @@ class TriggerPage extends React.Component<Props, State> {
 
         return {
             page: Number.isNaN(Number(page)) ? START_PAGE : Math.abs(parseInt(page, 10)),
+            tags: [],
+            searchText: "",
+            onlyProblems: false,
         };
     }
 

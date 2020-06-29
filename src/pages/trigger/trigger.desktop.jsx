@@ -121,7 +121,7 @@ class TriggerDesktop extends React.Component<Props, State> {
                     ) : (
                         // eslint-disable-next-line no-nested-ternary
                         <Tabs value={isMetrics ? (page > 1 ? "events" : "state") : "state"}>
-                            {isMetrics && trigger && trigger.id && (
+                            {isMetrics && triggerId && (
                                 <Tab id="state" label="Current state">
                                     <MetricList
                                         status

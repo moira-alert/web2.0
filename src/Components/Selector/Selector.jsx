@@ -111,9 +111,12 @@ class Selector extends React.Component<Props, State> {
 
     handleInputChange = (evt: KeyboardEvent) => {
         const { onInputChange } = this.props;
-        const { value } = evt.target;
 
-        onInputChange(value);
+        // Here Flow types means that EventTarget haven`t field "value"
+        // TODO: Remove if statement on TS
+        if (evt.target instanceof HTMLInputElement) {
+            onInputChange(evt.target.value);
+        }
     };
 
     handleInputKeyDown = (evt: KeyboardEvent) => {
@@ -122,6 +125,11 @@ class Selector extends React.Component<Props, State> {
             const { onEnterKeyDown } = this.props;
             onEnterKeyDown();
             this.closeDropdown();
+        }
+        // Here Flow types means that EventTarget haven`t field "value"
+        // TODO: Remove if statement on TS
+        if (!(evt.target instanceof HTMLInputElement)) {
+            return;
         }
         if (evt.key === "Backspace" && evt.target.selectionStart === 0 && tokens.length !== 0) {
             const { onBackspaceKeyDown } = this.props;

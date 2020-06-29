@@ -11,6 +11,7 @@ function parseLocalStorage(localData: string): MoiraUrlParams {
         page: 0,
         tags: [],
         onlyProblems: false,
+        searchText: "",
     };
 
     try {

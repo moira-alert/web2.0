@@ -63,10 +63,13 @@ class TriggerListMobile extends React.Component<Props, State> {
     handleChangeSelectedTags = (nextTags: string[], nextOnlyProblems: boolean) => {
         const { onChange } = this.props;
         this.setState({ showTagSelector: false });
-        onChange({
-            tags: nextTags,
-            onlyProblems: nextOnlyProblems,
-        });
+
+        if (onChange) {
+            onChange({
+                tags: nextTags,
+                onlyProblems: nextOnlyProblems,
+            });
+        }
     };
 }
 

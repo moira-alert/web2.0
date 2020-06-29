@@ -47,12 +47,11 @@ class NotificationListContainer extends React.Component<Props, State> {
 
     render(): React.Node {
         const { loading, error, list, notifierEnabled } = this.state;
+        const layoutTitle = `Notifications ${Array.isArray(list) ? list.length : ""}`;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <LayoutTitle>
-                        Notifications {Array.isArray(list) ? `(${list.length})` : ""}
-                    </LayoutTitle>
+                    <LayoutTitle>{layoutTitle}</LayoutTitle>
                     {list && (
                         <NotificationList
                             items={NotificationListContainer.composeNotifications(list)}

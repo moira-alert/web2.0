@@ -20,11 +20,11 @@ type Props = {|
     triggers: Array<Trigger>,
     activePage: number,
     pageCount: number,
-    onChange: object => void,
+    onChange: (triggerId: string, metric: string, maintenance: Maintenance) => void,
     searchText: string,
     loading: boolean,
     error: string,
-    onSetMetricMaintenance: (triggerId: string, maintenance: Maintenance, metric: string) => void,
+    onSetMetricMaintenance: (triggerId: string, metric: string, maintenance: Maintenance) => void,
     onRemoveMetric: (triggerId: string, metric: string) => void,
 |};
 

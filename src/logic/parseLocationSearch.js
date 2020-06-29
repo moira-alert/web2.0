@@ -12,6 +12,7 @@ function parseLocationSearch(search: string): MoiraUrlParams {
         page: 0,
         tags: [],
         onlyProblems: false,
+        searchText: "",
     };
 
     const { page, tags, onlyProblems } = queryString.parse(search, { arrayFormat: "index" });

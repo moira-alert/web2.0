@@ -1,5 +1,6 @@
 // @flow
 import type { Metric, MetricList } from "../Domain/Metric";
+import type { Status } from "../Domain/Status";
 
 // ToDo подумать, почему метрики группируются в listItem, а не в контейнере
 function groupMetricsByStatuses(

@@ -23,7 +23,7 @@ import cn from "./TriggerListItem.less";
 type Props = {|
     data: Trigger,
     searchMode: boolean,
-    onChange?: (triggerId: string, maintenance: Maintenance, metric: string) => void,
+    onChange?: (triggerId: string, metric: string, maintenance: Maintenance) => void,
     onRemove?: (metric: string) => void,
 |};
 
