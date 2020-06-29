@@ -11,7 +11,7 @@ type Props = {
     triggers: Array<Trigger>,
     activePage: number,
     pageCount: number,
-    onChange?: ({ page: number }) => void,
+    onChange: ({ page: number }) => void,
 };
 
 type State = {
