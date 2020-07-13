@@ -23,7 +23,7 @@ import cn from "./TriggerListItem.less";
 type Props = {|
     data: Trigger,
     searchMode: boolean,
-    onChange?: (maintenance: Maintenance, metric: string) => void,
+    onChange?: (triggerId: string, metric: string, maintenance: Maintenance) => void,
     onRemove?: (metric: string) => void,
 |};
 
@@ -82,6 +82,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const { id, name, targets, tags, throttling, highlights } = data;
         const { showMetrics } = this.state;
         const metrics = this.renderMetrics();
+        const searchModeName = highlights && highlights.name;
 
         return (
             <div className={cn("row", { active: showMetrics })}>
@@ -103,7 +104,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     <div
                                         className={cn("name")}
                                         dangerouslySetInnerHTML={{
-                                            __html: highlights.name ? highlights.name : name,
+                                            __html: searchModeName || name,
                                         }}
                                     />
                                 ) : (
@@ -158,10 +159,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     getHasExceptionState(): boolean {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
-        if (triggerStatus === Statuses.EXCEPTION) {
-            return true;
-        }
-        return false;
+        return triggerStatus === Statuses.EXCEPTION;
     }
 
     renderCounters(): React.Node {
@@ -222,7 +220,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     renderMetrics(): ?React.Node {
-        const { onChange, onRemove } = this.props;
+        const { onChange, onRemove, data } = this.props;
         if (!onChange || !onRemove) {
             return null;
         }
@@ -238,7 +236,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     items={TriggerListItem.sortMetricsByValue(this.filterMetricsByStatus(x))}
                     sortingColumn="value"
                     sortingDown
-                    onChange={(metric, maintenance) => onChange(metric, maintenance)}
+                    onChange={
+                        onChange &&
+                        ((metric, maintenance) => onChange(data.id, metric, maintenance))
+                    }
                     onRemove={metric => onRemove(metric)}
                 />
             </Tab>

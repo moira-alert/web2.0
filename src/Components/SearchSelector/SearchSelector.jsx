@@ -72,10 +72,6 @@ class SearchSelector extends React.Component<Props, State> {
             searchText: search,
             clearedSearchValue: clearInput(search),
         };
-
-        this.dropdownAnchorRef = React.createRef();
-
-        this.searchInputRef = React.createRef();
     }
 
     componentDidMount() {
@@ -167,7 +163,7 @@ class SearchSelector extends React.Component<Props, State> {
         );
     };
 
-    renderToken = token => (
+    renderToken = (token: string) => (
         <Token type="removable" onRemove={this.handleTokenRemove}>
             {token}
         </Token>

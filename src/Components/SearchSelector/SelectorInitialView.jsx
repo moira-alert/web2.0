@@ -8,7 +8,7 @@ function SelectorInitialView({
     onSelect,
 }: {
     tokens: string[],
-    onSelect: string => void,
+    onSelect: (token: string) => void,
 }): React.Node {
     return (
         <React.Fragment>

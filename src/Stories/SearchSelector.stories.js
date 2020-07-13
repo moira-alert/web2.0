@@ -16,6 +16,7 @@ storiesOf("SearchSelector", module)
             subscribedTokens={subscribed}
             remainingTokens={remaining}
             onChange={action("onChange")}
+            onSearch={() => {}}
         />
     ))
     .add("with selected", () => (
@@ -25,6 +26,7 @@ storiesOf("SearchSelector", module)
             subscribedTokens={subscribed}
             remainingTokens={remaining}
             onChange={action("onSearch")}
+            onSearch={() => {}}
         />
     ))
     .add("with search query", () => (
@@ -33,6 +35,7 @@ storiesOf("SearchSelector", module)
             selectedTokens={["selected"]}
             subscribedTokens={subscribed}
             remainingTokens={remaining}
+            onSearch={() => {}}
             onChange={action("onSearch")}
         />
     ))
@@ -42,6 +45,7 @@ storiesOf("SearchSelector", module)
             selectedTokens={["selected"]}
             subscribedTokens={subscribed}
             remainingTokens={remaining}
+            onSearch={() => {}}
             onChange={action("onSearch")}
         />
     ));

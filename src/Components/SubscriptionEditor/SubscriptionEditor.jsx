@@ -19,7 +19,7 @@ export type SubscriptionInfo = {
     throttling: boolean,
     contacts: Array<string>,
     enabled: boolean,
-    any_tags: boolean,
+    any_tags?: boolean,
     ignore_warnings: boolean,
     ignore_recoverings: boolean,
     plotting?: {

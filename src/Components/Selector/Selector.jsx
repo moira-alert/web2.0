@@ -4,12 +4,22 @@ import ReactDOM from "react-dom";
 import Foco from "react-foco";
 import cn from "./Selector.less";
 
-const Portal = ({ children }: { children: React.Node }) =>
-    ReactDOM.createPortal(children, document.body);
+const Portal = ({ children }: { children: React.Node }) => {
+    const container = document.body;
+
+    if (!container) {
+        throw new Error("Container for portal is empty");
+    }
+    return ReactDOM.createPortal(children, container);
+};
 
 // ToDo изменять размеры при ресайзе
 const Dropdown = ({ anchor, children }: { anchor: ?HTMLLabelElement, children: React.Node }) => {
     const SELECTOR_OUTLINE_SIZE = 1;
+
+    if (!anchor) {
+        throw new Error("Anchor in Dropdown component is empty");
+    }
 
     const {
         top: anchorTop,
@@ -49,16 +59,17 @@ type State = {
 class Selector extends React.Component<Props, State> {
     state: State;
 
+    // eslint-disable-next-line react/sort-comp
+    dropdownAnchorRef = React.createRef<HTMLLabelElement>();
+
+    searchInputRef = React.createRef<HTMLInputElement>();
+
     constructor(props: Props) {
         super(props);
 
         this.state = {
             focused: false,
         };
-
-        this.dropdownAnchorRef = React.createRef();
-
-        this.searchInputRef = React.createRef();
     }
 
     render() {
@@ -98,19 +109,27 @@ class Selector extends React.Component<Props, State> {
         );
     }
 
-    handleInputChange = evt => {
+    handleInputChange = (evt: KeyboardEvent) => {
         const { onInputChange } = this.props;
-        const { value } = evt.target;
 
-        onInputChange(value);
+        // Here Flow types means that EventTarget haven`t field "value"
+        // TODO: Remove if statement on TS
+        if (evt.target instanceof HTMLInputElement) {
+            onInputChange(evt.target.value);
+        }
     };
 
-    handleInputKeyDown = evt => {
+    handleInputKeyDown = (evt: KeyboardEvent) => {
         const { tokens } = this.props;
         if (evt.key === "Enter") {
             const { onEnterKeyDown } = this.props;
             onEnterKeyDown();
             this.closeDropdown();
+        }
+        // Here Flow types means that EventTarget haven`t field "value"
+        // TODO: Remove if statement on TS
+        if (!(evt.target instanceof HTMLInputElement)) {
+            return;
         }
         if (evt.key === "Backspace" && evt.target.selectionStart === 0 && tokens.length !== 0) {
             const { onBackspaceKeyDown } = this.props;
@@ -130,7 +149,9 @@ class Selector extends React.Component<Props, State> {
         const { focused } = this.state;
 
         if (focused) {
-            this.searchInputRef.current.blur();
+            if (this.searchInputRef.current) {
+                this.searchInputRef.current.blur();
+            }
 
             this.setState({ focused: false });
         }

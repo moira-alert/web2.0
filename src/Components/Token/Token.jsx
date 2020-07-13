@@ -3,17 +3,21 @@ import * as React from "react";
 import cn from "./Token.less";
 
 type Props = {|
-    children: React.Node,
+    children: string,
     type?: "removable" | "selectable",
-    onClick?: () => void,
-    onRemove?: () => void,
+    onClick?: string => void,
+    onRemove?: string => void,
 |};
 
 const Token = (props: Props) => {
     const { children, type, onRemove, onClick } = props;
 
     if (type === "removable") {
-        const handleRemove = () => onRemove(children);
+        const handleRemove = () => {
+            if (onRemove) {
+                onRemove(children);
+            }
+        };
 
         return (
             <span className={cn("token", "removable")}>
@@ -29,7 +33,11 @@ const Token = (props: Props) => {
     }
 
     if (type === "selectable") {
-        const handleClick = () => onClick(children);
+        const handleClick = () => {
+            if (onClick) {
+                onClick(children);
+            }
+        };
 
         return (
             <button type="button" className={cn("token", "selectable")} onClick={handleClick}>

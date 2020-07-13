@@ -10,6 +10,11 @@ import data from "./Data/Triggers";
 storiesOf("TriggerList", module)
     .addDecorator(StoryRouter())
     .add("Default", () => (
-        <TriggerList items={data} onChange={action("onChange")} onRemove={action("onRemove")} />
+        <TriggerList
+            searchMode={false}
+            items={data}
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
     ))
-    .add("Empty", () => <TriggerList items={[]} />);
+    .add("Empty", () => <TriggerList searchMode={false} items={[]} />);

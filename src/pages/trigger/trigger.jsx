@@ -7,6 +7,7 @@ import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
 import type { IMoiraApi } from "../../Api/MoiraApi";
 import type { Maintenance } from "../../Domain/Maintenance";
+import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { setMetricMaintenance, setTriggerMaintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
@@ -54,6 +55,9 @@ class TriggerPage extends React.Component<Props, State> {
 
         return {
             page: Number.isNaN(Number(page)) ? START_PAGE : Math.abs(parseInt(page, 10)),
+            tags: [],
+            searchText: "",
+            onlyProblems: false,
         };
     }
 

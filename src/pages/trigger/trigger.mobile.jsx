@@ -13,40 +13,29 @@ type Props = {|
     removeMetric: (id: string, metric: string) => void,
 |};
 
-type State = {};
+export default function TriggerMobile({
+    trigger,
+    state,
+    disableThrottling,
+    setTriggerMaintenance,
+    setMetricMaintenance,
+    removeMetric,
+}: Props) {
+    const { metrics } = state || {};
 
-class TriggerMobile extends React.Component {
-    state: State;
-
-    props: Props;
-
-    render() {
-        const {
-            trigger,
-            state,
-            disableThrottling,
-            setTriggerMaintenance,
-            setMetricMaintenance,
-            removeMetric,
-        } = this.props;
-        const { metrics } = state || {};
-
-        return (
-            <MobileTriggerInfoPage
-                data={trigger}
-                triggerState={state}
-                metrics={metrics}
-                onRemoveMetric={metric => removeMetric(trigger.id, metric)}
-                onThrottlingRemove={() => disableThrottling(trigger.id)}
-                onSetMetricMaintenance={(metric, maintenance) =>
-                    setMetricMaintenance(trigger.id, metric, maintenance)
-                }
-                onSetTriggerMaintenance={maintenance =>
-                    setTriggerMaintenance(trigger.id, maintenance)
-                }
-            />
-        );
-    }
+    return (
+        <MobileTriggerInfoPage
+            data={trigger}
+            triggerState={state}
+            metrics={metrics}
+            onRemoveMetric={metric => removeMetric(trigger ? trigger.id : "", metric)}
+            onThrottlingRemove={() => disableThrottling(trigger ? trigger.id : "")}
+            onSetMetricMaintenance={(metric, maintenance) =>
+                setMetricMaintenance(trigger ? trigger.id : "", maintenance, metric)
+            }
+            onSetTriggerMaintenance={maintenance =>
+                setTriggerMaintenance(trigger ? trigger.id : "", maintenance)
+            }
+        />
+    );
 }
-
-export { TriggerMobile as default };
