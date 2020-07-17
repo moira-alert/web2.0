@@ -38,7 +38,7 @@ type Props = {|
     data: $Shape<Trigger>,
     tags: Array<string>,
     onChange: ($Shape<Trigger>) => void,
-    validateTriggerTarget: (remote: boolean, target: string) => Promise<TriggerTargetCheck>,
+    validateTriggerTargets: (remote: boolean, targets: string[]) => Promise<TriggerTargetsCheck>,
     remoteAllowed: ?boolean,
 |};
 
@@ -46,7 +46,7 @@ type State = {
     descriptionMode: "edit" | "preview",
     targetsValidate: {
         [key: string]: {
-            result?: TriggerTargetCheck,
+            result?: TriggerTargetsCheck,
             isRequested?: boolean,
         },
     },
@@ -425,21 +425,21 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     };
 
     requestValidateTarget = debounce(async (targetIndex: number, value: string) => {
-        const { validateTriggerTarget, data } = this.props;
+        const { validateTriggerTargets, data } = this.props;
         const { targetsValidate } = this.state;
         const target = data.targets[targetIndex];
 
         const validation =
             value.trim().length === 0
                 ? Promise.resolve(undefined)
-                : validateTriggerTarget(data.is_remote, target);
+                : validateTriggerTargets(data.is_remote, [target]);
 
-        this.asyncValidator(target, validation, result => {
+        this.asyncValidator(target, validation, results => {
             this.setState({
                 targetsValidate: {
                     ...targetsValidate,
                     [targetIndex]: {
-                        result,
+                        result: results[0],
                         isRequested: false,
                     },
                 },
@@ -448,11 +448,27 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }, 500);
 
     validateTargets = async (isRemote: boolean) => {
-        const { validateTriggerTarget, data } = this.props;
-        const targetsValidate = await Promise.all(
-            data.targets.map(target => validateTriggerTarget(isRemote, target))
+        const { validateTriggerTargets, data } = this.props;
+
+        const withValueTargets = data.targets.reduce(
+            (result, value, index) => (value.trim().length === 0 ? result : [...result, index]),
+            []
         );
-        this.setState({ targetsValidate: targetsValidate.map(result => ({ result })) });
+        if (withValueTargets.length === 0) {
+            return;
+        }
+
+        const targetsValidateResponse = await validateTriggerTargets(
+            isRemote,
+            withValueTargets.map(index => data.targets[index])
+        );
+
+        const targetsValidate = [];
+        withValueTargets.forEach((targetIndex, index) => {
+            targetsValidate[targetIndex] = { result: targetsValidateResponse[index] };
+        });
+
+        this.setState({ targetsValidate });
     };
 
     renderNewMetricsAlertingHelp = () => (

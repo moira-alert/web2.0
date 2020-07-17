@@ -2,7 +2,7 @@
 import queryString from "query-string";
 import type { Config } from "../Domain/Config";
 import type { EventList } from "../Domain/Event";
-import type { Trigger, TriggerTargetCheck, TriggerList, TriggerState } from "../Domain/Trigger";
+import type { Trigger, TriggerTargetsCheck, TriggerList, TriggerState } from "../Domain/Trigger";
 import type { Settings } from "../Domain/Settings";
 import type { TagStat } from "../Domain/Tag";
 import type { PatternList } from "../Domain/Pattern";
@@ -65,7 +65,7 @@ export interface IMoiraApi {
     addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     delTrigger(id: string): Promise<void>;
-    checkTriggerTarget(remote: boolean, target: string): Promise<TriggerTargetCheck>;
+    checkTriggerTargets(remote: boolean, target: string): Promise<TriggerTargetsCheck>;
     setMaintenance(
         triggerId: string,
         data: { trigger?: number, metrics?: { [metric: string]: number } }
@@ -356,9 +356,11 @@ export default class MoiraApi implements IMoiraApi {
         await MoiraApi.checkStatus(response);
     }
 
-    checkTriggerTarget = async (remote: boolean, target: string) => {
-        const url = `${this.apiUrl}/trigger/check?remote=${remote}&target=${encodeURI(target)}`;
-        const response = await fetch<TriggerTargetCheck>(url, {
+    checkTriggerTargets = async (remote: boolean, targets: string[]) => {
+        const url = `${this.apiUrl}/trigger/check?remote=${remote}&target=${encodeURI(
+            JSON.stringify(targets)
+        )}`;
+        const response = await fetch<TriggerTargetsCheck>(url, {
             credentials: "same-origin",
         });
         await MoiraApi.checkStatus(response);

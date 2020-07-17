@@ -66,10 +66,10 @@ export type TriggerTargetProblem = {
     problems?: TriggerTargetProblem[],
 };
 
-export type TriggerTargetCheck = {
+export type TriggerTargetsCheck = Array<{
     syntax_ok: boolean,
     tree_of_problems?: TriggerTargetProblem,
-};
+}>;
 
 const TriggerDataSources = {
     LOCAL: "LOCAL",

@@ -106,7 +106,9 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                                 remoteAllowed={config.remoteAllowed}
                                                 tags={tags || []}
                                                 onChange={update => this.handleChange(update)}
-                                                validateTriggerTarget={moiraApi.checkTriggerTarget}
+                                                validateTriggerTargets={
+                                                    moiraApi.checkTriggerTargets
+                                                }
                                             />
                                         )}
                                     </ValidationContainer>

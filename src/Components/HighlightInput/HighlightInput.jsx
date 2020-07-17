@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Input, ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
 import { tooltip, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import type { ValidationInfo } from "@skbkontur/react-ui-validations";
-import type { TriggerTargetCheck, TriggerTargetProblem } from "../../Domain/Trigger";
+import type { TriggerTargetsCheck, TriggerTargetProblem } from "../../Domain/Trigger";
 import parseExpression, { isEmptyString } from "./parser/parseExpression";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import cn from "./HighlightInput.less";
@@ -13,7 +13,7 @@ type HighlightInputProps = {
     onValueChange: string => void,
     value: string,
     width?: string,
-    validate?: TriggerTargetCheck,
+    validate?: TriggerTargetsCheck,
     validateRequested?: boolean,
 };
 
