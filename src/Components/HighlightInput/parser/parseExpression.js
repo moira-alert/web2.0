@@ -2,11 +2,25 @@
 
 export type Token = {
     value: string,
-    type: "bracket" | "fnName" | "empty" | "variable",
+    type: "bracket" | "fnName" | "empty" | "string" | "variable",
     startPosition: number,
 };
 
-const isEmptyString = (str: string) => str.trim().length === 0;
+export const isEmptyString = (str: string) => str.trim().length === 0;
+
+const isStringToken = (str: string) => {
+    if (str.length < 2) {
+        return false;
+    }
+
+    const startSymbol = str[0];
+    const endSymbol = str[str.length - 1];
+    if (startSymbol === `"` && endSymbol === `"`) {
+        return true;
+    }
+    return startSymbol === `'` && endSymbol === `'`;
+};
+
 export function makeTokens(expression: string[]): Token[] {
     const result: Token[] = [];
 
@@ -15,7 +29,6 @@ export function makeTokens(expression: string[]): Token[] {
 
     for (let k = 0; k < expression.length; k += 1) {
         const current = expression[k];
-        const isEmpty = isEmptyString(current);
 
         result[k] = {
             value: current,
@@ -23,8 +36,10 @@ export function makeTokens(expression: string[]): Token[] {
             startPosition,
         };
 
-        if (isEmpty) {
+        if (isEmptyString(current)) {
             result[k].type = "empty";
+        } else if (isStringToken(current)) {
+            result[k].type = "string";
         } else if (current === "(") {
             result[k].type = "bracket";
 

@@ -8,17 +8,37 @@
     text-decoration: underline;
 }
 
+@keyframes highlightError {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: #dc3545;
+    }
+}
+
 .error {
+    animation: highlightError 0.1s;
     padding: 0 1px 1px;
     margin: 0 -1px;
     color: #fff;
-    background: #dc3545;
+    background-color: #dc3545;
+}
+
+@keyframes highlightWarning {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: #ffc107;
+    }
 }
 
 .warning {
+    animation: highlightWarning 0.1s;
     padding: 0 1px 1px;
     margin: 0 -1px;
-    background: #ffc107;
+    background-color : #ffc107;
 }
 
 .bracketHighlight {

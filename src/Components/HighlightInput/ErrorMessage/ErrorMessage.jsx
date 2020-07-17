@@ -5,16 +5,19 @@ import cn from "./ErrorMessage.less";
 type ErrorMessageProps = {
     error?: string,
     warning?: string,
+    view: boolean,
 };
 
-export default function ErrorMessage({ error, warning }: ErrorMessageProps) {
-    if (error) {
-        return <span className={cn("error")}>{error}</span>;
-    }
-
-    if (warning) {
-        return <span className={cn("warning")}>{warning}</span>;
-    }
-
-    return null;
+export default function ErrorMessage({ error, warning, view }: ErrorMessageProps) {
+    return (
+        <div
+            className={cn("container", {
+                view: view && (Boolean(error) || Boolean(warning)),
+                error: Boolean(error),
+                warning: Boolean(warning) && !error,
+            })}
+        >
+            {error || warning}
+        </div>
+    );
 }

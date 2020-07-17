@@ -83,7 +83,9 @@ class TriggerAddContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
+        const { moiraApi } = this.props;
         const { loading, error, trigger, tags, config } = this.state;
+
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -104,6 +106,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                                 remoteAllowed={config.remoteAllowed}
                                                 tags={tags || []}
                                                 onChange={update => this.handleChange(update)}
+                                                validateTriggerTarget={moiraApi.checkTriggerTarget}
                                             />
                                         )}
                                     </ValidationContainer>

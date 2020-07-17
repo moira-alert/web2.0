@@ -1,8 +1,10 @@
 // @flow
 import React, { useState, useRef, useEffect } from "react";
 import { Input, ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
-import type { TriggerFunctionCheck, TriggerFunctionProblem } from "../../Domain/Trigger";
-import parseExpression from "./parser/parseExpression";
+import { tooltip, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
+import type { ValidationInfo } from "@skbkontur/react-ui-validations";
+import type { TriggerTargetCheck, TriggerTargetProblem } from "../../Domain/Trigger";
+import parseExpression, { isEmptyString } from "./parser/parseExpression";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import cn from "./HighlightInput.less";
 import { highlightBadFunction, highlightTokens, renderToken } from "./highlightFunctions";
@@ -10,7 +12,9 @@ import { highlightBadFunction, highlightTokens, renderToken } from "./highlightF
 type HighlightInputProps = {
     onValueChange: string => void,
     value: string,
-    validate?: TriggerFunctionCheck,
+    width?: string,
+    validate?: TriggerTargetCheck,
+    validateRequested?: boolean,
 };
 
 type FunctionTree = {
@@ -19,43 +23,70 @@ type FunctionTree = {
 };
 
 function getProblemMessage(
-    problemTree: TriggerFunctionProblem
+    problemTree: TriggerTargetProblem
 ): { error?: string, warning?: string } {
     if (problemTree.type === "bad") {
-        return { error: problemTree.description };
-    }
-    const message = {
-        warning: problemTree.type === "warn" ? problemTree.description : undefined,
-    };
-
-    if (!problemTree.problems) {
-        return message;
+        return { error: `${problemTree.argument}: ${problemTree.description}` };
     }
 
-    problemTree.problems.forEach(problem => {
-        if (message.error) {
-            return;
-        }
-        const { error, warning } = getProblemMessage(problem);
+    let errorMessage: string | undefined;
+    let warningMessage =
+        problemTree.type === "warn"
+            ? `${problemTree.argument}: ${problemTree.description}`
+            : undefined;
 
-        if (error) {
-            message.error = error;
-        }
-        if (warning && !message.warning) {
-            message.warning = warning;
-        }
-    });
+    if (problemTree.problems) {
+        problemTree.problems.forEach(problem => {
+            if (errorMessage) {
+                return;
+            }
+            const { error, warning } = getProblemMessage(problem);
+            if (error) {
+                errorMessage = error;
+            }
+            if (!warningMessage && warningMessage) {
+                warningMessage = warning;
+            }
+        });
+    }
 
-    return message;
+    return { error: errorMessage, warning: warningMessage };
+}
+
+function validateInput(value: string, error?: string, warning?: string): ?ValidationInfo {
+    if (isEmptyString(value)) {
+        return {
+            type: "submit",
+            message: "Can't be empty",
+        };
+    }
+    if (error || warning) {
+        return {
+            type: "lostfocus",
+            level: error ? "error" : "warning",
+        };
+    }
+
+    return null;
 }
 
 export default function HighlightInput(props: HighlightInputProps) {
-    const { value, onValueChange, validate } = props;
+    const { value, onValueChange, validate, validateRequested, width } = props;
     const [scrollLeft, setScrollLeft] = useState<number>(0);
     const [caret, setCaret] = useState<number | undefined>(undefined);
     const inputEl = useRef<Input>(null);
-    let error: string | undefined;
-    let warning: string | undefined;
+    const containerEl = useRef<HTMLElement>(null);
+
+    const [validationView, setValidationView] = useState<boolean>(false);
+    const handleInputBlur = () => setValidationView(true);
+
+    const handleValueChange = (changedValue: string) => {
+        setValidationView(false);
+        onValueChange(changedValue);
+    };
+
+    let errorMessage: string | undefined;
+    let warningMessage: string | undefined;
     let highlightText: string | undefined;
 
     const valueTokens = parseExpression(value);
@@ -67,12 +98,18 @@ export default function HighlightInput(props: HighlightInputProps) {
     if (validate) {
         if (validate.syntax_ok) {
             if (validate.tree_of_problems) {
-                highlightText = highlightBadFunction(validate.tree_of_problems, viewTokens);
+                highlightText = highlightBadFunction(
+                    validate.tree_of_problems,
+                    viewTokens,
+                    containerEl.current
+                );
 
-                ({ error, warning } = getProblemMessage(validate.tree_of_problems));
+                ({ error: errorMessage, warning: warningMessage } = getProblemMessage(
+                    validate.tree_of_problems
+                ));
             }
         } else {
-            error = "Can't parse expression";
+            errorMessage = "Syntax error";
         }
     }
 
@@ -114,7 +151,7 @@ export default function HighlightInput(props: HighlightInputProps) {
 
     return (
         <>
-            <div className={cn("messageContainer")}>
+            <div className={cn("messageContainer")} style={{ width }}>
                 <ThemeContext.Provider
                     value={ThemeFactory.create(
                         {
@@ -124,19 +161,30 @@ export default function HighlightInput(props: HighlightInputProps) {
                         DEFAULT_THEME
                     )}
                 >
-                    <Input
-                        ref={inputEl}
-                        value={value}
-                        onValueChange={onValueChange}
-                        error={Boolean(error)}
-                        warning={Boolean(warning)}
-                    />
+                    <ValidationWrapperV1
+                        validationInfo={validateInput(value, errorMessage, warningMessage)}
+                        renderMessage={tooltip("right middle")}
+                    >
+                        <Input
+                            ref={inputEl}
+                            value={value}
+                            width={width}
+                            onValueChange={handleValueChange}
+                            onBlur={handleInputBlur}
+                        />
+                    </ValidationWrapperV1>
                 </ThemeContext.Provider>
-                <span className={cn("message")}>
+                <span className={cn("message")} ref={containerEl}>
                     <span style={{ marginLeft: `-${scrollLeft}px` }}>{highlightText}</span>
                 </span>
             </div>
-            <ErrorMessage error={error} warning={warning} />
+            {
+                <ErrorMessage
+                    error={errorMessage}
+                    warning={warningMessage}
+                    view={validationView && !validateRequested}
+                />
+            }
         </>
     );
 }

@@ -1,9 +1,30 @@
-.error {
+.container {
+    opacity: 0;
+    margin-top: 0;
+    max-height: 0;
+}
+
+@keyframes show {
+    from {
+        transform: translateY(-10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.view {
+    animation: show 0.5s ease-in-out;
+    opacity: 1;
     margin-top: 4px;
+    max-height: 100%;
+}
+
+.error {
     color: rgb(215, 12, 23);
 }
 .warning {
-    margin-top: 4px;
     color: rgb(246, 156, 0);
 }
-

@@ -3,6 +3,7 @@ import * as React from "react";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
+import debounce from "lodash/debounce";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
@@ -15,9 +16,10 @@ import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
-import type { Trigger } from "../../Domain/Trigger";
+import type { Trigger, TriggerTargetCheck } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
+import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerModeEditor from "../TriggerModeEditor/TriggerModeEditor";
@@ -25,8 +27,8 @@ import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Statuses } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
-import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import HighlightInput from "../HighlightInput/HighlightInput";
 import EditDescriptionHelp from "./EditDescritionHelp";
 import cn from "./TriggerEditForm.less";
 
@@ -36,12 +38,31 @@ type Props = {|
     data: $Shape<Trigger>,
     tags: Array<string>,
     onChange: ($Shape<Trigger>) => void,
+    validateTriggerTarget: (remote: boolean, target: string) => Promise<TriggerTargetCheck>,
     remoteAllowed: ?boolean,
 |};
 
 type State = {
     descriptionMode: "edit" | "preview",
+    targetsValidate: {
+        [key: string]: {
+            result?: TriggerTargetCheck,
+            isRequested?: boolean,
+        },
+    },
 };
+
+function getAsyncValidator() {
+    const storage = {};
+    return async (id: string, condition: Promise<object>, callback: object => void) => {
+        storage[id] = condition;
+
+        const result = await condition;
+        if (storage[id] === condition) {
+            callback(result);
+        }
+    };
+}
 
 export default class TriggerEditForm extends React.Component<Props, State> {
     props: Props;
@@ -52,7 +73,13 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         super(props);
         this.state = {
             descriptionMode: "edit",
+            targetsValidate: {},
         };
+    }
+
+    async componentDidMount() {
+        const { data } = this.props;
+        await this.validateTargets(data.is_remote);
     }
 
     static validateRequiredString(value: string, message?: string): ?ValidationInfo {
@@ -92,7 +119,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { descriptionMode } = this.state;
+        const { descriptionMode, targetsValidate } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -160,18 +187,15 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             <span className={cn("target-number")}>T{i + 1}</span>
                             <RowStack block verticalAlign="baseline" gap={1}>
                                 <Fill>
-                                    <ValidationWrapperV1
-                                        validationInfo={TriggerEditForm.validateRequiredString(x)}
-                                        renderMessage={tooltip("right middle")}
-                                    >
-                                        <Input
-                                            width="100%"
-                                            value={x}
-                                            onValueChange={value =>
-                                                this.handleUpdateTarget(i, value)
-                                            }
-                                        />
-                                    </ValidationWrapperV1>
+                                    <HighlightInput
+                                        width="100%"
+                                        value={x}
+                                        onValueChange={value => this.handleUpdateTarget(i, value)}
+                                        validate={targetsValidate[i] && targetsValidate[i].result}
+                                        validateRequested={
+                                            targetsValidate[i] && targetsValidate[i].isRequested
+                                        }
+                                    />
                                 </Fill>
                                 {targets.length > 1 && (
                                     <Fit>
@@ -293,9 +317,11 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             defaultValue={
                                 !isRemote ? TriggerDataSources.LOCAL : TriggerDataSources.GRAPHITE
                             }
-                            onValueChange={value =>
-                                onChange({ is_remote: value !== TriggerDataSources.LOCAL })
-                            }
+                            onValueChange={value => {
+                                const nextIsRemote = value !== TriggerDataSources.LOCAL;
+                                onChange({ is_remote: nextIsRemote });
+                                this.validateTargets(nextIsRemote);
+                            }}
                         >
                             <Gapped vertical gap={10}>
                                 <Radio value={TriggerDataSources.LOCAL}>Local (default)</Radio>
@@ -320,6 +346,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         onChange({
             targets: [...targets.slice(0, targetIndex), value, ...targets.slice(targetIndex + 1)],
         });
+
+        this.validateTarget(targetIndex, value);
     }
 
     handleUpdateAloneMetrics(targetIndex: number, value: boolean) {
@@ -376,6 +404,66 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             targets: [...targets, ""],
         });
     }
+
+    asyncValidator = getAsyncValidator();
+
+    validateTarget = (targetIndex: number, value: string) => {
+        const { targetsValidate } = this.state;
+        const targetValidate = targetsValidate[targetIndex];
+
+        this.setState({
+            targetsValidate: {
+                ...targetsValidate,
+                [targetIndex]: {
+                    result: targetValidate && targetValidate.result,
+                    isRequested: true,
+                },
+            },
+        });
+
+        this.requestValidateTarget(targetIndex, value);
+    };
+
+    requestValidateTarget = debounce(async (targetIndex: number, value: string) => {
+        const { validateTriggerTarget, data } = this.props;
+        const { targetsValidate } = this.state;
+        const target = data.targets[targetIndex];
+
+        const validation =
+            value.trim().length === 0
+                ? Promise.resolve(undefined)
+                : validateTriggerTarget(data.is_remote, target);
+
+        this.asyncValidator(target, validation, result => {
+            this.setState({
+                targetsValidate: {
+                    ...targetsValidate,
+                    [targetIndex]: {
+                        result,
+                        isRequested: false,
+                    },
+                },
+            });
+        });
+    }, 500);
+
+    validateTargets = async (isRemote: boolean) => {
+        const { validateTriggerTarget, data } = this.props;
+        const targetsValidate = await Promise.all(
+            data.targets.map(target => validateTriggerTarget(isRemote, target))
+        );
+        this.setState({ targetsValidate: targetsValidate.map(result => ({ result })) });
+    };
+
+    renderNewMetricsAlertingHelp = () => (
+        <div className={cn("new-metrics-help")}>
+            <p>If disabled, Moira will notify you about new metrics.</p>
+            <p>
+                In this case when you start sending new metric you will receive{" "}
+                <CodeRef>NODATA</CodeRef> - <CodeRef>OK</CodeRef> notification.
+            </p>
+        </div>
+    );
 }
 
 type FormProps = {

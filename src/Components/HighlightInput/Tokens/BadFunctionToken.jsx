@@ -7,9 +7,15 @@ type BadFunctionTokenProps = {
     type: "bad" | "warn",
     message: string,
     children: string,
+    container: HTMLElement | null,
 };
 
-export default function BadFunctionToken({ children, message, type }: BadFunctionTokenProps) {
+export default function BadFunctionToken({
+    children,
+    message,
+    type,
+    container,
+}: BadFunctionTokenProps) {
     const [showTooltip, setShowTooltip] = useState(false);
     const textEl = useRef(null);
 
@@ -18,22 +24,33 @@ export default function BadFunctionToken({ children, message, type }: BadFunctio
             if (!textEl.current) {
                 return;
             }
+
             const { top, bottom, left, right } = textEl.current.getBoundingClientRect();
+
             const { clientX, clientY } = event;
 
-            const inside =
-                clientX >= left && clientX <= right && clientY >= top && clientY <= bottom;
+            let inside = clientX >= left && clientX <= right && clientY >= top && clientY <= bottom;
+
+            if (inside && container) {
+                const {
+                    left: containerLeft,
+                    right: containerRight,
+                } = container.getBoundingClientRect();
+                if (right < containerLeft || left > containerRight) {
+                    inside = false;
+                }
+            }
 
             setShowTooltip(inside);
         };
 
         document.addEventListener("mousemove", handleMouseMove);
         return () => document.removeEventListener("mousemove", handleMouseMove);
-    }, []);
+    }, [container]);
 
     return (
         <Tooltip
-            pos="top center"
+            pos="top left"
             trigger={showTooltip ? "opened" : "hover"}
             useWrapper={false}
             closeButton={false}

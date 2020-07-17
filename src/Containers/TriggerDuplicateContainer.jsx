@@ -62,8 +62,8 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
+        const { match, moiraApi } = this.props;
         const { loading, error, trigger, tags, config } = this.state;
-        const { match } = this.props;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -79,6 +79,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
                                                 tags={tags || []}
                                                 remoteAllowed={config.remoteAllowed}
                                                 onChange={update => this.handleChange(update)}
+                                                validateTriggerTarget={moiraApi.checkTriggerTarget}
                                             />
                                         )}
                                     </ValidationContainer>

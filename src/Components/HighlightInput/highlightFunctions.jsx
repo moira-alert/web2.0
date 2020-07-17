@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import type { TriggerFunctionProblem } from "../../Domain/Trigger";
+import type { TriggerTargetProblem } from "../../Domain/Trigger";
 import type { Token } from "./parser/parseExpression";
 import BracketHighlightToken from "./Tokens/BracketHighlightToken";
 import ErrorToken from "./Tokens/ErrorToken";
@@ -62,22 +62,32 @@ export function highlightTokens(tokens: Token[], caret?: number): ViewToken[] {
 /* eslint-enable no-param-reassign */
 
 export function highlightBadFunction(
-    initProblemTree: TriggerFunctionProblem,
-    initTokens: ViewToken[]
+    initProblemTree: TriggerTargetProblem,
+    initTokens: ViewToken[],
+    container: HTMLElement | null
 ): ReactNode {
     let symbolsOffset = 0;
     let tokens = [...initTokens];
 
-    const getValues = (problemTree: TriggerFunctionProblem) => {
+    const getValues = (problemTree: TriggerTargetProblem) => {
         let name = problemTree.argument;
-        const tokenIndex = tokens.findIndex(token => token.value === name);
+        const tokenIndex = tokens.findIndex(token => {
+            if (token.value === name) {
+                return true;
+            }
+            return token.type === "string" ? token.value.slice(1, -1) === name : false;
+        });
         if (tokenIndex === -1) {
             return null;
         }
         const beforeNameTokens = tokens.slice(0, tokenIndex);
 
         name = problemTree.type ? (
-            <BadFunctionToken message={problemTree.description} type={problemTree.type}>
+            <BadFunctionToken
+                message={problemTree.description}
+                type={problemTree.type}
+                container={container}
+            >
                 {name}
             </BadFunctionToken>
         ) : (
