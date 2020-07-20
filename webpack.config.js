@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
-const supportedLocales = ['en']
+const supportedLocales = ['en'];
 
 module.exports = {
     entry: {
@@ -17,6 +17,18 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.ts(x?)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env', '@babel/preset-react']
+                        }
+                    }
+                ]
+            },
             {
                 test: /\.bundle\.jsx?$/,
                 use: {
@@ -65,7 +77,7 @@ module.exports = {
     },
     resolve: {
         modules: ["node_modules", "local_modules"],
-        extensions: [".js", ".jsx"],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
         alias: process.argv.includes("--mode=development")
             ? {"react-dom": "@hot-loader/react-dom" }
             : undefined
