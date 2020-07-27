@@ -2,13 +2,17 @@
 /* eslint-disable react/jsx-filename-extension, import/no-extraneous-dependencies */
 import React, { useState } from "react";
 import { storiesOf } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import HighlightInput from "../Components/HighlightInput/HighlightInput";
 
 function Container({ defaultValue, children }) {
     const [value, setValue] = useState(defaultValue);
 
-    return <div style={{ margin: "30px" }}>{children(value, setValue)}</div>;
+    return (
+        <div style={{ margin: "30px" }}>
+            <ValidationContainer>{children(value, setValue)}</ValidationContainer>
+        </div>
+    );
 }
 
 storiesOf("HighlightInput", module)
@@ -43,11 +47,15 @@ storiesOf("HighlightInput", module)
         </Container>
     ))
     .add("With syntax fail", () => (
-        <HighlightInput
-            value="func (first, secondFn)"
-            onValueChange={action("onValueChange")}
-            validate={{
-                syntax_ok: false,
-            }}
-        />
+        <Container defaultValue="func (first, secondFn">
+            {(value, setValue) => (
+                <HighlightInput
+                    value={value}
+                    onValueChange={setValue}
+                    validate={{
+                        syntax_ok: false,
+                    }}
+                />
+            )}
+        </Container>
     ));
