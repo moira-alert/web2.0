@@ -3,13 +3,12 @@ import * as React from "react";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import { Input } from "@skbkontur/react-ui/components/Input";
-import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { Link } from "@skbkontur/react-ui/components/Link";
-import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleModeEditor";
 import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import CodeRef from "../CodeRef/CodeRef";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import cn from "./TriggerModeEditor.less";
 
 type TriggerType = "rising" | "falling" | "expression";
@@ -36,7 +35,7 @@ type State = {
     fallingValues: ValueType,
 };
 
-class TriggerModeEditor extends React.Component<Props, State> {
+export default class TriggerModeEditor extends React.Component<Props, State> {
     state: State;
 
     constructor(props: Props) {
@@ -69,7 +68,7 @@ class TriggerModeEditor extends React.Component<Props, State> {
         const { mode, watchFor, risingValues, fallingValues } = this.state;
         const { expression, disableSimpleMode, validateExpression, onChange } = this.props;
         return (
-            <React.Fragment>
+            <>
                 <div className={cn("tabs")}>
                     <Tabs value={mode} onValueChange={this.handleTabChange}>
                         <Tabs.Tab id="simple" style={{ color: disableSimpleMode ? "#888888" : "" }}>
@@ -88,35 +87,32 @@ class TriggerModeEditor extends React.Component<Props, State> {
                     />
                 )}
                 {mode === "advanced" && (
-                    <RowStack gap={2} verticalAlign="baseline" block>
-                        <Fill>
-                            <ValidationWrapperV1
-                                validationInfo={validateExpression(
-                                    expression,
-                                    "Expression can't be empty"
-                                )}
-                                renderMessage={tooltip("right middle")}
-                            >
-                                <Input
-                                    width="100%"
-                                    value={expression}
-                                    onValueChange={value => onChange({ expression: value })}
-                                    placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
-                                />
-                            </ValidationWrapperV1>
-                        </Fill>
-                        <Fit>
-                            <Tooltip
-                                pos="top right"
-                                render={this.tooltipExpressionHelp}
-                                trigger="click"
-                            >
-                                <HelpDotIcon color="#3072c4" />
-                            </Tooltip>
-                        </Fit>
-                    </RowStack>
+                    <div className={cn("advanced")}>
+                        <RowStack verticalAlign="baseline" block>
+                            <Fill>
+                                <ValidationWrapperV1
+                                    validationInfo={validateExpression(
+                                        expression,
+                                        "Expression can't be empty"
+                                    )}
+                                    renderMessage={tooltip("right middle")}
+                                >
+                                    <Input
+                                        width="100%"
+                                        value={expression}
+                                        onValueChange={value => onChange({ expression: value })}
+                                        placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
+                                    />
+                                </ValidationWrapperV1>
+                            </Fill>
+                            <Fit>
+                                &nbsp;
+                                <HelpTooltip>{this.tooltipExpressionHelp()}</HelpTooltip>
+                            </Fit>
+                        </RowStack>
+                    </div>
                 )}
-            </React.Fragment>
+            </>
         );
     }
 
@@ -181,5 +177,3 @@ class TriggerModeEditor extends React.Component<Props, State> {
         </div>
     );
 }
-
-export { TriggerModeEditor as default };

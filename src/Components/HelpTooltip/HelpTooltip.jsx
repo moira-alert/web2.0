@@ -7,13 +7,18 @@ import cn from "./HelpTooltip.less";
 type HelpTooltipProps = {
     children: ReactNode,
     pos: string | undefined,
+    closeButton: boolean | undefined,
 };
 
-export default function HelpTooltip({ children, pos = "bottom left" }: HelpTooltipProps) {
+export default function HelpTooltip({
+    children,
+    pos = "right top",
+    closeButton,
+}: HelpTooltipProps) {
     return (
-        <Tooltip pos={pos} render={() => children} trigger="click">
+        <Tooltip pos={pos} render={() => children} trigger="click" closeButton={closeButton}>
             <span className={cn.icon}>
-                <HelpDotIcon color="#3072c4" />
+                <HelpDotIcon />
             </span>
         </Tooltip>
     );
