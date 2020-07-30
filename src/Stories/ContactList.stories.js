@@ -47,4 +47,17 @@ storiesOf("ContactList", module)
                 },
             ]}
         />
+    ))
+    .add("invalid item", () => (
+        <ContactList
+            {...commonProps}
+            items={[
+                {
+                    id: "1",
+                    type: "icq",
+                    user: "1",
+                    value: "223344",
+                },
+            ]}
+        />
     ));
