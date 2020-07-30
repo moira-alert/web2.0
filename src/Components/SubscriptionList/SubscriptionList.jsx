@@ -12,6 +12,7 @@ import ContactInfo from "../ContactInfo/ContactInfo";
 import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
 import CreateSubscriptionModal from "../CreateSubscriptionModal/CreateSubscriptionModal";
 import type { SubscriptionInfo } from "../SubscriptionEditor/SubscriptionEditor";
+import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import cn from "./SubscriptionList.less";
 
 export type { SubscriptionInfo };
@@ -41,7 +42,20 @@ export default class SubscriptionList extends React.Component<Props, State> {
         newSubscription: null,
         subscriptionEditModalVisible: false,
         subscriptionToEdit: null,
+        filteredTags: [],
+        filteredSubscription: [],
+        subscriptionTags: [],
     };
+
+    componentDidMount() {
+        const { subscriptions } = this.props;
+        this.setState({
+            filteredSubscription: subscriptions,
+            subscriptionTags: subscriptions
+                .map(i => [...i.tags])
+                .reduce((current, result) => [...new Set([...current, ...result])]),
+        });
+    }
 
     render(): React.Element<any> {
         const { tags, contacts, subscriptions } = this.props;
@@ -50,21 +64,16 @@ export default class SubscriptionList extends React.Component<Props, State> {
             newSubscription,
             subscriptionEditModalVisible,
             subscriptionToEdit,
+            filteredSubscription,
+            filteredTags,
+            subscriptionTags,
         } = this.state;
+
         return (
             <div>
                 {subscriptions.length > 0 ? (
                     <div>
                         <h3 className={cn("header")}>Subscriptions</h3>
-                        <div className={cn("items-container")}>
-                            <table className={cn("items")}>
-                                <tbody>
-                                    {subscriptions.map(subscription =>
-                                        this.renderSubscriptionRow(subscription)
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
                         <div className={cn("actions-block")}>
                             <Button
                                 use="primary"
@@ -73,6 +82,20 @@ export default class SubscriptionList extends React.Component<Props, State> {
                             >
                                 Add subscription
                             </Button>
+                        </div>
+                        <TagDropdownSelect
+                            value={filteredTags}
+                            availableTags={subscriptionTags}
+                            onChange={this.handleFilteredSubscription}
+                        />
+                        <div className={cn("items-container")}>
+                            <table className={cn("items")}>
+                                <tbody>
+                                    {filteredSubscription.map(subscription =>
+                                        this.renderSubscriptionRow(subscription)
+                                    )}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 ) : (
@@ -110,6 +133,20 @@ export default class SubscriptionList extends React.Component<Props, State> {
             </div>
         );
     }
+
+    handleFilteredSubscription = (tags: Array<string>) => {
+        const { subscriptions } = this.props;
+        const filteredSubscription = subscriptions.filter(
+            subscription => tags.filter(x => subscription.tags.includes(x)).length === tags.length
+        );
+        this.setState({
+            filteredTags: tags,
+            filteredSubscription,
+            subscriptionTags: filteredSubscription
+                .map(i => [...i.tags])
+                .reduce((current, result) => [...new Set([...current, ...result])]),
+        });
+    };
 
     handleEditSubscription = (subscription: Subscription) => {
         this.setState({
