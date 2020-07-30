@@ -66,5 +66,5 @@
     "skipLibCheck": true,                     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
-  "files": ["./src/types/less-modules.d.ts"]
+  "includes": ["./src/types/less-modules.d.ts"]
 }
