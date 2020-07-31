@@ -2,8 +2,6 @@
 import * as React from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
-import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
-import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
 import type { Contact } from "../../Domain/Contact";
 import type { Schedule } from "../../Domain/Schedule";
@@ -11,6 +9,7 @@ import ContactSelect from "../ContactSelect/ContactSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import CodeRef from "../CodeRef/CodeRef";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import cn from "./SubscriptionEditor.less";
 
 export type SubscriptionInfo = {
@@ -19,7 +18,7 @@ export type SubscriptionInfo = {
     throttling: boolean,
     contacts: Array<string>,
     enabled: boolean,
-    any_tags: boolean,
+    any_tags?: boolean,
     ignore_warnings: boolean,
     ignore_recoverings: boolean,
     plotting?: {
@@ -61,14 +60,10 @@ export default class SubscriptionEditor extends React.Component<Props> {
                 <div className={cn("row")}>
                     <div className={cn("caption")}>
                         Tags:{" "}
-                        <Tooltip
-                            trigger="click"
-                            render={this.renderTagsExplanation}
-                            closeButton={false}
-                            pos="right middle"
-                        >
-                            <HelpDotIcon color="#3072c4" />
-                        </Tooltip>
+                        <HelpTooltip closeButton={false}>
+                            Notification will be sent if trigger contains <strong>ALL</strong> of
+                            selected tags.
+                        </HelpTooltip>
                     </div>
                     <div className={cn("value", "with-input")}>
                         <ValidationWrapperV1
@@ -119,14 +114,9 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     >
                         Throttle messages
                     </Checkbox>{" "}
-                    <Tooltip
-                        trigger="click"
-                        render={this.renderThrottlingExplanation}
-                        closeButton={false}
-                        pos="right middle"
-                    >
-                        <HelpDotIcon color="#3072c4" />
-                    </Tooltip>
+                    <HelpTooltip closeButton={false}>
+                        If trigger emit to many events they will be grouped into single message.
+                    </HelpTooltip>
                 </div>
                 <div className={cn("row")}>
                     <Checkbox
@@ -135,14 +125,9 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     >
                         Send notifications when triggers degraded only
                     </Checkbox>{" "}
-                    <Tooltip
-                        trigger="click"
-                        render={this.renderDegradationExplanation}
-                        closeButton={false}
-                        pos="right middle"
-                    >
-                        <HelpDotIcon color="#3072c4" />
-                    </Tooltip>
+                    <HelpTooltip closeButton={false}>
+                        {this.renderDegradationExplanation()}
+                    </HelpTooltip>
                 </div>
                 <div className={cn("row")}>
                     <Checkbox
@@ -151,14 +136,9 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     >
                         Do not send <CodeRef>WARN</CodeRef> notifications
                     </Checkbox>{" "}
-                    <Tooltip
-                        trigger="click"
-                        render={this.renderWarnExclusionExplanation}
-                        closeButton={false}
-                        pos="right middle"
-                    >
-                        <HelpDotIcon color="#3072c4" />
-                    </Tooltip>
+                    <HelpTooltip closeButton={false}>
+                        {this.renderWarnExclusionExplanation()}
+                    </HelpTooltip>
                 </div>
                 <div className={cn("row")}>
                     <Checkbox
@@ -207,16 +187,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
             </div>
         );
     }
-
-    renderThrottlingExplanation = () => (
-        <span>If trigger emit to many events they will be grouped into single message.</span>
-    );
-
-    renderTagsExplanation = () => (
-        <span>
-            Notification will be sent if trigger contains <strong>ALL</strong> of selected tags.
-        </span>
-    );
 
     renderDegradationExplanation = () => (
         <div>

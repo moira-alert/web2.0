@@ -7,7 +7,11 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import TriggerModeEditor from "../Components/TriggerModeEditor/TriggerModeEditor";
 
 storiesOf("TriggerModeEditor", module)
-    .addDecorator(story => <ValidationContainer>{story()}</ValidationContainer>)
+    .addDecorator(story => (
+        <div style={{ maxWidth: "650px" }}>
+            <ValidationContainer>{story()}</ValidationContainer>
+        </div>
+    ))
     .add("rising", () => (
         <TriggerModeEditor
             triggerType="rising"

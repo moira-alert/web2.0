@@ -15,7 +15,7 @@ function getUTCDate() {
     );
 }
 
-function humanizeDuration(unixTimestamp) {
+function humanizeDuration(unixTimestamp: number) {
     return formatDistance(0, unixTimestamp * 1000);
 }
 

@@ -19,6 +19,9 @@ export type Trigger = {
     trigger_type: "rising" | "falling" | "expression",
     warn_value: number | null,
     error_value: number | null,
+    highlights?: {|
+        name: string,
+    |},
     last_check?: {|
         state: Status,
         timestamp: number,
@@ -26,6 +29,7 @@ export type Trigger = {
         event_timestamp?: number,
         score: number,
         msg?: string,
+        maintenance?: number,
     |},
     timestamp?: number,
     is_remote: boolean,
@@ -44,7 +48,7 @@ export type TriggerState = {|
     maintenance: ?number,
     maintenanceInfo?: {
         setup_user: ?string,
-        setup_time: ?number,
+        setup_time: number,
     },
     metrics: MetricList,
     timestamp: number,

@@ -30,12 +30,12 @@ const md = new Remarkable({ breaks: true });
 type Props = {|
     data: Trigger,
     triggerState: TriggerState,
-    supportEmail: string,
+    supportEmail?: string,
     onThrottlingRemove: (triggerId: string) => void,
     onSetMaintenance: (maintenance: Maintenance) => void,
 |};
 
-function maintenanceDelta(maintenance: ?number): React.Node {
+function maintenanceDelta(maintenance: ?number): number {
     return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
@@ -95,12 +95,7 @@ export default function TriggerInfo({
         throttling,
         is_remote: isRemote,
     } = data;
-    const {
-        state,
-        msg: exceptionMessage,
-        maintenance,
-        maintenance_info: maintenanceInfo,
-    } = triggerState;
+    const { state, msg: exceptionMessage, maintenance, maintenanceInfo } = triggerState;
 
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
@@ -226,7 +221,7 @@ export default function TriggerInfo({
                                 trigger edit page
                             </RouterLink>
                             .
-                            {supportEmail != null && (
+                            {supportEmail && (
                                 <span>
                                     {" "}
                                     Or <Link href={`mailto:${supportEmail}`}>contact</Link> with

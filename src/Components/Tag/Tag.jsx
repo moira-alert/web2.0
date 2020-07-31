@@ -8,7 +8,7 @@ type Props = {|
     title: string,
     focus?: boolean,
     onClick?: () => void,
-    onRemove?: () => void,
+    onRemove?: string => void,
 |};
 
 type ColorTheme = {|

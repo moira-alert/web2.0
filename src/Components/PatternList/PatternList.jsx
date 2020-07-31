@@ -16,7 +16,7 @@ type Props = {|
     onRemove: (pattern: string) => void,
     sortingColumn: SortingColumn,
     sortingDown?: boolean,
-    onSort?: (sorting: sortingColumn) => void,
+    onSort?: (sorting: SortingColumn) => void,
 |};
 
 export default function PatternList(props: Props): React.Node {

@@ -471,6 +471,11 @@ const story = storiesOf("TriggerListItem", module)
     });
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
-        <TriggerListItem data={data} onChange={action("onChange")} onRemove={action("onRemove")} />
+        <TriggerListItem
+            searchMode={false}
+            data={data}
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
     ));
 });

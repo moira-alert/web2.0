@@ -25,6 +25,9 @@ class PatternListContainer extends React.Component<Props, State> {
         this.state = {
             sortingColumn: "trigger",
             sortingDown: false,
+            loading: false,
+            error: null,
+            list: null,
         };
     }
 

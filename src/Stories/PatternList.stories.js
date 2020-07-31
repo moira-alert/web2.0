@@ -105,4 +105,6 @@ const items = [
 
 storiesOf("PatternList", module)
     .addDecorator(StoryRouter())
-    .add("Default", () => <PatternList items={items} onRemove={action("onRemove")} />);
+    .add("Default", () => (
+        <PatternList items={items} onRemove={action("onRemove")} sortingColumn="metric" />
+    ));

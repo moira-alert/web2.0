@@ -8,7 +8,7 @@ import cn from "./TriggerList.less";
 type Props = {|
     items: Array<Trigger>,
     searchMode: boolean,
-    onChange?: (triggerId: string, maintenance: Maintenance, metric: string) => void,
+    onChange?: (triggerId: string, metric: string, maintenance: Maintenance) => void,
     onRemove?: (triggerId: string, metric: string) => void,
 |};
 

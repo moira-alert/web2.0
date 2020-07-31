@@ -1,12 +1,11 @@
 // @flow
 import * as React from "react";
-import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
-import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
-import cn from "./ScheduleEdit.less";
 import type { Schedule } from "../../Domain/Schedule";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import cn from "./ScheduleEdit.less";
 
 type Props = {
     schedule: Schedule,
@@ -47,20 +46,6 @@ export default class ScheduleEdit extends React.Component<Props, State> {
         const parsedHours = parseInt(hours, 10) < HOUR_IN_DAY ? parseInt(hours, 10) : 0;
         const parsedMinutes = parseInt(minutes, 10) < MIN_IN_HOUR ? parseInt(minutes, 10) : 0;
         return parsedHours * MIN_IN_HOUR + parsedMinutes;
-    }
-
-    static renderTimeRangeHelp() {
-        return (
-            <div>
-                <div className={cn("time-range-description-title")}>
-                    Either negative and positive intervals are allowed.
-                </div>
-                <div>
-                    For example: 23:00 - 06:00 specifies interval between 23:00 <br />
-                    of the current day to the 06:00 of the next day.
-                </div>
-            </div>
-        );
     }
 
     render(): React.Node {
@@ -137,13 +122,15 @@ export default class ScheduleEdit extends React.Component<Props, State> {
                                 onChange({ ...schedule, endOffset: ScheduleEdit.parseTime(value) })
                             }
                         />
-                        <Tooltip
-                            pos="top right"
-                            render={ScheduleEdit.renderTimeRangeHelp}
-                            trigger="click"
-                        >
-                            <HelpDotIcon color="#3072c4" />
-                        </Tooltip>
+                        <HelpTooltip>
+                            <div className={cn("time-range-description-title")}>
+                                Either negative and positive intervals are allowed.
+                            </div>
+                            <div>
+                                For example: 23:00 - 06:00 specifies interval between 23:00 <br />
+                                of the current day to the 06:00 of the next day.
+                            </div>
+                        </HelpTooltip>
                     </span>
                 </div>
             </div>
