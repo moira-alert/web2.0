@@ -18,15 +18,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts(x?)$/,
-                exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'babel-loader'
-                    }
-                ]
-            },
-            {
                 test: /\.bundle\.jsx?$/,
                 use: {
                     loader: "bundle-loader",
@@ -37,7 +28,7 @@ module.exports = {
                 },
             },
             {
-                test: /\.jsx?$/,
+                test: [/\.jsx?$/, /\.tsx?$/],
                 use: ["babel-loader"],
                 exclude: /node_modules/,
                 include: [
@@ -82,7 +73,7 @@ module.exports = {
     devtool: "cheap-source-map",
     plugins: [
         new ContextReplacementPlugin(
-            /date\-fns[\/\\]/,
+            /date-fns[\/\\]/,
             new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
         ),
         new HtmlWebpackPlugin({
