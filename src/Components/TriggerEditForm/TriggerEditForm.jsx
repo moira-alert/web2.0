@@ -16,7 +16,7 @@ import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
-import type { Trigger, TriggerTargetCheck } from "../../Domain/Trigger";
+import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
@@ -470,16 +470,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
         this.setState({ targetsValidate });
     };
-
-    renderNewMetricsAlertingHelp = () => (
-        <div className={cn("new-metrics-help")}>
-            <p>If disabled, Moira will notify you about new metrics.</p>
-            <p>
-                In this case when you start sending new metric you will receive{" "}
-                <CodeRef>NODATA</CodeRef> - <CodeRef>OK</CodeRef> notification.
-            </p>
-        </div>
-    );
 }
 
 type FormProps = {
