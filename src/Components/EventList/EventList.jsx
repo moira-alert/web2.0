@@ -4,7 +4,7 @@ import { format, fromUnixTime } from "date-fns";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import type { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import roundValue from "../../helpers/roundValue";
+import MetricValues from "../MetricValues/MetricValues";
 import cn from "./EventList.less";
 
 type Props = {|
@@ -24,34 +24,45 @@ export default function EventList(props: Props): React.Node {
             </div>
             {Object.keys(items).map(key => (
                 <div key={key} className={cn("group")}>
-                    {items[key].map(({ old_state: oldState, state, timestamp, value }, i) => {
-                        const oldValue = items[key][i + 1] && items[key][i + 1].value;
-                        return (
-                            <div key={`${key}-${timestamp}`} className={cn("row")}>
-                                <div className={cn("name")}>{i === 0 && key}</div>
-                                <div className={cn("state-change")}>
-                                    <div className={cn("prev-value")}>
-                                        {roundValue(oldValue, false)}
+                    {items[key].map(
+                        ({ old_state: oldState, state, timestamp, value, values }, i) => {
+                            const oldValue = items[key][i + 1] && items[key][i + 1].value;
+                            const oldValues = items[key][i + 1] && items[key][i + 1].values;
+                            return (
+                                <div key={`${key}-${timestamp}`} className={cn("row")}>
+                                    <div className={cn("name")}>{i === 0 && key}</div>
+                                    <div className={cn("state-change")}>
+                                        <div className={cn("prev-value")}>
+                                            <MetricValues
+                                                value={oldValue}
+                                                values={oldValues}
+                                                placeholder={false}
+                                            />
+                                        </div>
+                                        <div className={cn("prev-state")}>
+                                            <StatusIndicator statuses={[oldState]} size={14} />
+                                        </div>
+                                        <div className={cn("arrow")}>
+                                            <ArrowBoldRightIcon />
+                                        </div>
+                                        <div className={cn("curr-state")}>
+                                            <StatusIndicator statuses={[state]} size={14} />
+                                        </div>
+                                        <div className={cn("curr-value")}>
+                                            <MetricValues
+                                                value={value}
+                                                values={values}
+                                                placeholder={false}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className={cn("prev-state")}>
-                                        <StatusIndicator statuses={[oldState]} size={14} />
-                                    </div>
-                                    <div className={cn("arrow")}>
-                                        <ArrowBoldRightIcon />
-                                    </div>
-                                    <div className={cn("curr-state")}>
-                                        <StatusIndicator statuses={[state]} size={14} />
-                                    </div>
-                                    <div className={cn("curr-value")}>
-                                        {roundValue(value, false)}
+                                    <div className={cn("date")}>
+                                        {format(fromUnixTime(timestamp), "MMMM d, HH:mm:ss")}
                                     </div>
                                 </div>
-                                <div className={cn("date")}>
-                                    {format(fromUnixTime(timestamp), "MMMM d, HH:mm:ss")}
-                                </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        }
+                    )}
                 </div>
             ))}
         </section>

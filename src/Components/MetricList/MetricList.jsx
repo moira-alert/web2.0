@@ -11,9 +11,9 @@ import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import type { Maintenance } from "../../Domain/Maintenance";
 import type { Metric } from "../../Domain/Metric";
-import roundValue from "../../helpers/roundValue";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
+import MetricValues from "../MetricValues/MetricValues";
 import cn from "./MetricList.less";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 
@@ -55,6 +55,10 @@ export default function MetricList(props: Props): React.Node {
     } = props;
 
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+    const hideTargetsNames = Object.keys(items).every(metric => {
+        const { values } = items[metric];
+        return !values || Object.keys(values).length === 1;
+    });
 
     return (
         <section className={cn("table")}>
@@ -116,6 +120,7 @@ export default function MetricList(props: Props): React.Node {
                 {Object.keys(items).map(metric => {
                     const {
                         value,
+                        values,
                         event_timestamp: eventTimestamp = 0,
                         state,
                         maintenance,
@@ -133,7 +138,14 @@ export default function MetricList(props: Props): React.Node {
                             <div className={cn("event")}>
                                 {format(fromUnixTime(eventTimestamp), "MMMM d, HH:mm:ss")}
                             </div>
-                            <div className={cn("value")}>{roundValue(value)}</div>
+                            <div className={cn("value")}>
+                                <MetricValues
+                                    value={value}
+                                    values={values}
+                                    placeholder
+                                    hideTargetsNames={hideTargetsNames}
+                                />
+                            </div>
                             <div className={cn("maintenance")}>
                                 <Dropdown use="link" caption={maintenanceCaption(delta)}>
                                     {Object.keys(Maintenances).map(key => (

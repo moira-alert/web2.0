@@ -33,6 +33,7 @@ export type Trigger = {
     |},
     timestamp?: number,
     is_remote: boolean,
+    alone_metrics?: { [target_id: string]: boolean },
     mute_new_metrics: boolean,
 };
 
