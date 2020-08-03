@@ -47,7 +47,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         };
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
         const { data } = this.props;
         if (data !== nextProps.data) {
             this.setState({
@@ -146,9 +146,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
     }
 
-    filterMetricsByStatus(status: Status): { [metric: string]: Metric } {
-        const { groupedMetrics } = this.state;
-        return groupedMetrics[status] || {};
+    getHasExceptionState(): boolean {
+        const { data } = this.props;
+        const { state: triggerStatus } = data.last_check || {};
+        return triggerStatus === Statuses.EXCEPTION;
     }
 
     toggleMetrics() {
@@ -156,10 +157,9 @@ export default class TriggerListItem extends React.Component<Props, State> {
         this.setState({ showMetrics: !showMetrics });
     }
 
-    getHasExceptionState(): boolean {
-        const { data } = this.props;
-        const { state: triggerStatus } = data.last_check || {};
-        return triggerStatus === Statuses.EXCEPTION;
+    filterMetricsByStatus(status: Status): { [metric: string]: Metric } {
+        const { groupedMetrics } = this.state;
+        return groupedMetrics[status] || {};
     }
 
     renderCounters(): React.Node {

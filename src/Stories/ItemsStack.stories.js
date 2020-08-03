@@ -30,9 +30,7 @@ storiesOf("ItemsStack", module)
                 <Outline>Fill Item</Outline>
             </Fill>
             <Fixed width={70}>
-                <Outline>
-                    Item with fixed width and long, long word {'"'}Eyjafjallajökull{'"'}
-                </Outline>
+                <Outline>Item with fixed width and long, long word "Eyjafjallajökull"</Outline>
             </Fixed>
         </RowStack>
     ))

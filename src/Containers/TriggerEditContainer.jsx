@@ -45,7 +45,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
         this.setState({ loading: true });
         this.getData(nextProps);
     }

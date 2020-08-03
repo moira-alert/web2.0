@@ -36,13 +36,11 @@ type State = {
 };
 
 export default class TriggerModeEditor extends React.Component<Props, State> {
-    state: State;
-
-    constructor(props: Props) {
-        super(props);
+    static getDerivedStateFromProps(props: Props) {
         const modeType = TriggerModeEditor.getModeType(props.triggerType);
         const watchForType = TriggerModeEditor.getWatchForType(props.triggerType);
-        this.state = {
+
+        return {
             mode: modeType,
             watchFor: watchForType,
             risingValues:
@@ -50,10 +48,6 @@ export default class TriggerModeEditor extends React.Component<Props, State> {
             fallingValues:
                 watchForType === "falling" ? props.value : { warn_value: null, error_value: null },
         };
-    }
-
-    static getDerivedStateFromProps(props: Props) {
-        return props.triggerType === "expression" ? { mode: "advanced" } : null;
     }
 
     static getWatchForType(type: string): WatchForType {
@@ -67,6 +61,7 @@ export default class TriggerModeEditor extends React.Component<Props, State> {
     render() {
         const { mode, watchFor, risingValues, fallingValues } = this.state;
         const { expression, disableSimpleMode, validateExpression, onChange } = this.props;
+
         return (
             <>
                 <div className={cn("tabs")}>
@@ -121,7 +116,6 @@ export default class TriggerModeEditor extends React.Component<Props, State> {
         const { disableSimpleMode, onChange } = this.props;
         if (!disableSimpleMode) {
             const triggerType = value === "advanced" ? "expression" : watchFor;
-            this.setState({ mode: value });
             onChange({ trigger_type: triggerType });
         }
     };

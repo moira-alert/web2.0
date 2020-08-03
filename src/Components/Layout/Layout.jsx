@@ -23,8 +23,6 @@ type PagingProps = $Exact<{
 }>;
 
 export default class Layout extends React.Component<LayoutProps> {
-    props: LayoutProps;
-
     static Plate = function Plate({ children }: PlateProps): React.Node {
         return (
             <div className={cn("grey-plate")}>

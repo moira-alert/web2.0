@@ -44,13 +44,13 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
         this.setState({ loading: true });
         this.getData(nextProps);
     }
 
     static cleanTrigger(sourceTrigger: Trigger): Trigger {
-        const trigger = Object.assign({}, sourceTrigger);
+        const trigger = { ...sourceTrigger };
         delete trigger.id;
         delete trigger.last_check;
         delete trigger.throttling;

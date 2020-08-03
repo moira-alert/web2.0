@@ -25,10 +25,6 @@ type State = {
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
-    props: Props;
-
-    state: State;
-
     constructor(props: Props) {
         super(props);
         this.state = {

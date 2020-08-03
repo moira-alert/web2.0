@@ -11,14 +11,14 @@ function SelectorResultsView({
     onSelect: (token: string) => void,
 }): React.Node {
     return (
-        <React.Fragment>
+        <>
             {tokens.length === 0 ? (
                 <p className={cn("help-search")}>
                     There are no tags for your request. Press{" "}
                     <span className={cn("keyboard-key")}>Enter</span> for full text search
                 </p>
             ) : (
-                <React.Fragment>
+                <>
                     <p className={cn("help-search")}>
                         Press <span className={cn("keyboard-key")}>Enter</span> for full text search
                         or select a tag from list with mouse click
@@ -32,9 +32,9 @@ function SelectorResultsView({
                             </li>
                         ))}
                     </ul>
-                </React.Fragment>
+                </>
             )}
-        </React.Fragment>
+        </>
     );
 }
 

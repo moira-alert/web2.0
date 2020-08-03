@@ -36,7 +36,7 @@ class PatternListContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
         this.getData(nextProps);
     }
 

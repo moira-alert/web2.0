@@ -68,8 +68,6 @@ type ItemState = {
 };
 
 class PatternListItem extends React.Component<ItemProps, ItemState> {
-    props: ItemProps;
-
     state: ItemState = {
         showInfo: false,
     };
