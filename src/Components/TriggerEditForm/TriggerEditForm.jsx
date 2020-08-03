@@ -15,6 +15,7 @@ import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { Toast } from "@skbkontur/react-ui/components/Toast";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
@@ -37,29 +38,28 @@ const md = new Remarkable({ breaks: true });
 type Props = {|
     data: $Shape<Trigger>,
     tags: Array<string>,
-    onChange: ($Shape<Trigger>) => void,
-    validateTriggerTargets: (remote: boolean, targets: string[]) => Promise<TriggerTargetsCheck>,
+    onChange: ($Shape<Trigger>, callback?: () => void) => void,
+    validateTrigger: (trigger: $Shape<Trigger>) => Promise<ValidateTriggerResult>,
     remoteAllowed: ?boolean,
 |};
 
 type State = {
     descriptionMode: "edit" | "preview",
-    targetsValidate: {
-        [key: string]: {
-            result?: TriggerTargetsCheck,
-            isRequested?: boolean,
-        },
-    },
+    validationResult: ValidateTriggerResult,
 };
 
 function getAsyncValidator() {
-    const storage = {};
-    return async (id: string, condition: Promise<object>, callback: object => void) => {
-        storage[id] = condition;
+    let storage;
+    return async (condition: Promise<object>, callback: object => void) => {
+        storage = condition;
+        try {
+            const result = await condition;
 
-        const result = await condition;
-        if (storage[id] === condition) {
-            callback(result);
+            if (storage === condition) {
+                callback(result);
+            }
+        } catch (e) {
+            Toast.push(e.toString());
         }
     };
 }
@@ -73,13 +73,12 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         super(props);
         this.state = {
             descriptionMode: "edit",
-            targetsValidate: {},
+            validationResult: {},
         };
     }
 
     async componentDidMount() {
-        const { data } = this.props;
-        await this.validateTargets(data.is_remote);
+        await this.validateTrigger();
     }
 
     static validateRequiredString(value: string, message?: string): ?ValidationInfo {
@@ -119,7 +118,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { descriptionMode, targetsValidate } = this.state;
+        const { descriptionMode, validationResult } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -191,9 +190,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                         width="100%"
                                         value={x}
                                         onValueChange={value => this.handleUpdateTarget(i, value)}
-                                        validate={targetsValidate[i] && targetsValidate[i].result}
-                                        validateRequested={
-                                            targetsValidate[i] && targetsValidate[i].isRequested
+                                        validate={
+                                            validationResult.targets && validationResult.targets[i]
                                         }
                                     />
                                 </Fill>
@@ -319,8 +317,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             }
                             onValueChange={value => {
                                 const nextIsRemote = value !== TriggerDataSources.LOCAL;
-                                onChange({ is_remote: nextIsRemote });
-                                this.validateTargets(nextIsRemote);
+                                onChange({ is_remote: nextIsRemote }, this.validateTrigger);
                             }}
                         >
                             <Gapped vertical gap={10}>
@@ -339,23 +336,28 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         );
     }
 
-    handleUpdateTarget(targetIndex: number, value: string) {
+    handleUpdateTarget = async (targetIndex: number, value: string) => {
         const { onChange, data } = this.props;
         const { targets } = data;
 
-        onChange({
-            targets: [...targets.slice(0, targetIndex), value, ...targets.slice(targetIndex + 1)],
-        });
-
-        this.validateTarget(targetIndex, value);
-    }
+        onChange(
+            {
+                targets: [
+                    ...targets.slice(0, targetIndex),
+                    value,
+                    ...targets.slice(targetIndex + 1),
+                ],
+            },
+            this.debouncedValidateTrigger
+        );
+    };
 
     handleUpdateAloneMetrics(targetIndex: number, value: boolean) {
         const { onChange, data } = this.props;
         let { alone_metrics: aloneMetrics } = data;
         const target = `t${targetIndex + 1}`;
 
-        if (aloneMetrics === undefined || aloneMetrics === null) {
+        if (aloneMetrics == null) {
             aloneMetrics = {};
         }
 
@@ -389,10 +391,13 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             }
         }
 
-        onChange({
-            targets: [...targets.slice(0, targetIndex), ...targets.slice(targetIndex + 1)],
-            alone_metrics: newAloneMetrics,
-        });
+        onChange(
+            {
+                targets: [...targets.slice(0, targetIndex), ...targets.slice(targetIndex + 1)],
+                alone_metrics: newAloneMetrics,
+            },
+            this.validateTrigger
+        );
     }
 
     handleAddTarget() {
@@ -407,69 +412,15 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     asyncValidator = getAsyncValidator();
 
-    validateTarget = (targetIndex: number, value: string) => {
-        const { targetsValidate } = this.state;
-        const targetValidate = targetsValidate[targetIndex];
+    validateTrigger = () => {
+        const { validateTrigger, data } = this.props;
 
-        this.setState({
-            targetsValidate: {
-                ...targetsValidate,
-                [targetIndex]: {
-                    result: targetValidate && targetValidate.result,
-                    isRequested: true,
-                },
-            },
+        this.asyncValidator(validateTrigger(data), validationResult => {
+            this.setState({ validationResult });
         });
-
-        this.requestValidateTarget(targetIndex, value);
     };
 
-    requestValidateTarget = debounce(async (targetIndex: number, value: string) => {
-        const { validateTriggerTargets, data } = this.props;
-        const { targetsValidate } = this.state;
-        const target = data.targets[targetIndex];
-
-        const validation =
-            value.trim().length === 0
-                ? Promise.resolve(undefined)
-                : validateTriggerTargets(data.is_remote, [target]);
-
-        this.asyncValidator(target, validation, results => {
-            this.setState({
-                targetsValidate: {
-                    ...targetsValidate,
-                    [targetIndex]: {
-                        result: results[0],
-                        isRequested: false,
-                    },
-                },
-            });
-        });
-    }, 500);
-
-    validateTargets = async (isRemote: boolean) => {
-        const { validateTriggerTargets, data } = this.props;
-
-        const withValueTargets = data.targets.reduce(
-            (result, value, index) => (value.trim().length === 0 ? result : [...result, index]),
-            []
-        );
-        if (withValueTargets.length === 0) {
-            return;
-        }
-
-        const targetsValidateResponse = await validateTriggerTargets(
-            isRemote,
-            withValueTargets.map(index => data.targets[index])
-        );
-
-        const targetsValidate = [];
-        withValueTargets.forEach((targetIndex, index) => {
-            targetsValidate[targetIndex] = { result: targetsValidateResponse[index] };
-        });
-
-        this.setState({ targetsValidate });
-    };
+    debouncedValidateTrigger = debounce(this.validateTrigger, 100);
 }
 
 type FormProps = {

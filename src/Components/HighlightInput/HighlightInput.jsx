@@ -14,7 +14,6 @@ type HighlightInputProps = {
     value: string,
     width?: string,
     validate?: TriggerTargetsCheck,
-    validateRequested?: boolean,
 };
 
 type FunctionTree = {
@@ -71,17 +70,17 @@ function validateInput(value: string, error?: string, warning?: string): ?Valida
 }
 
 export default function HighlightInput(props: HighlightInputProps) {
-    const { value, onValueChange, validate, validateRequested, width } = props;
+    const { value, onValueChange, validate, width } = props;
     const [scrollLeft, setScrollLeft] = useState<number>(0);
     const [caret, setCaret] = useState<number | undefined>(undefined);
     const inputEl = useRef<Input>(null);
     const containerEl = useRef<HTMLElement>(null);
 
-    const [validationView, setValidationView] = useState<boolean>(false);
-    const handleInputBlur = () => setValidationView(true);
+    const [changed, setChanged] = useState<boolean>(false);
+    const handleInputBlur = () => setChanged(false);
 
     const handleValueChange = (changedValue: string) => {
-        setValidationView(false);
+        setChanged(true);
         onValueChange(changedValue);
     };
 
@@ -108,7 +107,7 @@ export default function HighlightInput(props: HighlightInputProps) {
                     validate.tree_of_problems
                 ));
             }
-        } else {
+        } else if (value.trim().length !== 0) {
             errorMessage = "Syntax error";
         }
     }
@@ -178,13 +177,7 @@ export default function HighlightInput(props: HighlightInputProps) {
                     <span style={{ marginLeft: `-${scrollLeft}px` }}>{highlightText}</span>
                 </span>
             </div>
-            {
-                <ErrorMessage
-                    error={errorMessage}
-                    warning={warningMessage}
-                    view={validationView && !validateRequested}
-                />
-            }
+            <ErrorMessage error={errorMessage} warning={warningMessage} view={!changed} />
         </>
     );
 }

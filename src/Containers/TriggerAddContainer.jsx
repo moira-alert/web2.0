@@ -105,10 +105,8 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                                 data={trigger}
                                                 remoteAllowed={config.remoteAllowed}
                                                 tags={tags || []}
-                                                onChange={update => this.handleChange(update)}
-                                                validateTriggerTargets={
-                                                    moiraApi.checkTriggerTargets
-                                                }
+                                                onChange={this.handleChange}
+                                                validateTrigger={moiraApi.validateTrigger}
                                             />
                                         )}
                                     </ValidationContainer>
@@ -172,12 +170,15 @@ class TriggerAddContainer extends React.Component<Props, State> {
         }
     }
 
-    handleChange(update: $Shape<Trigger>) {
-        this.setState((prevState: State) => ({
-            trigger: { ...prevState.trigger, ...update },
-            error: undefined,
-        }));
-    }
+    handleChange = (update: $Shape<Trigger>, callback?: () => void) => {
+        this.setState(
+            (prevState: State) => ({
+                trigger: { ...prevState.trigger, ...update },
+                error: undefined,
+            }),
+            callback
+        );
+    };
 
     handleFileImport = (fileData: string, fileName: string) => {
         try {
