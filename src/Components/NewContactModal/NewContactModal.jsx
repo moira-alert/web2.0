@@ -1,12 +1,15 @@
 // @flow
 import * as React from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
-import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
+import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import type { ContactConfig } from "../../Domain/Config";
 import type { Contact } from "../../Domain/Contact";
+import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
+import FileLoader from "../FileLoader/FileLoader";
+import ModalError from "../ModalError/ModalError";
 
 type Props = {|
     contactDescriptions: Array<ContactConfig>,
@@ -20,6 +23,7 @@ type Props = {|
 type State = {
     createInProcess: boolean,
     createAndTestInProcess: boolean,
+    error?: string,
 };
 
 export default class NewContactModal extends React.Component<Props, State> {
@@ -37,8 +41,8 @@ export default class NewContactModal extends React.Component<Props, State> {
     }
 
     render(): React.Node {
-        const { onChange, onCancel, contactInfo, contactDescriptions } = this.props;
-        const { createInProcess, createAndTestInProcess } = this.state;
+        const { onCancel, contactInfo, contactDescriptions } = this.props;
+        const { createInProcess, createAndTestInProcess, error } = this.state;
         const { value, type } = contactInfo || {};
         const idActionButtonsDisabled =
             !value || !type || createInProcess || createAndTestInProcess;
@@ -51,12 +55,13 @@ export default class NewContactModal extends React.Component<Props, State> {
                         <ContactEditForm
                             contactDescriptions={contactDescriptions}
                             contactInfo={contactInfo}
-                            onChange={onChange}
+                            onChange={this.handleChange}
                         />
                     </ValidationContainer>
                 </Modal.Body>
                 <Modal.Footer panel sticky>
-                    <Gapped gap={10}>
+                    <ModalError message={error} maxWidth="450px" />
+                    <RowStack gap={2} block baseline>
                         <Button
                             use="primary"
                             loading={createInProcess}
@@ -76,11 +81,19 @@ export default class NewContactModal extends React.Component<Props, State> {
                         >
                             Add and test
                         </Button>
-                    </Gapped>
+                        <Fill />
+                        <FileLoader onLoad={this.handleImport}>Import delivery channel</FileLoader>
+                    </RowStack>
                 </Modal.Footer>
             </Modal>
         );
     }
+
+    handleChange = (contact: $Shape<Contact>) => {
+        const { contactInfo, onChange } = this.props;
+        onChange({ ...contactInfo, ...contact });
+        this.setState({ error: undefined });
+    };
 
     handleCreateContact = async () => {
         if (!(await this.validateForm())) {
@@ -105,6 +118,32 @@ export default class NewContactModal extends React.Component<Props, State> {
             await onCreateAndTest();
         } catch (error) {
             this.setState({ createAndTestInProcess: false });
+        }
+    };
+
+    handleImport = (fileData: string, fileName: string) => {
+        const { contactDescriptions } = this.props;
+        try {
+            const newContact = JSON.parse(fileData);
+
+            if (typeof newContact !== "object" || newContact === null) {
+                throw new Error(`Must be a delivery channel object`);
+            }
+
+            if (contactDescriptions.every(({ type }) => type !== newContact.type)) {
+                throw new Error(
+                    `Type must be one of ${contactDescriptions.map(({ type }) => type).join(", ")}`
+                );
+            }
+            if (typeof newContact.value !== "string") {
+                throw new Error(`Value must be string`);
+            }
+
+            this.handleChange(omitContact(newContact));
+        } catch (e) {
+            this.setState({
+                error: `File ${fileName} cannot be converted to delivery channel. ${e.message}`,
+            });
         }
     };
 

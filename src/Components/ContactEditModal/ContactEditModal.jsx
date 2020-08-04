@@ -1,12 +1,14 @@
 // @flow
 import * as React from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
-import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
+import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import type { ContactConfig } from "../../Domain/Config";
 import type { Contact } from "../../Domain/Contact";
+import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
+import FileExport from "../FileExport/FileExport";
 
 type Props = {|
     contactDescriptions: Array<ContactConfig>,
@@ -57,37 +59,38 @@ export default class ContactEditModal extends React.Component<Props, State> {
                     </ValidationContainer>
                 </Modal.Body>
                 <Modal.Footer panel sticky>
-                    <Gapped gap={10}>
+                    <RowStack gap={2} block baseline>
                         <Button
                             use="primary"
                             disabled={isActionButtonDisabled}
                             loading={updateInProcess}
-                            onClick={() => {
-                                this.handleUpdateContact();
-                            }}
+                            onClick={this.handleUpdateContact}
                         >
                             Save
                         </Button>
                         <Button
                             loading={updateAndTestInProcess}
                             disabled={isActionButtonDisabled}
-                            onClick={() => {
-                                this.handleUpdateAndTestContact();
-                            }}
+                            onClick={this.handleUpdateAndTestContact}
                         >
                             Save and test
                         </Button>
+                        <FileExport
+                            title={`delivery channel ${contactInfo.type} ${contactInfo.value}`}
+                            data={omitContact(contactInfo)}
+                        >
+                            Export
+                        </FileExport>
+                        <Fill />
                         <Button
                             use="danger"
                             loading={deleteInProcess}
                             disabled={isActionButtonDisabled}
-                            onClick={() => {
-                                this.handleDeleteContact();
-                            }}
+                            onClick={this.handleDeleteContact}
                         >
                             Delete
                         </Button>
-                    </Gapped>
+                    </RowStack>
                 </Modal.Footer>
             </Modal>
         );

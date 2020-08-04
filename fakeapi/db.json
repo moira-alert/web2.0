@@ -125,9 +125,16 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": ["devops", "frontend", "backend"],
+                "tags": [
+                    "devops",
+                    "frontend",
+                    "backend"
+                ],
                 "throttling": true,
-                "contacts": ["0000-0000-0000-0000-0001", "0000-0000-0000-0000-0002"],
+                "contacts": [
+                    "0000-0000-0000-0000-0001",
+                    "0000-0000-0000-0000-0002"
+                ],
                 "enabled": false,
                 "user": "testuser",
                 "id": "85b14755-6cbe-429d-860c-21f7c01569c2"
@@ -168,9 +175,14 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": ["errors", "warnings"],
+                "tags": [
+                    "errors",
+                    "warnings"
+                ],
                 "throttling": true,
-                "contacts": ["0000-0000-0000-0000-0001"],
+                "contacts": [
+                    "0000-0000-0000-0000-0001"
+                ],
                 "enabled": true,
                 "user": "testuser",
                 "id": "ad1c71aa-9f8b-4d29-b8ac-cd76c6f7b4c9"
@@ -211,9 +223,17 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": ["critical", "devops", "frontend", "backend", "test"],
+                "tags": [
+                    "critical",
+                    "devops",
+                    "frontend",
+                    "backend",
+                    "test"
+                ],
                 "throttling": false,
-                "contacts": ["0000-0000-0000-0000-0002"],
+                "contacts": [
+                    "0000-0000-0000-0000-0002"
+                ],
                 "enabled": true,
                 "user": "testuser",
                 "id": "b2a37dcf-a347-4128-b53b-c13c5c5f0c08"
@@ -254,9 +274,14 @@
                     "startOffset": 0,
                     "tzOffset": -300
                 },
-                "tags": ["devops", "frontend"],
+                "tags": [
+                    "devops",
+                    "frontend"
+                ],
                 "throttling": false,
-                "contacts": ["0000-0000-0000-0000-0002"],
+                "contacts": [
+                    "0000-0000-0000-0000-0002"
+                ],
                 "enabled": false,
                 "user": "testuser",
                 "id": "9f1ce01c-2de5-4324-b1fb-bc38140e585f"
@@ -271,10 +296,14 @@
             {
                 "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
                 "name": "Элитарный сангвиник в XXI веке",
-                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
+                "targets": [
+                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"
+                ],
                 "warn_value": 11111111111,
                 "error_value": 22222222222,
-                "tags": ["devops"],
+                "tags": [
+                    "devops"
+                ],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "desc": "Развивая эту тему, метафора дает миракль. Ирония образует суггестивный реализм. Возвышенное однократно. Пушкин подарил Гоголю фабулу \"Мертвых душ\" не потому, что одиночество диссонирует невротический этикет.",
@@ -313,7 +342,9 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": ["Egais.Api.Front.Controllers.Time.*.*.*.*.p95"],
+                "patterns": [
+                    "Egais.Api.Front.Controllers.Time.*.*.*.*.p95"
+                ],
                 "trigger_type": "rising",
                 "throttling": 0,
                 "last_check": {
@@ -956,10 +987,14 @@
             {
                 "id": "b562ca35-5f48-40f2-91de-4078a237c227",
                 "name": "Деструктивный импрессионизм — актуальная национальная задача",
-                "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"],
+                "targets": [
+                    "aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.count, 5, 7, 8)"
+                ],
                 "warn_value": 10000,
                 "error_value": 20000,
-                "tags": ["frontend"],
+                "tags": [
+                    "frontend"
+                ],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -997,7 +1032,9 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": ["Egais.Api.Front.Controllers.Time.*.*.*.*.count"],
+                "patterns": [
+                    "Egais.Api.Front.Controllers.Time.*.*.*.*.count"
+                ],
                 "trigger_type": "rising",
                 "throttling": 0,
                 "last_check": {
@@ -1653,10 +1690,15 @@
                 "id": "351de571-015f-40ff-b16e-8ca57585b4e8",
                 "name": "Энергия либидо как лабораторность художественной культуры",
                 "desc": "Драматизм, следовательно, монотонно дает персональный метод кластерного анализа. Экспрессионизм многопланово представляет собой персональный хорал, однако само по себе состояние игры всегда амбивалентно.",
-                "targets": ["aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"],
+                "targets": [
+                    "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"
+                ],
                 "warn_value": 0.001,
                 "error_value": 0,
-                "tags": ["devops", "nodata"],
+                "tags": [
+                    "devops",
+                    "nodata"
+                ],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -1694,7 +1736,9 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": ["DevOps.system.*ditrace*.process.*.uptime"],
+                "patterns": [
+                    "DevOps.system.*ditrace*.process.*.uptime"
+                ],
                 "trigger_type": "falling",
                 "throttling": 0,
                 "last_check": {
@@ -1846,7 +1890,9 @@
                 ],
                 "warn_value": 1,
                 "error_value": 0,
-                "tags": ["devops"],
+                "tags": [
+                    "devops"
+                ],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -1884,7 +1930,9 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": ["focus.elasticsearch.focus351.*.cluster_health.status"],
+                "patterns": [
+                    "focus.elasticsearch.focus351.*.cluster_health.status"
+                ],
                 "trigger_type": "falling",
                 "throttling": 0,
                 "last_check": {
@@ -1911,10 +1959,14 @@
             {
                 "id": "e872a927-e6d2-4b2e-b1fb-63d2345357f2",
                 "name": "Почему возможна фабула?",
-                "targets": ["KE.system.busc.*.cpu.usage"],
+                "targets": [
+                    "KE.system.busc.*.cpu.usage"
+                ],
                 "warn_value": 80,
                 "error_value": 90,
-                "tags": ["test"],
+                "tags": [
+                    "test"
+                ],
                 "ttl_state": "NODATA",
                 "ttl": 600,
                 "sched": {
@@ -1952,7 +2004,9 @@
                     "startOffset": 0,
                     "endOffset": 1439
                 },
-                "patterns": ["KE.system.busc.*.cpu.usage"],
+                "patterns": [
+                    "KE.system.busc.*.cpu.usage"
+                ],
                 "trigger_type": "rising",
                 "throttling": 0,
                 "last_check": {
@@ -1982,14 +2036,19 @@
         ]
     },
     "trigger": {
-        "expression": "",
+        "expression": "t1 > 20 || t2 > 50  ? ERROR : OK",
         "id": "f96c5608-bd00-4ea2-abd5-be677cdf7e03",
         "name": "12321",
-        "desc":"## Heading\n**bold text**",
-        "targets": ["aliasByNode(Egais.Api.Front.Controllers.Time.*.*.*.*.p95,5, 7, 8)"],
-        "warn_value": 11111111111,
-        "error_value": 22222222222,
-        "tags": ["devops"],
+        "desc": "## Heading\n**bold text**",
+        "targets": [
+            "aliasByNode(local.metric.*, 2)",
+            "aliasByNode(local.metric2.*, 2)"
+        ],
+        "warn_value": null,
+        "error_value": null,
+        "tags": [
+            "devops"
+        ],
         "ttl_state": "NODATA",
         "ttl": 600,
         "sched": {
@@ -2027,8 +2086,10 @@
             "startOffset": 0,
             "endOffset": 1439
         },
-        "patterns": ["Egais.Api.Front.Controllers.Time.*.*.*.*.p95"],
-        "trigger_type": "rising",
+        "patterns": [
+            "Egais.Api.Front.Controllers.Time.*.*.*.*.p95"
+        ],
+        "trigger_type": "expression",
         "throttling": 0,
         "last_check": {
             "metrics": {
@@ -2661,7 +2722,10 @@
             "state": "OK",
             "timestamp": 1504511501
         },
-        "is_remote": false
+        "is_remote": false,
+        "alone_metrics": {
+            "t2": true
+        }
     },
     "state": {
         "metrics": {
@@ -2670,7 +2734,10 @@
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 82.47,
+                "values": {
+                    "t1": 82.5,
+                    "t2": 20.23
+                },
                 "maintenance": 1555804800,
                 "maintenance_info": {
                     "setup_user": "Superman",
@@ -2682,7 +2749,10 @@
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 96.39,
+                "values": {
+                    "t1": 96.54,
+                    "t2": 19.87
+                },
                 "maintenance_info": {
                     "setup_user": null,
                     "setup_time": null
@@ -2693,7 +2763,10 @@
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 93.18,
+                "values": {
+                    "t1": 93.22,
+                    "t2": 20.77
+                },
                 "maintenance_info": {
                     "setup_user": null,
                     "setup_time": null
@@ -2704,7 +2777,10 @@
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 89.53,
+                "values": {
+                    "t1": 89.54,
+                    "t2": 18.45
+                },
                 "maintenance_info": {
                     "setup_user": null,
                     "setup_time": null
@@ -2715,7 +2791,10 @@
                 "state": "WARN",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 10.29,
+                "values": {
+                    "t1": 180095,
+                    "t2": 19.39
+                },
                 "maintenance_info": {
                     "setup_user": null,
                     "setup_time": null
@@ -2726,7 +2805,9 @@
                 "state": "WARN",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 12.33,
+                "values": {
+                    "t1": 19.83
+                },
                 "maintenance_info": {
                     "setup_user": null,
                     "setup_time": null
@@ -2737,7 +2818,20 @@
                 "state": "OK",
                 "suppressed": false,
                 "timestamp": 1504516241,
-                "value": 24.36,
+                "values": {
+                    "t1": 180095,
+                    "t2": 20.52
+                },
+                "maintenance_info": {
+                    "setup_user": null,
+                    "setup_time": null
+                }
+            },
+            "vm-elk-s4": {
+                "event_timestamp": 1503999000,
+                "state": "NODATA",
+                "suppressed": false,
+                "timestamp": 1504516241,
                 "maintenance_info": {
                     "setup_user": null,
                     "setup_time": null
@@ -2762,242 +2856,332 @@
             {
                 "timestamp": 1504407083,
                 "metric": "vm-elk-s1",
-                "value": 18.95,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 18.95,
+                    "t2": 190039
+                }
             },
             {
                 "timestamp": 1504406903,
                 "metric": "vm-elk-s1",
-                "value": 20.89,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 200089,
+                    "t2": 20.5
+                }
             },
             {
                 "timestamp": 1504390505,
                 "metric": "vm-elk-s2",
-                "value": 19.83,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.83,
+                    "t2": 19.27
+                }
             },
             {
                 "timestamp": 1504383443,
                 "metric": "vm-elk-s1",
-                "value": 19.94,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.94,
+                    "t2": 19.58
+                }
             },
             {
                 "timestamp": 1504383383,
                 "metric": "vm-elk-s1",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 20.42
+                }
             },
             {
                 "timestamp": 1504383203,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 20.52
+                }
             },
             {
                 "timestamp": 1504378625,
                 "metric": "vm-elk-s2",
-                "value": 21.34,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 21.34,
+                    "t2": 20.64
+                }
             },
             {
                 "timestamp": 1504378583,
                 "metric": "vm-elk-s1",
-                "value": 25.25,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 25.25,
+                    "t2": 20.33
+                }
             },
             {
                 "timestamp": 1504371203,
                 "metric": "vm-elk-s1",
-                "value": 19.91,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.91,
+                    "t2": 20.11
+                }
             },
             {
                 "timestamp": 1504366463,
                 "metric": "vm-elk-s1",
-                "value": 22.04,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 22.04,
+                    "t2": 19.95
+                }
             },
             {
                 "timestamp": 1504326365,
                 "metric": "vm-elk-s2",
-                "value": 19.9,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.9,
+                    "t2": 18.73
+                }
             },
             {
                 "timestamp": 1504326305,
                 "metric": "vm-elk-s2",
-                "value": 20.02,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.02,
+                    "t2": 19.41
+                }
             },
             {
                 "timestamp": 1504325945,
                 "metric": "vm-elk-s2",
-                "value": 19.91,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.91,
+                    "t2": 18.09
+                }
             },
             {
                 "timestamp": 1504325885,
                 "metric": "vm-elk-s2",
-                "value": 20.06,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.06,
+                    "t2": 19.11
+                }
             },
             {
                 "timestamp": 1504325825,
                 "metric": "vm-elk-s2",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.82
+                }
             },
             {
                 "timestamp": 1504325765,
                 "metric": "vm-elk-s2",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 19.9
+                }
             },
             {
                 "timestamp": 1504325705,
                 "metric": "vm-elk-s2",
-                "value": 19.91,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.91,
+                    "t2": 20.35
+                }
             },
             {
                 "timestamp": 1504325646,
                 "metric": "vm-elk-s2",
-                "value": 20.02,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.02,
+                    "t2": 20.73
+                }
             },
             {
                 "timestamp": 1504325527,
                 "metric": "vm-elk-s2",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 20.08
+                }
             },
             {
                 "timestamp": 1504325405,
                 "metric": "vm-elk-s2",
-                "value": 20.1,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.1,
+                    "t2": 20.5
+                }
             },
             {
                 "timestamp": 1504325345,
                 "metric": "vm-elk-s2",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 20.22
+                }
             },
             {
                 "timestamp": 1504324686,
                 "metric": "vm-elk-s2",
-                "value": 20.21,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.21,
+                    "t2": 19.2
+                }
             },
             {
                 "timestamp": 1504324447,
                 "metric": "vm-elk-s2",
-                "value": 19.98,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.98,
+                    "t2": 19.53
+                }
             },
             {
                 "timestamp": 1503992843,
                 "metric": "vm-elk-s1",
-                "value": 17.15,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 17.15,
+                    "t2": 20.15
+                }
             },
             {
                 "timestamp": 1503992825,
                 "metric": "vm-elk-s3",
-                "value": 44.42,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 44.42,
+                    "t2": 20.52
+                }
             },
             {
                 "timestamp": 1503992698,
                 "metric": "vm-elk-r1",
-                "value": 93.22,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 93.22,
+                    "t2": 20.77
+                }
             },
             {
                 "timestamp": 1503992686,
                 "metric": "vm-elk-l1",
-                "value": 96.54,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 96.54,
+                    "t2": 19.87
+                }
             },
             {
                 "timestamp": 1503992518,
                 "metric": "vm-elk-f1",
-                "value": 82.5,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 82.5,
+                    "t2": 20.23
+                }
             },
             {
                 "timestamp": 1503992423,
                 "metric": "vm-elk-s2",
-                "value": 40.44,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 40.44,
+                    "t2": 19.94
+                }
             },
             {
                 "timestamp": 1503992299,
                 "metric": "vm-elk-r2",
-                "value": 89.54,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 89.54,
+                    "t2": 18.45
+                }
             },
             {
                 "timestamp": 1503992285,
@@ -3009,10 +3193,13 @@
             {
                 "timestamp": 1503992278,
                 "metric": "vm-elk-s1",
-                "value": 17.3,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "NODATA"
+                "old_state": "NODATA",
+                "values": {
+                    "t1": 17.3,
+                    "t2": 20.75
+                }
             },
             {
                 "timestamp": 1503992143,
@@ -3066,490 +3253,673 @@
             {
                 "timestamp": 1503879743,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 18.4
+                }
             },
             {
                 "timestamp": 1503878663,
                 "metric": "vm-elk-s1",
-                "value": 20.1,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.1,
+                    "t2": 18.08
+                }
             },
             {
                 "timestamp": 1503831563,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 18.25
+                }
             },
             {
                 "timestamp": 1503831203,
                 "metric": "vm-elk-s1",
-                "value": 20.06,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.06,
+                    "t2": 18.9
+                }
             },
             {
                 "timestamp": 1503830063,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 18.88
+                }
             },
             {
                 "timestamp": 1503829943,
                 "metric": "vm-elk-s1",
-                "value": 20.02,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.02,
+                    "t2": 20.06
+                }
             },
             {
                 "timestamp": 1503829883,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 19.47
+                }
             },
             {
                 "timestamp": 1503827243,
                 "metric": "vm-elk-s1",
-                "value": 20.06,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.06,
+                    "t2": 19.21
+                }
             },
             {
                 "timestamp": 1503824483,
                 "metric": "vm-elk-s1",
-                "value": 19.98,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.98,
+                    "t2": 19.96
+                }
             },
             {
                 "timestamp": 1503824423,
                 "metric": "vm-elk-s1",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 19.05
+                }
             },
             {
                 "timestamp": 1503824363,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.38
+                }
             },
             {
                 "timestamp": 1503823943,
                 "metric": "vm-elk-s1",
-                "value": 20.08,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.08,
+                    "t2": 20.57
+                }
             },
             {
                 "timestamp": 1503823583,
                 "metric": "vm-elk-s1",
-                "value": 19.96,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.96,
+                    "t2": 18.23
+                }
             },
             {
                 "timestamp": 1503822143,
                 "metric": "vm-elk-s1",
-                "value": 20.19,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.19,
+                    "t2": 18.68
+                }
             },
             {
                 "timestamp": 1503821723,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 18.19
+                }
             },
             {
                 "timestamp": 1503788843,
                 "metric": "vm-elk-s1",
-                "value": 20.06,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.06,
+                    "t2": 20.36
+                }
             },
             {
                 "timestamp": 1503788723,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 20.36
+                }
             },
             {
                 "timestamp": 1503788543,
                 "metric": "vm-elk-s1",
-                "value": 20.04,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.04,
+                    "t2": 20.97
+                }
             },
             {
                 "timestamp": 1503788063,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 19.68
+                }
             },
             {
                 "timestamp": 1503442763,
                 "metric": "vm-elk-s1",
-                "value": 20.06,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.06,
+                    "t2": 20.47
+                }
             },
             {
                 "timestamp": 1503442583,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 18.65
+                }
             },
             {
                 "timestamp": 1503442223,
                 "metric": "vm-elk-s1",
-                "value": 20.03,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.03,
+                    "t2": 20.07
+                }
             },
             {
                 "timestamp": 1503442163,
                 "metric": "vm-elk-s1",
-                "value": 19.97,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.97,
+                    "t2": 18.17
+                }
             },
             {
                 "timestamp": 1503440963,
                 "metric": "vm-elk-s1",
-                "value": 20.09,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.09,
+                    "t2": 20.03
+                }
             },
             {
                 "timestamp": 1503440723,
                 "metric": "vm-elk-s1",
-                "value": 19.97,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.97,
+                    "t2": 19.39
+                }
             },
             {
                 "timestamp": 1503440663,
                 "metric": "vm-elk-s1",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 19.93
+                }
             },
             {
                 "timestamp": 1503440603,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.91
+                }
             },
             {
                 "timestamp": 1503440423,
                 "metric": "vm-elk-s1",
-                "value": 20.03,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.03,
+                    "t2": 19.52
+                }
             },
             {
                 "timestamp": 1503440303,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 18.8
+                }
             },
             {
                 "timestamp": 1503270622,
                 "metric": "vm-elk-s1",
-                "value": 21.82,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 21.82,
+                    "t2": 19.34
+                }
             },
             {
                 "timestamp": 1503127822,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.89
+                }
             },
             {
                 "timestamp": 1503127462,
                 "metric": "vm-elk-s1",
-                "value": 20.03,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.03,
+                    "t2": 19.61
+                }
             },
             {
                 "timestamp": 1503127282,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 18.57
+                }
             },
             {
                 "timestamp": 1503127223,
                 "metric": "vm-elk-s1",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 20.8
+                }
             },
             {
                 "timestamp": 1503127162,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 20.03
+                }
             },
             {
                 "timestamp": 1503125662,
                 "metric": "vm-elk-s1",
-                "value": 20.07,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.07,
+                    "t2": 18.77
+                }
             },
             {
                 "timestamp": 1503120022,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 20.64
+                }
             },
             {
                 "timestamp": 1503119242,
                 "metric": "vm-elk-s1",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 18.55
+                }
             },
             {
                 "timestamp": 1503119183,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 20.07
+                }
             },
             {
                 "timestamp": 1503115642,
                 "metric": "vm-elk-s1",
-                "value": 20.1,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.1,
+                    "t2": 20.79
+                }
             },
             {
                 "timestamp": 1503115403,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 18.45
+                }
             },
             {
                 "timestamp": 1503114022,
                 "metric": "vm-elk-s1",
-                "value": 20.1,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.1,
+                    "t2": 18.06
+                }
             },
             {
                 "timestamp": 1503113722,
                 "metric": "vm-elk-s1",
-                "value": 19.9,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.9,
+                    "t2": 20.48
+                }
             },
             {
                 "timestamp": 1503110482,
                 "metric": "vm-elk-s1",
-                "value": 20.15,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.15,
+                    "t2": 18.36
+                }
             },
             {
                 "timestamp": 1503110422,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 18.39
+                }
             },
             {
                 "timestamp": 1503110362,
                 "metric": "vm-elk-s1",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 20.07
+                }
             },
             {
                 "timestamp": 1503109823,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 18.81
+                }
             },
             {
                 "timestamp": 1503098062,
                 "metric": "vm-elk-s1",
-                "value": 20.12,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.12,
+                    "t2": 20.48
+                }
             },
             {
                 "timestamp": 1502502862,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.05
+                }
             },
             {
                 "timestamp": 1502502081,
                 "metric": "vm-elk-s1",
-                "value": 20.15,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.15,
+                    "t2": 20.52
+                }
             },
             {
                 "timestamp": 1502501961,
                 "metric": "vm-elk-s1",
-                "value": 19.99,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.99,
+                    "t2": 19.97
+                }
             },
             {
                 "timestamp": 1502493142,
                 "metric": "vm-elk-s1",
-                "value": 20.16,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.16,
+                    "t2": 19.51
+                }
             },
             {
                 "timestamp": 1502446043,
                 "metric": "vm-elk-s1",
-                "value": 19.96,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 19.96,
+                    "t2": 19.65
+                }
             },
             {
                 "timestamp": 1502445743,
                 "metric": "vm-elk-s1",
-                "value": 20.02,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.02,
+                    "t2": 19.41
+                }
             },
             {
                 "timestamp": 1502445502,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.94
+                }
             },
             {
                 "timestamp": 1502443942,
                 "metric": "vm-elk-s1",
-                "value": 20.06,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.06,
+                    "t2": 20.46
+                }
             },
             {
                 "timestamp": 1502443763,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 18.67
+                }
             },
             {
                 "timestamp": 1502443703,
                 "metric": "vm-elk-s1",
-                "value": 20.01,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.01,
+                    "t2": 18.17
+                }
             },
             {
                 "timestamp": 1502443583,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.08
+                }
             },
             {
                 "timestamp": 1502439083,
                 "metric": "vm-elk-s1",
-                "value": 20.19,
                 "state": "OK",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "WARN"
+                "old_state": "WARN",
+                "values": {
+                    "t1": 20.19,
+                    "t2": 20.47
+                }
             },
             {
                 "timestamp": 1502439023,
                 "metric": "vm-elk-s1",
-                "value": 20,
                 "state": "WARN",
                 "trigger_id": "69b1-91c1-423f-ab3b-d1a8",
-                "old_state": "OK"
+                "old_state": "OK",
+                "values": {
+                    "t1": 20,
+                    "t2": 19.26
+                }
             }
         ]
     },
@@ -3598,7 +3968,10 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                    "__notifier_trigger_tags": [
+                        "ADK",
+                        "Alko"
+                    ]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3629,7 +4002,10 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                    "__notifier_trigger_tags": [
+                        "ADK",
+                        "Alko"
+                    ]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3660,7 +4036,10 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                    "__notifier_trigger_tags": [
+                        "ADK",
+                        "Alko"
+                    ]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3691,7 +4070,10 @@
                     ],
                     "warn_value": 1,
                     "error_value": 0.5,
-                    "__notifier_trigger_tags": ["ADK", "Alko"]
+                    "__notifier_trigger_tags": [
+                        "ADK",
+                        "Alko"
+                    ]
                 },
                 "contact": {
                     "type": "telegram",
@@ -3722,7 +4104,11 @@
                     ],
                     "warn_value": 1,
                     "error_value": 2,
-                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
+                    "__notifier_trigger_tags": [
+                        "ke.api",
+                        "setter",
+                        "ke_api_alerts"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3753,7 +4139,11 @@
                     ],
                     "warn_value": 1,
                     "error_value": 2,
-                    "__notifier_trigger_tags": ["ke.api", "setter", "ke_api_alerts"]
+                    "__notifier_trigger_tags": [
+                        "ke.api",
+                        "setter",
+                        "ke_api_alerts"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3783,7 +4173,9 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["portal-cloud"]
+                    "__notifier_trigger_tags": [
+                        "portal-cloud"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3813,7 +4205,9 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["portal-cloud"]
+                    "__notifier_trigger_tags": [
+                        "portal-cloud"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3843,7 +4237,9 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["portal-cloud"]
+                    "__notifier_trigger_tags": [
+                        "portal-cloud"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3873,7 +4269,9 @@
                     ],
                     "warn_value": 30,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["portal-cloud"]
+                    "__notifier_trigger_tags": [
+                        "portal-cloud"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3899,10 +4297,15 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "targets": [
+                        "KE.transport.exceptions_caught.type.Irud*"
+                    ],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                    "__notifier_trigger_tags": [
+                        "dc.utilities",
+                        "KE"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3927,10 +4330,15 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "targets": [
+                        "KE.transport.exceptions_caught.type.Irud*"
+                    ],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                    "__notifier_trigger_tags": [
+                        "dc.utilities",
+                        "KE"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3956,10 +4364,15 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "targets": [
+                        "KE.transport.exceptions_caught.type.Irud*"
+                    ],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                    "__notifier_trigger_tags": [
+                        "dc.utilities",
+                        "KE"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -3985,10 +4398,15 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "targets": [
+                        "KE.transport.exceptions_caught.type.Irud*"
+                    ],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                    "__notifier_trigger_tags": [
+                        "dc.utilities",
+                        "KE"
+                    ]
                 },
                 "contact": {
                     "type": "slack",
@@ -4014,10 +4432,15 @@
                     "id": "b7855ffe-89bd-4719-9424-fdca6874b16d",
                     "name": "transport.IRUD.errors",
                     "desc": "График:\nhttps://grafana.skbkontur.ru/dashboard/db/dc-transportutilities?refresh=30s&panelId=9&fullscreen&orgId=1",
-                    "targets": ["KE.transport.exceptions_caught.type.Irud*"],
+                    "targets": [
+                        "KE.transport.exceptions_caught.type.Irud*"
+                    ],
                     "warn_value": 50,
                     "error_value": 100,
-                    "__notifier_trigger_tags": ["dc.utilities", "KE"]
+                    "__notifier_trigger_tags": [
+                        "dc.utilities",
+                        "KE"
+                    ]
                 },
                 "contact": {
                     "type": "slack",

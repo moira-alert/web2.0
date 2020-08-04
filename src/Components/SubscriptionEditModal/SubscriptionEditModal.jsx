@@ -2,11 +2,13 @@
 import * as React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
-import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
+import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import type { Subscription } from "../../Domain/Subscription";
 import type { Contact } from "../../Domain/Contact";
+import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
+import FileExport from "../FileExport/FileExport";
 
 type Props = {
     subscription: Subscription,
@@ -59,37 +61,38 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                     </ValidationContainer>
                 </Modal.Body>
                 <Modal.Footer panel sticky>
-                    <Gapped gap={10}>
+                    <RowStack gap={2} block baseline>
                         <Button
                             use="primary"
                             disabled={isActionButtonsDisabled}
                             loading={updateInProcess}
-                            onClick={() => {
-                                this.handleUpdate();
-                            }}
+                            onClick={this.handleUpdate}
                         >
                             Save
                         </Button>
                         <Button
                             disabled={isActionButtonsDisabled}
                             loading={updateAndTestInProcess}
-                            onClick={() => {
-                                this.handleUpdateAndTest();
-                            }}
+                            onClick={this.handleUpdateAndTest}
                         >
                             Save and test
                         </Button>
+                        <FileExport
+                            title={this.getFileName()}
+                            data={omitSubscription(subscription)}
+                        >
+                            Export
+                        </FileExport>
+                        <Fill />
                         <Button
                             use="danger"
                             disabled={isActionButtonsDisabled}
                             loading={deleteInProcess}
-                            onClick={() => {
-                                this.handleDelete();
-                            }}
+                            onClick={this.handleDelete}
                         >
                             Delete
                         </Button>
-                    </Gapped>
+                    </RowStack>
                 </Modal.Footer>
             </Modal>
         );
@@ -137,4 +140,18 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         }
         return this.validationContainer.current.validate();
     }
+
+    getFileName = () => {
+        const { subscription, contacts } = this.props;
+
+        const contactValues = subscription.contacts.map(contactId => {
+            const contact = contacts.find(c => c.id === contactId);
+            return contact ? contact.value : contactId;
+        });
+
+        return `subscription ${contactValues.join(" ")} ${subscription.tags
+            .slice(0, 5)
+            .map(t => t.slice(0, 8))
+            .join(" ")}`;
+    };
 }

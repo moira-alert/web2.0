@@ -11,13 +11,13 @@ function SelectorInitialView({
     onSelect: (token: string) => void,
 }): React.Node {
     return (
-        <React.Fragment>
+        <>
             <p className={cn("help-search")}>
                 Input query then press <span className={cn("keyboard-key")}>Enter</span> for full
                 text search or select tag from list with mouse click
             </p>
             {tokens.length > 0 && (
-                <React.Fragment>
+                <>
                     <p className={cn("token-list-label")}>Tags from your subscriptions</p>
                     <ul className={cn("token-list")}>
                         {tokens.map(token => (
@@ -28,9 +28,9 @@ function SelectorInitialView({
                             </li>
                         ))}
                     </ul>
-                </React.Fragment>
+                </>
             )}
-        </React.Fragment>
+        </>
     );
 }
 

@@ -14,6 +14,7 @@ import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import type { Trigger } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
@@ -105,6 +106,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             is_remote: isRemote,
             trigger_type: triggerType,
             mute_new_metrics: muteNewMetrics,
+            alone_metrics: aloneMetrics,
         } = data;
         if (sched == null) {
             throw new Error("InvalidProgramState");
@@ -156,8 +158,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         /* eslint-disable-next-line react/no-array-index-key */
                         <div key={`target-${i}`} className={cn("target")}>
                             <span className={cn("target-number")}>T{i + 1}</span>
-                            <div className={cn("fgroup")}>
-                                <div className={cn("fgroup-field")}>
+                            <RowStack block verticalAlign="baseline" gap={1}>
+                                <Fill>
                                     <ValidationWrapperV1
                                         validationInfo={TriggerEditForm.validateRequiredString(x)}
                                         renderMessage={tooltip("right middle")}
@@ -170,15 +172,31 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                             }
                                         />
                                     </ValidationWrapperV1>
-                                </div>
+                                </Fill>
                                 {targets.length > 1 && (
-                                    <div className={cn("fgroup-control")}>
+                                    <Fit>
+                                        <Checkbox
+                                            checked={
+                                                aloneMetrics !== undefined &&
+                                                aloneMetrics !== null &&
+                                                aloneMetrics[`t${i + 1}`]
+                                            }
+                                            onValueChange={value =>
+                                                this.handleUpdateAloneMetrics(i, value)
+                                            }
+                                        >
+                                            Single
+                                        </Checkbox>
+                                    </Fit>
+                                )}
+                                {targets.length > 1 && (
+                                    <Fit>
                                         <Button onClick={() => this.handleRemoveTarget(i)}>
                                             <RemoveIcon />
                                         </Button>
-                                    </div>
+                                    </Fit>
                                 )}
-                            </div>
+                            </RowStack>
                         </div>
                     ))}
                     <Button use="link" icon={<AddIcon />} onClick={() => this.handleAddTarget()}>
@@ -304,12 +322,48 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         });
     }
 
+    handleUpdateAloneMetrics(targetIndex: number, value: boolean) {
+        const { onChange, data } = this.props;
+        let { alone_metrics: aloneMetrics } = data;
+        const target = `t${targetIndex + 1}`;
+
+        if (aloneMetrics === undefined || aloneMetrics === null) {
+            aloneMetrics = {};
+        }
+
+        aloneMetrics[target] = value;
+        onChange({
+            alone_metrics: aloneMetrics,
+        });
+    }
+
     handleRemoveTarget(targetIndex: number) {
         const { onChange, data } = this.props;
-        const { targets } = data;
+        const { targets, alone_metrics: aloneMetrics } = data;
+        const aloneMetricsIndex = [];
+
+        for (let i = 0; i < targets.length; i += 1) {
+            const target = `t${i + 1}`;
+            aloneMetricsIndex[i] =
+                aloneMetrics !== undefined && aloneMetrics !== null && aloneMetrics[target];
+        }
+
+        const newAloneMetricsIndex = [
+            ...aloneMetricsIndex.slice(0, targetIndex),
+            ...aloneMetricsIndex.slice(targetIndex + 1),
+        ];
+
+        const newAloneMetrics = {};
+        for (let i = 0; i < targets.length; i += 1) {
+            const target = `t${i + 1}`;
+            if (newAloneMetricsIndex[i]) {
+                newAloneMetrics[target] = newAloneMetricsIndex[i];
+            }
+        }
 
         onChange({
             targets: [...targets.slice(0, targetIndex), ...targets.slice(targetIndex + 1)],
+            alone_metrics: newAloneMetrics,
         });
     }
 

@@ -6,6 +6,7 @@ export type Event = {|
     old_state: Status,
     timestamp: number,
     value?: number,
+    values?: { [metric: string]: number },
     metric: string,
     msg?: string,
     trigger_id: string,

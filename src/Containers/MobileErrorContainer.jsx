@@ -6,7 +6,7 @@ import MobileHeader from "../Components/Mobile/MobileHeader/MobileHeader";
 
 export default function MobileErrorContainer() {
     return (
-        <React.Fragment>
+        <>
             <MobileHeader>
                 <MobileHeader.HeaderBlock>
                     <MobileHeader.LeftButton
@@ -20,6 +20,6 @@ export default function MobileErrorContainer() {
                 <h1>404</h1>
                 <p>Page not found</p>
             </main>
-        </React.Fragment>
+        </>
     );
 }

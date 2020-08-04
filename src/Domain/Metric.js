@@ -7,6 +7,7 @@ export type Metric = {|
     suppressed?: boolean,
     event_timestamp?: number,
     value?: number,
+    values?: { [metric: string]: number },
     maintenance?: number,
     maintenance_info?: {
         setup_user: ?string,

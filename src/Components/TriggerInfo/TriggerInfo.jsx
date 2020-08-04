@@ -21,9 +21,11 @@ import type { Maintenance } from "../../Domain/Maintenance";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
 import { purifyConfig } from "../../Domain/DOMPurify";
-import RouterLink from "../RouterLink/RouterLink";
-import cn from "./TriggerInfo.less";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
+import { omitTrigger } from "../../helpers/omitTypes";
+import RouterLink from "../RouterLink/RouterLink";
+import FileExport from "../FileExport/FileExport";
+import cn from "./TriggerInfo.less";
 
 const md = new Remarkable({ breaks: true });
 
@@ -63,13 +65,13 @@ function ScheduleView(props: { data: Schedule }): React.Node {
     const enabledDays = days.filter(({ enabled }) => enabled);
 
     return (
-        <React.Fragment>
+        <>
             {days.length === enabledDays.length
                 ? "Everyday"
                 : enabledDays.map(({ name }) => name).join(", ")}{" "}
             {startTime}—{endTime} (GMT {timeZoneSign}
             {timeZone})
-        </React.Fragment>
+        </>
     );
 }
 
@@ -121,6 +123,9 @@ export default function TriggerInfo({
                         <RouterLink to={getPageLink("triggerEdit", id)} icon={<EditIcon />}>
                             Edit
                         </RouterLink>
+                    </span>
+                    <span className={cn("control")}>
+                        <FileExport data={omitTrigger(data)} title={`trigger ${name || id}`} />
                     </span>
                     <span className={cn("control")}>
                         <RouterLink

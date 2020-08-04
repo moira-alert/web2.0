@@ -3,6 +3,7 @@ import * as React from "react";
 import type { ContextRouter } from "react-router-dom";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
+import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
@@ -13,6 +14,8 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import type { Config } from "../Domain/Config";
+import FileLoader from "../Components/FileLoader/FileLoader";
+import { omitTrigger } from "../helpers/omitTypes";
 
 type Props = ContextRouter & { moiraApi: IMoiraApi };
 type State = {
@@ -62,6 +65,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
                 warn_value: null,
                 trigger_type: "rising",
                 mute_new_metrics: false,
+                alone_metrics: {},
             },
             tags: null,
         };
@@ -73,7 +77,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
         this.getData(this.props);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
         this.setState({ loading: true });
         this.getData(nextProps);
     }
@@ -83,7 +87,12 @@ class TriggerAddContainer extends React.Component<Props, State> {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <LayoutTitle>Add trigger</LayoutTitle>
+                    <LayoutRowStack baseline block gap={6} style={{ maxWidth: "800px" }}>
+                        <Fill>
+                            <LayoutTitle>Add trigger</LayoutTitle>
+                        </Fill>
+                        <FileLoader onLoad={this.handleFileImport}>Import</FileLoader>
+                    </LayoutRowStack>
                     {trigger && (
                         <form>
                             <ColumnStack block gap={4}>
@@ -159,8 +168,26 @@ class TriggerAddContainer extends React.Component<Props, State> {
     }
 
     handleChange(update: $Shape<Trigger>) {
-        this.setState((prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }));
+        this.setState((prevState: State) => ({
+            trigger: { ...prevState.trigger, ...update },
+            error: undefined,
+        }));
     }
+
+    handleFileImport = (fileData: string, fileName: string) => {
+        try {
+            const trigger = JSON.parse(fileData);
+
+            if (typeof trigger !== "object" && trigger != null) {
+                throw new Error("Must be a object");
+            }
+            this.handleChange(omitTrigger(trigger));
+        } catch (e) {
+            this.setState({
+                error: `File ${fileName} cannot be converted to trigger. ${e.message}`,
+            });
+        }
+    };
 
     async getData(props: Props) {
         const { moiraApi } = props;
