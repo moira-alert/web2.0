@@ -1,24 +1,26 @@
 {
-    "parser": "babel-eslint",
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
     "env": {
         "browser": true,
         "node": true,
         "es6": true,
         "jest": true
     },
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
     "extends": [
-        "airbnb",
-        "plugin:flowtype/recommended",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
         "prettier",
         "prettier/react",
-        "prettier/flowtype"
+        "prettier/@typescript-eslint"
     ],
-    "plugins": ["babel", "flowtype", "prettier", "react-hooks"],
+    "plugins": ["@typescript-eslint", "prettier", "react-hooks"],
     "rules": {
         "prettier/prettier": "error",
         "react/sort-comp": [
@@ -39,18 +41,6 @@
         "react/require-default-props": "off",
         "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-        "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-        "react/state-in-constructor": "off",
-        "react/jsx-props-no-spreading": "off",
-        "react/static-property-placement": "off",
-        "camelcase": "off",
-        "max-classes-per-file": "off",
-        "react/no-unescaped-entities": "off",
-        "eqeqeq": [2, "allow-null"]
-    },
-    "settings": {
-        "flowtype": {
-            "onlyFilesWithFlowAnnotation": true
-        }
+        "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
     }
 }

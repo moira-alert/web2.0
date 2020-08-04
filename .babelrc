@@ -13,6 +13,7 @@
                 "modules": false
             }
         ],
+        "@babel/typescript",
         "@babel/preset-react"
     ],
     "env": {

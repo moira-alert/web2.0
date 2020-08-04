@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
-const supportedLocales = ['en']
+const supportedLocales = ['en'];
 
 module.exports = {
     entry: {
@@ -28,7 +28,7 @@ module.exports = {
                 },
             },
             {
-                test: /\.jsx?$/,
+                test: [/\.jsx?$/, /\.tsx?$/],
                 use: ["babel-loader"],
                 exclude: /node_modules/,
                 include: [
@@ -65,7 +65,7 @@ module.exports = {
     },
     resolve: {
         modules: ["node_modules", "local_modules"],
-        extensions: [".js", ".jsx"],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
         alias: process.argv.includes("--mode=development")
             ? {"react-dom": "@hot-loader/react-dom" }
             : undefined
@@ -73,7 +73,7 @@ module.exports = {
     devtool: "cheap-source-map",
     plugins: [
         new ContextReplacementPlugin(
-            /date\-fns[\/\\]/,
+            /date-fns[\/\\]/,
             new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
         ),
         new HtmlWebpackPlugin({
