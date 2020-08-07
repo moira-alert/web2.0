@@ -5,7 +5,6 @@ import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import type { Metric } from "../../../Domain/Metric";
 import type { Status } from "../../../Domain/Status";
 import type { Trigger, TriggerState } from "../../../Domain/Trigger";
-import type { Maintenance } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
 
@@ -21,8 +20,8 @@ type Props = {|
     metrics: ?{ [metric: string]: Metric },
     loading?: boolean,
     onRemoveMetric: (metricName: string) => void,
-    onSetMetricMaintenance: (metricName: string, maintenancesInterval: Maintenance) => void,
-    onSetTriggerMaintenance: (maintenancesInterval: Maintenance) => void,
+    onSetMetricMaintenance: (metricName: string, maintenance: number) => void,
+    onSetTriggerMaintenance: (maintenance: number) => void,
     onThrottlingRemove: () => void,
 |};
 

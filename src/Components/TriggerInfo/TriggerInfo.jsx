@@ -5,8 +5,6 @@ import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { Dropdown } from "@skbkontur/react-ui/components/Dropdown";
-import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import ClockIcon from "@skbkontur/react-icons/Clock";
@@ -17,14 +15,13 @@ import UserIcon from "@skbkontur/react-icons/User";
 import TagGroup from "../TagGroup/TagGroup";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Schedule } from "../../Domain/Schedule";
-import type { Maintenance } from "../../Domain/Maintenance";
-import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
+import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import cn from "./TriggerInfo.less";
 
 const md = new Remarkable({ breaks: true });
@@ -34,7 +31,7 @@ type Props = {|
     triggerState: TriggerState,
     supportEmail?: string,
     onThrottlingRemove: (triggerId: string) => void,
-    onSetMaintenance: (maintenance: Maintenance) => void,
+    onSetMaintenance: (maintenance: number) => void,
 |};
 
 function maintenanceDelta(maintenance: ?number): number {
@@ -136,13 +133,18 @@ export default function TriggerInfo({
                         </RouterLink>
                     </span>
                     <span className={cn("control")}>
-                        <Dropdown use="link" caption={maintenanceCaption(delta)}>
-                            {Object.keys(Maintenances).map(key => (
-                                <MenuItem key={key} onClick={() => onSetMaintenance(key)}>
-                                    {getMaintenanceCaption(key)}
-                                </MenuItem>
-                            ))}
-                        </Dropdown>
+                        <MaintenanceSelect
+                            delta={delta}
+                            caption={maintenanceCaption(delta)}
+                            onSetMaintenance={onSetMaintenance}
+                        />
+                        {/* <Dropdown use="link" caption={maintenanceCaption(delta)}> */}
+                        {/*    {Object.keys(Maintenances).map(key => ( */}
+                        {/*        <MenuItem key={key} onClick={() => onSetMaintenance(key)}> */}
+                        {/*            {getMaintenanceCaption(key)} */}
+                        {/*        </MenuItem> */}
+                        {/*    ))} */}
+                        {/* </Dropdown> */}
                     </span>
                     <span>
                         {delta > 0 &&

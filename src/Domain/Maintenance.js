@@ -49,7 +49,7 @@ function getMaintenanceInterval(maintenance: Maintenance): number {
     return MaintenanceTimes[maintenance];
 }
 
-function calculateMaintenanceTime(maintenance: Maintenance): number {
+export function calculateMaintenanceTime(maintenance: Maintenance): number {
     const maintenanceTime = getMaintenanceInterval(maintenance);
     return maintenanceTime > 0
         ? getUnixTime(addMinutes(getUTCDate(), maintenanceTime))
@@ -60,17 +60,17 @@ export async function setMetricMaintenance(
     moiraApi: IMoiraApi,
     triggerId: string,
     metric: string,
-    maintenance: Maintenance
+    maintenance: number
 ) {
     await moiraApi.setMaintenance(triggerId, {
-        metrics: { [metric]: calculateMaintenanceTime(maintenance) },
+        metrics: { [metric]: maintenance },
     });
 }
 
 export async function setTriggerMaintenance(
     moiraApi: IMoiraApi,
     triggerId: string,
-    maintenance: Maintenance
+    maintenance: number
 ) {
-    await moiraApi.setMaintenance(triggerId, { trigger: calculateMaintenanceTime(maintenance) });
+    await moiraApi.setMaintenance(triggerId, { trigger: maintenance });
 }

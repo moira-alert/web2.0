@@ -9,7 +9,12 @@ import { Modal } from "@skbkontur/react-ui/components/Modal";
 import type { Metric } from "../../../Domain/Metric";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
 import roundValue from "../../../helpers/roundValue";
-import { Maintenances, type Maintenance, getMaintenanceCaption } from "../../../Domain/Maintenance";
+import {
+    Maintenances,
+    type Maintenance,
+    getMaintenanceCaption,
+    calculateMaintenanceTime,
+} from "../../../Domain/Maintenance";
 import cn from "./MobileMetricsListItem.less";
 import { getUTCDate } from "../../../helpers/DateUtil";
 
@@ -17,7 +22,7 @@ type Props = {|
     name: string,
     value: Metric,
     onRemove: () => void,
-    onSetMaintenance: (maintenancesInterval: Maintenance) => void,
+    onSetMaintenance: (maintenance: number) => void,
 |};
 
 type ButtonsState = "Default" | "SelectAction" | "SetMaintenance" | "DeleteConfirmation";
@@ -135,7 +140,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
     handleSetMaintenance = (interval: Maintenance) => {
         const { onSetMaintenance } = this.props;
         this.setState({ buttonsState: "Default" });
-        onSetMaintenance(interval);
+        onSetMaintenance(calculateMaintenanceTime(interval));
     };
 
     renderStatus(): React.Node {
