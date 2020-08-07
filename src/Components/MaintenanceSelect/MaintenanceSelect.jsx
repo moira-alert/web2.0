@@ -12,14 +12,16 @@ import {
     Maintenances,
 } from "../../Domain/Maintenance";
 import CustomMaintenanceMenu from "./CustomMaintenanceMenu/CustomMaintenanceMenu";
+import cn from "./MaintenanceSelect.less";
 
 type MaintenanceSelectProps = {
-    onSetMaintenance: (maintenance: number) => void,
     caption: React.Node,
+    maintenance: number | undefined,
+    onSetMaintenance: (maintenance: number) => void,
 };
 
 export default function MaintenanceSelect(props: MaintenanceSelectProps) {
-    const { caption, onSetMaintenance } = props;
+    const { caption, maintenance, onSetMaintenance } = props;
     const [opened, setOpened] = useState(false);
     const [customMenuShow, setCustomMenuShow] = useState(false);
     const containerEl = useRef(null);
@@ -27,21 +29,24 @@ export default function MaintenanceSelect(props: MaintenanceSelectProps) {
         setOpened(false);
         setCustomMenuShow(false);
     };
-    const handleSetMaintenance = (maintenance: number) => {
+    const handleSetMaintenance = (changedMaintenance: number) => {
         handleClose();
-        onSetMaintenance(maintenance);
+        onSetMaintenance(changedMaintenance);
     };
 
     return (
         <RenderLayer onClickOutside={handleClose} onFocusOutside={handleClose} active={opened}>
-            <span ref={containerEl}>
+            <span ref={containerEl} className={cn("container")}>
                 <Button onClick={() => setOpened(true)} use="link">
                     {caption} <ArrowTriangleDownIcon color="#6b99d3" />
                 </Button>
                 {opened ? (
                     <DropdownContainer getParent={() => containerEl.current} align="right">
                         {customMenuShow ? (
-                            <CustomMaintenanceMenu setMaintenance={handleSetMaintenance} />
+                            <CustomMaintenanceMenu
+                                maintenance={maintenance}
+                                setMaintenance={handleSetMaintenance}
+                            />
                         ) : (
                             <Menu maxHeight={600}>
                                 {Object.keys(Maintenances).map(key => (

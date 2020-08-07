@@ -134,17 +134,10 @@ export default function TriggerInfo({
                     </span>
                     <span className={cn("control")}>
                         <MaintenanceSelect
-                            delta={delta}
+                            maintenance={maintenance}
                             caption={maintenanceCaption(delta)}
                             onSetMaintenance={onSetMaintenance}
                         />
-                        {/* <Dropdown use="link" caption={maintenanceCaption(delta)}> */}
-                        {/*    {Object.keys(Maintenances).map(key => ( */}
-                        {/*        <MenuItem key={key} onClick={() => onSetMaintenance(key)}> */}
-                        {/*            {getMaintenanceCaption(key)} */}
-                        {/*        </MenuItem> */}
-                        {/*    ))} */}
-                        {/* </Dropdown> */}
                     </span>
                     <span>
                         {delta > 0 &&

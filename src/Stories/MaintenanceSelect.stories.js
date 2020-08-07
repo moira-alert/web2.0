@@ -4,8 +4,17 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import CustomMaintenanceMenu from "../Components/MaintenanceSelect/CustomMaintenanceMenu/CustomMaintenanceMenu";
 
-storiesOf("MaintenanceSelect", module).add("CustomMaintenanceMenu", () => (
-    <div style={{ margin: "10px", width: "max-content" }}>
-        <CustomMaintenanceMenu />
-    </div>
-));
+storiesOf("MaintenanceSelect", module)
+    .addParameters({
+        creevey: {
+            skip: {
+                stories: "CustomMaintenanceMenu",
+                reasons: "Dynamic current date",
+            },
+        },
+    })
+    .add("CustomMaintenanceMenu", () => (
+        <div style={{ margin: "10px", width: "max-content" }}>
+            <CustomMaintenanceMenu />
+        </div>
+    ));

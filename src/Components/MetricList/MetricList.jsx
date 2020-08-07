@@ -145,17 +145,10 @@ export default function MetricList(props: Props): React.Node {
                             </div>
                             <div className={cn("maintenance")}>
                                 <MaintenanceSelect
-                                    delta={delta}
+                                    maintenance={maintenance}
                                     caption={maintenanceCaption(delta)}
                                     onSetMaintenance={key => onChange(metric, key)}
                                 />
-                                {/* <Dropdown use="link" caption={maintenanceCaption(delta)}> */}
-                                {/*   {Object.keys(Maintenances).map(key => ( */}
-                                {/*       <MenuItem key={key} onClick={() => onChange(metric, key)}> */}
-                                {/*           {getMaintenanceCaption(key)} */}
-                                {/*       </MenuItem> */}
-                                {/*   ))} */}
-                                {/* </Dropdown> */}
                             </div>
                             <div className={cn("author")}>
                                 {delta > 0 &&

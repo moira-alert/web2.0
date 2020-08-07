@@ -1,20 +1,16 @@
 // @flow
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input/Input";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
 import { Calendar, CalendarDateShape } from "@skbkontur/react-ui/internal/Calendar";
 import { DateInput } from "@skbkontur/react-ui/components/DateInput/DateInput";
-import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
-import { LangCodes, DateOrder } from "@skbkontur/react-ui/lib/locale";
-import { ThemeContext } from "@skbkontur/react-ui/lib/theming/ThemeContext";
-import { ThemeFactory } from "@skbkontur/react-ui/lib/theming/ThemeFactory";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Menu } from "@skbkontur/react-ui/internal/Menu";
-import { addMonths, format, lastDayOfMonth } from "date-fns";
+import { addMonths, format, getUnixTime, fromUnixTime, lastDayOfMonth, addDays } from "date-fns";
+import { tooltip, ValidationContainer, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import cn from "./CustomMaintenanceMenu.less";
 
-function getTodayDate(): [string, CalendarDateShape, string] {
-    const date = new Date();
+function splitDate(date: Date): [string, CalendarDateShape, string] {
     return [
         format(date, "HH:mm"),
         {
@@ -25,9 +21,12 @@ function getTodayDate(): [string, CalendarDateShape, string] {
         format(date, "OOOO"),
     ];
 }
+function toDate(date: CalendarDateShape): Date {
+    return new Date(date.year, date.month, date.date);
+}
 
-function toStringDate(date: CalendarDateShape): string {
-    return format(new Date(date.year, date.month, date.date), "dd.MM.yyyy");
+function toStringDate(calendarDate: CalendarDateShape): string {
+    return format(toDate(calendarDate), "dd.MM.yyyy");
 }
 
 function toCalendarDate(date: string): CalendarDateShape {
@@ -39,7 +38,7 @@ function toCalendarDate(date: string): CalendarDateShape {
     };
 }
 
-function getLastDayOfNextMonth(): CalendarDateShape {
+export function getLastDayOfNextMonth(): CalendarDateShape {
     const date = lastDayOfMonth(addMonths(new Date(), 1));
 
     return {
@@ -49,92 +48,117 @@ function getLastDayOfNextMonth(): CalendarDateShape {
     };
 }
 
-type CustomMaintenanceMenuProps = {
-    setMaintenance: (maintenance: number) => void,
-};
-
 const PreparedTimes = Array(24)
     .fill()
     .map((_, index) => `${index}:00`.padStart(5, "0"));
 
-export default function CustomMaintenanceMenu({ setMaintenance }: CustomMaintenanceMenuProps) {
-    const [currentTime, currentDate, timeZone] = getTodayDate();
+type CustomMaintenanceMenuProps = {
+    maintenance: number | undefined,
+    setMaintenance: (maintenance: number) => void,
+};
+
+export default function CustomMaintenanceMenu({
+    maintenance,
+    setMaintenance,
+}: CustomMaintenanceMenuProps) {
+    const [maintenanceTime, maintenanceDate] = maintenance
+        ? splitDate(fromUnixTime(maintenance))
+        : [];
+    const [todayTime, todayDate, timeZone] = splitDate(new Date());
     const maxDate = getLastDayOfNextMonth();
-    const [calendarDate, setCalendarDate] = useState(currentDate);
-    const [stringDate, setStringDate] = useState(toStringDate(currentDate));
-    const [time, setTime] = useState(currentTime);
 
-    const handleSet = () => {
-        const [hours, minutes] = time.split(":").map(Number);
-        const maintenance = new Date(
-            calendarDate.year,
-            calendarDate.month,
-            calendarDate.date,
-            hours,
-            minutes
-        );
+    const [calendarDate, setCalendarDate] = useState(maintenanceDate || todayDate);
+    const [stringDate, setStringDate] = useState(toStringDate(maintenanceDate || todayDate));
+    const [time, setTime] = useState(maintenanceTime || todayTime);
 
-        setMaintenance(maintenance);
+    const validationContainerEl = useRef(null);
+    const validate = async () => {
+        if (validationContainerEl.current == null) {
+            return false;
+        }
+        return validationContainerEl.current.validate();
+    };
+    const validateDate = () => {
+        const date = getUnixTime(toDate(calendarDate));
+        if (getUnixTime(addDays(toDate(maxDate), 1)) <= date) {
+            return {
+                message: `The maximum date is ${toStringDate(maxDate)} now`,
+                type: "submit",
+            };
+        }
+        if (getUnixTime(toDate(todayDate)) > date) {
+            return {
+                message: `Maintenance date must be in the future`,
+                type: "submit",
+            };
+        }
+        return null;
     };
 
     const handleDatePick = (dateValue: CalendarDateShape) => {
         setCalendarDate(dateValue);
         setStringDate(toStringDate(dateValue));
     };
+
     const handleInputDateChange = (dateValue: string) => {
         setCalendarDate(toCalendarDate(dateValue));
         setStringDate(dateValue);
     };
 
+    const handleSet = async () => {
+        if (await validate()) {
+            const [hours, minutes] = time.split(":").map(Number);
+            const changedMaintenance = new Date(
+                calendarDate.year,
+                calendarDate.month,
+                calendarDate.date,
+                hours,
+                minutes
+            );
+            setMaintenance(getUnixTime(changedMaintenance));
+        }
+    };
+
     return (
-        <LocaleContext.Provider
-            value={{
-                langCode: LangCodes.en_GB,
-                locale: {
-                    DatePicker: {
-                        separator: ".",
-                        order: DateOrder.DMY,
-                    },
-                },
-            }}
-        >
-            <ThemeContext.Provider
-                value={ThemeFactory.create({ menuBorder: "none", menuShadow: "none" })}
-            >
-                <div className={cn("container")}>
-                    <Menu maxHeight="100%">
-                        {PreparedTimes.map(preparedTime => (
-                            <MenuItem
-                                key={preparedTime}
-                                state={preparedTime === time ? "selected" : null}
-                                onClick={() => setTime(preparedTime)}
-                            >
-                                <div className={cn("menu-item")}>{preparedTime}</div>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                    <Calendar
-                        value={calendarDate}
-                        minDate={currentDate}
-                        maxDate={maxDate}
-                        onSelect={handleDatePick}
-                    />
-                    <footer className={cn("footer")}>
-                        <Input value={time} onValueChange={setTime} mask="99:99" width="60px" />
+        <div className={cn("container")}>
+            <Menu hasShadow={false} maxHeight="100%">
+                {PreparedTimes.map(preparedTime => (
+                    <MenuItem
+                        key={preparedTime}
+                        state={preparedTime === time ? "selected" : null}
+                        onClick={() => setTime(preparedTime)}
+                    >
+                        <div className={cn("menu-item")}>{preparedTime}</div>
+                    </MenuItem>
+                ))}
+            </Menu>
+            <Calendar
+                value={calendarDate}
+                minDate={todayDate}
+                maxDate={maxDate}
+                onSelect={handleDatePick}
+            />
+            <footer className={cn("footer")}>
+                <Input value={time} onValueChange={setTime} mask="99:99" width="60px" />
+                <ValidationContainer ref={validationContainerEl}>
+                    <ValidationWrapperV1
+                        renderMessage={tooltip("top left")}
+                        validationInfo={validateDate()}
+                    >
                         <DateInput
                             value={stringDate}
                             maxDate={maxDate}
-                            minDate={currentDate}
+                            minDate={todayDate}
                             onValueChange={handleInputDateChange}
                             width="90px"
                         />
-                        {timeZone}
-                        <Button use="primary" onClick={handleSet}>
-                            Set
-                        </Button>
-                    </footer>
-                </div>
-            </ThemeContext.Provider>
-        </LocaleContext.Provider>
+                    </ValidationWrapperV1>
+                </ValidationContainer>
+                {timeZone}
+                <Button use="primary" onClick={handleSet}>
+                    Set
+                </Button>
+            </footer>
+        </div>
     );
 }
