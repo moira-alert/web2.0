@@ -1,5 +1,5 @@
 {
-    "parser": "babel-flow",
+    "parser": "typescript",
     "printWidth": 100,
     "tabWidth": 4,
     "trailingComma": "es5",

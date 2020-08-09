@@ -1,22 +1,20 @@
-
 import { Metric, MetricList } from "../Domain/Metric";
-import { Status } from "../Domain/Status";
 
 // ToDo подумать, почему метрики группируются в listItem, а не в контейнере
-function groupMetricsByStatuses(metrics: MetricList) {
-  const result = {};
+function groupMetricsByStatuses(metrics: MetricList): Record<string, Record<string, Metric>> {
+    const result: Record<string, Record<string, Metric>> = {};
 
-  Object.keys(metrics).forEach(metricName => {
-    const metric = metrics[metricName];
+    Object.keys(metrics).forEach(metricName => {
+        const metric = metrics[metricName];
 
-    if (!result[metric.state]) {
-      result[metric.state] = {};
-    }
+        if (!result[metric.state]) {
+            result[metric.state] = {};
+        }
 
-    result[metric.state][metricName] = metric;
-  });
+        result[metric.state][metricName] = metric;
+    });
 
-  return result;
+    return result;
 }
 
 export { groupMetricsByStatuses as default };

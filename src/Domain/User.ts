@@ -1,4 +1,3 @@
-
 export type User = {
-  [username: string]: string;
+    [username: string]: string;
 };

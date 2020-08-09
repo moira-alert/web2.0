@@ -1,23 +1,21 @@
-import { $Diff } from "utility-types";
-
 import * as React from "react";
-import { IMoiraApi } from "./MoiraApi";
+import MoiraApi, { IMoiraApi } from "./MoiraApi";
 
-const ApiContext = React.createContext<IMoiraApi | void>();
+const ApiContext = React.createContext<IMoiraApi>(new MoiraApi("/api"));
 
 export const ApiProvider = ApiContext.Provider;
 
-export function withMoiraApi<Config extends {}>(Component: React.AbstractComponent<Config>): React.AbstractComponent<$Diff<Config, {moiraApi: IMoiraApi | void;}>> {
-  return class extends React.Component<$Diff<Config, {moiraApi: IMoiraApi | void;}>> {
+export function withMoiraApi<Config extends {}>(Component: React.AbstractComponent<Config>): React.AbstractComponent<Exclude<Config, {moiraApi: IMoiraApi | void;}>> {
+    return class extends React.Component<Exclude<Config, {moiraApi: IMoiraApi | void;}>> {
 
-    context: IMoiraApi;
+        context: IMoiraApi;
 
-    static displayName = `withApi(${Component.displayName || Component.name || "Component"})`;
+        static displayName = `withApi(${Component.displayName || Component.name || "Component"})`;
 
-    render(): React.ReactElement<typeof Component> {
-      return <Component moiraApi={this.context} {...this.props} />;
-    }
+        render(): React.ReactElement<typeof Component> {
+            return <Component moiraApi={this.context} {...this.props} />;
+        }
 
-    static contextType = ApiContext;
-  };
+        static contextType = ApiContext;
+    };
 }
