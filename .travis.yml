@@ -27,7 +27,8 @@ install:
 before_script:
   - make lint
 script:
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then  node ./.creevey/startCI; fi
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then yarn test; fi
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then node ./.creevey/startCI; fi
   - if [[ ! -z "$TRAVIS_TAG" ]]; then make packages; fi
 cache:
     yarn: true
