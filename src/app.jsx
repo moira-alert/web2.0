@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { DateOrder, LangCodes } from "@skbkontur/react-ui/lib/locale";
+import { LangCodes } from "@skbkontur/react-ui/lib/locale";
 import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
 import MoiraApi from "./Api/MoiraApi";
 import { ApiProvider } from "./Api/MoiraApiInjection";
@@ -19,17 +19,7 @@ const render = Component => {
     if (root !== null) {
         ReactDOM.render(
             <BrowserRouter>
-                <LocaleContext.Provider
-                    value={{
-                        langCode: LangCodes.en_GB,
-                        locale: {
-                            DatePicker: {
-                                separator: ".",
-                                order: DateOrder.DMY,
-                            },
-                        },
-                    }}
-                >
+                <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
                     <ApiProvider value={moiraApi}>
                         <Component />
                     </ApiProvider>

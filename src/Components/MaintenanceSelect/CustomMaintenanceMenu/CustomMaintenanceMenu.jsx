@@ -26,10 +26,11 @@ function toDate(date: CalendarDateShape): Date {
 }
 
 function toStringDate(calendarDate: CalendarDateShape): string {
-    return format(toDate(calendarDate), "dd.MM.yyyy");
+    return format(toDate(calendarDate), "dd/MM/yyyy");
 }
 
 function toCalendarDate(date: string): CalendarDateShape {
+    // DateInput's onValueChange return value with "." separator regardless of locale
     const [day, month, year] = date.split(".").map(Number);
     return {
         year,
@@ -38,8 +39,8 @@ function toCalendarDate(date: string): CalendarDateShape {
     };
 }
 
-export function getLastDayOfNextMonth(): CalendarDateShape {
-    const date = lastDayOfMonth(addMonths(new Date(), 1));
+export function getLastDayOfNextMonth(currentTime: Date): CalendarDateShape {
+    const date = lastDayOfMonth(addMonths(currentTime, 1));
 
     return {
         year: date.getFullYear(),
@@ -53,6 +54,7 @@ const PreparedTimes = Array(24)
     .map((_, index) => `${index}:00`.padStart(5, "0"));
 
 type CustomMaintenanceMenuProps = {
+    currentTime: Date | undefined,
     maintenance: number | undefined,
     setMaintenance: (maintenance: number) => void,
 };
@@ -60,12 +62,13 @@ type CustomMaintenanceMenuProps = {
 export default function CustomMaintenanceMenu({
     maintenance,
     setMaintenance,
+    currentTime = new Date(),
 }: CustomMaintenanceMenuProps) {
     const [maintenanceTime, maintenanceDate] = maintenance
         ? splitDate(fromUnixTime(maintenance))
         : [];
-    const [todayTime, todayDate, timeZone] = splitDate(new Date());
-    const maxDate = getLastDayOfNextMonth();
+    const [todayTime, todayDate, timeZone] = splitDate(currentTime);
+    const maxDate = getLastDayOfNextMonth(currentTime);
 
     const [calendarDate, setCalendarDate] = useState(maintenanceDate || todayDate);
     const [stringDate, setStringDate] = useState(toStringDate(maintenanceDate || todayDate));
@@ -134,12 +137,14 @@ export default function CustomMaintenanceMenu({
             </Menu>
             <Calendar
                 value={calendarDate}
+                initialMonth={calendarDate.month}
+                initialYear={calendarDate.year}
                 minDate={todayDate}
                 maxDate={maxDate}
                 onSelect={handleDatePick}
             />
             <footer className={cn("footer")}>
-                <Input value={time} onValueChange={setTime} mask="99:99" width="60px" />
+                <Input value={time} onValueChange={setTime} mask="99:99" width="55px" />
                 <ValidationContainer ref={validationContainerEl}>
                     <ValidationWrapperV1
                         renderMessage={tooltip("top left")}
@@ -150,7 +155,7 @@ export default function CustomMaintenanceMenu({
                             maxDate={maxDate}
                             minDate={todayDate}
                             onValueChange={handleInputDateChange}
-                            width="90px"
+                            width="95px"
                         />
                     </ValidationWrapperV1>
                 </ValidationContainer>
