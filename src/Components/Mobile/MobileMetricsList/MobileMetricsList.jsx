@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import type { Metric } from "../../../Domain/Metric";
-import type { Maintenance } from "../../../Domain/Maintenance";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
 import cn from "./MobileMetricsList.less";
 
@@ -10,7 +9,7 @@ type Props = {|
         [metric: string]: Metric,
     },
     onRemove: (metricName: string) => void,
-    onSetMaintenance: (metricName: string, maintenancesInterval: Maintenance) => void,
+    onSetMaintenance: (metricName: string, maintenance: number) => void,
 |};
 
 export default function MobileMetricsList(props: Props): React.Node {

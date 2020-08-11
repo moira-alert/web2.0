@@ -9,7 +9,6 @@ import type { ContextRouter } from "react-router-dom";
 import type { Trigger, TriggerList } from "../../Domain/Trigger";
 import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import type { IMoiraApi } from "../../Api/MoiraApi";
-import type { Maintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { setMetricMaintenance } from "../../Domain/Maintenance";
@@ -200,7 +199,7 @@ class TriggerListPage extends React.Component<Props, State> {
         );
     };
 
-    setMetricMaintenance = async (triggerId: string, metric: string, maintenance: Maintenance) => {
+    setMetricMaintenance = async (triggerId: string, metric: string, maintenance: number) => {
         this.setState({ loading: true });
         const { moiraApi } = this.props;
         setMetricMaintenance(moiraApi, triggerId, metric, maintenance);

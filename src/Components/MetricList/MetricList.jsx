@@ -6,16 +6,13 @@ import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import UserIcon from "@skbkontur/react-icons/User";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
-import { Dropdown } from "@skbkontur/react-ui/components/Dropdown";
-import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import type { Maintenance } from "../../Domain/Maintenance";
 import type { Metric } from "../../Domain/Metric";
-import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
-import cn from "./MetricList.less";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
+import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
+import cn from "./MetricList.less";
 
 export type SortingColum = "state" | "name" | "event" | "value";
 
@@ -28,7 +25,7 @@ type Props = {|
     sortingDown?: boolean,
     noDataMerticCount?: number,
     onSort?: (sorting: SortingColum) => void,
-    onChange: (metric: string, maintenance: Maintenance) => void,
+    onChange: (metric: string, maintenance: number) => void,
     onRemove: (metric: string) => void,
     onNoDataRemove?: () => void,
 |};
@@ -147,13 +144,11 @@ export default function MetricList(props: Props): React.Node {
                                 />
                             </div>
                             <div className={cn("maintenance")}>
-                                <Dropdown use="link" caption={maintenanceCaption(delta)}>
-                                    {Object.keys(Maintenances).map(key => (
-                                        <MenuItem key={key} onClick={() => onChange(metric, key)}>
-                                            {getMaintenanceCaption(key)}
-                                        </MenuItem>
-                                    ))}
-                                </Dropdown>
+                                <MaintenanceSelect
+                                    maintenance={maintenance}
+                                    caption={maintenanceCaption(delta)}
+                                    onSetMaintenance={key => onChange(metric, key)}
+                                />
                             </div>
                             <div className={cn("author")}>
                                 {delta > 0 &&
