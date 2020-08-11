@@ -67,19 +67,7 @@ export async function setMetricMaintenance(
 }
 
 export async function setTriggerMaintenance(
-    moiraApi:
-        | IMoiraApi
-        | {
-              setMaintenance(
-                  triggerId: string,
-                  data: {
-                      trigger?: number;
-                      metrics?: {
-                          [metric: string]: number;
-                      };
-                  }
-              ): Promise<void>;
-          },
+    moiraApi: IMoiraApi,
     triggerId: string,
     maintenance: Maintenance
 ): Promise<void> {

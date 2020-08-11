@@ -21,8 +21,8 @@ function parseLocationSearch(search: string): MoiraUrlParams {
       - что page будет целым числом,
       - что tags будет массивом строк
       - что onlyProblems будет булевым
-  */
-    if (!Number.isNaN(Number(page)) && typeof page === "string") {
+    */
+    if (typeof page === "string" && !Number.isNaN(Number(page))) {
         result.page = parseInt(page, 10);
     }
     if (Array.isArray(tags)) {

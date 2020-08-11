@@ -5,17 +5,16 @@ const ApiContext = React.createContext<IMoiraApi>(new MoiraApi("/api"));
 
 export const ApiProvider = ApiContext.Provider;
 
-export function withMoiraApi<Config extends {}>(Component: React.AbstractComponent<Config>): React.AbstractComponent<Exclude<Config, {moiraApi: IMoiraApi | void;}>> {
-    return class extends React.Component<Exclude<Config, {moiraApi: IMoiraApi | void;}>> {
+export function withMoiraApi<ComponentProps extends { moiraApi: IMoiraApi }>(
+    Component: React.ComponentType<ComponentProps>
+): React.ComponentType<Omit<ComponentProps, "moiraApi">> {
+    function ComponentWithApi(props: Omit<ComponentProps, "moiraApi">) {
+        const moiraApi = React.useContext(ApiContext);
+        return <Component {...props as ComponentProps} moiraApi={moiraApi} />;
+    }
 
-        context: IMoiraApi;
-
-        static displayName = `withApi(${Component.displayName || Component.name || "Component"})`;
-
-        render(): React.ReactElement<typeof Component> {
-            return <Component moiraApi={this.context} {...this.props} />;
-        }
-
-        static contextType = ApiContext;
-    };
+    ComponentWithApi.displayName = `withApi(${Component.displayName ||
+        Component.name ||
+        "Component"})`;
+    return ComponentWithApi;
 }

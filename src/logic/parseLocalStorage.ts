@@ -18,10 +18,10 @@ function parseLocalStorage(localData: string): MoiraUrlParams {
         const { tags, onlyProblems } = JSON.parse(localData);
 
         /*
-        Данные пользовательские, поэтому нужно быть уверенным:
-        - что tags будет массивом строк
-        - что onlyProblems будет булевым
-    */
+            Данные пользовательские, поэтому нужно быть уверенным:
+            - что tags будет массивом строк
+            - что onlyProblems будет булевым
+        */
         if (Array.isArray(tags)) {
             result.tags = tags.map(value => value.toString());
         }

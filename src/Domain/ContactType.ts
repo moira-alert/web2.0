@@ -1,18 +1,6 @@
 import { ContactConfig } from "./Config";
 
-export const ContactTypes = {
-    mail: "mail",
-    email: "email",
-    phone: "phone",
-    pushover: "pushover",
-    telegram: "telegram",
-    msteams: "msteams",
-    slack: "slack",
-    "twilio sms": "twilio sms",
-    "twilio voice": "twilio voice",
-};
-
-const ContactTypeCaptions: Record<string, string> = {
+const ContactTypeCaptions = {
     mail: "EMail",
     email: "EMail",
     phone: "Phone",
