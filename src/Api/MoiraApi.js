@@ -65,6 +65,7 @@ export interface IMoiraApi {
     addTrigger(data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     setTrigger(id: string, data: $Shape<Trigger>): Promise<{ [key: string]: string }>;
     delTrigger(id: string): Promise<void>;
+    validateTrigger(trigger: $Shape<Trigger>): Promise<ValidateTriggerResult>;
     setMaintenance(
         triggerId: string,
         data: { trigger?: number, metrics?: { [metric: string]: number } }
@@ -354,6 +355,17 @@ export default class MoiraApi implements IMoiraApi {
         });
         await MoiraApi.checkStatus(response);
     }
+
+    validateTrigger = async (trigger: $Shape<Trigger>) => {
+        const url = `${this.apiUrl}/trigger/check?remote=${trigger.is_remote}&targets=${encodeURI(
+            JSON.stringify(trigger.targets)
+        )}`;
+        const response = await fetch<ValidateTriggerResult>(url, {
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    };
 
     async setMaintenance(
         triggerId: string,

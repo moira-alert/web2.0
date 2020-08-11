@@ -5,7 +5,6 @@ import { Center } from "@skbkontur/react-ui/components/Center";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
 import type { SortingColum } from "../../Components/MetricList/MetricList";
-import type { Maintenance } from "../../Domain/Maintenance";
 import Layout, { LayoutPlate, LayoutContent } from "../../Components/Layout/Layout";
 import Tabs, { Tab } from "../../Components/Tabs/Tabs";
 import TriggerInfo from "../../Components/TriggerInfo/TriggerInfo";
@@ -21,8 +20,8 @@ type Props = {|
     page: number,
     pageCount: number,
     disableThrottling: (id: string) => void,
-    setTriggerMaintenance: (id: string, maintenance: Maintenance) => void,
-    setMetricMaintenance: (id: string, maintenance: Maintenance, metric: string) => void,
+    setTriggerMaintenance: (id: string, maintenance: number) => void,
+    setMetricMaintenance: (id: string, maintenance: number, metric: string) => void,
     removeMetric: (id: string, metric: string) => void,
     removeNoDataMetric: (id: string) => void,
     onPageChange: ({ page: number }) => {},
