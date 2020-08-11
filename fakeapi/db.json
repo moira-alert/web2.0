@@ -4454,6 +4454,7 @@
             }
         ]
     },
+    "triggerCheck": {},
     "health": {
         "state": "OK",
         "message": null

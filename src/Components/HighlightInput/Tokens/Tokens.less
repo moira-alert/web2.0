@@ -1,0 +1,50 @@
+.function {
+    color: #1a1aa6;
+}
+
+.badFunction {
+    border-radius: 3px;
+    position: relative;
+    text-decoration: underline;
+}
+
+@keyframes highlightError {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: #dc3545;
+    }
+}
+
+.error {
+    animation: highlightError 0.1s;
+    padding: 0 1px 1px;
+    margin: 0 -1px;
+    color: #fff;
+    background-color: #dc3545;
+}
+
+@keyframes highlightWarning {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: #ffc107;
+    }
+}
+
+.warning {
+    animation: highlightWarning 0.1s;
+    padding: 0 1px 1px;
+    margin: 0 -1px;
+    background-color : #ffc107;
+}
+
+.bracketHighlight {
+    background: #aecbfa;
+}
+
+.tooltip {
+    max-width: 400px;
+}
