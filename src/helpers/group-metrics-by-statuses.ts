@@ -1,6 +1,6 @@
 import { Metric, MetricList } from "../Domain/Metric";
 
-export interface IOutput {
+export interface IMetricByStatuses {
     DEL?: { [key: string]: Metric };
     EXCEPTION?: { [key: string]: Metric };
     NODATA?: { [key: string]: Metric };
@@ -10,8 +10,8 @@ export interface IOutput {
 }
 
 // ToDo подумать, почему метрики группируются в listItem, а не в контейнере
-function groupMetricsByStatuses(metrics: MetricList): IOutput {
-    const result: IOutput = {};
+function groupMetricsByStatuses(metrics: MetricList): IMetricByStatuses {
+    const result: IMetricByStatuses = {};
 
     Object.keys(metrics).forEach(metricName => {
         const metric = metrics[metricName];
