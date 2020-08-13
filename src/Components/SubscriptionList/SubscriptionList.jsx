@@ -4,6 +4,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
+import { Fill, RowStack, Fit } from "@skbkontur/react-stack-layout";
 import type { Subscription } from "../../Domain/Subscription";
 import type { Contact } from "../../Domain/Contact";
 import { createSchedule, WholeWeek } from "../../Domain/Schedule";
@@ -12,6 +13,7 @@ import ContactInfo from "../ContactInfo/ContactInfo";
 import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
 import CreateSubscriptionModal from "../CreateSubscriptionModal/CreateSubscriptionModal";
 import type { SubscriptionInfo } from "../SubscriptionEditor/SubscriptionEditor";
+import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import cn from "./SubscriptionList.less";
 
 export type { SubscriptionInfo };
@@ -31,16 +33,27 @@ type State = {
     newSubscription: ?SubscriptionInfo,
     subscriptionEditModalVisible: boolean,
     subscriptionToEdit: ?Subscription,
+    availableTags: string[],
+    filteredSubscription: Subscription[],
 };
 
 export default class SubscriptionList extends React.Component<Props, State> {
     props: Props;
+
+    constructor(props: Props) {
+        super(props);
+
+        const { subscriptions } = props;
+        this.state.filteredSubscription = subscriptions;
+        this.state.availableTags = [...new Set(subscriptions.flatMap(i => i.tags))];
+    }
 
     state: State = {
         newSubscriptionModalVisible: false,
         newSubscription: null,
         subscriptionEditModalVisible: false,
         subscriptionToEdit: null,
+        filteredTags: [],
     };
 
     render(): React.Element<any> {
@@ -50,29 +63,46 @@ export default class SubscriptionList extends React.Component<Props, State> {
             newSubscription,
             subscriptionEditModalVisible,
             subscriptionToEdit,
+            filteredSubscription,
+            filteredTags,
+            availableTags,
         } = this.state;
+
         return (
             <div>
                 {subscriptions.length > 0 ? (
                     <div>
-                        <h3 className={cn("header")}>Subscriptions</h3>
+                        <RowStack gap={1} baseline block>
+                            <h2 className={cn("header")}>Subscriptions</h2>
+                            <Fill />
+                            <Fit>
+                                <Button
+                                    width={180}
+                                    use="default"
+                                    icon={<AddIcon />}
+                                    onClick={this.handleAddSubscription}
+                                >
+                                    Add subscription
+                                </Button>
+                            </Fit>
+                            <Fit>
+                                <TagDropdownSelect
+                                    width={280}
+                                    value={filteredTags}
+                                    availableTags={availableTags}
+                                    onChange={this.handleFilteredSubscription}
+                                    placeholder=" Filter subscriptions by Tags"
+                                />
+                            </Fit>
+                        </RowStack>
                         <div className={cn("items-container")}>
                             <table className={cn("items")}>
                                 <tbody>
-                                    {subscriptions.map(subscription =>
+                                    {filteredSubscription.map(subscription =>
                                         this.renderSubscriptionRow(subscription)
                                     )}
                                 </tbody>
                             </table>
-                        </div>
-                        <div className={cn("actions-block")}>
-                            <Button
-                                use="primary"
-                                icon={<AddIcon />}
-                                onClick={this.handleAddSubscription}
-                            >
-                                Add subscription
-                            </Button>
                         </div>
                     </div>
                 ) : (
@@ -110,6 +140,19 @@ export default class SubscriptionList extends React.Component<Props, State> {
             </div>
         );
     }
+
+    handleFilteredSubscription = (tags: string[]) => {
+        const { subscriptions } = this.props;
+        const filteredSubscription = subscriptions.filter(subscription =>
+            tags.every(x => subscription.tags.includes(x))
+        );
+
+        this.setState({
+            filteredTags: tags,
+            filteredSubscription,
+            availableTags: [...new Set(filteredSubscription.flatMap(i => i.tags))],
+        });
+    };
 
     handleEditSubscription = (subscription: Subscription) => {
         this.setState({
