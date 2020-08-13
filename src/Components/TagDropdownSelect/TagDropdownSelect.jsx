@@ -18,6 +18,7 @@ type Props = {
     isDisabled?: boolean,
     width: number,
     allowCreateNewTags?: boolean,
+    placeholder?: string,
 };
 
 type State = {
@@ -237,7 +238,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     }
 
     renderInput(): React.Node {
-        const { error, value, isDisabled } = this.props;
+        const { error, value, isDisabled, placeholder } = this.props;
         const { isFocused, inputValue } = this.state;
         return (
             <div
@@ -268,6 +269,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     }
                     onFocus={() => this.setState({ isFocused: true })}
                     disabled={isDisabled}
+                    placeholder={value.length === 0 ? placeholder : undefined}
                 />
             </div>
         );
