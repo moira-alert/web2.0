@@ -60,7 +60,7 @@ export interface IMoiraApi {
         tags: Array<string>,
         searchText: string
     ): Promise<TriggerList>;
-    getTrigger(id: string, params: Record<string, boolean>): Promise<Trigger>;
+    getTrigger(id: string, params?: { populated: boolean }): Promise<Trigger>;
     addTrigger(
         data: Partial<Trigger>
     ): Promise<{
@@ -325,7 +325,7 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async getTrigger(id: string, params: Record<string, boolean>): Promise<Trigger> {
+    async getTrigger(id: string, params?: { populated: boolean }): Promise<Trigger> {
         const url = `${this.apiUrl}/trigger/${encodeURI(id)}${
             params ? `?${queryString.stringify(params)}` : ""
         }`;
