@@ -37,7 +37,7 @@ export class TriggerViewPage {
         if (this.checkUrl(this.page.url())) {
             return true;
         }
-        await delay(50);
+        await delay(100);
         return this.checkUrl(this.page.url());
     }
 

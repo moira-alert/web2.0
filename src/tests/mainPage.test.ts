@@ -1,10 +1,10 @@
-import { dropDataBase } from "./core/utils";
+import { clearDatabase } from "./core/utils";
 import { MainPage } from "./pages/MainPage";
 import { AddTriggerPage } from "./pages/AddTriggerPage";
 
 describe("Main Page", () => {
     beforeAll(async () => {
-        await dropDataBase();
+        await clearDatabase();
     });
 
     it(`open Add trigger page by click on "Add Trigger" `, async () => {

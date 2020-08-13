@@ -4,7 +4,7 @@ services:
   redis:
     image: redis:alpine
     volumes:
-      - data:/data    
+      - data:/data
 
   filter:
     image: moira/filter-nightly
@@ -63,6 +63,6 @@ services:
 
 networks:
   balancer:
-  
+
 volumes:
   data:
