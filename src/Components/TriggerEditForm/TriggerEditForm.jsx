@@ -122,6 +122,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             width="100%"
                             value={name}
                             onValueChange={value => onChange({ name: value })}
+                            data-tid="Name"
                         />
                     </ValidationWrapperV1>
                 </FormRow>
@@ -131,8 +132,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             value={descriptionMode}
                             onValueChange={value => this.setState({ descriptionMode: value })}
                         >
-                            <Tabs.Tab id="edit">Edit</Tabs.Tab>
-                            <Tabs.Tab id="preview">Preview</Tabs.Tab>
+                            <Tabs.Tab id="edit" data-tid="Description Edit">Edit</Tabs.Tab>
+                            <Tabs.Tab id="preview" data-tid="Description Preview">Preview</Tabs.Tab>
                         </Tabs>
                     </div>
                     {descriptionMode === "edit" ? (
@@ -141,6 +142,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 width="100%"
                                 value={desc || ""}
                                 onValueChange={value => onChange({ desc: value })}
+                                data-tid={"Description"}
                             />
                             <EditDescriptionHelp />
                         </>
@@ -170,6 +172,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                             onValueChange={value =>
                                                 this.handleUpdateTarget(i, value)
                                             }
+                                            data-tid={`Target T${i + 1}`}
                                         />
                                     </ValidationWrapperV1>
                                 </Fill>
@@ -184,6 +187,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                             onValueChange={value =>
                                                 this.handleUpdateAloneMetrics(i, value)
                                             }
+                                            data-tid={`Target Single ${i + 1}`}
                                         >
                                             Single
                                         </Checkbox>
@@ -191,7 +195,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 )}
                                 {targets.length > 1 && (
                                     <Fit>
-                                        <Button onClick={() => this.handleRemoveTarget(i)}>
+                                        <Button onClick={() => this.handleRemoveTarget(i)} data-tid="Target Remove">
                                             <RemoveIcon />
                                         </Button>
                                     </Fit>
@@ -283,6 +287,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                     tags: selectedTags,
                                 })
                             }
+                            data-tid="Tags"
                         />
                     </ValidationWrapperV1>
                 </FormRow>

@@ -117,7 +117,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                                     this.handleSubmit();
                                                 }}
                                             >
-                                                Add trigger
+                                                <span data-tid="Add Trigger">Add trigger</span>
                                             </Button>
                                         </Fit>
                                         <Fit>
