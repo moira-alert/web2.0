@@ -33,27 +33,18 @@ type State = {
     newSubscription: ?SubscriptionInfo,
     subscriptionEditModalVisible: boolean,
     subscriptionToEdit: ?Subscription,
-    availableTags: string[],
-    filteredSubscription: Subscription[],
+    filterTags: string[],
 };
 
 export default class SubscriptionList extends React.Component<Props, State> {
     props: Props;
-
-    constructor(props: Props) {
-        super(props);
-
-        const { subscriptions } = props;
-        this.state.filteredSubscription = subscriptions;
-        this.state.availableTags = [...new Set(subscriptions.flatMap(i => i.tags))];
-    }
 
     state: State = {
         newSubscriptionModalVisible: false,
         newSubscription: null,
         subscriptionEditModalVisible: false,
         subscriptionToEdit: null,
-        filteredTags: [],
+        filterTags: [],
     };
 
     render(): React.Element<any> {
@@ -63,10 +54,9 @@ export default class SubscriptionList extends React.Component<Props, State> {
             newSubscription,
             subscriptionEditModalVisible,
             subscriptionToEdit,
-            filteredSubscription,
-            filteredTags,
-            availableTags,
+            filterTags,
         } = this.state;
+        const { filteredSubscriptions, availableTags } = this.filterSubscriptions();
 
         return (
             <div>
@@ -88,9 +78,9 @@ export default class SubscriptionList extends React.Component<Props, State> {
                             <Fit>
                                 <TagDropdownSelect
                                     width={280}
-                                    value={filteredTags}
+                                    value={filterTags}
                                     availableTags={availableTags}
-                                    onChange={this.handleFilteredSubscription}
+                                    onChange={this.handleFilterTagsChange}
                                     placeholder=" Filter subscriptions by Tags"
                                 />
                             </Fit>
@@ -98,7 +88,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                         <div className={cn("items-container")}>
                             <table className={cn("items")}>
                                 <tbody>
-                                    {filteredSubscription.map(subscription =>
+                                    {filteredSubscriptions.map(subscription =>
                                         this.renderSubscriptionRow(subscription)
                                     )}
                                 </tbody>
@@ -141,17 +131,8 @@ export default class SubscriptionList extends React.Component<Props, State> {
         );
     }
 
-    handleFilteredSubscription = (tags: string[]) => {
-        const { subscriptions } = this.props;
-        const filteredSubscription = subscriptions.filter(subscription =>
-            tags.every(x => subscription.tags.includes(x))
-        );
-
-        this.setState({
-            filteredTags: tags,
-            filteredSubscription,
-            availableTags: [...new Set(filteredSubscription.flatMap(i => i.tags))],
-        });
+    handleFilterTagsChange = (tags: string[]) => {
+        this.setState({ filterTags: tags });
     };
 
     handleEditSubscription = (subscription: Subscription) => {
@@ -260,6 +241,22 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 subscriptionToEdit: null,
             });
         }
+    };
+
+    filterSubscriptions = (): {
+        filteredSubscriptions: Subscription[],
+        availableTags: string[],
+    } => {
+        const { subscriptions } = this.props;
+        const { filterTags } = this.state;
+        const filteredSubscriptions = subscriptions.filter(subscription =>
+            filterTags.every(x => subscription.tags.includes(x))
+        );
+
+        return {
+            filteredSubscriptions,
+            availableTags: [...new Set(filteredSubscriptions.flatMap(i => i.tags))],
+        };
     };
 
     renderSubscriptionRow(subscription: Subscription): React.Node {
