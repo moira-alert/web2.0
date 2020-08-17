@@ -18,7 +18,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "yarn lint && yarn prettier"
+            "pre-commit": "yarn lint && yarn prettier && npx tsc --noEmit"
         }
     },
     "dependencies": {
