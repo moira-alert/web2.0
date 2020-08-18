@@ -147,7 +147,9 @@ export default function MetricList(props: Props): React.Node {
                                 <MaintenanceSelect
                                     maintenance={maintenance}
                                     caption={maintenanceCaption(delta)}
-                                    onSetMaintenance={key => onChange(metric, key)}
+                                    onSetMaintenance={maintenanceValue =>
+                                        onChange(metric, maintenanceValue)
+                                    }
                                 />
                             </div>
                             <div className={cn("author")}>

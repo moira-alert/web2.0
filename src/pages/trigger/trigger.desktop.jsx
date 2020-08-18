@@ -21,7 +21,7 @@ type Props = {|
     pageCount: number,
     disableThrottling: (id: string) => void,
     setTriggerMaintenance: (id: string, maintenance: number) => void,
-    setMetricMaintenance: (id: string, maintenance: number, metric: string) => void,
+    setMetricMaintenance: (id: string, metric: string, maintenance: number) => void,
     removeMetric: (id: string, metric: string) => void,
     removeNoDataMetric: (id: string) => void,
     onPageChange: ({ page: number }) => {},
@@ -138,7 +138,7 @@ class TriggerDesktop extends React.Component<Props, State> {
                                         sortingColumn={sortingColumn}
                                         sortingDown={sortingDown}
                                         onChange={(metric, maintenance) => {
-                                            setMetricMaintenance(triggerId, maintenance, metric);
+                                            setMetricMaintenance(triggerId, metric, maintenance);
                                         }}
                                         onRemove={metric => removeMetric(triggerId, metric)}
                                         noDataMerticCount={noDataMerticCount}
