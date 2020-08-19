@@ -36,6 +36,7 @@ export const StatusesWeight = {
 
 export type Status = keyof typeof Statuses;
 
+// TODO set as enum
 export const StatusesInOrder: string[] = [
     Statuses.EXCEPTION,
     Statuses.NODATA,
