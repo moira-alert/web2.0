@@ -103,7 +103,7 @@ export default function TriggerInfo({
     return (
         <section>
             <header className={cn("header")}>
-                <h1 className={cn("title")}>{name != null && name !== "" ? name : "[No name]"}</h1>
+                <h1 className={cn("title")} data-tid="Name">{name != null && name !== "" ? name : "[No name]"}</h1>
                 <div className={cn("controls")}>
                     {throttling !== 0 && (
                         <span className={cn("control")}>

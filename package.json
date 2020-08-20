@@ -11,13 +11,14 @@
         "start": "npm-run-all --parallel serve fakeapi",
         "lint": "eslint --ext .tsx --ext .ts src/",
         "test": "cross-env NODE_ENV=testing jest \"./src\"",
-        "prettier": "prettier \"./src/**/*.ts\"",
+        "test:e2e": "cross-env NODE_ENV=testing TYPE=e2e jest ./src/tests --runInBand",
+        "prettier": "prettier \"./src/**/*.{ts,tsx}\"",
         "creevey": "wait-on http://localhost:9001 -t 60000 && node ./.creevey/start.js  -c ./.creevey/creevey.config.js",
         "creevey:ui": "yarn creevey --ui"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "yarn lint && yarn prettier"
+            "pre-commit": "yarn lint && yarn prettier && npx tsc --noEmit"
         }
     },
     "dependencies": {
@@ -61,6 +62,8 @@
         "@storybook/react": "^5.3.17",
         "@types/classnames": "2.2.10",
         "@types/jest": "26.0.9",
+        "@types/jest-environment-puppeteer": "4.3.2",
+        "@types/puppeteer": "^3.0.1",
         "@types/react": "16.9.43",
         "@types/react-dom": "16.9.8",
         "@types/react-router-dom": "5.1.5",
@@ -76,22 +79,24 @@
         "cross-env": "5.2.0",
         "css-loader": "4.0.0",
         "eslint": "7.5.0",
-        "eslint-config-prettier": "4.1.0",
+        "eslint-config-prettier": "6.11.0",
         "eslint-plugin-babel": "5.3.0",
         "eslint-plugin-flowtype": "3.4.2",
         "eslint-plugin-import": "2.22.0",
         "eslint-plugin-jsx-a11y": "6.2.1",
-        "eslint-plugin-prettier": "3.0.1",
+        "eslint-plugin-prettier": "3.1.4",
         "eslint-plugin-react": "7.20.3",
         "eslint-plugin-react-hooks": "2.5.0",
         "file-loader": "6.0.0",
         "html-webpack-plugin": "3.2.0",
+        "jest-puppeteer": "4.4.0",
         "json-server": "0.14.2",
         "less": "3.12.2",
         "less-loader": "6.2.0",
         "mini-css-extract-plugin": "^0.9.0",
         "mockdate": "3.0.2",
-        "prettier": "1.16.4",
+        "prettier": "2.0.5",
+        "puppeteer": "5.2.1",
         "regenerator-runtime": "^0.13.5",
         "selenium-webdriver": "^4.0.0-alpha.7",
         "storybook-react-router": "1.0.3",

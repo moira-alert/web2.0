@@ -10,11 +10,11 @@ export function withMoiraApi<ComponentProps extends { moiraApi: IMoiraApi }>(
 ): React.ComponentType<Omit<ComponentProps, "moiraApi">> {
     function ComponentWithApi(props: Omit<ComponentProps, "moiraApi">) {
         const moiraApi = React.useContext(ApiContext);
-        return <Component {...props as ComponentProps} moiraApi={moiraApi} />;
+        return <Component {...(props as ComponentProps)} moiraApi={moiraApi} />;
     }
 
-    ComponentWithApi.displayName = `withApi(${Component.displayName ||
-        Component.name ||
-        "Component"})`;
+    ComponentWithApi.displayName = `withApi(${
+        Component.displayName || Component.name || "Component"
+    })`;
     return ComponentWithApi;
 }

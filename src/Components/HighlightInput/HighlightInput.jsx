@@ -6,14 +6,15 @@ import type { ValidationInfo } from "@skbkontur/react-ui-validations";
 import type { TriggerTargetsCheck, TriggerTargetProblem } from "../../Domain/Trigger";
 import parseExpression, { isEmptyString } from "./parser/parseExpression";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import cn from "./HighlightInput.less";
 import { highlightBadFunction, highlightTokens, renderToken } from "./highlightFunctions";
+import cn from "./HighlightInput.less";
 
 type HighlightInputProps = {
     onValueChange: string => void,
     value: string,
     width?: string,
     validate?: TriggerTargetsCheck,
+    "data-tid"?: string,
 };
 
 type FunctionTree = {
@@ -170,6 +171,7 @@ export default function HighlightInput(props: HighlightInputProps) {
                             width={width}
                             onValueChange={handleValueChange}
                             onBlur={handleInputBlur}
+                            data-tid={props["data-tid"]}
                         />
                     </ValidationWrapperV1>
                 </ThemeContext.Provider>

@@ -1,7 +1,7 @@
 import * as queryString from "query-string";
 import { Config } from "../Domain/Config";
 import { EventList } from "../Domain/Event";
-import { Trigger, TriggerList, TriggerState } from "../Domain/Trigger";
+import { Trigger, TriggerList, TriggerState, ValidateTriggerResult } from "../Domain/Trigger";
 import { Settings } from "../Domain/Settings";
 import { TagStat } from "../Domain/Tag";
 import { PatternList } from "../Domain/Pattern";
@@ -73,7 +73,7 @@ export interface IMoiraApi {
         [key: string]: string;
     }>;
     delTrigger(id: string): Promise<void>;
-    validateTrigger(trigger: $Shape<Trigger>): Promise<ValidateTriggerResult>;
+    validateTrigger(trigger: Partial<Trigger>): Promise<ValidateTriggerResult>;
     setMaintenance(
         triggerId: string,
         data: {
@@ -160,7 +160,7 @@ export default class MoiraApi implements IMoiraApi {
 
     async getSettings(): Promise<Settings> {
         const result = await this.get<Settings>("/user/settings");
-        result.subscriptions.forEach(s => {
+        result.subscriptions.forEach((s) => {
             // eslint-disable-next-line no-param-reassign
             s.tags = s.tags === null ? [] : s.tags;
         });
@@ -379,11 +379,11 @@ export default class MoiraApi implements IMoiraApi {
         await MoiraApi.checkStatus(response);
     }
 
-    validateTrigger = async (trigger: $Shape<Trigger>) => {
+    validateTrigger = async (trigger: Partial<Trigger>): Promise<ValidateTriggerResult> => {
         const url = `${this.apiUrl}/trigger/check?remote=${trigger.is_remote}&targets=${encodeURI(
             JSON.stringify(trigger.targets)
         )}`;
-        const response = await fetch<ValidateTriggerResult>(url, {
+        const response = await fetch(url, {
             credentials: "same-origin",
         });
         await MoiraApi.checkStatus(response);

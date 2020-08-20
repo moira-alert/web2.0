@@ -15,6 +15,6 @@ const check = {
 };
 
 const checkMobile = (userAgent: string): boolean =>
-    Object.values(check).some(callback => callback(userAgent));
+    Object.values(check).some((callback) => callback(userAgent));
 
 export default checkMobile;

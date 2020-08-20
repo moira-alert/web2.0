@@ -18,7 +18,7 @@ export default function NewTagBadge(props: Props): React.Node {
     return (
         <div className={cn({ tag: true, removeable: onRemove, focused: focus })}>
             {onClick ? (
-                <button type="button" onClick={onClick} className={cn("title", "clickable")}>
+                <button type="button" onClick={onClick} className={cn("title", "clickable")} data-tid="New Tag">
                     <AddIcon /> {doNotShowNewTagCaption ? "" : "new tag "}
                     {title}
                 </button>

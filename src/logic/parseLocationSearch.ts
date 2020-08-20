@@ -26,7 +26,7 @@ function parseLocationSearch(search: string): MoiraUrlParams {
         result.page = parseInt(page, 10);
     }
     if (Array.isArray(tags)) {
-        result.tags = tags.map(value => value.toString());
+        result.tags = tags.map((value) => value.toString());
     }
     if (onlyProblems !== undefined) {
         result.onlyProblems = onlyProblems === "false" ? false : Boolean(onlyProblems);
