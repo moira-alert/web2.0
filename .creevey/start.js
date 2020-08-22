@@ -3,7 +3,7 @@ const path = require("path");
 
 require("@babel/register")({
     babelrc: false,
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     presets: [
         "@babel/preset-flow",
         [
@@ -14,6 +14,7 @@ require("@babel/register")({
                 },
             }
         ],
+        "@babel/typescript",
         "@babel/preset-react"
     ],
     plugins: [

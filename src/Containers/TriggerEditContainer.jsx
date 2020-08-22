@@ -51,6 +51,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
+        const { moiraApi } = this.props;
         const { loading, error, trigger, tags, config } = this.state;
         return (
             <Layout loading={loading} error={error}>
@@ -66,7 +67,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                                 data={trigger}
                                                 tags={tags || []}
                                                 remoteAllowed={config.remoteAllowed}
-                                                onChange={update => this.handleChange(update)}
+                                                onChange={this.handleChange}
+                                                validateTrigger={moiraApi.validateTrigger}
                                             />
                                         )}
                                     </ValidationContainer>
@@ -131,9 +133,12 @@ class TriggerEditContainer extends React.Component<Props, State> {
         }
     };
 
-    handleChange(update: $Shape<Trigger>) {
-        this.setState((prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }));
-    }
+    handleChange = (update: $Shape<Trigger>, callback?: () => void) => {
+        this.setState(
+            (prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }),
+            callback
+        );
+    };
 
     deleteTrigger = async (id: string) => {
         const { moiraApi, history } = this.props;

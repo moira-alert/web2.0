@@ -1,15 +1,14 @@
 // @flow
 import * as React from "react";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
-import type { Maintenance } from "../../Domain/Maintenance";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 
 type Props = {|
     trigger: ?Trigger,
     state: ?TriggerState,
     disableThrottling: (id: string) => void,
-    setTriggerMaintenance: (id: string, maintenance: Maintenance) => void,
-    setMetricMaintenance: (id: string, maintenance: Maintenance, metric: string) => void,
+    setTriggerMaintenance: (id: string, maintenance: number) => void,
+    setMetricMaintenance: (id: string, metric: string, maintenance: number) => void,
     removeMetric: (id: string, metric: string) => void,
 |};
 
@@ -31,7 +30,7 @@ export default function TriggerMobile({
             onRemoveMetric={metric => removeMetric(trigger ? trigger.id : "", metric)}
             onThrottlingRemove={() => disableThrottling(trigger ? trigger.id : "")}
             onSetMetricMaintenance={(metric, maintenance) =>
-                setMetricMaintenance(trigger ? trigger.id : "", maintenance, metric)
+                setMetricMaintenance(trigger ? trigger.id : "", metric, maintenance)
             }
             onSetTriggerMaintenance={maintenance =>
                 setTriggerMaintenance(trigger ? trigger.id : "", maintenance)

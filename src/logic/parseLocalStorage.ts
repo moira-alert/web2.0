@@ -23,7 +23,7 @@ function parseLocalStorage(localData: string): MoiraUrlParams {
             - что onlyProblems будет булевым
         */
         if (Array.isArray(tags)) {
-            result.tags = tags.map(value => value.toString());
+            result.tags = tags.map((value) => value.toString());
         }
         if (onlyProblems !== undefined) {
             result.onlyProblems = onlyProblems === "false" ? false : Boolean(onlyProblems);

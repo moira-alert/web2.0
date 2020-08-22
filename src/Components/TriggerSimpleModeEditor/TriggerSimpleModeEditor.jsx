@@ -77,6 +77,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={risingValues.warn_value}
                                                 onChange={this.handleChangeWarnValue}
                                                 disabled={watchFor !== "rising"}
+                                                data-tid="WARN T1"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -110,6 +111,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={risingValues.error_value}
                                                 onChange={this.handleChangeErrorValue}
                                                 disabled={watchFor !== "rising"}
+                                                data-tid="ERROR T1"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>

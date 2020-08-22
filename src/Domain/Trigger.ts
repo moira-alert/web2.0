@@ -59,6 +59,21 @@ export type TriggerState = {
     msg?: string;
 };
 
+export type TriggerTargetProblem = {
+    argument: string;
+    position: number;
+    type?: "warn" | "bad";
+    description?: string;
+    problems?: TriggerTargetProblem[];
+};
+
+export type ValidateTriggerResult = {
+    triggers: Array<{
+        syntax_ok: boolean;
+        tree_of_problems?: TriggerTargetProblem;
+    }>;
+};
+
 const TriggerDataSources = {
     LOCAL: "LOCAL",
     GRAPHITE: "GRAPHITE",

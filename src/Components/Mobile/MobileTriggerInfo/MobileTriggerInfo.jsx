@@ -10,7 +10,12 @@ import type { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
 import type { Status } from "../../../Domain/Status";
 import type { Trigger, TriggerState } from "../../../Domain/Trigger";
-import { Maintenances, getMaintenanceCaption, type Maintenance } from "../../../Domain/Maintenance";
+import {
+    Maintenances,
+    getMaintenanceCaption,
+    type Maintenance,
+    calculateMaintenanceTime,
+} from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
@@ -23,7 +28,7 @@ type Props = {|
     data: ?Trigger,
     triggerState: ?TriggerState,
     onThrottlingRemove: () => void,
-    onSetMaintenance: (maintenancesInterval: Maintenance) => void,
+    onSetMaintenance: (maintenance: number) => void,
 |};
 
 type State = {
@@ -175,7 +180,7 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
     handleSetMaintenance = (interval: Maintenance) => {
         const { onSetMaintenance } = this.props;
         this.setState({ showMaintenance: false });
-        onSetMaintenance(interval);
+        onSetMaintenance(calculateMaintenanceTime(interval));
     };
 
     getWorstTriggerState(): ?Status {

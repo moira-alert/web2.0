@@ -13,7 +13,7 @@ export interface IMetricByStatuses {
 function groupMetricsByStatuses(metrics: MetricList): IMetricByStatuses {
     const result: IMetricByStatuses = {};
 
-    Object.keys(metrics).forEach(metricName => {
+    Object.keys(metrics).forEach((metricName) => {
         const metric = metrics[metricName];
         const { state } = metric;
 

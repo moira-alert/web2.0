@@ -10,7 +10,6 @@ import SearchSelector from "../../Components/SearchSelector/SearchSelector";
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
 import type { Trigger } from "../../Domain/Trigger";
-import type { Maintenance } from "../../Domain/Maintenance";
 
 type Props = {|
     selectedTags: string[],
@@ -20,11 +19,12 @@ type Props = {|
     triggers: Array<Trigger>,
     activePage: number,
     pageCount: number,
-    onChange: (triggerId: string, metric: string, maintenance: Maintenance) => void,
+    // TODO Какая-то лажа, должен быть объект. Разобраться какой
+    onChange: (update: Object) => void,
     searchText: string,
     loading: boolean,
     error: string,
-    onSetMetricMaintenance: (triggerId: string, metric: string, maintenance: Maintenance) => void,
+    onSetMetricMaintenance: (triggerId: string, metric: string, maintenance: number) => void,
     onRemoveMetric: (triggerId: string, metric: string) => void,
 |};
 

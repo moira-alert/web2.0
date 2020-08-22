@@ -1,14 +1,13 @@
 // @flow
 import * as React from "react";
 import type { Trigger } from "../../Domain/Trigger";
-import type { Maintenance } from "../../Domain/Maintenance";
 import TriggerListItem from "../TriggerListItem/TriggerListItem";
 import cn from "./TriggerList.less";
 
 type Props = {|
     items: Array<Trigger>,
     searchMode: boolean,
-    onChange?: (triggerId: string, metric: string, maintenance: Maintenance) => void,
+    onChange?: (triggerId: string, metric: string, maintenance: number) => void,
     onRemove?: (triggerId: string, metric: string) => void,
 |};
 
