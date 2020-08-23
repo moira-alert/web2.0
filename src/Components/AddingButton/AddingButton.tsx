@@ -9,7 +9,7 @@ interface IAddingButtonProps {
 export default function AddingButton(props: IAddingButtonProps): React.ReactNode {
     const { to } = props;
     return (
-        <Link to={to} className={cn("button")}>
+        <Link to={to} className={cn("button")} data-tid="Add Trigger">
             Add Trigger
         </Link>
     );
