@@ -144,6 +144,7 @@ stories.forEach(({ title, data }) => {
                 tags={allTags}
                 remoteAllowed={data.is_remote}
                 onChange={action("onChange")}
+                validateTriggerTargest={() => [{ syntax_ok: true }]}
             />
         </ValidationContainer>
     ));

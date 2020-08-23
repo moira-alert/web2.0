@@ -1,0 +1,68 @@
+version: "3"
+
+services:
+  redis:
+    image: redis:alpine
+    volumes:
+      - data:/data
+
+  filter:
+    image: moira/filter-nightly
+    ports:
+      - "2003:2003"
+    depends_on:
+      - redis
+    links:
+      - redis:localhost
+
+  checker:
+    image: moira/checker-nightly
+    networks:
+      - default
+    depends_on:
+      - redis
+      - filter
+    links:
+      - redis:localhost
+
+  notifier:
+    image: moira/notifier-nightly
+    depends_on:
+      - redis
+      - checker
+    links:
+      - redis:localhost
+
+  api:
+    image: moira/api-nightly
+    depends_on:
+      - redis
+      - checker
+    links:
+      - redis:localhost
+    networks:
+      - default
+      - balancer
+
+  web:
+    image: moira/web2
+    networks:
+      - balancer
+
+  balancer:
+    image: nginx:alpine
+    ports:
+      - "8080:8083"
+    depends_on:
+      - web
+      - api
+    networks:
+      - balancer
+    volumes:
+      - ./docker-compose.nginx.conf:/etc/nginx/conf.d/moira.conf
+
+networks:
+  balancer:
+
+volumes:
+  data:

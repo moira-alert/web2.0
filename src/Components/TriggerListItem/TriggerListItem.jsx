@@ -8,7 +8,6 @@ import { getPageLink } from "../../Domain/Global";
 import type { Trigger } from "../../Domain/Trigger";
 import type { Status } from "../../Domain/Status";
 import type { Metric } from "../../Domain/Metric";
-import type { Maintenance } from "../../Domain/Maintenance";
 import { Statuses, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
@@ -23,7 +22,7 @@ import cn from "./TriggerListItem.less";
 type Props = {|
     data: Trigger,
     searchMode: boolean,
-    onChange?: (triggerId: string, metric: string, maintenance: Maintenance) => void,
+    onChange?: (triggerId: string, metric: string, maintenance: number) => void,
     onRemove?: (metric: string) => void,
 |};
 

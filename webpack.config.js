@@ -118,7 +118,7 @@ module.exports = {
         proxy: {
             "/api":
                 process.env.API_MODE === "local"
-                    ? "" // Place you API url here. More options see on https://webpack.js.org/configuration/dev-server/#devserver-proxy
+                    ? { target: "http://localhost:8080", secure: false }
                     : {
                         target: "http://localhost:9002",
                         pathRewrite: { "^/api": "" },

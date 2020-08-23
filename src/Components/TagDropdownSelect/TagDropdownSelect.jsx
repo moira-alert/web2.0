@@ -19,6 +19,7 @@ type Props = {
     width: number,
     allowCreateNewTags?: boolean,
     placeholder?: string,
+    "data-tid"?: string;
 };
 
 type State = {
@@ -88,6 +89,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                                         focus={i === focusedIndex - 1}
                                                         title={tag}
                                                         onClick={() => this.selectTag(tag)}
+                                                        data-tid={`Tag ${tag}`}
                                                     />
                                                 ))}
                                                 {allowCreateNewTags &&
@@ -238,7 +240,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     }
 
     renderInput(): React.Node {
-        const { error, value, isDisabled, placeholder } = this.props;
+        const { error, value, isDisabled, placeholder, "data-tid": dataTid } = this.props;
         const { isFocused, inputValue } = this.state;
         return (
             <div
@@ -270,6 +272,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     onFocus={() => this.setState({ isFocused: true })}
                     disabled={isDisabled}
                     placeholder={value.length === 0 ? placeholder : undefined}
+                    data-tid={dataTid}
                 />
             </div>
         );

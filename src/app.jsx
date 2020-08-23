@@ -2,6 +2,8 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { LangCodes } from "@skbkontur/react-ui/lib/locale";
+import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
 import MoiraApi from "./Api/MoiraApi";
 import { ApiProvider } from "./Api/MoiraApiInjection";
 import mobile from "./mobile.bundle";
@@ -17,9 +19,11 @@ const render = Component => {
     if (root !== null) {
         ReactDOM.render(
             <BrowserRouter>
-                <ApiProvider value={moiraApi}>
-                    <Component />
-                </ApiProvider>
+                <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+                    <ApiProvider value={moiraApi}>
+                        <Component />
+                    </ApiProvider>
+                </LocaleContext.Provider>
             </BrowserRouter>,
             root
         );

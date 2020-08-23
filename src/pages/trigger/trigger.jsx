@@ -6,7 +6,6 @@ import isEqual from "lodash/isEqual";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
 import type { IMoiraApi } from "../../Api/MoiraApi";
-import type { Maintenance } from "../../Domain/Maintenance";
 import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { setMetricMaintenance, setTriggerMaintenance } from "../../Domain/Maintenance";
@@ -156,14 +155,14 @@ class TriggerPage extends React.Component<Props, State> {
         this.loadData();
     };
 
-    setTriggerMaintenance = async (triggerId: string, maintenance: Maintenance) => {
+    setTriggerMaintenance = async (triggerId: string, maintenance: number) => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         await setTriggerMaintenance(moiraApi, triggerId, maintenance);
         this.loadData();
     };
 
-    setMetricMaintenance = async (triggerId: string, metric: string, maintenance: Maintenance) => {
+    setMetricMaintenance = async (triggerId: string, metric: string, maintenance: number) => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         await setMetricMaintenance(moiraApi, triggerId, metric, maintenance);

@@ -83,7 +83,9 @@ class TriggerAddContainer extends React.Component<Props, State> {
     }
 
     render(): React.Node {
+        const { moiraApi } = this.props;
         const { loading, error, trigger, tags, config } = this.state;
+
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -103,7 +105,8 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                                 data={trigger}
                                                 remoteAllowed={config.remoteAllowed}
                                                 tags={tags || []}
-                                                onChange={update => this.handleChange(update)}
+                                                onChange={this.handleChange}
+                                                validateTrigger={moiraApi.validateTrigger}
                                             />
                                         )}
                                     </ValidationContainer>
@@ -117,7 +120,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                                     this.handleSubmit();
                                                 }}
                                             >
-                                                Add trigger
+                                                <span data-tid="Add Trigger">Add trigger</span>
                                             </Button>
                                         </Fit>
                                         <Fit>
@@ -167,12 +170,15 @@ class TriggerAddContainer extends React.Component<Props, State> {
         }
     }
 
-    handleChange(update: $Shape<Trigger>) {
-        this.setState((prevState: State) => ({
-            trigger: { ...prevState.trigger, ...update },
-            error: undefined,
-        }));
-    }
+    handleChange = (update: $Shape<Trigger>, callback?: () => void) => {
+        this.setState(
+            (prevState: State) => ({
+                trigger: { ...prevState.trigger, ...update },
+                error: undefined,
+            }),
+            callback
+        );
+    };
 
     handleFileImport = (fileData: string, fileName: string) => {
         try {
