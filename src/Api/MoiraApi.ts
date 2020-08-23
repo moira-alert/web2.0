@@ -159,7 +159,7 @@ export default class MoiraApi implements IMoiraApi {
 
     async getSettings(): Promise<Settings> {
         const result = await this.get<Settings>("/user/settings");
-        result.subscriptions.forEach(s => {
+        result.subscriptions.forEach((s) => {
             // eslint-disable-next-line no-param-reassign
             s.tags = s.tags === null ? [] : s.tags;
         });

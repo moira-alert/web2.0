@@ -32,7 +32,7 @@ export const WholeWeek: DaysOfWeek[] = [
 
 export function createSchedule(days: DaysOfWeek[]): Schedule {
     return {
-        days: WholeWeek.map(x => ({ enabled: days.includes(x), name: x })),
+        days: WholeWeek.map((x) => ({ enabled: days.includes(x), name: x })),
         tzOffset: new Date().getTimezoneOffset(),
         startOffset: 0,
         endOffset: 1439,
