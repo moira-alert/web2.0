@@ -51,7 +51,7 @@ type Props = {
     subscribedTokens: string[];
     remainingTokens: string[];
     onChange: (tags: string[], searchString: string) => void;
-    onSearch: (arg0: string) => void;
+    onSearch: (query: string) => void;
 };
 
 type State = {

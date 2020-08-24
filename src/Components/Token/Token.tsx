@@ -4,8 +4,8 @@ import cn from "./Token.less";
 type Props = {
     children: string;
     type?: "removable" | "selectable";
-    onClick?: (arg0: string) => void;
-    onRemove?: (arg0: string) => void;
+    onClick?: (token: string) => void;
+    onRemove?: (token: string) => void;
 };
 
 const Token = (props: Props): React.ReactElement => {
@@ -13,9 +13,7 @@ const Token = (props: Props): React.ReactElement => {
 
     if (type === "removable") {
         const handleRemove = () => {
-            if (onRemove) {
-                onRemove(children);
-            }
+            onRemove?.(children);
         };
 
         return (
@@ -33,9 +31,7 @@ const Token = (props: Props): React.ReactElement => {
 
     if (type === "selectable") {
         const handleClick = () => {
-            if (onClick) {
-                onClick(children);
-            }
+            onClick?.(children);
         };
 
         return (

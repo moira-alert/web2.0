@@ -49,7 +49,7 @@ const Dropdown = ({
 type Props = {
     search: string;
     tokens: string[];
-    renderToken: (value: string) => React.ReactNode;
+    renderToken: (token: string) => React.ReactNode;
     children: React.ReactNode;
     onEnterKeyDown: () => void;
     onBackspaceKeyDown: () => void;
@@ -116,12 +116,7 @@ class Selector extends React.Component<Props, State> {
 
     handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
         const { onInputChange } = this.props;
-
-        // Here Flow types means that EventTarget haven`t field "value"
-        // TODO: Remove if statement on TS
-        if (evt.target instanceof HTMLInputElement) {
-            onInputChange(evt.target.value);
-        }
+        onInputChange(evt.target.value);
     };
 
     handleInputKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -154,10 +149,7 @@ class Selector extends React.Component<Props, State> {
         const { focused } = this.state;
 
         if (focused) {
-            if (this.searchInputRef.current) {
-                this.searchInputRef.current.blur();
-            }
-
+            this.searchInputRef.current?.blur();
             this.setState({ focused: false });
         }
     };

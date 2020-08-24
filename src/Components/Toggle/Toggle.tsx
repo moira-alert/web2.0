@@ -5,7 +5,7 @@ import cn from "./Toggle.less";
 type Props = {
     checked?: boolean;
     label: string;
-    onChange: (checked: boolean) => void | Promise<void>;
+    onChange: (checked: boolean) => void;
 };
 
 export default function ToggleWithLabel(props: Props): React.ReactElement {
