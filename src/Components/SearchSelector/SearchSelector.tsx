@@ -73,15 +73,6 @@ class SearchSelector extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount(): void {
-        const { search = "" } = this.props;
-
-        this.setState({
-            searchText: search,
-            clearedSearchValue: clearInput(search),
-        });
-    }
-
     render(): React.ReactElement {
         const { selectedTokens, subscribedTokens, remainingTokens } = this.props;
         const { clearedSearchValue, searchText } = this.state;

@@ -82,35 +82,31 @@ class Selector extends React.Component<Props, State> {
         const { search, tokens, renderToken, children } = this.props;
 
         return (
-            <>
-                <Foco className={cn("wrapper")} onClickOutside={this.closeDropdown}>
-                    <label
-                        className={cn({ selector: true, focused })}
-                        htmlFor="selector"
-                        ref={this.dropdownAnchorRef}
-                    >
-                        {tokens.map((token) => (
-                            <span key={token} className={cn("token-container")}>
-                                {renderToken(token)}
-                            </span>
-                        ))}
-                        <input
-                            className={cn("input")}
-                            id="selector"
-                            type="text"
-                            value={search}
-                            autoComplete="off"
-                            ref={this.searchInputRef}
-                            onChange={this.handleInputChange}
-                            onKeyDown={this.handleInputKeyDown}
-                            onFocus={this.openDropdown}
-                        />
-                    </label>
-                    {focused && (
-                        <Dropdown anchor={this.dropdownAnchorRef.current}>{children}</Dropdown>
-                    )}
-                </Foco>
-            </>
+            <Foco className={cn("wrapper")} onClickOutside={this.closeDropdown}>
+                <label
+                    className={cn({ selector: true, focused })}
+                    htmlFor="selector"
+                    ref={this.dropdownAnchorRef}
+                >
+                    {tokens.map((token) => (
+                        <span key={token} className={cn("token-container")}>
+                            {renderToken(token)}
+                        </span>
+                    ))}
+                    <input
+                        className={cn("input")}
+                        id="selector"
+                        type="text"
+                        value={search}
+                        autoComplete="off"
+                        ref={this.searchInputRef}
+                        onChange={this.handleInputChange}
+                        onKeyDown={this.handleInputKeyDown}
+                        onFocus={this.openDropdown}
+                    />
+                </label>
+                {focused && <Dropdown anchor={this.dropdownAnchorRef.current}>{children}</Dropdown>}
+            </Foco>
         );
     }
 
@@ -126,12 +122,10 @@ class Selector extends React.Component<Props, State> {
             onEnterKeyDown();
             this.closeDropdown();
         }
-        // Here Flow types means that EventTarget haven`t field "value"
-        // TODO: Remove if statement on TS
-        if (!(evt.target instanceof HTMLInputElement)) {
-            return;
-        }
-        if (evt.key === "Backspace" && evt.target.selectionStart === 0 && tokens.length !== 0) {
+
+        const target = evt.target as HTMLInputElement;
+
+        if (evt.key === "Backspace" && target.selectionStart === 0 && tokens.length !== 0) {
             const { onBackspaceKeyDown } = this.props;
             onBackspaceKeyDown();
         }
