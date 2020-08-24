@@ -63,6 +63,7 @@
         "@types/classnames": "2.2.10",
         "@types/jest": "26.0.9",
         "@types/jest-environment-puppeteer": "4.3.2",
+        "@types/lodash": "^4.14.159",
         "@types/puppeteer": "^3.0.1",
         "@types/react": "16.9.43",
         "@types/react-dom": "16.9.8",
