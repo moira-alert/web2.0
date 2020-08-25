@@ -28,7 +28,7 @@ type State = {
 export default class TriggerListItem extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        const metrics = (props.data.last_check || {}).metrics;
+        const metrics = props.data.last_check?.metrics;
         this.state = {
             groupedMetrics: metrics ? TriggerListItem.groupMetricsByStatuses(metrics) : {},
         };
@@ -41,7 +41,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     render(): React.ReactElement {
         const { data } = this.props;
         const { id, name, tags, throttling, last_check: lastCheck } = data;
-        const maintenance = (lastCheck && lastCheck.maintenance) || 0;
+        const maintenance = lastCheck?.maintenance ?? 0;
         const delta = maintenance - getUnixTime(getUTCDate());
 
         return (

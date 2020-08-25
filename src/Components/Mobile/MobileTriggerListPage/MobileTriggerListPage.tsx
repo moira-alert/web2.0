@@ -14,7 +14,7 @@ type MobileTriggerListPageProps = {
     selectedTags: Array<string> | null | undefined;
     activePage: number;
     pageCount: number;
-    onChange: (arg0: { page: number }) => void;
+    onChange: (pageObject: { page: number }) => void;
     onOpenTagSelector: () => void;
 };
 
