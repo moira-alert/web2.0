@@ -1,38 +1,38 @@
-// @flow
 import * as React from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import { ValidationWrapperV1, tooltip, type ValidationInfo } from "@skbkontur/react-ui-validations";
+import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
 import Remarkable from "remarkable";
-import type { ContactConfig } from "../../Domain/Config";
-import type { Contact } from "../../Domain/Contact";
+import { ContactConfig } from "../../Domain/Config";
+import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactEditForm.less";
 
 const md = new Remarkable({ breaks: true });
 
-type Props = $Exact<{
-    contactDescriptions: Array<ContactConfig>,
-    contactInfo: $Shape<Contact> | null,
-    onChange: ($Shape<Contact>) => void,
-}>;
+type Props = {
+    contactDescriptions: Array<ContactConfig>;
+    contactInfo: Partial<Contact> | null;
+    onChange: (arg0: Partial<Contact>) => void;
+};
 
 export default class ContactEditForm extends React.Component<Props> {
-    props: Props;
-
-    render(): React.Node {
+    render(): React.ReactNode {
         const { onChange, contactInfo, contactDescriptions } = this.props;
         const { value = "", type } = contactInfo || {};
-        const currentContactConfig = contactDescriptions.find(contact => contact.type === type);
-        const contactItems = contactDescriptions.map(contact => [contact.type, contact.label]);
+        const currentContactConfig = contactDescriptions.find((contact) => contact.type === type);
+        const contactItems: Array<[string, string]> = contactDescriptions.map((contact) => [
+            contact.type,
+            contact.label,
+        ]);
 
         return (
             <div className={cn("form")}>
                 <div className={cn("row")}>
-                    <Select
+                    <Select<string, string>
                         placeholder="Select channel type"
                         width="100%"
-                        value={type || null}
+                        value={type || undefined}
                         renderItem={(v, item) => (
                             <span>
                                 {v && <ContactTypeIcon type={v} />} {item}
@@ -43,7 +43,7 @@ export default class ContactEditForm extends React.Component<Props> {
                                 {v && <ContactTypeIcon type={v} />} {item}
                             </span>
                         )}
-                        onValueChange={v => {
+                        onValueChange={(v) => {
                             // ToDo разобраться, почему value может отсутствовать
                             v && onChange({ type: v }); // eslint-disable-line
                         }}
@@ -62,26 +62,29 @@ export default class ContactEditForm extends React.Component<Props> {
                                 (currentContactConfig && currentContactConfig.placeholder) || ""
                             }
                             value={value}
-                            onValueChange={v => onChange({ value: v })}
+                            onValueChange={(v) => onChange({ value: v })}
                         />
                     </ValidationWrapperV1>
                 </div>
-                {currentContactConfig && currentContactConfig.help && (
-                    /* ToDo избавиться от dangerouslySetInnerHTML */
-                    /* eslint-disable */
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: md.render(currentContactConfig.help),
-                        }}
-                        className={cn("row", "comment")}
-                    />
+                {
+                    currentContactConfig && currentContactConfig.help && (
+                        /* ToDo избавиться от dangerouslySetInnerHTML */
+
+                        /* eslint-disable */
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: md.render(currentContactConfig.help),
+                            }}
+                            className={cn("row", "comment")}
+                        />
+                    )
                     /* eslint-enable */
-                )}
+                }
             </div>
         );
     }
 
-    validateValue(): ?ValidationInfo {
+    validateValue(): ValidationInfo | null | undefined {
         const { contactInfo, contactDescriptions } = this.props;
 
         if (!contactInfo) {
@@ -89,7 +92,7 @@ export default class ContactEditForm extends React.Component<Props> {
         }
 
         const { value = "", type } = contactInfo;
-        const currentContactConfig = contactDescriptions.find(x => x.type === type);
+        const currentContactConfig = contactDescriptions.find((x) => x.type === type);
 
         if (!currentContactConfig || !currentContactConfig.validation) {
             return null;

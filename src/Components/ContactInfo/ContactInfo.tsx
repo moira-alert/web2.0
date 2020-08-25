@@ -1,13 +1,12 @@
-// @flow
 import * as React from "react";
-import type { Contact } from "../../Domain/Contact";
+import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 
 type Props = {
-    contact: Contact,
+    contact: Contact;
 };
 
-export default function ContactInfo(props: Props): React.Node {
+export default function ContactInfo(props: Props): React.ReactElement {
     const { contact } = props;
     return (
         <>

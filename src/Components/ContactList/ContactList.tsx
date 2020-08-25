@@ -1,44 +1,41 @@
-// @flow
 import * as React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
 import WarningIcon from "@skbkontur/react-icons/Warning";
-import type { Contact } from "../../Domain/Contact";
-import type { ContactConfig } from "../../Domain/Config";
+import { Contact } from "../../Domain/Contact";
+import { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import cn from "./ContactList.less";
 
-type Props = $Exact<{
-    items: Array<Contact>,
-    contactDescriptions: Array<ContactConfig>,
-    onTestContact: Contact => Promise<void>,
-    onAddContact: ($Shape<Contact>) => Promise<?Contact>,
-    onUpdateContact: Contact => Promise<void>,
-    onRemoveContact: Contact => Promise<void>,
-}>;
+type Props = {
+    items: Array<Contact>;
+    contactDescriptions: Array<ContactConfig>;
+    onTestContact: (arg0: Contact) => Promise<void>;
+    onAddContact: (arg0: Partial<Contact>) => Promise<Contact | null | undefined>;
+    onUpdateContact: (arg0: Contact) => Promise<void>;
+    onRemoveContact: (arg0: Contact) => Promise<void>;
+};
 
 type State = {
-    newContactModalVisible: boolean,
-    newContact: $Shape<Contact> | null,
-    editContactModalVisible: boolean,
-    editableContact: Contact | null,
+    newContactModalVisible: boolean;
+    newContact: Partial<Contact> | null;
+    editContactModalVisible: boolean;
+    editableContact: Contact | null;
 };
 
 export default class ContactList extends React.Component<Props, State> {
-    props: Props;
-
-    state: State = {
+    public state: State = {
         newContactModalVisible: false,
         newContact: null,
         editContactModalVisible: false,
         editableContact: null,
     };
 
-    render(): React.Element<any> {
+    render(): React.ReactNode {
         const { items, contactDescriptions, onRemoveContact } = this.props;
         const {
             newContact,
@@ -55,10 +52,10 @@ export default class ContactList extends React.Component<Props, State> {
                         <div className={cn("items-cotnainer")}>
                             <table className={cn("items")}>
                                 <tbody>
-                                    {items.map(contact => {
+                                    {items.map((contact) => {
                                         if (
                                             contactDescriptions.some(
-                                                description => description.type === contact.type
+                                                (description) => description.type === contact.type
                                             )
                                         ) {
                                             return (
@@ -135,7 +132,7 @@ export default class ContactList extends React.Component<Props, State> {
         );
     }
 
-    handleCreateAndTestContact = async () => {
+    handleCreateAndTestContact = async (): Promise<void> => {
         const { onAddContact, onTestContact } = this.props;
         const { newContact } = this.state;
         if (newContact === null || newContact === undefined) {
@@ -154,21 +151,21 @@ export default class ContactList extends React.Component<Props, State> {
         }
     };
 
-    handleCancelCreateNewContact = () => {
+    handleCancelCreateNewContact = (): void => {
         this.setState({
             newContactModalVisible: false,
             newContact: null,
         });
     };
 
-    handleChangeNewContact = (newContactUpdate: $Shape<Contact>) => {
+    handleChangeNewContact = (newContactUpdate: Partial<Contact>): void => {
         const { newContact } = this.state;
         this.setState({
             newContact: { ...newContact, ...newContactUpdate },
         });
     };
 
-    handleCreateNewContact = async () => {
+    handleCreateNewContact = async (): Promise<void> => {
         const { onAddContact } = this.props;
         const { newContact } = this.state;
         if (newContact == null) {
@@ -184,7 +181,7 @@ export default class ContactList extends React.Component<Props, State> {
         }
     };
 
-    handleDeleteContact = async () => {
+    handleDeleteContact = async (): Promise<void> => {
         const { onRemoveContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {
@@ -200,34 +197,34 @@ export default class ContactList extends React.Component<Props, State> {
         }
     };
 
-    handleAddContact = () => {
+    handleAddContact = (): void => {
         this.setState({
             newContactModalVisible: true,
         });
     };
 
-    handleBeginEditContact = (contact: Contact) => {
+    handleBeginEditContact = (contact: Contact): void => {
         this.setState({
             editContactModalVisible: true,
             editableContact: contact,
         });
     };
 
-    handleChangeEditableContact = (contactUpdate: $Shape<Contact>) => {
+    handleChangeEditableContact = (contactUpdate: Partial<Contact>): void => {
         const { editableContact } = this.state;
         this.setState({
-            editableContact: { ...editableContact, ...contactUpdate },
+            editableContact: { ...editableContact, ...(contactUpdate as Contact) },
         });
     };
 
-    handleCancelEditContact = () => {
+    handleCancelEditContact = (): void => {
         this.setState({
             editContactModalVisible: false,
             editableContact: null,
         });
     };
 
-    handleUpdateContact = async () => {
+    handleUpdateContact = async (): Promise<void> => {
         const { onUpdateContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {
@@ -243,7 +240,7 @@ export default class ContactList extends React.Component<Props, State> {
         }
     };
 
-    handleUpdateAndTestContact = async () => {
+    handleUpdateAndTestContact = async (): Promise<void> => {
         const { onUpdateContact, onTestContact } = this.props;
         const { editableContact } = this.state;
         if (editableContact == null) {
@@ -260,7 +257,7 @@ export default class ContactList extends React.Component<Props, State> {
         }
     };
 
-    renderEmptyListMessage(): React.Node {
+    renderEmptyListMessage(): React.ReactNode {
         return (
             <Center>
                 <Gapped vertical gap={20}>

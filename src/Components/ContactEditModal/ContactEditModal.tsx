@@ -1,35 +1,34 @@
-// @flow
 import * as React from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
-import type { ContactConfig } from "../../Domain/Config";
-import type { Contact } from "../../Domain/Contact";
+import { ContactConfig } from "../../Domain/Config";
+import { Contact } from "../../Domain/Contact";
 import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileExport from "../FileExport/FileExport";
 
-type Props = {|
-    contactDescriptions: Array<ContactConfig>,
-    contactInfo: Contact,
-    onChange: ($Shape<Contact>) => void,
-    onCancel: () => void,
-    onUpdate: () => Promise<void>,
-    onUpdateAndTest: () => Promise<void>,
-    onDelete: () => Promise<void>,
-|};
+type Props = {
+    contactDescriptions: Array<ContactConfig>;
+    contactInfo: Contact;
+    onChange: (arg0: Partial<Contact>) => void;
+    onCancel: () => void;
+    onUpdate: () => Promise<void>;
+    onUpdateAndTest: () => Promise<void>;
+    onDelete: () => Promise<void>;
+};
 
 type State = {
-    updateAndTestInProcess: boolean,
-    updateInProcess: boolean,
-    deleteInProcess: boolean,
+    updateAndTestInProcess: boolean;
+    updateInProcess: boolean;
+    deleteInProcess: boolean;
 };
 
 export default class ContactEditModal extends React.Component<Props, State> {
-    state: State;
+    public state: State;
 
-    validationContainer: { current: ValidationContainer | null };
+    readonly validationContainer: { current: ValidationContainer | null };
 
     constructor(props: Props) {
         super(props);
@@ -41,7 +40,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         this.validationContainer = React.createRef<ValidationContainer>();
     }
 
-    render(): React.Node {
+    render(): React.ReactNode {
         const { onChange, onCancel, contactInfo, contactDescriptions } = this.props;
         const { updateAndTestInProcess, updateInProcess, deleteInProcess } = this.state;
         const isActionButtonDisabled = updateAndTestInProcess || updateInProcess || deleteInProcess;
@@ -54,7 +53,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
                         <ContactEditForm
                             contactDescriptions={contactDescriptions}
                             contactInfo={contactInfo}
-                            onChange={update => onChange({ ...contactInfo, ...update })}
+                            onChange={(update) => onChange({ ...contactInfo, ...update })}
                         />
                     </ValidationContainer>
                 </Modal.Body>
@@ -96,7 +95,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         );
     }
 
-    handleUpdateAndTestContact = async () => {
+    handleUpdateAndTestContact = async (): Promise<void> => {
         if (!(await this.validateForm())) {
             return;
         }
@@ -109,7 +108,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         }
     };
 
-    handleUpdateContact = async () => {
+    handleUpdateContact = async (): Promise<void> => {
         if (!(await this.validateForm())) {
             return;
         }
@@ -122,7 +121,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         }
     };
 
-    handleDeleteContact = async () => {
+    handleDeleteContact = async (): Promise<void> => {
         const { onDelete } = this.props;
         this.setState({ deleteInProcess: true });
         try {

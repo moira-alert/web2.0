@@ -1,35 +1,34 @@
-// @flow
 import * as React from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
-import type { ContactConfig } from "../../Domain/Config";
-import type { Contact } from "../../Domain/Contact";
+import { ContactConfig } from "../../Domain/Config";
+import { Contact } from "../../Domain/Contact";
 import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileLoader from "../FileLoader/FileLoader";
 import ModalError from "../ModalError/ModalError";
 
-type Props = {|
-    contactDescriptions: Array<ContactConfig>,
-    contactInfo: $Shape<Contact> | null,
-    onChange: ($Shape<Contact>) => void,
-    onCancel: () => void,
-    onCreate: () => Promise<void>,
-    onCreateAndTest: () => Promise<void>,
-|};
+type Props = {
+    contactDescriptions: Array<ContactConfig>;
+    contactInfo: Partial<Contact> | null;
+    onChange: (arg0: Partial<Contact>) => void;
+    onCancel: () => void;
+    onCreate: () => Promise<void>;
+    onCreateAndTest: () => Promise<void>;
+};
 
 type State = {
-    createInProcess: boolean,
-    createAndTestInProcess: boolean,
-    error?: string,
+    createInProcess: boolean;
+    createAndTestInProcess: boolean;
+    error?: string;
 };
 
 export default class NewContactModal extends React.Component<Props, State> {
-    state: State;
+    public state: State;
 
-    validationContainer: { current: ValidationContainer | null };
+    readonly validationContainer: { current: ValidationContainer | null };
 
     constructor(props: Props) {
         super(props);
@@ -40,7 +39,7 @@ export default class NewContactModal extends React.Component<Props, State> {
         this.validationContainer = React.createRef<ValidationContainer>();
     }
 
-    render(): React.Node {
+    render(): React.ReactNode {
         const { onCancel, contactInfo, contactDescriptions } = this.props;
         const { createInProcess, createAndTestInProcess, error } = this.state;
         const { value, type } = contactInfo || {};
@@ -89,13 +88,13 @@ export default class NewContactModal extends React.Component<Props, State> {
         );
     }
 
-    handleChange = (contact: $Shape<Contact>) => {
+    handleChange = (contact: Partial<Contact>): void => {
         const { contactInfo, onChange } = this.props;
         onChange({ ...contactInfo, ...contact });
         this.setState({ error: undefined });
     };
 
-    handleCreateContact = async () => {
+    handleCreateContact = async (): Promise<void> => {
         if (!(await this.validateForm())) {
             return;
         }
@@ -108,7 +107,7 @@ export default class NewContactModal extends React.Component<Props, State> {
         }
     };
 
-    handleCreateAndTestContact = async () => {
+    handleCreateAndTestContact = async (): Promise<void> => {
         if (!(await this.validateForm())) {
             return;
         }
@@ -121,13 +120,17 @@ export default class NewContactModal extends React.Component<Props, State> {
         }
     };
 
-    handleImport = (fileData: string, fileName: string) => {
+    handleImport = (fileData: string | ArrayBuffer | null, fileName: string): void => {
         const { contactDescriptions } = this.props;
         try {
+            if (typeof fileData !== "string") {
+                throw new Error("Expected fileData to be a string");
+            }
+
             const newContact = JSON.parse(fileData);
 
             if (typeof newContact !== "object" || newContact === null) {
-                throw new Error(`Must be a delivery channel object`);
+                throw new Error("Must be a delivery channel object");
             }
 
             if (contactDescriptions.every(({ type }) => type !== newContact.type)) {
@@ -136,7 +139,7 @@ export default class NewContactModal extends React.Component<Props, State> {
                 );
             }
             if (typeof newContact.value !== "string") {
-                throw new Error(`Value must be string`);
+                throw new Error("Value must be string");
             }
 
             this.handleChange(omitContact(newContact));

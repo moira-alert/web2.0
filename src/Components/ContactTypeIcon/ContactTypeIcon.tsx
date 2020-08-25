@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import TelegramIcon from "@skbkontur/react-icons/Telegram2";
 import MailIcon from "@skbkontur/react-icons/Mail2";
@@ -19,10 +18,10 @@ import VictoropsLogo from "./victorops-logo.svg";
 import OpsgenieLogo from "./opsgenie-logo.svg";
 
 type Props = {
-    type: string,
+    type: string;
 };
 
-const TypeToIcon = {
+const TypeToIcon: { [key: string]: React.ReactElement } = {
     slack: <SvgIcon path={SlackLogo} size={15} offsetTop={2} />,
     msteams: <SvgIcon path={MsTeamsLogo} size={15} offsetTop={2} />,
     telegram: <TelegramIcon />,
@@ -44,7 +43,7 @@ const TypeToIcon = {
     sms: <PhoneIcon />,
 };
 
-export default function ContactTypeIcon({ type }: Props): React.Element<any> {
-    const iconKey = Object.keys(TypeToIcon).find(key => type.includes(key));
+export default function ContactTypeIcon({ type }: Props): React.ReactElement {
+    const iconKey = Object.keys(TypeToIcon).find((key) => type.includes(key));
     return iconKey ? TypeToIcon[iconKey] : <MailIcon />;
 }

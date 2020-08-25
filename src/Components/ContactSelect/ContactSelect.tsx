@@ -1,4 +1,3 @@
-// @flow
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import difference from "lodash/difference";
 import union from "lodash/union";
@@ -7,24 +6,26 @@ import { ComboBox } from "@skbkontur/react-ui/components/ComboBox";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import type { Contact } from "../../Domain/Contact";
+import { Contact } from "../../Domain/Contact";
 import cn from "./ContactSelect.less";
 
 type Props = {
-    contactIds: Array<string>,
-    onChange: (Array<string>) => void,
-    availableContacts: Array<Contact>,
-    error?: boolean,
-    warning?: boolean,
-    onFocus?: () => void,
-    onBlur?: () => void,
-    onMouseEnter?: Event => void,
-    onMouseLeave?: Event => void,
+    contactIds: Array<string>;
+    onChange: (arg0: Array<string>) => void;
+    availableContacts: Array<Contact>;
+    error?: boolean;
+    warning?: boolean;
+    onFocus?: () => void;
+    onBlur?: () => void;
+    onMouseEnter?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | undefined;
+    onMouseLeave?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | undefined;
 };
 
-export default class ContactSelect extends React.Component<Props> {
-    props: Props;
+function notUndefined<T>(x: T | undefined): x is T {
+    return x !== undefined;
+}
 
+export default class ContactSelect extends React.Component<Props> {
     static isContactMatch(contact: Contact, query: string): boolean {
         if (query == null || query.trim() === "") {
             return true;
@@ -32,7 +33,7 @@ export default class ContactSelect extends React.Component<Props> {
         return contact.value.toLowerCase().includes(query.toLowerCase());
     }
 
-    render(): React.Node {
+    render(): React.ReactNode {
         const {
             contactIds,
             availableContacts,
@@ -46,9 +47,9 @@ export default class ContactSelect extends React.Component<Props> {
         return (
             <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 {contactIds
-                    .map(x => availableContacts.find(contact => contact.id === x))
-                    .filter(Boolean)
-                    .map(x => (
+                    .map((x) => availableContacts.find((contact) => contact.id === x))
+                    .filter(notUndefined)
+                    .map((x) => (
                         <div key={x.id} className={cn("contact")}>
                             <ContactInfo contact={x} />{" "}
                             <A11yButtonWrapper onClick={() => this.handleRemoveContact(x)}>
@@ -67,7 +68,7 @@ export default class ContactSelect extends React.Component<Props> {
                         getItems={this.getContactsForComboBox}
                         placeholder="Select delivery channel"
                         renderNotFound={() => "No delivery channels found"}
-                        renderItem={item => (
+                        renderItem={(item) => (
                             <>
                                 <ContactTypeIcon type={item.type} /> {item.label}
                             </>
@@ -78,25 +79,25 @@ export default class ContactSelect extends React.Component<Props> {
         );
     }
 
-    handleChangeContactToAdd = <T: { value: string, label: string }>(value: T) => {
+    handleChangeContactToAdd = <T extends { value: string; label: string }>(value: T): void => {
         const { onChange, contactIds } = this.props;
         onChange(union(contactIds, [value.value]));
     };
 
-    handleRemoveContact = (contact: Contact) => {
+    handleRemoveContact = (contact: Contact): void => {
         const { onChange, contactIds } = this.props;
         onChange(difference(contactIds, [contact.id]));
     };
 
     getContactsForComboBox = async (
         query: string
-    ): Promise<Array<{ value: string, label: string, type: string }>> => {
+    ): Promise<Array<{ value: string; label: string; type: string }>> => {
         const { contactIds, availableContacts } = this.props;
         return availableContacts
-            .filter(x => !contactIds.includes(x.id))
-            .filter(x => ContactSelect.isContactMatch(x, query))
+            .filter((x) => !contactIds.includes(x.id))
+            .filter((x) => ContactSelect.isContactMatch(x, query))
             .slice(0, 10)
-            .map(x => ({
+            .map((x) => ({
                 value: x.id,
                 label: x.value,
                 type: x.type,
