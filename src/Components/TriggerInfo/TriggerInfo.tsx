@@ -36,7 +36,7 @@ type Props = {
     onSetMaintenance: (maintenance: Maintenance) => void;
 };
 
-function maintenanceDelta(maintenance: number | null | undefined): number {
+function maintenanceDelta(maintenance?: number | null): number {
     return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 

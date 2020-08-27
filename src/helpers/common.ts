@@ -1,3 +1,3 @@
-export function notUndefined<T>(x: T | undefined): x is T {
+export function notUndefined<T>(x?: T): x is T {
     return x !== undefined;
 }

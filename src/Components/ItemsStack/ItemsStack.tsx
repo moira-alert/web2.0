@@ -176,7 +176,7 @@ export function Fill({ tag, children, className, ...rest }: FillProps): React.Re
 }
 
 type FixedProps = {
-    "data-tid"?: string | null | undefined;
+    "data-tid"?: string | null;
     tag?: keyof JSX.IntrinsicElements;
     className?: string;
     children?: React.ReactNode;

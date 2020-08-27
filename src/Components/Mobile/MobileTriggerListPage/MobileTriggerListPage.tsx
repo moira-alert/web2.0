@@ -10,8 +10,8 @@ import cn from "./MobileTriggerListPage.less";
 
 type MobileTriggerListPageProps = {
     loading?: boolean;
-    triggers: Array<Trigger> | null | undefined;
-    selectedTags: Array<string> | null | undefined;
+    triggers?: Array<Trigger> | null;
+    selectedTags?: Array<string> | null;
     activePage: number;
     pageCount: number;
     onChange: (pageObject: { page: number }) => void;

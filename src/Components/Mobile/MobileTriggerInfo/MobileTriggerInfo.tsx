@@ -24,8 +24,8 @@ import MobileHeader from "../MobileHeader/MobileHeader";
 import cn from "./MobileTriggerInfo.less";
 
 type Props = {
-    data: Trigger | null | undefined;
-    triggerState: TriggerState | null | undefined;
+    data?: Trigger | null;
+    triggerState?: TriggerState | null;
     onThrottlingRemove: () => void;
     onSetMaintenance: (maintenance: number) => void;
 };
@@ -58,7 +58,7 @@ function ScheduleView(props: { data: Schedule }): React.ReactElement {
     );
 }
 
-function checkMaintenance(maintenance: number | null | undefined): React.ReactNode {
+function checkMaintenance(maintenance?: number | null): React.ReactNode {
     const delta = (maintenance || 0) - getUnixTime(getUTCDate());
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }

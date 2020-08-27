@@ -16,7 +16,7 @@ import cn from "./MaintenanceSelect.less";
 
 type MaintenanceSelectProps = {
     caption: React.ReactNode;
-    maintenance: number | undefined;
+    maintenance?: number;
     onSetMaintenance: (maintenance: number) => void;
 };
 

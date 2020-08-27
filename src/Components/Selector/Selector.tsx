@@ -17,7 +17,7 @@ const Dropdown = ({
     anchor,
     children,
 }: {
-    anchor: HTMLLabelElement | null | undefined;
+    anchor?: HTMLLabelElement | null;
     children: React.ReactNode;
 }) => {
     const SELECTOR_OUTLINE_SIZE = 1;

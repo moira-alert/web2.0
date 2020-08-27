@@ -35,7 +35,7 @@ type Props = {
     data: Partial<Trigger>;
     tags: Array<string>;
     onChange: (triggerObject: Partial<Trigger>) => void;
-    remoteAllowed: boolean | null | undefined;
+    remoteAllowed?: boolean | null;
 };
 
 type State = {

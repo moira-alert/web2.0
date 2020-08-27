@@ -50,13 +50,13 @@ export default class FormattedNumberInput extends React.Component<FormattedNumbe
         return null;
     }
 
-    handleValueForView(value: number | null | undefined): string {
+    handleValueForView(value?: number | null): string {
         return value != null
             ? numeral(value).format(this.props.viewFormat || this.props.editFormat || "0.0[00000]")
             : "";
     }
 
-    handleValueForEdit(value: number | null | undefined): string {
+    handleValueForEdit(value?: number | null): string {
         return value != null ? numeral(value).format(this.props.editFormat || "0.0[00000]") : "";
     }
 

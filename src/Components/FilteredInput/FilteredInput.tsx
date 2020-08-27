@@ -23,12 +23,12 @@ type FilteredInputProps<T> = {
 };
 
 type HintState = {
-    hintValue: string | null | undefined;
-    hintClip: number | null | undefined;
+    hintValue?: string | null;
+    hintClip?: number | null;
 };
 
 type FilteredInputState = {
-    displayValue: string | null | undefined;
+    displayValue?: string | null;
 } & HintState;
 
 export default class FilteredInput<T> extends React.Component<
@@ -191,7 +191,7 @@ export default class FilteredInput<T> extends React.Component<
         }
     }
 
-    getClip(value: string | null | undefined): number {
+    getClip(value?: string | null): number {
         if (this.testWidthRef != null && this.rootRef != null) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -228,8 +228,8 @@ export default class FilteredInput<T> extends React.Component<
     }
 
     getHintState(
-        hintValue: string | null | undefined,
-        displayValue: string | null | undefined
+        hintValue?: string | null,
+        displayValue?: string | null
     ): Partial<HintState> | null | undefined {
         if (hintValue === null || hintValue === undefined) {
             return null;

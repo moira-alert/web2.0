@@ -31,7 +31,7 @@ type State = {
     deleted: boolean;
 };
 
-function isUnderkMaintenance(maintenance: number | null | undefined): boolean {
+function isUnderkMaintenance(maintenance?: number | null): boolean {
     if (maintenance == null) {
         return false;
     }

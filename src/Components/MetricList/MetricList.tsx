@@ -34,7 +34,7 @@ function maintenanceCaption(delta: number): React.ReactNode {
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
-function maintenanceDelta(maintenance: number | null | undefined): number {
+function maintenanceDelta(maintenance?: number | null): number {
     return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 

@@ -14,8 +14,8 @@ import MobileTriggerInfo from "../MobileTriggerInfo/MobileTriggerInfo";
 import cn from "./MobileTriggerInfoPage.less";
 
 type Props = {
-    data: Trigger | null | undefined;
-    triggerState: TriggerState | null | undefined;
+    data?: Trigger | null;
+    triggerState?: TriggerState | null;
     metrics?: MetricList;
     loading?: boolean;
     onRemoveMetric: (metricName: string) => void;

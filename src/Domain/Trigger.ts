@@ -42,16 +42,16 @@ export type Trigger = {
 };
 
 export type TriggerList = {
-    list: Array<Trigger> | null | undefined;
+    list?: Array<Trigger> | null;
     page: number;
     size: number;
     total: number;
 };
 
 export type TriggerState = {
-    maintenance: number | null | undefined;
+    maintenance?: number | null;
     maintenanceInfo?: {
-        setup_user: string | null | undefined;
+        setup_user?: string | null;
         setup_time: number;
     };
     metrics: MetricList;

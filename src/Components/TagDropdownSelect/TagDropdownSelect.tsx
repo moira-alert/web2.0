@@ -30,7 +30,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
 
     readonly containerRef: { current: null | HTMLSpanElement };
 
-    readonly tagsRef: { current: null | HTMLDivElement } | null | undefined;
+    readonly tagsRef?: { current: null | HTMLDivElement } | null;
 
     readonly focusAnchorRef: { current: null | HTMLSpanElement };
 
