@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 
-import { Metric } from "../../../Domain/Metric";
+import { MetricList } from "../../../Domain/Metric";
 import { Status } from "../../../Domain/Status";
 import { Trigger, TriggerState } from "../../../Domain/Trigger";
 import { Statuses } from "../../../Domain/Status";
@@ -16,7 +16,7 @@ import cn from "./MobileTriggerInfoPage.less";
 type Props = {
     data: Trigger | null | undefined;
     triggerState: TriggerState | null | undefined;
-    metrics?: { [metric: string]: Metric };
+    metrics?: MetricList;
     loading?: boolean;
     onRemoveMetric: (metricName: string) => void;
     onSetMetricMaintenance: (metricName: string, maintenance: number) => void;

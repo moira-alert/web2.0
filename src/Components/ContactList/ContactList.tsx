@@ -14,10 +14,10 @@ import cn from "./ContactList.less";
 type Props = {
     items: Array<Contact>;
     contactDescriptions: Array<ContactConfig>;
-    onTestContact: (arg0: Contact) => Promise<void>;
-    onAddContact: (arg0: Partial<Contact>) => Promise<Contact | null | undefined>;
-    onUpdateContact: (arg0: Contact) => Promise<void>;
-    onRemoveContact: (arg0: Contact) => Promise<void>;
+    onTestContact: (contactObject: Contact) => Promise<void>;
+    onAddContact: (contactObject: Partial<Contact>) => Promise<Contact | null | undefined>;
+    onUpdateContact: (contactObject: Contact) => Promise<void>;
+    onRemoveContact: (contactObject: Contact) => Promise<void>;
 };
 
 type State = {

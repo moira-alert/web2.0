@@ -8,22 +8,19 @@ import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Contact } from "../../Domain/Contact";
 import cn from "./ContactSelect.less";
+import { notUndefined } from "../../helpers/common";
 
 type Props = {
     contactIds: Array<string>;
-    onChange: (arg0: Array<string>) => void;
+    onChange: (contactList: Array<string>) => void;
     availableContacts: Array<Contact>;
     error?: boolean;
     warning?: boolean;
     onFocus?: () => void;
     onBlur?: () => void;
-    onMouseEnter?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | undefined;
-    onMouseLeave?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | undefined;
+    onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
-
-function notUndefined<T>(x: T | undefined): x is T {
-    return x !== undefined;
-}
 
 export default class ContactSelect extends React.Component<Props> {
     static isContactMatch(contact: Contact, query: string): boolean {
@@ -79,7 +76,7 @@ export default class ContactSelect extends React.Component<Props> {
         );
     }
 
-    handleChangeContactToAdd = <T extends { value: string; label: string }>(value: T): void => {
+    handleChangeContactToAdd = (value: { value: string; label: string }): void => {
         const { onChange, contactIds } = this.props;
         onChange(union(contactIds, [value.value]));
     };
@@ -94,8 +91,7 @@ export default class ContactSelect extends React.Component<Props> {
     ): Promise<Array<{ value: string; label: string; type: string }>> => {
         const { contactIds, availableContacts } = this.props;
         return availableContacts
-            .filter((x) => !contactIds.includes(x.id))
-            .filter((x) => ContactSelect.isContactMatch(x, query))
+            .filter((x) => !contactIds.includes(x.id) && ContactSelect.isContactMatch(x, query))
             .slice(0, 10)
             .map((x) => ({
                 value: x.id,

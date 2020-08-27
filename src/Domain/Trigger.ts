@@ -2,6 +2,9 @@ import { Status } from "./Status";
 import { MetricList } from "./Metric";
 import { Schedule } from "./Schedule";
 
+export type TriggerType = "rising" | "falling" | "expression";
+export const DEFAULT_TRIGGER_TYPE = "rising";
+
 export type Trigger = {
     notify_about_new_metrics: boolean;
     id: string;
@@ -15,7 +18,7 @@ export type Trigger = {
     throttling: number;
     sched?: Schedule;
     desc?: string;
-    trigger_type: "rising" | "falling" | "expression";
+    trigger_type: TriggerType;
     warn_value: number | null;
     error_value: number | null;
     highlights?: {

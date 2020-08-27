@@ -13,7 +13,7 @@ import ModalError from "../ModalError/ModalError";
 type Props = {
     contactDescriptions: Array<ContactConfig>;
     contactInfo: Partial<Contact> | null;
-    onChange: (arg0: Partial<Contact>) => void;
+    onChange: (contactObject: Partial<Contact>) => void;
     onCancel: () => void;
     onCreate: () => Promise<void>;
     onCreateAndTest: () => Promise<void>;

@@ -12,7 +12,7 @@ import FileExport from "../FileExport/FileExport";
 type Props = {
     contactDescriptions: Array<ContactConfig>;
     contactInfo: Contact;
-    onChange: (arg0: Partial<Contact>) => void;
+    onChange: (contactObject: Partial<Contact>) => void;
     onCancel: () => void;
     onUpdate: () => Promise<void>;
     onUpdateAndTest: () => Promise<void>;

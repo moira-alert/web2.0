@@ -13,7 +13,7 @@ const md = new Remarkable({ breaks: true });
 type Props = {
     contactDescriptions: Array<ContactConfig>;
     contactInfo: Partial<Contact> | null;
-    onChange: (arg0: Partial<Contact>) => void;
+    onChange: (contactObject: Partial<Contact>) => void;
 };
 
 export default class ContactEditForm extends React.Component<Props> {
@@ -32,7 +32,7 @@ export default class ContactEditForm extends React.Component<Props> {
                     <Select<string, string>
                         placeholder="Select channel type"
                         width="100%"
-                        value={type || undefined}
+                        value={type}
                         renderItem={(v, item) => (
                             <span>
                                 {v && <ContactTypeIcon type={v} />} {item}
@@ -67,10 +67,8 @@ export default class ContactEditForm extends React.Component<Props> {
                     </ValidationWrapperV1>
                 </div>
                 {
-                    currentContactConfig && currentContactConfig.help && (
+                    currentContactConfig?.help && (
                         /* ToDo избавиться от dangerouslySetInnerHTML */
-
-                        /* eslint-disable */
                         <div
                             dangerouslySetInnerHTML={{
                                 __html: md.render(currentContactConfig.help),
@@ -84,7 +82,7 @@ export default class ContactEditForm extends React.Component<Props> {
         );
     }
 
-    validateValue(): ValidationInfo | null | undefined {
+    validateValue(): ValidationInfo | null {
         const { contactInfo, contactDescriptions } = this.props;
 
         if (!contactInfo) {
