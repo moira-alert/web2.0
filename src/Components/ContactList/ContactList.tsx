@@ -15,7 +15,7 @@ type Props = {
     items: Array<Contact>;
     contactDescriptions: Array<ContactConfig>;
     onTestContact: (contactObject: Contact) => Promise<void>;
-    onAddContact: (contactObject: Partial<Contact>) => Promise<Contact | null | undefined>;
+    onAddContact: (contactObject: Partial<Contact>) => Promise<Contact | null>;
     onUpdateContact: (contactObject: Contact) => Promise<void>;
     onRemoveContact: (contactObject: Contact) => Promise<void>;
 };
