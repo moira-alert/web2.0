@@ -67,11 +67,13 @@ export type TriggerTargetProblem = {
     problems?: TriggerTargetProblem[];
 };
 
+export type ValidateTriggerTarget = {
+    syntax_ok: boolean;
+    tree_of_problems?: TriggerTargetProblem;
+};
+
 export type ValidateTriggerResult = {
-    triggers: Array<{
-        syntax_ok: boolean;
-        tree_of_problems?: TriggerTargetProblem;
-    }>;
+    targets: Array<ValidateTriggerTarget>;
 };
 
 const TriggerDataSources = {
