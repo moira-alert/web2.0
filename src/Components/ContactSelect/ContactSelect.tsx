@@ -7,8 +7,8 @@ import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Contact } from "../../Domain/Contact";
-import cn from "./ContactSelect.less";
 import { notUndefined } from "../../helpers/common";
+import cn from "./ContactSelect.less";
 
 type Props = {
     contactIds: Array<string>;

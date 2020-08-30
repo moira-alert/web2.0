@@ -38,7 +38,6 @@ MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): React.Rea
                 className={cn("menu-button")}
                 onClick={() => {
                     onClick();
-                    return false;
                 }}
             >
                 {icon}

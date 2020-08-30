@@ -14,8 +14,8 @@ import {
     getMaintenanceCaption,
     calculateMaintenanceTime,
 } from "../../../Domain/Maintenance";
-import cn from "./MobileMetricsListItem.less";
 import { getUTCDate } from "../../../helpers/DateUtil";
+import cn from "./MobileMetricsListItem.less";
 
 type Props = {
     name: string;

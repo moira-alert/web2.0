@@ -44,7 +44,7 @@ export function makeTokens(expression: string[]): Token[] {
         } else if (current === "(") {
             result[k].type = "bracket";
 
-            if (variableIndex) {
+            if (typeof variableIndex !== "undefined") {
                 result[variableIndex].type = "fnName";
                 variableIndex = undefined;
             }
@@ -72,7 +72,7 @@ export function splitFunction(expression: string): string[] {
 
     for (let i = 0; i < expression.length; i += 1) {
         const symbol = expression[i];
-        if (tokenSeparator && tokenSeparator === " ") {
+        if (typeof tokenSeparator === "string" && tokenSeparator === " ") {
             if (symbol !== " ") {
                 tokens.push(expression.slice(tokenStart, i));
                 tokenSeparator = symbol === '"' || symbol === "'" ? symbol : undefined;

@@ -13,8 +13,8 @@ import { MetricList as MetricListItems } from "../../Domain/Metric";
 import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
-import cn from "./MetricList.less";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
+import cn from "./MetricList.less";
 
 export type SortingColum = "state" | "name" | "event" | "value";
 

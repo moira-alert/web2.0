@@ -24,6 +24,7 @@ export default function FileLoader({
         reader.readAsText(file);
         reader.onload = () => onLoad(reader.result, file.name);
         reader.onerror = () => onError && onError(reader.error);
+        // enable import same file
         event.target.value = "";
     };
 

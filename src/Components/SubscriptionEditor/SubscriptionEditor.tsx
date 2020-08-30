@@ -28,7 +28,7 @@ export type SubscriptionInfo = {
 
 type Props = {
     subscription: SubscriptionInfo;
-    onChange: (subscriptionInfoObject: Partial<SubscriptionInfo>) => void;
+    onChange: (subscriptionInfo: Partial<SubscriptionInfo>) => void;
     tags: Array<string>;
     contacts: Array<Contact>;
 };

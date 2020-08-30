@@ -8,7 +8,7 @@ import cn from "./ScheduleEdit.less";
 
 type Props = {
     schedule: Schedule;
-    onChange: (scheduleObject: Schedule) => void;
+    onChange: (schedule: Schedule) => void;
 };
 
 type State = {

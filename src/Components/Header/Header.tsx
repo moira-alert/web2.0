@@ -5,8 +5,8 @@ import SettingsIcon from "@skbkontur/react-icons/Settings";
 import HelpBookIcon from "@skbkontur/react-icons/HelpBook";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
-import cn from "./Header.less";
 import svgLogo from "./moira-logo.svg";
+import cn from "./Header.less";
 
 export default function Header(): React.ReactNode {
     return (

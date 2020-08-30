@@ -7,9 +7,9 @@ import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Menu } from "@skbkontur/react-ui/internal/Menu";
 import { addMonths, format, getUnixTime, fromUnixTime, lastDayOfMonth, addDays } from "date-fns";
 import { tooltip, ValidationContainer, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
-import cn from "./CustomMaintenanceMenu.less";
 import { ValidationInfo } from "@skbkontur/react-ui-validations/src/ValidationWrapper";
 import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
+import cn from "./CustomMaintenanceMenu.less";
 
 function splitDate(date: Date): [string, CalendarDateShape, string] {
     return [
@@ -57,8 +57,6 @@ type CustomMaintenanceMenuProps = {
     maintenance?: number;
     setMaintenance: (maintenance: number) => void;
 };
-
-const DATE_INPUT_FORMAT = "dd.MM.yyyy";
 
 export default function CustomMaintenanceMenu({
     maintenance,
@@ -150,8 +148,8 @@ export default function CustomMaintenanceMenu({
                     >
                         <DateInput
                             value={stringDate}
-                            maxDate={format(toDate(maxDate), DATE_INPUT_FORMAT)}
-                            minDate={format(toDate(todayDate), DATE_INPUT_FORMAT)}
+                            maxDate={toStringDate(maxDate)}
+                            minDate={toStringDate(todayDate)}
                             onValueChange={handleInputDateChange}
                             width="95px"
                         />

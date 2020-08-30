@@ -18,9 +18,7 @@ import {
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
-
 import MobileHeader from "../MobileHeader/MobileHeader";
-
 import cn from "./MobileTriggerInfo.less";
 
 type Props = {

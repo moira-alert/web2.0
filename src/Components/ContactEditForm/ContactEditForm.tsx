@@ -13,7 +13,7 @@ const md = new Remarkable({ breaks: true });
 type Props = {
     contactDescriptions: Array<ContactConfig>;
     contactInfo: Partial<Contact> | null;
-    onChange: (contactObject: Partial<Contact>) => void;
+    onChange: (contact: Partial<Contact>) => void;
 };
 
 export default class ContactEditForm extends React.Component<Props> {

@@ -13,11 +13,11 @@ type Props = {
     subscription: Subscription;
     tags: Array<string>;
     contacts: Array<Contact>;
-    onChange: (subscriptionObject: Partial<Subscription>) => void;
+    onChange: (subscription: Partial<Subscription>) => void;
     onCancel: () => void;
-    onRemoveSubscription: (subscriptionObject: Subscription) => Promise<void>;
-    onUpdateSubscription: (subscriptionObject: Subscription) => Promise<void>;
-    onUpdateAndTestSubscription: (subscriptionObject: Subscription) => Promise<void>;
+    onRemoveSubscription: (subscription: Subscription) => Promise<void>;
+    onUpdateSubscription: (subscription: Subscription) => Promise<void>;
+    onUpdateAndTestSubscription: (subscription: Subscription) => Promise<void>;
 };
 
 type State = {

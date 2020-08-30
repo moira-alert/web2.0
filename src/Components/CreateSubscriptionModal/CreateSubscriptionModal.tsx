@@ -13,10 +13,10 @@ type Props = {
     subscription: SubscriptionInfo;
     tags: Array<string>;
     contacts: Array<Contact>;
-    onChange: (subscriptionInfoObject: Partial<SubscriptionInfo>) => void;
+    onChange: (subscriptionInfo: Partial<SubscriptionInfo>) => void;
     onCancel: () => void;
-    onCreateSubscription: (subscriptionInfoObject: SubscriptionInfo) => Promise<void>;
-    onCreateAndTestSubscription: (subscriptionInfoObject: SubscriptionInfo) => Promise<void>;
+    onCreateSubscription: (subscriptionInfo: SubscriptionInfo) => Promise<void>;
+    onCreateAndTestSubscription: (subscriptionInfo: SubscriptionInfo) => Promise<void>;
 };
 
 type State = {
@@ -116,20 +116,21 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
     };
 
     handleImport = (fileData: string | ArrayBuffer | null, fileName: string): void => {
-        if (typeof fileData !== "string") {
-            this.setState({
-                error: `Expected file data to be a string`,
-            });
-            return;
-        }
+        try {
+            if (typeof fileData !== "string") {
+                throw new Error("Expected file data to be a string");
+            }
 
-        const subscription = JSON.parse(fileData);
+            const subscription = JSON.parse(fileData);
 
-        if (typeof subscription === "object" && subscription !== null) {
-            this.handleChange(omitSubscription(subscription));
-        } else {
+            if (typeof subscription === "object" && subscription !== null) {
+                this.handleChange(omitSubscription(subscription));
+            } else {
+                throw new Error("Must be a subscription object");
+            }
+        } catch (e) {
             this.setState({
-                error: `File ${fileName} cannot be converted to subscription. Must be a subscription object`,
+                error: `File ${fileName} cannot be converted to subscription. ${e.message}`,
             });
         }
     };

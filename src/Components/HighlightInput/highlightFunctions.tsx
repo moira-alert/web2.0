@@ -67,7 +67,6 @@ export function highlightBadFunction(
     initTokens: ViewToken[],
     container: HTMLElement | null
 ): React.ReactElement {
-    let symbolsOffset = 0;
     let tokens = [...initTokens];
 
     const getValues = (problemTree: TriggerTargetProblem): React.ReactNode => {
@@ -96,9 +95,6 @@ export function highlightBadFunction(
         );
 
         const usedTokens = tokenIndex + 1;
-        symbolsOffset = tokens
-            .slice(0, usedTokens)
-            .reduce((count, token) => count + token.value.length, symbolsOffset);
         tokens = tokens.slice(usedTokens);
 
         const childrenElements = problemTree.problems
