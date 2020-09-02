@@ -1,9 +1,10 @@
-import { MetricList } from "../Domain/Metric";
+import { MetricItemList } from "../Domain/Metric";
 import groupMetricsByStatuses, { IMetricByStatuses } from "./group-metrics-by-statuses";
+import { Statuses } from "../Domain/Status";
 
 interface ITest {
     title: string;
-    input: MetricList;
+    input: MetricItemList;
     output: IMetricByStatuses;
 }
 
@@ -17,30 +18,30 @@ const tests: Array<ITest> = [
         title: "Few metrics with one state",
         input: {
             "metric.state.del-1": {
-                state: "DEL",
+                state: Statuses.DEL,
                 timestamp: 1551098595,
             },
             "metric.state.del-2": {
-                state: "DEL",
+                state: Statuses.DEL,
                 timestamp: 1551098595,
             },
             "metric.state.del-3": {
-                state: "DEL",
+                state: Statuses.DEL,
                 timestamp: 1551098595,
             },
         },
         output: {
             DEL: {
                 "metric.state.del-1": {
-                    state: "DEL",
+                    state: Statuses.DEL,
                     timestamp: 1551098595,
                 },
                 "metric.state.del-2": {
-                    state: "DEL",
+                    state: Statuses.DEL,
                     timestamp: 1551098595,
                 },
                 "metric.state.del-3": {
-                    state: "DEL",
+                    state: Statuses.DEL,
                     timestamp: 1551098595,
                 },
             },
@@ -50,64 +51,64 @@ const tests: Array<ITest> = [
         title: "Metric list with all states",
         input: {
             "metric.state.del": {
-                state: "DEL",
+                state: Statuses.DEL,
                 timestamp: 1551098595,
             },
             "metric.state.exception": {
-                state: "EXCEPTION",
+                state: Statuses.EXCEPTION,
                 timestamp: 1551098595,
             },
             "metric.state.nodata": {
-                state: "NODATA",
+                state: Statuses.NODATA,
                 timestamp: 1551098595,
             },
             "metric.state.error": {
-                state: "ERROR",
+                state: Statuses.ERROR,
                 timestamp: 1551098595,
             },
             "metric.state.warn": {
-                state: "WARN",
+                state: Statuses.WARN,
                 timestamp: 1551098595,
             },
             "metric.state.ok": {
-                state: "OK",
+                state: Statuses.OK,
                 timestamp: 1551098595,
             },
         },
         output: {
             DEL: {
                 "metric.state.del": {
-                    state: "DEL",
+                    state: Statuses.DEL,
                     timestamp: 1551098595,
                 },
             },
             EXCEPTION: {
                 "metric.state.exception": {
-                    state: "EXCEPTION",
+                    state: Statuses.EXCEPTION,
                     timestamp: 1551098595,
                 },
             },
             NODATA: {
                 "metric.state.nodata": {
-                    state: "NODATA",
+                    state: Statuses.NODATA,
                     timestamp: 1551098595,
                 },
             },
             ERROR: {
                 "metric.state.error": {
-                    state: "ERROR",
+                    state: Statuses.ERROR,
                     timestamp: 1551098595,
                 },
             },
             WARN: {
                 "metric.state.warn": {
-                    state: "WARN",
+                    state: Statuses.WARN,
                     timestamp: 1551098595,
                 },
             },
             OK: {
                 "metric.state.ok": {
-                    state: "OK",
+                    state: Statuses.OK,
                     timestamp: 1551098595,
                 },
             },

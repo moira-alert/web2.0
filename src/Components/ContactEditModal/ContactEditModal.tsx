@@ -26,19 +26,13 @@ type State = {
 };
 
 export default class ContactEditModal extends React.Component<Props, State> {
-    public state: State;
+    public state: State = {
+        updateAndTestInProcess: false,
+        updateInProcess: false,
+        deleteInProcess: false,
+    };
 
-    readonly validationContainer: { current: ValidationContainer | null };
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            updateAndTestInProcess: false,
-            updateInProcess: false,
-            deleteInProcess: false,
-        };
-        this.validationContainer = React.createRef<ValidationContainer>();
-    }
+    readonly validationContainer = React.createRef<ValidationContainer>();
 
     render(): React.ReactNode {
         const { onChange, onCancel, contactInfo, contactDescriptions } = this.props;

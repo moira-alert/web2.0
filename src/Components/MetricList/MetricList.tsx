@@ -5,27 +5,24 @@ import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import UserIcon from "@skbkontur/react-icons/User";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
-import { Dropdown } from "@skbkontur/react-ui/components/Dropdown";
-import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { Maintenance } from "../../Domain/Maintenance";
-import { MetricList as MetricListItems } from "../../Domain/Metric";
-import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
+import { MetricItemList } from "../../Domain/Metric";
+import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
-import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
+import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import cn from "./MetricList.less";
 
-export type SortingColum = "state" | "name" | "event" | "value";
+export type SortingColumn = "state" | "name" | "event" | "value";
 
 type Props = {
     status?: boolean;
-    items: MetricListItems;
-    sortingColumn: SortingColum;
+    items: MetricItemList;
+    sortingColumn: SortingColumn;
     sortingDown?: boolean;
-    noDataMerticCount?: number;
-    onSort?: (sorting: SortingColum) => void;
-    onChange: (metric: string, maintenance: Maintenance) => void;
+    noDataMetricCount?: number;
+    onSort?: (sorting: SortingColumn) => void;
+    onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
     onNoDataRemove?: () => void;
 };
@@ -45,7 +42,7 @@ export default function MetricList(props: Props): React.ReactElement {
         onSort,
         onChange,
         onRemove,
-        noDataMerticCount,
+        noDataMetricCount,
         onNoDataRemove,
         sortingColumn,
         sortingDown,
@@ -100,8 +97,8 @@ export default function MetricList(props: Props): React.ReactElement {
                 <div className={cn("maintenance")} />
                 <div className={cn("author")} />
                 <div className={cn("delete")}>
-                    {typeof noDataMerticCount === "number" &&
-                        noDataMerticCount > 1 &&
+                    {typeof noDataMetricCount === "number" &&
+                        noDataMetricCount > 1 &&
                         onNoDataRemove && (
                             <Button
                                 use="link"
@@ -144,16 +141,13 @@ export default function MetricList(props: Props): React.ReactElement {
                                 />
                             </div>
                             <div className={cn("maintenance")}>
-                                <Dropdown use="link" caption={maintenanceCaption(delta)}>
-                                    {Object.keys(Maintenances).map((key) => (
-                                        <MenuItem
-                                            key={key}
-                                            onClick={() => onChange(metric, key as Maintenance)}
-                                        >
-                                            {getMaintenanceCaption(key as Maintenance)}
-                                        </MenuItem>
-                                    ))}
-                                </Dropdown>
+                                <MaintenanceSelect
+                                    maintenance={maintenance}
+                                    caption={maintenanceCaption(delta)}
+                                    onSetMaintenance={(maintenanceValue) =>
+                                        onChange(metric, maintenanceValue)
+                                    }
+                                />
                             </div>
                             <div className={cn("author")}>
                                 {delta > 0 &&

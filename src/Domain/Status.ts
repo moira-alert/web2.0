@@ -1,11 +1,20 @@
-export const Statuses = {
-    DEL: "DEL",
-    EXCEPTION: "EXCEPTION",
-    NODATA: "NODATA",
-    ERROR: "ERROR",
-    WARN: "WARN",
-    OK: "OK",
-};
+export enum Statuses {
+    DEL = "DEL",
+    EXCEPTION = "EXCEPTION",
+    NODATA = "NODATA",
+    ERROR = "ERROR",
+    WARN = "WARN",
+    OK = "OK",
+}
+
+export const StatusesList = [
+    Statuses.DEL,
+    Statuses.EXCEPTION,
+    Statuses.NODATA,
+    Statuses.ERROR,
+    Statuses.WARN,
+    Statuses.OK,
+];
 
 export enum StatusesCaptions {
     DEL = "DEL",
@@ -34,10 +43,7 @@ export const StatusesWeight = {
     OK: 0,
 };
 
-// TODO set as enum and remove "x as Status" expressions
-export type Status = keyof typeof Statuses;
-
-export const StatusesInOrder: string[] = [
+export const StatusesInOrder: Statuses[] = [
     Statuses.EXCEPTION,
     Statuses.NODATA,
     Statuses.ERROR,
@@ -46,14 +52,14 @@ export const StatusesInOrder: string[] = [
     Statuses.DEL,
 ];
 
-export function getStatusColor(status: Status): string {
+export function getStatusColor(status: Statuses): string {
     return StatusesColors[status];
 }
 
-export function getStatusCaption(status: Status): StatusesCaptions {
+export function getStatusCaption(status: Statuses): StatusesCaptions {
     return StatusesCaptions[status];
 }
 
-export function getStatusWeight(status: Status): number {
+export function getStatusWeight(status: Statuses): number {
     return StatusesWeight[status];
 }

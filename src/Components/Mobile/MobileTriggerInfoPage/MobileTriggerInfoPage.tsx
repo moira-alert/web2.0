@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 
-import { MetricList } from "../../../Domain/Metric";
-import { Status } from "../../../Domain/Status";
+import { MetricItemList } from "../../../Domain/Metric";
+import { StatusesList } from "../../../Domain/Status";
 import { Trigger, TriggerState } from "../../../Domain/Trigger";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
@@ -16,7 +16,7 @@ import cn from "./MobileTriggerInfoPage.less";
 type Props = {
     data?: Trigger | null;
     triggerState?: TriggerState | null;
-    metrics?: MetricList;
+    metrics?: MetricItemList;
     loading?: boolean;
     onRemoveMetric: (metricName: string) => void;
     onSetMetricMaintenance: (metricName: string, maintenance: number) => void;
@@ -73,19 +73,14 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
         return (
             <span>
                 Metrics:{" "}
-                {Object.keys(Statuses)
-                    .filter((x) => counts[x])
-                    .map((status) => (
-                        <span key={status} className={cn("metric-stats")}>
-                            {status}:{" "}
-                            <span
-                                style={{ color: getStatusColor(status as Status) }}
-                                className={cn("value")}
-                            >
-                                {counts[status]}
-                            </span>
+                {StatusesList.filter((x) => counts[x]).map((status) => (
+                    <span key={status} className={cn("metric-stats")}>
+                        {status}:{" "}
+                        <span style={{ color: getStatusColor(status) }} className={cn("value")}>
+                            {counts[status]}
                         </span>
-                    ))}
+                    </span>
+                ))}
             </span>
         );
     }
@@ -99,7 +94,7 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
 
         return Object.keys(metrics)
             .map((x) => metrics[x].state)
-            .reduce((result: { [key: string]: number }, state: Status) => {
+            .reduce((result: { [key: string]: number }, state: Statuses) => {
                 result[state] = (result[state] || 0) + 1;
                 return result;
             }, {});

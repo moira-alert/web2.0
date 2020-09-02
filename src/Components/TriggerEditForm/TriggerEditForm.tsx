@@ -2,7 +2,9 @@ import * as React from "react";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
 import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
+import debounce from "lodash/debounce";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
+import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import { Input } from "@skbkontur/react-ui/components/Input";
@@ -14,17 +16,18 @@ import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
-import { DEFAULT_TRIGGER_TYPE, Trigger } from "../../Domain/Trigger";
+import { DEFAULT_TRIGGER_TYPE, Trigger, ValidateTriggerResult } from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
+import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerModeEditor, { ValueType } from "../TriggerModeEditor/TriggerModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
-import { Status, Statuses } from "../../Domain/Status";
+import { Statuses, StatusesList } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
-import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
+import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./EditDescritionHelp";
 import cn from "./TriggerEditForm.less";
@@ -34,22 +37,44 @@ const md = new Remarkable({ breaks: true });
 type Props = {
     data: Partial<Trigger>;
     tags: Array<string>;
-    onChange: (triggerObject: Partial<Trigger>) => void;
     remoteAllowed?: boolean | null;
+    onChange: (triggerObject: Partial<Trigger>, callback?: () => void) => void;
+    validateTrigger: (trigger: Partial<Trigger>) => Promise<ValidateTriggerResult>;
 };
 
 type State = {
     descriptionMode: "edit" | "preview";
+    validationResult?: ValidateTriggerResult;
 };
 
-export default class TriggerEditForm extends React.Component<Props, State> {
-    public state: State;
+function getAsyncValidator() {
+    let storage;
+    return async (
+        condition: Promise<ValidateTriggerResult>,
+        callback: (value: ValidateTriggerResult) => void
+    ) => {
+        storage = condition;
+        try {
+            const result = await condition;
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            descriptionMode: "edit",
-        };
+            if (storage === condition) {
+                callback(result);
+            }
+        } catch (e) {
+            Toast.push(e.toString());
+        }
+    };
+}
+
+export default class TriggerEditForm extends React.Component<Props, State> {
+    public state: State = {
+        descriptionMode: "edit",
+    };
+
+    private asyncValidator = getAsyncValidator();
+
+    componentDidMount(): void {
+        this.handleValidateTrigger();
     }
 
     static validateRequiredString(
@@ -91,8 +116,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         return null;
     }
 
-    render(): React.ReactNode {
-        const { descriptionMode } = this.state;
+    render(): React.ReactElement {
+        const { descriptionMode, validationResult } = this.state;
         const { data, onChange, tags: allTags, remoteAllowed } = this.props;
         const {
             name,
@@ -127,6 +152,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <Input
                             width="100%"
                             value={name}
+                            data-tid="Name"
                             onValueChange={(value) => onChange({ name: value })}
                         />
                     </ValidationWrapperV1>
@@ -139,8 +165,12 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 this.setState({ descriptionMode: value as "edit" | "preview" })
                             }
                         >
-                            <Tabs.Tab id="edit">Edit</Tabs.Tab>
-                            <Tabs.Tab id="preview">Preview</Tabs.Tab>
+                            <Tabs.Tab id="edit" data-tid="Description Edit">
+                                Edit
+                            </Tabs.Tab>
+                            <Tabs.Tab id="preview" data-tid="Description Preview">
+                                Preview
+                            </Tabs.Tab>
                         </Tabs>
                     </div>
                     {descriptionMode === "edit" ? (
@@ -167,27 +197,21 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             <span className={cn("target-number")}>T{i + 1}</span>
                             <RowStack block verticalAlign="baseline" gap={1}>
                                 <Fill>
-                                    <ValidationWrapperV1
-                                        validationInfo={TriggerEditForm.validateRequiredString(x)}
-                                        renderMessage={tooltip("right middle")}
-                                    >
-                                        <Input
-                                            width="100%"
-                                            value={x}
-                                            onValueChange={(value) =>
-                                                this.handleUpdateTarget(i, value)
-                                            }
-                                        />
-                                    </ValidationWrapperV1>
+                                    <HighlightInput
+                                        width="100%"
+                                        value={x}
+                                        onValueChange={(value: string) =>
+                                            this.handleUpdateTarget(i, value)
+                                        }
+                                        validate={validationResult?.targets?.[i]}
+                                        data-tid={`Target T${i + 1}`}
+                                    />
                                 </Fill>
                                 {targets.length > 1 && (
                                     <Fit>
                                         <Checkbox
-                                            checked={
-                                                aloneMetrics !== undefined &&
-                                                aloneMetrics !== null &&
-                                                aloneMetrics[`t${i + 1}`]
-                                            }
+                                            checked={aloneMetrics?.[`t${i + 1}`]}
+                                            data-tid={`Target Single ${i + 1}`}
                                             onValueChange={(value) =>
                                                 this.handleUpdateAloneMetrics(i, value)
                                             }
@@ -198,7 +222,10 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 )}
                                 {targets.length > 1 && (
                                     <Fit>
-                                        <Button onClick={() => this.handleRemoveTarget(i)}>
+                                        <Button
+                                            onClick={() => this.handleRemoveTarget(i)}
+                                            data-tid="Target Remove"
+                                        >
                                             <RemoveIcon />
                                         </Button>
                                     </Fit>
@@ -213,23 +240,19 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
                 <FormRow>
                     <TriggerModeEditor
-                        triggerType={triggerType || DEFAULT_TRIGGER_TYPE}
+                        triggerType={triggerType ?? DEFAULT_TRIGGER_TYPE}
                         value={triggerModeEditorValue}
                         expression={expression ?? ""}
                         validateExpression={TriggerEditForm.validateRequiredString}
-                        disableSimpleMode={(targets?.length ?? 0) > 1}
-                        onChange={(value) => onChange(value)}
+                        disableSimpleMode={targets && targets.length > 1}
+                        onChange={onChange}
                     />
                 </FormRow>
 
                 <FormRow singleLineControlGroup>
                     <StatusSelect
-                        value={(ttlState || Statuses.DEL) as Status}
-                        availableStatuses={
-                            Object.keys(Statuses).filter((x) => x !== Statuses.EXCEPTION) as Array<
-                                Status
-                            >
-                        }
+                        value={ttlState}
+                        availableStatuses={StatusesList.filter((x) => x !== Statuses.EXCEPTION)}
                         onChange={(value) => onChange({ ttl_state: value })}
                     />
                     <span>if has no value for</span>
@@ -242,7 +265,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             value={typeof ttl === "number" ? ttl : null}
                             editFormat={defaultNumberEditFormat}
                             viewFormat={defaultNumberViewFormat}
-                            onChange={(value) => onChange({ ttl: value || 0 })}
+                            onChange={(value) => onChange({ ttl: value ?? 0 })}
                         />
                     </ValidationWrapperV1>
                     <span>seconds</span>
@@ -284,28 +307,30 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     >
                         <TagDropdownSelect
                             allowCreateNewTags
-                            value={tags || []}
+                            value={tags ?? []}
                             availableTags={allTags}
                             width={650}
-                            onChange={(selectedTags) =>
+                            onChange={(selectedTags: string[]) =>
                                 onChange({
                                     tags: selectedTags,
                                 })
                             }
+                            data-tid="Tags"
                         />
                     </ValidationWrapperV1>
                 </FormRow>
                 {remoteAllowed && (
                     <FormRow label="Data source" singleLineControlGroup>
-                        <RadioGroup<keyof typeof TriggerDataSources>
+                        <RadioGroup<TriggerDataSources>
                             name="data-source"
                             defaultValue={
-                                (!isRemote
-                                    ? TriggerDataSources.LOCAL
-                                    : TriggerDataSources.GRAPHITE) as keyof typeof TriggerDataSources
+                                isRemote ? TriggerDataSources.GRAPHITE : TriggerDataSources.LOCAL
                             }
-                            onValueChange={(value) =>
-                                onChange({ is_remote: value !== TriggerDataSources.LOCAL })
+                            onValueChange={(value: TriggerDataSources) =>
+                                onChange(
+                                    { is_remote: value !== TriggerDataSources.LOCAL },
+                                    this.handleValidateTrigger
+                                )
                             }
                         >
                             <Gapped vertical gap={10}>
@@ -328,13 +353,16 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { onChange, data } = this.props;
         const { targets } = data;
 
-        onChange({
-            targets: [
-                ...(targets?.slice(0, targetIndex) ?? []),
-                value,
-                ...(targets?.slice(targetIndex + 1) ?? []),
-            ],
-        });
+        onChange(
+            {
+                targets: [
+                    ...(targets?.slice(0, targetIndex) ?? []),
+                    value,
+                    ...(targets?.slice(targetIndex + 1) ?? []),
+                ],
+            },
+            this.handleDebouncedValidateTrigger
+        );
     }
 
     handleUpdateAloneMetrics(targetIndex: number, value: boolean): void {
@@ -342,7 +370,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         let { alone_metrics: aloneMetrics } = data;
         const target = `t${targetIndex + 1}`;
 
-        if (aloneMetrics === undefined || aloneMetrics === null) {
+        if (aloneMetrics == null) {
             aloneMetrics = {};
         }
 
@@ -359,8 +387,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
         for (let i = 0; i < (targets?.length ?? 0); i += 1) {
             const target = `t${i + 1}`;
-            aloneMetricsIndex[i] =
-                aloneMetrics !== undefined && aloneMetrics !== null && aloneMetrics[target];
+            aloneMetricsIndex[i] = aloneMetrics?.[target];
         }
 
         const newAloneMetricsIndex = [
@@ -371,20 +398,25 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const newAloneMetrics: {
             [key: string]: boolean;
         } = {};
+
         for (let i = 0; i < (targets?.length ?? 0); i += 1) {
             const target = `t${i + 1}`;
-            if (newAloneMetricsIndex[i]) {
-                newAloneMetrics[target] = newAloneMetricsIndex[i];
+            const metricIndex = newAloneMetricsIndex[i];
+            if (metricIndex) {
+                newAloneMetrics[target] = metricIndex;
             }
         }
 
-        onChange({
-            targets: [
-                ...(targets?.slice(0, targetIndex) ?? []),
-                ...(targets?.slice(targetIndex + 1) ?? []),
-            ],
-            alone_metrics: newAloneMetrics,
-        });
+        onChange(
+            {
+                targets: [
+                    ...(targets?.slice(0, targetIndex) ?? []),
+                    ...(targets?.slice(targetIndex + 1) ?? []),
+                ],
+                alone_metrics: newAloneMetrics,
+            },
+            this.handleValidateTrigger
+        );
     }
 
     handleAddTarget(): void {
@@ -396,6 +428,16 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             targets: [...(targets ?? []), ""],
         });
     }
+
+    private handleValidateTrigger = () => {
+        const { validateTrigger, data } = this.props;
+
+        this.asyncValidator(validateTrigger(data), (validationResult: ValidateTriggerResult) => {
+            this.setState({ validationResult });
+        });
+    };
+
+    private handleDebouncedValidateTrigger = debounce(this.handleValidateTrigger, 100);
 }
 
 type FormProps = {

@@ -4,8 +4,6 @@ import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { Dropdown } from "@skbkontur/react-ui/components/Dropdown";
-import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import ClockIcon from "@skbkontur/react-icons/Clock";
@@ -16,14 +14,13 @@ import UserIcon from "@skbkontur/react-icons/User";
 import TagGroup from "../TagGroup/TagGroup";
 import { Trigger, TriggerState } from "../../Domain/Trigger";
 import { Schedule } from "../../Domain/Schedule";
-import { Maintenance } from "../../Domain/Maintenance";
-import { Maintenances, getMaintenanceCaption } from "../../Domain/Maintenance";
 import { getPageLink } from "../../Domain/Global";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
+import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import cn from "./TriggerInfo.less";
 
 const md = new Remarkable({ breaks: true });
@@ -33,7 +30,7 @@ type Props = {
     triggerState: TriggerState;
     supportEmail?: string;
     onThrottlingRemove: (triggerId: string) => void;
-    onSetMaintenance: (maintenance: Maintenance) => void;
+    onSetMaintenance: (maintenance: number) => void;
 };
 
 function maintenanceDelta(maintenance?: number | null): number {
@@ -80,7 +77,7 @@ export default function TriggerInfo({
     supportEmail,
     onThrottlingRemove,
     onSetMaintenance,
-}: Props): React.ReactNode {
+}: Props): React.ReactElement {
     const {
         id,
         name,
@@ -105,7 +102,9 @@ export default function TriggerInfo({
     return (
         <section>
             <header className={cn("header")}>
-                <h1 className={cn("title")}>{name != null && name !== "" ? name : "[No name]"}</h1>
+                <h1 className={cn("title")} data-tid="Name">
+                    {name != null && name !== "" ? name : "[No name]"}
+                </h1>
                 <div className={cn("controls")}>
                     {throttling !== 0 && (
                         <span className={cn("control")}>
@@ -135,16 +134,11 @@ export default function TriggerInfo({
                         </RouterLink>
                     </span>
                     <span className={cn("control")}>
-                        <Dropdown use="link" caption={maintenanceCaption(delta)}>
-                            {Object.keys(Maintenances).map((key) => (
-                                <MenuItem
-                                    key={key}
-                                    onClick={() => onSetMaintenance(key as Maintenance)}
-                                >
-                                    {getMaintenanceCaption(key as Maintenance)}
-                                </MenuItem>
-                            ))}
-                        </Dropdown>
+                        <MaintenanceSelect
+                            maintenance={maintenance}
+                            caption={maintenanceCaption(delta)}
+                            onSetMaintenance={onSetMaintenance}
+                        />
                     </span>
                     <span>
                         {delta > 0 &&

@@ -26,7 +26,7 @@ export function makeTokens(expression: string[]): Token[] {
     const result: Token[] = [];
 
     let startPosition = 0;
-    let variableIndex: undefined | number;
+    let variableIndex: undefined | number = undefined;
 
     for (let k = 0; k < expression.length; k += 1) {
         const current = expression[k];
@@ -44,7 +44,7 @@ export function makeTokens(expression: string[]): Token[] {
         } else if (current === "(") {
             result[k].type = "bracket";
 
-            if (typeof variableIndex !== "undefined") {
+            if (variableIndex !== undefined) {
                 result[variableIndex].type = "fnName";
                 variableIndex = undefined;
             }
@@ -66,13 +66,13 @@ export function makeTokens(expression: string[]): Token[] {
 
 export function splitFunction(expression: string): string[] {
     const tokens: string[] = [];
-    let tokenSeparator: "'" | '"' | " " | undefined;
+    let tokenSeparator: "'" | '"' | " " | undefined = undefined;
 
     let tokenStart = 0;
 
     for (let i = 0; i < expression.length; i += 1) {
         const symbol = expression[i];
-        if (typeof tokenSeparator === "string" && tokenSeparator === " ") {
+        if (tokenSeparator === " ") {
             if (symbol !== " ") {
                 tokens.push(expression.slice(tokenStart, i));
                 tokenSeparator = symbol === '"' || symbol === "'" ? symbol : undefined;
@@ -83,13 +83,13 @@ export function splitFunction(expression: string): string[] {
                     tokenStart += 1;
                 }
             }
-        } else if (tokenSeparator && tokenSeparator === `"`) {
+        } else if (tokenSeparator === `"`) {
             if (symbol === `"` && expression[i - 1] !== `\\`) {
                 tokens.push(expression.slice(tokenStart, i + 1));
                 tokenStart = i + 1;
                 tokenSeparator = undefined;
             }
-        } else if (tokenSeparator && tokenSeparator === `'`) {
+        } else if (tokenSeparator === `'`) {
             if (symbol === `'` && expression[i - 1] !== `\\`) {
                 tokens.push(expression.slice(tokenStart, i + 1));
                 tokenStart = i + 1;

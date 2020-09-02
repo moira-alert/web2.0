@@ -1,6 +1,6 @@
 import MockDate from "mockdate";
 import { IMoiraApi } from "../Api/MoiraApi";
-import { calculateMaintenanceTime, setTriggerMaintenance } from "./Maintenance";
+import { calculateMaintenanceTime, Maintenance, setTriggerMaintenance } from "./Maintenance";
 
 const mockFn = jest.fn();
 
@@ -18,27 +18,31 @@ describe("Maintenance", () => {
     });
 
     it(`call setTriggerMaintenance with off`, async () => {
-        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime("off"));
+        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime(Maintenance.off));
         expect(api.setMaintenance).toBeCalledWith(triggerId, { trigger: 0 });
     });
     it(`call setTriggerMaintenance with quarterHour "15 min"`, async () => {
-        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime("quarterHour"));
+        await setTriggerMaintenance(
+            api,
+            triggerId,
+            calculateMaintenanceTime(Maintenance.quarterHour)
+        );
         expect(api.setMaintenance).toBeCalledWith(triggerId, { trigger: 1591683300 });
     });
     it(`call setTriggerMaintenance with oneHour "1 hour"`, async () => {
-        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime("oneHour"));
+        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime(Maintenance.oneHour));
         expect(api.setMaintenance).toBeCalledWith(triggerId, { trigger: 1591686000 });
     });
     it(`call setTriggerMaintenance with oneDay "1 day"`, async () => {
-        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime("oneDay"));
+        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime(Maintenance.oneDay));
         expect(api.setMaintenance).toBeCalledWith(triggerId, { trigger: 1591768800 });
     });
     it(`call setTriggerMaintenance with oneWeek "1 week"`, async () => {
-        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime("oneWeek"));
+        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime(Maintenance.oneWeek));
         expect(api.setMaintenance).toBeCalledWith(triggerId, { trigger: 1592287200 });
     });
     it(`call setTriggerMaintenance with oneMonth "1 month"`, async () => {
-        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime("oneMonth"));
+        await setTriggerMaintenance(api, triggerId, calculateMaintenanceTime(Maintenance.oneMonth));
         expect(api.setMaintenance).toBeCalledWith(triggerId, { trigger: 1594274400 });
     });
 });

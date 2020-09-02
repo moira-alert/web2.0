@@ -70,8 +70,16 @@ export default function CustomMaintenanceMenu({
     const maxDate = getLastDayOfNextMonth(currentTime);
 
     const [calendarDate, setCalendarDate] = useState(maintenanceDate || todayDate);
-    const [stringDate, setStringDate] = useState(toStringDate(maintenanceDate || todayDate));
-    const [time, setTime] = useState(maintenanceTime || todayTime);
+    const [stringDate, setStringDate] = useState(
+        toStringDate(
+            maintenanceTime && maintenanceDate && maintenanceTime > todayTime
+                ? maintenanceDate
+                : todayDate
+        )
+    );
+    const [time, setTime] = useState(
+        maintenanceTime && maintenanceTime > todayTime ? maintenanceTime : todayTime
+    );
 
     const validationContainerEl = useRef<ValidationContainer>(null);
     const validate = async () => {

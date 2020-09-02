@@ -1,12 +1,11 @@
 import { Statuses } from "../../../Domain/Status";
-import { Status } from "../../../Domain/Status";
 import variables from "./variables.less";
 
 const { okColor, errorColor, warnColor, noDataColor, unknownColor } = variables;
 
 export { unknownColor };
 
-export default function getStatusColor(status: Status): string {
+export default function getStatusColor(status: Statuses): string {
     if (status === Statuses.OK) {
         return okColor;
     }

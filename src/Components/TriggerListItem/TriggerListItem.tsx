@@ -5,9 +5,7 @@ import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
 import { Trigger } from "../../Domain/Trigger";
-import { Status } from "../../Domain/Status";
-import { MetricList } from "../../Domain/Metric";
-import { Maintenance } from "../../Domain/Maintenance";
+import { MetricItemList } from "../../Domain/Metric";
 import { Statuses, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
@@ -22,7 +20,7 @@ import cn from "./TriggerListItem.less";
 type Props = {
     data: Trigger;
     searchMode: boolean;
-    onChange?: (triggerId: string, metric: string, maintenance: Maintenance) => void;
+    onChange?: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove?: (metric: string) => void;
 };
 
@@ -55,9 +53,9 @@ export default class TriggerListItem extends React.Component<Props, State> {
         }
     }
 
-    static sortMetricsByValue(metrics: MetricList): MetricList {
+    static sortMetricsByValue(metrics: MetricItemList): MetricItemList {
         return Object.keys(metrics)
-            .sort((x, y) => {
+            .sort((x: string, y: string) => {
                 const valueA = metrics[x].value || 0;
                 const valueB = metrics[y].value || 0;
                 if (valueA < valueB) {
@@ -68,10 +66,10 @@ export default class TriggerListItem extends React.Component<Props, State> {
                 }
                 return 0;
             })
-            .reduce((data, key) => {
+            .reduce((data: MetricItemList, key: string) => {
                 data[key] = metrics[key];
                 return data;
-            }, {} as MetricList);
+            }, {});
     }
 
     render(): React.ReactNode {
@@ -156,19 +154,19 @@ export default class TriggerListItem extends React.Component<Props, State> {
         this.setState({ showMetrics: !showMetrics });
     }
 
-    filterMetricsByStatus(status: Status): MetricList {
+    filterMetricsByStatus(status: Statuses): MetricItemList {
         const { groupedMetrics } = this.state;
         return groupedMetrics[status] || {};
     }
 
-    renderCounters(): React.ReactNode {
+    renderCounters(): React.ReactElement {
         const counters = StatusesInOrder.map((status) => ({
             status,
-            count: Object.keys(this.filterMetricsByStatus(status as Status)).length,
+            count: Object.keys(this.filterMetricsByStatus(status)).length,
         }))
             .filter(({ count }) => count !== 0)
             .map(({ status, count }) => (
-                <span key={status} style={{ color: getStatusColor(status as Status) }}>
+                <span key={status} style={{ color: getStatusColor(status) }}>
                     {count}
                 </span>
             ));
@@ -179,14 +177,14 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
     }
 
-    renderStatus(): React.ReactNode {
+    renderStatus(): React.ReactElement {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
         const metricStatuses = StatusesInOrder.filter(
-            (x) => Object.keys(this.filterMetricsByStatus(x as Status)).length !== 0
+            (x) => Object.keys(this.filterMetricsByStatus(x)).length !== 0
         );
         const notOkStatuses = metricStatuses.filter((x) => x !== Statuses.OK);
-        let statuses;
+        let statuses: Statuses[];
         if (triggerStatus && (triggerStatus !== Statuses.OK || metricStatuses.length === 0)) {
             statuses = [triggerStatus];
         } else if (notOkStatuses.length !== 0) {
@@ -196,12 +194,12 @@ export default class TriggerListItem extends React.Component<Props, State> {
         }
         return (
             <div className={cn("indicator")}>
-                <StatusIndicator statuses={statuses as Array<Status>} />
+                <StatusIndicator statuses={statuses} />
             </div>
         );
     }
 
-    renderExceptionHelpMessage(): React.ReactNode {
+    renderExceptionHelpMessage(): React.ReactElement {
         const { data } = this.props;
         const hasExpression = data.expression != null && data.expression !== "";
         const hasMultipleTargets = data.targets.length > 1;
@@ -218,37 +216,33 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
     }
 
-    renderMetrics(): React.ReactNode | null | undefined {
+    renderMetrics(): React.ReactNode {
         const { onChange, onRemove, data } = this.props;
         if (!onChange || !onRemove) {
             return null;
         }
         const statuses = StatusesInOrder.filter(
-            (x) => Object.keys(this.filterMetricsByStatus(x as Status)).length !== 0
+            (x) => Object.keys(this.filterMetricsByStatus(x)).length !== 0
         );
         if (statuses.length === 0) {
             return null;
         }
-        const metrics: Array<React.ReactElement> = statuses.map((x) => (
-            <Tab key={x} id={x} label={getStatusCaption(x as Status)}>
+        const metrics: Array<React.ReactElement> = statuses.map((status: Statuses) => (
+            <Tab key={status} id={status} label={getStatusCaption(status)}>
                 <MetricListView
-                    items={TriggerListItem.sortMetricsByValue(
-                        this.filterMetricsByStatus(x as Status)
-                    )}
+                    items={TriggerListItem.sortMetricsByValue(this.filterMetricsByStatus(status))}
                     sortingColumn="value"
                     sortingDown
-                    onChange={
-                        onChange &&
-                        ((metric, maintenance) => onChange(data.id, metric, maintenance))
+                    onChange={(metric: string, maintenance: number) =>
+                        onChange?.(data.id, metric, maintenance)
                     }
-                    onRemove={(metric) => onRemove(metric)}
+                    onRemove={(metric: string) => onRemove(metric)}
                 />
             </Tab>
         ));
         return (
             <div className={cn("metrics")}>
                 {this.getHasExceptionState() && this.renderExceptionHelpMessage()}
-                {/* @ts-ignore*/}
                 <Tabs value={statuses[0]}>{metrics}</Tabs>
             </div>
         );

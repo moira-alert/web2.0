@@ -8,7 +8,7 @@ import RouterLink from "../RouterLink/RouterLink";
 import svgLogo from "./moira-logo.svg";
 import cn from "./Header.less";
 
-export default function Header(): React.ReactNode {
+export default function Header(): React.ReactElement {
     return (
         <header className={cn("header")}>
             <div className={cn("container")}>

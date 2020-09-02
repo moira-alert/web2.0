@@ -1,13 +1,13 @@
+import * as React from "react";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import difference from "lodash/difference";
 import union from "lodash/union";
-import * as React from "react";
 import { ComboBox } from "@skbkontur/react-ui/components/ComboBox";
+import { Contact } from "../../Domain/Contact";
+import { notUndefined } from "../../helpers/common";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import { Contact } from "../../Domain/Contact";
-import { notUndefined } from "../../helpers/common";
 import cn from "./ContactSelect.less";
 
 type Props = {

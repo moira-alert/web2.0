@@ -1,17 +1,16 @@
 import * as React from "react";
 import { Trigger } from "../../Domain/Trigger";
-import { Maintenance } from "../../Domain/Maintenance";
 import TriggerListItem from "../TriggerListItem/TriggerListItem";
 import cn from "./TriggerList.less";
 
 type Props = {
-    items: Array<Trigger>;
+    items: Trigger[];
     searchMode: boolean;
-    onChange?: (triggerId: string, metric: string, maintenance: Maintenance) => void;
-    onRemove?: (triggerId: string, metric: string) => void;
+    onChange: (triggerId: string, metric: string, maintenance: number) => void;
+    onRemove: (triggerId: string, metric: string) => void;
 };
 
-export default function TriggerList(props: Props): React.ReactNode {
+export default function TriggerList(props: Props): React.ReactElement {
     const { items, searchMode, onChange, onRemove } = props;
     return (
         <div>
@@ -23,12 +22,10 @@ export default function TriggerList(props: Props): React.ReactNode {
                         <TriggerListItem
                             searchMode={searchMode}
                             data={item}
-                            onChange={
-                                onChange &&
-                                ((metric, maintenance) =>
-                                    onChange(item.id, metric, maintenance as Maintenance))
+                            onChange={(_triggerId: string, metric: string, maintenance: number) =>
+                                onChange(item.id, metric, maintenance)
                             }
-                            onRemove={onRemove && ((metric) => onRemove(item.id, metric))}
+                            onRemove={(metric) => onRemove(item.id, metric)}
                         />
                     </div>
                 ))

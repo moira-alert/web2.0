@@ -6,7 +6,7 @@ interface IAddingButtonProps {
     to: string;
 }
 
-export default function AddingButton(props: IAddingButtonProps): React.ReactNode {
+export default function AddingButton(props: IAddingButtonProps): React.ReactElement {
     const { to } = props;
     return (
         <Link to={to} className={cn("button")} data-tid="Add Trigger">

@@ -4,8 +4,8 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import { Trigger } from "../../../Domain/Trigger";
-import { Status } from "../../../Domain/Status";
-import { MetricList } from "../../../Domain/Metric";
+import { StatusesList } from "../../../Domain/Status";
+import { MetricItemList } from "../../../Domain/Metric";
 import { getPageLink } from "../../../Domain/Global";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
@@ -34,7 +34,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         };
     }
 
-    static groupMetricsByStatuses(metrics: MetricList): IMetricByStatuses {
+    static groupMetricsByStatuses(metrics: MetricItemList): IMetricByStatuses {
         return groupMetricsByStatuses(metrics);
     }
 
@@ -71,19 +71,15 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     renderCounters(): React.ReactElement {
-        const counters = Object.keys(Statuses)
-            .map((status) => ({
-                status,
-                count: Object.keys(this.filterMetricsByStatus(status as Status)).length,
-            }))
+        const counters = StatusesList.map((status) => ({
+            status,
+            count: Object.keys(this.filterMetricsByStatus(status)).length,
+        }))
             .filter(({ count }) => count !== 0)
             .map(({ status, count }) => (
                 <span key={status}>
                     <span className={cn("caption")}>{status}: </span>
-                    <span
-                        style={{ color: getStatusColor(status as Status) }}
-                        className={cn("value")}
-                    >
+                    <span style={{ color: getStatusColor(status) }} className={cn("value")}>
                         {count}
                     </span>
                 </span>
@@ -98,22 +94,22 @@ export default class TriggerListItem extends React.Component<Props, State> {
     renderStatus(): React.ReactNode {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
-        const metricStatuses = Object.keys(Statuses).filter(
-            (x) => Object.keys(this.filterMetricsByStatus(x as Status)).length !== 0
+        const metricStatuses = StatusesList.filter(
+            (x) => Object.keys(this.filterMetricsByStatus(x)).length !== 0
         );
-        const notOkStatuses = metricStatuses.filter((x) => x !== Statuses.OK) as Array<Status>;
-        let statuses: Array<Status>;
+        const notOkStatuses = metricStatuses.filter((x) => x !== Statuses.OK);
+        let statuses: Statuses[];
         if (triggerStatus && (triggerStatus !== Statuses.OK || metricStatuses.length === 0)) {
             statuses = [triggerStatus];
         } else if (notOkStatuses.length !== 0) {
             statuses = notOkStatuses;
         } else {
-            statuses = [Statuses.OK as Status];
+            statuses = [Statuses.OK];
         }
         return <MobileStatusIndicator size={40} statuses={statuses} />;
     }
 
-    filterMetricsByStatus(status: Status): IMetricByStatuses {
+    filterMetricsByStatus(status: Statuses): IMetricByStatuses {
         const { groupedMetrics } = this.state;
         return groupedMetrics[status] || {};
     }

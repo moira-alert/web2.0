@@ -1,8 +1,8 @@
-import { Status } from "./Status";
+import { Statuses } from "./Status";
 
 export type Event = {
-    state: Status;
-    old_state: Status;
+    state: Statuses;
+    old_state: Statuses;
     timestamp: number;
     value?: number;
     values?: {

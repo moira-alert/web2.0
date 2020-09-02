@@ -5,7 +5,6 @@ require("@babel/register")({
     babelrc: false,
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     presets: [
-        "@babel/preset-flow",
         [
             "@babel/preset-env",
             {

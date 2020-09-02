@@ -2,17 +2,29 @@ import { getUnixTime, addMinutes } from "date-fns";
 import { getUTCDate } from "../helpers/DateUtil";
 import { IMoiraApi } from "../Api/MoiraApi";
 
-export const Maintenances = {
-    off: "off",
-    quarterHour: "quarterHour",
-    oneHour: "oneHour",
-    threeHours: "threeHours",
-    sixHours: "sixHours",
-    oneDay: "oneDay",
-    oneWeek: "oneWeek",
-    twoWeeks: "twoWeeks",
-    oneMonth: "oneMonth",
-};
+export enum Maintenance {
+    off = "off",
+    quarterHour = "quarterHour",
+    oneHour = "oneHour",
+    threeHours = "threeHours",
+    sixHours = "sixHours",
+    oneDay = "oneDay",
+    oneWeek = "oneWeek",
+    twoWeeks = "twoWeeks",
+    oneMonth = "oneMonth",
+}
+
+export const MaintenanceList = [
+    Maintenance.off,
+    Maintenance.quarterHour,
+    Maintenance.oneHour,
+    Maintenance.threeHours,
+    Maintenance.sixHours,
+    Maintenance.oneDay,
+    Maintenance.oneWeek,
+    Maintenance.twoWeeks,
+    Maintenance.oneMonth,
+];
 
 const MaintenanceTimes = {
     off: 0,
@@ -38,7 +50,7 @@ const MaintenanceCaptions = {
     oneMonth: "1 month",
 };
 
-export type Maintenance = keyof typeof Maintenances;
+// export type Maintenance = keyof typeof Maintenances;
 
 export function getMaintenanceCaption(maintenance: Maintenance): string {
     return MaintenanceCaptions[maintenance];

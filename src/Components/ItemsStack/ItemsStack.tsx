@@ -1,5 +1,5 @@
 // ToDo перевести на @skbkontur/react-stack-layout
-import * as React from "react";
+import React, { ReactNode, CSSProperties } from "react";
 import cn from "./ItemsStacks.less";
 
 type VerticalAlign = "top" | "bottom" | "center" | "baseline" | "stretch";
@@ -148,7 +148,8 @@ export class ColumnStack extends React.Component<ColumnStackProps> {
 type FitProps = {
     tag?: keyof JSX.IntrinsicElements;
     className?: string;
-    children?: React.ReactNode;
+    style?: CSSProperties;
+    children?: ReactNode;
 };
 
 export function Fit({ tag, className, children, ...rest }: FitProps): React.ReactElement {

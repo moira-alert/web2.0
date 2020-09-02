@@ -12,7 +12,7 @@ type Props = {
     };
 };
 
-export default function EventList(props: Props): React.ReactNode {
+export default function EventList(props: Props): React.ReactElement {
     const { items } = props;
     return (
         <section>

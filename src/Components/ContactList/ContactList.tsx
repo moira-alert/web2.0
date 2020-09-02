@@ -15,7 +15,7 @@ type Props = {
     items: Array<Contact>;
     contactDescriptions: Array<ContactConfig>;
     onTestContact: (contact: Contact) => Promise<void>;
-    onAddContact: (contact: Partial<Contact>) => Promise<Contact | null>;
+    onAddContact: (contact: Partial<Contact>) => Promise<Contact | undefined>;
     onUpdateContact: (contact: Contact) => Promise<void>;
     onRemoveContact: (contact: Contact) => Promise<void>;
 };
@@ -212,9 +212,11 @@ export default class ContactList extends React.Component<Props, State> {
 
     handleChangeEditableContact = (contactUpdate: Partial<Contact>): void => {
         const { editableContact } = this.state;
-        this.setState({
-            editableContact: { ...editableContact, ...(contactUpdate as Contact) },
-        });
+        if (editableContact) {
+            this.setState({
+                editableContact: { ...editableContact, ...contactUpdate },
+            });
+        }
     };
 
     handleCancelEditContact = (): void => {

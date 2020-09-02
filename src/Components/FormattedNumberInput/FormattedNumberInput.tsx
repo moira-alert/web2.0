@@ -8,26 +8,27 @@ type FormattedNumberInputProps = {
     editFormat?: string | null;
     value: number | null;
     align?: "left" | "center" | "right";
+    disabled?: boolean;
     onChange: (value: number | null) => void;
     width: string | number;
+    "data-tid"?: string;
 };
 
 export default class FormattedNumberInput extends React.Component<FormattedNumberInputProps> {
     render(): React.ReactElement {
-        const {
-            value,
-            viewFormat: _viewFormat,
-            editFormat: _editFormat,
-            ...restProps
-        } = this.props;
-        // FIXME убрал строковый ref="filteredInput" не знаю как это раньше работало
+        const { value } = this.props;
+
         return (
             <FilteredInput<number | null>
-                {...restProps}
                 value={value}
+                align={this.props.align}
+                disabled={this.props.disabled}
+                width={this.props.width}
+                onChange={this.props.onChange}
                 filterValue={(value) => this.handleFilterValue(value)}
                 valueForView={(value) => this.handleValueForView(value)}
                 valueForEdit={(value) => this.handleValueForEdit(value)}
+                data-tid={this.props["data-tid"]}
             />
         );
     }

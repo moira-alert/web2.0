@@ -4,13 +4,13 @@ import WarningIcon from "@skbkontur/react-icons/Warning";
 import cn from "./Layout.less";
 
 type LayoutProps = {
-    children?: React.ReactElement;
+    children?: React.ReactNode;
     loading?: boolean;
     error?: string;
 };
 
 type PlateProps = {
-    children?: React.ReactElement;
+    children?: React.ReactNode;
 };
 
 type TitleProps = {
@@ -18,15 +18,15 @@ type TitleProps = {
 };
 
 type ContentProps = {
-    children?: React.ReactElement;
+    children?: React.ReactNode;
 };
 
 type PagingProps = {
-    children?: React.ReactElement;
+    children?: React.ReactNode;
 };
 
 export default class Layout extends React.Component<LayoutProps> {
-    static Plate = function Plate({ children }: PlateProps): React.ReactNode {
+    static Plate = function Plate({ children }: PlateProps): React.ReactElement {
         return (
             <div className={cn("grey-plate")}>
                 <div className={cn("container")}>{children}</div>
@@ -34,11 +34,11 @@ export default class Layout extends React.Component<LayoutProps> {
         );
     };
 
-    static Title = function Title({ children }: TitleProps): React.ReactNode {
+    static Title = function Title({ children }: TitleProps): React.ReactElement {
         return <h1 className={cn("title")}>{children}</h1>;
     };
 
-    static Content = function Content({ children }: ContentProps): React.ReactNode {
+    static Content = function Content({ children }: ContentProps): React.ReactElement {
         return (
             <div className={cn("content")}>
                 <div className={cn("container")}>{children}</div>
@@ -46,7 +46,7 @@ export default class Layout extends React.Component<LayoutProps> {
         );
     };
 
-    static Footer = function Paging({ children }: PagingProps): React.ReactNode {
+    static Footer = function Paging({ children }: PagingProps): React.ReactElement {
         return (
             <div className={cn("paging")}>
                 <div className={cn("container")}>{children}</div>

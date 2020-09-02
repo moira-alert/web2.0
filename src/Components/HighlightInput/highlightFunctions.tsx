@@ -12,10 +12,7 @@ export function renderToken(token: ViewToken): React.ReactNode {
     return token.render || token.value;
 }
 
-// This function set "render" that reassign tokens, but this ok
-
-/* eslint-disable no-param-reassign */
-export function highlightTokens(tokens: Token[], caret?: number | null): ViewToken[] {
+export function highlightTokens(tokens: Token[], caret?: number): ViewToken[] {
     const brackets: Array<Token> = [];
     let isFound = false;
 
@@ -60,8 +57,6 @@ export function highlightTokens(tokens: Token[], caret?: number | null): ViewTok
     return tokens;
 }
 
-/* eslint-enable no-param-reassign */
-
 export function highlightBadFunction(
     initProblemTree: TriggerTargetProblem,
     initTokens: ViewToken[],
@@ -84,7 +79,7 @@ export function highlightBadFunction(
 
         name = problemTree.type ? (
             <BadFunctionToken
-                message={problemTree.description ?? "Unknown problem"}
+                message={problemTree.description}
                 type={problemTree.type}
                 container={container}
             >

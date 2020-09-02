@@ -18,7 +18,7 @@ type Props = {
     onSort?: (sorting: SortingColumn) => void;
 };
 
-export default function PatternList(props: Props): React.ReactNode {
+export default function PatternList(props: Props): React.ReactElement {
     const { items, onRemove, sortingColumn, sortingDown, onSort } = props;
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     return (

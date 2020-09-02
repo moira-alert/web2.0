@@ -6,7 +6,7 @@ type Props = {
     message: string;
 };
 
-export default function Bar(props: Props): React.ReactNode {
+export default function Bar(props: Props): React.ReactElement {
     const { message } = props;
     return (
         <div className={cn("bar")}>

@@ -1,16 +1,12 @@
 import * as React from "react";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
-import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
-import { ColumnStack, RowStack, Fit, Fixed } from "../ItemsStack/ItemsStack";
+import { tooltip, ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
+import { ColumnStack, Fit, Fixed, RowStack } from "../ItemsStack/ItemsStack";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import cn from "./TriggerSimpleModeEditor.less";
-
-export type TriggerSimpleModeSettings = {
-    warn_value?: number | null;
-    error_value?: number | null;
-};
+import { Statuses } from "../../Domain/Status";
 
 type WatchForType = "rising" | "falling";
 
@@ -51,7 +47,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "rising"}
-                                            status="WARN"
+                                            status={Statuses.WARN}
                                         />
                                     </Fit>
                                     <Fixed
@@ -72,6 +68,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={risingValues.warn_value}
+                                                disabled={watchFor !== "rising"}
                                                 onChange={this.handleChangeWarnValue}
                                                 data-tid="WARN T1"
                                             />
@@ -84,7 +81,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "rising"}
-                                            status="ERROR"
+                                            status={Statuses.ERROR}
                                         />
                                     </Fit>
                                     <Fixed
@@ -105,6 +102,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={risingValues.error_value}
+                                                disabled={watchFor !== "rising"}
                                                 onChange={this.handleChangeErrorValue}
                                                 data-tid="WARN T1"
                                             />
@@ -133,7 +131,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "falling"}
-                                            status="WARN"
+                                            status={Statuses.WARN}
                                         />
                                     </Fit>
                                     <Fixed
@@ -154,6 +152,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={fallingValues.warn_value}
+                                                disabled={watchFor !== "falling"}
                                                 onChange={this.handleChangeWarnValue}
                                             />
                                         </ValidationWrapperV1>
@@ -165,7 +164,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "falling"}
-                                            status="ERROR"
+                                            status={Statuses.ERROR}
                                         />
                                     </Fit>
                                     <Fixed
@@ -186,6 +185,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 editFormat={defaultNumberEditFormat}
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={fallingValues.error_value}
+                                                disabled={watchFor !== "falling"}
                                                 onChange={this.handleChangeErrorValue}
                                             />
                                         </ValidationWrapperV1>
@@ -210,11 +210,10 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
     };
 
     handleSetWatchType = (type: WatchForType): void => {
-        const { onSwitch } = this.props;
-        onSwitch(type);
+        this.props.onSwitch(type);
     };
 
-    validateRisingWarn(): ValidationInfo | null | undefined {
+    validateRisingWarn(): ValidationInfo | null {
         const { watchFor, risingValues: value } = this.props;
         if (watchFor !== "rising") {
             return null;
@@ -226,7 +225,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
         return null;
     }
 
-    validateRisingError(): ValidationInfo | null | undefined {
+    validateRisingError(): ValidationInfo | null {
         const { watchFor, risingValues: value } = this.props;
         if (watchFor !== "rising") {
             return null;
@@ -244,7 +243,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
         return null;
     }
 
-    validateFallingWarn(): ValidationInfo | null | undefined {
+    validateFallingWarn(): ValidationInfo | null {
         const { watchFor, fallingValues: value } = this.props;
         if (watchFor !== "falling") {
             return null;
@@ -255,7 +254,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
         return null;
     }
 
-    validateFallingError(): ValidationInfo | null | undefined {
+    validateFallingError(): ValidationInfo | null {
         const { watchFor, fallingValues: value } = this.props;
         if (watchFor !== "falling") {
             return null;

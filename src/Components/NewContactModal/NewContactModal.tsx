@@ -13,7 +13,7 @@ import ModalError from "../ModalError/ModalError";
 type Props = {
     contactDescriptions: Array<ContactConfig>;
     contactInfo: Partial<Contact> | null;
-    onChange: (contactObject: Partial<Contact>) => void;
+    onChange: (contact: Partial<Contact>) => void;
     onCancel: () => void;
     onCreate: () => Promise<void>;
     onCreateAndTest: () => Promise<void>;
@@ -26,18 +26,11 @@ type State = {
 };
 
 export default class NewContactModal extends React.Component<Props, State> {
-    public state: State;
-
-    readonly validationContainer: { current: ValidationContainer | null };
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            createInProcess: false,
-            createAndTestInProcess: false,
-        };
-        this.validationContainer = React.createRef<ValidationContainer>();
-    }
+    public state: State = {
+        createInProcess: false,
+        createAndTestInProcess: false,
+    };
+    readonly validationContainer = React.createRef<ValidationContainer>();
 
     render(): React.ReactNode {
         const { onCancel, contactInfo, contactDescriptions } = this.props;
@@ -120,13 +113,9 @@ export default class NewContactModal extends React.Component<Props, State> {
         }
     };
 
-    handleImport = (fileData: string | ArrayBuffer | null, fileName: string): void => {
+    handleImport = (fileData: string, fileName: string): void => {
         const { contactDescriptions } = this.props;
         try {
-            if (typeof fileData !== "string") {
-                throw new Error("Expected fileData to be a string");
-            }
-
             const newContact = JSON.parse(fileData);
 
             if (typeof newContact !== "object" || newContact === null) {

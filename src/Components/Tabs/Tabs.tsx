@@ -4,12 +4,12 @@ import cn from "./Tabs.less";
 
 type Props = {
     value: string;
-    children: React.ReactElement;
+    children: Array<React.ReactElement | null>;
 };
 type TabProps = {
     id: string;
     label: string;
-    children: React.ReactElement;
+    children: React.ReactNode;
 };
 type State = {
     active: string;
@@ -47,17 +47,16 @@ export default class TabsCustom extends React.Component<Props, State> {
                         value={active}
                         onValueChange={(value) => this.setState({ active: value })}
                     >
-                        {React.Children.map<React.ReactElement, React.ReactElement>(
-                            children,
-                            ({ props }) => (
-                                <TabsTab id={props.id}>{props.label}</TabsTab>
-                            )
+                        {React.Children.map(children, (child) =>
+                            child ? (
+                                <TabsTab id={child.props.id}>{child.props.label}</TabsTab>
+                            ) : null
                         )}
                     </Tabs>
                 </div>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-ignore */}
-                {React.Children.toArray(children).filter(({ props }) => props.id === active)}
+                {(React.Children.toArray(children) as React.ReactElement[]).filter(
+                    ({ props }) => props.id === active
+                )}
             </div>
         );
     }

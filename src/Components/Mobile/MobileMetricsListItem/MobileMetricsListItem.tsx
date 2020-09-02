@@ -9,10 +9,10 @@ import { Metric } from "../../../Domain/Metric";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
 import roundValue from "../../../helpers/roundValue";
 import {
-    Maintenances,
     Maintenance,
     getMaintenanceCaption,
     calculateMaintenanceTime,
+    MaintenanceList,
 } from "../../../Domain/Maintenance";
 import { getUTCDate } from "../../../helpers/DateUtil";
 import cn from "./MobileMetricsListItem.less";
@@ -109,16 +109,16 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                             <Modal.Body>
                                 <div className={cn("modal-content")}>
                                     <div className={cn("modal-header")}>Maintenance metric</div>
-                                    {Object.keys(Maintenances).map((key) => (
+                                    {MaintenanceList.map((maintenance: Maintenance) => (
                                         <button
                                             type="button"
                                             onClick={() => {
-                                                this.handleSetMaintenance(key as Maintenance);
+                                                this.handleSetMaintenance(maintenance);
                                             }}
                                             className={cn("modal-button")}
-                                            key={key}
+                                            key={maintenance}
                                         >
-                                            {getMaintenanceCaption(key as Maintenance)}
+                                            {getMaintenanceCaption(maintenance)}
                                         </button>
                                     ))}
                                 </div>

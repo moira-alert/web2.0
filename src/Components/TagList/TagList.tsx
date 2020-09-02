@@ -16,7 +16,7 @@ type Props = {
     onRemoveContact: (subscriptionId: string) => void;
 };
 
-export default function TagList(props: Props): React.ReactNode {
+export default function TagList(props: Props): React.ReactElement {
     const { items, contacts, onRemove, onRemoveContact } = props;
     return (
         <div>

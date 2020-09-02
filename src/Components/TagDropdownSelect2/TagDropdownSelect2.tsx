@@ -24,25 +24,15 @@ type State = {
 };
 
 export default class TagDropdownSelect extends React.Component<Props, State> {
-    public state: State;
+    public state: State = {
+        value: "",
+        isFocused: false,
+        focusedIndex: 0,
+    };
 
-    readonly containerRef: { current: null | HTMLSpanElement };
-
-    readonly tagsRef?: { current: null | HTMLDivElement } | null;
-
-    readonly focusAnchorRef: { current: null | HTMLSpanElement };
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            value: "",
-            isFocused: false,
-            focusedIndex: 0,
-        };
-        this.containerRef = React.createRef<HTMLSpanElement>();
-        this.tagsRef = React.createRef<HTMLDivElement>();
-        this.focusAnchorRef = React.createRef<HTMLSpanElement>();
-    }
+    private containerRef = React.createRef<HTMLSpanElement>();
+    private tagsRef = React.createRef<HTMLDivElement>();
+    private focusAnchorRef = React.createRef<HTMLSpanElement>();
 
     componentDidUpdate(): void {
         this.updateDropdownContainerMaxWidth();
@@ -181,11 +171,9 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     }
 
     updateDropdownContainerMaxWidth(): void {
-        if (this.tagsRef) {
-            const node = this.tagsRef.current;
-            if (node !== null) {
-                node.style.maxWidth = `${node.getBoundingClientRect().width + 40}px`;
-            }
+        const node = this.tagsRef?.current;
+        if (node !== null) {
+            node.style.maxWidth = `${node.getBoundingClientRect().width + 40}px`;
         }
     }
 
@@ -226,9 +214,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const { onSelect } = this.props;
         this.setState({ value: "", focusedIndex: 0 });
         onSelect(tag);
-        if (this.focusAnchorRef.current !== null) {
-            this.focusAnchorRef.current.focus();
-        }
+        this.focusAnchorRef.current?.focus();
     }
 
     filterTags(tags: Array<string>): Array<string> {

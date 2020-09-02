@@ -2,6 +2,7 @@ import * as React from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
+import { SubscriptionCreateInfo } from "../../Api/MoiraApi";
 import { Contact } from "../../Domain/Contact";
 import { Schedule } from "../../Domain/Schedule";
 import ContactSelect from "../ContactSelect/ContactSelect";
@@ -10,24 +11,12 @@ import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import cn from "./SubscriptionEditor.less";
+import { Subscription } from "../../Domain/Subscription";
 
-export type SubscriptionInfo = {
-    sched: Schedule;
-    tags: string[];
-    throttling: boolean;
-    contacts: string[];
-    enabled: boolean;
-    any_tags?: boolean;
-    ignore_warnings: boolean;
-    ignore_recoverings: boolean;
-    plotting?: {
-        enabled: boolean;
-        theme: "light" | "dark";
-    };
-};
+export type SubscriptionInfo = Omit<SubscriptionCreateInfo, "user" | "id">;
 
 type Props = {
-    subscription: SubscriptionInfo;
+    subscription: Subscription | SubscriptionInfo;
     onChange: (subscriptionInfo: Partial<SubscriptionInfo>) => void;
     tags: Array<string>;
     contacts: Array<Contact>;

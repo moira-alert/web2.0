@@ -9,11 +9,11 @@ import { highlightBadFunction, highlightTokens, renderToken } from "./highlightF
 import cn from "./HighlightInput.less";
 
 type HighlightInputProps = {
-    onValueChange: (changedValue: string) => void;
-    value: string,
-    width?: string,
-    validate?: ValidateTriggerTarget,
-    "data-tid"?: string,
+    onValueChange: (value: string) => void;
+    value: string;
+    width?: string;
+    validate?: ValidateTriggerTarget;
+    "data-tid"?: string;
 };
 
 function getProblemMessage(
@@ -23,7 +23,7 @@ function getProblemMessage(
         return { error: `${problemTree.argument}: ${problemTree.description}` };
     }
 
-    let errorMessage: string | undefined;
+    let errorMessage: string | undefined = undefined;
     let warningMessage =
         problemTree.type === "warn"
             ? `${problemTree.argument}: ${problemTree.description}`
@@ -56,7 +56,7 @@ function validateInput(value: string, error?: string, warning?: string): Validat
         return {
             type: "lostfocus",
             level: error ? "error" : "warning",
-            message: "Error or warning happened",
+            message: null,
         };
     }
 
@@ -66,7 +66,7 @@ function validateInput(value: string, error?: string, warning?: string): Validat
 export default function HighlightInput(props: HighlightInputProps): React.ReactElement {
     const { value, onValueChange, validate, width } = props;
     const [scrollLeft, setScrollLeft] = useState<number>(0);
-    const [caret, setCaret] = useState<number | null>(null);
+    const [caret, setCaret] = useState<number | undefined>();
     const inputEl = useRef<Input>(null);
     const containerEl = useRef<HTMLElement>(null);
 
@@ -132,14 +132,13 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
         if (!inputEl.current) {
             return undefined;
         }
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+
+        // @ts-ignore used the private field otherwise need to find by dom
         const { input } = inputEl.current;
         const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-            const target = e.target as HTMLInputElement;
-            return setCaret(target.selectionStart);
+            return setCaret(e.currentTarget.selectionStart ?? 0);
         };
-        const handleBlur = () => setCaret(null);
+        const handleBlur = () => setCaret(undefined);
 
         input.addEventListener("keyup", handleKeyDown);
         input.addEventListener("mouseup", handleKeyDown);

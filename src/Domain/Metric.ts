@@ -1,7 +1,7 @@
-import { Status } from "./Status";
+import { Statuses } from "./Status";
 
 export type Metric = {
-    state: Status;
+    state: Statuses;
     timestamp: number;
     suppressed?: boolean;
     event_timestamp?: number;
@@ -16,6 +16,6 @@ export type Metric = {
     };
 };
 
-export type MetricList = {
+export type MetricItemList = {
     [metric: string]: Metric;
 };

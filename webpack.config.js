@@ -7,7 +7,7 @@ const supportedLocales = ['en'];
 
 module.exports = {
     entry: {
-        app: path.resolve(__dirname, "src/index.js"),
+        app: path.resolve(__dirname, "src/index.ts"),
     },
     output: {
         filename: "app.[hash:6].js",
@@ -18,7 +18,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.bundle\.jsx?$/,
+                test: /\.bundle\.tsx?$/,
                 use: {
                     loader: "bundle-loader",
                     options: {

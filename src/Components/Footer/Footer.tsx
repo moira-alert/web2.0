@@ -5,7 +5,7 @@ type Props = {
     className?: string;
 };
 
-export default function Footer(props: Props): React.ReactNode {
+export default function Footer(props: Props): React.ReactElement {
     const { className } = props;
     return (
         <footer className={cn("footer", className)}>

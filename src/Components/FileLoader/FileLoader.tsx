@@ -4,7 +4,7 @@ import ImportIcon from "@skbkontur/react-icons/Import";
 import cn from "./FileLoader.less";
 
 type FileLoaderProps = {
-    onLoad: (fileData: string | ArrayBuffer | null, fileName: string) => void;
+    onLoad: (fileData: string, fileName: string) => void;
     onError?: (error: DOMException | null) => void;
     children?: React.ReactNode;
 };
@@ -22,7 +22,11 @@ export default function FileLoader({
         }
         const reader = new FileReader();
         reader.readAsText(file);
-        reader.onload = () => onLoad(reader.result, file.name);
+        reader.onload = () => {
+            if (typeof reader.result === "string") {
+                onLoad(reader.result, file.name);
+            }
+        };
         reader.onerror = () => onError && onError(reader.error);
         // enable import same file
         event.target.value = "";

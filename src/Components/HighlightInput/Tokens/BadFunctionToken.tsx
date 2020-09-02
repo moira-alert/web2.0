@@ -4,7 +4,7 @@ import cn from "./Tokens.less";
 
 type BadFunctionTokenProps = {
     type: "bad" | "warn";
-    message: string;
+    message?: string;
     children: React.ReactNode;
     container: HTMLElement | null;
 };

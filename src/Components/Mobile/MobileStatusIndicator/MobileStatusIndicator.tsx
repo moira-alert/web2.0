@@ -1,11 +1,9 @@
 import * as React from "react";
-import { Status } from "../../../Domain/Status";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { Statuses } from "../../../Domain/Status";
 import StatusIndicator from "../../StatusIndicator/StatusIndicator";
 
 type Props = {
-    statuses: Array<Status>;
+    statuses: Statuses[];
     size: number;
 };
 

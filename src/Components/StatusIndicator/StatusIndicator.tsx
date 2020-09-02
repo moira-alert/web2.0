@@ -1,15 +1,14 @@
 import * as React from "react";
-import { Status } from "../../Domain/Status";
 import { Statuses, getStatusColor } from "../../Domain/Status";
 import cn from "./StatusIndicator.less";
 
 type Props = {
     disabled?: boolean;
-    statuses: Array<Status>;
+    statuses: Array<Statuses>;
     size?: number;
 };
 
-function renderPath(statuses: Array<Status>): React.ReactElement {
+function renderPath(statuses: Array<Statuses>): React.ReactElement {
     const [status1, status2, status3, status4] = statuses;
 
     switch (statuses.length) {

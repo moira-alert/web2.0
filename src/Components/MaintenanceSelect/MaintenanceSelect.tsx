@@ -8,8 +8,7 @@ import { Menu } from "@skbkontur/react-ui/internal/Menu";
 import {
     calculateMaintenanceTime,
     getMaintenanceCaption,
-    Maintenance,
-    Maintenances,
+    MaintenanceList,
 } from "../../Domain/Maintenance";
 import CustomMaintenanceMenu from "./CustomMaintenanceMenu/CustomMaintenanceMenu";
 import cn from "./MaintenanceSelect.less";
@@ -49,16 +48,16 @@ export default function MaintenanceSelect(props: MaintenanceSelectProps): React.
                             />
                         ) : (
                             <Menu maxHeight={600}>
-                                {Object.keys(Maintenances).map((key) => (
+                                {MaintenanceList.map((maintenance) => (
                                     <MenuItem
-                                        key={key}
+                                        key={maintenance}
                                         onClick={() =>
                                             handleSetMaintenance(
-                                                calculateMaintenanceTime(key as Maintenance)
+                                                calculateMaintenanceTime(maintenance)
                                             )
                                         }
                                     >
-                                        {getMaintenanceCaption(key as Maintenance)}
+                                        {getMaintenanceCaption(maintenance)}
                                     </MenuItem>
                                 ))}
                                 <MenuItem onClick={() => setCustomMenuShow(true)}>Custom</MenuItem>

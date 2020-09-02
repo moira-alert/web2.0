@@ -1,5 +1,5 @@
-import { Status } from "./Status";
-import { MetricList } from "./Metric";
+import { Statuses } from "./Status";
+import { MetricItemList } from "./Metric";
 import { Schedule } from "./Schedule";
 
 export type TriggerType = "rising" | "falling" | "expression";
@@ -14,7 +14,7 @@ export type Trigger = {
     patterns: Array<string>;
     expression: string;
     ttl: number;
-    ttl_state: Status;
+    ttl_state: Statuses;
     throttling: number;
     sched?: Schedule;
     desc?: string;
@@ -25,9 +25,9 @@ export type Trigger = {
         name: string;
     };
     last_check?: {
-        state: Status;
+        state: Statuses;
         timestamp: number;
-        metrics: MetricList;
+        metrics: MetricItemList;
         event_timestamp?: number;
         score: number;
         msg?: string;
@@ -49,14 +49,14 @@ export type TriggerList = {
 };
 
 export type TriggerState = {
-    maintenance?: number | null;
+    maintenance?: number;
     maintenanceInfo?: {
         setup_user?: string | null;
         setup_time: number;
     };
-    metrics: MetricList;
+    metrics: MetricItemList;
     timestamp: number;
-    state: Status;
+    state: Statuses;
     score: number;
     trigger_id: string;
     msg?: string;
@@ -79,9 +79,9 @@ export type ValidateTriggerResult = {
     targets: Array<ValidateTriggerTarget>;
 };
 
-const TriggerDataSources = {
-    LOCAL: "LOCAL",
-    GRAPHITE: "GRAPHITE",
-};
+enum TriggerDataSources {
+    LOCAL = "LOCAL",
+    GRAPHITE = "GRAPHITE",
+}
 
-export { TriggerDataSources as default };
+export default TriggerDataSources;

@@ -7,13 +7,13 @@ import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
-import { Status } from "../../../Domain/Status";
+import { StatusesList } from "../../../Domain/Status";
 import { Trigger, TriggerState } from "../../../Domain/Trigger";
 import {
-    Maintenances,
     getMaintenanceCaption,
     Maintenance,
     calculateMaintenanceTime,
+    MaintenanceList,
 } from "../../../Domain/Maintenance";
 import { Statuses } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
@@ -148,16 +148,16 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                         <Modal.Body>
                             <div className={cn("modal-content")}>
                                 <div className={cn("modal-header")}>Maintenance trigger</div>
-                                {Object.keys(Maintenances).map((key) => (
+                                {MaintenanceList.map((maintenance: Maintenance) => (
                                     <button
                                         type="button"
                                         onClick={() => {
-                                            this.handleSetMaintenance(key as Maintenance);
+                                            this.handleSetMaintenance(maintenance);
                                         }}
                                         className={cn("modal-button")}
-                                        key={key}
+                                        key={maintenance}
                                     >
-                                        {getMaintenanceCaption(key as Maintenance)}
+                                        {getMaintenanceCaption(maintenance)}
                                     </button>
                                 ))}
                             </div>
@@ -180,16 +180,16 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
         onSetMaintenance(calculateMaintenanceTime(interval));
     };
 
-    getWorstTriggerState(): Status | null | undefined {
+    getWorstTriggerState(): Statuses | null {
         const { data: trigger, triggerState } = this.props;
         if (trigger == null || triggerState == null) {
             return null;
         }
         const metrics = triggerState.metrics || {};
-        const metricStatuses = Object.keys(Statuses).filter((x) =>
+        const metricStatuses = StatusesList.filter((x) =>
             Object.keys(metrics)
                 .map((y) => metrics[y].state)
-                .includes(x as Status)
+                .includes(x)
         );
         const notOkStatuses = metricStatuses.filter((x) => x !== Statuses.OK);
         if (triggerState.state === Statuses.EXCEPTION) {
@@ -199,13 +199,13 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
             return triggerState.state;
         }
         if (notOkStatuses.length === 0) {
-            return Statuses.OK as Status;
+            return Statuses.OK;
         }
         if (notOkStatuses.includes(Statuses.ERROR)) {
-            return Statuses.ERROR as Status;
+            return Statuses.ERROR;
         }
         if (notOkStatuses.includes(Statuses.WARN)) {
-            return Statuses.WARN as Status;
+            return Statuses.WARN;
         }
         return null;
     }

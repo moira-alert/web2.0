@@ -25,7 +25,7 @@ type State = {
     error?: string;
 };
 
-export default class SubscriptionEditModal extends React.Component<Props, State> {
+export default class CreateSubscriptionModal extends React.Component<Props, State> {
     state: State;
 
     validationContainer: { current: ValidationContainer | null };
@@ -115,12 +115,8 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         }
     };
 
-    handleImport = (fileData: string | ArrayBuffer | null, fileName: string): void => {
+    handleImport = (fileData: string, fileName: string): void => {
         try {
-            if (typeof fileData !== "string") {
-                throw new Error("Expected file data to be a string");
-            }
-
             const subscription = JSON.parse(fileData);
 
             if (typeof subscription === "object" && subscription !== null) {

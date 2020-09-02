@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default class ContactEditForm extends React.Component<Props> {
-    render(): React.ReactNode {
+    render(): React.ReactElement {
         const { onChange, contactInfo, contactDescriptions } = this.props;
         const { value = "", type } = contactInfo || {};
         const currentContactConfig = contactDescriptions.find((contact) => contact.type === type);

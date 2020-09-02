@@ -27,7 +27,9 @@
             "error",
             {
                 "order": [
+                    "state",
                     "type-annotations",
+                    "instance-variables",
                     "lifecycle",
                     "static-methods",
                     "render",
@@ -42,6 +44,7 @@
         "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
         "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "args": "all", "ignoreRestSiblings": true}]
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "args": "all", "ignoreRestSiblings": true}],
+        "@typescript-eslint/ban-ts-comment": ["error", { "ts-ignore": "allow-with-description" }]
     }
 }
