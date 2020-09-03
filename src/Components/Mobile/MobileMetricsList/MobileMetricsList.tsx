@@ -1,12 +1,10 @@
 import * as React from "react";
-import { Metric } from "../../../Domain/Metric";
+import { MetricList } from "../../../Domain/Metric";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
 import cn from "./MobileMetricsList.less";
 
 type Props = {
-    metrics: {
-        [metric: string]: Metric;
-    };
+    metrics: MetricList;
     onRemove: (metricName: string) => void;
     onSetMaintenance: (metricName: string, maintenance: number) => void;
 };

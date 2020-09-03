@@ -11,8 +11,8 @@ export type Metric = {
     };
     maintenance?: number;
     maintenance_info?: {
-        setup_user: string | null | undefined;
-        setup_time: number | null | undefined;
+        setup_user?: string | null;
+        setup_time?: number | null;
     };
 };
 

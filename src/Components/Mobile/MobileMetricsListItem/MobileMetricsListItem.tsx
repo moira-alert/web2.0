@@ -14,8 +14,8 @@ import {
     getMaintenanceCaption,
     calculateMaintenanceTime,
 } from "../../../Domain/Maintenance";
-import cn from "./MobileMetricsListItem.less";
 import { getUTCDate } from "../../../helpers/DateUtil";
+import cn from "./MobileMetricsListItem.less";
 
 type Props = {
     name: string;
@@ -31,7 +31,7 @@ type State = {
     deleted: boolean;
 };
 
-function isUnderkMaintenance(maintenance: number | null | undefined): boolean {
+function isUnderkMaintenance(maintenance?: number | null): boolean {
     if (maintenance == null) {
         return false;
     }
