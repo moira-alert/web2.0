@@ -1,5 +1,5 @@
 module.exports = {
-    stories: ['../src/Stories/**/*.stories.js'],
+    stories: ['../src/Stories/**/*.stories.tsx'],
     webpackFinal: async (config, { configType }) => {
         config.module.rules = config.module.rules.filter(rule => rule.test.toString() !== "/\\.css$/");
 
@@ -27,5 +27,14 @@ module.exports = {
         config.resolve.modules = ["node_modules", "local_modules"];
 
         return config;
+    },
+    typescript: {
+        check: false,
+        checkOptions: {},
+        reactDocgen: 'react-docgen-typescript',
+        reactDocgenTypescriptOptions: {
+            shouldExtractLiteralValuesFromEnum: true,
+            propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+        },
     },
 };

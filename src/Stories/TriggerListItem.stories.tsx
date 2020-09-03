@@ -6,6 +6,8 @@ import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
 import { Statuses } from "../Domain/Status";
+import { WebDriver, WebElementPromise } from "selenium-webdriver";
+import { IKey } from "selenium-webdriver/lib/input";
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -435,7 +437,13 @@ const story = storiesOf("TriggerListItem", module)
     .addParameters({
         creevey: {
             tests: {
-                async States() {
+                async States(this: {
+                    browser: WebDriver;
+                    keys: IKey;
+                    expect: Chai.ExpectStatic;
+                    takeScreenshot: () => Promise<string>;
+                    readonly captureElement?: WebElementPromise;
+                }) {
                     await this.browser
                         .actions({ bridge: true })
                         .move({
@@ -473,6 +481,7 @@ const story = storiesOf("TriggerListItem", module)
             },
         },
     });
+
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
         <TriggerListItem

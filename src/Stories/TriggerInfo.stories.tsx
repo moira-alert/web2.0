@@ -42,7 +42,7 @@ const sourceData: Trigger = {
 };
 
 const triggerState: TriggerState = {
-    maintenance: null,
+    maintenance: undefined,
     metrics: {
         About: {
             event_timestamp: 1512204450,
@@ -86,11 +86,11 @@ const stories: Array<{
                 endOffset: 1439,
                 days: [
                     { enabled: true, name: DaysOfWeek.Mon },
-                    { enabled: true, name: DaysOfWeek.Tue },
+                    { enabled: false, name: DaysOfWeek.Tue },
                     { enabled: true, name: DaysOfWeek.Wed },
                     { enabled: true, name: DaysOfWeek.Thu },
                     { enabled: true, name: DaysOfWeek.Fri },
-                    { enabled: true, name: DaysOfWeek.Sat },
+                    { enabled: false, name: DaysOfWeek.Sat },
                     { enabled: true, name: DaysOfWeek.Sun },
                 ],
                 startOffset: 0,
@@ -111,11 +111,11 @@ const stories: Array<{
                 endOffset: 1439,
                 days: [
                     { enabled: true, name: DaysOfWeek.Mon },
-                    { enabled: true, name: DaysOfWeek.Tue },
+                    { enabled: false, name: DaysOfWeek.Tue },
                     { enabled: true, name: DaysOfWeek.Wed },
                     { enabled: true, name: DaysOfWeek.Thu },
                     { enabled: true, name: DaysOfWeek.Fri },
-                    { enabled: true, name: DaysOfWeek.Sat },
+                    { enabled: false, name: DaysOfWeek.Sat },
                     { enabled: true, name: DaysOfWeek.Sun },
                 ],
                 startOffset: 0,

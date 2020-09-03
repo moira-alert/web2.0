@@ -1,19 +1,17 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import { CSFStory } from "creevey";
 import StoryRouter from "storybook-react-router";
 import Header from "../Components/Header/Header";
 
-storiesOf("Header", module)
-    .addParameters({
+export default { title: "Header" };
+
+export const Default: CSFStory<JSX.Element> = () => <Header />;
+
+Default.story = {
+    decorators: [StoryRouter()],
+    parameters: {
         creevey: {
-            tests: {
-                async Header() {
-                    // Moira image get by url and loaded with a delay
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
-                    await this.expect(await this.takeScreenshot()).to.matchImage();
-                },
-            },
+            delay: 1000,
         },
-    })
-    .addDecorator(StoryRouter())
-    .add("Default", () => <Header />);
+    },
+};

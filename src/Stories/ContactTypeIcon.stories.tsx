@@ -1,5 +1,5 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import { CSFStory } from "creevey";
 import ContactTypeIcon from "../Components/ContactTypeIcon/ContactTypeIcon";
 
 const iconTypes = [
@@ -19,22 +19,20 @@ const iconTypes = [
     "tel",
 ];
 
-storiesOf("ContactTypeIcon", module)
-    .addParameters({
+export default { title: "ContactTypeIcon" };
+
+export const AllIconsInList: CSFStory<JSX.Element> = () => (
+    <div>
+        {iconTypes.map((type: string) => (
+            <ContactTypeIcon key={type} type={type} />
+        ))}
+    </div>
+);
+
+AllIconsInList.story = {
+    parameters: {
         creevey: {
-            tests: {
-                async AllIcons() {
-                    // Some icons get by url and loaded with a delay
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
-                    await this.expect(await this.takeScreenshot()).to.matchImage();
-                },
-            },
+            delay: 1000,
         },
-    })
-    .add("AllIconsInList", () => (
-        <div>
-            {iconTypes.map((type: string) => (
-                <ContactTypeIcon key={type} type={type} />
-            ))}
-        </div>
-    ));
+    },
+};

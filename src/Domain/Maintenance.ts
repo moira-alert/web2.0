@@ -50,8 +50,6 @@ const MaintenanceCaptions = {
     oneMonth: "1 month",
 };
 
-// export type Maintenance = keyof typeof Maintenances;
-
 export function getMaintenanceCaption(maintenance: Maintenance): string {
     return MaintenanceCaptions[maintenance];
 }

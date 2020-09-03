@@ -42,7 +42,7 @@ const sourceData: Trigger = {
 };
 
 const triggerState: TriggerState = {
-    maintenance: null,
+    maintenance: undefined,
     metrics: {
         About: {
             event_timestamp: 1512204450,

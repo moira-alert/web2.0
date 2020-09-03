@@ -109,11 +109,11 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                 days: [
                     { enabled: true, name: DaysOfWeek.Mon },
                     { enabled: true, name: DaysOfWeek.Tue },
-                    { enabled: true, name: DaysOfWeek.Wed },
+                    { enabled: false, name: DaysOfWeek.Wed },
                     { enabled: true, name: DaysOfWeek.Thu },
                     { enabled: true, name: DaysOfWeek.Fri },
                     { enabled: true, name: DaysOfWeek.Sat },
-                    { enabled: true, name: DaysOfWeek.Sun },
+                    { enabled: false, name: DaysOfWeek.Sun },
                 ],
             },
         },

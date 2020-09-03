@@ -50,7 +50,9 @@ export function getLastDayOfNextMonth(currentTime: Date): CalendarDateShape {
     };
 }
 
-const PreparedTimes = Array(24).map((_, index) => `${index}:00`.padStart(5, "0"));
+const PreparedTimes = Array(24)
+    .fill(undefined)
+    .map((_, index) => `${index}:00`.padStart(5, "0"));
 
 type CustomMaintenanceMenuProps = {
     currentTime?: Date;
@@ -72,13 +74,15 @@ export default function CustomMaintenanceMenu({
     const [calendarDate, setCalendarDate] = useState(maintenanceDate || todayDate);
     const [stringDate, setStringDate] = useState(
         toStringDate(
-            maintenanceTime && maintenanceDate && maintenanceTime > todayTime
+            maintenanceDate && maintenance && fromUnixTime(maintenance) > currentTime
                 ? maintenanceDate
                 : todayDate
         )
     );
     const [time, setTime] = useState(
-        maintenanceTime && maintenanceTime > todayTime ? maintenanceTime : todayTime
+        maintenanceTime && maintenance && fromUnixTime(maintenance) > currentTime
+            ? maintenanceTime
+            : todayTime
     );
 
     const validationContainerEl = useRef<ValidationContainer>(null);
