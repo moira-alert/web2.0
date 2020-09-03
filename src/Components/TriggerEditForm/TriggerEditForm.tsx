@@ -25,7 +25,7 @@ import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import TriggerModeEditor, { ValueType } from "../TriggerModeEditor/TriggerModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
-import { Statuses, StatusesList } from "../../Domain/Status";
+import { Status, StatusesList } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
@@ -38,7 +38,7 @@ type Props = {
     data: Partial<Trigger>;
     tags: Array<string>;
     remoteAllowed?: boolean | null;
-    onChange: (triggerObject: Partial<Trigger>, callback?: () => void) => void;
+    onChange: (trigger: Partial<Trigger>, callback?: () => void) => void;
     validateTrigger: (trigger: Partial<Trigger>) => Promise<ValidateTriggerResult>;
 };
 
@@ -152,8 +152,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <Input
                             width="100%"
                             value={name}
-                            data-tid="Name"
                             onValueChange={(value) => onChange({ name: value })}
+                            data-tid="Name"
                         />
                     </ValidationWrapperV1>
                 </FormRow>
@@ -211,10 +211,10 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                     <Fit>
                                         <Checkbox
                                             checked={aloneMetrics?.[`t${i + 1}`]}
-                                            data-tid={`Target Single ${i + 1}`}
                                             onValueChange={(value) =>
                                                 this.handleUpdateAloneMetrics(i, value)
                                             }
+                                            data-tid={`Target Single ${i + 1}`}
                                         >
                                             Single
                                         </Checkbox>
@@ -252,7 +252,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow singleLineControlGroup>
                     <StatusSelect
                         value={ttlState}
-                        availableStatuses={StatusesList.filter((x) => x !== Statuses.EXCEPTION)}
+                        availableStatuses={StatusesList.filter((x) => x !== Status.EXCEPTION)}
                         onChange={(value) => onChange({ ttl_state: value })}
                     />
                     <span>if has no value for</span>

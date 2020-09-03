@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Statuses } from "../../../Domain/Status";
+import { Status } from "../../../Domain/Status";
 import StatusIndicator from "../../StatusIndicator/StatusIndicator";
 
 type Props = {
-    statuses: Statuses[];
+    statuses: Status[];
     size: number;
 };
 

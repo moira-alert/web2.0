@@ -6,7 +6,7 @@ import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout"
 import type { IMoiraApi } from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
-import { Statuses } from "../Domain/Status";
+import { Status } from "../Domain/Status";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
@@ -37,7 +37,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
             patterns: [],
             expression: "",
             ttl: 600,
-            ttl_state: Statuses.NODATA,
+            ttl_state: Status.NODATA,
             sched: {
                 startOffset: 0,
                 endOffset: 1439,

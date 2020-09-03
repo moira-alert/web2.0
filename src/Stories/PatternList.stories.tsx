@@ -5,7 +5,7 @@ import StoryRouter from "storybook-react-router";
 import PatternList from "../Components/PatternList/PatternList";
 import { Pattern } from "../Domain/Pattern";
 import { DaysOfWeek } from "../Domain/Schedule";
-import { Statuses } from "../Domain/Status";
+import { Status } from "../Domain/Status";
 
 const items: Pattern[] = [
     {
@@ -22,7 +22,7 @@ const items: Pattern[] = [
                 warn_value: 80,
                 error_value: 90,
                 tags: ["KE-Test.System"],
-                ttl_state: Statuses.NODATA,
+                ttl_state: Status.NODATA,
                 throttling: 1,
                 trigger_type: "rising",
                 expression: "",
@@ -62,7 +62,7 @@ const items: Pattern[] = [
                 warn_value: 1,
                 error_value: 0,
                 tags: ["Elasticsearch", "Focus", "DevOps"],
-                ttl_state: Statuses.NODATA,
+                ttl_state: Status.NODATA,
                 throttling: 1,
                 trigger_type: "falling",
                 expression: "",

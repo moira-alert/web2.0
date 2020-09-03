@@ -4,7 +4,7 @@ import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { MetricItemList } from "../../../Domain/Metric";
 import { StatusesList } from "../../../Domain/Status";
 import { Trigger, TriggerState } from "../../../Domain/Trigger";
-import { Statuses } from "../../../Domain/Status";
+import { Status } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
 
 import MobileEmptyContentLoading from "../MobileEmptyContentLoading/MobileEmptyContentLoading";
@@ -94,7 +94,7 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
 
         return Object.keys(metrics)
             .map((x) => metrics[x].state)
-            .reduce((result: { [key: string]: number }, state: Statuses) => {
+            .reduce((result: { [key: string]: number }, state: Status) => {
                 result[state] = (result[state] || 0) + 1;
                 return result;
             }, {});

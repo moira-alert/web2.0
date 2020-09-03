@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Statuses } from "../Domain/Status";
+import { Status } from "../Domain/Status";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { Trigger } from "../Domain/Trigger";
 import { DaysOfWeek } from "../Domain/Schedule";
@@ -17,7 +17,7 @@ const sourceData: Trigger = {
     warn_value: 20,
     error_value: 5,
     tags: ["devops", "critical"],
-    ttl_state: Statuses.NODATA,
+    ttl_state: Status.NODATA,
     ttl: 600,
     sched: {
         days: [
@@ -56,7 +56,7 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
             patterns: [],
             expression: "",
             ttl: 600,
-            ttl_state: Statuses.NODATA,
+            ttl_state: Status.NODATA,
             sched: {
                 startOffset: 0,
                 endOffset: 1439,
@@ -127,7 +127,7 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                 "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)",
                 "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 6, 8)",
             ],
-            ttl_state: Statuses.OK,
+            ttl_state: Status.OK,
             notify_about_new_metrics: true,
             alone_metrics: { t2: true },
         },

@@ -9,7 +9,7 @@ import Tabs, { Tab } from "../../Components/Tabs/Tabs";
 import TriggerInfo from "../../Components/TriggerInfo/TriggerInfo";
 import MetricList from "../../Components/MetricList/MetricList";
 import EventList from "../../Components/EventList/EventList";
-import { Statuses, getStatusWeight } from "../../Domain/Status";
+import { Status, getStatusWeight } from "../../Domain/Status";
 import type { Metric } from "../../Domain/Metric";
 
 export type TriggerDesktopProps = {
@@ -86,7 +86,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
         const triggerId = trigger ? trigger.id : "";
         const noDataMetricCount =
             (metrics &&
-                Object.keys(metrics).filter((key) => metrics[key].state === Statuses.NODATA)
+                Object.keys(metrics).filter((key) => metrics[key].state === Status.NODATA)
                     .length) ||
             0;
 

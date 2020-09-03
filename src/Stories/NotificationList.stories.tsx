@@ -4,7 +4,7 @@ import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import { Notification } from "../Domain/Notification";
-import { Statuses } from "../Domain/Status";
+import { Status } from "../Domain/Status";
 
 // item.timestamp + item.contact.id + item.event.sub_id;
 const items: { [id: string]: Array<Notification> } = {
@@ -14,10 +14,10 @@ const items: { [id: string]: Array<Notification> } = {
                 timestamp: 1505222055,
                 metric: "KE.houston.daemons.error.errors.Focus_Production_Bingo_ElFeederMspIndex.1",
                 value: 0,
-                state: Statuses.OK,
+                state: Status.OK,
                 trigger_id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",
                 sub_id: "58661cb5-e6b2-4c8f-9a82-5e83673127d8",
-                old_state: Statuses.ERROR,
+                old_state: Status.ERROR,
             },
             trigger: {
                 id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",
@@ -44,10 +44,10 @@ const items: { [id: string]: Array<Notification> } = {
                 timestamp: 1505222055,
                 metric: "KE.houston.daemons.error.errors.Focus_Production_Bingo_ElFeederMspIndex.1",
                 value: 0,
-                state: Statuses.OK,
+                state: Status.OK,
                 trigger_id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",
                 sub_id: "58661cb5-e6b2-4c8f-9a82-5e83673127d8",
-                old_state: Statuses.ERROR,
+                old_state: Status.ERROR,
             },
             trigger: {
                 id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",

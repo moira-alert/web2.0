@@ -61,23 +61,15 @@ type State = {
 };
 
 // ToDo прокинуть плейсхолдер
-class Selector extends React.Component<Props, State> {
-    state: State;
+export default class Selector extends React.Component<Props, State> {
+    public state: State = {
+        focused: false,
+    };
 
-    // eslint-disable-next-line react/sort-comp
-    dropdownAnchorRef = React.createRef<HTMLLabelElement>();
+    private dropdownAnchorRef = React.createRef<HTMLLabelElement>();
+    private searchInputRef = React.createRef<HTMLInputElement>();
 
-    searchInputRef = React.createRef<HTMLInputElement>();
-
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            focused: false,
-        };
-    }
-
-    render(): React.ReactElement {
+    render(): React.ReactNode {
         const { focused } = this.state;
         const { search, tokens, renderToken, children } = this.props;
 
@@ -111,23 +103,22 @@ class Selector extends React.Component<Props, State> {
     }
 
     handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
-        const { onInputChange } = this.props;
-        onInputChange(evt.target.value);
+        this.props.onInputChange(evt.currentTarget.value);
     };
 
     handleInputKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>): void => {
         const { tokens } = this.props;
         if (evt.key === "Enter") {
-            const { onEnterKeyDown } = this.props;
-            onEnterKeyDown();
+            this.props.onEnterKeyDown();
             this.closeDropdown();
         }
 
-        const target = evt.target as HTMLInputElement;
-
-        if (evt.key === "Backspace" && target.selectionStart === 0 && tokens.length !== 0) {
-            const { onBackspaceKeyDown } = this.props;
-            onBackspaceKeyDown();
+        if (
+            evt.key === "Backspace" &&
+            evt.currentTarget.selectionStart === 0 &&
+            tokens.length !== 0
+        ) {
+            this.props.onBackspaceKeyDown();
         }
     };
 
@@ -148,5 +139,3 @@ class Selector extends React.Component<Props, State> {
         }
     };
 }
-
-export { Selector as default };

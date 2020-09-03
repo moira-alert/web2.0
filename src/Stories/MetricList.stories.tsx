@@ -4,12 +4,12 @@ import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
 import MetricList from "../Components/MetricList/MetricList";
 import { MetricItemList } from "../Domain/Metric";
-import { Statuses } from "../Domain/Status";
+import { Status } from "../Domain/Status";
 
 const items: MetricItemList = {
     "vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace": {
         event_timestamp: 1503484033,
-        state: Statuses.NODATA,
+        state: Status.NODATA,
         suppressed: false,
         value: 10.453,
         timestamp: 1503496225,
@@ -21,14 +21,14 @@ const items: MetricItemList = {
     },
     "vm-ditrace3.ditrace": {
         event_timestamp: 1503486527,
-        state: Statuses.WARN,
+        state: Status.WARN,
         suppressed: false,
         timestamp: 1503496225,
         maintenance: 1504100565,
     },
     "vm-ditrace3.elasticsearch": {
         event_timestamp: 1503486527,
-        state: Statuses.ERROR,
+        state: Status.ERROR,
         suppressed: false,
         timestamp: 1503496225,
         value: 109389189,
@@ -40,7 +40,7 @@ const items: MetricItemList = {
     },
     "vm-ditrace3.nginx": {
         event_timestamp: 1503484033,
-        state: Statuses.OK,
+        state: Status.OK,
         suppressed: false,
         timestamp: 1503496225,
         maintenance_info: {

@@ -5,7 +5,7 @@ import StoryRouter from "storybook-react-router";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger, TriggerState } from "../Domain/Trigger";
-import { Statuses } from "../Domain/Status";
+import { Status } from "../Domain/Status";
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -29,7 +29,7 @@ const sourceData: Trigger = {
     name: "KE_SYSTEM_KAMCHATKA_HDD",
     tags: ["KE.System-kamchatka"],
     throttling: 0,
-    ttl_state: Statuses.NODATA,
+    ttl_state: Status.NODATA,
     id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
     patterns: ["KE.system-kamchatka.allServers.*.volumes.c.freemegabytes"],
     trigger_type: "falling",
@@ -46,13 +46,13 @@ const triggerState: TriggerState = {
     metrics: {
         About: {
             event_timestamp: 1512204450,
-            state: Statuses.NODATA,
+            state: Status.NODATA,
             suppressed: false,
             timestamp: 1512206430,
         },
     },
     score: 75000,
-    state: Statuses.OK,
+    state: Status.OK,
     timestamp: 1512207091,
     trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
 };
@@ -102,7 +102,7 @@ const stories: Array<{
         title: "WithError",
         triggerState: {
             ...triggerState,
-            state: Statuses.EXCEPTION,
+            state: Status.EXCEPTION,
             msg: "Some error message message message message message.",
         },
         data: {

@@ -114,13 +114,11 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
         if (!inputEl.current) {
             return undefined;
         }
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+
+        // @ts-ignore otherwise we need to find by dom
         const { input } = inputEl.current;
         const handleScroll = (e: React.SyntheticEvent<HTMLInputElement>) =>
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            setScrollLeft(e.target?.scrollLeft);
+            setScrollLeft(e.currentTarget.scrollLeft);
         input.addEventListener("scroll", handleScroll);
 
         return () => {
@@ -133,7 +131,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
             return undefined;
         }
 
-        // @ts-ignore used the private field otherwise need to find by dom
+        // @ts-ignore otherwise we need to find by dom
         const { input } = inputEl.current;
         const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
             return setCaret(e.currentTarget.selectionStart ?? 0);

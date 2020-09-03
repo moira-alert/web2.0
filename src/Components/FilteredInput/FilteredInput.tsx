@@ -1,7 +1,6 @@
-import * as React from "react";
+import React, { createRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import cn from "./FilteredInput.less";
-import { createRef } from "react";
 
 export type FilterValueResult<T> = {
     hintValue?: string;

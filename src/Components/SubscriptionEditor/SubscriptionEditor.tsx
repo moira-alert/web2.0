@@ -5,13 +5,13 @@ import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-u
 import { SubscriptionCreateInfo } from "../../Api/MoiraApi";
 import { Contact } from "../../Domain/Contact";
 import { Schedule } from "../../Domain/Schedule";
+import { Subscription } from "../../Domain/Subscription";
 import ContactSelect from "../ContactSelect/ContactSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import cn from "./SubscriptionEditor.less";
-import { Subscription } from "../../Domain/Subscription";
 
 export type SubscriptionInfo = Omit<SubscriptionCreateInfo, "user" | "id">;
 
@@ -210,7 +210,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
         </div>
     );
 
-    validateContacts(): ValidationInfo | null | undefined {
+    validateContacts(): ValidationInfo | null {
         const { subscription } = this.props;
         if (subscription.contacts.length === 0) {
             return {
@@ -221,7 +221,7 @@ export default class SubscriptionEditor extends React.Component<Props> {
         return null;
     }
 
-    validateTags(): ValidationInfo | null | undefined {
+    validateTags(): ValidationInfo | null {
         const { subscription } = this.props;
         if (subscription.tags.length === 0 && !subscription.any_tags) {
             return {

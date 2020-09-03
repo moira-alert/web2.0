@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { tooltip, ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
+import { Status } from "../../Domain/Status";
 import { ColumnStack, Fit, Fixed, RowStack } from "../ItemsStack/ItemsStack";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import cn from "./TriggerSimpleModeEditor.less";
-import { Statuses } from "../../Domain/Status";
 
 type WatchForType = "rising" | "falling";
 
@@ -47,7 +47,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "rising"}
-                                            status={Statuses.WARN}
+                                            status={Status.WARN}
                                         />
                                     </Fit>
                                     <Fixed
@@ -81,7 +81,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "rising"}
-                                            status={Statuses.ERROR}
+                                            status={Status.ERROR}
                                         />
                                     </Fit>
                                     <Fixed
@@ -131,7 +131,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "falling"}
-                                            status={Statuses.WARN}
+                                            status={Status.WARN}
                                         />
                                     </Fit>
                                     <Fixed
@@ -164,7 +164,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                     <Fit>
                                         <StatusIcon
                                             disabled={watchFor !== "falling"}
-                                            status={Statuses.ERROR}
+                                            status={Status.ERROR}
                                         />
                                     </Fit>
                                     <Fixed

@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Statuses } from "../../Domain/Status";
+import { Status } from "../../Domain/Status";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import cn from "./StatusIcon.less";
 
 type Props = {
-    status: Statuses;
+    status: Status;
     disabled?: boolean;
 };
 

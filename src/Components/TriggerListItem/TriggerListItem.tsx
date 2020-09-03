@@ -6,7 +6,7 @@ import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
 import { Trigger } from "../../Domain/Trigger";
 import { MetricItemList } from "../../Domain/Metric";
-import { Statuses, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
+import { Status, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
@@ -146,7 +146,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
     getHasExceptionState(): boolean {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
-        return triggerStatus === Statuses.EXCEPTION;
+        return triggerStatus === Status.EXCEPTION;
     }
 
     toggleMetrics(): void {
@@ -154,7 +154,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         this.setState({ showMetrics: !showMetrics });
     }
 
-    filterMetricsByStatus(status: Statuses): MetricItemList {
+    filterMetricsByStatus(status: Status): MetricItemList {
         const { groupedMetrics } = this.state;
         return groupedMetrics[status] || {};
     }
@@ -183,14 +183,14 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const metricStatuses = StatusesInOrder.filter(
             (x) => Object.keys(this.filterMetricsByStatus(x)).length !== 0
         );
-        const notOkStatuses = metricStatuses.filter((x) => x !== Statuses.OK);
-        let statuses: Statuses[];
-        if (triggerStatus && (triggerStatus !== Statuses.OK || metricStatuses.length === 0)) {
+        const notOkStatuses = metricStatuses.filter((x) => x !== Status.OK);
+        let statuses: Status[];
+        if (triggerStatus && (triggerStatus !== Status.OK || metricStatuses.length === 0)) {
             statuses = [triggerStatus];
         } else if (notOkStatuses.length !== 0) {
             statuses = notOkStatuses;
         } else {
-            statuses = [Statuses.OK];
+            statuses = [Status.OK];
         }
         return (
             <div className={cn("indicator")}>
@@ -227,7 +227,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         if (statuses.length === 0) {
             return null;
         }
-        const metrics: Array<React.ReactElement> = statuses.map((status: Statuses) => (
+        const metrics: Array<React.ReactElement> = statuses.map((status: Status) => (
             <Tab key={status} id={status} label={getStatusCaption(status)}>
                 <MetricListView
                     items={TriggerListItem.sortMetricsByValue(this.filterMetricsByStatus(status))}

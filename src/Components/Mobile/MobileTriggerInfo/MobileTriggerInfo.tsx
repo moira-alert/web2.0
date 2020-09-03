@@ -15,7 +15,7 @@ import {
     calculateMaintenanceTime,
     MaintenanceList,
 } from "../../../Domain/Maintenance";
-import { Statuses } from "../../../Domain/Status";
+import { Status } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
@@ -180,7 +180,7 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
         onSetMaintenance(calculateMaintenanceTime(interval));
     };
 
-    getWorstTriggerState(): Statuses | null {
+    getWorstTriggerState(): Status | null {
         const { data: trigger, triggerState } = this.props;
         if (trigger == null || triggerState == null) {
             return null;
@@ -191,21 +191,21 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                 .map((y) => metrics[y].state)
                 .includes(x)
         );
-        const notOkStatuses = metricStatuses.filter((x) => x !== Statuses.OK);
-        if (triggerState.state === Statuses.EXCEPTION) {
-            return Statuses.EXCEPTION;
+        const notOkStatuses = metricStatuses.filter((x) => x !== Status.OK);
+        if (triggerState.state === Status.EXCEPTION) {
+            return Status.EXCEPTION;
         }
         if (metricStatuses.length === 0) {
             return triggerState.state;
         }
         if (notOkStatuses.length === 0) {
-            return Statuses.OK;
+            return Status.OK;
         }
-        if (notOkStatuses.includes(Statuses.ERROR)) {
-            return Statuses.ERROR;
+        if (notOkStatuses.includes(Status.ERROR)) {
+            return Status.ERROR;
         }
-        if (notOkStatuses.includes(Statuses.WARN)) {
-            return Statuses.WARN;
+        if (notOkStatuses.includes(Status.WARN)) {
+            return Status.WARN;
         }
         return null;
     }

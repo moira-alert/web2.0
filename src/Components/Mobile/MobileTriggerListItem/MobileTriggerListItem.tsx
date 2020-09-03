@@ -7,13 +7,13 @@ import { Trigger } from "../../../Domain/Trigger";
 import { StatusesList } from "../../../Domain/Status";
 import { MetricItemList } from "../../../Domain/Metric";
 import { getPageLink } from "../../../Domain/Global";
-import { Statuses } from "../../../Domain/Status";
-import getStatusColor from "../Styles/StatusColor";
-import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
+import { Status } from "../../../Domain/Status";
 import { getUTCDate } from "../../../helpers/DateUtil";
 import groupMetricsByStatuses, {
     IMetricByStatuses,
 } from "../../../helpers/group-metrics-by-statuses";
+import getStatusColor from "../Styles/StatusColor";
+import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
 
 import cn from "./MobileTriggerListItem.less";
 
@@ -97,19 +97,19 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const metricStatuses = StatusesList.filter(
             (x) => Object.keys(this.filterMetricsByStatus(x)).length !== 0
         );
-        const notOkStatuses = metricStatuses.filter((x) => x !== Statuses.OK);
-        let statuses: Statuses[];
-        if (triggerStatus && (triggerStatus !== Statuses.OK || metricStatuses.length === 0)) {
+        const notOkStatuses = metricStatuses.filter((x) => x !== Status.OK);
+        let statuses: Status[];
+        if (triggerStatus && (triggerStatus !== Status.OK || metricStatuses.length === 0)) {
             statuses = [triggerStatus];
         } else if (notOkStatuses.length !== 0) {
             statuses = notOkStatuses;
         } else {
-            statuses = [Statuses.OK];
+            statuses = [Status.OK];
         }
         return <MobileStatusIndicator size={40} statuses={statuses} />;
     }
 
-    filterMetricsByStatus(status: Statuses): IMetricByStatuses {
+    filterMetricsByStatus(status: Status): IMetricByStatuses {
         const { groupedMetrics } = this.state;
         return groupedMetrics[status] || {};
     }

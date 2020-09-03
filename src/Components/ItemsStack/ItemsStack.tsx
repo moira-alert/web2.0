@@ -60,10 +60,7 @@ export class RowStack extends React.Component<RowStackProps> {
         stretch: "stretch",
     };
 
-    getFlexBoxAlignItems(
-        horizontalAlign: VerticalAlign | typeof undefined,
-        baseline: boolean
-    ): string {
+    getFlexBoxAlignItems(horizontalAlign: VerticalAlign | undefined, baseline: boolean): string {
         let resultHorizontalAlign = horizontalAlign || "top";
         if (baseline) {
             if (horizontalAlign !== undefined) {
@@ -130,10 +127,7 @@ export class ColumnStack extends React.Component<ColumnStackProps> {
         stretch: "stretch",
     };
 
-    getFlexBoxAlignItems(
-        horizontalAlign: HorizontalAlign | typeof undefined,
-        stretch: boolean
-    ): string {
+    getFlexBoxAlignItems(horizontalAlign: HorizontalAlign | undefined, stretch: boolean): string {
         let resultHorizontalAlign = horizontalAlign || "left";
         if (stretch) {
             if (horizontalAlign !== undefined) {
@@ -177,7 +171,6 @@ export function Fill({ tag, children, className, ...rest }: FillProps): React.Re
 }
 
 type FixedProps = {
-    "data-tid"?: string | null;
     tag?: keyof JSX.IntrinsicElements;
     className?: string;
     children?: React.ReactNode;
@@ -186,6 +179,7 @@ type FixedProps = {
     };
     width: number;
     allowWrap?: boolean;
+    "data-tid"?: string;
 };
 
 export function Fixed({

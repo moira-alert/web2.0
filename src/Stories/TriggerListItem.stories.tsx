@@ -5,7 +5,7 @@ import StoryRouter from "storybook-react-router";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
-import { Statuses } from "../Domain/Status";
+import { Status } from "../Domain/Status";
 import { WebDriver, WebElementPromise } from "selenium-webdriver";
 import { IKey } from "selenium-webdriver/lib/input";
 
@@ -21,7 +21,7 @@ const sourceData: Trigger = {
     patterns: ["KE-cloud.Notifications.*.MailSender.PfrReport.Alive"],
     expression: "",
     ttl: 1200,
-    ttl_state: Statuses.NODATA,
+    ttl_state: Status.NODATA,
     throttling: 0,
     sched: {
         endOffset: 1439,
@@ -43,29 +43,29 @@ const sourceData: Trigger = {
         metrics: {
             "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
                 timestamp: 1499416938,
-                state: Statuses.OK,
+                state: Status.OK,
             },
             "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)": {
                 timestamp: 1499416938,
-                state: Statuses.OK,
+                state: Status.OK,
             },
             "sumSeries(KE-cloud.Notifications.*.MailSender.PfrIos.Alive)": {
                 timestamp: 1499416938,
-                state: Statuses.OK,
+                state: Status.OK,
             },
             "sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)": {
                 timestamp: 1499416938,
-                state: Statuses.OK,
+                state: Status.OK,
             },
             "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)": {
                 timestamp: 1499416938,
-                state: Statuses.OK,
+                state: Status.OK,
                 suppressed: false,
                 event_timestamp: 1499331679,
             },
         },
         timestamp: 1499418145,
-        state: Statuses.OK,
+        state: Status.OK,
         score: 14000,
     },
 };
@@ -94,145 +94,145 @@ const stories: Array<{
                 metrics: {
                     "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.PfrIos.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                     "sumSeries(KE-cloud.Noti2fications.*.MailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.A45live)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                     },
                     "sumSeries(KE-cloud.Not1ifications.*.MailSender.PfrIos.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                     },
                     "sumSeries(KE-cloud.Notifica3tions.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                     },
                     "sumSeries(KE-cloud.Notificati1ons.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                     "sumSeries(KE-cloud.Notifications.*.M4ailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud.Notificati21ons.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                     "sumSeries(KE-cloud.N1otificati21ons.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                     "sumSeries(KE-cloud7.Notifications.*.MailSender.MrApplication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-2cloud.Notifications.*.MailSender.PfrIos.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud.Notificatio4ns.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud.Notific4ations.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                     "sumSeries(6KE-cloud.Notifications.*.M4ailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud7.Notifications.*.Mail6Sender.MrApplication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-2cloud.Notification6s.*.MailSender.PfrIos.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-c6loud.Notificatio4ns.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud6.Notific4ations.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                     "sumSeries(KE-clou3d.Notifications.*.M4ailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud7.Notifications.*.MailSender.MrAp3plication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-2cloud.3Notifications.*.MailSender.PfrIos.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud.Notificatio4ns.*.Mail3Sender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud.Notific4at3ions.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                     "sumSeries(6KE-cloud.Not3ifications.*.M4ailSender.PfrReport.Al3ive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(K3E-cloud7.Notifications.*.Mail6Sender.MrApplication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-2cloud.Notification6s.*.MailSender.PfrIos.Aliv3e)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-c6loud.Notificat3io4ns.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                 },
                 timestamp: 1499418145,
-                state: Statuses.OK,
+                state: Status.OK,
                 score: 14000,
             },
         },
@@ -245,29 +245,29 @@ const stories: Array<{
                 metrics: {
                     "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.PfrIos.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.ERROR,
+                        state: Status.ERROR,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                 },
                 timestamp: 1499418145,
-                state: Statuses.OK,
+                state: Status.OK,
                 score: 14000,
             },
         },
@@ -279,7 +279,7 @@ const stories: Array<{
             last_check: {
                 metrics: {},
                 timestamp: 1499418145,
-                state: Statuses.EXCEPTION,
+                state: Status.EXCEPTION,
                 score: 14000,
             },
         },
@@ -346,29 +346,29 @@ const stories: Array<{
                 metrics: {
                     "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.PfrIos.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.WARN,
+                        state: Status.WARN,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.ERROR,
+                        state: Status.ERROR,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                 },
                 timestamp: 1499418145,
-                state: Statuses.OK,
+                state: Status.OK,
                 score: 14000,
             },
             name:
@@ -407,25 +407,25 @@ const stories: Array<{
                 metrics: {
                     "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.OK,
+                        state: Status.OK,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrApplication.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.MrIon.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.ERROR,
+                        state: Status.ERROR,
                     },
                     "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)": {
                         timestamp: 1499416938,
-                        state: Statuses.NODATA,
+                        state: Status.NODATA,
                         suppressed: false,
                         event_timestamp: 1499331679,
                     },
                 },
                 timestamp: 1499418145,
-                state: Statuses.EXCEPTION,
+                state: Status.EXCEPTION,
                 score: 14000,
             },
         },

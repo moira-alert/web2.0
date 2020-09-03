@@ -1,4 +1,4 @@
-export enum Statuses {
+export enum Status {
     DEL = "DEL",
     EXCEPTION = "EXCEPTION",
     NODATA = "NODATA",
@@ -8,12 +8,12 @@ export enum Statuses {
 }
 
 export const StatusesList = [
-    Statuses.DEL,
-    Statuses.EXCEPTION,
-    Statuses.NODATA,
-    Statuses.ERROR,
-    Statuses.WARN,
-    Statuses.OK,
+    Status.DEL,
+    Status.EXCEPTION,
+    Status.NODATA,
+    Status.ERROR,
+    Status.WARN,
+    Status.OK,
 ];
 
 export enum StatusesCaptions {
@@ -43,23 +43,23 @@ export const StatusesWeight = {
     OK: 0,
 };
 
-export const StatusesInOrder: Statuses[] = [
-    Statuses.EXCEPTION,
-    Statuses.NODATA,
-    Statuses.ERROR,
-    Statuses.WARN,
-    Statuses.OK,
-    Statuses.DEL,
+export const StatusesInOrder: Status[] = [
+    Status.EXCEPTION,
+    Status.NODATA,
+    Status.ERROR,
+    Status.WARN,
+    Status.OK,
+    Status.DEL,
 ];
 
-export function getStatusColor(status: Statuses): string {
+export function getStatusColor(status: Status): string {
     return StatusesColors[status];
 }
 
-export function getStatusCaption(status: Statuses): StatusesCaptions {
+export function getStatusCaption(status: Status): StatusesCaptions {
     return StatusesCaptions[status];
 }
 
-export function getStatusWeight(status: Statuses): number {
+export function getStatusWeight(status: Status): number {
     return StatusesWeight[status];
 }

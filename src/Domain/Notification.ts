@@ -1,12 +1,12 @@
 import { Contact } from "./Contact";
-import { Statuses } from "./Status";
+import { Status } from "./Status";
 
 export type Notification = {
     contact: Contact;
     event: {
         metric: string;
-        old_state: Statuses;
-        state: Statuses;
+        old_state: Status;
+        state: Status;
         sub_id: string;
         timestamp: number;
         trigger_id: string;

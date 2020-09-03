@@ -1,4 +1,4 @@
-import { Statuses } from "./Status";
+import { Status } from "./Status";
 import { MetricItemList } from "./Metric";
 import { Schedule } from "./Schedule";
 
@@ -14,7 +14,7 @@ export type Trigger = {
     patterns: Array<string>;
     expression: string;
     ttl: number;
-    ttl_state: Statuses;
+    ttl_state: Status;
     throttling: number;
     sched?: Schedule;
     desc?: string;
@@ -25,7 +25,7 @@ export type Trigger = {
         name: string;
     };
     last_check?: {
-        state: Statuses;
+        state: Status;
         timestamp: number;
         metrics: MetricItemList;
         event_timestamp?: number;
@@ -56,7 +56,7 @@ export type TriggerState = {
     };
     metrics: MetricItemList;
     timestamp: number;
-    state: Statuses;
+    state: Status;
     score: number;
     trigger_id: string;
     msg?: string;

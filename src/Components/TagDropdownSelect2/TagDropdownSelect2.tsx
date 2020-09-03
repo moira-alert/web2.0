@@ -192,17 +192,15 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     className={cn("input")}
                     value={value}
                     onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
-                        event.target instanceof HTMLInputElement && event.target.selectionStart
-                            ? this.handleKeyDown(event.key, event.target.selectionStart)
+                        event.currentTarget.selectionStart
+                            ? this.handleKeyDown(event.key, event.currentTarget.selectionStart)
                             : null
                     }
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        event.target instanceof HTMLInputElement
-                            ? this.setState({
-                                  value: event.target.value.replace(/\s/gi, ""),
-                                  focusedIndex: 0,
-                              })
-                            : null
+                        this.setState({
+                            value: event.currentTarget.value.replace(/\s/gi, ""),
+                            focusedIndex: 0,
+                        })
                     }
                     onFocus={() => this.setState({ isFocused: true })}
                 />
