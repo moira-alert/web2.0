@@ -1,33 +1,49 @@
-import React, { FunctionComponent, ReactElement, ReactNode } from "react";
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import Tag from "../Components/Tag/Tag";
+import NewTagBadge from "../Components/NewTagBadge/NewTagBadge";
 
-export default {
-    title: "Tag",
-    decorators: [
-        (story: () => ReactNode): ReactElement => <div style={{ padding: 5 }}>{story()}</div>,
-    ],
-};
-
-export const Default: FunctionComponent = () => <Tag title="abonentsErrors" />;
-export const LongTitle: FunctionComponent = () => (
-    <Tag title="dmitry:ReplicaClusterError.ReplicaClusterWarn" />
-);
-export const ShortTitle: FunctionComponent = () => <Tag title="test" />;
-export const WithOnClick: FunctionComponent = () => (
-    <Tag title="abonentsErrors" onClick={action("onClick")} />
-);
-export const WithOnRemove: FunctionComponent = () => (
-    <Tag title="ReplicaClusterWarn" onRemove={action("onRemove")} />
-);
-export const WithOnClickAndOnRemove: FunctionComponent = () => (
-    <Tag title="ReplicaClusterError" onClick={action("onClick")} onRemove={action("onRemove")} />
-);
-export const Focused: FunctionComponent = () => (
-    <Tag
-        title="ReplicaClusterError"
-        focus
-        onClick={action("onClick")}
-        onRemove={action("onRemove")}
-    />
-);
+storiesOf("Tag", module)
+    .addDecorator((story) => <div style={{ padding: 5 }}>{story()}</div>)
+    .addParameters({
+        creevey: {
+            skip: {
+                stories: "NewTagBadge with remove",
+                reasons: "Unstable draw button angles with border-radius",
+            },
+        },
+    })
+    .add("Default", () => <Tag title="abonentsErrors" />)
+    .add("Long title", () => <Tag title="dmitry:ReplicaClusterError.ReplicaClusterWarn" />)
+    .add("Short title", () => <Tag title="test" />)
+    .add("With onClick", () => <Tag title="abonentsErrors" onClick={action("onClick")} />)
+    .add("With onRemove", () => <Tag title="ReplicaClusterWarn" onRemove={action("onRemove")} />)
+    .add("With onClick and onRemove", () => (
+        <Tag
+            title="ReplicaClusterError"
+            onClick={action("onClick")}
+            onRemove={action("onRemove")}
+        />
+    ))
+    .add("Focused", () => (
+        <Tag
+            title="ReplicaClusterError"
+            focus
+            onClick={action("onClick")}
+            onRemove={action("onRemove")}
+        />
+    ))
+    .add("NewTagBadge", () => (
+        <NewTagBadge title="ReplicaClusterError" onClick={action("onClick")} />
+    ))
+    .add("NewTagBadgeFocused", () => (
+        <NewTagBadge title="ReplicaClusterError" focus onClick={action("onClick")} />
+    ))
+    .add("NewTagBadge with remove", () => (
+        <NewTagBadge
+            title="ReplicaClusterError"
+            onClick={action("onClick")}
+            onRemove={action("onRemove")}
+        />
+    ));

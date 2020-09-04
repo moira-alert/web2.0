@@ -2,12 +2,11 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
+import { WebDriver } from "selenium-webdriver";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
-import { WebDriver, WebElementPromise } from "selenium-webdriver";
-import { IKey } from "selenium-webdriver/lib/input";
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -437,13 +436,7 @@ const story = storiesOf("TriggerListItem", module)
     .addParameters({
         creevey: {
             tests: {
-                async States(this: {
-                    browser: WebDriver;
-                    keys: IKey;
-                    expect: Chai.ExpectStatic;
-                    takeScreenshot: () => Promise<string>;
-                    readonly captureElement?: WebElementPromise;
-                }) {
+                async States(this: { browser: WebDriver; expect: Chai.ExpectStatic }) {
                     await this.browser
                         .actions({ bridge: true })
                         .move({
@@ -455,6 +448,7 @@ const story = storiesOf("TriggerListItem", module)
                         })
                         .perform();
 
+                    // @ts-ignore matchImage is custom method
                     await this.expect(await this.takeScreenshot()).to.matchImage("simple");
 
                     await this.browser
@@ -465,6 +459,8 @@ const story = storiesOf("TriggerListItem", module)
                             }),
                         })
                         .perform();
+
+                    // @ts-ignore matchImage is custom method
                     await this.expect(await this.takeScreenshot()).to.matchImage("hovered");
 
                     await this.browser
@@ -476,6 +472,7 @@ const story = storiesOf("TriggerListItem", module)
                         )
                         .perform();
 
+                    // @ts-ignore matchImage is custom method
                     await this.expect(await this.takeScreenshot()).to.matchImage("clicked");
                 },
             },
