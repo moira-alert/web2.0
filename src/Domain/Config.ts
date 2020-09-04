@@ -1,14 +1,4 @@
-export enum ContactTypes {
-    mail = "mail",
-    email = "email",
-    phone = "phone",
-    pushover = "pushover",
-    telegram = "telegram",
-    msteams = "msteams",
-    slack = "slack",
-    "twilio sms" = "twilio sms",
-    "twilio voice" = "twilio voice",
-}
+import { ContactTypes } from "./Contact";
 
 export interface ContactConfig {
     type: ContactTypes;

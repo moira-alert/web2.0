@@ -1,6 +1,6 @@
 import { MetricItemList } from "../Domain/Metric";
-import groupMetricsByStatuses, { IMetricByStatuses } from "./group-metrics-by-statuses";
 import { Status } from "../Domain/Status";
+import groupMetricsByStatuses, { IMetricByStatuses } from "./group-metrics-by-statuses";
 
 interface ITest {
     title: string;

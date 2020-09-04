@@ -38,12 +38,10 @@ const load = (): void => {
             возвращающая промис и принимающая коллбек, который будет вызван, когда промис зарезолвится.
             Из-за этого Флоу кидает ошибку. Специальный комментарий её отключает
         */
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-ignore see above
         mobile((bundle) => render(bundle.default));
     } else {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-ignore see above
         desktop((bundle) => render(bundle.default));
     }
 };

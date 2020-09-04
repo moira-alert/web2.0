@@ -3,8 +3,8 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Status } from "../Domain/Status";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
+import { Status } from "../Domain/Status";
 import { Trigger } from "../Domain/Trigger";
 import { DaysOfWeek } from "../Domain/Schedule";
 

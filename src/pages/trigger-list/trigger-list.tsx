@@ -1,16 +1,16 @@
 import React, { ComponentType, ReactElement } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import isEqual from "lodash/isEqual";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 import intersection from "lodash/intersection";
 import queryString from "query-string";
-import type { RouteComponentProps } from "react-router-dom";
-import type { Trigger, TriggerList } from "../../Domain/Trigger";
-import type { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
-import type { IMoiraApi } from "../../Api/MoiraApi";
-import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
+import { IMoiraApi } from "../../Api/MoiraApi";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
+import { Trigger, TriggerList } from "../../Domain/Trigger";
+import { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import { setMetricMaintenance } from "../../Domain/Maintenance";
+import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { TriggerListMobileProps } from "./trigger-list.mobile";
 import { TriggerListDesktopProps } from "./trigger-list.desktop";
 

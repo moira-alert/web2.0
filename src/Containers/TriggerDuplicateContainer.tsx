@@ -1,16 +1,16 @@
-import React, { RefObject } from "react";
+import React from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import type { IMoiraApi } from "../Api/MoiraApi";
-import type { Trigger } from "../Domain/Trigger";
-import { getPageLink } from "../Domain/Global";
+import { IMoiraApi } from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
+import { Trigger } from "../Domain/Trigger";
+import { getPageLink } from "../Domain/Global";
+import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
-import type { Config } from "../Domain/Config";
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: IMoiraApi };
@@ -27,9 +27,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
         loading: true,
     };
 
-    private validationContainer: RefObject<ValidationContainer> = React.createRef<
-        ValidationContainer
-    >();
+    private validationContainer = React.createRef<ValidationContainer>();
 
     public componentDidMount() {
         document.title = "Moira - Duplicate trigger";

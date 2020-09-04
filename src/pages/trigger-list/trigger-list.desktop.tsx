@@ -1,15 +1,14 @@
-import * as React from "react";
+import React, { ReactElement } from "react";
 import difference from "lodash/difference";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { getPageLink } from "../../Domain/Global";
+import { Trigger } from "../../Domain/Trigger";
 import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../../Components/Layout/Layout";
 import { ColumnStack, RowStack, Fill, Fit } from "../../Components/ItemsStack/ItemsStack";
 import SearchSelector from "../../Components/SearchSelector/SearchSelector";
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
-import type { Trigger } from "../../Domain/Trigger";
-import { ReactElement } from "react";
 import { TriggerListUpdate } from "./trigger-list";
 
 export type TriggerListDesktopProps = {

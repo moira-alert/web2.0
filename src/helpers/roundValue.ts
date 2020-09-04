@@ -1,6 +1,5 @@
-// ToDo написать тесты, а потом исправить ошибки eslint
+// ToDo написать тесты
 
-/* eslint-disable */
 export default function roundValue(
     value: number | string | void,
     placeholder: boolean | void
@@ -30,4 +29,3 @@ export default function roundValue(
     }
     return prefix.substring(0, prefix.length - tailToCut) + (sizes[x] || "");
 }
-/* eslint-enable */

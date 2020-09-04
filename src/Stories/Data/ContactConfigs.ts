@@ -1,4 +1,5 @@
-import { ContactConfig, ContactTypes } from "../../Domain/Config";
+import { ContactConfig } from "../../Domain/Config";
+import { ContactTypes } from "../../Domain/Contact";
 
 const contactConfigs: Array<ContactConfig> = [
     {

@@ -22,8 +22,7 @@ type ResponsiveRouteProps = {
 };
 
 function ResponsiveRoute({ container: Container, view: View, ...rest }: ResponsiveRouteProps) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-ignore problem with typing view
     return <Route {...rest} render={(props) => <Container {...props} view={View} />} />;
 }
 

@@ -1,21 +1,21 @@
-import React, { RefObject } from "react";
+import React from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
-import type { IMoiraApi } from "../Api/MoiraApi";
-import type { Trigger } from "../Domain/Trigger";
+import { IMoiraApi } from "../Api/MoiraApi";
+import { withMoiraApi } from "../Api/MoiraApiInjection";
+import { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
-import { withMoiraApi } from "../Api/MoiraApiInjection";
+import { Config } from "../Domain/Config";
+import { DaysOfWeek } from "../Domain/Schedule";
+import { omitTrigger } from "../helpers/omitTypes";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
-import type { Config } from "../Domain/Config";
 import FileLoader from "../Components/FileLoader/FileLoader";
-import { omitTrigger } from "../helpers/omitTypes";
-import { DaysOfWeek } from "../Domain/Schedule";
 
 type Props = RouteComponentProps & { moiraApi: IMoiraApi };
 type State = {
@@ -61,9 +61,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
         },
     };
 
-    private validationContainer: RefObject<ValidationContainer> = React.createRef<
-        ValidationContainer
-    >();
+    private validationContainer = React.createRef<ValidationContainer>();
 
     componentDidMount() {
         document.title = "Moira - Add trigger";
@@ -75,7 +73,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
         this.getData(nextProps);
     }
 
-    render(): React.ReactElement {
+    render(): React.ReactNode {
         const { moiraApi } = this.props;
         const { loading, error, trigger, tags, config } = this.state;
 
@@ -135,7 +133,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
     async handleSubmit() {
         let { trigger } = this.state;
         const { moiraApi, history } = this.props;
-        const isValid: boolean | undefined = await this.validationContainer.current?.validate();
+        const isValid = await this.validationContainer.current?.validate();
         // ToDo отказаться от вереницы if
         if (isValid && trigger) {
             this.setState({ loading: true });
