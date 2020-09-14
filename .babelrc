@@ -6,19 +6,18 @@
         "@babel/plugin-proposal-object-rest-spread"
     ],
     "presets": [
-        "@babel/preset-flow",
         [
             "@babel/preset-env",
             {
                 "modules": false
             }
         ],
+        "@babel/typescript",
         "@babel/preset-react"
     ],
     "env": {
         "testing": {
             "presets":[
-                "@babel/preset-flow",
                 "@babel/preset-env",
                 "@babel/preset-react"
             ]

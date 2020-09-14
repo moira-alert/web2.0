@@ -5,7 +5,7 @@
 1) Register on `https://www.browserstack.com/`.
 2) Go to instruction page `https://www.browserstack.com/automate/node`, where you find user, key and other configs.
 3) Download BrowserStackLocal.
-4) Create file authConfig.json into `web2.0/.creevey` directory and with content:
+4) Create file auth.config.json into `web2.0/.creevey` directory and with content:
 
 ```json
 {

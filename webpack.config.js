@@ -3,11 +3,11 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
-const supportedLocales = ['en']
+const supportedLocales = ['en'];
 
 module.exports = {
     entry: {
-        app: path.resolve(__dirname, "src/index.js"),
+        app: path.resolve(__dirname, "src/index.ts"),
     },
     output: {
         filename: "app.[hash:6].js",
@@ -18,7 +18,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.bundle\.jsx?$/,
+                test: /\.bundle\.tsx?$/,
                 use: {
                     loader: "bundle-loader",
                     options: {
@@ -28,7 +28,7 @@ module.exports = {
                 },
             },
             {
-                test: /\.jsx?$/,
+                test: [/\.jsx?$/, /\.tsx?$/],
                 use: ["babel-loader"],
                 exclude: /node_modules/,
                 include: [
@@ -65,7 +65,7 @@ module.exports = {
     },
     resolve: {
         modules: ["node_modules", "local_modules"],
-        extensions: [".js", ".jsx"],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
         alias: process.argv.includes("--mode=development")
             ? {"react-dom": "@hot-loader/react-dom" }
             : undefined
@@ -73,7 +73,7 @@ module.exports = {
     devtool: "cheap-source-map",
     plugins: [
         new ContextReplacementPlugin(
-            /date\-fns[\/\\]/,
+            /date-fns[\/\\]/,
             new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
         ),
         new HtmlWebpackPlugin({
@@ -118,7 +118,7 @@ module.exports = {
         proxy: {
             "/api":
                 process.env.API_MODE === "local"
-                    ? "" // Place you API url here. More options see on https://webpack.js.org/configuration/dev-server/#devserver-proxy
+                    ? { target: "http://localhost:8080", secure: false }
                     : {
                         target: "http://localhost:9002",
                         pathRewrite: { "^/api": "" },

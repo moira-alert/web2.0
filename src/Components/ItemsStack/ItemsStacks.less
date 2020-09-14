@@ -2,8 +2,6 @@
 @import '~styles/mixins.less';
 
 .vertical-gap(@factor) {
-    // Это общий компонент, по-другому тут не получится
-    // stylelint-disable-next-line selector-no-universal
     > * {
         margin-bottom: @gapSize * @factor;
     }
@@ -14,8 +12,6 @@
 }
 
 .horizontal-gap(@factor) {
-    // Это общий компонент, по-другому тут не получится
-    // stylelint-disable-next-line selector-no-universal
     > * {
         margin-right: @gapSize * @factor;
     }
