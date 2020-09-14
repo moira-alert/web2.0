@@ -45,7 +45,7 @@ export default class ContactEditForm extends React.Component<Props> {
                         )}
                         onValueChange={(v) => {
                             // ToDo разобраться, почему value может отсутствовать
-                            v && onChange({ type: v }); // eslint-disable-line
+                            v && onChange({ type: v });
                         }}
                         items={contactItems}
                     />
@@ -66,18 +66,15 @@ export default class ContactEditForm extends React.Component<Props> {
                         />
                     </ValidationWrapperV1>
                 </div>
-                {
-                    currentContactConfig?.help && (
-                        /* ToDo избавиться от dangerouslySetInnerHTML */
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: md.render(currentContactConfig.help),
-                            }}
-                            className={cn("row", "comment")}
-                        />
-                    )
-                    /* eslint-enable */
-                }
+                {currentContactConfig?.help && (
+                    /* ToDo избавиться от dangerouslySetInnerHTML */
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: md.render(currentContactConfig.help),
+                        }}
+                        className={cn("row", "comment")}
+                    />
+                )}
             </div>
         );
     }

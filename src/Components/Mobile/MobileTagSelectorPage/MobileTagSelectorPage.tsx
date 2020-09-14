@@ -97,9 +97,7 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
         const { nextOnlyProblems } = this.state;
 
         return (
-            /* eslint-disable */
             <label className={cn("toggle")}>
-                {/* eslint-enable */}
                 <span className={cn("toggle-label")}>Show only problems</span>
                 <span className={cn("toggle-control")}>
                     <Toggle
@@ -115,7 +113,6 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
         const { nextSelectedTags } = this.state;
         const tagSelected = nextSelectedTags.includes(tag);
         return (
-            /* eslint-disable */
             <div
                 key={tag}
                 className={cn("tag")}
@@ -127,7 +124,6 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
                     })
                 }
             >
-                {/* eslint-enable */}
                 <div className={cn("checkbox-area")}>
                     <span className={cn("checkbox", { checked: tagSelected })} />
                 </div>

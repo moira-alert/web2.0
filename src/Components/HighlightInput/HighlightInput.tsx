@@ -83,8 +83,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
     let highlightText: React.ReactNode | undefined;
 
     const valueTokens = parseExpression(value);
-    // fix hiding boundary spaces in span
-    // eslint-disable-next-line no-return-assign, no-param-reassign
+
     valueTokens.forEach((v) => (v.value = v.value.replace(/\s/g, "\u00a0")));
     const viewTokens = highlightTokens(valueTokens, caret);
 

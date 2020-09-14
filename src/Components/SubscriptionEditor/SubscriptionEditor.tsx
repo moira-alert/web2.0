@@ -137,7 +137,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
                     </Checkbox>
                     {plotting.enabled && (
                         <div className={cn("row-options")}>
-                            {/* eslint-disable */}
                             <label>
                                 Light
                                 <span className={cn("graph-theme-toggle")}>
@@ -158,7 +157,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
                                 </span>
                                 Dark
                             </label>
-                            {/* eslint-enable */}
                         </div>
                     )}
                 </div>
