@@ -375,15 +375,16 @@ export default class MoiraApi implements IMoiraApi {
         await MoiraApi.checkStatus(response);
     }
 
-    validateTrigger = async (trigger: Partial<Trigger>): Promise<ValidateTriggerResult> => {
-        const url = `${this.apiUrl}/trigger/check?remote=${trigger.is_remote}&targets=${encodeURI(
-            JSON.stringify(trigger.targets)
-        )}`;
-        const response = await fetch(url, {
-            credentials: "same-origin",
-        });
-        await MoiraApi.checkStatus(response);
-        return response.json();
+    validateTrigger = async (_trigger: Partial<Trigger>): Promise<ValidateTriggerResult> => {
+        return Promise.resolve({ targets: [] });
+        // const url = `${this.apiUrl}/trigger/check?remote=${trigger.is_remote}&targets=${encodeURI(
+        //     JSON.stringify(trigger.targets)
+        // )}`;
+        // const response = await fetch(url, {
+        //     credentials: "same-origin",
+        // });
+        // await MoiraApi.checkStatus(response);
+        // return response.json();
     };
 
     async setMaintenance(
