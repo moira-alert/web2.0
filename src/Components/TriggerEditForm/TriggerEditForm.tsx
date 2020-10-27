@@ -138,8 +138,8 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         }
 
         const triggerModeEditorValue: ValueType = {
-            error_value: data.error_value || null,
-            warn_value: data.warn_value || null,
+            error_value: data.error_value ?? null,
+            warn_value: data.warn_value ?? null,
         };
 
         return (
