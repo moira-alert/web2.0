@@ -5,16 +5,16 @@ import FormattedNumberInput from "../Components/FormattedNumberInput/FormattedNu
 
 storiesOf("FormattedNumberInput", module)
     .add("Default", () => (
-        <FormattedNumberInput width={200} value={null} onChange={action("onChange")} />
+        <FormattedNumberInput width={200} value={null} onValueChange={action("onChange")} />
     ))
     .add("With value", () => (
-        <FormattedNumberInput width={200} value={12.3456789} onChange={action("onChange")} />
+        <FormattedNumberInput width={200} value={12.3456789} onValueChange={action("onChange")} />
     ))
     .add("With edit format", () => (
         <FormattedNumberInput
             width={200}
             value={12.3456789}
-            onChange={action("onChange")}
+            onValueChange={action("onChange")}
             editFormat="0[.]000"
         />
     ))
@@ -22,7 +22,7 @@ storiesOf("FormattedNumberInput", module)
         <FormattedNumberInput
             width={200}
             value={12.3456789}
-            onChange={action("onChange")}
+            onValueChange={action("onChange")}
             viewFormat="0[.]0"
             editFormat="0[.]000"
         />
@@ -32,6 +32,6 @@ storiesOf("FormattedNumberInput", module)
             width={200}
             align="right"
             value={12.3456789}
-            onChange={action("onChange")}
+            onValueChange={action("onChange")}
         />
     ));

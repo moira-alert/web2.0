@@ -98,18 +98,26 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             : null;
     }
 
-    static validateTTL(value?: number | null): ValidationInfo | null {
-        if (typeof value !== "number") {
+    static validateTTL(value?: number): ValidationInfo | null {
+        if (value === undefined) {
             return {
                 type: "submit",
                 message: "Can't be empty",
             };
         }
 
-        if (value < 0) {
+        if (value <= 0) {
             return {
                 type: "lostfocus",
-                message: "Can't be negative",
+                message: "Can't be zero or negative",
+            };
+        }
+
+        if (value < 300) {
+            return {
+                type: "lostfocus",
+                level: "warning",
+                message: "Low TTL can lead to false positives",
             };
         }
 
@@ -262,10 +270,10 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     >
                         <FormattedNumberInput
                             width={80}
-                            value={typeof ttl === "number" ? ttl : null}
+                            value={typeof ttl === "number" ? ttl : 600}
                             editFormat={defaultNumberEditFormat}
                             viewFormat={defaultNumberViewFormat}
-                            onChange={(value) => onChange({ ttl: value ?? 0 })}
+                            onValueChange={(value) => onChange({ ttl: value ?? 0 })}
                         />
                     </ValidationWrapperV1>
                     <span>seconds</span>

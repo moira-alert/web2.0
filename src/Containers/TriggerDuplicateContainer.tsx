@@ -155,9 +155,12 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
             return;
         }
         try {
-            const sourceTrigger = await moiraApi.getTrigger(id);
-            const { list } = await moiraApi.getTagList();
-            const config = await moiraApi.getConfig();
+            const [sourceTrigger, { list }, config] = await Promise.all([
+                moiraApi.getTrigger(id),
+                moiraApi.getTagList(),
+                moiraApi.getConfig(),
+            ]);
+
             const trigger = TriggerDuplicateContainer.cleanTrigger(sourceTrigger);
             this.setState({ trigger, tags: list, config });
         } catch (error) {

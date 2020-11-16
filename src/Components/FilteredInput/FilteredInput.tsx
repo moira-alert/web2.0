@@ -22,6 +22,8 @@ type FilteredInputProps<T> = {
     onKeyDown?: (event: React.SyntheticEvent) => void;
     onBlur?: (event: React.SyntheticEvent) => void;
     onFocus?: (event: React.SyntheticEvent) => void;
+    error?: boolean;
+    warning?: boolean;
     "data-tid"?: string;
 };
 
@@ -95,6 +97,8 @@ export default class FilteredInput<T> extends React.Component<
                     value={this.state.displayValue ?? ""}
                     align={this.props.align}
                     disabled={this.props.disabled}
+                    error={this.props.error}
+                    warning={this.props.warning}
                     width={this.props.width}
                     onValueChange={(value) => this.handleInputChange(value)} // I suggested to rename properties from on*Change to on*ChangeHandler which not about DOM Events to make understandable that its not React event handler. (I know its component from kontur library but we can change same in moira components)
                     onBlur={(event, ...rest) => {

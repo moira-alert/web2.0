@@ -147,9 +147,12 @@ class TriggerEditContainer extends React.Component<Props, State> {
             return;
         }
         try {
-            const trigger = await moiraApi.getTrigger(id);
-            const { list } = await moiraApi.getTagList();
-            const config = await moiraApi.getConfig();
+            const [trigger, { list }, config] = await Promise.all([
+                moiraApi.getTrigger(id),
+                moiraApi.getTagList(),
+                moiraApi.getConfig(),
+            ]);
+
             this.setState({
                 trigger,
                 tags: list,

@@ -9,7 +9,10 @@ type FormattedNumberInputProps = {
     value: number | null;
     align?: "left" | "center" | "right";
     disabled?: boolean;
-    onChange: (value: number | null) => void;
+    error?: boolean;
+    warning?: boolean;
+    onBlur?: (event: React.SyntheticEvent) => void;
+    onValueChange: (value: number | null) => void;
     width: string | number;
     "data-tid"?: string;
 };
@@ -23,8 +26,11 @@ export default class FormattedNumberInput extends React.Component<FormattedNumbe
                 value={value}
                 align={this.props.align}
                 disabled={this.props.disabled}
+                error={this.props.error}
+                warning={this.props.warning}
                 width={this.props.width}
-                onChange={this.props.onChange}
+                onBlur={this.props.onBlur}
+                onChange={this.props.onValueChange}
                 filterValue={(value) => this.handleFilterValue(value)}
                 valueForView={(value) => this.handleValueForView(value)}
                 valueForEdit={(value) => this.handleValueForEdit(value)}

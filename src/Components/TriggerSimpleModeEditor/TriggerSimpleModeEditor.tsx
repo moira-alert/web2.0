@@ -69,7 +69,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={risingValues.warn_value}
                                                 disabled={watchFor !== "rising"}
-                                                onChange={this.handleChangeWarnValue}
+                                                onValueChange={this.handleChangeWarnValue}
                                                 data-tid="WARN T1"
                                             />
                                         </ValidationWrapperV1>
@@ -103,7 +103,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={risingValues.error_value}
                                                 disabled={watchFor !== "rising"}
-                                                onChange={this.handleChangeErrorValue}
+                                                onValueChange={this.handleChangeErrorValue}
                                                 data-tid="WARN T1"
                                             />
                                         </ValidationWrapperV1>
@@ -153,7 +153,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={fallingValues.warn_value}
                                                 disabled={watchFor !== "falling"}
-                                                onChange={this.handleChangeWarnValue}
+                                                onValueChange={this.handleChangeWarnValue}
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -186,7 +186,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 viewFormat={defaultNumberViewFormat}
                                                 value={fallingValues.error_value}
                                                 disabled={watchFor !== "falling"}
-                                                onChange={this.handleChangeErrorValue}
+                                                onValueChange={this.handleChangeErrorValue}
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>

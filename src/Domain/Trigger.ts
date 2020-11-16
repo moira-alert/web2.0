@@ -13,7 +13,7 @@ export type Trigger = {
     tags: Array<string>;
     patterns: Array<string>;
     expression: string;
-    ttl: number;
+    ttl?: number;
     ttl_state: Status;
     throttling: number;
     sched?: Schedule;
