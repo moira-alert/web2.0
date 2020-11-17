@@ -16,7 +16,13 @@ import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
-import { DEFAULT_TRIGGER_TYPE, Trigger, ValidateTriggerResult } from "../../Domain/Trigger";
+import {
+    DEFAULT_TRIGGER_TTL,
+    DEFAULT_TRIGGER_TYPE,
+    LOW_TRIGGER_TTL,
+    Trigger,
+    ValidateTriggerResult,
+} from "../../Domain/Trigger";
 import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
@@ -113,7 +119,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             };
         }
 
-        if (value < 300) {
+        if (value < LOW_TRIGGER_TTL) {
             return {
                 type: "lostfocus",
                 level: "warning",
@@ -270,7 +276,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     >
                         <FormattedNumberInput
                             width={80}
-                            value={typeof ttl === "number" ? ttl : 600}
+                            value={typeof ttl === "number" ? ttl : DEFAULT_TRIGGER_TTL}
                             editFormat={defaultNumberEditFormat}
                             viewFormat={defaultNumberViewFormat}
                             onValueChange={(value) => onChange({ ttl: value ?? 0 })}
