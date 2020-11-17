@@ -5,7 +5,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
 import { IMoiraApi } from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { Trigger } from "../Domain/Trigger";
+import { DEFAULT_TRIGGER_TTL, Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
 import { Config } from "../Domain/Config";
@@ -36,7 +36,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
             tags: [],
             patterns: [],
             expression: "",
-            ttl: 600,
+            ttl: DEFAULT_TRIGGER_TTL,
             ttl_state: Status.NODATA,
             sched: {
                 startOffset: 0,

@@ -4,6 +4,8 @@ import { Schedule } from "./Schedule";
 
 export type TriggerType = "rising" | "falling" | "expression";
 export const DEFAULT_TRIGGER_TYPE = "rising";
+export const DEFAULT_TRIGGER_TTL = 600;
+export const LOW_TRIGGER_TTL = 300;
 
 export type Trigger = {
     notify_about_new_metrics: boolean;
@@ -13,7 +15,7 @@ export type Trigger = {
     tags: Array<string>;
     patterns: Array<string>;
     expression: string;
-    ttl: number;
+    ttl?: number;
     ttl_state: Status;
     throttling: number;
     sched?: Schedule;
