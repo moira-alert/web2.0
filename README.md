@@ -41,10 +41,10 @@ yarn lint
 [ESLint](https://eslint.org) check. _Recommended to run before commit_.
 
 ```bash
-yarn flow
-```
+yarn tsc --noEmit
+ ```
 
-Starts [Flow](https://flow.org) server for checking types. You can also run `yarn flow.status` for status, `yarn flow.check` for errors report, `yarn flow.coverage.html` to export html report with cute UI.
+Starts [TypeScript](https://www.typescriptlang.org) compiler for checking types.
 
 ## Contributing
 
