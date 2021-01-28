@@ -4,10 +4,13 @@ export const PagesPaths = {
     triggerEdit: "/trigger/:id/edit",
     triggerDuplicate: "/trigger/:id/duplicate",
     triggerAdd: "/trigger/new",
-    settings: "/settings",
+    settings: "/settings/:teamId?",
     notifications: "/notifications",
     tags: "/tags",
     patterns: "/patterns",
+    teams: "/teams",
+    addTeam: "/teams/add",
+    addUserToTeam: "/teams/addUser",
 };
 
 export const PagesLinks = {
@@ -16,10 +19,13 @@ export const PagesLinks = {
     triggerEdit: "/trigger/%id%/edit",
     triggerDuplicate: "/trigger/%id%/duplicate",
     triggerAdd: "/trigger/new",
-    settings: "/settings",
+    settings: "/settings/%id%",
     notifications: "/notifications",
     tags: "/tags",
     patterns: "/patterns",
+    teams: "/teams",
+    addTeam: "/teams/add",
+    addUserToTeam: "/teams/addUser",
     docs: "//moira.readthedocs.org/",
 };
 
@@ -31,6 +37,6 @@ export function getPagePath(page: PagePath): string {
     return PagesPaths[page];
 }
 
-export function getPageLink(page: PageLink, id?: string): string {
-    return id ? PagesLinks[page].replace("%id%", id) : PagesLinks[page];
+export function getPageLink(page: PageLink, id = ""): string {
+    return PagesLinks[page].replace("%id%", id);
 }

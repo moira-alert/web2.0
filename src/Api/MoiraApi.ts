@@ -11,6 +11,8 @@ import { ContactCreateInfo } from "../Domain/ContactCreateInfo";
 import { Subscription } from "../Domain/Subscription";
 import { Schedule } from "../Domain/Schedule";
 import { NotifierState } from "../Domain/MoiraServiceStates";
+import { Team, TeamOverview } from "../Domain/Team";
+import { User } from "../Domain/User";
 
 export type SubscriptionCreateInfo = {
     sched: Schedule;
@@ -40,6 +42,7 @@ export type TagStatList = {
 export interface IMoiraApi {
     getSettings(): Promise<Settings>;
     getConfig(): Promise<Config>;
+    getSettingsByTeam(teamId: string): Promise<Settings>;
     getContactList(): Promise<ContactList>;
     addContact(contact: ContactCreateInfo): Promise<Contact>;
     updateContact(contact: Contact): Promise<Contact>;
@@ -94,6 +97,11 @@ export interface IMoiraApi {
     delAllNotificationEvents(): Promise<void>;
     getNotifierState(): Promise<NotifierState>;
     setNotifierState(status: NotifierState): Promise<NotifierState>;
+
+    getTeams(): Promise<Team[]>;
+    getTeamsList(): Promise<TeamOverview[]>;
+    addTeam(team: Omit<Team, "id">): Promise<Team>;
+    addUser(teamId: string, user: Omit<User, "id">): Promise<User>;
 }
 
 class ApiError extends Error {
@@ -174,6 +182,10 @@ export default class MoiraApi implements IMoiraApi {
         });
         await MoiraApi.checkStatus(response);
         return response.json();
+    }
+
+    getSettingsByTeam(teamId: string): Promise<Settings> {
+        return this.get<Settings>(`/teams/${teamId}/settings`);
     }
 
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
@@ -517,6 +529,46 @@ export default class MoiraApi implements IMoiraApi {
             method: "PUT",
             credentials: "same-origin",
             body: JSON.stringify(status),
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async getTeamsList(): Promise<TeamOverview[]> {
+        const url = `${this.apiUrl}/teamsList`;
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+    async getTeams(): Promise<Team[]> {
+        const url = `${this.apiUrl}/teams`;
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async addTeam(team: Omit<Team, "id">): Promise<Team> {
+        const url = `${this.apiUrl}/teams`;
+        const response = await fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(team),
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+    async addUser(teamId: string, user: Omit<User, "id">): Promise<User> {
+        const url = `${this.apiUrl}/teams/${teamId}/user`;
+        const response = await fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(user),
+            credentials: "same-origin",
         });
         await MoiraApi.checkStatus(response);
         return response.json();
