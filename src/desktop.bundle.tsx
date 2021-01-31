@@ -69,8 +69,7 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("tags")} component={TagListContainer} />
                 <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
-                <Route path={getPagePath("teams")} component={TeamsContainer} />
-                <Route exact path={getPagePath("addUserToTeam")} component={TeamsContainer} />
+                <Route exact path={getPagePath("teams")} component={TeamsContainer} />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

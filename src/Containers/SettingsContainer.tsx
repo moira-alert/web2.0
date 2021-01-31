@@ -15,6 +15,7 @@ import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { Gapped } from "@skbkontur/react-ui";
 import { RouteComponentProps } from "react-router";
 import { getPageLink } from "../Domain/Global";
+import { Grid } from "../Components/Grid/Grid";
 
 const User = { id: "user", name: "User" };
 
@@ -76,17 +77,20 @@ class SettingsContainer extends React.Component<Props, State> {
                     <RowStack gap={1} block>
                         <LayoutTitle>Notifications</LayoutTitle>
                         <Fill />
-                        <Gapped gap={4}>
-                            <span>Show for</span>
-                            <Select<TeamOverview>
-                                use={"link"}
-                                value={userOrTeam}
-                                items={userWithTeams ?? []}
-                                renderValue={(value) => value.name}
-                                renderItem={(value) => value.name}
-                                onValueChange={this.handleChangeTeam}
-                            />
-                        </Gapped>
+                        <Grid columns={"max-content"} gap="4px">
+                            Current User: {settings?.login}
+                            <Gapped gap={4}>
+                                <span>Show for</span>
+                                <Select<TeamOverview>
+                                    use={"link"}
+                                    value={userOrTeam}
+                                    items={userWithTeams ?? []}
+                                    renderValue={(value) => value.name}
+                                    renderItem={(value) => value.name}
+                                    onValueChange={this.handleChangeTeam}
+                                />
+                            </Gapped>
+                        </Grid>
                     </RowStack>
                     {config != undefined && settings?.contacts != undefined && (
                         <div style={{ marginBottom: 50 }}>

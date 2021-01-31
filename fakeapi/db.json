@@ -4463,7 +4463,8 @@
         {
             "id": "team_1",
             "name": "Team 1"
-        }, {
+        },
+        {
             "id": "team_2",
             "name": "Team 2"
         }
@@ -4471,15 +4472,44 @@
     "teams": [
         {
             "id": "team_1",
-            "name": "Team 1"
-        }, {
-
+            "name": "Team 1",
+            "description": "Some description about first team",
+            "users": [
+                {
+                    "id": "85b14755-6cbe-429d-860c-21f7c01569c1",
+                    "name": "testuser"
+                },
+                {
+                    "id": "85b14755-6cbe-429d-860c-21f7c01569c2",
+                    "name": "john"
+                },
+                {
+                    "id": "85b14755-6cbe-429d-860c-21f7c01569c3",
+                    "name": "tanaka-san"
+                }
+            ]
+        },
+        {
             "id": "team_2",
-            "name": "Team 2"
+            "name": "Team 2",
+            "description": "Some description about second team",
+            "users": []
         }
     ],
-
-
+    "users": [
+        {
+            "id": "85b14755-6cbe-429d-860c-21f7c01569c1",
+            "name": "testuser"
+        },
+        {
+            "id": "85b14755-6cbe-429d-860c-21f7c01569c2",
+            "name": "john"
+        },
+        {
+            "id": "85b14755-6cbe-429d-860c-21f7c01569c3",
+            "name": "tanaka-san"
+        }
+    ],
     "teamSettings": {
         "login": "team_1",
         "contacts": [

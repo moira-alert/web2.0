@@ -100,8 +100,9 @@ export interface IMoiraApi {
 
     getTeams(): Promise<Team[]>;
     getTeamsList(): Promise<TeamOverview[]>;
-    addTeam(team: Omit<Team, "id">): Promise<Team>;
-    addUser(teamId: string, user: Omit<User, "id">): Promise<User>;
+    addTeam(team: Partial<Team>): Promise<Team>;
+    addUser(teamId: string, user: Partial<User>): Promise<User>;
+    delUser(teamId: string, userId: string): Promise<void>;
 }
 
 class ApiError extends Error {
@@ -553,24 +554,33 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async addTeam(team: Omit<Team, "id">): Promise<Team> {
+    async addTeam(team: Partial<Team>): Promise<Team> {
         const url = `${this.apiUrl}/teams`;
         const response = await fetch(url, {
-            method: "PUT",
+            method: "POST",
             body: JSON.stringify(team),
             credentials: "same-origin",
         });
         await MoiraApi.checkStatus(response);
         return response.json();
     }
-    async addUser(teamId: string, user: Omit<User, "id">): Promise<User> {
-        const url = `${this.apiUrl}/teams/${teamId}/user`;
+    async addUser(teamId: string, user: Partial<User>): Promise<User> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
         const response = await fetch(url, {
-            method: "PUT",
+            method: "POST",
             body: JSON.stringify(user),
             credentials: "same-origin",
         });
         await MoiraApi.checkStatus(response);
         return response.json();
+    }
+
+    async delUser(teamId: string, userId: string): Promise<void> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users/${encodeURI(userId)}`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
     }
 }

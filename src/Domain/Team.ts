@@ -9,5 +9,5 @@ export interface Team {
     id: string;
     name: string;
     description?: string;
-    user: User[];
+    users: User[];
 }

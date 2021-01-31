@@ -9,8 +9,6 @@ export const PagesPaths = {
     tags: "/tags",
     patterns: "/patterns",
     teams: "/teams",
-    addTeam: "/teams/add",
-    addUserToTeam: "/teams/addUser",
 };
 
 export const PagesLinks = {
@@ -24,8 +22,6 @@ export const PagesLinks = {
     tags: "/tags",
     patterns: "/patterns",
     teams: "/teams",
-    addTeam: "/teams/add",
-    addUserToTeam: "/teams/addUser",
     docs: "//moira.readthedocs.org/",
 };
 
