@@ -79,10 +79,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
 
     private asyncValidator = getAsyncValidator();
 
-    componentDidMount(): void {
-        this.handleValidateTrigger();
-    }
-
     static validateRequiredString(
         value: string,
         message?: string
