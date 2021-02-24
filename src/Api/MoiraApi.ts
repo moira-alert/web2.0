@@ -376,10 +376,10 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     validateTrigger = async (trigger: Partial<Trigger>): Promise<ValidateTriggerResult> => {
-        const url = `${this.apiUrl}/trigger/check?remote=${trigger.is_remote}&targets=${encodeURI(
-            JSON.stringify(trigger.targets)
-        )}`;
+        const url = `${this.apiUrl}/trigger/check`;
         const response = await fetch(url, {
+            method: "PUT",
+            body: JSON.stringify(trigger),
             credentials: "same-origin",
         });
         await MoiraApi.checkStatus(response);
