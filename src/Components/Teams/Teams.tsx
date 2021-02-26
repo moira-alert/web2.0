@@ -1,10 +1,11 @@
 import React, { ReactElement, useState } from "react";
 import { Button } from "@skbkontur/react-ui";
+import EditIcon from "@skbkontur/react-icons/Edit";
 import { Team } from "../../Domain/Team";
 import { Grid } from "../Grid/Grid";
 import { User } from "../../Domain/User";
-import { AddTeam } from "./AddTeam";
 import { Users } from "./Users";
+import { TeamEditor } from "./TeamEditor";
 
 interface TeamsProps {
     teams: Team[];
@@ -12,14 +13,21 @@ interface TeamsProps {
     addUserToTeam: (team: Team, user: Partial<User>) => void;
     getUsers: (team: Team) => Promise<User[]>;
     addTeam: (team: Partial<Team>) => void;
+    updateTeam: (team: Team) => void;
 }
 
 export function Teams(props: TeamsProps): ReactElement {
-    const [isAddTeam, setIsAddTeam] = useState(false);
+    const [addingTeam, setAddingTeam] = useState(false);
+    const [editingTeam, setEditingTeam] = useState<Team>();
 
-    const handleSubmitTeam = (team: Partial<Team>) => {
+    const handleAddTeam = (team: Partial<Team>) => {
         props.addTeam(team);
-        setIsAddTeam(false);
+        setAddingTeam(false);
+    };
+
+    const handleSaveTeam = (team: Team) => {
+        props.updateTeam(team);
+        setEditingTeam(undefined);
     };
 
     return (
@@ -29,8 +37,14 @@ export function Teams(props: TeamsProps): ReactElement {
                     return (
                         <div key={team.id}>
                             <h2>{team.name}</h2>
-                            <Grid gap="4px">
-                                {team.description}
+                            {team.description}{" "}
+                            <Button
+                                icon={<EditIcon />}
+                                use={"link"}
+                                onClick={() => setEditingTeam(team)}
+                                width="20px"
+                            />
+                            <Grid gap="4px" margin="8px 0 0">
                                 <Users
                                     team={team}
                                     getUsers={props.getUsers}
@@ -43,11 +57,18 @@ export function Teams(props: TeamsProps): ReactElement {
                 })}
             </div>
             <Grid columns="100px" margin="24px 0">
-                <Button onClick={() => setIsAddTeam(true)}>Add team</Button>
+                <Button onClick={() => setAddingTeam(true)}>Add team</Button>
             </Grid>
 
-            {isAddTeam ? (
-                <AddTeam onAddTeam={handleSubmitTeam} onClose={() => setIsAddTeam(false)} />
+            {addingTeam ? (
+                <TeamEditor onAddTeam={handleAddTeam} onClose={() => setAddingTeam(false)} />
+            ) : null}
+            {editingTeam ? (
+                <TeamEditor
+                    team={editingTeam}
+                    onSaveTeam={handleSaveTeam}
+                    onClose={() => setEditingTeam(undefined)}
+                />
             ) : null}
         </>
     );

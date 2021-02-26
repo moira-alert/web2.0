@@ -41,6 +41,7 @@ class TeamsContainer extends React.Component<Props, State> {
                                 removeUser={this.removeUser}
                                 addTeam={this.addTeam}
                                 getUsers={this.getUsers}
+                                updateTeam={this.updateTeam}
                             />
                         ) : null}
                     </LayoutContent>
@@ -48,6 +49,26 @@ class TeamsContainer extends React.Component<Props, State> {
             </Layout>
         );
     }
+
+    private addTeam = async (team: Partial<Team>) => {
+        try {
+            await this.props.moiraApi.addTeam(team);
+            this.getData();
+        } catch (error) {
+            console.error(error);
+            Toast.push(error.message);
+        }
+    };
+
+    private updateTeam = async (team: Team) => {
+        try {
+            await this.props.moiraApi.updateTeam(team);
+            this.getData();
+        } catch (error) {
+            console.error(error);
+            Toast.push(error.message);
+        }
+    };
 
     private getUsers = async (team: Team): Promise<User[]> => {
         try {
@@ -57,16 +78,6 @@ class TeamsContainer extends React.Component<Props, State> {
             console.error(error);
             Toast.push(error.message);
             throw error;
-        }
-    };
-
-    private addTeam = async (team: Partial<Team>) => {
-        try {
-            await this.props.moiraApi.addTeam(team);
-            this.getData();
-        } catch (error) {
-            console.error(error);
-            Toast.push(error.message);
         }
     };
 
