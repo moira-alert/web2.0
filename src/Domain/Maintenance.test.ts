@@ -1,12 +1,12 @@
 import MockDate from "mockdate";
-import { IMoiraApi } from "../Api/MoiraApi";
+import MoiraApi from "../Api/MoiraApi";
 import { calculateMaintenanceTime, Maintenance, setTriggerMaintenance } from "./Maintenance";
 
 const mockFn = jest.fn();
 
 describe("Maintenance", () => {
     const triggerId = "f96c5608-bd00-4ea2-abd5-be677cdf7e03";
-    const api = ({ setMaintenance: mockFn } as unknown) as IMoiraApi;
+    const api = ({ setMaintenance: mockFn } as unknown) as MoiraApi;
 
     beforeEach(() => {
         MockDate.set("Tue Jun 09 2020 09:00:00 GMT+0300");

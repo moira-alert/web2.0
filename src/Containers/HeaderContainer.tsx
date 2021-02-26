@@ -1,12 +1,12 @@
 import * as React from "react";
-import type { IMoiraApi } from "../Api/MoiraApi";
+import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Bar from "../Components/Bar/Bar";
 import Header from "../Components/Header/Header";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
 
 type Props = {
-    moiraApi: IMoiraApi;
+    moiraApi: MoiraApi;
     className: string;
 };
 

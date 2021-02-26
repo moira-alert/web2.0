@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
-import { IMoiraApi } from "../Api/MoiraApi";
+import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { DEFAULT_TRIGGER_TTL, Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
@@ -17,7 +17,7 @@ import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";
 
-type Props = RouteComponentProps & { moiraApi: IMoiraApi };
+type Props = RouteComponentProps & { moiraApi: MoiraApi };
 type State = {
     loading: boolean;
     error?: string;

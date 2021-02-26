@@ -4459,17 +4459,7 @@
         "state": "OK",
         "message": null
     },
-    "teamsList": [
-        {
-            "id": "team_1",
-            "name": "Team 1"
-        },
-        {
-            "id": "team_2",
-            "name": "Team 2"
-        }
-    ],
-    "teams": [
+    "team": [
         {
             "id": "team_1",
             "name": "Team 1",

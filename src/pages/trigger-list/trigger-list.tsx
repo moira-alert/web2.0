@@ -5,7 +5,6 @@ import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 import intersection from "lodash/intersection";
 import queryString from "query-string";
-import { IMoiraApi } from "../../Api/MoiraApi";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { Trigger, TriggerList } from "../../Domain/Trigger";
 import { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
@@ -13,6 +12,7 @@ import { setMetricMaintenance } from "../../Domain/Maintenance";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { TriggerListMobileProps } from "./trigger-list.mobile";
 import { TriggerListDesktopProps } from "./trigger-list.desktop";
+import MoiraApi from "../../Api/MoiraApi";
 
 export type TriggerListUpdate = {
     tags?: Array<string>;
@@ -33,7 +33,7 @@ const clearInput = (input: string | Array<string>) => {
 
 export type TriggerListProps = RouteComponentProps & {
     view: ComponentType<TriggerListDesktopProps | TriggerListMobileProps>;
-    moiraApi: IMoiraApi;
+    moiraApi: MoiraApi;
 };
 
 type State = {

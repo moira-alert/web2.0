@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import type { IMoiraApi } from "../Api/MoiraApi";
+import MoiraApi from "../Api/MoiraApi";
 import type { Config } from "../Domain/Config";
 import type { Settings } from "../Domain/Settings";
 import type { Contact } from "../Domain/Contact";
@@ -10,7 +10,7 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import ContactList from "../Components/ContactList/ContactList";
 import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
 import { SubscriptionInfo } from "../Components/SubscriptionEditor/SubscriptionEditor";
-import { TeamOverview } from "../Domain/Team";
+import { Team } from "../Domain/Team";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { Gapped } from "@skbkontur/react-ui";
 import { RouteComponentProps } from "react-router";
@@ -20,7 +20,7 @@ import { Grid } from "../Components/Grid/Grid";
 const User = { id: "user", name: "User" };
 
 interface Props extends RouteComponentProps<{ teamId?: string }> {
-    moiraApi: IMoiraApi;
+    moiraApi: MoiraApi;
 }
 
 interface State {
@@ -29,8 +29,8 @@ interface State {
     settings?: Settings;
     config?: Config;
     tags?: Array<string>;
-    userOrTeam?: TeamOverview;
-    userWithTeams?: TeamOverview[];
+    userOrTeam?: Team;
+    userWithTeams?: Team[];
 }
 
 class SettingsContainer extends React.Component<Props, State> {
@@ -81,7 +81,7 @@ class SettingsContainer extends React.Component<Props, State> {
                             Current User: {settings?.login}
                             <Gapped gap={4}>
                                 <span>Show for</span>
-                                <Select<TeamOverview>
+                                <Select<Team>
                                     use={"link"}
                                     value={userOrTeam}
                                     items={userWithTeams ?? []}
@@ -285,7 +285,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    private handleChangeTeam = async (userOrTeam: TeamOverview) => {
+    private handleChangeTeam = async (userOrTeam: Team) => {
         try {
             this.setState({ userOrTeam, loading: true });
             if (userOrTeam.id === User.id) {
@@ -303,7 +303,7 @@ class SettingsContainer extends React.Component<Props, State> {
     };
 
     private async getTeamsAndTags() {
-        const teams = await this.props.moiraApi.getTeamsList();
+        const teams = await this.props.moiraApi.getTeams();
         const tags = (await this.props.moiraApi.getTagList()).list;
         const config = await this.props.moiraApi.getConfig();
         let teamOrUser = User;

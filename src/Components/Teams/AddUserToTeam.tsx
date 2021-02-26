@@ -12,7 +12,7 @@ import { User } from "../../Domain/User";
 
 interface AddUserProps {
     team: Team;
-    onAddUser: (user: Partial<User>) => void;
+    onSaveUser: (user: Partial<User>) => void;
     onClose: () => void;
 }
 
@@ -31,7 +31,7 @@ export function AddUserToTeam(props: AddUserProps): ReactElement {
         if (!isValid) {
             return;
         }
-        props.onAddUser({ name: name });
+        props.onSaveUser({ name: name });
     };
 
     return (

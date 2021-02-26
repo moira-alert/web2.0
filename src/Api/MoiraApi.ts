@@ -11,7 +11,7 @@ import { ContactCreateInfo } from "../Domain/ContactCreateInfo";
 import { Subscription } from "../Domain/Subscription";
 import { Schedule } from "../Domain/Schedule";
 import { NotifierState } from "../Domain/MoiraServiceStates";
-import { Team, TeamOverview } from "../Domain/Team";
+import { Team } from "../Domain/Team";
 import { User } from "../Domain/User";
 
 export type SubscriptionCreateInfo = {
@@ -39,72 +39,6 @@ export type TagStatList = {
     list: Array<TagStat>;
 };
 
-export interface IMoiraApi {
-    getSettings(): Promise<Settings>;
-    getConfig(): Promise<Config>;
-    getSettingsByTeam(teamId: string): Promise<Settings>;
-    getContactList(): Promise<ContactList>;
-    addContact(contact: ContactCreateInfo): Promise<Contact>;
-    updateContact(contact: Contact): Promise<Contact>;
-    testContact(contactId: string): Promise<void>;
-    addSubscription(subscription: SubscriptionCreateInfo): Promise<Subscription>;
-    updateSubscription(subscription: Subscription): Promise<Subscription>;
-    delSubscription(subscriptionId: string): Promise<void>;
-    testSubscription(subscriptionId: string): Promise<void>;
-    deleteContact(contactId: string): Promise<void>;
-    getPatternList(): Promise<PatternList>;
-    delPattern(pattern: string): Promise<void>;
-    getTagList(): Promise<TagList>;
-    getTagStats(): Promise<TagStatList>;
-    delTag(tag: string): Promise<void>;
-    getTriggerList(
-        page: number,
-        onlyProblems: boolean,
-        tags: Array<string>,
-        searchText: string
-    ): Promise<TriggerList>;
-    getTrigger(id: string, params?: { populated: boolean }): Promise<Trigger>;
-    addTrigger(
-        data: Partial<Trigger>
-    ): Promise<{
-        [key: string]: string;
-    }>;
-    setTrigger(
-        id: string,
-        data: Partial<Trigger>
-    ): Promise<{
-        [key: string]: string;
-    }>;
-    delTrigger(id: string): Promise<void>;
-    validateTrigger(trigger: Partial<Trigger>): Promise<ValidateTriggerResult>;
-    setMaintenance(
-        triggerId: string,
-        data: {
-            trigger?: number;
-            metrics?: {
-                [metric: string]: number;
-            };
-        }
-    ): Promise<void>;
-    getTriggerState(id: string): Promise<TriggerState>;
-    getTriggerEvents(id: string, page: number): Promise<EventList>;
-    delThrottling(triggerId: string): Promise<void>;
-    delMetric(triggerId: string, metric: string): Promise<void>;
-    delNoDataMetric(triggerId: string): Promise<void>;
-    getNotificationList(): Promise<NotificationList>;
-    delNotification(id: string): Promise<void>;
-    delAllNotifications(): Promise<void>;
-    delAllNotificationEvents(): Promise<void>;
-    getNotifierState(): Promise<NotifierState>;
-    setNotifierState(status: NotifierState): Promise<NotifierState>;
-
-    getTeams(): Promise<Team[]>;
-    getTeamsList(): Promise<TeamOverview[]>;
-    addTeam(team: Partial<Team>): Promise<Team>;
-    addUser(teamId: string, user: Partial<User>): Promise<User>;
-    delUser(teamId: string, userId: string): Promise<void>;
-}
-
 class ApiError extends Error {
     status: number;
 
@@ -121,7 +55,7 @@ const statusCode = {
 
 export { statusCode };
 
-export default class MoiraApi implements IMoiraApi {
+export default class MoiraApi {
     apiUrl: string;
 
     config?: Config;
@@ -535,17 +469,8 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async getTeamsList(): Promise<TeamOverview[]> {
-        const url = `${this.apiUrl}/teamsList`;
-        const response = await fetch(url, {
-            method: "GET",
-            credentials: "same-origin",
-        });
-        await MoiraApi.checkStatus(response);
-        return response.json();
-    }
     async getTeams(): Promise<Team[]> {
-        const url = `${this.apiUrl}/teams`;
+        const url = `${this.apiUrl}/team`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
@@ -554,8 +479,8 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
-    async addTeam(team: Partial<Team>): Promise<Team> {
-        const url = `${this.apiUrl}/teams`;
+    async addTeam(team: Partial<Team>): Promise<{ id: string }> {
+        const url = `${this.apiUrl}/team`;
         const response = await fetch(url, {
             method: "POST",
             body: JSON.stringify(team),
@@ -564,8 +489,30 @@ export default class MoiraApi implements IMoiraApi {
         await MoiraApi.checkStatus(response);
         return response.json();
     }
+
+    async updateTeam(team: Team): Promise<{ id: string }> {
+        const url = `${this.apiUrl}/team/${encodeURI(team.id)}`;
+        const response = await fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify(team),
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async getUsers(teamId: string): Promise<User[]> {
+        const url = `${this.apiUrl}/team/${encodeURI(teamId)}/users`;
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
     async addUser(teamId: string, user: Partial<User>): Promise<User> {
-        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
+        const url = `${this.apiUrl}/team/${encodeURI(teamId)}/users`;
         const response = await fetch(url, {
             method: "POST",
             body: JSON.stringify(user),
@@ -576,7 +523,7 @@ export default class MoiraApi implements IMoiraApi {
     }
 
     async delUser(teamId: string, userId: string): Promise<void> {
-        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users/${encodeURI(userId)}`;
+        const url = `${this.apiUrl}/team/${encodeURI(teamId)}/users/${encodeURI(userId)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",

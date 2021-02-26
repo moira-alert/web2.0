@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Toast } from "@skbkontur/react-ui";
-import { IMoiraApi } from "../Api/MoiraApi";
+import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { Team } from "../Domain/Team";
@@ -9,7 +9,7 @@ import { Teams } from "../Components/Teams/Teams";
 import { User } from "../Domain/User";
 
 interface Props extends RouteComponentProps {
-    moiraApi: IMoiraApi;
+    moiraApi: MoiraApi;
 }
 type State = {
     teams?: Team[];
@@ -37,9 +37,10 @@ class TeamsContainer extends React.Component<Props, State> {
                         {teams ? (
                             <Teams
                                 teams={teams}
-                                addUser={this.addUser}
+                                addUserToTeam={this.addUser}
                                 removeUser={this.removeUser}
                                 addTeam={this.addTeam}
+                                getUsers={this.getUsers}
                             />
                         ) : null}
                     </LayoutContent>
@@ -47,6 +48,17 @@ class TeamsContainer extends React.Component<Props, State> {
             </Layout>
         );
     }
+
+    private getUsers = async (team: Team): Promise<User[]> => {
+        try {
+            const users = await this.props.moiraApi.getUsers(team.id);
+            return users;
+        } catch (error) {
+            console.error(error);
+            Toast.push(error.message);
+            throw error;
+        }
+    };
 
     private addTeam = async (team: Partial<Team>) => {
         try {
@@ -60,11 +72,12 @@ class TeamsContainer extends React.Component<Props, State> {
 
     private addUser = async (team: Team, user: Partial<User>) => {
         try {
-            await this.props.moiraApi.addUser(team.id, user);
-            this.getData();
+            const createdUser = await this.props.moiraApi.addUser(team.id, user);
+            return createdUser;
         } catch (error) {
             console.error(error);
             Toast.push(error.message);
+            throw error;
         }
     };
 

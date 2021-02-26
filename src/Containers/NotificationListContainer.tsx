@@ -1,24 +1,24 @@
 import * as React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import type { IMoiraApi } from "../Api/MoiraApi";
+import MoiraApi from "../Api/MoiraApi";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
 import Layout, { LayoutContent, LayoutTitle, LayoutFooter } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
-import { TeamOverview } from "../Domain/Team";
+import { Team } from "../Domain/Team";
 import { Select } from "@skbkontur/react-ui/components/Select";
 
-type Props = { moiraApi: IMoiraApi };
+type Props = { moiraApi: MoiraApi };
 type State = {
     loading: boolean;
     error?: string;
     list?: Array<Notification>;
     notifierEnabled: boolean;
-    team?: TeamOverview;
-    teams?: TeamOverview[];
+    team?: Team;
+    teams?: Team[];
 };
 
 class NotificationListContainer extends React.Component<Props, State> {
@@ -91,7 +91,7 @@ class NotificationListContainer extends React.Component<Props, State> {
     }
 
     async fetch(props: Props) {
-        const teams = await props.moiraApi.getTeamsList();
+        const teams = await props.moiraApi.getTeams();
         await this.getNotifications(props);
         await this.getNotifierState(props);
 
