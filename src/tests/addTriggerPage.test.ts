@@ -19,5 +19,5 @@ describe("Add trigger page", () => {
         const triggerViewPage = new TriggerViewPage(page);
         await expect(triggerViewPage.isOpen()).resolves.toEqual(true);
         await expect(triggerViewPage.Name).resolves.toEqual("trigger name");
-    }, 30000);
+    }, 60000);
 });
