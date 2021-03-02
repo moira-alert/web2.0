@@ -1,5 +1,7 @@
 const path = require("path");
 
+const dockerApiPath = path.join(__dirname, "src/tests/core/api/docker-compose.yml");
+
 module.exports = {
     launch: {
         headless: process.env.HEADLESS !== "false",
@@ -7,10 +9,7 @@ module.exports = {
     browser: "chromium",
     server: [
         {
-            command: `docker-compose -f ${path.join(
-                __dirname,
-                "src/tests/core/api/docker-compose.yml"
-            )} up`,
+            command: `docker-compose -f ${dockerApiPath} up`,
             port: 8080,
             launchTimeout: 120000,
         },

@@ -1,6 +1,6 @@
 import { clearDatabase } from "./core/utils";
-import { MainPage } from "./pages/MainPage";
 import { AddTriggerPage } from "./pages/AddTriggerPage";
+import { MainPage } from "./pages/MainPage";
 
 describe("Main Page", () => {
     beforeAll(async () => {
@@ -13,5 +13,5 @@ describe("Main Page", () => {
         await mainPage.AddTrigger.click();
         const addTriggerPage = new AddTriggerPage(page);
         await expect(addTriggerPage.isOpen()).resolves.toEqual(true);
-    }, 30000);
+    }, 60000);
 });

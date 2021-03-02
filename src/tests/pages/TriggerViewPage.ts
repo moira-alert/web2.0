@@ -1,7 +1,7 @@
 import { Page, Response } from "puppeteer";
-import { delay } from "../core/utils";
 import { LOCAL_URL } from "../core/contants";
 import { getText } from "../core/controls/Text";
+import { delay } from "../core/utils";
 
 export class TriggerViewPage {
     public static url = `${LOCAL_URL}/trigger`;
@@ -37,7 +37,7 @@ export class TriggerViewPage {
         if (this.checkUrl(this.page.url())) {
             return true;
         }
-        await delay(100);
+        await delay(500);
         return this.checkUrl(this.page.url());
     }
 
