@@ -24,6 +24,21 @@ jobs:
         with:
           username: ${{ secrets.BROWSERSTACK_USERNAME }}
           access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      - name: 'BrowserStackLocal Setup'
+        uses: 'browserstack/github-actions/setup-local@master'
+        with:
+          local-testing: start
+          local-identifier: random
       - name: Run screenshot tests
-        run: |
-          node ./.creevey/startCI
+        run: node ./.creevey/startCI
+        env:
+          BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots-report
+          path: .creevey/report
+      - name: 'Stop BrowserStackLocal'
+        uses: 'browserstack/github-actions/setup-local@master'
+        with:
+          local-testing: stop
