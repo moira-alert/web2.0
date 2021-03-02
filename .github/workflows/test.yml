@@ -5,6 +5,7 @@ jobs:
   test:
     name: Test frontend
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
@@ -12,20 +13,11 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Install Docker
-        uses: docker-practice/actions-setup-docker@master
-
       - name: Install dependencies
-        run: |
-          yarn install
+        run: yarn install
 
       - name: Run unit tests
-        run: |
-          yarn test
-
-      - name: Run e2e tests
-        run: |
-          yarn test:e2e
+        run: yarn test
 
       - name: Setup BrowserStack
         uses: "browserstack/github-actions@master"
