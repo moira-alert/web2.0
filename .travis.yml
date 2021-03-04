@@ -3,7 +3,7 @@ services:
   - docker
 language: node_js
 node_js:
-  - '12'
+  - "12"
 addons:
   apt:
     packages: rpm
@@ -32,7 +32,7 @@ script:
   - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then node ./.creevey/startCI; fi
   - if [[ ! -z "$TRAVIS_TAG" ]]; then make packages; fi
 cache:
-    yarn: true
+  yarn: true
 before_deploy:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
