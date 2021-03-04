@@ -309,7 +309,7 @@ class SettingsContainer extends React.Component<Props, State> {
         let teamOrUser = User;
 
         if (this.props.match.params.teamId) {
-            const team = teams.find(
+            const team = teams.teams.find(
                 (teamOverview) => teamOverview.id === this.props.match.params.teamId
             );
             if (team) {
@@ -318,7 +318,7 @@ class SettingsContainer extends React.Component<Props, State> {
         }
 
         this.setState({
-            userWithTeams: [User, ...teams],
+            userWithTeams: [User, ...teams.teams],
             tags: tags,
             config: config,
             userOrTeam: teamOrUser,

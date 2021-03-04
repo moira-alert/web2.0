@@ -6,7 +6,6 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { Team } from "../Domain/Team";
 import { Teams } from "../Components/Teams/Teams";
-import { User } from "../Domain/User";
 
 interface Props extends RouteComponentProps {
     moiraApi: MoiraApi;
@@ -70,10 +69,10 @@ class TeamsContainer extends React.Component<Props, State> {
         }
     };
 
-    private getUsers = async (team: Team): Promise<User[]> => {
+    private getUsers = async (team: Team): Promise<string[]> => {
         try {
             const users = await this.props.moiraApi.getUsers(team.id);
-            return users;
+            return users.usernames;
         } catch (error) {
             console.error(error);
             Toast.push(error.message);
@@ -81,10 +80,9 @@ class TeamsContainer extends React.Component<Props, State> {
         }
     };
 
-    private addUser = async (team: Team, user: Partial<User>) => {
+    private addUser = async (team: Team, userName: string) => {
         try {
-            const createdUser = await this.props.moiraApi.addUser(team.id, user);
-            return createdUser;
+            return await this.props.moiraApi.addUser(team.id, userName);
         } catch (error) {
             console.error(error);
             Toast.push(error.message);
@@ -92,9 +90,9 @@ class TeamsContainer extends React.Component<Props, State> {
         }
     };
 
-    private removeUser = async (team: Team, user: User) => {
+    private removeUser = async (team: Team, userName: string) => {
         try {
-            await this.props.moiraApi.delUser(team.id, user.id);
+            await this.props.moiraApi.delUser(team.id, userName);
             this.getData();
         } catch (error) {
             console.error(error);
@@ -105,7 +103,7 @@ class TeamsContainer extends React.Component<Props, State> {
     private async getData() {
         try {
             const teams = await this.props.moiraApi.getTeams();
-            this.setState({ teams: teams });
+            this.setState({ teams: teams.teams });
         } catch (error) {
             this.setState({ error: error.message });
         } finally {

@@ -12,7 +12,6 @@ import { Subscription } from "../Domain/Subscription";
 import { Schedule } from "../Domain/Schedule";
 import { NotifierState } from "../Domain/MoiraServiceStates";
 import { Team } from "../Domain/Team";
-import { User } from "../Domain/User";
 
 export type SubscriptionCreateInfo = {
     sched: Schedule;
@@ -120,7 +119,7 @@ export default class MoiraApi {
     }
 
     getSettingsByTeam(teamId: string): Promise<Settings> {
-        return this.get<Settings>(`/teams/${teamId}/settings`);
+        return this.get<Settings>(`/teams/${teamId}/contacts`);
     }
 
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
@@ -469,8 +468,8 @@ export default class MoiraApi {
         return response.json();
     }
 
-    async getTeams(): Promise<Team[]> {
-        const url = `${this.apiUrl}/team`;
+    async getTeams(): Promise<{ teams: Team[] }> {
+        const url = `${this.apiUrl}/teams`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
@@ -480,7 +479,7 @@ export default class MoiraApi {
     }
 
     async addTeam(team: Partial<Team>): Promise<{ id: string }> {
-        const url = `${this.apiUrl}/team`;
+        const url = `${this.apiUrl}/teams`;
         const response = await fetch(url, {
             method: "POST",
             body: JSON.stringify(team),
@@ -491,7 +490,7 @@ export default class MoiraApi {
     }
 
     async updateTeam(team: Team): Promise<{ id: string }> {
-        const url = `${this.apiUrl}/team/${encodeURI(team.id)}`;
+        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}`;
         const response = await fetch(url, {
             method: "PATCH",
             body: JSON.stringify(team),
@@ -501,8 +500,8 @@ export default class MoiraApi {
         return response.json();
     }
 
-    async getUsers(teamId: string): Promise<User[]> {
-        const url = `${this.apiUrl}/team/${encodeURI(teamId)}/users`;
+    async getUsers(teamId: string): Promise<{ usernames: string[] }> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
@@ -511,19 +510,19 @@ export default class MoiraApi {
         return response.json();
     }
 
-    async addUser(teamId: string, user: Partial<User>): Promise<User> {
-        const url = `${this.apiUrl}/team/${encodeURI(teamId)}/users`;
+    async addUser(teamId: string, userName: string): Promise<void> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
         const response = await fetch(url, {
             method: "POST",
-            body: JSON.stringify(user),
+            body: JSON.stringify({ usernames: [userName] }),
             credentials: "same-origin",
         });
         await MoiraApi.checkStatus(response);
         return response.json();
     }
 
-    async delUser(teamId: string, userId: string): Promise<void> {
-        const url = `${this.apiUrl}/team/${encodeURI(teamId)}/users/${encodeURI(userId)}`;
+    async delUser(teamId: string, userName: string): Promise<void> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users/${encodeURI(userName)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",

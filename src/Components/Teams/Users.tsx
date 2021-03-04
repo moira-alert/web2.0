@@ -1,22 +1,21 @@
 import React, { Fragment, ReactElement, useState } from "react";
-import { Grid } from "../Grid/Grid";
-import { Confirm } from "./Confirm";
 import { Button } from "@skbkontur/react-ui";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
-import { User } from "../../Domain/User";
+import { Grid } from "../Grid/Grid";
+import { Confirm } from "./Confirm";
 import { Team } from "../../Domain/Team";
 import { CollapseButton } from "../CollapseButton/CollapseButton";
 import { AddUserToTeam } from "./AddUserToTeam";
 
 interface UsersProps {
     team: Team;
-    addUserToTeam: (team: Team, user: Partial<User>) => void;
-    onRemoveUser: (user: User) => void;
-    getUsers: (team: Team) => Promise<User[]>;
+    addUserToTeam: (team: Team, userName: string) => void;
+    onRemoveUser: (userName: string) => void;
+    getUsers: (team: Team) => Promise<string[]>;
 }
 
 export function Users(props: UsersProps): ReactElement {
-    const [users, setUsers] = useState<User[]>();
+    const [users, setUsers] = useState<string[]>();
     const [addingUser, setAddingUser] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -31,9 +30,9 @@ export function Users(props: UsersProps): ReactElement {
         }
     };
 
-    const handleSaveUser = async (user: Partial<User>) => {
+    const handleUserSave = async (userName: string) => {
         setAddingUser(false);
-        await props.addUserToTeam(props.team, user);
+        await props.addUserToTeam(props.team, userName);
         setUsers(await props.getUsers(props.team));
     };
 
@@ -41,15 +40,15 @@ export function Users(props: UsersProps): ReactElement {
         <CollapseButton title="Show Users" loading={loading} onCollapse={handleCollapse}>
             {users?.length ? (
                 <Grid columns="20px 240px" gap="8px" margin="8px 0 0 8px">
-                    {users.map((user) => (
-                        <Fragment key={user.id}>
+                    {users.map((userName) => (
+                        <Fragment key={userName}>
                             <Confirm
-                                message={`Exclude ${user.name} from ${props.team.name}?`}
-                                action={() => props.onRemoveUser(user)}
+                                message={`Exclude ${userName} from ${props.team.name}?`}
+                                action={() => props.onRemoveUser(userName)}
                             >
                                 <Button use={"link"} icon={<DeleteIcon />} />
                             </Confirm>
-                            {user.name}
+                            {userName}
                         </Fragment>
                     ))}
 
@@ -70,7 +69,7 @@ export function Users(props: UsersProps): ReactElement {
             {addingUser ? (
                 <AddUserToTeam
                     team={props.team}
-                    onSaveUser={handleSaveUser}
+                    onSave={handleUserSave}
                     onClose={() => setAddingUser(false)}
                 />
             ) : null}

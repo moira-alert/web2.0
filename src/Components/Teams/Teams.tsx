@@ -3,15 +3,14 @@ import { Button } from "@skbkontur/react-ui";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import { Team } from "../../Domain/Team";
 import { Grid } from "../Grid/Grid";
-import { User } from "../../Domain/User";
 import { Users } from "./Users";
 import { TeamEditor } from "./TeamEditor";
 
 interface TeamsProps {
     teams: Team[];
-    removeUser: (team: Team, user: User) => void;
-    addUserToTeam: (team: Team, user: Partial<User>) => void;
-    getUsers: (team: Team) => Promise<User[]>;
+    removeUser: (team: Team, userName: string) => void;
+    addUserToTeam: (team: Team, userName: string) => void;
+    getUsers: (team: Team) => Promise<string[]>;
     addTeam: (team: Partial<Team>) => void;
     updateTeam: (team: Team) => void;
 }
@@ -48,7 +47,9 @@ export function Teams(props: TeamsProps): ReactElement {
                                 <Users
                                     team={team}
                                     getUsers={props.getUsers}
-                                    onRemoveUser={(user: User) => props.removeUser(team, user)}
+                                    onRemoveUser={(userName: string) =>
+                                        props.removeUser(team, userName)
+                                    }
                                     addUserToTeam={props.addUserToTeam}
                                 />
                             </Grid>

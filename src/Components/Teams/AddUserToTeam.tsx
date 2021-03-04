@@ -8,11 +8,10 @@ import {
 } from "@skbkontur/react-ui-validations";
 import { isEmptyString } from "../HighlightInput/parser/parseExpression";
 import { Team } from "../../Domain/Team";
-import { User } from "../../Domain/User";
 
 interface AddUserProps {
     team: Team;
-    onSaveUser: (user: Partial<User>) => void;
+    onSave: (userName: string) => void;
     onClose: () => void;
 }
 
@@ -31,7 +30,7 @@ export function AddUserToTeam(props: AddUserProps): ReactElement {
         if (!isValid) {
             return;
         }
-        props.onSaveUser({ name: name });
+        props.onSave(name);
     };
 
     return (

@@ -97,7 +97,7 @@ class NotificationListContainer extends React.Component<Props, State> {
 
         this.setState({
             loading: false,
-            teams: teams,
+            teams: teams.teams,
         });
     }
 

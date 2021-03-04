@@ -38,7 +38,7 @@ export class TeamEditor extends React.Component<TeamEditorProps, TeamEditorState
                     </Modal.Header>
                     <Modal.Body>
                         <Grid columns="120px 400px" gap="16px">
-                            {this.props.team ? (
+                            {this.props.team ? null : (
                                 <>
                                     Name:
                                     <ValidationWrapper validationInfo={this.validateName()}>
@@ -50,7 +50,7 @@ export class TeamEditor extends React.Component<TeamEditorProps, TeamEditorState
                                         />
                                     </ValidationWrapper>
                                 </>
-                            ) : null}
+                            )}
                             <GridCell align={"flex-start"} margin="8px 0 0">
                                 Description:
                             </GridCell>
