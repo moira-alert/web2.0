@@ -77,8 +77,8 @@ docker_feature_image:
 	docker build -t moira/web2-${MARK_UNSTABLE}:${VERSION_FEATURE} .
 	docker push moira/web2-${MARK_UNSTABLE}:${VERSION_FEATURE}
 
-.PHONY: docker_nightly_images
-docker_nightly_images:
+.PHONY: docker_nightly_image
+docker_nightly_image:
 	docker build -t moira/web2-${MARK_NIGHTLY}:${VERSION_NIGHTLY} .
 	docker push moira/web2-${MARK_NIGHTLY}:${VERSION_NIGHTLY}
 
