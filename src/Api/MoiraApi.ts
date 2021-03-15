@@ -119,7 +119,7 @@ export default class MoiraApi {
     }
 
     getSettingsByTeam(teamId: string): Promise<Settings> {
-        return this.get<Settings>(`/teams/${teamId}/contacts`);
+        return this.get<Settings>(`/teams/${teamId}/settings`);
     }
 
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
@@ -498,6 +498,15 @@ export default class MoiraApi {
         });
         await MoiraApi.checkStatus(response);
         return response.json();
+    }
+
+    async delTeam(teamId: string): Promise<void> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
     }
 
     async getUsers(teamId: string): Promise<{ usernames: string[] }> {

@@ -41,6 +41,7 @@ class TeamsContainer extends React.Component<Props, State> {
                                 addTeam={this.addTeam}
                                 getUsers={this.getUsers}
                                 updateTeam={this.updateTeam}
+                                deleteTeam={this.deleteTeam}
                             />
                         ) : null}
                     </LayoutContent>
@@ -62,6 +63,16 @@ class TeamsContainer extends React.Component<Props, State> {
     private updateTeam = async (team: Team) => {
         try {
             await this.props.moiraApi.updateTeam(team);
+            this.getData();
+        } catch (error) {
+            console.error(error);
+            Toast.push(error.message);
+        }
+    };
+
+    private deleteTeam = async (team: Team) => {
+        try {
+            await this.props.moiraApi.delTeam(team.id);
             this.getData();
         } catch (error) {
             console.error(error);

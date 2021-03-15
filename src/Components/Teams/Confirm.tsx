@@ -24,7 +24,7 @@ export function Confirm(props: ConfirmProps): ReactElement {
             onCloseRequest={() => setOpened(false)}
             closeButton={false}
             render={() => (
-                <Grid columns={"auto"} justifyItems={"center"} gap="16px">
+                <Grid columns={"auto"} gap="16px 8px">
                     {props.message}
                     <Gapped>
                         <Button onClick={handleConfirm} use={"primary"} width={100}>

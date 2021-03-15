@@ -34,7 +34,7 @@ export class TeamEditor extends React.Component<TeamEditorProps, TeamEditorState
             <ValidationContainer ref={this.validation}>
                 <Modal width={600} noClose>
                     <Modal.Header>
-                        {this.props.team ? `Edit ${this.props.team.name}` : "Add Team"}
+                        {this.props.team ? `Edit team ${this.props.team.name} ` : "Add Team"}
                     </Modal.Header>
                     <Modal.Body>
                         <Grid columns="120px 400px" gap="16px">

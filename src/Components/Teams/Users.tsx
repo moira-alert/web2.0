@@ -1,5 +1,6 @@
 import React, { Fragment, ReactElement, useState } from "react";
 import { Button } from "@skbkontur/react-ui";
+import AddIcon from "@skbkontur/react-icons/Add";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import { Grid } from "../Grid/Grid";
 import { Confirm } from "./Confirm";
@@ -43,24 +44,29 @@ export function Users(props: UsersProps): ReactElement {
                     {users.map((userName) => (
                         <Fragment key={userName}>
                             <Confirm
-                                message={`Exclude ${userName} from ${props.team.name}?`}
+                                message={`Exclude "${userName}" from "${props.team.name}"?`}
                                 action={() => props.onRemoveUser(userName)}
                             >
                                 <Button use={"link"} icon={<DeleteIcon />} />
                             </Confirm>
-                            {userName}
+                            {userName || <span />}
                         </Fragment>
                     ))}
 
                     <div />
-                    <Button use={"link"} width={0} onClick={() => setAddingUser(true)}>
+                    <Button
+                        icon={<AddIcon />}
+                        use={"link"}
+                        width={0}
+                        onClick={() => setAddingUser(true)}
+                    >
                         Add User
                     </Button>
                 </Grid>
             ) : (
                 <Grid columns={"max-content max-content"} gap="4px" margin="8px 0 0 8px">
                     <div>There are no users:</div>
-                    <Button use={"link"} onClick={() => setAddingUser(true)}>
+                    <Button icon={<AddIcon />} use={"link"} onClick={() => setAddingUser(true)}>
                         Add User
                     </Button>
                 </Grid>
