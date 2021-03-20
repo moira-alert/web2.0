@@ -9,6 +9,7 @@ import { CollapseButton } from "../CollapseButton/CollapseButton";
 import { AddUserToTeam } from "./AddUserToTeam";
 
 interface UsersProps {
+    login?: string;
     team: Team;
     addUserToTeam: (team: Team, userName: string) => void;
     onRemoveUser: (userName: string) => void;
@@ -37,6 +38,19 @@ export function Users(props: UsersProps): ReactElement {
         setUsers(await props.getUsers(props.team));
     };
 
+    const handleUserRemove = async (userName: string) => {
+        setAddingUser(false);
+        await props.onRemoveUser(userName);
+        setUsers(await props.getUsers(props.team));
+    };
+
+    const getExcludeMessage = (userName: string) => {
+        if (userName === props.login) {
+            return `You are trying to exclude yourself from the "${props.team.name}". If you do this, you will no longer be able to see this team. Are you sure you want to exclude yourself?`;
+        }
+        return `Exclude "${userName}" from "${props.team.name}"?`;
+    };
+
     return (
         <CollapseButton title="Show Users" loading={loading} onCollapse={handleCollapse}>
             {users?.length ? (
@@ -44,8 +58,8 @@ export function Users(props: UsersProps): ReactElement {
                     {users.map((userName) => (
                         <Fragment key={userName}>
                             <Confirm
-                                message={`Exclude "${userName}" from "${props.team.name}"?`}
-                                action={() => props.onRemoveUser(userName)}
+                                message={getExcludeMessage(userName)}
+                                action={() => handleUserRemove(userName)}
                             >
                                 <Button use={"link"} icon={<DeleteIcon />} />
                             </Confirm>

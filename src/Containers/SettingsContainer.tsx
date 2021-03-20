@@ -17,8 +17,6 @@ import { RouteComponentProps } from "react-router";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 
-const User = { id: "user", name: "User" };
-
 interface Props extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
 }
@@ -26,25 +24,27 @@ interface Props extends RouteComponentProps<{ teamId?: string }> {
 interface State {
     loading: boolean;
     error?: string;
+    login?: string;
     settings?: Settings;
     config?: Config;
     tags?: Array<string>;
-    userOrTeam?: Team;
-    userWithTeams?: Team[];
+    team?: Team;
+    teams?: Team[];
 }
 
 class SettingsContainer extends React.Component<Props, State> {
+    private teamId = this.props.match.params.teamId;
+
     public state: State = {
         loading: true,
-        userOrTeam: User,
     };
 
     async componentDidMount() {
         document.title = "Moira - Settings";
         try {
             await this.getTeamsAndTags();
-            if (this.props.match.params.teamId) {
-                await this.getTeamData(this.props.match.params.teamId);
+            if (this.teamId) {
+                await this.getTeamData(this.teamId);
             } else {
                 await this.getUserData();
             }
@@ -70,7 +70,9 @@ class SettingsContainer extends React.Component<Props, State> {
     }
 
     render(): React.ReactElement {
-        const { loading, error, tags, settings, config, userOrTeam, userWithTeams } = this.state;
+        const { loading, error, login, tags, settings, config, team, teams } = this.state;
+        const user = login ? { id: "", name: login } : { id: "", name: "Unknown" };
+        const userWithTeams = teams ? [user, ...teams] : [];
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -78,13 +80,13 @@ class SettingsContainer extends React.Component<Props, State> {
                         <LayoutTitle>Notifications</LayoutTitle>
                         <Fill />
                         <Grid columns={"max-content"} gap="4px">
-                            Current User: {settings?.login}
+                            Current User: {login}
                             <Gapped gap={4}>
-                                <span>Show for</span>
+                                <span>Show for {team ? "team" : "user"}</span>
                                 <Select<Team>
                                     use={"link"}
-                                    value={userOrTeam}
-                                    items={userWithTeams ?? []}
+                                    value={team ?? user}
+                                    items={userWithTeams}
                                     renderValue={(value) => value.name}
                                     renderItem={(value) => value.name}
                                     onValueChange={this.handleChangeTeam}
@@ -142,22 +144,26 @@ class SettingsContainer extends React.Component<Props, State> {
 
     handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
         const { moiraApi } = this.props;
-        const { settings } = this.state;
+        const { settings, team, login } = this.state;
         const contactType = contact.type;
 
-        if (settings == undefined || contactType == undefined) {
+        if (settings == undefined || contactType == undefined || login == undefined) {
             throw new Error("InvalidProgramState");
         }
 
         try {
-            const newContact = await moiraApi.addContact({
+            const requestContact = {
                 value: SettingsContainer.normalizeContactValueForApi(
                     contactType,
                     contact.value ?? ""
                 ),
                 type: contactType,
-                user: settings.login,
-            });
+                user: team ? undefined : login,
+            };
+
+            const newContact = team
+                ? await moiraApi.addTeamContact(requestContact, team)
+                : await moiraApi.addContact(requestContact);
 
             this.setState({
                 settings: {
@@ -200,15 +206,19 @@ class SettingsContainer extends React.Component<Props, State> {
         subscription: SubscriptionInfo
     ): Promise<Subscription | undefined> => {
         const { moiraApi } = this.props;
-        const { settings } = this.state;
+        const { settings, team } = this.state;
         if (settings == null) {
             throw new Error("InvalidProgramState");
         }
         try {
-            const newSubscriptions = await moiraApi.addSubscription({
+            const requestSubscription = {
                 ...subscription,
-                user: settings.login,
-            });
+                user: team ? undefined : settings.login,
+            };
+
+            const newSubscriptions = team
+                ? await moiraApi.addTeamSubscription(requestSubscription, team)
+                : await moiraApi.addSubscription(requestSubscription);
             this.setState({
                 settings: {
                     ...settings,
@@ -287,13 +297,14 @@ class SettingsContainer extends React.Component<Props, State> {
 
     private handleChangeTeam = async (userOrTeam: Team) => {
         try {
-            this.setState({ userOrTeam, loading: true });
-            if (userOrTeam.id === User.id) {
-                await this.getUserData();
-                this.props.history.replace(getPageLink("settings"));
-            } else {
+            if (userOrTeam.id) {
+                this.setState({ loading: true, team: userOrTeam });
                 await this.getTeamData(userOrTeam.id);
                 this.props.history.replace(getPageLink("settings", userOrTeam.id));
+            } else {
+                this.setState({ loading: true, team: undefined });
+                await this.getUserData();
+                this.props.history.replace(getPageLink("settings"));
             }
         } catch (error) {
             this.setState({ error: error.message });
@@ -303,25 +314,24 @@ class SettingsContainer extends React.Component<Props, State> {
     };
 
     private async getTeamsAndTags() {
+        const user = await this.props.moiraApi.getUser();
         const teams = await this.props.moiraApi.getTeams();
         const tags = (await this.props.moiraApi.getTagList()).list;
         const config = await this.props.moiraApi.getConfig();
-        let teamOrUser = User;
+        let team;
 
         if (this.props.match.params.teamId) {
-            const team = teams.teams.find(
+            team = teams.teams.find(
                 (teamOverview) => teamOverview.id === this.props.match.params.teamId
             );
-            if (team) {
-                teamOrUser = team;
-            }
         }
 
         this.setState({
-            userWithTeams: [User, ...teams.teams],
+            login: user.login,
+            teams: teams.teams,
             tags: tags,
             config: config,
-            userOrTeam: teamOrUser,
+            team: team,
         });
     }
 

@@ -10,6 +10,7 @@ import { TeamDescription } from "./TeamDescription";
 import { Hovered, HoveredShow } from "./Hovered/Hovered";
 
 interface TeamsProps {
+    login?: string;
     teams: Team[];
     removeUser: (team: Team, userName: string) => void;
     addUserToTeam: (team: Team, userName: string) => void;
@@ -49,6 +50,7 @@ export function Teams(props: TeamsProps): ReactElement {
                             <TeamDescription team={team} updateTeam={props.updateTeam} />
                             <Grid gap="4px" margin="8px 0 0">
                                 <Users
+                                    login={props.login}
                                     team={team}
                                     getUsers={props.getUsers}
                                     onRemoveUser={(userName: string) =>

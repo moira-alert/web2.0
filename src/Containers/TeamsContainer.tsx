@@ -1,6 +1,5 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import { Toast } from "@skbkontur/react-ui";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
@@ -11,6 +10,7 @@ interface Props extends RouteComponentProps {
     moiraApi: MoiraApi;
 }
 type State = {
+    login?: string;
     teams?: Team[];
     loading: boolean;
     error?: string;
@@ -27,7 +27,7 @@ class TeamsContainer extends React.Component<Props, State> {
     }
 
     public render(): React.ReactElement {
-        const { loading, error, teams } = this.state;
+        const { loading, error, teams, login } = this.state;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -35,6 +35,7 @@ class TeamsContainer extends React.Component<Props, State> {
                     <LayoutContent>
                         {teams ? (
                             <Teams
+                                login={login}
                                 teams={teams}
                                 addUserToTeam={this.addUser}
                                 removeUser={this.removeUser}
@@ -56,7 +57,7 @@ class TeamsContainer extends React.Component<Props, State> {
             this.getData();
         } catch (error) {
             console.error(error);
-            Toast.push(error.message);
+            this.setState({ error: error.message });
         }
     };
 
@@ -66,7 +67,7 @@ class TeamsContainer extends React.Component<Props, State> {
             this.getData();
         } catch (error) {
             console.error(error);
-            Toast.push(error.message);
+            this.setState({ error: error.message });
         }
     };
 
@@ -76,7 +77,7 @@ class TeamsContainer extends React.Component<Props, State> {
             this.getData();
         } catch (error) {
             console.error(error);
-            Toast.push(error.message);
+            this.setState({ error: error.message });
         }
     };
 
@@ -86,7 +87,7 @@ class TeamsContainer extends React.Component<Props, State> {
             return users.usernames;
         } catch (error) {
             console.error(error);
-            Toast.push(error.message);
+            this.setState({ error: error.message });
             throw error;
         }
     };
@@ -96,7 +97,7 @@ class TeamsContainer extends React.Component<Props, State> {
             return await this.props.moiraApi.addUser(team.id, userName);
         } catch (error) {
             console.error(error);
-            Toast.push(error.message);
+            this.setState({ error: error.message });
             throw error;
         }
     };
@@ -104,17 +105,17 @@ class TeamsContainer extends React.Component<Props, State> {
     private removeUser = async (team: Team, userName: string) => {
         try {
             await this.props.moiraApi.delUser(team.id, userName);
-            this.getData();
         } catch (error) {
             console.error(error);
-            Toast.push(error.message);
+            this.setState({ error: error.message });
         }
     };
 
     private async getData() {
         try {
+            const { login } = await this.props.moiraApi.getUser();
             const teams = await this.props.moiraApi.getTeams();
-            this.setState({ teams: teams.teams });
+            this.setState({ teams: teams.teams, login: login });
         } catch (error) {
             this.setState({ error: error.message });
         } finally {

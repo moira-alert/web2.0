@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { Button } from "@skbkontur/react-ui";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import AddIcon from "@skbkontur/react-icons/Add";
@@ -11,7 +11,7 @@ interface TeamDescriptionProps {
     updateTeam: (team: Team) => void;
 }
 
-export function TeamDescription(props: TeamDescriptionProps) {
+export function TeamDescription(props: TeamDescriptionProps): ReactElement {
     const [edit, setEdit] = useState(false);
 
     const handleSave = (team: Team) => {

@@ -20,7 +20,7 @@ export type SubscriptionCreateInfo = {
     contacts: Array<string>;
     enabled: boolean;
     any_tags: boolean;
-    user: string;
+    user?: string;
     id?: string;
     ignore_recoverings: boolean;
     ignore_warnings: boolean;
@@ -86,9 +86,10 @@ export default class MoiraApi {
         }
     }
 
-    async get<T>(url: string): Promise<T> {
+    async get<T>(url: string, init?: RequestInit): Promise<T> {
         const fullUrl = this.apiUrl + url;
         const response = await fetch(fullUrl, {
+            ...init,
             method: "GET",
             credentials: "same-origin",
         });
@@ -100,8 +101,13 @@ export default class MoiraApi {
         return this.get<Config>("/config");
     }
 
+    async getUser(): Promise<{ login: string }> {
+        return this.get<{ login: string }>("/user");
+    }
+
     async getSettings(): Promise<Settings> {
         const result = await this.get<Settings>("/user/settings");
+
         result.subscriptions.forEach((s) => {
             s.tags = s.tags === null ? [] : s.tags;
         });
@@ -119,13 +125,24 @@ export default class MoiraApi {
     }
 
     getSettingsByTeam(teamId: string): Promise<Settings> {
-        return this.get<Settings>(`/teams/${teamId}/settings`);
+        return this.get<Settings>(`/teams/${encodeURI(teamId)}/settings`);
     }
 
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
         const url = `${this.apiUrl}/contact`;
         const response = await fetch(url, {
             method: "PUT",
+            credentials: "same-origin",
+            body: JSON.stringify(contact),
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async addTeamContact(contact: ContactCreateInfo, team: Team): Promise<Contact> {
+        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}/contacts`;
+        const response = await fetch(url, {
+            method: "POST",
             credentials: "same-origin",
             body: JSON.stringify(contact),
         });
@@ -160,6 +177,23 @@ export default class MoiraApi {
         }
         const response = await fetch(url, {
             method: "PUT",
+            credentials: "same-origin",
+            body: JSON.stringify(subscription),
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async addTeamSubscription(
+        subscription: SubscriptionCreateInfo,
+        team: Team
+    ): Promise<Subscription> {
+        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}/subscriptions`;
+        if (subscription.id != null) {
+            throw new Error("InvalidProgramState: id of subscription must be null or undefined");
+        }
+        const response = await fetch(url, {
+            method: "POST",
             credentials: "same-origin",
             body: JSON.stringify(subscription),
         });
