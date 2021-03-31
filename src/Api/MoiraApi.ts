@@ -38,7 +38,7 @@ export type TagStatList = {
     list: Array<TagStat>;
 };
 
-class ApiError extends Error {
+export class ApiError extends Error {
     status: number;
 
     constructor({ message, status }: { message: string; status: number }) {
