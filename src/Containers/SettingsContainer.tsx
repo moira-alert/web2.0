@@ -314,10 +314,13 @@ class SettingsContainer extends React.Component<Props, State> {
     };
 
     private async getTeamsAndTags() {
-        const user = await this.props.moiraApi.getUser();
-        const teams = await this.props.moiraApi.getTeams();
-        const tags = (await this.props.moiraApi.getTagList()).list;
-        const config = await this.props.moiraApi.getConfig();
+        const [user, teams, tags, config] = await Promise.all([
+            this.props.moiraApi.getUser(),
+            this.props.moiraApi.getTeams(),
+            this.props.moiraApi.getTagList(),
+            this.props.moiraApi.getConfig(),
+        ]);
+
         let team;
 
         if (this.props.match.params.teamId) {
@@ -329,7 +332,7 @@ class SettingsContainer extends React.Component<Props, State> {
         this.setState({
             login: user.login,
             teams: teams.teams,
-            tags: tags,
+            tags: tags.list,
             config: config,
             team: team,
         });

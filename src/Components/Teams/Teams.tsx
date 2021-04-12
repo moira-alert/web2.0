@@ -30,39 +30,37 @@ export function Teams(props: TeamsProps): ReactElement {
 
     return (
         <>
-            <div>
-                {props.teams?.map((team) => {
-                    return (
-                        <div key={team.id}>
-                            <Hovered>
-                                <Gapped gap={8}>
-                                    <h2>{team.name}</h2>
-                                    <HoveredShow>
-                                        <Confirm
-                                            message={`Do you really want to remove "${team.name}" team?`}
-                                            action={() => props.deleteTeam(team)}
-                                        >
-                                            <Button use={"link"} icon={<DeleteIcon />} />
-                                        </Confirm>
-                                    </HoveredShow>
-                                </Gapped>
-                            </Hovered>
-                            <TeamDescription team={team} updateTeam={props.updateTeam} />
-                            <Grid gap="4px" margin="8px 0 0">
-                                <Users
-                                    login={props.login}
-                                    team={team}
-                                    getUsers={props.getUsers}
-                                    onRemoveUser={(userName: string) =>
-                                        props.removeUser(team, userName)
-                                    }
-                                    addUserToTeam={props.addUserToTeam}
-                                />
-                            </Grid>
-                        </div>
-                    );
-                })}
-            </div>
+            {props.teams?.map((team) => {
+                return (
+                    <div key={team.id}>
+                        <Hovered>
+                            <Gapped gap={8}>
+                                <h2>{team.name}</h2>
+                                <HoveredShow>
+                                    <Confirm
+                                        message={`Do you really want to remove "${team.name}" team?`}
+                                        action={() => props.deleteTeam(team)}
+                                    >
+                                        <Button use={"link"} icon={<DeleteIcon />} />
+                                    </Confirm>
+                                </HoveredShow>
+                            </Gapped>
+                        </Hovered>
+                        <TeamDescription team={team} updateTeam={props.updateTeam} />
+                        <Grid gap="4px" margin="8px 0 0">
+                            <Users
+                                login={props.login}
+                                team={team}
+                                getUsers={props.getUsers}
+                                onRemoveUser={(userName: string) =>
+                                    props.removeUser(team, userName)
+                                }
+                                addUserToTeam={props.addUserToTeam}
+                            />
+                        </Grid>
+                    </div>
+                );
+            })}
             <Grid columns="100px" margin="24px 0">
                 <Button onClick={() => setAddingTeam(true)}>Add team</Button>
             </Grid>
