@@ -21,6 +21,7 @@ import TriggerListDesktop, {
 
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
+import TeamsContainer from "./Containers/TeamsContainer";
 
 type ResponsiveRouteProps = {
     exact?: boolean;
@@ -68,6 +69,7 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("tags")} component={TagListContainer} />
                 <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
+                <Route exact path={getPagePath("teams")} component={TeamsContainer} />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

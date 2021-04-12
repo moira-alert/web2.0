@@ -1,12 +1,12 @@
 import * as React from "react";
-import type { IMoiraApi } from "../Api/MoiraApi";
 import type { TagStat } from "../Domain/Tag";
 import type { Contact } from "../Domain/Contact";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import TagList from "../Components/TagList/TagList";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import MoiraApi from "../Api/MoiraApi";
 
-type Props = { moiraApi: IMoiraApi };
+type Props = { moiraApi: MoiraApi };
 type State = {
     loading: boolean;
     error?: string;

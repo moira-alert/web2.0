@@ -11,6 +11,7 @@ import { ContactCreateInfo } from "../Domain/ContactCreateInfo";
 import { Subscription } from "../Domain/Subscription";
 import { Schedule } from "../Domain/Schedule";
 import { NotifierState } from "../Domain/MoiraServiceStates";
+import { Team } from "../Domain/Team";
 
 export type SubscriptionCreateInfo = {
     sched: Schedule;
@@ -19,7 +20,7 @@ export type SubscriptionCreateInfo = {
     contacts: Array<string>;
     enabled: boolean;
     any_tags: boolean;
-    user: string;
+    user?: string;
     id?: string;
     ignore_recoverings: boolean;
     ignore_warnings: boolean;
@@ -37,66 +38,7 @@ export type TagStatList = {
     list: Array<TagStat>;
 };
 
-export interface IMoiraApi {
-    getSettings(): Promise<Settings>;
-    getConfig(): Promise<Config>;
-    getContactList(): Promise<ContactList>;
-    addContact(contact: ContactCreateInfo): Promise<Contact>;
-    updateContact(contact: Contact): Promise<Contact>;
-    testContact(contactId: string): Promise<void>;
-    addSubscription(subscription: SubscriptionCreateInfo): Promise<Subscription>;
-    updateSubscription(subscription: Subscription): Promise<Subscription>;
-    delSubscription(subscriptionId: string): Promise<void>;
-    testSubscription(subscriptionId: string): Promise<void>;
-    deleteContact(contactId: string): Promise<void>;
-    getPatternList(): Promise<PatternList>;
-    delPattern(pattern: string): Promise<void>;
-    getTagList(): Promise<TagList>;
-    getTagStats(): Promise<TagStatList>;
-    delTag(tag: string): Promise<void>;
-    getTriggerList(
-        page: number,
-        onlyProblems: boolean,
-        tags: Array<string>,
-        searchText: string
-    ): Promise<TriggerList>;
-    getTrigger(id: string, params?: { populated: boolean }): Promise<Trigger>;
-    addTrigger(
-        data: Partial<Trigger>
-    ): Promise<{
-        [key: string]: string;
-    }>;
-    setTrigger(
-        id: string,
-        data: Partial<Trigger>
-    ): Promise<{
-        [key: string]: string;
-    }>;
-    delTrigger(id: string): Promise<void>;
-    validateTrigger(trigger: Partial<Trigger>): Promise<ValidateTriggerResult>;
-    setMaintenance(
-        triggerId: string,
-        data: {
-            trigger?: number;
-            metrics?: {
-                [metric: string]: number;
-            };
-        }
-    ): Promise<void>;
-    getTriggerState(id: string): Promise<TriggerState>;
-    getTriggerEvents(id: string, page: number): Promise<EventList>;
-    delThrottling(triggerId: string): Promise<void>;
-    delMetric(triggerId: string, metric: string): Promise<void>;
-    delNoDataMetric(triggerId: string): Promise<void>;
-    getNotificationList(): Promise<NotificationList>;
-    delNotification(id: string): Promise<void>;
-    delAllNotifications(): Promise<void>;
-    delAllNotificationEvents(): Promise<void>;
-    getNotifierState(): Promise<NotifierState>;
-    setNotifierState(status: NotifierState): Promise<NotifierState>;
-}
-
-class ApiError extends Error {
+export class ApiError extends Error {
     status: number;
 
     constructor({ message, status }: { message: string; status: number }) {
@@ -112,7 +54,7 @@ const statusCode = {
 
 export { statusCode };
 
-export default class MoiraApi implements IMoiraApi {
+export default class MoiraApi {
     apiUrl: string;
 
     config?: Config;
@@ -144,9 +86,10 @@ export default class MoiraApi implements IMoiraApi {
         }
     }
 
-    async get<T>(url: string): Promise<T> {
+    async get<T>(url: string, init?: RequestInit): Promise<T> {
         const fullUrl = this.apiUrl + url;
         const response = await fetch(fullUrl, {
+            ...init,
             method: "GET",
             credentials: "same-origin",
         });
@@ -158,8 +101,13 @@ export default class MoiraApi implements IMoiraApi {
         return this.get<Config>("/config");
     }
 
+    async getUser(): Promise<{ login: string }> {
+        return this.get<{ login: string }>("/user");
+    }
+
     async getSettings(): Promise<Settings> {
         const result = await this.get<Settings>("/user/settings");
+
         result.subscriptions.forEach((s) => {
             s.tags = s.tags === null ? [] : s.tags;
         });
@@ -176,10 +124,25 @@ export default class MoiraApi implements IMoiraApi {
         return response.json();
     }
 
+    getSettingsByTeam(teamId: string): Promise<Settings> {
+        return this.get<Settings>(`/teams/${encodeURI(teamId)}/settings`);
+    }
+
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
         const url = `${this.apiUrl}/contact`;
         const response = await fetch(url, {
             method: "PUT",
+            credentials: "same-origin",
+            body: JSON.stringify(contact),
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async addTeamContact(contact: ContactCreateInfo, team: Team): Promise<Contact> {
+        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}/contacts`;
+        const response = await fetch(url, {
+            method: "POST",
             credentials: "same-origin",
             body: JSON.stringify(contact),
         });
@@ -214,6 +177,23 @@ export default class MoiraApi implements IMoiraApi {
         }
         const response = await fetch(url, {
             method: "PUT",
+            credentials: "same-origin",
+            body: JSON.stringify(subscription),
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async addTeamSubscription(
+        subscription: SubscriptionCreateInfo,
+        team: Team
+    ): Promise<Subscription> {
+        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}/subscriptions`;
+        if (subscription.id != null) {
+            throw new Error("InvalidProgramState: id of subscription must be null or undefined");
+        }
+        const response = await fetch(url, {
+            method: "POST",
             credentials: "same-origin",
             body: JSON.stringify(subscription),
         });
@@ -520,5 +500,76 @@ export default class MoiraApi implements IMoiraApi {
         });
         await MoiraApi.checkStatus(response);
         return response.json();
+    }
+
+    async getTeams(): Promise<{ teams: Team[] }> {
+        const url = `${this.apiUrl}/teams`;
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async addTeam(team: Partial<Team>): Promise<{ id: string }> {
+        const url = `${this.apiUrl}/teams`;
+        const response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(team),
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async updateTeam(team: Team): Promise<{ id: string }> {
+        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}`;
+        const response = await fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify(team),
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async delTeam(teamId: string): Promise<void> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+    }
+
+    async getUsers(teamId: string): Promise<{ usernames: string[] }> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async addUser(teamId: string, userName: string): Promise<void> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
+        const response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify({ usernames: [userName] }),
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
+        return response.json();
+    }
+
+    async delUser(teamId: string, userName: string): Promise<void> {
+        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users/${encodeURI(userName)}`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+        await MoiraApi.checkStatus(response);
     }
 }

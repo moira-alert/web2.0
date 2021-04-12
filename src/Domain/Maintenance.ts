@@ -1,6 +1,6 @@
 import { getUnixTime, addMinutes } from "date-fns";
 import { getUTCDate } from "../helpers/DateUtil";
-import { IMoiraApi } from "../Api/MoiraApi";
+import MoiraApi from "../Api/MoiraApi";
 
 export enum Maintenance {
     off = "off",
@@ -66,7 +66,7 @@ export function calculateMaintenanceTime(maintenance: Maintenance): number {
 }
 
 export async function setMetricMaintenance(
-    moiraApi: IMoiraApi,
+    moiraApi: MoiraApi,
     triggerId: string,
     metric: string,
     maintenance: number
@@ -77,7 +77,7 @@ export async function setMetricMaintenance(
 }
 
 export async function setTriggerMaintenance(
-    moiraApi: IMoiraApi,
+    moiraApi: MoiraApi,
     triggerId: string,
     maintenance: number
 ): Promise<void> {

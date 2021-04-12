@@ -1,5 +1,6 @@
 import * as React from "react";
-import type { IMoiraApi } from "../Api/MoiraApi";
+import { Select } from "@skbkontur/react-ui/components/Select";
+import MoiraApi from "../Api/MoiraApi";
 import type { Config } from "../Domain/Config";
 import type { Settings } from "../Domain/Settings";
 import type { Contact } from "../Domain/Contact";
@@ -9,24 +10,49 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import ContactList from "../Components/ContactList/ContactList";
 import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
 import { SubscriptionInfo } from "../Components/SubscriptionEditor/SubscriptionEditor";
+import { Team } from "../Domain/Team";
+import { Fill, RowStack } from "@skbkontur/react-stack-layout";
+import { Gapped } from "@skbkontur/react-ui";
+import { RouteComponentProps } from "react-router";
+import { getPageLink } from "../Domain/Global";
+import { Grid } from "../Components/Grid/Grid";
 
-type Props = { moiraApi: IMoiraApi };
-type State = {
+interface Props extends RouteComponentProps<{ teamId?: string }> {
+    moiraApi: MoiraApi;
+}
+
+interface State {
     loading: boolean;
     error?: string;
+    login?: string;
     settings?: Settings;
     config?: Config;
     tags?: Array<string>;
-};
+    team?: Team;
+    teams?: Team[];
+}
 
 class SettingsContainer extends React.Component<Props, State> {
+    private teamId = this.props.match.params.teamId;
+
     public state: State = {
         loading: true,
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         document.title = "Moira - Settings";
-        this.getData();
+        try {
+            await this.getTeamsAndTags();
+            if (this.teamId) {
+                await this.getTeamData(this.teamId);
+            } else {
+                await this.getUserData();
+            }
+        } catch (error) {
+            this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
+        }
     }
 
     static normalizeContactValueForApi(contactType: string, value: string): string {
@@ -43,16 +69,31 @@ class SettingsContainer extends React.Component<Props, State> {
         return result;
     }
 
-    static normalizeContactValueForUi(_contactType: string, value: string): string {
-        return value;
-    }
-
     render(): React.ReactElement {
-        const { loading, error, tags, settings, config } = this.state;
+        const { loading, error, login, tags, settings, config, team, teams } = this.state;
+        const user = login ? { id: "", name: login } : { id: "", name: "Unknown" };
+        const userWithTeams = teams ? [user, ...teams] : [];
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <LayoutTitle>Notifications</LayoutTitle>
+                    <RowStack gap={1} block>
+                        <LayoutTitle>Notifications</LayoutTitle>
+                        <Fill />
+                        <Grid columns={"max-content"} gap="4px">
+                            Current User: {login}
+                            <Gapped gap={4}>
+                                <span>Show for {team ? "team" : "user"}</span>
+                                <Select<Team>
+                                    use={"link"}
+                                    value={team ?? user}
+                                    items={userWithTeams}
+                                    renderValue={(value) => value.name}
+                                    renderItem={(value) => value.name}
+                                    onValueChange={this.handleChangeTeam}
+                                />
+                            </Gapped>
+                        </Grid>
+                    </RowStack>
                     {config != undefined && settings?.contacts != undefined && (
                         <div style={{ marginBottom: 50 }}>
                             <ContactList
@@ -103,29 +144,27 @@ class SettingsContainer extends React.Component<Props, State> {
 
     handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
         const { moiraApi } = this.props;
-        const { settings } = this.state;
+        const { settings, team, login } = this.state;
         const contactType = contact.type;
 
-        if (settings == undefined || contactType == undefined) {
+        if (settings == undefined || contactType == undefined || login == undefined) {
             throw new Error("InvalidProgramState");
         }
 
         try {
-            let newContact = await moiraApi.addContact({
+            const requestContact = {
                 value: SettingsContainer.normalizeContactValueForApi(
                     contactType,
                     contact.value ?? ""
                 ),
                 type: contactType,
-                user: settings.login,
-            });
-            newContact = {
-                ...newContact,
-                value: SettingsContainer.normalizeContactValueForUi(
-                    newContact.type,
-                    newContact.value
-                ),
+                user: team ? undefined : login,
             };
+
+            const newContact = team
+                ? await moiraApi.addTeamContact(requestContact, team)
+                : await moiraApi.addContact(requestContact);
+
             this.setState({
                 settings: {
                     ...settings,
@@ -167,15 +206,19 @@ class SettingsContainer extends React.Component<Props, State> {
         subscription: SubscriptionInfo
     ): Promise<Subscription | undefined> => {
         const { moiraApi } = this.props;
-        const { settings } = this.state;
+        const { settings, team } = this.state;
         if (settings == null) {
             throw new Error("InvalidProgramState");
         }
         try {
-            const newSubscriptions = await moiraApi.addSubscription({
+            const requestSubscription = {
                 ...subscription,
-                user: settings.login,
-            });
+                user: team ? undefined : settings.login,
+            };
+
+            const newSubscriptions = team
+                ? await moiraApi.addTeamSubscription(requestSubscription, team)
+                : await moiraApi.addSubscription(requestSubscription);
             this.setState({
                 settings: {
                     ...settings,
@@ -252,25 +295,59 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    async getData() {
-        const { moiraApi } = this.props;
+    private handleChangeTeam = async (userOrTeam: Team) => {
         try {
-            const tags = (await moiraApi.getTagList()).list;
-            let settings = await moiraApi.getSettings();
-            const config = await moiraApi.getConfig();
-            settings = {
-                ...settings,
-                contacts: settings.contacts.map((x: Contact) => ({
-                    ...x,
-                    value: SettingsContainer.normalizeContactValueForUi(x.type, x.value),
-                })),
-            };
-            this.setState({ settings, config, tags });
+            if (userOrTeam.id) {
+                this.setState({ loading: true, team: userOrTeam });
+                await this.getTeamData(userOrTeam.id);
+                this.props.history.replace(getPageLink("settings", userOrTeam.id));
+            } else {
+                this.setState({ loading: true, team: undefined });
+                await this.getUserData();
+                this.props.history.replace(getPageLink("settings"));
+            }
         } catch (error) {
             this.setState({ error: error.message });
         } finally {
             this.setState({ loading: false });
         }
+    };
+
+    private async getTeamsAndTags() {
+        const [user, teams, tags, config] = await Promise.all([
+            this.props.moiraApi.getUser(),
+            this.props.moiraApi.getTeams(),
+            this.props.moiraApi.getTagList(),
+            this.props.moiraApi.getConfig(),
+        ]);
+
+        let team;
+
+        if (this.props.match.params.teamId) {
+            team = teams.teams.find(
+                (teamOverview) => teamOverview.id === this.props.match.params.teamId
+            );
+        }
+
+        this.setState({
+            login: user.login,
+            teams: teams.teams,
+            tags: tags.list,
+            config: config,
+            team: team,
+        });
+    }
+
+    private async getUserData() {
+        const settings = await this.props.moiraApi.getSettings();
+
+        this.setState({ settings });
+    }
+
+    private async getTeamData(teamId: string) {
+        const settings = await this.props.moiraApi.getSettingsByTeam(teamId);
+
+        this.setState({ settings });
     }
 }
 

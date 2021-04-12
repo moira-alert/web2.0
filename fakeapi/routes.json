@@ -6,5 +6,8 @@
     "/trigger/:id/state": "/state",
     "/event/:id\\?p=0*": "/event",
     "/event/:id\\?p=1*": "/event1",
-    "/health/notifier": "/health"
+    "/health/notifier": "/health",
+    "/teams/:id/config": "/teamConfig",
+    "/teams/:id/settings": "/teamSettings",
+    "/teams/:id/users/": "/users"
 }

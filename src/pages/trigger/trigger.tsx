@@ -2,7 +2,7 @@ import React, { ComponentType } from "react";
 import queryString from "query-string";
 import { RouteComponentProps } from "react-router-dom";
 import isEqual from "lodash/isEqual";
-import { IMoiraApi } from "../../Api/MoiraApi";
+import MoiraApi from "../../Api/MoiraApi";
 import { Trigger, TriggerState } from "../../Domain/Trigger";
 import { Event } from "../../Domain/Event";
 import { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
@@ -13,7 +13,7 @@ import { TriggerDesktopProps } from "./trigger.desktop";
 import { TriggerMobileProps } from "./trigger.mobile";
 
 export type TriggerProps = RouteComponentProps<{ id: string }> & {
-    moiraApi: IMoiraApi;
+    moiraApi: MoiraApi;
     view: ComponentType<TriggerDesktopProps | TriggerMobileProps>;
 };
 

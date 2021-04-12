@@ -83,7 +83,7 @@
             },
             {
                 "type": "icq",
-                "user": "mamontuser",
+                "user": "testuser",
                 "value": "552211",
                 "id": "0000-0000-0000-0000-0003"
             }
@@ -4458,5 +4458,236 @@
     "health": {
         "state": "OK",
         "message": null
+    },
+    "teams": {
+        "teams": [
+            {
+                "id": "team_1",
+                "name": "Team 1",
+                "description": "Some description about first team"
+            },
+            {
+                "id": "team_2",
+                "name": "Team 2",
+                "description": "Some description about second team"
+            }
+        ]
+    },
+    "users": {
+        "usernames": [
+            "testuser",
+            "john",
+            "tanaka-san"
+        ]
+    },
+    "teamSettings": {
+        "login": "team_1",
+        "contacts": [
+            {
+                "type": "phone",
+                "user": "testuser",
+                "value": "9876543210",
+                "id": "0000-0000-0000-0000-0001"
+            }
+        ],
+        "subscriptions": [
+            {
+                "sched": {
+                    "endOffset": 1439,
+                    "days": [
+                        {
+                            "enabled": true,
+                            "name": "Mon"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Tue"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Wed"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Thu"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Fri"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sat"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sun"
+                        }
+                    ],
+                    "startOffset": 0,
+                    "tzOffset": -300
+                },
+                "tags": [
+                    "devops",
+                    "frontend",
+                    "backend"
+                ],
+                "throttling": true,
+                "contacts": [
+                    "0000-0000-0000-0000-0001",
+                    "0000-0000-0000-0000-0002"
+                ],
+                "enabled": false,
+                "user": "testuser",
+                "id": "85b14755-6cbe-429d-860c-21f7c01569c2"
+            },
+            {
+                "sched": {
+                    "endOffset": 1439,
+                    "days": [
+                        {
+                            "enabled": true,
+                            "name": "Mon"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Tue"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Wed"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Thu"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Fri"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sat"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sun"
+                        }
+                    ],
+                    "startOffset": 0,
+                    "tzOffset": -300
+                },
+                "tags": [
+                    "errors",
+                    "warnings"
+                ],
+                "throttling": true,
+                "contacts": [
+                    "0000-0000-0000-0000-0001"
+                ],
+                "enabled": true,
+                "user": "testuser",
+                "id": "ad1c71aa-9f8b-4d29-b8ac-cd76c6f7b4c9"
+            },
+            {
+                "sched": {
+                    "endOffset": 1439,
+                    "days": [
+                        {
+                            "enabled": true,
+                            "name": "Mon"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Tue"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Wed"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Thu"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Fri"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sat"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sun"
+                        }
+                    ],
+                    "startOffset": 0,
+                    "tzOffset": -300
+                },
+                "tags": [
+                    "critical",
+                    "devops",
+                    "frontend",
+                    "backend",
+                    "test"
+                ],
+                "throttling": false,
+                "contacts": [
+                    "0000-0000-0000-0000-0002"
+                ],
+                "enabled": true,
+                "user": "testuser",
+                "id": "b2a37dcf-a347-4128-b53b-c13c5c5f0c08"
+            },
+            {
+                "sched": {
+                    "endOffset": 1439,
+                    "days": [
+                        {
+                            "enabled": true,
+                            "name": "Mon"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Tue"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Wed"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Thu"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Fri"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sat"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "Sun"
+                        }
+                    ],
+                    "startOffset": 0,
+                    "tzOffset": -300
+                },
+                "tags": [
+                    "devops",
+                    "frontend"
+                ],
+                "throttling": false,
+                "contacts": [
+                    "0000-0000-0000-0000-0002"
+                ],
+                "enabled": false,
+                "user": "testuser",
+                "id": "9f1ce01c-2de5-4324-b1fb-bc38140e585f"
+            }
+        ]
     }
 }
