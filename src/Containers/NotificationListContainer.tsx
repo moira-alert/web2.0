@@ -8,8 +8,6 @@ import MoiraServiceStates from "../Domain/MoiraServiceStates";
 import Layout, { LayoutContent, LayoutTitle, LayoutFooter } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import ToggleWithLabel from "../Components/Toggle/Toggle";
-import { Team } from "../Domain/Team";
-import { Select } from "@skbkontur/react-ui/components/Select";
 
 type Props = { moiraApi: MoiraApi };
 type State = {
@@ -17,8 +15,6 @@ type State = {
     error?: string;
     list?: Array<Notification>;
     notifierEnabled: boolean;
-    team?: Team;
-    teams?: Team[];
 };
 
 class NotificationListContainer extends React.Component<Props, State> {
@@ -44,12 +40,11 @@ class NotificationListContainer extends React.Component<Props, State> {
     }
 
     render(): React.ReactElement {
-        const { loading, error, list, notifierEnabled, team, teams } = this.state;
+        const { loading, error, list, notifierEnabled } = this.state;
         const layoutTitle = `Notifications ${Array.isArray(list) ? list.length : ""}`;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <Select value={team} items={teams ?? []} />
                     <LayoutTitle>{layoutTitle}</LayoutTitle>
                     {list && (
                         <NotificationList
@@ -91,14 +86,10 @@ class NotificationListContainer extends React.Component<Props, State> {
     }
 
     async fetch(props: Props) {
-        const teams = await props.moiraApi.getTeams();
         await this.getNotifications(props);
         await this.getNotifierState(props);
 
-        this.setState({
-            loading: false,
-            teams: teams.teams,
-        });
+        this.setState({ loading: false });
     }
 
     async getNotifications(props: Props) {
