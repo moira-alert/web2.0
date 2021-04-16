@@ -7,7 +7,7 @@ export default function EditDescriptionHelp(): React.ReactElement {
     return (
         <div className={cn("edit-description-help")}>
             <HelpTooltip>
-                <h4>Example:</h4>
+                <h4>Example templating:</h4>
                 <div className={cn("edit-description-help-message")}>
                     Trigger name:
                     <div>
@@ -45,6 +45,16 @@ export default function EditDescriptionHelp(): React.ReactElement {
                     <div className={cn("edit-description-help-message-row")}>
                         <CodeRef>{"{{end}}"}</CodeRef>
                     </div>
+
+                    String manipulations:
+                    <div className={cn("edit-description-help-message-row")}>
+                        <CodeRef>{"{{ stringsToUpper $.Trigger.Name }}"}</CodeRef>,
+                        <CodeRef>{"{{ stringsToLower $.Trigger.Name }}"}</CodeRef>,
+                        <CodeRef>{"{{ stringsReplace $.Trigger.Name \"<old>\" \"<new>\" -1 }}"}</CodeRef>,
+                        <CodeRef>{"{{ stringsTrimPrefix $.Trigger.Name \"replace_me\" }}"}</CodeRef>,
+                        <CodeRef>{"{{ stringsTrimSuffix $.Trigger.Name \"replace_me\" }}"}</CodeRef>.
+                    </div>
+                    <div>See <Link href="https://moira.readthedocs.io/en/latest/user_guide/advanced.html#templates">docs</Link></div>
                 </div>
             </HelpTooltip>
         </div>
