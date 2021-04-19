@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@skbkontur/react-ui/components/Link";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import CodeRef from "../CodeRef/CodeRef";
 import cn from "./TriggerEditForm.less";
@@ -7,7 +8,7 @@ export default function EditDescriptionHelp(): React.ReactElement {
     return (
         <div className={cn("edit-description-help")}>
             <HelpTooltip>
-                <h4>Example templating:</h4>
+                <h4>Example:</h4>
                 <div className={cn("edit-description-help-message")}>
                     Trigger name:
                     <div>
@@ -45,21 +46,14 @@ export default function EditDescriptionHelp(): React.ReactElement {
                     <div className={cn("edit-description-help-message-row")}>
                         <CodeRef>{"{{end}}"}</CodeRef>
                     </div>
-                    <h4>String manipulations:</h4>
                     <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{"{{ stringsToUpper .Trigger.Name }}"}</CodeRef>,
-                    </div>
-                    <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{"{{ stringsToLower .Trigger.Name }}"}</CodeRef>,
-                    </div>
-                    <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{`{{ stringsReplace .Trigger.Name "<old>" "<new>" -1 }}`}</CodeRef>,
-                    </div>
-                    <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{`{{ stringsTrimPrefix .Trigger.Name "replace_me" }}`}</CodeRef>,
-                    </div>
-                    <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{`{{ stringsTrimSuffix .Trigger.Name "replace_me" }}`}</CodeRef>.
+                        See availible methods and more in{" "}
+                        <Link
+                            target="_blank"
+                            href="https://moira.readthedocs.io/en/latest/user_guide/advanced.html#templates"
+                        >
+                            docs
+                        </Link>{"."}
                     </div>
                 </div>
             </HelpTooltip>
