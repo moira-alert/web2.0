@@ -53,13 +53,13 @@ export default function EditDescriptionHelp(): React.ReactElement {
                         <CodeRef>{"{{ stringsToLower .Trigger.Name }}"}</CodeRef>,
                     </div>
                     <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{"{{ stringsReplace .Trigger.Name \"<old>\" \"<new>\" -1 }}"}</CodeRef>,
+                        <CodeRef>{`{{ stringsReplace .Trigger.Name "<old>" "<new>" -1 }}`}</CodeRef>,
                     </div>
                     <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{"{{ stringsTrimPrefix .Trigger.Name \"replace_me\" }}"}</CodeRef>,
+                        <CodeRef>{`{{ stringsTrimPrefix .Trigger.Name "replace_me" }}`}</CodeRef>,
                     </div>
                     <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{"{{ stringsTrimSuffix .Trigger.Name \"replace_me\" }}"}</CodeRef>.
+                        <CodeRef>{`{{ stringsTrimSuffix .Trigger.Name "replace_me" }}`}</CodeRef>.
                     </div>
                 </div>
             </HelpTooltip>
