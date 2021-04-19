@@ -53,7 +53,8 @@ export default function EditDescriptionHelp(): React.ReactElement {
                             href="https://moira.readthedocs.io/en/latest/user_guide/advanced.html#templates"
                         >
                             docs
-                        </Link>{"."}
+                        </Link>
+                        .
                     </div>
                 </div>
             </HelpTooltip>
