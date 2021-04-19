@@ -45,16 +45,22 @@ export default function EditDescriptionHelp(): React.ReactElement {
                     <div className={cn("edit-description-help-message-row")}>
                         <CodeRef>{"{{end}}"}</CodeRef>
                     </div>
-
-                    String manipulations:
+                    <h4>String manipulations:</h4>
                     <div className={cn("edit-description-help-message-row")}>
-                        <CodeRef>{"{{ stringsToUpper $.Trigger.Name }}"}</CodeRef>,
-                        <CodeRef>{"{{ stringsToLower $.Trigger.Name }}"}</CodeRef>,
-                        <CodeRef>{"{{ stringsReplace $.Trigger.Name \"<old>\" \"<new>\" -1 }}"}</CodeRef>,
-                        <CodeRef>{"{{ stringsTrimPrefix $.Trigger.Name \"replace_me\" }}"}</CodeRef>,
-                        <CodeRef>{"{{ stringsTrimSuffix $.Trigger.Name \"replace_me\" }}"}</CodeRef>.
+                        <CodeRef>{"{{ stringsToUpper .Trigger.Name }}"}</CodeRef>,
                     </div>
-                    <div>See <Link href="https://moira.readthedocs.io/en/latest/user_guide/advanced.html#templates">docs</Link></div>
+                    <div className={cn("edit-description-help-message-row")}>
+                        <CodeRef>{"{{ stringsToLower .Trigger.Name }}"}</CodeRef>,
+                    </div>
+                    <div className={cn("edit-description-help-message-row")}>
+                        <CodeRef>{"{{ stringsReplace .Trigger.Name \"<old>\" \"<new>\" -1 }}"}</CodeRef>,
+                    </div>
+                    <div className={cn("edit-description-help-message-row")}>
+                        <CodeRef>{"{{ stringsTrimPrefix .Trigger.Name \"replace_me\" }}"}</CodeRef>,
+                    </div>
+                    <div className={cn("edit-description-help-message-row")}>
+                        <CodeRef>{"{{ stringsTrimSuffix .Trigger.Name \"replace_me\" }}"}</CodeRef>.
+                    </div>
                 </div>
             </HelpTooltip>
         </div>
