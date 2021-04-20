@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@skbkontur/react-ui/components/Link";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import CodeRef from "../CodeRef/CodeRef";
 import cn from "./TriggerEditForm.less";
@@ -44,6 +45,16 @@ export default function EditDescriptionHelp(): React.ReactElement {
                     </div>
                     <div className={cn("edit-description-help-message-row")}>
                         <CodeRef>{"{{end}}"}</CodeRef>
+                    </div>
+                    <div className={cn("edit-description-help-message-row")}>
+                        See availible methods and more in{" "}
+                        <Link
+                            target="_blank"
+                            href="https://moira.readthedocs.io/en/latest/user_guide/advanced.html#templates"
+                        >
+                            docs
+                        </Link>
+                        .
                     </div>
                 </div>
             </HelpTooltip>
