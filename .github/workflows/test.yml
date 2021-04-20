@@ -35,6 +35,7 @@ jobs:
           BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: screenshots-report
           path: .creevey/report
