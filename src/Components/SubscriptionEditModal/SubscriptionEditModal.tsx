@@ -8,6 +8,7 @@ import { Contact } from "../../Domain/Contact";
 import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
 import FileExport from "../FileExport/FileExport";
+import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
 
 type Props = {
     subscription: Subscription;
@@ -50,6 +51,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
             <Modal ignoreBackgroundClick onClose={onCancel}>
                 <Modal.Header sticky={false}>Subscription editing</Modal.Header>
                 <Modal.Body>
+                    <ResourceIDBadge title={"Subscription id:"} id={subscription.id} />
                     <ValidationContainer ref={this.validationContainer}>
                         <SubscriptionEditor
                             subscription={subscription}
