@@ -8,6 +8,7 @@ import { Contact } from "../../Domain/Contact";
 import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileExport from "../FileExport/FileExport";
+import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
 
 type Props = {
     contactDescriptions: Array<ContactConfig>;
@@ -43,6 +44,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
             <Modal onClose={onCancel} ignoreBackgroundClick>
                 <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
                 <Modal.Body>
+                    <ResourceIDBadge title="Channel id:" id={contactInfo.id} />
                     <ValidationContainer ref={this.validationContainer}>
                         <ContactEditForm
                             contactDescriptions={contactDescriptions}
