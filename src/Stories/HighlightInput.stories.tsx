@@ -25,26 +25,44 @@ storiesOf("HighlightInput", module)
                 <HighlightInput
                     value={value}
                     onValueChange={setValue}
-                    validate={{
-                        syntax_ok: true,
-                        tree_of_problems: {
-                            argument: "func",
-                            description:
-                                "This function is unstable: it can return different historical values with each evaluation. Moira will show unexpected values that you don't see on your graphs.",
-                            position: 0,
-                            type: "warn",
-                            problems: [
-                                { argument: "first", position: 0 },
-                                {
-                                    argument: "secondFn",
-                                    position: 1,
-                                    type: "bad",
-                                    description:
-                                        "The function summarize has a time sampling parameter 13week larger than allowed by the config:3h0m0s",
-                                },
-                            ],
+                    validate={[
+                        {
+                            target: "first",
+                            msg:
+                                "The function summarize has a time sampling parameter 13week larger than allowed by the config:3h0m0s",
+                            level: "bad",
                         },
-                    }}
+                        {
+                            target: "secondFn",
+                            msg:
+                                "The function summarize has a time sampling parameter 13week larger than allowed by the config:3h0m0s",
+                            level: "bad",
+                        },
+                        {
+                            target: "func",
+                            msg:
+                                "This function is unstable: it can return different historical values with each evaluation. Moira will show unexpected values that you don't see on your graphs.",
+                            level: "warn",
+                        },
+                    ]}
+                />
+            )}
+        </Container>
+    ))
+    .add("With warning", () => (
+        <Container defaultValue="func (first, secondFn)">
+            {(value, setValue) => (
+                <HighlightInput
+                    value={value}
+                    onValueChange={setValue}
+                    validate={[
+                        {
+                            target: "func",
+                            msg:
+                                "This function is unstable: it can return different historical values with each evaluation. Moira will show unexpected values that you don't see on your graphs.",
+                            level: "warn",
+                        },
+                    ]}
                 />
             )}
         </Container>
@@ -52,13 +70,7 @@ storiesOf("HighlightInput", module)
     .add("With syntax fail", () => (
         <Container defaultValue="func (first, secondFn">
             {(value, setValue) => (
-                <HighlightInput
-                    value={value}
-                    onValueChange={setValue}
-                    validate={{
-                        syntax_ok: false,
-                    }}
-                />
+                <HighlightInput value={value} onValueChange={setValue} validate={[]} />
             )}
         </Container>
     ));

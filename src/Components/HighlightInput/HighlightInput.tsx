@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { Input, ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
 import { tooltip, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
-import { ValidateTriggerTarget, TriggerTargetProblem } from "../../Domain/Trigger";
+import { ValidateTriggerTarget } from "../../Domain/Trigger";
 import parseExpression, { isEmptyString } from "./parser/parseExpression";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import { highlightBadFunction, highlightTokens, renderToken } from "./highlightFunctions";
+import { highlightTokens, renderToken } from "./highlightFunctions";
 import cn from "./HighlightInput.less";
 
 type HighlightInputProps = {
@@ -16,46 +16,22 @@ type HighlightInputProps = {
     "data-tid"?: string;
 };
 
-function getProblemMessage(
-    problemTree: TriggerTargetProblem
-): { error?: string; warning?: string } {
-    if (problemTree.type === "bad") {
-        return { error: `${problemTree.argument}: ${problemTree.description}` };
-    }
-
-    let errorMessage: string | undefined = undefined;
-    let warningMessage =
-        problemTree.type === "warn"
-            ? `${problemTree.argument}: ${problemTree.description}`
-            : undefined;
-
-    problemTree.problems?.forEach((problem) => {
-        if (errorMessage) {
-            return;
-        }
-        const { error, warning } = getProblemMessage(problem);
-        if (error) {
-            errorMessage = error;
-        }
-        if (!warningMessage && warningMessage) {
-            warningMessage = warning;
-        }
-    });
-
-    return { error: errorMessage, warning: warningMessage };
-}
-
-function validateInput(value: string, error?: string, warning?: string): ValidationInfo | null {
+function validateInput(
+    value: string,
+    validateTarget?: ValidateTriggerTarget
+): ValidationInfo | null {
     if (isEmptyString(value)) {
         return {
             type: "submit",
             message: "Can't be empty",
         };
     }
-    if (error || warning) {
+    if (validateTarget?.length) {
         return {
             type: "lostfocus",
-            level: error ? "error" : "warning",
+            level: validateTarget.some((validate) => validate.level === "bad")
+                ? "error"
+                : "warning",
             message: null,
         };
     }
@@ -78,32 +54,12 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
         onValueChange(changedValue);
     };
 
-    let errorMessage: string | undefined;
-    let warningMessage: string | undefined;
     let highlightText: React.ReactNode | undefined;
 
     const valueTokens = parseExpression(value);
 
     valueTokens.forEach((v) => (v.value = v.value.replace(/\s/g, "\u00a0")));
     const viewTokens = highlightTokens(valueTokens, caret);
-
-    if (validate) {
-        if (validate.syntax_ok) {
-            if (validate.tree_of_problems) {
-                highlightText = highlightBadFunction(
-                    validate.tree_of_problems,
-                    viewTokens,
-                    containerEl.current
-                );
-
-                ({ error: errorMessage, warning: warningMessage } = getProblemMessage(
-                    validate.tree_of_problems
-                ));
-            }
-        } else if (value.trim().length !== 0) {
-            errorMessage = "Syntax error";
-        }
-    }
 
     if (!highlightText) {
         highlightText = viewTokens.map(renderToken);
@@ -161,7 +117,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                     )}
                 >
                     <ValidationWrapperV1
-                        validationInfo={validateInput(value, errorMessage, warningMessage)}
+                        validationInfo={validateInput(value, validate)}
                         renderMessage={tooltip("right middle")}
                     >
                         <Input
@@ -178,7 +134,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                     <span style={{ marginLeft: `-${scrollLeft}px` }}>{highlightText}</span>
                 </span>
             </div>
-            <ErrorMessage error={errorMessage} warning={warningMessage} view={!changed} />
+            {changed ? null : <ErrorMessage validateTarget={validate} />}
         </>
     );
 }

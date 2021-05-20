@@ -146,7 +146,7 @@ stories.forEach(({ title, data }) => {
                 onChange={action("onChange")}
                 validateTrigger={() =>
                     Promise.resolve({
-                        targets: [{ syntax_ok: true }],
+                        targets: [],
                     })
                 }
             />

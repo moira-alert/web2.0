@@ -65,20 +65,15 @@ export type TriggerState = {
 };
 
 export type TriggerTargetProblem = {
-    argument: string;
-    position: number;
-    type?: "warn" | "bad";
-    description?: string;
-    problems?: TriggerTargetProblem[];
+    msg: string;
+    target: string;
+    level: "warn" | "bad";
 };
 
-export type ValidateTriggerTarget = {
-    syntax_ok: boolean;
-    tree_of_problems?: TriggerTargetProblem;
-};
+export type ValidateTriggerTarget = TriggerTargetProblem[];
 
 export type ValidateTriggerResult = {
-    targets: Array<ValidateTriggerTarget>;
+    targets: ValidateTriggerTarget[];
 };
 
 enum TriggerDataSources {

@@ -1,26 +1,29 @@
 import React from "react";
 import cn from "./ErrorMessage.less";
+import { ValidateTriggerTarget } from "../../../Domain/Trigger";
 
 type ErrorMessageProps = {
-    error?: string;
-    warning?: string;
-    view: boolean;
+    validateTarget?: ValidateTriggerTarget;
 };
 
 export default function ErrorMessage({
-    error,
-    warning,
-    view,
-}: ErrorMessageProps): React.ReactElement {
+    validateTarget,
+}: ErrorMessageProps): React.ReactElement | null {
+    if (!validateTarget?.length) {
+        return null;
+    }
+
     return (
-        <div
-            className={cn("container", {
-                view: view && (Boolean(error) || Boolean(warning)),
-                error: Boolean(error),
-                warning: Boolean(warning) && !error,
-            })}
-        >
-            {error || warning}
+        <div className={cn.container}>
+            {validateTarget?.map((validate, index) => (
+                <div
+                    className={cn("item", validate.level === "bad" ? "error" : "warning")}
+                    key={index}
+                >
+                    {index + 1}) {validate.target}: {validate.msg}
+                </div>
+            ))}
+            |
         </div>
     );
 }
