@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
+import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import MoiraApi from "../Api/MoiraApi";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
-import Layout, { LayoutContent, LayoutTitle, LayoutFooter } from "../Components/Layout/Layout";
+import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
-import ToggleWithLabel from "../Components/Toggle/Toggle";
 
 type Props = { moiraApi: MoiraApi };
 type State = {
@@ -45,42 +45,32 @@ class NotificationListContainer extends React.Component<Props, State> {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <LayoutTitle>{layoutTitle}</LayoutTitle>
+                    <LayoutTitle>
+                        <Gapped gap={10}>
+                            {layoutTitle}
+                            {notifierEnabled ? null : "(Disabled)"}
+                        </Gapped>
+                    </LayoutTitle>
+                    <Gapped gap={20}>
+                        <Button use={"link"} onClick={() => this.enableNotifier(!notifierEnabled)}>
+                            {notifierEnabled ? "Disable notifications" : "Enable notifications"}
+                        </Button>
+                        <Button
+                            use={"link"}
+                            icon={<TrashIcon />}
+                            onClick={this.removeAllNotifications}
+                        >
+                            Remove all
+                        </Button>
+                    </Gapped>
+                    <br />
                     {list && (
                         <NotificationList
                             items={NotificationListContainer.composeNotifications(list)}
-                            onRemove={(id) => {
-                                this.removeNotification(id);
-                            }}
+                            onRemove={this.removeNotification}
                         />
                     )}
                 </LayoutContent>
-                <LayoutFooter>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignContent: "center",
-                        }}
-                    >
-                        <Button
-                            icon={<TrashIcon />}
-                            onClick={() => {
-                                this.removeAllNotifications();
-                            }}
-                        >
-                            Remove all notifications
-                        </Button>
-                        <ToggleWithLabel
-                            label={
-                                notifierEnabled ? "Notifications enabled" : "Notifications disabled"
-                            }
-                            checked={notifierEnabled}
-                            onChange={(checked) => this.enableNotifier(checked)}
-                        />
-                    </div>
-                </LayoutFooter>
             </Layout>
         );
     }
@@ -114,7 +104,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     }
 
-    async removeNotification(id: string) {
+    removeNotification = async (id: string) => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         try {
@@ -125,9 +115,9 @@ class NotificationListContainer extends React.Component<Props, State> {
         } finally {
             this.setState({ loading: false });
         }
-    }
+    };
 
-    async removeAllNotifications() {
+    removeAllNotifications = async () => {
         const { moiraApi } = this.props;
         this.setState({ loading: true });
         try {
@@ -139,7 +129,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         } finally {
             this.setState({ loading: false });
         }
-    }
+    };
 
     async enableNotifier(enable: boolean) {
         const { moiraApi } = this.props;

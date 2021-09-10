@@ -14,7 +14,7 @@ type PlateProps = {
 };
 
 type TitleProps = {
-    children: string;
+    children: React.ReactNode;
 };
 
 type ContentProps = {
