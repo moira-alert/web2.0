@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
+import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import MoiraApi from "../Api/MoiraApi";
 import type { Notification } from "../Domain/Notification";
@@ -45,16 +46,11 @@ class NotificationListContainer extends React.Component<Props, State> {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <LayoutTitle>
-                        <Gapped gap={10}>
-                            {layoutTitle}
-                            {notifierEnabled ? null : "(Disabled)"}
-                        </Gapped>
-                    </LayoutTitle>
-                    <Gapped gap={20}>
-                        <Button use={"link"} onClick={() => this.enableNotifier(!notifierEnabled)}>
-                            {notifierEnabled ? "Disable notifications" : "Enable notifications"}
-                        </Button>
+                    <LayoutTitle>{layoutTitle}</LayoutTitle>
+                    <Gapped gap={30}>
+                        <Toggle checked={notifierEnabled} onValueChange={this.enableNotifier}>
+                            Notifications
+                        </Toggle>
                         <Button
                             use={"link"}
                             icon={<TrashIcon />}
@@ -131,7 +127,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         }
     };
 
-    async enableNotifier(enable: boolean) {
+    enableNotifier = async (enable: boolean) => {
         const { moiraApi } = this.props;
         try {
             const state = enable ? MoiraServiceStates.OK : MoiraServiceStates.ERROR;
@@ -140,7 +136,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         } catch (error) {
             this.setState({ error: error.message });
         }
-    }
+    };
 }
 
 export default withMoiraApi(NotificationListContainer);
