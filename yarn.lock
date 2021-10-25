@@ -1183,7 +1183,14 @@
     pirates "^4.0.0"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.0", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@7.12.5":
+  version "7.12.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+  integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.0", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.11.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
   integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
@@ -1676,12 +1683,12 @@
     smoothscroll-polyfill "^0.4.4"
     warning "^4.0.3"
 
-"@skbkontur/react-ui@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui/-/react-ui-2.4.0.tgz#ac0bda1cacedc8651544c16dc256eb1f32175b25"
-  integrity sha512-raFRISkjB213TKS/UvXdG5c+JBTnlT/WN+az7vGW2KD+brExZU69nBcN6KQEttESxSX9aDw9hraao3VXQbs0vg==
+"@skbkontur/react-ui@2.17.4":
+  version "2.17.4"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui/-/react-ui-2.17.4.tgz#5dc3029b6f48c27cfee550c8727f4f2f64b8b8f7"
+  integrity sha512-S6lbEQuaCq3w5i9X0azUhuWTozuLbIsYoaM9fzJZpCW0VxUYCGZmCseDwXXbXbfOOnII0kTz+zRHt1a42Q7acg==
   dependencies:
-    "@babel/runtime" "^7.8.3"
+    "@babel/runtime" "7.12.5"
     classnames "^2.2.6"
     create-emotion "^10.0.14"
     csstype "2.6.7"
