@@ -53,15 +53,15 @@ export default class TriggerListItem extends React.Component<Props, State> {
                             <FlagSolidIcon />
                         </div>
                     )}
-                    {delta > 0 && (
-                        <div className={cn("maintenance")}>
-                            <UserSettingsIcon />
-                        </div>
-                    )}
                 </div>
                 <div className={cn("info")}>
                     <div className={cn("name")}>
                         {name != null && name !== "" ? name : "[No name]"}
+                        {delta > 0 && (
+                            <span className={cn("maintenance")}>
+                                <UserSettingsIcon />
+                            </span>
+                        )}
                     </div>
                     <div className={cn("tags")}>{tags.map((x) => `#${x}`).join(", ")}</div>
                     <div className={cn("metrics")}>Metrics: {this.renderCounters()}</div>
