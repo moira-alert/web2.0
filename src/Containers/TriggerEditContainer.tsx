@@ -5,7 +5,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import type { Trigger, ValidateTriggerResult } from "../Domain/Trigger";
+import type { Trigger, ValidateTriggerResult, ValidateTriggerTarget } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
@@ -118,8 +118,8 @@ class TriggerEditContainer extends React.Component<Props, State> {
         const isValid = (await this.validateForm()) && !has(this.state.validationResult, "targets");
         if (isValid && trigger) {
             await this.handleValidateTrigger(trigger);
-            const isBackendValid = !has(this.state.validationResult, "targets");
-            if (isBackendValid) {
+            const areTargetsValid = this.checkTargets();
+            if (areTargetsValid) {
                 this.setState({ loading: true });
                 if (trigger.trigger_type === "expression") {
                     trigger = {
@@ -148,6 +148,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
         this.setState(
             (prevState: State) => ({
                 trigger: prevState.trigger ? { ...prevState.trigger, ...update } : undefined,
+                validationResult: undefined,
             }),
             callback
         );
@@ -163,6 +164,12 @@ class TriggerEditContainer extends React.Component<Props, State> {
             }
         );
     };
+
+    private checkTargets = () =>
+        this.state.validationResult?.targets.every(
+            ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
+                syntax_ok && !tree_of_problems
+        );
 
     deleteTrigger = async (id: string) => {
         const { moiraApi, history } = this.props;

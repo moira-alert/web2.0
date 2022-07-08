@@ -4,7 +4,7 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { Trigger, ValidateTriggerResult } from "../Domain/Trigger";
+import { Trigger, ValidateTriggerResult, ValidateTriggerTarget } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
@@ -141,9 +141,8 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
         const isValid = (await this.validateForm()) && !has(this.state.validationResult, "targets");
         if (isValid && trigger) {
             await this.handleValidateTrigger(trigger);
-            const isBackendValid = !has(this.state.validationResult, "targets");
-
-            if (isBackendValid) {
+            const areTargetsValid = this.checkTargets();
+            if (areTargetsValid) {
                 this.setState({ loading: true });
                 if (trigger.trigger_type === "expression") {
                     trigger = {
@@ -170,7 +169,10 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
 
     handleChange = (update: Partial<Trigger>, callback?: () => void) => {
         this.setState(
-            (prevState: State) => ({ trigger: { ...prevState.trigger, ...update } }),
+            (prevState: State) => ({
+                trigger: { ...prevState.trigger, ...update },
+                validationResult: undefined,
+            }),
             callback
         );
     };
@@ -185,6 +187,12 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
             }
         );
     };
+
+    private checkTargets = () =>
+        this.state.validationResult?.targets.every(
+            ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
+                syntax_ok && !tree_of_problems
+        );
 
     async getData(props: Props) {
         const { moiraApi, match } = props;

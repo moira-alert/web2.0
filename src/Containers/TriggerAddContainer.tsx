@@ -5,7 +5,12 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { DEFAULT_TRIGGER_TTL, Trigger, ValidateTriggerResult } from "../Domain/Trigger";
+import {
+    DEFAULT_TRIGGER_TTL,
+    Trigger,
+    ValidateTriggerResult,
+    ValidateTriggerTarget,
+} from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
 import { Config } from "../Domain/Config";
@@ -17,7 +22,6 @@ import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";
 import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
-import has from "lodash/has";
 
 type Props = RouteComponentProps & { moiraApi: MoiraApi };
 type State = {
@@ -159,8 +163,8 @@ class TriggerAddContainer extends React.Component<Props, State> {
         // ToDo отказаться от вереницы if
         if (isValid && trigger) {
             await this.handleValidateTrigger(trigger);
-            const isBackendValid = !has(this.state.validationResult, "targets");
-            if (isBackendValid) {
+            const areTargetsValid = this.checkTargets();
+            if (areTargetsValid) {
                 this.setState({ loading: true });
                 if (trigger.trigger_type === "expression") {
                     trigger = {
@@ -190,6 +194,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
             (prevState: State) => ({
                 trigger: { ...prevState.trigger, ...update },
                 error: undefined,
+                validationResult: undefined,
             }),
             callback
         );
@@ -220,6 +225,12 @@ class TriggerAddContainer extends React.Component<Props, State> {
             }
         );
     };
+
+    private checkTargets = () =>
+        this.state.validationResult?.targets.every(
+            ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
+                syntax_ok && !tree_of_problems
+        );
 
     async getData(props: Props) {
         const { moiraApi } = props;

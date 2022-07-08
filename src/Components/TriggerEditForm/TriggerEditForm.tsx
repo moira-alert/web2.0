@@ -48,7 +48,6 @@ type Props = {
 
 type State = {
     descriptionMode: "edit" | "preview";
-    validationResult?: ValidateTriggerResult;
 };
 
 export default class TriggerEditForm extends React.Component<Props, State> {
