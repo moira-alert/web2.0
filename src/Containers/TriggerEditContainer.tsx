@@ -5,13 +5,15 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import type { Trigger } from "../Domain/Trigger";
+import type { Trigger, ValidateTriggerResult } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
+import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
+import has from "lodash/has";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 type State = {
@@ -20,11 +22,32 @@ type State = {
     trigger?: Trigger;
     tags?: Array<string>;
     config?: Config;
+    validationResult?: ValidateTriggerResult;
 };
+
+function getAsyncValidator() {
+    let storage;
+    return async (
+        condition: Promise<ValidateTriggerResult>,
+        callback: (value: ValidateTriggerResult) => void
+    ) => {
+        storage = condition;
+        try {
+            const result = await condition;
+
+            if (storage === condition) {
+                callback(result);
+            }
+        } catch (e) {
+            Toast.push(e.toString());
+        }
+    };
+}
 
 class TriggerEditContainer extends React.Component<Props, State> {
     public state: State = { loading: true };
     private validationContainer = React.createRef<ValidationContainer>();
+    private asyncValidator = getAsyncValidator();
 
     componentDidMount() {
         document.title = "Moira - Edit trigger";
@@ -37,8 +60,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
     }
 
     render(): React.ReactElement {
-        const { moiraApi } = this.props;
-        const { loading, error, trigger, tags, config } = this.state;
+        const { loading, error, trigger, tags, config, validationResult } = this.state;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -52,9 +74,9 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                             <TriggerEditForm
                                                 data={trigger}
                                                 tags={tags || []}
-                                                remoteAllowed={config.remoteAllowed}
+                                                remoteAllowed={true}
                                                 onChange={this.handleChange}
-                                                validateTrigger={moiraApi.validateTrigger}
+                                                validationResult={validationResult}
                                             />
                                         )}
                                     </ValidationContainer>
@@ -93,28 +115,31 @@ class TriggerEditContainer extends React.Component<Props, State> {
     handleSubmit = async () => {
         let { trigger } = this.state;
         const { moiraApi, history } = this.props;
-
-        const isValid = await this.validateForm();
+        const isValid = (await this.validateForm()) && !has(this.state.validationResult, "targets");
         if (isValid && trigger) {
-            this.setState({ loading: true });
-            if (trigger.trigger_type === "expression") {
-                trigger = {
-                    ...trigger,
-                    error_value: null,
-                    warn_value: null,
-                };
-            }
-            if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
-                trigger = {
-                    ...trigger,
-                    expression: "",
-                };
-            }
-            try {
-                await moiraApi.setTrigger(trigger.id, trigger);
-                history.push(getPageLink("trigger", trigger.id));
-            } catch (error) {
-                this.setState({ error: error.message, loading: false });
+            await this.handleValidateTrigger(trigger);
+            const isBackendValid = !has(this.state.validationResult, "targets");
+            if (isBackendValid) {
+                this.setState({ loading: true });
+                if (trigger.trigger_type === "expression") {
+                    trigger = {
+                        ...trigger,
+                        error_value: null,
+                        warn_value: null,
+                    };
+                }
+                if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
+                    trigger = {
+                        ...trigger,
+                        expression: "",
+                    };
+                }
+                try {
+                    await moiraApi.setTrigger(trigger.id, trigger);
+                    history.push(getPageLink("trigger", trigger.id));
+                } catch (error) {
+                    this.setState({ error: error.message, loading: false });
+                }
             }
         }
     };
@@ -125,6 +150,17 @@ class TriggerEditContainer extends React.Component<Props, State> {
                 trigger: prevState.trigger ? { ...prevState.trigger, ...update } : undefined,
             }),
             callback
+        );
+    };
+
+    private handleValidateTrigger = async (trigger: Partial<Trigger>) => {
+        const { moiraApi } = this.props;
+
+        await this.asyncValidator(
+            moiraApi.validateTrigger(trigger),
+            (validationResult: ValidateTriggerResult) => {
+                this.setState({ validationResult });
+            }
         );
     };
 

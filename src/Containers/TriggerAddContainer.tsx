@@ -5,7 +5,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { DEFAULT_TRIGGER_TTL, Trigger } from "../Domain/Trigger";
+import { DEFAULT_TRIGGER_TTL, Trigger, ValidateTriggerResult } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
 import { Config } from "../Domain/Config";
@@ -16,6 +16,8 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";
+import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
+import has from "lodash/has";
 
 type Props = RouteComponentProps & { moiraApi: MoiraApi };
 type State = {
@@ -24,7 +26,27 @@ type State = {
     trigger?: Partial<Trigger>;
     tags?: string[];
     config?: Config;
+    validationResult?: ValidateTriggerResult;
 };
+
+function getAsyncValidator() {
+    let storage;
+    return async (
+        condition: Promise<ValidateTriggerResult>,
+        callback: (value: ValidateTriggerResult) => void
+    ) => {
+        storage = condition;
+        try {
+            const result = await condition;
+
+            if (storage === condition) {
+                callback(result);
+            }
+        } catch (e) {
+            Toast.push(e.toString());
+        }
+    };
+}
 
 class TriggerAddContainer extends React.Component<Props, State> {
     public state: State = {
@@ -62,6 +84,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
     };
 
     private validationContainer = React.createRef<ValidationContainer>();
+    private asyncValidator = getAsyncValidator();
 
     componentDidMount() {
         document.title = "Moira - Add trigger";
@@ -74,8 +97,7 @@ class TriggerAddContainer extends React.Component<Props, State> {
     }
 
     render(): React.ReactNode {
-        const { moiraApi } = this.props;
-        const { loading, error, trigger, tags, config } = this.state;
+        const { loading, error, trigger, tags, config, validationResult } = this.state;
 
         return (
             <Layout loading={loading} error={error}>
@@ -94,10 +116,10 @@ class TriggerAddContainer extends React.Component<Props, State> {
                                         {config != null && (
                                             <TriggerEditForm
                                                 data={trigger}
-                                                remoteAllowed={config.remoteAllowed}
+                                                remoteAllowed={true}
                                                 tags={tags || []}
                                                 onChange={this.handleChange}
-                                                validateTrigger={moiraApi.validateTrigger}
+                                                validationResult={validationResult}
                                             />
                                         )}
                                     </ValidationContainer>
@@ -136,25 +158,29 @@ class TriggerAddContainer extends React.Component<Props, State> {
         const isValid = await this.validationContainer.current?.validate();
         // ToDo отказаться от вереницы if
         if (isValid && trigger) {
-            this.setState({ loading: true });
-            if (trigger.trigger_type === "expression") {
-                trigger = {
-                    ...trigger,
-                    error_value: null,
-                    warn_value: null,
-                };
-            }
-            if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
-                trigger = {
-                    ...trigger,
-                    expression: "",
-                };
-            }
-            try {
-                const { id } = await moiraApi.addTrigger(trigger);
-                history.push(getPageLink("trigger", id));
-            } catch (error) {
-                this.setState({ error: error.message, loading: false });
+            await this.handleValidateTrigger(trigger);
+            const isBackendValid = !has(this.state.validationResult, "targets");
+            if (isBackendValid) {
+                this.setState({ loading: true });
+                if (trigger.trigger_type === "expression") {
+                    trigger = {
+                        ...trigger,
+                        error_value: null,
+                        warn_value: null,
+                    };
+                }
+                if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
+                    trigger = {
+                        ...trigger,
+                        expression: "",
+                    };
+                }
+                try {
+                    const { id } = await moiraApi.addTrigger(trigger);
+                    history.push(getPageLink("trigger", id));
+                } catch (error) {
+                    this.setState({ error: error.message, loading: false });
+                }
             }
         }
     }
@@ -182,6 +208,17 @@ class TriggerAddContainer extends React.Component<Props, State> {
                 error: `File ${fileName} cannot be converted to trigger. ${e.message}`,
             });
         }
+    };
+
+    private handleValidateTrigger = async (trigger: Partial<Trigger>) => {
+        const { moiraApi } = this.props;
+
+        await this.asyncValidator(
+            moiraApi.validateTrigger(trigger),
+            (validationResult: ValidateTriggerResult) => {
+                this.setState({ validationResult });
+            }
+        );
     };
 
     async getData(props: Props) {
