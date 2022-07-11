@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Button } from "@skbkontur/react-ui/components/Button";
+import { Button, Gapped, Modal } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
@@ -20,10 +20,11 @@ type State = {
     trigger?: Trigger;
     tags?: Array<string>;
     config?: Config;
+    isDeleteTriggerDialogOpen: boolean;
 };
 
 class TriggerEditContainer extends React.Component<Props, State> {
-    public state: State = { loading: true };
+    public state: State = { loading: true, isDeleteTriggerDialogOpen: false };
     private validationContainer = React.createRef<ValidationContainer>();
 
     componentDidMount() {
@@ -38,7 +39,7 @@ class TriggerEditContainer extends React.Component<Props, State> {
 
     render(): React.ReactElement {
         const { moiraApi } = this.props;
-        const { loading, error, trigger, tags, config } = this.state;
+        const { loading, error, trigger, tags, config, isDeleteTriggerDialogOpen } = this.state;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
@@ -67,10 +68,43 @@ class TriggerEditContainer extends React.Component<Props, State> {
                                             </Button>
                                         </Fit>
                                         <Fit>
+                                            {isDeleteTriggerDialogOpen && (
+                                                <Modal width={600} noClose>
+                                                    <Modal.Header>Delete Trigger?</Modal.Header>
+                                                    <Modal.Body>
+                                                        Trigger
+                                                        <strong>{` ${trigger.name} `}</strong>
+                                                        will be deleted.
+                                                    </Modal.Body>
+                                                    <Modal.Footer>
+                                                        <Gapped gap={8}>
+                                                            <Button
+                                                                onClick={() =>
+                                                                    this.setDeleteTriggerDialogVisibility(
+                                                                        false
+                                                                    )
+                                                                }
+                                                                use={"primary"}
+                                                            >
+                                                                Cancel
+                                                            </Button>
+                                                            <Button
+                                                                onClick={() =>
+                                                                    this.deleteTrigger(trigger.id)
+                                                                }
+                                                            >
+                                                                Delete
+                                                            </Button>
+                                                        </Gapped>
+                                                    </Modal.Footer>
+                                                </Modal>
+                                            )}
                                             <Button
                                                 use="link"
                                                 icon={<TrashIcon />}
-                                                onClick={() => this.deleteTrigger(trigger.id)}
+                                                onClick={() =>
+                                                    this.setDeleteTriggerDialogVisibility(true)
+                                                }
                                             >
                                                 Delete
                                             </Button>
@@ -126,6 +160,10 @@ class TriggerEditContainer extends React.Component<Props, State> {
             }),
             callback
         );
+    };
+
+    setDeleteTriggerDialogVisibility = (isOpen: boolean) => {
+        this.setState(() => ({ isDeleteTriggerDialogOpen: isOpen }));
     };
 
     deleteTrigger = async (id: string) => {
