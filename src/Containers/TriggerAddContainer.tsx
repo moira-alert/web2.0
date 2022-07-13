@@ -72,16 +72,19 @@ function TriggerAddContainer(props: Props) {
         setIsLoading(true);
         const isValid = await validationContainer.current?.validate();
         if (!isValid || !trigger) {
+            setIsLoading(false);
             return;
         }
 
         const validationResult = await handleValidateTrigger(trigger);
         if (!validationResult) {
+            setIsLoading(false);
             return;
         }
 
         const areTargetsValid = checkTargets(validationResult);
         if (!areTargetsValid) {
+            setIsLoading(false);
             return;
         }
 
