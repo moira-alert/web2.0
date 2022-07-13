@@ -3,6 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
+import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import {
@@ -21,7 +22,6 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";
-import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -90,18 +90,18 @@ function TriggerAddContainer(props: Props) {
 
         switch (trigger.trigger_type) {
             case "expression":
-                setTrigger((prevState) => ({
-                    ...prevState,
+                setTrigger({
+                    ...trigger,
                     error_value: null,
                     warn_value: null,
-                }));
+                });
                 break;
             case "rising":
             case "falling":
-                setTrigger((prevState) => ({
-                    ...prevState,
+                setTrigger({
+                    ...trigger,
                     expression: "",
-                }));
+                });
                 break;
             default:
                 throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
@@ -119,10 +119,10 @@ function TriggerAddContainer(props: Props) {
     };
 
     const handleChange = (update: Partial<Trigger>) => {
-        setTrigger((prevState) => ({
-            ...prevState,
+        setTrigger({
+            ...trigger,
             ...update,
-        }));
+        });
         setError(undefined);
         setValidationResult(undefined);
     };
@@ -167,10 +167,10 @@ function TriggerAddContainer(props: Props) {
         try {
             const { list } = await moiraApi.getTagList();
             const config = await moiraApi.getConfig();
-            setTrigger((prevState) => ({
-                ...prevState,
+            setTrigger({
+                ...trigger,
                 tags: localTags,
-            }));
+            });
             setConfig(config);
             setTags(list);
         } catch (error) {
@@ -202,7 +202,7 @@ function TriggerAddContainer(props: Props) {
                                     {config != null && (
                                         <TriggerEditForm
                                             data={trigger}
-                                            remoteAllowed={true}
+                                            remoteAllowed={config.remoteAllowed}
                                             tags={tags || []}
                                             onChange={handleChange}
                                             validationResult={validationResult}

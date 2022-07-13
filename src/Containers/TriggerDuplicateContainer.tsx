@@ -2,6 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
+import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Trigger, ValidateTriggerResult, ValidateTriggerTarget } from "../Domain/Trigger";
@@ -11,8 +12,6 @@ import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
-import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
-import has from "lodash/has";
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
@@ -94,7 +93,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
                                             <TriggerEditForm
                                                 data={trigger}
                                                 tags={tags || []}
-                                                remoteAllowed={true}
+                                                remoteAllowed={config.remoteAllowed}
                                                 onChange={this.handleChange}
                                                 validationResult={validationResult}
                                             />
@@ -138,7 +137,7 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
     async handleSubmit() {
         let { trigger } = this.state;
         const { moiraApi, history } = this.props;
-        const isValid = (await this.validateForm()) && !has(this.state.validationResult, "targets");
+        const isValid = await this.validateForm();
         if (isValid && trigger) {
             await this.handleValidateTrigger(trigger);
             const areTargetsValid = this.checkTargets();
