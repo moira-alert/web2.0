@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
@@ -13,180 +13,119 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
-import has from "lodash/has";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
-type State = {
-    loading: boolean;
-    error?: string;
-    trigger?: Trigger;
-    tags?: Array<string>;
-    config?: Config;
-    validationResult?: ValidateTriggerResult;
-};
 
-function getAsyncValidator() {
-    let storage;
-    return async (
-        condition: Promise<ValidateTriggerResult>,
-        callback: (value: ValidateTriggerResult) => void
-    ) => {
-        storage = condition;
+function TriggerEditContainer(props: Props) {
+    const [validationResult, setValidationResult] = useState<ValidateTriggerResult | undefined>(
+        undefined
+    );
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
+    const [tags, setTags] = useState<string[] | undefined>(undefined);
+    const [config, setConfig] = useState<Config | undefined>(undefined);
+
+    const validationContainer = useRef<ValidationContainer>(null);
+
+    const handleSubmit = async () => {
+        setIsLoading(true);
+
+        const isValid = await validationContainer.current?.validate();
+        if (!isValid || !trigger) {
+            setIsLoading(false);
+            return;
+        }
+
+        let finalTrigger;
+        switch (trigger.trigger_type) {
+            case "expression":
+                finalTrigger = {
+                    ...trigger,
+                    error_value: null,
+                    warn_value: null,
+                };
+                break;
+            case "rising":
+            case "falling":
+                finalTrigger = {
+                    ...trigger,
+                    expression: "",
+                };
+                break;
+            default:
+                throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
+        }
+
+        const validationResult = await handleValidateTrigger(finalTrigger);
+        if (!validationResult) {
+            setIsLoading(false);
+            return;
+        }
+
+        const areTargetsValid = checkTargets(validationResult);
+        if (!areTargetsValid) {
+            setIsLoading(false);
+            return;
+        }
+
         try {
-            const result = await condition;
-
-            if (storage === condition) {
-                callback(result);
-            }
-        } catch (e) {
-            Toast.push(e.toString());
-        }
-    };
-}
-
-class TriggerEditContainer extends React.Component<Props, State> {
-    public state: State = { loading: true };
-    private validationContainer = React.createRef<ValidationContainer>();
-    private asyncValidator = getAsyncValidator();
-
-    componentDidMount() {
-        document.title = "Moira - Edit trigger";
-        this.getData(this.props);
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps: Props) {
-        this.setState({ loading: true });
-        this.getData(nextProps);
-    }
-
-    render(): React.ReactElement {
-        const { loading, error, trigger, tags, config, validationResult } = this.state;
-        return (
-            <Layout loading={loading} error={error}>
-                <LayoutContent>
-                    <LayoutTitle>Edit trigger</LayoutTitle>
-                    {trigger && (
-                        <form>
-                            <ColumnStack block gap={6} horizontalAlign="stretch">
-                                <Fit>
-                                    <ValidationContainer ref={this.validationContainer}>
-                                        {config != null && (
-                                            <TriggerEditForm
-                                                data={trigger}
-                                                tags={tags || []}
-                                                remoteAllowed={true}
-                                                onChange={this.handleChange}
-                                                validationResult={validationResult}
-                                            />
-                                        )}
-                                    </ValidationContainer>
-                                </Fit>
-                                <Fit>
-                                    <RowStack gap={3} baseline>
-                                        <Fit>
-                                            <Button use="primary" onClick={this.handleSubmit}>
-                                                Save trigger
-                                            </Button>
-                                        </Fit>
-                                        <Fit>
-                                            <Button
-                                                use="link"
-                                                icon={<TrashIcon />}
-                                                onClick={() => this.deleteTrigger(trigger.id)}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </Fit>
-                                        <Fit>
-                                            <RouterLink to={getPageLink("trigger", trigger.id)}>
-                                                Cancel
-                                            </RouterLink>
-                                        </Fit>
-                                    </RowStack>
-                                </Fit>
-                            </ColumnStack>
-                        </form>
-                    )}
-                </LayoutContent>
-            </Layout>
-        );
-    }
-
-    handleSubmit = async () => {
-        let { trigger } = this.state;
-        const { moiraApi, history } = this.props;
-        const isValid = (await this.validateForm()) && !has(this.state.validationResult, "targets");
-        if (isValid && trigger) {
-            await this.handleValidateTrigger(trigger);
-            const areTargetsValid = this.checkTargets();
-            if (areTargetsValid) {
-                this.setState({ loading: true });
-                if (trigger.trigger_type === "expression") {
-                    trigger = {
-                        ...trigger,
-                        error_value: null,
-                        warn_value: null,
-                    };
-                }
-                if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
-                    trigger = {
-                        ...trigger,
-                        expression: "",
-                    };
-                }
-                try {
-                    await moiraApi.setTrigger(trigger.id, trigger);
-                    history.push(getPageLink("trigger", trigger.id));
-                } catch (error) {
-                    this.setState({ error: error.message, loading: false });
-                }
-            }
+            const { moiraApi, history } = props;
+            await moiraApi.setTrigger(finalTrigger.id, finalTrigger);
+            history.push(getPageLink("trigger", finalTrigger.id));
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    handleChange = (update: Partial<Trigger>, callback?: () => void) => {
-        this.setState(
-            (prevState: State) => ({
-                trigger: prevState.trigger ? { ...prevState.trigger, ...update } : undefined,
-                validationResult: undefined,
-            }),
-            callback
-        );
+    const handleChange = (update: Partial<Trigger>) => {
+        if (!trigger) {
+            return;
+        }
+        setTrigger({ ...trigger, ...update });
+        setError(undefined);
+        setValidationResult(undefined);
     };
 
-    private handleValidateTrigger = async (trigger: Partial<Trigger>) => {
-        const { moiraApi } = this.props;
-
-        await this.asyncValidator(
-            moiraApi.validateTrigger(trigger),
-            (validationResult: ValidateTriggerResult) => {
-                this.setState({ validationResult });
-            }
-        );
+    const handleValidateTrigger = async (trigger: Partial<Trigger>) => {
+        const { moiraApi } = props;
+        try {
+            const validationResult = await moiraApi.validateTrigger(trigger);
+            setValidationResult(validationResult);
+            return validationResult;
+        } catch (error) {
+            Toast.push(error.toString());
+            return null;
+        }
     };
 
-    private checkTargets = () =>
-        this.state.validationResult?.targets.every(
+    const checkTargets = ({ targets }: ValidateTriggerResult) => {
+        return targets.every(
             ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
                 syntax_ok && !tree_of_problems
         );
+    };
 
-    deleteTrigger = async (id: string) => {
-        const { moiraApi, history } = this.props;
-        this.setState({ loading: true });
+    const deleteTrigger = async (id: string) => {
+        const { moiraApi, history } = props;
+        setIsLoading(true);
         try {
             await moiraApi.delTrigger(id);
             history.push(getPageLink("index"));
         } catch (error) {
-            this.setState({ error: error.message, loading: false });
+            setError(error.message);
+            setIsLoading(false);
         }
     };
 
-    async getData(props: Props) {
+    const getData = async (props: Props) => {
         const { moiraApi, match } = props;
         const { id } = match.params;
         if (typeof id !== "string") {
-            this.setState({ error: "Wrong trigger id", loading: false });
+            setError("Wrong trigger id");
+            setIsLoading(false);
             return;
         }
         try {
@@ -196,24 +135,70 @@ class TriggerEditContainer extends React.Component<Props, State> {
                 moiraApi.getConfig(),
             ]);
 
-            this.setState({
-                trigger,
-                tags: list,
-                config,
-            });
+            setTrigger(trigger);
+            setConfig(config);
+            setTags(list);
         } catch (error) {
-            this.setState({ error: error.message });
+            setError(error.message);
         } finally {
-            this.setState({ loading: false });
+            setIsLoading(false);
         }
-    }
+    };
 
-    async validateForm(): Promise<boolean> {
-        if (this.validationContainer.current == null) {
-            return true;
-        }
-        return this.validationContainer.current.validate();
-    }
+    useEffect(() => {
+        document.title = "Moira - Edit trigger";
+        getData(props);
+    }, [props]);
+
+    return (
+        <Layout loading={isLoading} error={error}>
+            <LayoutContent>
+                <LayoutTitle>Edit trigger</LayoutTitle>
+                {trigger && (
+                    <form>
+                        <ColumnStack block gap={6} horizontalAlign="stretch">
+                            <Fit>
+                                <ValidationContainer ref={validationContainer}>
+                                    {config != null && (
+                                        <TriggerEditForm
+                                            data={trigger}
+                                            tags={tags || []}
+                                            remoteAllowed={config.remoteAllowed}
+                                            onChange={handleChange}
+                                            validationResult={validationResult}
+                                        />
+                                    )}
+                                </ValidationContainer>
+                            </Fit>
+                            <Fit>
+                                <RowStack gap={3} baseline>
+                                    <Fit>
+                                        <Button use="primary" onClick={handleSubmit}>
+                                            Save trigger
+                                        </Button>
+                                    </Fit>
+                                    <Fit>
+                                        <Button
+                                            use="link"
+                                            icon={<TrashIcon />}
+                                            onClick={() => deleteTrigger(trigger.id)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </Fit>
+                                    <Fit>
+                                        <RouterLink to={getPageLink("trigger", trigger.id)}>
+                                            Cancel
+                                        </RouterLink>
+                                    </Fit>
+                                </RowStack>
+                            </Fit>
+                        </ColumnStack>
+                    </form>
+                )}
+            </LayoutContent>
+        </Layout>
+    );
 }
 
 export default withMoiraApi(TriggerEditContainer);

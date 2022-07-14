@@ -70,13 +70,34 @@ function TriggerAddContainer(props: Props) {
 
     const handleSubmit = async () => {
         setIsLoading(true);
+
         const isValid = await validationContainer.current?.validate();
         if (!isValid || !trigger) {
             setIsLoading(false);
             return;
         }
 
-        const validationResult = await handleValidateTrigger(trigger);
+        let finalTrigger;
+        switch (trigger.trigger_type) {
+            case "expression":
+                finalTrigger = {
+                    ...trigger,
+                    error_value: null,
+                    warn_value: null,
+                };
+                break;
+            case "rising":
+            case "falling":
+                finalTrigger = {
+                    ...trigger,
+                    expression: "",
+                };
+                break;
+            default:
+                throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
+        }
+
+        const validationResult = await handleValidateTrigger(finalTrigger);
         if (!validationResult) {
             setIsLoading(false);
             return;
@@ -88,28 +109,9 @@ function TriggerAddContainer(props: Props) {
             return;
         }
 
-        switch (trigger.trigger_type) {
-            case "expression":
-                setTrigger({
-                    ...trigger,
-                    error_value: null,
-                    warn_value: null,
-                });
-                break;
-            case "rising":
-            case "falling":
-                setTrigger({
-                    ...trigger,
-                    expression: "",
-                });
-                break;
-            default:
-                throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
-        }
-
         try {
             const { moiraApi, history } = props;
-            const { id } = await moiraApi.addTrigger(trigger);
+            const { id } = await moiraApi.addTrigger(finalTrigger);
             history.push(getPageLink("trigger", id));
         } catch (error) {
             setError(error.message);
