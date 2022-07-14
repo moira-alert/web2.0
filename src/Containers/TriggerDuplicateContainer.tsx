@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
@@ -15,53 +15,20 @@ import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack"
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
-type State = {
-    loading: boolean;
-    error?: string;
-    trigger?: Partial<Trigger>;
-    tags?: string[];
-    config?: Config;
-    validationResult?: ValidateTriggerResult;
-};
 
-function getAsyncValidator() {
-    let storage;
-    return async (
-        condition: Promise<ValidateTriggerResult>,
-        callback: (value: ValidateTriggerResult) => void
-    ) => {
-        storage = condition;
-        try {
-            const result = await condition;
+function TriggerDuplicateContainer(props: Props) {
+    const [validationResult, setValidationResult] = useState<ValidateTriggerResult | undefined>(
+        undefined
+    );
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
+    const [tags, setTags] = useState<string[] | undefined>(undefined);
+    const [config, setConfig] = useState<Config | undefined>(undefined);
 
-            if (storage === condition) {
-                callback(result);
-            }
-        } catch (e) {
-            Toast.push(e.toString());
-        }
-    };
-}
+    const validationContainer = useRef<ValidationContainer>(null);
 
-class TriggerDuplicateContainer extends React.Component<Props, State> {
-    public state: State = {
-        loading: true,
-    };
-
-    private validationContainer = React.createRef<ValidationContainer>();
-    private asyncValidator = getAsyncValidator();
-
-    public componentDidMount() {
-        document.title = "Moira - Duplicate trigger";
-        this.getData(this.props);
-    }
-
-    public UNSAFE_componentWillReceiveProps(nextProps: Props) {
-        this.setState({ loading: true });
-        this.getData(nextProps);
-    }
-
-    static cleanTrigger(sourceTrigger: Trigger): Partial<Trigger> {
+    const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
         const trigger: Partial<Trigger> = { ...sourceTrigger };
 
         delete trigger.id;
@@ -75,153 +42,168 @@ class TriggerDuplicateContainer extends React.Component<Props, State> {
                 ? { ...trigger.sched, tzOffset: new Date().getTimezoneOffset() }
                 : undefined,
         };
-    }
+    };
 
-    render(): React.ReactElement {
-        const { match } = this.props;
-        const { loading, error, trigger, tags, config, validationResult } = this.state;
-        return (
-            <Layout loading={loading} error={error}>
-                <LayoutContent>
-                    <LayoutTitle>Duplicate trigger</LayoutTitle>
-                    {trigger && (
-                        <form>
-                            <ColumnStack block gap={6} horizontalAlign="stretch">
-                                <Fit>
-                                    <ValidationContainer ref={this.validationContainer}>
-                                        {config != null && (
-                                            <TriggerEditForm
-                                                data={trigger}
-                                                tags={tags || []}
-                                                remoteAllowed={config.remoteAllowed}
-                                                onChange={this.handleChange}
-                                                validationResult={validationResult}
-                                            />
-                                        )}
-                                    </ValidationContainer>
-                                </Fit>
-                                <Fit>
-                                    <RowStack gap={3} baseline>
-                                        <Fit>
-                                            <Button
-                                                use="primary"
-                                                onClick={() => {
-                                                    this.handleSubmit();
-                                                }}
-                                            >
-                                                Duplicate trigger
-                                            </Button>
-                                        </Fit>
-                                        <Fit>
-                                            <RouterLink
-                                                to={getPageLink(
-                                                    "trigger",
-                                                    match && match.params && match.params.id
-                                                        ? match.params.id
-                                                        : ""
-                                                )}
-                                            >
-                                                Cancel
-                                            </RouterLink>
-                                        </Fit>
-                                    </RowStack>
-                                </Fit>
-                            </ColumnStack>
-                        </form>
-                    )}
-                </LayoutContent>
-            </Layout>
-        );
-    }
+    const handleSubmit = async () => {
+        setIsLoading(true);
 
-    async handleSubmit() {
-        let { trigger } = this.state;
-        const { moiraApi, history } = this.props;
-        const isValid = await this.validateForm();
-        if (isValid && trigger) {
-            await this.handleValidateTrigger(trigger);
-            const areTargetsValid = this.checkTargets();
-            if (areTargetsValid) {
-                this.setState({ loading: true });
-                if (trigger.trigger_type === "expression") {
-                    trigger = {
-                        ...trigger,
-                        error_value: null,
-                        warn_value: null,
-                    };
-                }
-                if (trigger.trigger_type === "rising" || trigger.trigger_type === "falling") {
-                    trigger = {
-                        ...trigger,
-                        expression: "",
-                    };
-                }
-                try {
-                    const { id } = await moiraApi.addTrigger(trigger);
-                    history.push(getPageLink("trigger", id));
-                } catch (error) {
-                    this.setState({ error: error.message, loading: false });
-                }
-            }
+        const isValid = await validationContainer.current?.validate();
+        if (!isValid || !trigger) {
+            setIsLoading(false);
+            return;
         }
-    }
 
-    handleChange = (update: Partial<Trigger>, callback?: () => void) => {
-        this.setState(
-            (prevState: State) => ({
-                trigger: { ...prevState.trigger, ...update },
-                validationResult: undefined,
-            }),
-            callback
-        );
+        let finalTrigger;
+        switch (trigger.trigger_type) {
+            case "expression":
+                finalTrigger = {
+                    ...trigger,
+                    error_value: null,
+                    warn_value: null,
+                };
+                break;
+            case "rising":
+            case "falling":
+                finalTrigger = {
+                    ...trigger,
+                    expression: "",
+                };
+                break;
+            default:
+                throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
+        }
+
+        const validationResult = await handleValidateTrigger(finalTrigger);
+        if (!validationResult) {
+            setIsLoading(false);
+            return;
+        }
+
+        const areTargetsValid = checkTargets(validationResult);
+        if (!areTargetsValid) {
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            const { moiraApi, history } = props;
+            const { id } = await moiraApi.addTrigger(finalTrigger);
+            history.push(getPageLink("trigger", id));
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    private handleValidateTrigger = async (trigger: Partial<Trigger>) => {
-        const { moiraApi } = this.props;
-
-        await this.asyncValidator(
-            moiraApi.validateTrigger(trigger),
-            (validationResult: ValidateTriggerResult) => {
-                this.setState({ validationResult });
-            }
-        );
+    const handleChange = (update: Partial<Trigger>) => {
+        if (!trigger) {
+            return;
+        }
+        setTrigger({ ...trigger, ...update });
+        setError(undefined);
+        setValidationResult(undefined);
     };
 
-    private checkTargets = () =>
-        this.state.validationResult?.targets.every(
+    const handleValidateTrigger = async (trigger: Partial<Trigger>) => {
+        const { moiraApi } = props;
+        try {
+            const validationResult = await moiraApi.validateTrigger(trigger);
+            setValidationResult(validationResult);
+            return validationResult;
+        } catch (error) {
+            Toast.push(error.toString());
+            return null;
+        }
+    };
+
+    const checkTargets = ({ targets }: ValidateTriggerResult) => {
+        return targets.every(
             ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
                 syntax_ok && !tree_of_problems
         );
+    };
 
-    async getData(props: Props) {
-        const { moiraApi, match } = props;
-        const { id } = match.params;
-        if (typeof id !== "string") {
-            this.setState({ error: "Wrong trigger id", loading: false });
-            return;
-        }
-        try {
-            const [sourceTrigger, { list }, config] = await Promise.all([
-                moiraApi.getTrigger(id),
-                moiraApi.getTagList(),
-                moiraApi.getConfig(),
-            ]);
+    useEffect(() => {
+        document.title = "Moira - Duplicate trigger";
+        const getData = async (props: Props) => {
+            const { moiraApi, match } = props;
+            const { id } = match.params;
+            if (typeof id !== "string") {
+                setError("Wrong trigger id");
+                setIsLoading(false);
+                return;
+            }
+            try {
+                const [sourceTrigger, { list }, config] = await Promise.all([
+                    moiraApi.getTrigger(id),
+                    moiraApi.getTagList(),
+                    moiraApi.getConfig(),
+                ]);
 
-            const trigger = TriggerDuplicateContainer.cleanTrigger(sourceTrigger);
-            this.setState({ trigger, tags: list, config });
-        } catch (error) {
-            this.setState({ error: error.message });
-        } finally {
-            this.setState({ loading: false });
-        }
-    }
+                const trigger = cleanTrigger(sourceTrigger);
+                setTrigger(trigger);
+                setConfig(config);
+                setTags(list);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        getData(props);
+    }, [props]);
 
-    async validateForm(): Promise<boolean> {
-        if (this.validationContainer.current == null) {
-            return true;
-        }
-        return this.validationContainer.current.validate();
-    }
+    return (
+        <Layout loading={isLoading} error={error}>
+            <LayoutContent>
+                <LayoutTitle>Duplicate trigger</LayoutTitle>
+                {trigger && (
+                    <form>
+                        <ColumnStack block gap={6} horizontalAlign="stretch">
+                            <Fit>
+                                <ValidationContainer ref={validationContainer}>
+                                    {config != null && (
+                                        <TriggerEditForm
+                                            data={trigger}
+                                            tags={tags || []}
+                                            remoteAllowed={config.remoteAllowed}
+                                            onChange={handleChange}
+                                            validationResult={validationResult}
+                                        />
+                                    )}
+                                </ValidationContainer>
+                            </Fit>
+                            <Fit>
+                                <RowStack gap={3} baseline>
+                                    <Fit>
+                                        <Button
+                                            use="primary"
+                                            onClick={() => {
+                                                handleSubmit();
+                                            }}
+                                        >
+                                            Duplicate trigger
+                                        </Button>
+                                    </Fit>
+                                    <Fit>
+                                        <RouterLink
+                                            to={getPageLink(
+                                                "trigger",
+                                                props.match?.params?.id || ""
+                                            )}
+                                        >
+                                            Cancel
+                                        </RouterLink>
+                                    </Fit>
+                                </RowStack>
+                            </Fit>
+                        </ColumnStack>
+                    </form>
+                )}
+            </LayoutContent>
+        </Layout>
+    );
 }
 
 export default withMoiraApi(TriggerDuplicateContainer);

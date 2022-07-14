@@ -161,31 +161,32 @@ function TriggerAddContainer(props: Props) {
         );
     };
 
-    const getData = async (props: Props) => {
-        const { moiraApi } = props;
-        const localDataString = localStorage.getItem("moiraSettings");
-        const { tags: localTags } = localDataString ? JSON.parse(localDataString) : { tags: [] };
-
-        try {
-            const { list } = await moiraApi.getTagList();
-            const config = await moiraApi.getConfig();
-            setTrigger({
-                ...trigger,
-                tags: localTags,
-            });
-            setConfig(config);
-            setTags(list);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     useEffect(() => {
         document.title = "Moira - Add trigger";
+        const getData = async (props: Props) => {
+            const { moiraApi } = props;
+            const localDataString = localStorage.getItem("moiraSettings");
+            const { tags: localTags } = localDataString
+                ? JSON.parse(localDataString)
+                : { tags: [] };
+
+            try {
+                const { list } = await moiraApi.getTagList();
+                const config = await moiraApi.getConfig();
+                setTrigger({
+                    ...trigger,
+                    tags: localTags,
+                });
+                setConfig(config);
+                setTags(list);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
         getData(props);
-    }, [props]);
+    }, [props, trigger]);
 
     return (
         <Layout loading={isLoading} error={error}>

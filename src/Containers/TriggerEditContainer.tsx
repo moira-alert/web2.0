@@ -120,33 +120,32 @@ function TriggerEditContainer(props: Props) {
         }
     };
 
-    const getData = async (props: Props) => {
-        const { moiraApi, match } = props;
-        const { id } = match.params;
-        if (typeof id !== "string") {
-            setError("Wrong trigger id");
-            setIsLoading(false);
-            return;
-        }
-        try {
-            const [trigger, { list }, config] = await Promise.all([
-                moiraApi.getTrigger(id),
-                moiraApi.getTagList(),
-                moiraApi.getConfig(),
-            ]);
-
-            setTrigger(trigger);
-            setConfig(config);
-            setTags(list);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     useEffect(() => {
         document.title = "Moira - Edit trigger";
+        const getData = async (props: Props) => {
+            const { moiraApi, match } = props;
+            const { id } = match.params;
+            if (typeof id !== "string") {
+                setError("Wrong trigger id");
+                setIsLoading(false);
+                return;
+            }
+            try {
+                const [trigger, { list }, config] = await Promise.all([
+                    moiraApi.getTrigger(id),
+                    moiraApi.getTagList(),
+                    moiraApi.getConfig(),
+                ]);
+
+                setTrigger(trigger);
+                setConfig(config);
+                setTags(list);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
         getData(props);
     }, [props]);
 
