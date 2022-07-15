@@ -3,76 +3,58 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import TrashIcon from "@skbkontur/react-icons/Trash";
+import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import type { Trigger, ValidateTriggerResult, ValidateTriggerTarget } from "../Domain/Trigger";
+import type { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
-import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 function TriggerEditContainer(props: Props) {
-    const [validationResult, setValidationResult] = useState<ValidateTriggerResult | undefined>(
-        undefined
-    );
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
 
+    const {
+        validationResult,
+        setValidationResult,
+        validateTrigger,
+        updateTrigger,
+    } = useTriggerFormContainer();
+
     const validationContainer = useRef<ValidationContainer>(null);
 
     const handleSubmit = async () => {
+        if (!trigger) {
+            return;
+        }
+
         setIsLoading(true);
 
-        const isValid = await validationContainer.current?.validate();
-        if (!isValid || !trigger) {
-            setIsLoading(false);
-            return;
-        }
+        const updatedTrigger = updateTrigger(trigger);
 
-        let finalTrigger;
-        switch (trigger.trigger_type) {
-            case "expression":
-                finalTrigger = {
-                    ...trigger,
-                    error_value: null,
-                    warn_value: null,
-                };
-                break;
-            case "rising":
-            case "falling":
-                finalTrigger = {
-                    ...trigger,
-                    expression: "",
-                };
-                break;
-            default:
-                throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
-        }
-
-        const validationResult = await handleValidateTrigger(finalTrigger);
-        if (!validationResult) {
-            setIsLoading(false);
-            return;
-        }
-
-        const areTargetsValid = checkTargets(validationResult);
-        if (!areTargetsValid) {
+        const isTriggerValid = await validateTrigger(
+            validationContainer,
+            updatedTrigger,
+            props.moiraApi
+        );
+        if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
             const { moiraApi, history } = props;
-            await moiraApi.setTrigger(finalTrigger.id, finalTrigger);
-            history.push(getPageLink("trigger", finalTrigger.id));
+            await moiraApi.setTrigger(trigger.id, updatedTrigger);
+            history.push(getPageLink("trigger", updatedTrigger.id));
         } catch (error) {
             setError(error.message);
         } finally {
@@ -87,25 +69,6 @@ function TriggerEditContainer(props: Props) {
         setTrigger({ ...trigger, ...update });
         setError(undefined);
         setValidationResult(undefined);
-    };
-
-    const handleValidateTrigger = async (trigger: Partial<Trigger>) => {
-        const { moiraApi } = props;
-        try {
-            const validationResult = await moiraApi.validateTrigger(trigger);
-            setValidationResult(validationResult);
-            return validationResult;
-        } catch (error) {
-            Toast.push(error.toString());
-            return null;
-        }
-    };
-
-    const checkTargets = ({ targets }: ValidateTriggerResult) => {
-        return targets.every(
-            ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
-                syntax_ok && !tree_of_problems
-        );
     };
 
     const deleteTrigger = async (id: string) => {

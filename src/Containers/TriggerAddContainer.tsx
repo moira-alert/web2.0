@@ -3,15 +3,10 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
-import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
+import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import {
-    DEFAULT_TRIGGER_TTL,
-    Trigger,
-    ValidateTriggerResult,
-    ValidateTriggerTarget,
-} from "../Domain/Trigger";
+import { DEFAULT_TRIGGER_TTL, Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
 import { Config } from "../Domain/Config";
@@ -57,61 +52,39 @@ const defaultTrigger: Partial<Trigger> = {
 type Props = RouteComponentProps & { moiraApi: MoiraApi };
 
 function TriggerAddContainer(props: Props) {
-    const [validationResult, setValidationResult] = useState<ValidateTriggerResult | undefined>(
-        undefined
-    );
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>(undefined);
-    const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(defaultTrigger);
+    const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
+
+    const {
+        validationResult,
+        setValidationResult,
+        validateTrigger,
+        updateTrigger,
+    } = useTriggerFormContainer();
 
     const validationContainer = useRef<ValidationContainer>(null);
 
     const handleSubmit = async () => {
         setIsLoading(true);
 
-        const isValid = await validationContainer.current?.validate();
-        if (!isValid || !trigger) {
-            setIsLoading(false);
-            return;
-        }
+        const updatedTrigger = updateTrigger(trigger);
 
-        let finalTrigger;
-        switch (trigger.trigger_type) {
-            case "expression":
-                finalTrigger = {
-                    ...trigger,
-                    error_value: null,
-                    warn_value: null,
-                };
-                break;
-            case "rising":
-            case "falling":
-                finalTrigger = {
-                    ...trigger,
-                    expression: "",
-                };
-                break;
-            default:
-                throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
-        }
-
-        const validationResult = await handleValidateTrigger(finalTrigger);
-        if (!validationResult) {
-            setIsLoading(false);
-            return;
-        }
-
-        const areTargetsValid = checkTargets(validationResult);
-        if (!areTargetsValid) {
+        const isTriggerValid = await validateTrigger(
+            validationContainer,
+            updatedTrigger,
+            props.moiraApi
+        );
+        if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
             const { moiraApi, history } = props;
-            const { id } = await moiraApi.addTrigger(finalTrigger);
+            const { id } = await moiraApi.addTrigger(updatedTrigger);
             history.push(getPageLink("trigger", id));
         } catch (error) {
             setError(error.message);
@@ -142,25 +115,6 @@ function TriggerAddContainer(props: Props) {
         }
     };
 
-    const handleValidateTrigger = async (trigger: Partial<Trigger>) => {
-        const { moiraApi } = props;
-        try {
-            const validationResult = await moiraApi.validateTrigger(trigger);
-            setValidationResult(validationResult);
-            return validationResult;
-        } catch (error) {
-            Toast.push(error.toString());
-            return null;
-        }
-    };
-
-    const checkTargets = ({ targets }: ValidateTriggerResult) => {
-        return targets.every(
-            ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
-                syntax_ok && !tree_of_problems
-        );
-    };
-
     useEffect(() => {
         document.title = "Moira - Add trigger";
         const getData = async (props: Props) => {
@@ -173,10 +127,10 @@ function TriggerAddContainer(props: Props) {
             try {
                 const { list } = await moiraApi.getTagList();
                 const config = await moiraApi.getConfig();
-                setTrigger({
-                    ...trigger,
+                setTrigger((prevTrigger) => ({
+                    ...prevTrigger,
                     tags: localTags,
-                });
+                }));
                 setConfig(config);
                 setTags(list);
             } catch (error) {
@@ -186,7 +140,7 @@ function TriggerAddContainer(props: Props) {
             }
         };
         getData(props);
-    }, [props, trigger]);
+    }, [props]);
 
     return (
         <Layout loading={isLoading} error={error}>

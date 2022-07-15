@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { Toast } from "@skbkontur/react-ui/components/Toast/Toast";
+import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { Trigger, ValidateTriggerResult, ValidateTriggerTarget } from "../Domain/Trigger";
+import { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
@@ -17,14 +17,18 @@ import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack"
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 function TriggerDuplicateContainer(props: Props) {
-    const [validationResult, setValidationResult] = useState<ValidateTriggerResult | undefined>(
-        undefined
-    );
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
+
+    const {
+        validationResult,
+        setValidationResult,
+        validateTrigger,
+        updateTrigger,
+    } = useTriggerFormContainer();
 
     const validationContainer = useRef<ValidationContainer>(null);
 
@@ -45,49 +49,27 @@ function TriggerDuplicateContainer(props: Props) {
     };
 
     const handleSubmit = async () => {
+        if (!trigger) {
+            return;
+        }
+
         setIsLoading(true);
 
-        const isValid = await validationContainer.current?.validate();
-        if (!isValid || !trigger) {
-            setIsLoading(false);
-            return;
-        }
+        const updatedTrigger = updateTrigger(trigger);
 
-        let finalTrigger;
-        switch (trigger.trigger_type) {
-            case "expression":
-                finalTrigger = {
-                    ...trigger,
-                    error_value: null,
-                    warn_value: null,
-                };
-                break;
-            case "rising":
-            case "falling":
-                finalTrigger = {
-                    ...trigger,
-                    expression: "",
-                };
-                break;
-            default:
-                throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
-        }
-
-        const validationResult = await handleValidateTrigger(finalTrigger);
-        if (!validationResult) {
-            setIsLoading(false);
-            return;
-        }
-
-        const areTargetsValid = checkTargets(validationResult);
-        if (!areTargetsValid) {
+        const isTriggerValid = await validateTrigger(
+            validationContainer,
+            updatedTrigger,
+            props.moiraApi
+        );
+        if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
             const { moiraApi, history } = props;
-            const { id } = await moiraApi.addTrigger(finalTrigger);
+            const { id } = await moiraApi.addTrigger(updatedTrigger);
             history.push(getPageLink("trigger", id));
         } catch (error) {
             setError(error.message);
@@ -103,25 +85,6 @@ function TriggerDuplicateContainer(props: Props) {
         setTrigger({ ...trigger, ...update });
         setError(undefined);
         setValidationResult(undefined);
-    };
-
-    const handleValidateTrigger = async (trigger: Partial<Trigger>) => {
-        const { moiraApi } = props;
-        try {
-            const validationResult = await moiraApi.validateTrigger(trigger);
-            setValidationResult(validationResult);
-            return validationResult;
-        } catch (error) {
-            Toast.push(error.toString());
-            return null;
-        }
-    };
-
-    const checkTargets = ({ targets }: ValidateTriggerResult) => {
-        return targets.every(
-            ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
-                syntax_ok && !tree_of_problems
-        );
     };
 
     useEffect(() => {
