@@ -39,16 +39,19 @@ function TriggerEditContainer(props: Props) {
 
         setIsLoading(true);
 
-        const { moiraApi } = props;
         const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger, moiraApi);
+        const isTriggerValid = await validateTrigger(
+            validationContainer,
+            updatedTrigger,
+            props.moiraApi
+        );
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
-            await moiraApi.setTrigger(trigger.id, updatedTrigger);
+            await props.moiraApi.setTrigger(trigger.id, updatedTrigger);
             props.history.push(getPageLink("trigger", updatedTrigger.id));
         } catch (error) {
             setError(error.message);
@@ -61,17 +64,17 @@ function TriggerEditContainer(props: Props) {
         if (!trigger) {
             return;
         }
+
         setTrigger({ ...trigger, ...update });
         setError(undefined);
         setValidationResult(undefined);
     };
 
     const deleteTrigger = async (id: string) => {
-        const { moiraApi, history } = props;
         setIsLoading(true);
         try {
-            await moiraApi.delTrigger(id);
-            history.push(getPageLink("index"));
+            await props.moiraApi.delTrigger(id);
+            props.history.push(getPageLink("index"));
         } catch (error) {
             setError(error.message);
             setIsLoading(false);
@@ -79,18 +82,17 @@ function TriggerEditContainer(props: Props) {
     };
 
     const getData = async () => {
-        const { moiraApi } = props;
-        const { id } = props.match.params;
-        if (typeof id !== "string") {
+        if (typeof props.match.params.id !== "string") {
             setError("Wrong trigger id");
             setIsLoading(false);
             return;
         }
+
         try {
             const [trigger, { list }, config] = await Promise.all([
-                moiraApi.getTrigger(id),
-                moiraApi.getTagList(),
-                moiraApi.getConfig(),
+                props.moiraApi.getTrigger(props.match.params.id),
+                props.moiraApi.getTagList(),
+                props.moiraApi.getConfig(),
             ]);
 
             setTrigger(trigger);

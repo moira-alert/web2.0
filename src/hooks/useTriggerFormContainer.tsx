@@ -25,21 +25,29 @@ export const useTriggerFormContainer = (): useTriggerFormContainerReturn => {
         trigger: Partial<Trigger>,
         moiraApi: MoiraApi
     ) => {
+        const isFormValid = await container.current?.validate();
+        if (!isFormValid) {
+            return false;
+        }
+
+        const validationResult = await validateTriggerData(trigger, moiraApi);
+        if (!validationResult) {
+            return false;
+        }
+
+        const areTargetsValid = checkTargets(validationResult);
+        if (!areTargetsValid) {
+            setValidationResult(validationResult);
+            return false;
+        }
+
+        return true;
+    };
+
+    const validateTriggerData = async (trigger: Trigger | Partial<Trigger>, moiraApi: MoiraApi) => {
         try {
-            const isFormValid = await container.current?.validate();
-            if (!isFormValid) {
-                return false;
-            }
-
             const validationResult = await moiraApi.validateTrigger(trigger);
-
-            const areTargetsValid = checkTargets(validationResult);
-            if (!areTargetsValid) {
-                setValidationResult(validationResult);
-                return false;
-            }
-
-            return true;
+            return validationResult;
         } catch (error) {
             Toast.push(error.toString());
             return false;

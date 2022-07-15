@@ -70,16 +70,19 @@ function TriggerAddContainer(props: Props) {
     const handleSubmit = async () => {
         setIsLoading(true);
 
-        const { moiraApi } = props;
         const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger, moiraApi);
+        const isTriggerValid = await validateTrigger(
+            validationContainer,
+            updatedTrigger,
+            props.moiraApi
+        );
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
-            const { id } = await moiraApi.addTrigger(updatedTrigger);
+            const { id } = await props.moiraApi.addTrigger(updatedTrigger);
             props.history.push(getPageLink("trigger", id));
         } catch (error) {
             setError(error.message);
@@ -104,6 +107,7 @@ function TriggerAddContainer(props: Props) {
             if (typeof trigger !== "object" && trigger != null) {
                 throw new Error("Must be an object");
             }
+
             handleChange(omitTrigger(trigger));
         } catch (error) {
             setError(`File ${fileName} cannot be converted to trigger. ${error.message}`);
@@ -111,13 +115,12 @@ function TriggerAddContainer(props: Props) {
     };
 
     const getData = async () => {
-        const { moiraApi } = props;
         const localDataString = localStorage.getItem("moiraSettings");
         const { tags: localTags } = localDataString ? JSON.parse(localDataString) : { tags: [] };
 
         try {
-            const { list } = await moiraApi.getTagList();
-            const config = await moiraApi.getConfig();
+            const { list } = await props.moiraApi.getTagList();
+            const config = await props.moiraApi.getConfig();
             setTrigger({
                 ...trigger,
                 tags: localTags,

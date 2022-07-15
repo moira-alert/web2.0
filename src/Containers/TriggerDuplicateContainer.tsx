@@ -55,16 +55,19 @@ function TriggerDuplicateContainer(props: Props) {
 
         setIsLoading(true);
 
-        const { moiraApi } = props;
         const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger, moiraApi);
+        const isTriggerValid = await validateTrigger(
+            validationContainer,
+            updatedTrigger,
+            props.moiraApi
+        );
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
-            const { id } = await moiraApi.addTrigger(updatedTrigger);
+            const { id } = await props.moiraApi.addTrigger(updatedTrigger);
             props.history.push(getPageLink("trigger", id));
         } catch (error) {
             setError(error.message);
@@ -77,24 +80,25 @@ function TriggerDuplicateContainer(props: Props) {
         if (!trigger) {
             return;
         }
+
         setTrigger({ ...trigger, ...update });
         setError(undefined);
         setValidationResult(undefined);
     };
 
     const getData = async () => {
-        const { moiraApi } = props;
         const { id } = props.match.params;
         if (typeof id !== "string") {
             setError("Wrong trigger id");
             setIsLoading(false);
             return;
         }
+
         try {
             const [sourceTrigger, { list }, config] = await Promise.all([
-                moiraApi.getTrigger(id),
-                moiraApi.getTagList(),
-                moiraApi.getConfig(),
+                props.moiraApi.getTrigger(id),
+                props.moiraApi.getTagList(),
+                props.moiraApi.getConfig(),
             ]);
 
             const trigger = cleanTrigger(sourceTrigger);
