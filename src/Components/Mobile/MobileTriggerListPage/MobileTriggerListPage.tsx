@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
-import MenuIcon from "@skbkontur/react-icons/Menu";
 import FilterIcon from "@skbkontur/react-icons/Filter";
 import { Trigger } from "../../../Domain/Trigger";
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
@@ -33,7 +32,6 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
             <div>
                 <MobileHeader>
                     <MobileHeader.HeaderBlock>
-                        <MobileHeader.LeftButton icon={<MenuIcon />} />
                         <MobileHeader.Title>Moira: {this.renderTitle()}</MobileHeader.Title>
                         <MobileHeader.RightButton
                             icon={<FilterIcon />}
