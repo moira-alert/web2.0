@@ -39,22 +39,17 @@ function TriggerEditContainer(props: Props) {
 
         setIsLoading(true);
 
+        const { moiraApi } = props;
         const updatedTrigger = updateTrigger(trigger);
-
-        const isTriggerValid = await validateTrigger(
-            validationContainer,
-            updatedTrigger,
-            props.moiraApi
-        );
+        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger, moiraApi);
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
-            const { moiraApi, history } = props;
             await moiraApi.setTrigger(trigger.id, updatedTrigger);
-            history.push(getPageLink("trigger", updatedTrigger.id));
+            props.history.push(getPageLink("trigger", updatedTrigger.id));
         } catch (error) {
             setError(error.message);
         } finally {
@@ -83,34 +78,35 @@ function TriggerEditContainer(props: Props) {
         }
     };
 
+    const getData = async () => {
+        const { moiraApi } = props;
+        const { id } = props.match.params;
+        if (typeof id !== "string") {
+            setError("Wrong trigger id");
+            setIsLoading(false);
+            return;
+        }
+        try {
+            const [trigger, { list }, config] = await Promise.all([
+                moiraApi.getTrigger(id),
+                moiraApi.getTagList(),
+                moiraApi.getConfig(),
+            ]);
+
+            setTrigger(trigger);
+            setConfig(config);
+            setTags(list);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
         document.title = "Moira - Edit trigger";
-        const getData = async (props: Props) => {
-            const { moiraApi, match } = props;
-            const { id } = match.params;
-            if (typeof id !== "string") {
-                setError("Wrong trigger id");
-                setIsLoading(false);
-                return;
-            }
-            try {
-                const [trigger, { list }, config] = await Promise.all([
-                    moiraApi.getTrigger(id),
-                    moiraApi.getTagList(),
-                    moiraApi.getConfig(),
-                ]);
-
-                setTrigger(trigger);
-                setConfig(config);
-                setTags(list);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        getData(props);
-    }, [props]);
+        getData();
+    }, []);
 
     return (
         <Layout loading={isLoading} error={error}>

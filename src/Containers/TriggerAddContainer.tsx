@@ -70,22 +70,17 @@ function TriggerAddContainer(props: Props) {
     const handleSubmit = async () => {
         setIsLoading(true);
 
+        const { moiraApi } = props;
         const updatedTrigger = updateTrigger(trigger);
-
-        const isTriggerValid = await validateTrigger(
-            validationContainer,
-            updatedTrigger,
-            props.moiraApi
-        );
+        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger, moiraApi);
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
-            const { moiraApi, history } = props;
             const { id } = await moiraApi.addTrigger(updatedTrigger);
-            history.push(getPageLink("trigger", id));
+            props.history.push(getPageLink("trigger", id));
         } catch (error) {
             setError(error.message);
         } finally {
@@ -115,32 +110,31 @@ function TriggerAddContainer(props: Props) {
         }
     };
 
+    const getData = async () => {
+        const { moiraApi } = props;
+        const localDataString = localStorage.getItem("moiraSettings");
+        const { tags: localTags } = localDataString ? JSON.parse(localDataString) : { tags: [] };
+
+        try {
+            const { list } = await moiraApi.getTagList();
+            const config = await moiraApi.getConfig();
+            setTrigger({
+                ...trigger,
+                tags: localTags,
+            });
+            setConfig(config);
+            setTags(list);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
         document.title = "Moira - Add trigger";
-        const getData = async (props: Props) => {
-            const { moiraApi } = props;
-            const localDataString = localStorage.getItem("moiraSettings");
-            const { tags: localTags } = localDataString
-                ? JSON.parse(localDataString)
-                : { tags: [] };
-
-            try {
-                const { list } = await moiraApi.getTagList();
-                const config = await moiraApi.getConfig();
-                setTrigger((prevTrigger) => ({
-                    ...prevTrigger,
-                    tags: localTags,
-                }));
-                setConfig(config);
-                setTags(list);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        getData(props);
-    }, [props]);
+        getData();
+    }, []);
 
     return (
         <Layout loading={isLoading} error={error}>

@@ -55,22 +55,17 @@ function TriggerDuplicateContainer(props: Props) {
 
         setIsLoading(true);
 
+        const { moiraApi } = props;
         const updatedTrigger = updateTrigger(trigger);
-
-        const isTriggerValid = await validateTrigger(
-            validationContainer,
-            updatedTrigger,
-            props.moiraApi
-        );
+        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger, moiraApi);
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
         }
 
         try {
-            const { moiraApi, history } = props;
             const { id } = await moiraApi.addTrigger(updatedTrigger);
-            history.push(getPageLink("trigger", id));
+            props.history.push(getPageLink("trigger", id));
         } catch (error) {
             setError(error.message);
         } finally {
@@ -87,35 +82,36 @@ function TriggerDuplicateContainer(props: Props) {
         setValidationResult(undefined);
     };
 
+    const getData = async () => {
+        const { moiraApi } = props;
+        const { id } = props.match.params;
+        if (typeof id !== "string") {
+            setError("Wrong trigger id");
+            setIsLoading(false);
+            return;
+        }
+        try {
+            const [sourceTrigger, { list }, config] = await Promise.all([
+                moiraApi.getTrigger(id),
+                moiraApi.getTagList(),
+                moiraApi.getConfig(),
+            ]);
+
+            const trigger = cleanTrigger(sourceTrigger);
+            setTrigger(trigger);
+            setConfig(config);
+            setTags(list);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
         document.title = "Moira - Duplicate trigger";
-        const getData = async (props: Props) => {
-            const { moiraApi, match } = props;
-            const { id } = match.params;
-            if (typeof id !== "string") {
-                setError("Wrong trigger id");
-                setIsLoading(false);
-                return;
-            }
-            try {
-                const [sourceTrigger, { list }, config] = await Promise.all([
-                    moiraApi.getTrigger(id),
-                    moiraApi.getTagList(),
-                    moiraApi.getConfig(),
-                ]);
-
-                const trigger = cleanTrigger(sourceTrigger);
-                setTrigger(trigger);
-                setConfig(config);
-                setTags(list);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        getData(props);
-    }, [props]);
+        getData();
+    }, []);
 
     return (
         <Layout loading={isLoading} error={error}>
