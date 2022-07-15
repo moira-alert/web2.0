@@ -48,20 +48,12 @@ export default class TriggerListItem extends React.Component<Props, State> {
             <ReactRouterLink className={cn("root")} to={getPageLink("trigger", id)}>
                 <div className={cn("status")}>
                     {this.renderStatus()}
-                    {throttling !== 0 && (
-                        <div className={cn("throttling-flag")}>
-                            <FlagSolidIcon />
-                        </div>
-                    )}
-                    {delta > 0 && (
-                        <div className={cn("maintenance")}>
-                            <UserSettingsIcon />
-                        </div>
-                    )}
+                    {throttling !== 0 && <FlagSolidIcon className={cn("throttling-flag")} />}
                 </div>
                 <div className={cn("info")}>
                     <div className={cn("name")}>
                         {name != null && name !== "" ? name : "[No name]"}
+                        {delta > 0 && <UserSettingsIcon className={cn("maintenance")} />}
                     </div>
                     <div className={cn("tags")}>{tags.map((x) => `#${x}`).join(", ")}</div>
                     <div className={cn("metrics")}>Metrics: {this.renderCounters()}</div>
