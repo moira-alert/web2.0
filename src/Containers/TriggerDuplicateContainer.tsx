@@ -16,7 +16,7 @@ import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack"
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
-function TriggerDuplicateContainer(props: Props) {
+const TriggerDuplicateContainer = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
@@ -28,7 +28,7 @@ function TriggerDuplicateContainer(props: Props) {
         setValidationResult,
         validateTrigger,
         updateTrigger,
-    } = useTriggerFormContainer();
+    } = useTriggerFormContainer(props.moiraApi);
 
     const validationContainer = useRef<ValidationContainer>(null);
 
@@ -56,11 +56,7 @@ function TriggerDuplicateContainer(props: Props) {
         setIsLoading(true);
 
         const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(
-            validationContainer,
-            updatedTrigger,
-            props.moiraApi
-        );
+        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger);
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
@@ -83,7 +79,6 @@ function TriggerDuplicateContainer(props: Props) {
 
         setTrigger({ ...trigger, ...update });
         setError(undefined);
-        setValidationResult(undefined);
         if (update.targets) {
             const newTargets =
                 validationResult?.targets.map((item, i) =>
@@ -174,6 +169,6 @@ function TriggerDuplicateContainer(props: Props) {
             </LayoutContent>
         </Layout>
     );
-}
+};
 
 export default withMoiraApi(TriggerDuplicateContainer);

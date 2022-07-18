@@ -16,7 +16,7 @@ import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack"
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
-function TriggerEditContainer(props: Props) {
+const TriggerEditContainer = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
@@ -28,7 +28,7 @@ function TriggerEditContainer(props: Props) {
         setValidationResult,
         validateTrigger,
         updateTrigger,
-    } = useTriggerFormContainer();
+    } = useTriggerFormContainer(props.moiraApi);
 
     const validationContainer = useRef<ValidationContainer>(null);
 
@@ -40,11 +40,7 @@ function TriggerEditContainer(props: Props) {
         setIsLoading(true);
 
         const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(
-            validationContainer,
-            updatedTrigger,
-            props.moiraApi
-        );
+        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger);
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
@@ -165,6 +161,6 @@ function TriggerEditContainer(props: Props) {
             </LayoutContent>
         </Layout>
     );
-}
+};
 
 export default withMoiraApi(TriggerEditContainer);

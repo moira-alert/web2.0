@@ -51,7 +51,7 @@ const defaultTrigger: Partial<Trigger> = {
 
 type Props = RouteComponentProps & { moiraApi: MoiraApi };
 
-function TriggerAddContainer(props: Props) {
+const TriggerAddContainer = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
@@ -63,7 +63,7 @@ function TriggerAddContainer(props: Props) {
         setValidationResult,
         validateTrigger,
         updateTrigger,
-    } = useTriggerFormContainer();
+    } = useTriggerFormContainer(props.moiraApi);
 
     const validationContainer = useRef<ValidationContainer>(null);
 
@@ -71,11 +71,7 @@ function TriggerAddContainer(props: Props) {
         setIsLoading(true);
 
         const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(
-            validationContainer,
-            updatedTrigger,
-            props.moiraApi
-        );
+        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger);
         if (!isTriggerValid) {
             setIsLoading(false);
             return;
@@ -97,7 +93,6 @@ function TriggerAddContainer(props: Props) {
             ...update,
         });
         setError(undefined);
-        setValidationResult(undefined);
         if (update.targets) {
             const newTargets =
                 validationResult?.targets.map((item, i) =>
@@ -190,6 +185,6 @@ function TriggerAddContainer(props: Props) {
             </LayoutContent>
         </Layout>
     );
-}
+};
 
 export default withMoiraApi(TriggerAddContainer);

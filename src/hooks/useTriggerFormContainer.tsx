@@ -9,28 +9,26 @@ type useTriggerFormContainerReturn = {
     setValidationResult: Dispatch<SetStateAction<ValidateTriggerResult | undefined>>;
     validateTrigger: (
         container: RefObject<ValidationContainer>,
-        trigger: Partial<Trigger>,
-        moiraApi: MoiraApi
+        trigger: Partial<Trigger>
     ) => Promise<boolean>;
     updateTrigger: (trigger: Trigger | Partial<Trigger>) => Trigger | Partial<Trigger>;
 };
 
-export const useTriggerFormContainer = (): useTriggerFormContainerReturn => {
+export const useTriggerFormContainer = (moiraApi: MoiraApi): useTriggerFormContainerReturn => {
     const [validationResult, setValidationResult] = useState<ValidateTriggerResult | undefined>(
         undefined
     );
 
     const validateTrigger = async (
         container: RefObject<ValidationContainer>,
-        trigger: Partial<Trigger>,
-        moiraApi: MoiraApi
+        trigger: Partial<Trigger>
     ) => {
         const isFormValid = await container.current?.validate();
         if (!isFormValid) {
             return false;
         }
 
-        const validationResult = await validateTriggerData(trigger, moiraApi);
+        const validationResult = await validateTriggerData(trigger);
         if (!validationResult) {
             return false;
         }
@@ -44,7 +42,7 @@ export const useTriggerFormContainer = (): useTriggerFormContainerReturn => {
         return true;
     };
 
-    const validateTriggerData = async (trigger: Trigger | Partial<Trigger>, moiraApi: MoiraApi) => {
+    const validateTriggerData = async (trigger: Trigger | Partial<Trigger>) => {
         try {
             const validationResult = await moiraApi.validateTrigger(trigger);
             return validationResult;
