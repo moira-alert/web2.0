@@ -42,7 +42,7 @@ type Props = {
     data: Partial<Trigger>;
     tags: Array<string>;
     remoteAllowed?: boolean | null;
-    onChange: (trigger: Partial<Trigger>, callback?: () => void) => void;
+    onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
     validationResult?: ValidateTriggerResult;
 };
 
@@ -336,13 +336,16 @@ export default class TriggerEditForm extends React.Component<Props, State> {
         const { onChange, data } = this.props;
         const { targets } = data;
 
-        onChange({
-            targets: [
-                ...(targets?.slice(0, targetIndex) ?? []),
-                value,
-                ...(targets?.slice(targetIndex + 1) ?? []),
-            ],
-        });
+        onChange(
+            {
+                targets: [
+                    ...(targets?.slice(0, targetIndex) ?? []),
+                    value,
+                    ...(targets?.slice(targetIndex + 1) ?? []),
+                ],
+            },
+            targetIndex
+        );
     }
 
     handleUpdateAloneMetrics(targetIndex: number, value: boolean): void {

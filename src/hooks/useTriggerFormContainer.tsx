@@ -56,8 +56,8 @@ export const useTriggerFormContainer = (): useTriggerFormContainerReturn => {
 
     const checkTargets = ({ targets }: ValidateTriggerResult): boolean =>
         targets.every(
-            ({ syntax_ok, tree_of_problems }: ValidateTriggerTarget) =>
-                syntax_ok && !tree_of_problems
+            (target: ValidateTriggerTarget | undefined) =>
+                target?.syntax_ok && !target?.tree_of_problems
         );
 
     const updateTrigger = (trigger: Trigger | Partial<Trigger>) => {

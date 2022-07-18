@@ -91,13 +91,20 @@ function TriggerAddContainer(props: Props) {
         }
     };
 
-    const handleChange = (update: Partial<Trigger>) => {
+    const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         setTrigger({
             ...trigger,
             ...update,
         });
         setError(undefined);
         setValidationResult(undefined);
+        if (update.targets) {
+            const newTargets =
+                validationResult?.targets.map((item, i) =>
+                    i === targetIndex ? undefined : item
+                ) ?? [];
+            setValidationResult({ targets: newTargets });
+        }
     };
 
     const handleFileImport = (fileData: string, fileName: string) => {

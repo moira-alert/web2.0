@@ -76,7 +76,7 @@ function TriggerDuplicateContainer(props: Props) {
         }
     };
 
-    const handleChange = (update: Partial<Trigger>) => {
+    const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
             return;
         }
@@ -84,6 +84,13 @@ function TriggerDuplicateContainer(props: Props) {
         setTrigger({ ...trigger, ...update });
         setError(undefined);
         setValidationResult(undefined);
+        if (update.targets) {
+            const newTargets =
+                validationResult?.targets.map((item, i) =>
+                    i === targetIndex ? undefined : item
+                ) ?? [];
+            setValidationResult({ targets: newTargets });
+        }
     };
 
     const getData = async () => {
