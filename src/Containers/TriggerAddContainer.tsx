@@ -169,8 +169,12 @@ const TriggerAddContainer = (props: Props) => {
                             <Fit>
                                 <RowStack gap={3} baseline>
                                     <Fit>
-                                        <Button use="primary" onClick={() => handleSubmit()}>
-                                            <span data-tid="Add Trigger">Add trigger</span>
+                                        <Button
+                                            use="primary"
+                                            onClick={() => handleSubmit()}
+                                            data-tid="Add Trigger"
+                                        >
+                                            Add trigger
                                         </Button>
                                     </Fit>
                                     <Fit>

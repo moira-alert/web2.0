@@ -135,7 +135,11 @@ const TriggerEditContainer = (props: Props) => {
                             <Fit>
                                 <RowStack gap={3} baseline>
                                     <Fit>
-                                        <Button use="primary" onClick={handleSubmit}>
+                                        <Button
+                                            use="primary"
+                                            onClick={handleSubmit}
+                                            data-tid="Save Trigger"
+                                        >
                                             Save trigger
                                         </Button>
                                     </Fit>
