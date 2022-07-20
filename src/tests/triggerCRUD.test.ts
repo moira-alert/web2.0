@@ -18,13 +18,13 @@ describe("Create/edit trigger", () => {
         await expect(triggerViewPage.isOpen()).resolves.toEqual(false);
 
         await addTriggerPage.TargetT1.type("ttttt");
+        await addTriggerPage.WarnT1.type("10");
+        await addTriggerPage.Tags.addTag("test");
         await addTriggerPage.AddTrigger.click();
         await expect(triggerViewPage.isOpen()).resolves.toEqual(false);
 
         await addTriggerPage.TargetT1.clear();
         await addTriggerPage.TargetT1.type("sumSeries(test.target.*)");
-        await addTriggerPage.WarnT1.type("10");
-        await addTriggerPage.Tags.addTag("test");
 
         await addTriggerPage.AddTrigger.click();
         await expect(triggerViewPage.isOpen()).resolves.toEqual(true);
