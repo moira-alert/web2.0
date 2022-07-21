@@ -78,7 +78,7 @@ export type ValidateTriggerTarget = {
 };
 
 export type ValidateTriggerResult = {
-    targets: Array<ValidateTriggerTarget>;
+    targets: Array<ValidateTriggerTarget | undefined>;
 };
 
 enum TriggerDataSources {

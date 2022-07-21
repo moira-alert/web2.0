@@ -1,6 +1,7 @@
 import { Page, Response } from "puppeteer";
 import { LOCAL_URL } from "../core/contants";
 import { getText } from "../core/controls/Text";
+import { Button, getButton } from "../core/controls/Button";
 import { delay } from "../core/utils";
 
 export class TriggerViewPage {
@@ -37,11 +38,15 @@ export class TriggerViewPage {
         if (this.checkUrl(this.page.url())) {
             return true;
         }
-        await delay(500);
+        await delay(1000);
         return this.checkUrl(this.page.url());
     }
 
     public get Name(): Promise<string | null> {
         return getText(this.page, `[data-tid="Name"]`);
+    }
+
+    public get Edit(): Button {
+        return getButton(this.page, `[data-tid="Edit"]`);
     }
 }

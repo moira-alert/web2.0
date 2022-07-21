@@ -6,24 +6,42 @@ import { getInput, Input } from "../core/controls/Input";
 import { getTagDropdownSelect, TagDropdownSelect } from "../core/controls/TagDropdownSelect";
 import { getText } from "../core/controls/Text";
 
-export class AddTriggerPage {
+export class EditTriggerPage {
+    public static url = `${LOCAL_URL}/trigger`;
     private page: Page;
+    private id?: string;
 
-    public static url = `${LOCAL_URL}/trigger/new`;
-    constructor(page: Page) {
+    constructor(page: Page, id?: string) {
         this.page = page;
+        this.id = id;
     }
 
+    private checkUrl = (url: string): boolean => {
+        if (this.id) {
+            return url === `${EditTriggerPage.url}/${this.id}/edit`;
+        }
+        const isGuid = (value: string): boolean => {
+            return value.length === 36;
+        };
+
+        return (
+            url.startsWith(EditTriggerPage.url) && isGuid(url.slice(EditTriggerPage.url.length + 1))
+        );
+    };
+
     public open(): Promise<Response | null> {
-        return this.page.goto(AddTriggerPage.url);
+        if (!this.id) {
+            throw new Error("For call open EditTrigger page should have id");
+        }
+        return this.page.goto(`${EditTriggerPage.url}/${this.id}/edit`);
     }
 
     public async isOpen(): Promise<boolean> {
-        if (this.page.url() === AddTriggerPage.url) {
+        if (this.checkUrl(this.page.url())) {
             return true;
         }
-        await delay(50);
-        return this.page.url() === AddTriggerPage.url;
+        await delay(1000);
+        return this.checkUrl(this.page.url());
     }
 
     public async hasTextInElement(text: string, selector: string): Promise<boolean | undefined> {
@@ -51,7 +69,7 @@ export class AddTriggerPage {
         return getTagDropdownSelect(this.page, `[data-tid="Tags"]`);
     }
 
-    public get AddTrigger(): Button {
-        return getButton(this.page, `[data-tid="Add Trigger"]`);
+    public get SaveTrigger(): Button {
+        return getButton(this.page, `[data-tid="Save Trigger"]`);
     }
 }
