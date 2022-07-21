@@ -44,8 +44,7 @@ export const useTriggerFormContainer = (moiraApi: MoiraApi): useTriggerFormConta
 
     const validateTriggerData = async (trigger: Trigger | Partial<Trigger>) => {
         try {
-            const validationResult = await moiraApi.validateTrigger(trigger);
-            return validationResult;
+            return moiraApi.validateTrigger(trigger);
         } catch (error) {
             Toast.push(error.toString());
             return false;

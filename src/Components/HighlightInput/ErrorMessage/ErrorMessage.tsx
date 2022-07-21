@@ -19,6 +19,7 @@ export default function ErrorMessage({
                 error: Boolean(error),
                 warning: Boolean(warning) && !error,
             })}
+            data-tid="Error Message"
         >
             {error || warning}
         </div>

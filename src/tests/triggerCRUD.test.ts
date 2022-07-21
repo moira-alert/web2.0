@@ -21,6 +21,12 @@ describe("Create/edit trigger", () => {
         await addTriggerPage.WarnT1.type("10");
         await addTriggerPage.Tags.addTag("test");
         await addTriggerPage.AddTrigger.click();
+        await expect(
+            addTriggerPage.hasTextInElement(
+                "Function is not supported",
+                `[data-tid="Error Message"]`
+            )
+        ).resolves.toEqual(true);
         await expect(triggerViewPage.isOpen()).resolves.toEqual(false);
 
         await addTriggerPage.TargetT1.clear();
@@ -37,6 +43,25 @@ describe("Create/edit trigger", () => {
         const editTriggerPage = new EditTriggerPage(page);
 
         await triggerViewPage.Edit.click();
+
+        await editTriggerPage.TargetT1.clear();
+        await editTriggerPage.TargetT1.type("ttttt");
+        await editTriggerPage.SaveTrigger.click();
+        await expect(
+            editTriggerPage.hasTextInElement(
+                "Function is not supported",
+                `[data-tid="Error Message"]`
+            )
+        ).resolves.toEqual(true);
+        await expect(triggerViewPage.isOpen()).resolves.toEqual(false);
+
+        await editTriggerPage.WarnT1.clear();
+        await editTriggerPage.SaveTrigger.click();
+        await expect(triggerViewPage.isOpen()).resolves.toEqual(false);
+
+        await editTriggerPage.WarnT1.type("10");
+        await editTriggerPage.TargetT1.clear();
+        await editTriggerPage.TargetT1.type("sumSeries(test.target.*)");
         await editTriggerPage.Name.type(" edited");
 
         await editTriggerPage.SaveTrigger.click();
