@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Button, Gapped, Modal } from "@skbkontur/react-ui";
+import { Button } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
 import MoiraApi from "../Api/MoiraApi";
@@ -12,6 +12,7 @@ import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
+import { TriggerDeleteModal } from "../Components/TriggerDeleteModal/TriggerDeleteModal";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
@@ -146,33 +147,11 @@ const TriggerEditContainer = (props: Props) => {
                                     </Fit>
                                     <Fit>
                                         {isDeleteTriggerDialogOpen && (
-                                            <Modal width={600} noClose>
-                                                <Modal.Header>Delete Trigger?</Modal.Header>
-                                                <Modal.Body>
-                                                    Trigger
-                                                    <strong>{` ${trigger.name} `}</strong>
-                                                    will be deleted.
-                                                </Modal.Body>
-                                                <Modal.Footer>
-                                                    <Gapped gap={8}>
-                                                        <Button
-                                                            onClick={() =>
-                                                                setIsDeleteTriggerDialogOpen(false)
-                                                            }
-                                                            use={"primary"}
-                                                        >
-                                                            Cancel
-                                                        </Button>
-                                                        <Button
-                                                            onClick={() =>
-                                                                deleteTrigger(trigger.id)
-                                                            }
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                    </Gapped>
-                                                </Modal.Footer>
-                                            </Modal>
+                                            <TriggerDeleteModal
+                                                triggerName={trigger.name}
+                                                onClose={() => setIsDeleteTriggerDialogOpen(false)}
+                                                onDelete={() => deleteTrigger(trigger.id)}
+                                            />
                                         )}
                                         <Button
                                             use="link"
