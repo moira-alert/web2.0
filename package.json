@@ -11,7 +11,7 @@
         "start": "npm-run-all --parallel serve fakeapi",
         "lint": "eslint --ext .tsx --ext .ts src/",
         "test": "cross-env NODE_ENV=testing jest \"./src\"",
-        "test:e2e": "cross-env NODE_ENV=testing TYPE=e2e jest ./src/tests --runInBand",
+        "test:e2e": "cross-env NODE_ENV=testing TYPE=e2e jest ./src/tests --runInBand --detectOpenHandles",
         "prettier": "prettier \"./src/**/*.{ts,tsx}\"",
         "creevey": "wait-on http://localhost:9001 -t 60000 && node ./.creevey/start.js  -c ./.creevey/creevey.config.js",
         "creevey:ui": "yarn creevey --ui",

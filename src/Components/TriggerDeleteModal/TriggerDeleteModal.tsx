@@ -10,17 +10,23 @@ type Props = {
 export const TriggerDeleteModal = (props: Props): JSX.Element => (
     <Modal width={600} noClose>
         <Modal.Header>Delete Trigger?</Modal.Header>
-        <Modal.Body>
+        <Modal.Body data-tid="Delete Trigger Modal Body">
             Trigger
             <strong>{` ${props.triggerName} `}</strong>
             will be deleted.
         </Modal.Body>
         <Modal.Footer>
             <Gapped gap={8}>
-                <Button onClick={props.onClose} use={"primary"}>
+                <Button
+                    onClick={props.onClose}
+                    use={"primary"}
+                    data-tid="Delete Trigger Modal Cancel Button"
+                >
                     Cancel
                 </Button>
-                <Button onClick={props.onDelete}>Delete</Button>
+                <Button onClick={props.onDelete} data-tid="Delete Trigger Modal Delete Button">
+                    Delete
+                </Button>
             </Gapped>
         </Modal.Footer>
     </Modal>

@@ -72,4 +72,16 @@ export class EditTriggerPage {
     public get SaveTrigger(): Button {
         return getButton(this.page, `[data-tid="Save Trigger"]`);
     }
+
+    public get DeleteTrigger(): Button {
+        return getButton(this.page, `[data-tid="Delete Trigger"]`);
+    }
+
+    public get ModalCancel(): Button {
+        return getButton(this.page, `[data-tid="Delete Trigger Modal Cancel Button"]`);
+    }
+
+    public get ModalDelete(): Button {
+        return getButton(this.page, `[data-tid="Delete Trigger Modal Delete Button"]`);
+    }
 }

@@ -2,13 +2,14 @@ import { clearDatabase } from "./core/utils";
 import { TriggerViewPage } from "./pages/TriggerViewPage";
 import { AddTriggerPage } from "./pages/AddTriggerPage";
 import { EditTriggerPage } from "./pages/EditTriggerPage";
+import { MainPage } from "./pages/MainPage";
 
-describe("Create/edit trigger", () => {
+describe("Create/update/delete trigger", () => {
     beforeAll(async () => {
         await clearDatabase();
     });
 
-    it(`create new trigger`, async () => {
+    it("create trigger", async () => {
         const addTriggerPage = new AddTriggerPage(page);
         const triggerViewPage = new TriggerViewPage(page);
 
@@ -38,7 +39,7 @@ describe("Create/edit trigger", () => {
         await expect(triggerViewPage.Name).resolves.toEqual("trigger name");
     }, 60000);
 
-    it(`edit trigger`, async () => {
+    it("update trigger", async () => {
         const triggerViewPage = new TriggerViewPage(page);
         const editTriggerPage = new EditTriggerPage(page);
 
@@ -67,5 +68,33 @@ describe("Create/edit trigger", () => {
         await editTriggerPage.SaveTrigger.click();
         await expect(triggerViewPage.isOpen()).resolves.toEqual(true);
         await expect(triggerViewPage.Name).resolves.toEqual("trigger name edited");
+    }, 60000);
+
+    it("delete trigger", async () => {
+        const triggerViewPage = new TriggerViewPage(page);
+        const editTriggerPage = new EditTriggerPage(page);
+        const mainPage = new MainPage(page);
+
+        await triggerViewPage.Edit.click();
+
+        await editTriggerPage.DeleteTrigger.click();
+        await expect(
+            editTriggerPage.hasTextInElement(
+                "trigger name edited",
+                `[data-tid="Delete Trigger Modal Body"]`
+            )
+        ).resolves.toEqual(true);
+
+        await editTriggerPage.ModalCancel.click();
+        await expect(
+            editTriggerPage.hasTextInElement(
+                "trigger name edited",
+                `[data-tid="Delete Trigger Modal Body"]`
+            )
+        ).rejects;
+
+        await editTriggerPage.DeleteTrigger.click();
+        await editTriggerPage.ModalDelete.click();
+        await expect(mainPage.isOpen()).resolves.toEqual(true);
     }, 60000);
 });
