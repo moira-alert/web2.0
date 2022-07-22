@@ -11,9 +11,7 @@ export const TriggerDeleteModal = (props: Props): JSX.Element => (
     <Modal width={600} noClose>
         <Modal.Header>Delete Trigger?</Modal.Header>
         <Modal.Body data-tid="Delete Trigger Modal Body">
-            Trigger
-            <strong>{` ${props.triggerName} `}</strong>
-            will be deleted.
+            Trigger {<strong>{props.triggerName}</strong>} will be deleted.
         </Modal.Body>
         <Modal.Footer>
             <Gapped gap={8}>
