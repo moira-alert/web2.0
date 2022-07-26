@@ -91,7 +91,7 @@ describe("Create/update/delete trigger", () => {
                 "trigger name edited",
                 `[data-tid="Delete Trigger Modal Body"]`
             )
-        ).rejects;
+        ).resolves.toEqual(false);
 
         await editTriggerPage.OpenDeleteModal.click();
         await editTriggerPage.DeleteTrigger.click();
