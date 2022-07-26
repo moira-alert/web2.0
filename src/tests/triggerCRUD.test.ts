@@ -39,7 +39,7 @@ describe("Create/update/delete trigger", () => {
         await expect(triggerViewPage.Name).resolves.toEqual("trigger name");
     }, 60000);
 
-    it("update trigger", async () => {
+    it("edit trigger", async () => {
         const triggerViewPage = new TriggerViewPage(page);
         const editTriggerPage = new EditTriggerPage(page);
 
@@ -77,7 +77,7 @@ describe("Create/update/delete trigger", () => {
 
         await triggerViewPage.Edit.click();
 
-        await editTriggerPage.DeleteTrigger.click();
+        await editTriggerPage.OpenDeleteModal.click();
         await expect(
             editTriggerPage.hasTextInElement(
                 "trigger name edited",
@@ -85,7 +85,7 @@ describe("Create/update/delete trigger", () => {
             )
         ).resolves.toEqual(true);
 
-        await editTriggerPage.ModalCancel.click();
+        await editTriggerPage.CloseDeleteModal.click();
         await expect(
             editTriggerPage.hasTextInElement(
                 "trigger name edited",
@@ -93,8 +93,8 @@ describe("Create/update/delete trigger", () => {
             )
         ).rejects;
 
+        await editTriggerPage.OpenDeleteModal.click();
         await editTriggerPage.DeleteTrigger.click();
-        await editTriggerPage.ModalDelete.click();
         await expect(mainPage.isOpen()).resolves.toEqual(true);
     }, 60000);
 });

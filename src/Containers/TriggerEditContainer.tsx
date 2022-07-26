@@ -157,7 +157,7 @@ const TriggerEditContainer = (props: Props) => {
                                             use="link"
                                             icon={<TrashIcon />}
                                             onClick={() => setIsDeleteTriggerDialogOpen(true)}
-                                            data-tid="Delete Trigger"
+                                            data-tid="Open Delete Modal"
                                         >
                                             Delete
                                         </Button>
