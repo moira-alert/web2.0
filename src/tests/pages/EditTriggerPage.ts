@@ -44,9 +44,9 @@ export class EditTriggerPage {
         return this.checkUrl(this.page.url());
     }
 
-    public async hasTextInElement(text: string, selector: string): Promise<boolean | undefined> {
+    public async hasTextInElement(text: string, selector: string): Promise<boolean> {
         const elementTextContent = await getText(this.page, selector);
-        return elementTextContent?.includes(text);
+        return elementTextContent?.includes(text) ?? false;
     }
 
     public get Name(): Input {
@@ -71,5 +71,17 @@ export class EditTriggerPage {
 
     public get SaveTrigger(): Button {
         return getButton(this.page, `[data-tid="Save Trigger"]`);
+    }
+
+    public get OpenDeleteModal(): Button {
+        return getButton(this.page, `[data-tid="Open Delete Modal"]`);
+    }
+
+    public get CloseDeleteModal(): Button {
+        return getButton(this.page, `[data-tid="Close Delete Modal"]`);
+    }
+
+    public get DeleteTrigger(): Button {
+        return getButton(this.page, `[data-tid="Delete Trigger"]`);
     }
 }
