@@ -7,7 +7,7 @@ import RedoIcon from "@skbkontur/react-icons/Redo";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { Metric } from "../../../Domain/Metric";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
-import roundValue from "../../../helpers/roundValue";
+import { roundValue } from "../../../helpers/roundValue";
 import {
     Maintenance,
     getMaintenanceCaption,

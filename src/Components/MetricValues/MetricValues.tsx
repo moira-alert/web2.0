@@ -1,5 +1,5 @@
 import * as React from "react";
-import roundValue from "../../helpers/roundValue";
+import { roundValue } from "../../helpers/roundValue";
 
 type Props = {
     values?: {
