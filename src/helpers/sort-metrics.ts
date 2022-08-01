@@ -2,14 +2,18 @@ import type { MetricItemList } from "../Domain/Metric";
 import { getStatusWeight } from "../Domain/Status";
 import type { SortingColumn } from "../Components/MetricList/MetricList";
 
-const compare = (argA: number | string, argB: number | string) => {
+type SorterMap = {
+    [key in SortingColumn]: (metrics: MetricItemList) => (x: string, y: string) => 1 | -1 | 0;
+};
+
+const compare = <T>(argA: T, argB: T) => {
     if (argA === argB) {
         return 0;
     }
     return argA < argB ? 1 : -1;
 };
 
-const sorterMap = {
+const sorterMap: SorterMap = {
     state: (metrics: MetricItemList) => (x: string, y: string) => {
         const stateA = getStatusWeight(metrics[x].state);
         const stateB = getStatusWeight(metrics[y].state);
