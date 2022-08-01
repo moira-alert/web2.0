@@ -1,9 +1,7 @@
-// ToDo написать тесты
-
-export default function roundValue(
+export const roundValue = (
     value: number | string | void,
     placeholder: boolean | void
-): number | string {
+): number | string => {
     if (typeof value !== "number") {
         return placeholder === false ? "" : "—";
     }
@@ -28,4 +26,4 @@ export default function roundValue(
         tailToCut++;
     }
     return prefix.substring(0, prefix.length - tailToCut) + (sizes[x] || "");
-}
+};
