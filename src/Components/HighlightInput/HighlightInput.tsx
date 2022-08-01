@@ -120,8 +120,14 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
             setScrollLeft(e.currentTarget.scrollLeft);
         input.addEventListener("scroll", handleScroll);
 
+        // "keyup" and "select" events for MacOS Safari, which doesn't support the "scroll" event on input
+        input.addEventListener("keyup", handleScroll);
+        input.addEventListener("select", handleScroll);
+
         return () => {
             input.removeEventListener("scroll", handleScroll);
+            input.removeEventListener("keyup", handleScroll);
+            input.removeEventListener("select", handleScroll);
         };
     }, [setScrollLeft]);
 
