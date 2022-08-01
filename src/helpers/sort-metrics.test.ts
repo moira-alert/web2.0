@@ -1,10 +1,10 @@
 import { keys } from "lodash";
 import { sortMetrics } from "./sort-metrics";
-import type { Metric } from "../Domain/Metric";
+import type { MetricItemList } from "../Domain/Metric";
 import { Status } from "../Domain/Status";
 import type { SortingColumn } from "../Components/MetricList/MetricList";
 
-const metrics: { [metric: string]: Metric } = {
+const metrics: MetricItemList = {
     "vm-elk-f1": {
         state: Status.OK,
         timestamp: 1504516241,
