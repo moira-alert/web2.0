@@ -9,109 +9,68 @@ const metrics: MetricItemList = {
         state: Status.OK,
         timestamp: 1504516241,
         event_timestamp: 1503992518,
-        suppressed: false,
         values: {
             t1: 82.5,
             t2: 20.23,
-        },
-        maintenance: 1555804800,
-        maintenance_info: {
-            setup_user: "Superman",
-            setup_time: 1553158221,
         },
     },
     "vm-elk-l1": {
         state: Status.OK,
         timestamp: 1504516241,
         event_timestamp: 1503992686,
-        suppressed: false,
         values: {
             t1: 96.54,
             t2: 19.87,
-        },
-        maintenance_info: {
-            setup_user: null,
-            setup_time: null,
         },
     },
     "vm-elk-r1": {
         state: Status.OK,
         timestamp: 1504516241,
         event_timestamp: 1503992698,
-        suppressed: false,
         values: {
             t1: 93.22,
             t2: 20.77,
-        },
-        maintenance_info: {
-            setup_user: null,
-            setup_time: null,
         },
     },
     "vm-elk-r2": {
         state: Status.OK,
         timestamp: 1504516241,
         event_timestamp: 1503992299,
-        suppressed: false,
         values: {
             t1: 89.54,
             t2: 18.45,
-        },
-        maintenance_info: {
-            setup_user: null,
-            setup_time: null,
         },
     },
     "vm-elk-s1": {
         state: Status.WARN,
         timestamp: 1504516241,
         event_timestamp: 1504407083,
-        suppressed: false,
         values: {
             t1: 180095,
             t2: 19.39,
-        },
-        maintenance_info: {
-            setup_user: null,
-            setup_time: null,
         },
     },
     "vm-elk-s2": {
         state: Status.WARN,
         timestamp: 1504516241,
         event_timestamp: 1504390505,
-        suppressed: false,
         values: {
             t1: 19.83,
-        },
-        maintenance_info: {
-            setup_user: null,
-            setup_time: null,
         },
     },
     "vm-elk-s3": {
         state: Status.OK,
         timestamp: 1504516241,
         event_timestamp: 1503992825,
-        suppressed: false,
         values: {
             t1: 180095,
             t2: 20.52,
-        },
-        maintenance_info: {
-            setup_user: null,
-            setup_time: null,
         },
     },
     "vm-elk-s4": {
         state: Status.NODATA,
         timestamp: 1504516241,
         event_timestamp: 1503999000,
-        suppressed: false,
-        maintenance_info: {
-            setup_user: null,
-            setup_time: null,
-        },
     },
 };
 
