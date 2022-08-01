@@ -4,19 +4,10 @@ import Token from "../Token/Token";
 import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import cn from "./SearchSelector.less";
+import { clearInput } from "../../helpers/common";
 
 // ToDo вынести в хелперы
-const clearInput = (input: string) => {
-    let cleared = input;
-
-    cleared = cleared.trim();
-    cleared = cleared.replace(/[\s]+/g, " ");
-
-    return cleared;
-};
-
-// ToDo вынести в хелперы
-const searchTokens = (query: string, items: string[]) => {
+const searchTokens = (query: string, items: string[]): string[] => {
     const topMatchItems: string[] = [];
     const otherItems: string[] = [];
     const sort = (a: string, b: string) => a.length - b.length;

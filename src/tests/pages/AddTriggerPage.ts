@@ -26,9 +26,9 @@ export class AddTriggerPage {
         return this.page.url() === AddTriggerPage.url;
     }
 
-    public async hasTextInElement(text: string, selector: string): Promise<boolean | undefined> {
+    public async hasTextInElement(text: string, selector: string): Promise<boolean> {
         const elementTextContent = await getText(this.page, selector);
-        return elementTextContent?.includes(text);
+        return elementTextContent?.includes(text) ?? false;
     }
 
     public get Name(): Input {

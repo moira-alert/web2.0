@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Button } from "@skbkontur/react-ui/components/Button";
+import { Button } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
 import MoiraApi from "../Api/MoiraApi";
@@ -12,12 +12,14 @@ import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
+import { TriggerDeleteModal } from "../Components/TriggerDeleteModal/TriggerDeleteModal";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 const TriggerEditContainer = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isDeleteTriggerDialogOpen, setIsDeleteTriggerDialogOpen] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
@@ -144,10 +146,18 @@ const TriggerEditContainer = (props: Props) => {
                                         </Button>
                                     </Fit>
                                     <Fit>
+                                        {isDeleteTriggerDialogOpen && (
+                                            <TriggerDeleteModal
+                                                triggerName={trigger.name}
+                                                onClose={() => setIsDeleteTriggerDialogOpen(false)}
+                                                onDelete={() => deleteTrigger(trigger.id)}
+                                            />
+                                        )}
                                         <Button
                                             use="link"
                                             icon={<TrashIcon />}
-                                            onClick={() => deleteTrigger(trigger.id)}
+                                            onClick={() => setIsDeleteTriggerDialogOpen(true)}
+                                            data-tid="Open Delete Modal"
                                         >
                                             Delete
                                         </Button>
