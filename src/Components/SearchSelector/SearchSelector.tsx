@@ -6,6 +6,7 @@ import SelectorResultsView from "./SelectorResultsView";
 import cn from "./SearchSelector.less";
 import { clearInput } from "../../helpers/common";
 
+// ToDo вынести в хелперы
 const searchTokens = (query: string, items: string[]): string[] => {
     const topMatchItems: string[] = [];
     const otherItems: string[] = [];
