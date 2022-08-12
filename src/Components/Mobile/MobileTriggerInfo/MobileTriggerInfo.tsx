@@ -7,19 +7,23 @@ import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
-import { StatusesList } from "../../../Domain/Status";
+import { Status, StatusesList } from "../../../Domain/Status";
 import { Trigger, TriggerState } from "../../../Domain/Trigger";
 import {
+    calculateMaintenanceTime,
     getMaintenanceCaption,
     Maintenance,
-    calculateMaintenanceTime,
     MaintenanceList,
 } from "../../../Domain/Maintenance";
-import { Status } from "../../../Domain/Status";
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import cn from "./MobileTriggerInfo.less";
+import { sanitize } from "dompurify";
+import { purifyConfig } from "../../../Domain/DOMPurify";
+import Remarkable from "remarkable";
+
+const md = new Remarkable({ breaks: true });
 
 type Props = {
     data?: Trigger | null;
@@ -94,9 +98,14 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                     <MobileHeader.DetailsBlock>
                         {trigger != null && (
                             <div className={cn("info")}>
-                                <div className={cn("plain-row", "description")}>
-                                    {trigger.desc && trigger.desc}
-                                </div>
+                                {trigger.desc && (
+                                    <div
+                                        className={cn("plain-row", "description")}
+                                        dangerouslySetInnerHTML={{
+                                            __html: sanitize(md.render(trigger.desc), purifyConfig),
+                                        }}
+                                    />
+                                )}
                                 {sched != null && (
                                     <div className={cn("form-row")}>
                                         <div className={cn("caption")}>Schedule:</div>
