@@ -32,7 +32,7 @@ export class TeamEditor extends React.Component<TeamEditorProps, TeamEditorState
     public render(): React.ReactElement {
         return (
             <ValidationContainer ref={this.validation}>
-                <Modal width={600} noClose>
+                <Modal width={600} onClose={this.props.onClose}>
                     <Modal.Header>
                         {this.props.team ? `Edit team ${this.props.team.name} ` : "Add Team"}
                     </Modal.Header>
