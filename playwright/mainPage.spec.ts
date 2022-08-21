@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Main page", () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page }, testInfo) => {
+        testInfo.snapshotSuffix = "";
         await page.goto("/");
     });
 
@@ -29,12 +30,6 @@ test.describe("Main page", () => {
         await expect(page).toHaveURL("https://moira.readthedocs.io/en/latest/");
     });
 
-    test("View metrics", async ({ page }) => {
-        await page.locator("[data-tid=TriggerListItem_status]").nth(2).click();
-        await page.locator('text="Maintenance"').first().click();
-        await expect(page).toHaveScreenshot();
-    });
-
     test("Search field", async ({ page }) => {
         await page.locator('input[type="text"]').click();
         await page.locator('input[type="text"]').fill("test");
@@ -46,6 +41,12 @@ test.describe("Main page", () => {
         await expect(page).toHaveURL(
             "/?onlyProblems=false&page=1&searchText=test&tags[0]=moira-test"
         );
+        await expect(page).toHaveScreenshot();
+    });
+
+    test("View metrics", async ({ page }) => {
+        await page.locator("[data-tid=TriggerListItem_status]").nth(2).click();
+        await page.locator('text="Maintenance"').first().click();
         await expect(page).toHaveScreenshot();
     });
 });

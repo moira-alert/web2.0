@@ -21,6 +21,9 @@ const config: PlaywrightTestConfig = {
          * For example in `await expect(locator).toHaveText();`
          */
         timeout: 5000,
+        toHaveScreenshot: {
+            maxDiffPixelRatio: 0.03,
+        },
     },
     /* Run tests in files in parallel */
     fullyParallel: true,
