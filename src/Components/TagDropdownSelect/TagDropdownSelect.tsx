@@ -76,7 +76,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                                         key={tag}
                                                         focus={i === focusedIndex - 1}
                                                         title={tag}
-                                                        data-tid={`Tag`}
+                                                        data-tid={`Tag ${tag}`}
                                                         onClick={() => this.selectTag(tag)}
                                                     />
                                                 ))}

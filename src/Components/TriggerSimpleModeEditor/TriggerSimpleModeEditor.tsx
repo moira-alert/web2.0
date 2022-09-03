@@ -104,7 +104,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={risingValues.error_value}
                                                 disabled={watchFor !== "rising"}
                                                 onValueChange={this.handleChangeErrorValue}
-                                                data-tid="WARN T1"
+                                                data-tid="ERROR T1"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
