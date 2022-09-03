@@ -165,6 +165,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 width="100%"
                                 value={desc || ""}
                                 onValueChange={(value) => onChange({ desc: value })}
+                                data-tid="Description"
                             />
                             <EditDescriptionHelp />
                         </>
