@@ -3,9 +3,12 @@ import { MainPage } from "./pages/MainPage";
 import { TriggerFormPage } from "./pages/TriggerFormPage";
 import { clearDatabase } from "./utils";
 
+test.beforeAll(async () => {
+    await clearDatabase();
+});
+
 test.describe("Trigger CRUD", () => {
     test("Create Trigger", async ({ page }) => {
-        await clearDatabase();
         const mainPage = new MainPage(page);
         const triggerFormPage = new TriggerFormPage(page);
 
@@ -35,5 +38,8 @@ test.describe("Trigger CRUD", () => {
         await triggerFormPage.targetInput.fill("sumSeries(test.target.*)");
         await triggerFormPage.createTriggerButton.click();
         await expect(page).toHaveURL(/http:\/\/localhost:9000\/trigger\/[a-z\d-]*/);
+
+        await mainPage.goto();
+        await page.locator("text=test name");
     });
 });

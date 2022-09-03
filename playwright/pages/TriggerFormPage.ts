@@ -24,7 +24,7 @@ export class TriggerFormPage {
     }
 
     getTagBadgeByName(tagName: string, isNewTag = true): Locator {
-        const tid = isNewTag ? "New Tag" : "Tag";
+        const tid = isNewTag ? "New Tag" : `Tag ${tagName}`;
         return this.page.locator(`[data-tid='${tid}']`, { hasText: tagName });
     }
 }
