@@ -3,12 +3,9 @@ import { MainPage } from "./pages/MainPage";
 import { TriggerFormPage } from "./pages/TriggerFormPage";
 import { clearDatabase } from "./utils";
 
-test.beforeAll(async () => {
-    await clearDatabase();
-});
-
 test.describe("Trigger CRUD", () => {
     test("Create Trigger", async ({ page }) => {
+        await clearDatabase();
         const mainPage = new MainPage(page);
         const triggerFormPage = new TriggerFormPage(page);
 
