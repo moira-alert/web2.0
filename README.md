@@ -1,10 +1,10 @@
-# Moira Web 2.0 [![Build Status](https://travis-ci.org/moira-alert/web2.0.svg?branch=master)](https://travis-ci.org/moira-alert/web2.0) [![Dependency Status](https://david-dm.org/moira-alert/web2.0.svg)](https://david-dm.org/moira-alert/web2.0) [![devDependencies Status](https://david-dm.org/moira-alert/web2.0/dev-status.svg)](https://david-dm.org/moira-alert/web2.0?type=dev)
+# Moira Web 2.0
 
-It's repo for Moira Web UI. If you're new here, better check out our main [README](https://github.com/moira-alert/moira/blob/master/README.md).
+This repo is for Moira's Web UI built on React/TypeScript. If you're new here, please check out our main [README](https://github.com/moira-alert/moira/blob/master/README.md).
 
 ## Development
 
-You need [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com) installed. After cloning repo make sure you have installed all dependencies by running `yarn install`.
+You need [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com) installed. After cloning the repo, make sure you have all dependencies installed by running `yarn install`.
 
 ### Building
 
@@ -12,7 +12,7 @@ You need [Node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com) installed
 yarn build
 ```
 
-All files will be prepared in **dist** folder.
+All files will be prepared in the **dist** folder.
 
 ### Developing
 
@@ -20,13 +20,19 @@ All files will be prepared in **dist** folder.
 yarn start
 ```
 
-Starts dev server on port 9000 and fakeapi server (provides mock api data) on port 9002, in parallel.
+Starts a dev server on port 9000 and a fakeapi server (provides mock api data) on port 9002, in parallel.
+
+```bash
+yarn withBackend
+```
+
+Starts a dev server on port 9000 and a dockerized backend instance, in parallel.
 
 ```bash
 yarn start-with-local-api
 ```
 
-Starts dev server with proxy to your API service. Make sure you setup local Moira API service and add it URL to `webpack.dev.js` in `devServer.proxy` block.
+Starts a dev server as a proxy to your API service. Make sure you have a local Moira API service set up and add its URL to `webpack.dev.js` in `devServer.proxy` block.
 
 ```bash
 yarn storybook
@@ -38,19 +44,19 @@ Starts [Storybook](https://storybook.js.org) on port 9001.
 yarn lint
 ```
 
-[ESLint](https://eslint.org) check. _Recommended to run before commit_.
+[ESLint](https://eslint.org) check. _Will run before every commit via [husky](https://typicode.github.io/husky/#/)_.
 
 ```bash
 yarn tsc --noEmit
  ```
 
-Starts [TypeScript](https://www.typescriptlang.org) compiler for checking types.
+Runs the [TypeScript](https://www.typescriptlang.org) compiler for type-safety checking.  _Will run before every commit via [husky](https://typicode.github.io/husky/#/)_.
 
 ## Contributing
 
-First of all thank you for your help!
+First of all, thank you for your help!
 
-For contributors we have two major rules:
+For contributors, we have two major rules:
 
-- Put issues [in main repo](https://github.com/moira-alert/moira/issues), please. Even if you think, that your issue only about web interface. In many cases that's no so.
-- If you want to send PR, checkout you feature branch from `master` and name it by template `feature/%feautre_name%`. When you send PR alson choice `master` as base.
+- Please, create your issues [in the main repo](https://github.com/moira-alert/moira/issues). Even if you think that your issue concerns only the web interface, often it doesn't.
+- If you want to send a PR, checkout a branch for you feature from `master` and name it like so `feature/%feautre_name%`. Also, when sending a PR choose `master` as the base branch.
