@@ -95,6 +95,7 @@ export default class TriggerModeEditor extends React.Component<Props, State> {
                                         value={expression}
                                         onValueChange={(value) => onChange({ expression: value })}
                                         placeholder="t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)"
+                                        data-tid="Expression"
                                     />
                                 </ValidationWrapperV1>
                             </Fill>

@@ -191,7 +191,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                             this.handleUpdateTarget(i, value)
                                         }
                                         validate={validationResult?.targets?.[i]}
-                                        data-tid={`Target T${i + 1}`}
+                                        data-tid={`Target`}
                                     />
                                 </Fill>
                                 {targets.length > 1 && (
