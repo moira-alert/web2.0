@@ -8,6 +8,7 @@ export class TriggerFormPage {
     readonly targetInput: Locator;
     readonly addTargetButton: Locator;
     readonly tagsInput: Locator;
+    readonly tagBadge: (tagName: string) => Locator;
     readonly warnRisingValueInput: Locator;
     readonly errorRisingValueInput: Locator;
     readonly warnFallingValueInput: Locator;
@@ -22,6 +23,8 @@ export class TriggerFormPage {
         this.targetInput = page.locator("[data-tid=Target]");
         this.addTargetButton = page.locator("button", { hasText: "Add one more" });
         this.tagsInput = page.locator("[data-tid=Tags]");
+        this.tagBadge = (tagName) =>
+            this.page.locator("[data-tid=Tag]", { hasText: new RegExp(tagName) });
         this.createTriggerButton = page.locator("button", { hasText: "Add Trigger" });
         this.warnRisingValueInput = page.locator("[data-tid='Warn Rising']");
         this.errorRisingValueInput = page.locator("[data-tid='Error Rising']");
@@ -29,10 +32,5 @@ export class TriggerFormPage {
         this.errorFallingValueInput = page.locator("[data-tid='Error Falling']");
         this.simpleModeFallingRadio = page.locator("text=Watch for value falling");
         this.expressionInput = page.locator("[data-tid='Expression']");
-    }
-
-    getTagBadgeByName(tagName: string): Locator {
-        const regex = new RegExp(tagName);
-        return this.page.locator("[data-tid=Tag]", { hasText: regex });
     }
 }

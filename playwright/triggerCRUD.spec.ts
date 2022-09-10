@@ -8,7 +8,6 @@ test.afterAll(async () => clearDatabase());
 test.describe("Trigger CRUD", () => {
     test("Create Trigger", async ({ page }) => {
         const mainPage = new MainPage(page);
-        const form = new TriggerFormPage(page);
         const {
             nameInput,
             descriptionInput,
@@ -21,8 +20,9 @@ test.describe("Trigger CRUD", () => {
             errorFallingValueInput,
             expressionInput,
             tagsInput,
+            tagBadge,
             createTriggerButton,
-        } = form;
+        } = new TriggerFormPage(page);
 
         await mainPage.goto();
         await mainPage.addTriggerButton.click();
@@ -47,7 +47,7 @@ test.describe("Trigger CRUD", () => {
             await descriptionInput.fill("test description");
             await warnRisingValueInput.fill("2");
             await tagsInput.fill("test tag");
-            await form.getTagBadgeByName("test tag").click();
+            await tagBadge("test tag").click();
 
             await targetInput.fill("wrong target");
             await createTriggerButton.click();
