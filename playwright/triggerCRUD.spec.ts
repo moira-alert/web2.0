@@ -95,9 +95,9 @@ test.describe("Trigger CRUD", () => {
         await test.step(
             "Try to create trigger in Advanced mode with wrong Target/Expression",
             async () => {
-                await form.addTargetButton.click();
+                await addTargetButton.click();
                 await targetInput.nth(1).fill("sumSeries(test.target.*)");
-                await form.expressionInput.fill("t1 > t2 ? ERROR : OK");
+                await expressionInput.fill("t1 > t2 ? ERROR : OK");
             }
         );
 
