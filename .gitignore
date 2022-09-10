@@ -3,3 +3,4 @@
 /flow-coverage
 /build
 .idea/
+**/.DS_Store
