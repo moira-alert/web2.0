@@ -19,12 +19,8 @@ export class TriggerFormPage {
         this.warnValueInput = page.locator("[data-tid='WARN T1']");
     }
 
-    async goto(): Promise<void> {
-        await this.page.goto("/");
-    }
-
-    getTagBadgeByName(tagName: string, isNewTag = true): Locator {
-        const tid = isNewTag ? "New Tag" : `Tag ${tagName}`;
-        return this.page.locator(`[data-tid='${tid}']`, { hasText: tagName });
+    getTagBadgeByName(tagName: string): Locator {
+        const regex = new RegExp(tagName);
+        return this.page.locator("button", { hasText: regex });
     }
 }

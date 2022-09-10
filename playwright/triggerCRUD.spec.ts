@@ -3,9 +3,10 @@ import { MainPage } from "./pages/MainPage";
 import { TriggerFormPage } from "./pages/TriggerFormPage";
 import { clearDatabase } from "./utils";
 
+test.afterAll(async () => clearDatabase());
+
 test.describe("Trigger CRUD", () => {
     test("Create Trigger", async ({ page }) => {
-        await clearDatabase();
         const mainPage = new MainPage(page);
         const triggerFormPage = new TriggerFormPage(page);
 
@@ -13,9 +14,13 @@ test.describe("Trigger CRUD", () => {
         await mainPage.addTriggerButton.click();
 
         await triggerFormPage.createTriggerButton.click();
-        await page.locator("text=Can't be empty");
-        await page.locator("text=Select at least one tag");
-        await page.locator("text=At least one of values must be filled");
+        await expect(page.locator("text=Can't be empty").nth(0)).toBeVisible();
+        await triggerFormPage.targetInput.click();
+        await expect(page.locator("text=Can't be empty").nth(1)).toBeVisible();
+        await triggerFormPage.warnValueInput.click();
+        await expect(page.locator("text=At least one of values must be filled")).toBeVisible();
+        await triggerFormPage.tagsInput.click();
+        await expect(page.locator("text=Select at least one tag")).toBeVisible();
 
         await triggerFormPage.nameInput.fill("test name");
         await triggerFormPage.descriptionInput.fill("test description");
@@ -28,15 +33,14 @@ test.describe("Trigger CRUD", () => {
         await triggerFormPage.warnValueInput.fill("2");
 
         await triggerFormPage.createTriggerButton.click();
-        await page.locator(
-            "text=wrong: Function is not supported, if you want to use it, switch to remote"
-        );
+        await expect(
+            page.locator(
+                "text=wrong: Function is not supported, if you want to use it, switch to remote"
+            )
+        ).toBeVisible();
 
         await triggerFormPage.targetInput.fill("sumSeries(test.target.*)");
         await triggerFormPage.createTriggerButton.click();
         await expect(page).toHaveURL(/http:\/\/localhost:9000\/trigger\/[a-z\d-]*/);
-
-        await mainPage.goto();
-        await page.locator("text=test name");
     });
 });
