@@ -23,4 +23,9 @@ export class TriggerFormPage {
         const regex = new RegExp(tagName);
         return this.page.locator("[data-tid=Tag]", { hasText: regex });
     }
+
+    getMessageNear(locator: Locator, text: string): Locator {
+        const [, selector] = locator.toString().split("@");
+        return this.page.locator(`:text("${text}"):near(${selector})`);
+    }
 }

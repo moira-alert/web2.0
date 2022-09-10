@@ -8,39 +8,52 @@ test.afterAll(async () => clearDatabase());
 test.describe("Trigger CRUD", () => {
     test("Create Trigger", async ({ page }) => {
         const mainPage = new MainPage(page);
-        const triggerFormPage = new TriggerFormPage(page);
+        const form = new TriggerFormPage(page);
+        const {
+            createTriggerButton,
+            nameInput,
+            targetInput,
+            warnValueInput,
+            tagsInput,
+            descriptionInput,
+        } = form;
 
         await mainPage.goto();
         await mainPage.addTriggerButton.click();
 
-        await triggerFormPage.createTriggerButton.click();
-        await expect(page.locator("text=Can't be empty").nth(0)).toBeVisible();
-        await triggerFormPage.targetInput.click();
-        await expect(page.locator("text=Can't be empty").nth(1)).toBeVisible();
-        await triggerFormPage.warnValueInput.click();
-        await expect(page.locator("text=At least one of values must be filled")).toBeVisible();
-        await triggerFormPage.tagsInput.click();
-        await expect(page.locator("text=Select at least one tag")).toBeVisible();
-
-        await triggerFormPage.nameInput.fill("test name");
-        await triggerFormPage.descriptionInput.fill("test description");
-        await triggerFormPage.targetInput.fill("wrong target");
-
-        await triggerFormPage.tagsInput.click();
-        await triggerFormPage.tagsInput.fill("test tag");
-        await triggerFormPage.getTagBadgeByName("test tag").click();
-
-        await triggerFormPage.warnValueInput.fill("2");
-
-        await triggerFormPage.createTriggerButton.click();
+        await createTriggerButton.click();
+        await expect(form.getMessageNear(nameInput, "Can't be empty")).toBeVisible();
+        await targetInput.click();
+        await expect(form.getMessageNear(targetInput, "Can't be empty")).toBeVisible();
+        await warnValueInput.click();
         await expect(
-            page.locator(
-                "text=wrong: Function is not supported, if you want to use it, switch to remote"
+            form.getMessageNear(warnValueInput, "At least one of values must be filled")
+        ).toBeVisible();
+        await tagsInput.click();
+        await expect(form.getMessageNear(tagsInput, "Select at least one tag")).toBeVisible();
+
+        await nameInput.fill("test name");
+        await descriptionInput.fill("test description");
+        await targetInput.fill("wrong target");
+
+        await tagsInput.fill("test tag");
+        await form.getTagBadgeByName("test tag").click();
+
+        await warnValueInput.fill("2");
+
+        await createTriggerButton.click();
+        await expect(
+            form.getMessageNear(
+                targetInput,
+                "Function is not supported, if you want to use it, switch to remote"
             )
         ).toBeVisible();
 
-        await triggerFormPage.targetInput.fill("sumSeries(test.target.*)");
-        await triggerFormPage.createTriggerButton.click();
+        await targetInput.fill("sumSeries(test.target.*");
+        await createTriggerButton.click();
+        await expect(form.getMessageNear(targetInput, "Syntax error")).toBeVisible();
+        await targetInput.type(")");
+        await createTriggerButton.click();
         await expect(page).toHaveURL(/http:\/\/localhost:9000\/trigger\/[a-z\d-]*/);
     });
 });
