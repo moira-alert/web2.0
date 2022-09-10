@@ -21,7 +21,7 @@ export default function NewTagBadge(props: Props): React.ReactElement {
                     type="button"
                     onClick={onClick}
                     className={cn("title", "clickable")}
-                    data-tid="New Tag"
+                    data-tid="Tag"
                 >
                     <AddIcon /> {doNotShowNewTagCaption ? "" : "new tag "}
                     {title}

@@ -8,7 +8,6 @@ type Props = {
     focus?: boolean;
     onClick?: () => void;
     onRemove?: (title: string) => void;
-    "data-tid"?: string;
 };
 
 type ColorTheme = {
@@ -26,7 +25,7 @@ function getColor(title: string): ColorTheme {
 }
 
 export default function Tag(props: Props): React.ReactElement {
-    const { title, focus, onRemove, onClick, "data-tid": dataTid } = props;
+    const { title, focus, onRemove, onClick } = props;
 
     if (typeof onClick === "function") {
         return (
@@ -35,7 +34,7 @@ export default function Tag(props: Props): React.ReactElement {
                     type="button"
                     onClick={onClick}
                     className={cn("title", "clickable")}
-                    data-tid={dataTid}
+                    data-tid={"Tag"}
                 >
                     {title}
                 </button>

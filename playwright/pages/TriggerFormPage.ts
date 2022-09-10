@@ -21,6 +21,6 @@ export class TriggerFormPage {
 
     getTagBadgeByName(tagName: string): Locator {
         const regex = new RegExp(tagName);
-        return this.page.locator("button", { hasText: regex });
+        return this.page.locator("[data-tid=Tag]", { hasText: regex });
     }
 }
