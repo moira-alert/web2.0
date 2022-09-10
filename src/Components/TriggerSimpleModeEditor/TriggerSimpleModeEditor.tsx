@@ -70,7 +70,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={risingValues.warn_value}
                                                 disabled={watchFor !== "rising"}
                                                 onValueChange={this.handleChangeWarnValue}
-                                                data-tid="WARN T1"
+                                                data-tid="Warn Rising"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -104,7 +104,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={risingValues.error_value}
                                                 disabled={watchFor !== "rising"}
                                                 onValueChange={this.handleChangeErrorValue}
-                                                data-tid="ERROR T1"
+                                                data-tid="Error Rising"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -154,6 +154,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={fallingValues.warn_value}
                                                 disabled={watchFor !== "falling"}
                                                 onValueChange={this.handleChangeWarnValue}
+                                                data-tid="Warn Falling"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -187,6 +188,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={fallingValues.error_value}
                                                 disabled={watchFor !== "falling"}
                                                 onValueChange={this.handleChangeErrorValue}
+                                                data-tid="Error Falling"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -219,7 +221,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
             return null;
         }
         if (value.warn_value == null && value.error_value == null) {
-            return { message: "At least one of values must be filled", type: "submit" };
+            return { message: "At least one of the values must be filled", type: "submit" };
         }
 
         return null;
@@ -231,14 +233,14 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
             return null;
         }
         if (value.error_value == null && value.warn_value == null) {
-            return { message: "At least one of values must be filled", type: "submit" };
+            return { message: "At least one of the values must be filled", type: "submit" };
         }
         if (
             value.error_value != null &&
             value.warn_value != null &&
             value.warn_value >= value.error_value
         ) {
-            return { message: "Error value must be greater than to warn value", type: "submit" };
+            return { message: "Error value must be greater than Warn value", type: "submit" };
         }
         return null;
     }
@@ -249,7 +251,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
             return null;
         }
         if (value.warn_value == null && value.error_value == null) {
-            return { message: "At least one of values must be filled", type: "submit" };
+            return { message: "At least one of the values must be filled", type: "submit" };
         }
         return null;
     }
@@ -260,14 +262,14 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
             return null;
         }
         if (value.error_value == null && value.warn_value == null) {
-            return { message: "At least one of values must be filled", type: "submit" };
+            return { message: "At least one of the values must be filled", type: "submit" };
         }
         if (
             value.error_value != null &&
             value.warn_value != null &&
             value.warn_value <= value.error_value
         ) {
-            return { message: "Error value must be less than to warn value", type: "submit" };
+            return { message: "Error value must be less than Warn value", type: "submit" };
         }
         return null;
     }
