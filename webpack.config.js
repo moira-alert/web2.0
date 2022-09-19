@@ -18,16 +18,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.bundle\.tsx?$/,
-                use: {
-                    loader: "bundle-loader",
-                    options: {
-                        name: "[name]",
-                        lazy: true,
-                    },
-                },
-            },
-            {
                 test: [/\.jsx?$/, /\.tsx?$/],
                 use: ["babel-loader"],
                 exclude: /node_modules/,
