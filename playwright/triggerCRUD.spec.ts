@@ -54,6 +54,7 @@ test.describe("Trigger CRUD", () => {
                 page.waitForResponse(/trigger\/check/),
                 createTriggerButton.click(),
             ]);
+            await page.screenshot({ path: "screenshot.png" });
             await expect(
                 page.locator(
                     "text=Function is not supported, if you want to use it, switch to remote"
