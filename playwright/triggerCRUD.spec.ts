@@ -50,7 +50,10 @@ test.describe("Trigger CRUD", () => {
             await tagBadge("test tag").click();
 
             await targetInput.fill("wrong target");
-            await createTriggerButton.click();
+            await Promise.all([
+                page.waitForResponse(/trigger\/check/),
+                createTriggerButton.click(),
+            ]);
             await expect(
                 page.locator(
                     "text=Function is not supported, if you want to use it, switch to remote"
