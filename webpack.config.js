@@ -10,7 +10,7 @@ module.exports = {
         app: path.resolve(__dirname, "src/index.ts"),
     },
     output: {
-        filename: "app.[hash:6].js",
+        filename: "app.[chunkhash:6].js",
         chunkFilename: "[name].[chunkhash:6].js",
         publicPath: "/",
         path: path.resolve(__dirname, "dist"),
@@ -51,6 +51,12 @@ module.exports = {
                     "less-loader",
                 ],
             },
+            {
+                test: /\.m?js/,
+                resolve: {
+                    fullySpecified: false
+                }
+            },
         ],
     },
     resolve: {
@@ -78,6 +84,9 @@ module.exports = {
             filename: "app.[hash:6].css",
             chunkFilename: "[name].[chunkhash:6].css",
         }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+          }),
 
         new webpack.HotModuleReplacementPlugin()
     ],
@@ -102,7 +111,7 @@ module.exports = {
     },
     devServer: {
         hot: true,
-        contentBase: "./dist",
+        static: "./dist",
         port: 9000,
         historyApiFallback: true,
         proxy: {
