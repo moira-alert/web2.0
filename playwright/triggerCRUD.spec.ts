@@ -51,10 +51,9 @@ test.describe("Trigger CRUD", () => {
 
             await targetInput.fill("wrong target");
             await Promise.all([
-                page.waitForResponse(/trigger\/check/),
                 createTriggerButton.click(),
+                page.waitForResponse(/trigger\/check/),
             ]);
-            await page.screenshot({ path: "screenshot.png" });
             await expect(
                 page.locator(
                     "text=Function is not supported, if you want to use it, switch to remote"
@@ -127,10 +126,8 @@ test.describe("Trigger CRUD", () => {
         );
 
         await test.step("Create trigger & check for success", async () => {
-            await createTriggerButton.click();
+            await Promise.all([createTriggerButton.click(), page.waitForResponse(/trigger/)]);
             await expect(page).toHaveURL(/[a-z\d]+-+/);
-
-            await page.waitForTimeout(1000); // TODO: wait for request to finish instead of timeout
             await mainPage.goto();
             await expect(page.locator("text=test name")).toBeVisible;
         });
