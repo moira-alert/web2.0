@@ -67,7 +67,7 @@ test.describe("Trigger CRUD", () => {
         await test.step(
             "Try to create trigger in Simple mode with wrong Error/Warn values",
             async () => {
-                await errorRisingValueInput.fill("1");
+                await errorRisingValueInput.fill("1"); // Warn value would've been filled on the prev step
                 await createTriggerButton.click();
                 await errorRisingValueInput.hover();
                 await expect(
