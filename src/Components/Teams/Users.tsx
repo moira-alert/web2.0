@@ -61,7 +61,11 @@ export function Users(props: UsersProps): ReactElement {
                                 message={getExcludeMessage(userName)}
                                 action={() => handleUserRemove(userName)}
                             >
-                                <Button use={"link"} icon={<DeleteIcon />} />
+                                <Button
+                                    use={"link"}
+                                    icon={<DeleteIcon />}
+                                    data-tid={`delete_user ${userName}`}
+                                />
                             </Confirm>
                             {userName || <span />}
                         </Fragment>

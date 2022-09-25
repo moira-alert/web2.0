@@ -28,6 +28,7 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
                     use={"link"}
                     onClick={() => setEdit(true)}
                     width="20px"
+                    data-tid="edit_team"
                 />
             </HoveredShow>
         </Hovered>

@@ -35,13 +35,18 @@ export function AddUserToTeam(props: AddUserProps): ReactElement {
 
     return (
         <ValidationContainer ref={validation}>
-            <Modal noClose>
+            <Modal noClose data-tid="user_modal">
                 <Modal.Header>Add User to {props.team.name}</Modal.Header>
                 <Modal.Body>
                     <Grid columns="60px 300px" gap="16px">
                         Name:
                         <ValidationWrapper validationInfo={nameValidate}>
-                            <Input value={name} onValueChange={setName} width={"100%"} />
+                            <Input
+                                value={name}
+                                onValueChange={setName}
+                                width={"100%"}
+                                data-tid="user_name"
+                            />
                         </ValidationWrapper>
                     </Grid>
                 </Modal.Body>

@@ -128,8 +128,8 @@ test.describe("Trigger form", () => {
         await test.step("Create trigger & check for success", async () => {
             await createTriggerButton.click();
             await expect(page).toHaveURL(/[a-z\d]+-+/);
-            await page.waitForTimeout(1000);
             await mainPage.goto();
+            await page.waitForTimeout(1000); // TODO: remove hard waits
             await expect(page.locator("text=test name")).toBeVisible();
         });
     });

@@ -32,7 +32,7 @@ export class TeamEditor extends React.Component<TeamEditorProps, TeamEditorState
     public render(): React.ReactElement {
         return (
             <ValidationContainer ref={this.validation}>
-                <Modal width={600} onClose={this.props.onClose}>
+                <Modal width={600} onClose={this.props.onClose} data-tid="team_modal">
                     <Modal.Header>
                         {this.props.team ? `Edit team ${this.props.team.name} ` : "Add Team"}
                     </Modal.Header>
@@ -47,6 +47,7 @@ export class TeamEditor extends React.Component<TeamEditorProps, TeamEditorState
                                             onValueChange={this.handleNameChange}
                                             width={"100%"}
                                             disabled={Boolean(this.props.team)}
+                                            data-tid="team_name"
                                         />
                                     </ValidationWrapper>
                                 </>
@@ -59,6 +60,7 @@ export class TeamEditor extends React.Component<TeamEditorProps, TeamEditorState
                                 onValueChange={this.handleDescriptionChange}
                                 width="100%"
                                 autoResize
+                                data-tid="team_description"
                             />
                         </Grid>
                     </Modal.Body>
