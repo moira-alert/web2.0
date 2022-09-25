@@ -3,7 +3,7 @@ on:
   pull_request:
 jobs:
   test:
-    name: Test frontend
+    name: E2E test frontend
     runs-on: ubuntu-20.04
 
     steps:

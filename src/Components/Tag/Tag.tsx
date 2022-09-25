@@ -30,12 +30,7 @@ export default function Tag(props: Props): React.ReactElement {
     if (typeof onClick === "function") {
         return (
             <div className={cn({ tag: true, focused: focus })} style={getColor(title)}>
-                <button
-                    type="button"
-                    onClick={onClick}
-                    className={cn("title", "clickable")}
-                    data-tid={"Tag"}
-                >
+                <button type="button" onClick={onClick} className={cn("title", "clickable")}>
                     {title}
                 </button>
             </div>

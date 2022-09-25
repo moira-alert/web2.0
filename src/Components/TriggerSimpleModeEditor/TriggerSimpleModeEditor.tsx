@@ -70,7 +70,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={risingValues.warn_value}
                                                 disabled={watchFor !== "rising"}
                                                 onValueChange={this.handleChangeWarnValue}
-                                                data-tid="Warn Rising"
+                                                data-tid="warn"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -104,7 +104,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={risingValues.error_value}
                                                 disabled={watchFor !== "rising"}
                                                 onValueChange={this.handleChangeErrorValue}
-                                                data-tid="Error Rising"
+                                                data-tid="error"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -154,7 +154,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={fallingValues.warn_value}
                                                 disabled={watchFor !== "falling"}
                                                 onValueChange={this.handleChangeWarnValue}
-                                                data-tid="Warn Falling"
+                                                data-tid="warn"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>
@@ -188,7 +188,7 @@ export default class TriggerSimpleModeEditor extends React.Component<Props> {
                                                 value={fallingValues.error_value}
                                                 disabled={watchFor !== "falling"}
                                                 onValueChange={this.handleChangeErrorValue}
-                                                data-tid="Error Falling"
+                                                data-tid="error"
                                             />
                                         </ValidationWrapperV1>
                                     </Fit>

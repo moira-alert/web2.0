@@ -5,7 +5,7 @@ import { clearDatabase } from "./utils";
 
 test.afterAll(async () => clearDatabase());
 
-test.describe("Trigger CRUD", () => {
+test.describe("Trigger form", () => {
     test("Create Trigger", async ({ page }) => {
         const mainPage = new MainPage(page);
         const {
@@ -14,10 +14,7 @@ test.describe("Trigger CRUD", () => {
             targetInput,
             addTargetButton,
             simpleModeFallingRadio,
-            warnRisingValueInput,
-            errorRisingValueInput,
-            warnFallingValueInput,
-            errorFallingValueInput,
+            targetValueInput,
             expressionInput,
             tagsInput,
             tagBadge,
@@ -30,10 +27,13 @@ test.describe("Trigger CRUD", () => {
         await test.step("Try to create trigger from empty form", async () => {
             await createTriggerButton.click();
 
-            await targetInput.hover();
-            await expect(page.locator("text=Can't be empty")).toHaveCount(2);
+            await nameInput.hover();
+            await expect(page.locator("text=Can't be empty")).toBeVisible();
 
-            await warnRisingValueInput.hover();
+            await targetInput(1).hover();
+            await expect(page.locator("text=Can't be empty")).toBeVisible();
+
+            await targetValueInput("warn", "rising").hover();
             await expect(
                 page.locator("text=At least one of the values must be filled")
             ).toBeVisible();
@@ -45,11 +45,11 @@ test.describe("Trigger CRUD", () => {
         await test.step("Try to create trigger with wrong Target", async () => {
             await nameInput.fill("test name");
             await descriptionInput.fill("test description");
-            await warnRisingValueInput.fill("2");
+            await targetValueInput("warn", "rising").fill("2");
             await tagsInput.fill("test tag");
             await tagBadge("test tag").click();
 
-            await targetInput.fill("wrong target");
+            await targetInput(1).fill("wrong target");
             await Promise.all([
                 createTriggerButton.click(),
                 page.waitForResponse(/trigger\/check/),
@@ -60,34 +60,34 @@ test.describe("Trigger CRUD", () => {
                 )
             ).toBeVisible();
 
-            await targetInput.fill("sumSeries(test.target.*");
+            await targetInput(1).fill("sumSeries(test.target.*");
             await createTriggerButton.click();
             await expect(page.locator("text=Syntax error")).toBeVisible();
 
-            await targetInput.type(")");
+            await targetInput(1).fill("sumSeries(test.target.*)");
         });
 
         await test.step(
             "Try to create trigger in Simple mode with wrong Error/Warn values",
             async () => {
-                await errorRisingValueInput.fill("1"); // Warn value would've been filled on the prev step
+                await targetValueInput("error", "rising").fill("1"); // Warn value would've been filled on the prev step
                 await createTriggerButton.click();
-                await errorRisingValueInput.hover();
+                await targetValueInput("error", "rising").hover();
                 await expect(
                     page.locator("text=Error value must be greater than Warn value")
                 ).toBeVisible();
-                await errorRisingValueInput.fill("3");
+                await targetValueInput("error", "rising").fill("3");
 
                 await simpleModeFallingRadio.click();
 
-                await warnFallingValueInput.fill("1");
-                await errorFallingValueInput.fill("2");
+                await targetValueInput("warn", "falling").fill("1");
+                await targetValueInput("error", "falling").fill("2");
                 await createTriggerButton.click();
-                await errorFallingValueInput.hover();
+                await targetValueInput("error", "falling").hover();
                 await expect(
                     page.locator("text=Error value must be less than Warn value")
                 ).toBeVisible();
-                await warnFallingValueInput.fill("3");
+                await targetValueInput("warn", "falling").fill("3");
             }
         );
 
@@ -102,17 +102,17 @@ test.describe("Trigger CRUD", () => {
                 await expect(page.locator("text=Expression can't be empty")).toBeVisible();
 
                 await expressionInput.fill("wrong expression");
-                await targetInput.nth(1).fill("wrong target");
+                await targetInput(2).fill("wrong target");
                 await createTriggerButton.click();
                 await expect(
                     page.locator(
                         "text=Function is not supported, if you want to use it, switch to remote"
                     )
                 ).toBeVisible();
-                await targetInput.nth(1).fill("sumSeries(test.target.*");
+                await targetInput(2).fill("sumSeries(test.target.*");
                 await createTriggerButton.click();
                 await expect(page.locator("text=Syntax error")).toBeVisible();
-                await targetInput.nth(1).type(")");
+                await targetInput(2).fill("sumSeries(test.target.*)");
 
                 await createTriggerButton.click();
                 await expect(page.locator("text=Cannot transition token types")).toBeVisible();
@@ -126,10 +126,11 @@ test.describe("Trigger CRUD", () => {
         );
 
         await test.step("Create trigger & check for success", async () => {
-            await Promise.all([createTriggerButton.click(), page.waitForResponse(/trigger/)]);
+            await createTriggerButton.click();
             await expect(page).toHaveURL(/[a-z\d]+-+/);
+            await page.waitForTimeout(1000);
             await mainPage.goto();
-            await expect(page.locator("text=test name")).toBeVisible;
+            await expect(page.locator("text=test name")).toBeVisible();
         });
     });
 });
