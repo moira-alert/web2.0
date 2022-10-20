@@ -3,6 +3,7 @@
 /flow-coverage
 /build
 .idea/
+.vscode/
 /test-results/
 /playwright-report/
 /playwright/.cache/
