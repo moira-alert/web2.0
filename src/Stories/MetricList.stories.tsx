@@ -1,10 +1,13 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import MetricList from "../Components/MetricList/MetricList";
 import { MetricItemList } from "../Domain/Metric";
 import { Status } from "../Domain/Status";
+
+export default {
+    title: "MetricList",
+    component: MetricList,
+};
 
 const items: MetricItemList = {
     "vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace": {
@@ -50,33 +53,33 @@ const items: MetricItemList = {
     },
 };
 
-storiesOf("MetricList", module)
-    .addDecorator(StoryRouter())
-    .add("Default", () => (
-        <MetricList
-            items={items}
-            sortingColumn="value"
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
-    ))
-    .add("With Status Indicator", () => (
-        <MetricList
-            items={items}
-            status
-            sortingColumn="value"
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
-    ))
-    .add("With Remove all NODATA", () => (
-        <MetricList
-            items={items}
-            status
-            noDataMetricCount={5}
-            sortingColumn="value"
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-            onNoDataRemove={action("onNoDataRemove")}
-        />
-    ));
+export const Default = () => (
+    <MetricList
+        items={items}
+        sortingColumn="value"
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const WithStatusIndicator = () => (
+    <MetricList
+        items={items}
+        status
+        sortingColumn="value"
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const WithRemoveAllNODATA = () => (
+    <MetricList
+        items={items}
+        status
+        noDataMetricCount={5}
+        sortingColumn="value"
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+        onNoDataRemove={action("onNoDataRemove")}
+    />
+);

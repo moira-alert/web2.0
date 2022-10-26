@@ -1,11 +1,16 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import MobileTriggerInfo from "../../Components/Mobile/MobileTriggerInfo/MobileTriggerInfo";
 import { Trigger, TriggerState } from "../../Domain/Trigger";
 import { DaysOfWeek } from "../../Domain/Schedule";
 import { Status } from "../../Domain/Status";
+
+export default {
+    title: "Mobile/TriggerInfo",
+    component: MobileTriggerInfo,
+    decorators: [(story: () => JSX.Element) => <MemoryRouter>{story()}</MemoryRouter>],
+};
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -57,25 +62,28 @@ const triggerState: TriggerState = {
     trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
 };
 
-const stories: Array<{
-    title: string;
-    triggerState: TriggerState;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        triggerState: { ...triggerState },
-        data: { ...sourceData },
-    },
-    {
-        title: "With throttling",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Not everyday",
-        triggerState: { ...triggerState },
-        data: {
+export const Default = () => (
+    <MobileTriggerInfo
+        triggerState={triggerState}
+        data={sourceData}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithThrottling = () => (
+    <MobileTriggerInfo
+        triggerState={triggerState}
+        data={{ ...sourceData, throttling: Date.now() }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const NotEveryday = () => (
+    <MobileTriggerInfo
+        triggerState={triggerState}
+        data={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -91,16 +99,20 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-    {
-        title: "WithError",
-        triggerState: {
+        }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithError = () => (
+    <MobileTriggerInfo
+        triggerState={{
             ...triggerState,
             state: Status.EXCEPTION,
             msg: "Some error message message message message message.",
-        },
-        data: {
+        }}
+        data={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -116,45 +128,46 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-    {
-        title: "WithLogMessageError",
-        triggerState: {
+        }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithLogMessageError = () => (
+    <MobileTriggerInfo
+        triggerState={{
             ...triggerState,
             state: Status.EXCEPTION,
             msg:
                 "Some error very very very very very very very very very very very message message message message message.",
-        },
-        data: sourceData,
-    },
-    {
-        title: "WithLongDescription",
-        triggerState: { ...triggerState },
-        data: {
+        }}
+        data={sourceData}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithLongDescription = () => (
+    <MobileTriggerInfo
+        triggerState={triggerState}
+        data={{
             ...sourceData,
             desc: `Some error ${Array(100).fill("very").join(" ")} long description`,
-        },
-    },
-    {
-        title: "WithLongName With spaces",
-        triggerState: { ...triggerState },
-        data: {
+        }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithLongNameWithSpaces = () => (
+    <MobileTriggerInfo
+        triggerState={triggerState}
+        data={{
             ...sourceData,
             name: "Some very very very very very very very very very long name",
-        },
-    },
-];
-
-const story = storiesOf("Mobile/TriggerInfo", module).addDecorator(StoryRouter());
-
-stories.forEach(({ title, data, triggerState: state }) => {
-    story.add(title, () => (
-        <MobileTriggerInfo
-            triggerState={state}
-            data={data}
-            onThrottlingRemove={action("onThrottlingRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
-        />
-    ));
-});
+        }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);

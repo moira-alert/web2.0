@@ -1,6 +1,9 @@
 import React, { ReactNode, ReactElement } from "react";
-import { storiesOf } from "@storybook/react";
 import { RowStack, ColumnStack, Fit, Fill, Fixed } from "../Components/ItemsStack/ItemsStack";
+
+export default {
+    title: "ItemsStack",
+};
 
 function Outline(props: { children: ReactNode }): ReactElement {
     const { children } = props;
@@ -18,32 +21,32 @@ function Outline(props: { children: ReactNode }): ReactElement {
     );
 }
 
-storiesOf("ItemsStack", module)
-    .add("RowStack", () => (
-        <RowStack block gap={2}>
-            <Fit>
-                <Outline>Fit Item</Outline>
-            </Fit>
-            <Fill>
-                <Outline>Fill Item</Outline>
-            </Fill>
-            <Fixed width={70}>
-                <Outline>
-                    Item with fixed width and long, long word &quot;Eyjafjallajökull&quot;
-                </Outline>
-            </Fixed>
-        </RowStack>
-    ))
-    .add("ColumnStack", () => (
-        <ColumnStack block stretch gap={2} style={{ height: "300px" }}>
-            <Fit>
-                <Outline>Fit Item</Outline>
-            </Fit>
-            <Fill>
-                <Outline>Fill Item (when parent have fixed height)</Outline>
-            </Fill>
-            <Fit>
-                <Outline>Fit Item</Outline>
-            </Fit>
-        </ColumnStack>
-    ));
+export const Row = () => (
+    <RowStack block gap={2}>
+        <Fit>
+            <Outline>Fit Item</Outline>
+        </Fit>
+        <Fill>
+            <Outline>Fill Item</Outline>
+        </Fill>
+        <Fixed width={70}>
+            <Outline>
+                Item with fixed width and long, long word &quot;Eyjafjallajökull&quot;
+            </Outline>
+        </Fixed>
+    </RowStack>
+);
+
+export const Column = () => (
+    <ColumnStack block stretch gap={2} style={{ height: "300px" }}>
+        <Fit>
+            <Outline>Fit Item</Outline>
+        </Fit>
+        <Fill>
+            <Outline>Fill Item (when parent have fixed height)</Outline>
+        </Fill>
+        <Fit>
+            <Outline>Fit Item</Outline>
+        </Fit>
+    </ColumnStack>
+);

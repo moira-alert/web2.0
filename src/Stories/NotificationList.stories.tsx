@@ -1,10 +1,15 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import { Notification } from "../Domain/Notification";
 import { Status } from "../Domain/Status";
+
+export default {
+    title: "NotificationList",
+    component: NotificationList,
+    decorators: [(story: () => JSX.Element) => <MemoryRouter>{story()}</MemoryRouter>],
+};
 
 // item.timestamp + item.contact.id + item.event.sub_id;
 const items: { [id: string]: Array<Notification> } = {
@@ -70,7 +75,6 @@ const items: { [id: string]: Array<Notification> } = {
     ],
 };
 
-storiesOf("NotificationList", module)
-    .addDecorator(StoryRouter())
-    .add("Default", () => <NotificationList items={items} onRemove={action("onRemove")} />)
-    .add("Empty", () => <NotificationList items={{}} onRemove={action("onRemove")} />);
+export const Default = () => <NotificationList items={items} onRemove={action("onRemove")} />;
+
+export const Empty = () => <NotificationList items={{}} onRemove={action("onRemove")} />;

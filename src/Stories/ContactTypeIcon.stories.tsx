@@ -1,6 +1,21 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
 import ContactTypeIcon from "../Components/ContactTypeIcon/ContactTypeIcon";
+
+export default {
+    title: "ContactTypeIcon",
+    component: ContactTypeIcon,
+    creevey: {
+        tests: {
+            AllIcons: async () => {
+                // Some icons get by url and loaded with a delay
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                // @ts-ignore matchImage is custom method
+                await this.expect(await this.takeScreenshot()).to.matchImage();
+            },
+        },
+    },
+};
 
 const iconTypes = [
     "slack",
@@ -19,24 +34,10 @@ const iconTypes = [
     "tel",
 ];
 
-storiesOf("ContactTypeIcon", module)
-    .addParameters({
-        creevey: {
-            tests: {
-                async AllIcons() {
-                    // Some icons get by url and loaded with a delay
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage();
-                },
-            },
-        },
-    })
-    .add("AllIconsInList", () => (
-        <div>
-            {iconTypes.map((type: string) => (
-                <ContactTypeIcon key={type} type={type} />
-            ))}
-        </div>
-    ));
+export const AllIconsInList = () => (
+    <div>
+        {iconTypes.map((type: string) => (
+            <ContactTypeIcon key={type} type={type} />
+        ))}
+    </div>
+);

@@ -1,6 +1,10 @@
 import React, { ReactElement } from "react";
-import { storiesOf } from "@storybook/react";
 import Layout from "../Components/Layout/Layout";
+
+export default {
+    title: "Layout",
+    component: Layout,
+};
 
 type Props = {
     width?: number | string;
@@ -8,8 +12,7 @@ type Props = {
     label?: string;
 };
 
-function SpaceFiller(props: Props): ReactElement {
-    const { width = "100%", height = 300, label = "Children" } = props;
+function SpaceFiller({ width = 300, height = "100%", label = "Children" }: Props): ReactElement {
     return (
         <div
             style={{
@@ -32,57 +35,54 @@ function SpaceFiller(props: Props): ReactElement {
     );
 }
 
-SpaceFiller.defaultProps = {
-    width: 300,
-    height: "100%",
-    label: "Children",
-};
+export const Default = () => (
+    <Layout>
+        <Layout.Content>
+            <SpaceFiller />
+        </Layout.Content>
+    </Layout>
+);
 
-storiesOf("Layout", module)
-    .add("Default", () => (
-        <Layout>
-            <Layout.Content>
-                <SpaceFiller />
-            </Layout.Content>
-        </Layout>
-    ))
-    .add("With Error", () => (
-        <Layout error="Error message here">
-            <Layout.Content>
-                <SpaceFiller />
-            </Layout.Content>
-        </Layout>
-    ))
-    .add("With Plate", () => (
-        <Layout>
-            <Layout.Plate>
-                <SpaceFiller height={50} label="Plate" />
-            </Layout.Plate>
-            <Layout.Content>
-                <SpaceFiller />
-            </Layout.Content>
-        </Layout>
-    ))
-    .add("With Paging", () => (
-        <Layout>
-            <Layout.Content>
-                <SpaceFiller />
-            </Layout.Content>
-            <Layout.Footer>
-                <SpaceFiller height={30} label="Paging" />
-            </Layout.Footer>
-        </Layout>
-    ))
-    .add("With Plate and paging", () => (
-        <Layout>
-            <Layout.Plate>
-                <SpaceFiller height={50} label="Plate" />
-            </Layout.Plate>
-            <Layout.Content>
-                <SpaceFiller />
-            </Layout.Content>
-            <Layout.Footer>
-                <SpaceFiller height={30} label="Paging" />
-            </Layout.Footer>
-        </Layout>
-    ));
+export const WithError = () => (
+    <Layout error="Error message here">
+        <Layout.Content>
+            <SpaceFiller />
+        </Layout.Content>
+    </Layout>
+);
+
+export const WithPlate = () => (
+    <Layout>
+        <Layout.Plate>
+            <SpaceFiller height={50} label="Plate" />
+        </Layout.Plate>
+        <Layout.Content>
+            <SpaceFiller />
+        </Layout.Content>
+    </Layout>
+);
+
+export const WithPaging = () => (
+    <Layout>
+        <Layout.Content>
+            <SpaceFiller />
+        </Layout.Content>
+        <Layout.Footer>
+            <SpaceFiller height={30} label="Paging" />
+        </Layout.Footer>
+    </Layout>
+);
+
+export const WithPlateAndPaging = () => (
+    <Layout>
+        <Layout.Plate>
+            <SpaceFiller height={50} label="Plate" />
+        </Layout.Plate>
+        <Layout.Content>
+            <SpaceFiller />
+        </Layout.Content>
+        <Layout.Footer>
+            <SpaceFiller height={30} label="Paging" />
+        </Layout.Footer>
+    </Layout>
+);

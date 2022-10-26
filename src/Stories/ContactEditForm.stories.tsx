@@ -1,24 +1,30 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
 import { action } from "@storybook/addon-actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import ContactEditForm from "../Components/ContactEditForm/ContactEditForm";
 import contactConfigs from "./Data/ContactConfigs";
+
+export default {
+    title: "ContactEditForm",
+    component: ContactEditForm,
+    decorators: [
+        (story: () => JSX.Element) => <ValidationContainer>{story()}</ValidationContainer>,
+    ],
+};
 
 const commonProps = {
     onChange: action("onChange"),
     contactDescriptions: contactConfigs,
 };
 
-storiesOf("ContactEditForm", module)
-    .addDecorator((story) => <ValidationContainer>{story()}</ValidationContainer>)
-    .add("empty", () => <ContactEditForm {...commonProps} contactInfo={null} />)
-    .add("filled", () => (
-        <ContactEditForm
-            {...commonProps}
-            contactInfo={{
-                type: "email",
-                value: "test@email",
-            }}
-        />
-    ));
+export const Empty = () => <ContactEditForm {...commonProps} contactInfo={null} />;
+
+export const Filled = () => (
+    <ContactEditForm
+        {...commonProps}
+        contactInfo={{
+            type: "email",
+            value: "test@email",
+        }}
+    />
+);

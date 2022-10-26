@@ -1,14 +1,18 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
-import StoryRouter from "storybook-react-router";
+import React from "react";
 import OkIcon from "@skbkontur/react-icons/Ok";
 import RouterLink from "../Components/RouterLink/RouterLink";
+import { MemoryRouter } from "react-router-dom";
 
-storiesOf("RouterLink", module)
-    .addDecorator(StoryRouter())
-    .add("Default", () => <RouterLink to="/">Link</RouterLink>)
-    .add("With icon", () => (
-        <RouterLink to="/" icon={<OkIcon />}>
-            Link
-        </RouterLink>
-    ));
+export default {
+    title: "RouterLink",
+    component: RouterLink,
+    decorators: [(story: () => JSX.Element) => <MemoryRouter>{story()}</MemoryRouter>],
+};
+
+export const Default = () => <RouterLink to="/">Link</RouterLink>;
+
+export const WithIcon = () => (
+    <RouterLink to="/" icon={<OkIcon />}>
+        Link
+    </RouterLink>
+);

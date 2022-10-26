@@ -1,10 +1,15 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import MobileMetricsList from "../../Components/Mobile/MobileMetricsList/MobileMetricsList";
 import { MetricItemList } from "../../Domain/Metric";
 import { Status } from "../../Domain/Status";
+
+export default {
+    title: "Mobile/MetricsList",
+    component: MobileMetricsList,
+    decorators: [(story: () => JSX.Element) => <MemoryRouter>{story()}</MemoryRouter>],
+};
 
 const items: MetricItemList = {
     "vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace": {
@@ -37,12 +42,10 @@ const items: MetricItemList = {
     },
 };
 
-storiesOf("Mobile/MetricsList", module)
-    .addDecorator(StoryRouter())
-    .add("With Status Indicator", () => (
-        <MobileMetricsList
-            metrics={items}
-            onRemove={action("onRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
-        />
-    ));
+export const WithStatusIndicator = () => (
+    <MobileMetricsList
+        metrics={items}
+        onRemove={action("onRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);

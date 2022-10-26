@@ -1,11 +1,16 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger, TriggerState } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
+
+export default {
+    title: "TriggerInfo",
+    component: TriggerInfo,
+    decorators: [(story: () => JSX.Element) => <MemoryRouter>{story()}</MemoryRouter>],
+};
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -57,30 +62,41 @@ const triggerState: TriggerState = {
     trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
 };
 
-const stories: Array<{
-    title: string;
-    triggerState: TriggerState;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        triggerState: { ...triggerState },
-        data: { ...sourceData },
-    },
-    {
-        title: "Description in multiple line",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, desc: "Some list:\n- Line 1\n- Line 2\n- Line 3" },
-    },
-    {
-        title: "With throttling",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Not everyday",
-        triggerState: { ...triggerState },
-        data: {
+export const Default = () => (
+    <TriggerInfo
+        supportEmail="support@mail.ru"
+        triggerState={triggerState}
+        data={sourceData}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const DescriptionInMultipleLine = () => (
+    <TriggerInfo
+        supportEmail="support@mail.ru"
+        triggerState={triggerState}
+        data={{ ...sourceData, desc: "Some list:\n- Line 1\n- Line 2\n- Line 3" }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithThrottling = () => (
+    <TriggerInfo
+        supportEmail="support@mail.ru"
+        triggerState={triggerState}
+        data={{ ...sourceData, throttling: Date.now() }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const NotEveryday = () => (
+    <TriggerInfo
+        supportEmail="support@mail.ru"
+        triggerState={triggerState}
+        data={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -96,16 +112,21 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-    {
-        title: "WithError",
-        triggerState: {
+        }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithError = () => (
+    <TriggerInfo
+        supportEmail="support@mail.ru"
+        triggerState={{
             ...triggerState,
             state: Status.EXCEPTION,
             msg: "Some error message message message message message.",
-        },
-        data: {
+        }}
+        data={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -121,37 +142,35 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-    {
-        title: "With maintenance",
-        triggerState: { ...triggerState, maintenance: Date.now() / 1000 + 3600 },
-        data: { ...sourceData },
-    },
-    {
-        title: "With maintenance and maintenance info",
-        triggerState: {
+        }}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithMaintenance = () => (
+    <TriggerInfo
+        supportEmail="support@mail.ru"
+        triggerState={{ ...triggerState, maintenance: Date.now() / 1000 + 3600 }}
+        data={sourceData}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithMaintenanceAndMaintenanceInfo = () => (
+    <TriggerInfo
+        supportEmail="support@mail.ru"
+        triggerState={{
             ...triggerState,
             maintenance: Date.now() / 1000 + 3600,
             maintenanceInfo: {
                 setup_user: "Batman",
                 setup_time: 1553158221,
             },
-        },
-        data: { ...sourceData },
-    },
-];
-
-const story = storiesOf("TriggerInfo", module).addDecorator(StoryRouter());
-
-stories.forEach(({ title, data, triggerState: state }) => {
-    story.add(title, () => (
-        <TriggerInfo
-            supportEmail="support@mail.ru"
-            triggerState={state}
-            data={data}
-            onThrottlingRemove={action("onThrottlingRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
-        />
-    ));
-});
+        }}
+        data={sourceData}
+        onThrottlingRemove={action("onThrottlingRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);

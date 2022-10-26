@@ -1,5 +1,9 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
 import Footer from "../Components/Footer/Footer";
 
-storiesOf("Footer", module).add("Default", () => <Footer />);
+export default {
+    title: "Footer",
+    component: Footer,
+};
+
+export const Default = () => <Footer />;

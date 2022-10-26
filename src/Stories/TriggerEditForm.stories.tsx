@@ -1,12 +1,18 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { Status } from "../Domain/Status";
 import { Trigger } from "../Domain/Trigger";
 import { DaysOfWeek } from "../Domain/Schedule";
+
+export default {
+    title: "TriggerEditForm",
+    components: TriggerEditForm,
+    decorators: [
+        (story: () => JSX.Element) => <ValidationContainer>{story()}</ValidationContainer>,
+    ],
+};
 
 const sourceData: Trigger = {
     is_remote: false,
@@ -44,10 +50,9 @@ const sourceData: Trigger = {
 
 const allTags = ["devops", "critical", "error", "warning", "del", "moira"];
 
-const stories: Array<{ title: string; data: Partial<Trigger> }> = [
-    {
-        title: "Empty",
-        data: {
+export const Empty = () => (
+    <TriggerEditForm
+        data={{
             is_remote: false,
             name: "",
             desc: "",
@@ -72,11 +77,19 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                 ],
             },
             alone_metrics: {},
-        },
-    },
-    {
-        title: "Simple",
-        data: {
+        }}
+        tags={allTags}
+        remoteAllowed={false}
+        onChange={action("onChange")}
+        validationResult={{
+            targets: [{ syntax_ok: true }],
+        }}
+    />
+);
+
+export const Simple = () => (
+    <TriggerEditForm
+        data={{
             ...sourceData,
             targets: ["aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"],
             sched: {
@@ -93,11 +106,19 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                     { enabled: true, name: DaysOfWeek.Sun },
                 ],
             },
-        },
-    },
-    {
-        title: "Advanced",
-        data: {
+        }}
+        tags={allTags}
+        remoteAllowed={false}
+        onChange={action("onChange")}
+        validationResult={{
+            targets: [{ syntax_ok: true }],
+        }}
+    />
+);
+
+export const Advanced = () => (
+    <TriggerEditForm
+        data={{
             ...sourceData,
             trigger_type: "expression",
             expression:
@@ -116,11 +137,19 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                     { enabled: false, name: DaysOfWeek.Sun },
                 ],
             },
-        },
-    },
-    {
-        title: "Full filled",
-        data: {
+        }}
+        tags={allTags}
+        remoteAllowed={false}
+        onChange={action("onChange")}
+        validationResult={{
+            targets: [{ syntax_ok: true }],
+        }}
+    />
+);
+
+export const FullFilled = () => (
+    <TriggerEditForm
+        data={{
             ...sourceData,
             desc: "Very usefull trigger",
             targets: [
@@ -130,24 +159,12 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
             ttl_state: Status.OK,
             notify_about_new_metrics: true,
             alone_metrics: { t2: true },
-        },
-    },
-];
-
-const story = storiesOf("TriggerEditForm", module).addDecorator(StoryRouter());
-
-stories.forEach(({ title, data }) => {
-    story.add(title, () => (
-        <ValidationContainer>
-            <TriggerEditForm
-                data={data}
-                tags={allTags}
-                remoteAllowed={data.is_remote}
-                onChange={action("onChange")}
-                validationResult={{
-                    targets: [{ syntax_ok: true }],
-                }}
-            />
-        </ValidationContainer>
-    ));
-});
+        }}
+        tags={allTags}
+        remoteAllowed={false}
+        onChange={action("onChange")}
+        validationResult={{
+            targets: [{ syntax_ok: true }],
+        }}
+    />
+);

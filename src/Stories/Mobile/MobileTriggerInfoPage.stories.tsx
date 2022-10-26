@@ -1,11 +1,22 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 import { Trigger, TriggerState } from "../../Domain/Trigger";
 import { DaysOfWeek } from "../../Domain/Schedule";
 import { Status } from "../../Domain/Status";
+
+export default {
+    title: "Mobile/MobileTriggerInfoPage",
+    component: MobileTriggerInfoPage,
+    decorators: [(story: () => JSX.Element) => <MemoryRouter>{story()}</MemoryRouter>],
+    creevey: {
+        skip: {
+            stories: "Loading",
+            reasons: "Loader animation",
+        },
+    },
+};
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -57,81 +68,7 @@ const triggerState: TriggerState = {
     trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
 };
 
-const stories: Array<{
-    title: string;
-    triggerState: TriggerState;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        triggerState: { ...triggerState },
-        data: { ...sourceData },
-    },
-    {
-        title: "With throttling",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Not everyday",
-        triggerState: { ...triggerState },
-        data: {
-            ...sourceData,
-            sched: {
-                endOffset: 1439,
-                days: [
-                    { enabled: true, name: DaysOfWeek.Mon },
-                    { enabled: false, name: DaysOfWeek.Tue },
-                    { enabled: true, name: DaysOfWeek.Wed },
-                    { enabled: true, name: DaysOfWeek.Thu },
-                    { enabled: true, name: DaysOfWeek.Fri },
-                    { enabled: false, name: DaysOfWeek.Sat },
-                    { enabled: true, name: DaysOfWeek.Sun },
-                ],
-                startOffset: 0,
-                tzOffset: -300,
-            },
-        },
-    },
-    {
-        title: "WithError",
-        triggerState: {
-            ...triggerState,
-            state: Status.EXCEPTION,
-            msg: "Some error message message message message message.",
-        },
-        data: {
-            ...sourceData,
-            sched: {
-                endOffset: 1439,
-                days: [
-                    { enabled: true, name: DaysOfWeek.Mon },
-                    { enabled: false, name: DaysOfWeek.Tue },
-                    { enabled: true, name: DaysOfWeek.Wed },
-                    { enabled: true, name: DaysOfWeek.Thu },
-                    { enabled: true, name: DaysOfWeek.Fri },
-                    { enabled: false, name: DaysOfWeek.Sat },
-                    { enabled: true, name: DaysOfWeek.Sun },
-                ],
-                startOffset: 0,
-                tzOffset: -300,
-            },
-        },
-    },
-];
-
-const story = storiesOf("Mobile/TriggerInfoPage", module)
-    .addDecorator(StoryRouter())
-    .addParameters({
-        creevey: {
-            skip: {
-                stories: "Loading",
-                reasons: "Loader animation",
-            },
-        },
-    });
-
-story.add("Loading", () => (
+export const Loading = () => (
     <MobileTriggerInfoPage
         data={null}
         triggerState={null}
@@ -142,18 +79,88 @@ story.add("Loading", () => (
         onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
         onThrottlingRemove={action("onThrottlingRemove")}
     />
-));
+);
 
-stories.forEach(({ title, data, triggerState: state }) => {
-    story.add(title, () => (
-        <MobileTriggerInfoPage
-            triggerState={state}
-            data={data}
-            metrics={undefined}
-            onRemoveMetric={action("onRemoveMetric")}
-            onSetMetricMaintenance={action("onSetMetricMaintenance")}
-            onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
-            onThrottlingRemove={action("onThrottlingRemove")}
-        />
-    ));
-});
+export const Default = () => (
+    <MobileTriggerInfoPage
+        triggerState={triggerState}
+        data={sourceData}
+        metrics={undefined}
+        onRemoveMetric={action("onRemoveMetric")}
+        onSetMetricMaintenance={action("onSetMetricMaintenance")}
+        onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
+        onThrottlingRemove={action("onThrottlingRemove")}
+    />
+);
+
+export const WithThrottling = () => (
+    <MobileTriggerInfoPage
+        triggerState={triggerState}
+        data={{ ...sourceData, throttling: Date.now() }}
+        metrics={undefined}
+        onRemoveMetric={action("onRemoveMetric")}
+        onSetMetricMaintenance={action("onSetMetricMaintenance")}
+        onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
+        onThrottlingRemove={action("onThrottlingRemove")}
+    />
+);
+
+export const NotEveryday = () => (
+    <MobileTriggerInfoPage
+        triggerState={triggerState}
+        data={{
+            ...sourceData,
+            sched: {
+                endOffset: 1439,
+                days: [
+                    { enabled: true, name: DaysOfWeek.Mon },
+                    { enabled: false, name: DaysOfWeek.Tue },
+                    { enabled: true, name: DaysOfWeek.Wed },
+                    { enabled: true, name: DaysOfWeek.Thu },
+                    { enabled: true, name: DaysOfWeek.Fri },
+                    { enabled: false, name: DaysOfWeek.Sat },
+                    { enabled: true, name: DaysOfWeek.Sun },
+                ],
+                startOffset: 0,
+                tzOffset: -300,
+            },
+        }}
+        metrics={undefined}
+        onRemoveMetric={action("onRemoveMetric")}
+        onSetMetricMaintenance={action("onSetMetricMaintenance")}
+        onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
+        onThrottlingRemove={action("onThrottlingRemove")}
+    />
+);
+
+export const WithError = () => (
+    <MobileTriggerInfoPage
+        triggerState={{
+            ...triggerState,
+            state: Status.EXCEPTION,
+            msg: "Some error message message message message message.",
+        }}
+        data={{
+            ...sourceData,
+            sched: {
+                endOffset: 1439,
+                days: [
+                    { enabled: true, name: DaysOfWeek.Mon },
+                    { enabled: false, name: DaysOfWeek.Tue },
+                    { enabled: true, name: DaysOfWeek.Wed },
+                    { enabled: true, name: DaysOfWeek.Thu },
+                    { enabled: true, name: DaysOfWeek.Fri },
+                    { enabled: false, name: DaysOfWeek.Sat },
+                    { enabled: true, name: DaysOfWeek.Sun },
+                ],
+                startOffset: 0,
+                tzOffset: -300,
+            },
+        }}
+        metrics={undefined}
+        onRemoveMetric={action("onRemoveMetric")}
+        onSetMetricMaintenance={action("onSetMetricMaintenance")}
+        onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
+        onThrottlingRemove={action("onThrottlingRemove")}
+    />
+);

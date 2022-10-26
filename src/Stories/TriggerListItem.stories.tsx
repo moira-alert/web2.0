@@ -1,12 +1,60 @@
-import * as React from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import { WebDriver } from "selenium-webdriver";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
+
+export default {
+    title: "TriggerListItem",
+    component: TriggerListItem,
+    decorators: [(story: () => JSX.Element) => <MemoryRouter>{story()}</MemoryRouter>],
+    creevey: {
+        tests: {
+            async States(this: { browser: WebDriver; expect: Chai.ExpectStatic }) {
+                await this.browser
+                    .actions({ bridge: true })
+                    .move({
+                        origin: this.browser.findElement({
+                            css: "#root",
+                        }),
+                        // default cursor coordinate x=1, y=1 and element has hover
+                        y: 720,
+                    })
+                    .perform();
+
+                // @ts-ignore matchImage is custom method
+                await this.expect(await this.takeScreenshot()).to.matchImage("simple");
+
+                await this.browser
+                    .actions({ bridge: true })
+                    .move({
+                        origin: this.browser.findElement({
+                            css: 'div[data-tid="TriggerListItem_status"]',
+                        }),
+                    })
+                    .perform();
+
+                // @ts-ignore matchImage is custom method
+                await this.expect(await this.takeScreenshot()).to.matchImage("hovered");
+
+                await this.browser
+                    .actions({ bridge: true })
+                    .click(
+                        this.browser.findElement({
+                            css: 'div[data-tid="TriggerListItem_status"]',
+                        })
+                    )
+                    .perform();
+
+                // @ts-ignore matchImage is custom method
+                await this.expect(await this.takeScreenshot()).to.matchImage("clicked");
+            },
+        },
+    },
+};
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -69,25 +117,32 @@ const sourceData: Trigger = {
     },
 };
 
-const stories: Array<{
-    title: string;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        data: { ...sourceData },
-    },
-    {
-        title: "Long trigger name",
-        data: {
+export const Default = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={sourceData}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const LongTriggerName = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             name:
                 "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
-        },
-    },
-    {
-        title: "Large counters",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const LargeCounters = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -234,11 +289,16 @@ const stories: Array<{
                 state: Status.OK,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "Few states",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const FewStates = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -269,11 +329,16 @@ const stories: Array<{
                 state: Status.OK,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "No metrics",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const NoMetrics = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {},
@@ -281,11 +346,16 @@ const stories: Array<{
                 state: Status.EXCEPTION,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "Lot targets",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const LotTargets = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             targets: [
                 "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)",
@@ -303,42 +373,72 @@ const stories: Array<{
                 "sumSeries(KE-cloud.Notifications.*.MailSender.StatReport.Alive)",
                 "sumSeries(KE-cloud.Notifications.*.MailSender.Submission.Alive)",
             ],
-        },
-    },
-    {
-        title: "One long target name",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const OneLongTargetName = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             targets: [
                 "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive.KE-cloud.Notifications.*.MailSender.Expert.Alive.KE-cloud.Notifications.*.MailSender.K705Letter.Alive.KE-cloud.Notifications.*.MailSender.MrApplication.AliveKE-cloud.Notifications.*.MailSender.MrDemand.Alive.KE-cloud.Notifications.*.MailSender.MrIon.Alive)",
             ],
-        },
-    },
-    {
-        title: "Short tags",
-        data: { ...sourceData, tags: ["dev", "test_"] },
-    },
-    {
-        title: "Long tags",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const ShortTags = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{ ...sourceData, tags: ["dev", "test_"] }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const LongTags = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             tags: ["dev-or-not-dev-what-is-question", "ke.notifications-dev-test-sort"],
-        },
-    },
-    {
-        title: "Lot tags",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const LotTags = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             tags: ["dev", "test_", "ke.notifications", "ke.notifications-dev"],
-        },
-    },
-    {
-        title: "Throttling flag",
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Lot of all data",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const ThrottlingFlag = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{ ...sourceData, throttling: Date.now() }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const LotOfAllData = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             throttling: Date.now(),
             last_check: {
@@ -396,11 +496,16 @@ const stories: Array<{
                 "ke.notifications-dev",
                 "very.long.tag.why.you.choice.that.name",
             ],
-        },
-    },
-    {
-        title: "Exception state",
-        data: {
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const ExceptionState = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -427,65 +532,8 @@ const stories: Array<{
                 state: Status.EXCEPTION,
                 score: 14000,
             },
-        },
-    },
-];
-
-const story = storiesOf("TriggerListItem", module)
-    .addDecorator(StoryRouter())
-    .addParameters({
-        creevey: {
-            tests: {
-                async States(this: { browser: WebDriver; expect: Chai.ExpectStatic }) {
-                    await this.browser
-                        .actions({ bridge: true })
-                        .move({
-                            origin: this.browser.findElement({
-                                css: "#root",
-                            }),
-                            // default cursor coordinate x=1, y=1 and element has hover
-                            y: 720,
-                        })
-                        .perform();
-
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("simple");
-
-                    await this.browser
-                        .actions({ bridge: true })
-                        .move({
-                            origin: this.browser.findElement({
-                                css: 'div[data-tid="TriggerListItem_status"]',
-                            }),
-                        })
-                        .perform();
-
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("hovered");
-
-                    await this.browser
-                        .actions({ bridge: true })
-                        .click(
-                            this.browser.findElement({
-                                css: 'div[data-tid="TriggerListItem_status"]',
-                            })
-                        )
-                        .perform();
-
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("clicked");
-                },
-            },
-        },
-    });
-
-stories.forEach(({ title, data }) => {
-    story.add(title, () => (
-        <TriggerListItem
-            searchMode={false}
-            data={data}
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
-    ));
-});
+        }}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
