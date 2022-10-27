@@ -9,6 +9,8 @@ jobs:
     services:
       chrome:
         image: selenium/standalone-chrome:84.0
+        ports:
+          - 4444:4444
 
     steps:
       - uses: actions/checkout@v2
