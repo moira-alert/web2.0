@@ -16,10 +16,10 @@
         "prettier": "prettier \"./src/**/*.{ts,tsx}\"",
         "creevey:update": "creevey -c .creevey/creevey.config.js --update",
         "creevey:ui": "creevey --ui -c .creevey/creevey.config.js",
-        "creevey:github": "creevey -c .creevey/github.config.js",
+        "creevey:ci": "creevey -c .creevey/creevey.config.js",
         "backend": "docker-compose -f src/tests/core/api/docker-compose.yml up",
         "withBackend": "npm-run-all --parallel backend start-with-local-api",
-        "screenshots": "start-server-and-test storybook:ci http-get://localhost:9001 creevey:github"
+        "screenshots": "start-server-and-test storybook:ci http-get://localhost:9001 creevey:ci"
     },
     "husky": {
         "hooks": {
