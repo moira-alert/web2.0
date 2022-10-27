@@ -7,6 +7,7 @@
         "start-with-local-api": "cross-env API_MODE=local yarn serve",
         "build": "webpack --mode=production",
         "storybook": "cross-env NODE_ENV=development start-storybook -p 9001 -c .storybook --ci",
+        "storybook:ci": "yarn storybook -- --ci --quiet",
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
         "start": "npm-run-all --parallel serve fakeapi",
         "lint": "eslint --ext .tsx --ext .ts src/",
@@ -17,7 +18,8 @@
         "creevey:ui": "creevey --ui -c .creevey/creevey.config.js",
         "creevey:github": "creevey -c .creevey/github.config.js",
         "backend": "docker-compose -f src/tests/core/api/docker-compose.yml up",
-        "withBackend": "npm-run-all --parallel backend start-with-local-api"
+        "withBackend": "npm-run-all --parallel backend start-with-local-api",
+        "screenshots": "start-server-and-test storybook:ci http-get://localhost:9001 creevey:github"
     },
     "husky": {
         "hooks": {
@@ -46,7 +48,8 @@
         "react-hot-loader": "4.13.0",
         "react-router": "5.1.2",
         "react-router-dom": "5.1.2",
-        "remarkable": "1.7.1"
+        "remarkable": "1.7.1",
+        "start-server-and-test": "1.14.0"
     },
     "devDependencies": {
         "@babel/core": "7.9.0",
