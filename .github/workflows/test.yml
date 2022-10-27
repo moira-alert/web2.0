@@ -8,7 +8,7 @@ jobs:
 
     services:
       chrome:
-        image: selenium/standalone-chrome:84.0
+        image: aerokube/selenoid:latest
         ports:
           - 4444:4444
 

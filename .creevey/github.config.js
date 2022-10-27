@@ -10,7 +10,7 @@ module.exports = {
             browserName: "chrome",
             platformName: "linux",
             viewport: { width: 1024, height: 720 },
-            gridUrl: "http://selenium__standalone-chrome:4444",
+            gridUrl: "http://localhost:4444/wd/hub",
         },
     },
 };
