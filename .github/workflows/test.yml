@@ -6,6 +6,9 @@ jobs:
     name: Test frontend
     runs-on: ubuntu-latest
 
+    container:
+      image: selenium/standalone-chrome:84.0
+
     steps:
       - uses: actions/checkout@v2
 
@@ -19,27 +22,12 @@ jobs:
       - name: Run unit tests
         run: yarn test
 
-      - name: Setup BrowserStack
-        uses: "browserstack/github-actions@master"
-        with:
-          username: ${{ secrets.BROWSERSTACK_USERNAME }}
-          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-      - name: 'BrowserStackLocal Setup'
-        uses: 'browserstack/github-actions/setup-local@master'
-        with:
-          local-testing: start
-          local-identifier: random
       - name: Run screenshot tests
-        run: node ./.creevey/startCI
-        env:
-          BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        run: yarn creevey:github
+
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
           name: screenshots-report
           path: .creevey/report
-      - name: 'Stop BrowserStackLocal'
-        uses: 'browserstack/github-actions/setup-local@master'
-        with:
-          local-testing: stop
