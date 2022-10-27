@@ -5,9 +5,8 @@ import { LangCodes } from "@skbkontur/react-ui/lib/locale";
 import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
 import MoiraApi from "./Api/MoiraApi";
 import { ApiProvider } from "./Api/MoiraApiInjection";
-import mobile from "./mobile.bundle";
-import desktop from "./desktop.bundle";
 import checkMobile from "./helpers/check-mobile";
+
 import "./style.less";
 
 const root = document.getElementById("root");
@@ -33,16 +32,9 @@ const isMobile = checkMobile(window.navigator.userAgent);
 
 const load = (): void => {
     if (isMobile) {
-        /*
-            bundle-loader заменяет экспорт на свой. Вместо ожидаемого React.Component импортируется функция,
-            возвращающая промис и принимающая коллбек, который будет вызван, когда промис зарезолвится.
-            Из-за этого Флоу кидает ошибку. Специальный комментарий её отключает
-        */
-        // @ts-ignore see above
-        mobile((bundle) => render(bundle.default));
+        import("./mobile.bundle").then((mobile) => render(mobile.default));
     } else {
-        // @ts-ignore see above
-        desktop((bundle) => render(bundle.default));
+        import("./desktop.bundle").then((desktop) => render(desktop.default));
     }
 };
 

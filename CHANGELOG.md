@@ -5,7 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.7.1] - 2022-07-21
+
+### Added
+
+* Trigger, contact and subscription can be imported and exported from a JSON file #322
+* Switch from Travis CI to GitHub actions #344.
+* Ability to set custom maintenance time #329.
+* Migrate to Typescipt #337.
+* Schedule timezone visible on the Trigger page #286.
+* Filter by tag on the Notifications page #328.
+* Status indicator can show up to four statuses #297.
+* Sorting in Trigger and Metric columns on the Patterns page #292.
+* Unsupported contacts will be marked as deprecated #321.
+* Ability to receive a trigger from Moira API with a description prepared by template #484 #287.
+* Teams and team-specific subscriptions #346.
+* State change indicators on the Notifications page
+* Notifications count on the Notifications page
+
+### Fixed
+
+* Move buttons to the top of the Notifications page #354.
+* Update setup instructions #296 #301.
+* TTL validation not working on the trigger edit page #341.
+* Maintenance time setting #320.
+* Trigger validation on backend will run before saving #358.
+* Enable/disable notifications toggle #355.
+* Maintenance setting and notifications list filtered by tag #333.
+* Maintenance and delete buttons in triggers list #284.
+* Errors in stories #306.
+* Duplicating element keys
+* Radiogroup on the Add Trigger page #316.
+* iOS interface #357.
 
 ## [2.5.1] - 2019-10-09
 

@@ -117,7 +117,7 @@ export default function TriggerInfo({
                             </Button>
                         </span>
                     )}
-                    <span className={cn("control")}>
+                    <span className={cn("control")} data-tid="Edit">
                         <RouterLink to={getPageLink("triggerEdit", id)} icon={<EditIcon />}>
                             Edit
                         </RouterLink>

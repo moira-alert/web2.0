@@ -4,6 +4,7 @@ import { LOCAL_URL } from "../core/contants";
 import { Button, getButton } from "../core/controls/Button";
 import { getInput, Input } from "../core/controls/Input";
 import { getTagDropdownSelect, TagDropdownSelect } from "../core/controls/TagDropdownSelect";
+import { getText } from "../core/controls/Text";
 
 export class AddTriggerPage {
     private page: Page;
@@ -23,6 +24,11 @@ export class AddTriggerPage {
         }
         await delay(50);
         return this.page.url() === AddTriggerPage.url;
+    }
+
+    public async hasTextInElement(text: string, selector: string): Promise<boolean> {
+        const elementTextContent = await getText(this.page, selector);
+        return elementTextContent?.includes(text) ?? false;
     }
 
     public get Name(): Input {

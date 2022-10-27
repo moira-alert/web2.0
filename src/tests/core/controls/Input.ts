@@ -3,6 +3,7 @@ import { Page } from "puppeteer";
 export interface Input {
     click: () => Promise<void>;
     type: (value: string) => Promise<void>;
+    clear: () => Promise<void>;
 }
 
 export function getInput(page: Page, selector: string): Input {
@@ -17,6 +18,12 @@ export function getInput(page: Page, selector: string): Input {
         },
         type(value: string) {
             return getControl().then((control) => control?.type(value));
+        },
+        clear() {
+            return getControl().then((control) => {
+                control?.click({ clickCount: 3 });
+                control?.type("");
+            });
         },
     };
 }

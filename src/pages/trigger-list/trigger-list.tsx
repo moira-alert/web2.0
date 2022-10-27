@@ -12,22 +12,13 @@ import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHum
 import { TriggerListMobileProps } from "./trigger-list.mobile";
 import { TriggerListDesktopProps } from "./trigger-list.desktop";
 import MoiraApi from "../../Api/MoiraApi";
+import { clearInput } from "../../helpers/common";
 
 export type TriggerListUpdate = {
     tags?: Array<string>;
     page?: number;
     searchText?: string;
     onlyProblems?: boolean;
-};
-
-// ToDo вынести в хелперы
-const clearInput = (input: string | Array<string>) => {
-    let cleared = Array.isArray(input) ? input.join(" ") : input;
-
-    cleared = cleared.trim();
-    cleared = cleared.replace(/[\s]+/g, " ");
-
-    return cleared;
 };
 
 export type TriggerListProps = RouteComponentProps & {

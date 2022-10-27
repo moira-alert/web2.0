@@ -9,8 +9,8 @@ import Tabs, { Tab } from "../../Components/Tabs/Tabs";
 import TriggerInfo from "../../Components/TriggerInfo/TriggerInfo";
 import MetricList from "../../Components/MetricList/MetricList";
 import EventList from "../../Components/EventList/EventList";
-import { Status, getStatusWeight } from "../../Domain/Status";
-import type { Metric } from "../../Domain/Metric";
+import { Status } from "../../Domain/Status";
+import { sortMetrics } from "../../helpers/sort-metrics";
 
 export type TriggerDesktopProps = {
     trigger?: Trigger;
@@ -117,7 +117,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                                 <Tab id="state" label="Current state">
                                     <MetricList
                                         status
-                                        items={this.sortMetrics(metrics)}
+                                        items={sortMetrics(metrics, sortingColumn, sortingDown)}
                                         onSort={(sorting) => {
                                             if (sorting === sortingColumn) {
                                                 this.setState({ sortingDown: !sortingDown });
@@ -164,79 +164,6 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                 </LayoutContent>
             </Layout>
         );
-    }
-
-    // ToDo вместо пересортировки по одному и тому же параметру сделать reverse
-    sortMetrics(metrics: { [metric: string]: Metric }): { [metric: string]: Metric } {
-        const { sortingColumn, sortingDown } = this.state;
-        const sorting = {
-            state: (x: string, y: string) => {
-                const stateA = getStatusWeight(metrics[x].state);
-                const stateB = getStatusWeight(metrics[y].state);
-                if (stateA < stateB) {
-                    return sortingDown ? -1 : 1;
-                }
-                if (stateA > stateB) {
-                    return sortingDown ? 1 : -1;
-                }
-                return 0;
-            },
-            name: (x: string, y: string) => {
-                const regex = /[^a-zA-Z0-9-.]/g;
-                const nameA = x.trim().replace(regex, "").toLowerCase();
-                const nameB = y.trim().replace(regex, "").toLowerCase();
-                if (nameA < nameB) {
-                    return sortingDown ? -1 : 1;
-                }
-                if (nameA > nameB) {
-                    return sortingDown ? 1 : -1;
-                }
-                return 0;
-            },
-            event: (x: string, y: string) => {
-                const eventA = metrics[x].event_timestamp || 0;
-                const eventB = metrics[y].event_timestamp || 0;
-                if (eventA < eventB) {
-                    return sortingDown ? -1 : 1;
-                }
-                if (eventA > eventB) {
-                    return sortingDown ? 1 : -1;
-                }
-                return 0;
-            },
-            value: (x: string, y: string) => {
-                const getValue = (value?: number) =>
-                    Number.isFinite(value) && value != null ? value : Number.MIN_SAFE_INTEGER;
-
-                const xValues = metrics[x].values;
-                const yValues = metrics[y].values;
-                const xKeys = xValues ? Object.keys(xValues) : [];
-                const yKeys = yValues ? Object.keys(yValues) : [];
-                const maxKeysCount = Math.max(xKeys.length, yKeys.length);
-
-                for (let i = 0; i < maxKeysCount; i += 1) {
-                    const valueA =
-                        xKeys.length > i && xValues
-                            ? getValue(xValues[xKeys[i]])
-                            : Number.MIN_SAFE_INTEGER;
-                    const valueB =
-                        yKeys.length > i && yValues
-                            ? getValue(yValues[yKeys[i]])
-                            : Number.MIN_SAFE_INTEGER;
-
-                    if (valueA < valueB) {
-                        return sortingDown ? -1 : 1;
-                    }
-                    if (valueA > valueB) {
-                        return sortingDown ? 1 : -1;
-                    }
-                }
-                return 0;
-            },
-        };
-        return Object.keys(metrics)
-            .sort(sorting[sortingColumn])
-            .reduce((data, key) => ({ ...data, [key]: metrics[key] }), {});
     }
 }
 
