@@ -6,9 +6,6 @@ jobs:
     name: Test frontend
     runs-on: ubuntu-latest
 
-    container:
-      image: selenium/standalone-chrome:84.0
-
     steps:
       - uses: actions/checkout@v2
 
@@ -24,6 +21,8 @@ jobs:
 
       - name: Run screenshot tests
         run: yarn creevey:github
+        with:
+          image: selenium/standalone-chrome:84.0
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
