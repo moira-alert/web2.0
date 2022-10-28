@@ -6,10 +6,6 @@ jobs:
     name: Test frontend
     runs-on: ubuntu-latest
 
-    services:
-      chrome:
-        image: selenium/standalone-chrome:84.0
-
     steps:
       - uses: actions/checkout@v2
 
