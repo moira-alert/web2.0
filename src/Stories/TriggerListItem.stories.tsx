@@ -7,6 +7,7 @@ import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
+import { captureElementParams } from "./Data/captureElementParams";
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -437,17 +438,6 @@ const story = storiesOf("TriggerListItem", module)
         creevey: {
             tests: {
                 async States(this: { browser: WebDriver; expect: Chai.ExpectStatic }) {
-                    await this.browser
-                        .actions({ bridge: true })
-                        .move({
-                            origin: this.browser.findElement({
-                                css: "#root",
-                            }),
-                            // default cursor coordinate x=1, y=1 and element has hover
-                            y: 720,
-                        })
-                        .perform();
-
                     // @ts-ignore matchImage is custom method
                     await this.expect(await this.takeScreenshot()).to.matchImage("simple");
 
@@ -480,12 +470,16 @@ const story = storiesOf("TriggerListItem", module)
     });
 
 stories.forEach(({ title, data }) => {
-    story.add(title, () => (
-        <TriggerListItem
-            searchMode={false}
-            data={data}
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
-    ));
+    story.add(
+        title,
+        () => (
+            <TriggerListItem
+                searchMode={false}
+                data={data}
+                onChange={action("onChange")}
+                onRemove={action("onRemove")}
+            />
+        ),
+        captureElementParams
+    );
 });

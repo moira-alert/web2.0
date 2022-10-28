@@ -2,8 +2,7 @@ import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import { storiesOf } from "@storybook/react";
 import { TriggerDeleteModal } from "../Components/TriggerDeleteModal/TriggerDeleteModal";
-
-const params = { creevey: { captureElement: null } };
+import { captureElementParams } from "./Data/captureElementParams";
 
 storiesOf("TriggerDeleteModal", module)
     .add(
@@ -15,7 +14,7 @@ storiesOf("TriggerDeleteModal", module)
                 onDelete={() => new Promise(action("onDelete"))}
             />
         ),
-        params
+        captureElementParams
     )
     .add(
         "Long trigger name",
@@ -28,5 +27,5 @@ storiesOf("TriggerDeleteModal", module)
                 onDelete={() => new Promise(action("onDelete"))}
             />
         ),
-        params
+        captureElementParams
     );

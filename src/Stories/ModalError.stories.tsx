@@ -2,9 +2,9 @@ import React, { ReactElement, useState } from "react";
 import { storiesOf } from "@storybook/react";
 import { Button, Modal } from "@skbkontur/react-ui";
 import ModalError from "../Components/ModalError/ModalError";
+import { captureElementParams } from "./Data/captureElementParams";
 
 const ERROR_MESSAGE = `File empty.json cannot be converted to subscription. Unexpected end of JSON input`;
-const params = { creevey: { captureElement: null } };
 
 type WrapperProps = {
     init?: boolean;
@@ -38,7 +38,7 @@ storiesOf("ModalError", module)
                 </Wrapper>
             );
         },
-        params
+        captureElementParams
     )
     .add(
         "Error shown",
@@ -58,5 +58,5 @@ storiesOf("ModalError", module)
                 </Wrapper>
             );
         },
-        params
+        captureElementParams
     );
