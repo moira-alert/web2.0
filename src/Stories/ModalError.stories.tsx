@@ -4,6 +4,7 @@ import { Button, Modal } from "@skbkontur/react-ui";
 import ModalError from "../Components/ModalError/ModalError";
 
 const ERROR_MESSAGE = `File empty.json cannot be converted to subscription. Unexpected end of JSON input`;
+const params = { creevey: { captureElement: null } };
 
 type WrapperProps = {
     init?: boolean;
@@ -19,35 +20,43 @@ const Wrapper = ({ children, init }: WrapperProps) => {
 };
 
 storiesOf("ModalError", module)
-    .add("Error hidden", () => {
-        return (
-            <Wrapper>
-                {(message, handleClick) => (
-                    <Modal width="600px">
-                        <Modal.Header>Error panel</Modal.Header>
-                        <Modal.Body>Content without error</Modal.Body>
-                        <Modal.Footer>
-                            <ModalError message={message} />
-                            <Button onClick={handleClick}>{message ? "Hide" : "Show"}</Button>
-                        </Modal.Footer>
-                    </Modal>
-                )}
-            </Wrapper>
-        );
-    })
-    .add("Error shown", () => {
-        return (
-            <Wrapper init>
-                {(message, handleClick) => (
-                    <Modal width="600px">
-                        <Modal.Header>Error panel</Modal.Header>
-                        <Modal.Body>Content with error</Modal.Body>
-                        <Modal.Footer>
-                            <ModalError message={message} />
-                            <Button onClick={handleClick}>{message ? "Hide" : "Show"}</Button>
-                        </Modal.Footer>
-                    </Modal>
-                )}
-            </Wrapper>
-        );
-    });
+    .add(
+        "Error hidden",
+        () => {
+            return (
+                <Wrapper>
+                    {(message, handleClick) => (
+                        <Modal width="600px">
+                            <Modal.Header>Error panel</Modal.Header>
+                            <Modal.Body>Content without error</Modal.Body>
+                            <Modal.Footer>
+                                <ModalError message={message} />
+                                <Button onClick={handleClick}>{message ? "Hide" : "Show"}</Button>
+                            </Modal.Footer>
+                        </Modal>
+                    )}
+                </Wrapper>
+            );
+        },
+        params
+    )
+    .add(
+        "Error shown",
+        () => {
+            return (
+                <Wrapper init>
+                    {(message, handleClick) => (
+                        <Modal width="600px">
+                            <Modal.Header>Error panel</Modal.Header>
+                            <Modal.Body>Content with error</Modal.Body>
+                            <Modal.Footer>
+                                <ModalError message={message} />
+                                <Button onClick={handleClick}>{message ? "Hide" : "Show"}</Button>
+                            </Modal.Footer>
+                        </Modal>
+                    )}
+                </Wrapper>
+            );
+        },
+        params
+    );
