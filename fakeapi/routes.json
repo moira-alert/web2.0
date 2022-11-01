@@ -9,5 +9,6 @@
     "/health/notifier": "/health",
     "/teams/:id/config": "/teamConfig",
     "/teams/:id/settings": "/teamSettings",
-    "/teams/:id/users/": "/users"
+    "/teams/:id/users/": "/users",
+    "/patterns": "/patterns"
 }
