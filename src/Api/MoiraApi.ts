@@ -231,7 +231,7 @@ export default class MoiraApi {
     }
 
     async getPatternList(): Promise<PatternList> {
-        const url = `${this.apiUrl}/patterns`;
+        const url = `${this.apiUrl}/pattern`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
