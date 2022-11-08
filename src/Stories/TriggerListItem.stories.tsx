@@ -2,12 +2,11 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
-import { WebDriver } from "selenium-webdriver";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
-import { captureElementParams } from "./Data/captureElementParams";
+import { CreeveyTestFunction } from "creevey";
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -436,50 +435,33 @@ const story = storiesOf("TriggerListItem", module)
     .addDecorator(StoryRouter())
     .addParameters({
         creevey: {
+            captureElement: null,
             tests: {
-                async States(this: { browser: WebDriver; expect: Chai.ExpectStatic }) {
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("simple");
+                states: async function () {
+                    const simple = await this.takeScreenshot();
 
-                    await this.browser
-                        .actions({ bridge: true })
-                        .move({
-                            origin: this.browser.findElement({
-                                css: 'div[data-tid="TriggerListItem_status"]',
-                            }),
-                        })
-                        .perform();
+                    const status = this.browser.findElement({
+                        css: 'div[data-tid="TriggerListItem_status"]',
+                    });
+                    await this.browser.actions().move({ origin: status }).perform();
+                    const hovered = await this.takeScreenshot();
 
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("hovered");
+                    await this.browser.actions().click(status).perform();
+                    const clicked = await this.takeScreenshot();
 
-                    await this.browser
-                        .actions({ bridge: true })
-                        .click(
-                            this.browser.findElement({
-                                css: 'div[data-tid="TriggerListItem_status"]',
-                            })
-                        )
-                        .perform();
-
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("clicked");
-                },
+                    await this.expect({ simple, hovered, clicked }).to.matchImages();
+                } as CreeveyTestFunction,
             },
         },
     });
 
 stories.forEach(({ title, data }) => {
-    story.add(
-        title,
-        () => (
-            <TriggerListItem
-                searchMode={false}
-                data={data}
-                onChange={action("onChange")}
-                onRemove={action("onRemove")}
-            />
-        ),
-        captureElementParams
-    );
+    story.add(title, () => (
+        <TriggerListItem
+            searchMode={false}
+            data={data}
+            onChange={action("onChange")}
+            onRemove={action("onRemove")}
+        />
+    ));
 });
