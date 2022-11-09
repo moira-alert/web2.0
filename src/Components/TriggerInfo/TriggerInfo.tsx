@@ -33,7 +33,7 @@ type Props = {
     supportEmail?: string;
     onThrottlingRemove: (triggerId: string) => void;
     onSetMaintenance: (maintenance: number) => void;
-    history?: History;
+    history: History;
 };
 
 function maintenanceDelta(maintenance?: number | null): number {
