@@ -24,7 +24,7 @@ type Props = {
     searchMode: boolean;
     onChange?: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove?: (metric: string) => void;
-    history?: History;
+    history: History;
 };
 
 type State = {

@@ -9,7 +9,7 @@ type Props = {
     searchMode: boolean;
     onChange: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove: (triggerId: string, metric: string) => void;
-    history?: History;
+    history: History;
 };
 
 export default function TriggerList(props: Props): React.ReactElement {
