@@ -1,5 +1,8 @@
 module.exports = {
     stories: ['../src/Stories/**/*.stories.tsx'],
+    addons: [
+        "creevey",
+    ],
     webpackFinal: async (config, { configType }) => {
         config.module.rules = config.module.rules.filter(rule => rule.test.toString() !== "/\\.css$/");
 
