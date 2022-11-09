@@ -1,16 +1,13 @@
 import * as React from "react";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
-
 import { MetricItemList } from "../../../Domain/Metric";
 import { StatusesList } from "../../../Domain/Status";
 import { Trigger, TriggerState } from "../../../Domain/Trigger";
 import { Status } from "../../../Domain/Status";
 import getStatusColor from "../Styles/StatusColor";
-
 import MobileEmptyContentLoading from "../MobileEmptyContentLoading/MobileEmptyContentLoading";
 import MobileMetricsList from "../MobileMetricsList/MobileMetricsList";
 import MobileTriggerInfo from "../MobileTriggerInfo/MobileTriggerInfo";
-
 import cn from "./MobileTriggerInfoPage.less";
 
 type Props = {
