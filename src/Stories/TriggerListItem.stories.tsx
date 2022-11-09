@@ -2,11 +2,15 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
+import { CreeveyTestFunction } from "creevey";
+import { createMemoryHistory } from "history";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
-import { CreeveyTestFunction } from "creevey";
+
+const history = createMemoryHistory();
+history.push = action("history.push");
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -462,6 +466,7 @@ stories.forEach(({ title, data }) => {
             data={data}
             onChange={action("onChange")}
             onRemove={action("onRemove")}
+            history={history}
         />
     ));
 });

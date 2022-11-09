@@ -14,7 +14,6 @@ import groupMetricsByStatuses, {
 } from "../../../helpers/group-metrics-by-statuses";
 import getStatusColor from "../Styles/StatusColor";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
-
 import cn from "./MobileTriggerListItem.less";
 
 type Props = {

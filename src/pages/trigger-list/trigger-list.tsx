@@ -107,6 +107,7 @@ class TriggerListPage extends React.Component<TriggerListProps, State> {
                 onChange={this.changeLocationSearch}
                 onSetMetricMaintenance={this.setMetricMaintenance}
                 onRemoveMetric={this.removeMetric}
+                history={this.props.history}
             />
         );
     }
