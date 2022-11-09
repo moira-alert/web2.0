@@ -3,8 +3,8 @@ import Selector from "../Selector/Selector";
 import Token from "../Token/Token";
 import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
-import cn from "./SearchSelector.less";
 import { clearInput } from "../../helpers/common";
+import cn from "./SearchSelector.less";
 
 // ToDo вынести в хелперы
 const searchTokens = (query: string, items: string[]): string[] => {

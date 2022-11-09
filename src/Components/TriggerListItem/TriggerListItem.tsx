@@ -2,6 +2,7 @@ import * as React from "react";
 import { History } from "history";
 import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
+import queryString from "query-string";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
@@ -13,11 +14,8 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-
 import groupMetricsByStatuses, { IMetricByStatuses } from "../../helpers/group-metrics-by-statuses";
-
 import cn from "./TriggerListItem.less";
-import queryString from "query-string";
 
 type Props = {
     data: Trigger;

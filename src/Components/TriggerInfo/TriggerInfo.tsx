@@ -3,6 +3,7 @@ import { History } from "history";
 import { format, addMinutes, startOfDay, fromUnixTime, getUnixTime } from "date-fns";
 import Remarkable from "remarkable";
 import { sanitize } from "dompurify";
+import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
@@ -23,7 +24,6 @@ import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import cn from "./TriggerInfo.less";
-import queryString from "query-string";
 
 const md = new Remarkable({ breaks: true });
 
