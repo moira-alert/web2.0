@@ -15,10 +15,10 @@ export const TriggerDeleteModal = (props: Props): JSX.Element => (
         </Modal.Body>
         <Modal.Footer>
             <Gapped gap={8}>
-                <Button onClick={props.onClose} use={"primary"} data-tid="Close Delete Modal">
+                <Button onClick={props.onClose} use="primary" data-tid="Close Delete Modal">
                     Cancel
                 </Button>
-                <Button onClick={props.onDelete} data-tid="Delete Trigger">
+                <Button onClick={props.onDelete} use="danger" data-tid="Delete Trigger">
                     Delete
                 </Button>
             </Gapped>
