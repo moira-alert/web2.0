@@ -1,6 +1,8 @@
 import * as React from "react";
+import { History } from "history";
 import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
+import queryString from "query-string";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
@@ -12,9 +14,7 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-
 import groupMetricsByStatuses, { IMetricByStatuses } from "../../helpers/group-metrics-by-statuses";
-
 import cn from "./TriggerListItem.less";
 
 type Props = {
@@ -22,6 +22,7 @@ type Props = {
     searchMode: boolean;
     onChange?: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove?: (metric: string) => void;
+    history: History;
 };
 
 type State = {
@@ -135,7 +136,20 @@ export default class TriggerListItem extends React.Component<Props, State> {
                         </ReactRouterLink>
                     </div>
                     <div className={cn("tags")}>
-                        <TagGroup tags={tags} />
+                        <TagGroup
+                            onClick={(tag) => {
+                                this.props.history?.push(
+                                    `/?${queryString.stringify(
+                                        { tags: [tag] },
+                                        {
+                                            arrayFormat: "index",
+                                            encode: true,
+                                        }
+                                    )}`
+                                );
+                            }}
+                            tags={tags}
+                        />
                     </div>
                     {showMetrics && metrics}
                 </div>

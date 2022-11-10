@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { History } from "history";
 import difference from "lodash/difference";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
@@ -25,6 +26,7 @@ export type TriggerListDesktopProps = {
     error?: string;
     onSetMetricMaintenance: (triggerId: string, metric: string, maintenance: number) => void;
     onRemoveMetric: (triggerId: string, metric: string) => void;
+    history: History;
 };
 
 export default class TriggerListDesktop extends React.Component<TriggerListDesktopProps> {
@@ -43,6 +45,7 @@ export default class TriggerListDesktop extends React.Component<TriggerListDeskt
             error,
             onSetMetricMaintenance,
             onRemoveMetric,
+            history,
         } = this.props;
 
         return (
@@ -78,6 +81,7 @@ export default class TriggerListDesktop extends React.Component<TriggerListDeskt
                             items={triggers}
                             onChange={onSetMetricMaintenance}
                             onRemove={onRemoveMetric}
+                            history={history}
                         />
                     </ColumnStack>
                 </LayoutContent>

@@ -115,6 +115,7 @@ class TriggerPage extends React.Component<TriggerProps, State> {
                 removeMetric={this.removeMetric}
                 removeNoDataMetric={this.removeNoDataMetric}
                 onPageChange={this.changeLocationSearch}
+                history={this.props.history}
             />
         );
     }

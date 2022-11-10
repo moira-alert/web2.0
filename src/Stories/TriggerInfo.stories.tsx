@@ -6,6 +6,10 @@ import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger, TriggerState } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
+import { createMemoryHistory } from "history";
+
+const history = createMemoryHistory();
+history.push = action("history.push");
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -152,6 +156,7 @@ stories.forEach(({ title, data, triggerState: state }) => {
             data={data}
             onThrottlingRemove={action("onThrottlingRemove")}
             onSetMaintenance={action("onSetMaintenance")}
+            history={history}
         />
     ));
 });
