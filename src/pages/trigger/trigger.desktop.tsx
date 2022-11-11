@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { History } from "history";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
@@ -26,6 +27,7 @@ export type TriggerDesktopProps = {
     onPageChange: (updatePage: { page: number }) => void;
     loading: boolean;
     error?: string;
+    history: History;
 };
 
 type State = {
@@ -101,6 +103,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                             onSetMaintenance={(maintenance) =>
                                 setTriggerMaintenance(trigger.id, maintenance)
                             }
+                            history={this.props.history}
                         />
                     </LayoutPlate>
                 )}

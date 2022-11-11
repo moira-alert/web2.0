@@ -2,11 +2,15 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
-import { WebDriver } from "selenium-webdriver";
+import { CreeveyTestFunction } from "creevey";
+import { createMemoryHistory } from "history";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
+
+const history = createMemoryHistory();
+history.push = action("history.push");
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -435,46 +439,22 @@ const story = storiesOf("TriggerListItem", module)
     .addDecorator(StoryRouter())
     .addParameters({
         creevey: {
+            captureElement: null,
             tests: {
-                async States(this: { browser: WebDriver; expect: Chai.ExpectStatic }) {
-                    await this.browser
-                        .actions({ bridge: true })
-                        .move({
-                            origin: this.browser.findElement({
-                                css: "#root",
-                            }),
-                            // default cursor coordinate x=1, y=1 and element has hover
-                            y: 720,
-                        })
-                        .perform();
+                states: async function () {
+                    const simple = await this.takeScreenshot();
 
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("simple");
+                    const status = this.browser.findElement({
+                        css: 'div[data-tid="TriggerListItem_status"]',
+                    });
+                    await this.browser.actions().move({ origin: status }).perform();
+                    const hovered = await this.takeScreenshot();
 
-                    await this.browser
-                        .actions({ bridge: true })
-                        .move({
-                            origin: this.browser.findElement({
-                                css: 'div[data-tid="TriggerListItem_status"]',
-                            }),
-                        })
-                        .perform();
+                    await this.browser.actions().click(status).perform();
+                    const clicked = await this.takeScreenshot();
 
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("hovered");
-
-                    await this.browser
-                        .actions({ bridge: true })
-                        .click(
-                            this.browser.findElement({
-                                css: 'div[data-tid="TriggerListItem_status"]',
-                            })
-                        )
-                        .perform();
-
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage("clicked");
-                },
+                    await this.expect({ simple, hovered, clicked }).to.matchImages();
+                } as CreeveyTestFunction,
             },
         },
     });
@@ -486,6 +466,7 @@ stories.forEach(({ title, data }) => {
             data={data}
             onChange={action("onChange")}
             onRemove={action("onRemove")}
+            history={history}
         />
     ));
 });
