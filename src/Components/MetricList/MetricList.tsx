@@ -130,7 +130,7 @@ export default function MetricList(props: Props): React.ReactElement {
                             )}
                             <div className={cn("name")}>{metric}</div>
                             <div className={cn("event")}>
-                                {format(fromUnixTime(eventTimestamp), "MMMM d, HH:mm:ss")}
+                                {format(fromUnixTime(eventTimestamp), "MMM d, y, HH:mm:ss")}
                             </div>
                             <div className={cn("value")}>
                                 <MetricValues

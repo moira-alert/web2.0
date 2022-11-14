@@ -56,7 +56,7 @@ export default function EventList(props: Props): React.ReactElement {
                                         </div>
                                     </div>
                                     <div className={cn("date")}>
-                                        {format(fromUnixTime(timestamp), "MMMM d, HH:mm:ss")}
+                                        {format(fromUnixTime(timestamp), "MMM d, y, HH:mm:ss")}
                                     </div>
                                 </div>
                             );
