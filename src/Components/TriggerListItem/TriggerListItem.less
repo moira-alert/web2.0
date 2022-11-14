@@ -12,7 +12,6 @@
 .state {
     display: flex;
     align-items: flex-start;
-    margin-right: 13px;
     padding: 15px 0 15px 7px;
     width: 77px;
     box-sizing: border-box;
@@ -53,9 +52,14 @@
 }
 
 .header {
+    padding-left: 13px;
     padding-right: 20px;
     width: calc(~'100% - 240px');
     box-sizing: border-box;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 }
 
 .link {
@@ -129,7 +133,12 @@
 .tags {
     padding-top: 15px;
     padding-bottom: 15px;
-    width: 240px;
+    margin-left: 15px;
+    width: 225px;
+}
+
+.metrics {
+    padding-left: 6px;
 }
 
 .metrics {

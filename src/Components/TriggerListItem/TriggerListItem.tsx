@@ -151,7 +151,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                             tags={tags}
                         />
                     </div>
-                    {showMetrics && metrics}
+                    {showMetrics && <div className={cn("metrics")}>{metrics}</div>}
                 </div>
             </div>
         );
