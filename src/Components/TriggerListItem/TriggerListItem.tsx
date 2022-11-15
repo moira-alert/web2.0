@@ -121,12 +121,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     </div>
                                 )}
                             </div>
-                            <div
-                                className={cn({
-                                    targets: true,
-                                    dark: showMetrics,
-                                })}
-                            >
+                            <div className={cn({ targets: true })}>
                                 {targets.map((target) => (
                                     <div key={target} className={cn("target")}>
                                         {target}
