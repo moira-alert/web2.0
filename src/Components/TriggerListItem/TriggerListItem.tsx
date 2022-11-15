@@ -95,8 +95,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     {this.renderCounters()}
                 </div>
                 <div className={cn("data")}>
-                    <div className={cn("header")}>
-                        <ReactRouterLink className={cn("link")} to={getPageLink("trigger", id)}>
+                    <ReactRouterLink className={cn("header")} to={getPageLink("trigger", id)}>
+                        <div className={cn("link")}>
                             <div className={cn("title")}>
                                 {searchMode ? (
                                     <div
@@ -128,8 +128,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     </div>
                                 ))}
                             </div>
-                        </ReactRouterLink>
-                    </div>
+                        </div>
+                    </ReactRouterLink>
                     <div className={cn("tags")}>
                         <TagGroup
                             onClick={(tag) => {
