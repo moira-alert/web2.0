@@ -95,7 +95,11 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     {this.renderCounters()}
                 </div>
                 <div className={cn("data")}>
-                    <ReactRouterLink className={cn("header")} to={getPageLink("trigger", id)}>
+                    <ReactRouterLink
+                        className={cn("header")}
+                        to={getPageLink("trigger", id)}
+                        data-tid="TriggerListItem_header"
+                    >
                         <div className={cn("link")}>
                             <div className={cn("title")}>
                                 {searchMode ? (

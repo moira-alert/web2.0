@@ -18,6 +18,7 @@ export default function TagGroup(props: Props): React.ReactElement {
                         title={tag}
                         onClick={onClick && (() => onClick(tag))}
                         onRemove={onRemove && (() => onRemove(tag))}
+                        data-tid={`tag_${tag}`}
                     />
                 </div>
             ))}
