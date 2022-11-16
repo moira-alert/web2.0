@@ -11,18 +11,18 @@ export interface IMetricByStatuses {
 
 // ToDo подумать, почему метрики группируются в listItem, а не в контейнере
 function groupMetricsByStatuses(metrics: MetricItemList): IMetricByStatuses {
-    const result: IMetricByStatuses = {};
-
-    Object.keys(metrics).forEach((metricName) => {
+    const result = Object.keys(metrics).reduce((acc: IMetricByStatuses, metricName) => {
         const metric = metrics[metricName];
         const { state } = metric;
 
-        result[state] = {
-            ...result[state],
-            [metricName]: metric,
-        };
-    });
+        if (!acc[state]) {
+            acc[state] = {};
+        }
 
+        // @ts-ignore testing if this will improve render time in staging
+        acc[state][metricName] = metric;
+        return acc;
+    }, {});
     return result;
 }
 
