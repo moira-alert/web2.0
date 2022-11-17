@@ -1,7 +1,7 @@
 import * as React from "react";
 import { History } from "history";
 import { format, addMinutes, startOfDay, fromUnixTime, getUnixTime } from "date-fns";
-import Remarkable from "remarkable";
+import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";

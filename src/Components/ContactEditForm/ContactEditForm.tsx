@@ -2,7 +2,7 @@ import * as React from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
-import Remarkable from "remarkable";
+import { Remarkable } from "remarkable";
 import { ContactConfig } from "../../Domain/Config";
 import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
