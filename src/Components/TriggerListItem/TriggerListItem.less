@@ -56,7 +56,7 @@
     padding-right: 20px;
     width: calc(~'100% - 240px');
     box-sizing: border-box;
-    text-decoration: none !important;
+    text-decoration: none;
 
     &:hover {
         background-color: rgba(0, 0, 0, 0.05);
@@ -108,6 +108,15 @@
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 100% 80px;
     -webkit-mask-position: 0px -15px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        black 60%,
+        transparent
+    );
+    mask-repeat: no-repeat;
+    mask-size: 100% 80px;
+    mask-position: 0px -15px;
 }
 
 .target {
