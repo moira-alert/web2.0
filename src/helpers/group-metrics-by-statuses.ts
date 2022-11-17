@@ -1,24 +1,17 @@
 import { Metric, MetricItemList } from "../Domain/Metric";
+import { Status } from "../Domain/Status";
 
-export interface IMetricByStatuses {
-    DEL?: { [key: string]: Metric };
-    EXCEPTION?: { [key: string]: Metric };
-    NODATA?: { [key: string]: Metric };
-    ERROR?: { [key: string]: Metric };
-    WARN?: { [key: string]: Metric };
-    OK?: { [key: string]: Metric };
-}
+export type MetricByStatuses = {
+    [key in Status]?: { [key: string]: Metric };
+};
 
 // ToDo подумать, почему метрики группируются в listItem, а не в контейнере
-export const groupMetricsByStatuses = (metrics: MetricItemList): IMetricByStatuses =>
-    Object.keys(metrics).reduce((acc: IMetricByStatuses, metricName) => {
-        const metric = metrics[metricName];
+export const groupMetricsByStatuses = (metrics: MetricItemList): MetricByStatuses =>
+    Object.entries(metrics).reduce((acc: MetricByStatuses, [metricName, metric]) => {
         const { state } = metric;
+        const metricsGroupByStatus = acc[state] || {};
 
-        if (!acc[state]) {
-            acc[state] = {};
-        }
-
-        acc[state]![metricName] = metric;
+        metricsGroupByStatus[metricName] = metric;
+        acc[state] = metricsGroupByStatus;
         return acc;
     }, {});

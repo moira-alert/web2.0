@@ -1,11 +1,11 @@
 import { MetricItemList } from "../Domain/Metric";
 import { Status } from "../Domain/Status";
-import { groupMetricsByStatuses, IMetricByStatuses } from "./group-metrics-by-statuses";
+import { groupMetricsByStatuses, MetricByStatuses } from "./group-metrics-by-statuses";
 
 interface ITest {
     title: string;
     input: MetricItemList;
-    output: IMetricByStatuses;
+    output: MetricByStatuses;
 }
 
 const tests: Array<ITest> = [

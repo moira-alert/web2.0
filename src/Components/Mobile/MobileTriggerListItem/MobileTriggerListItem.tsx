@@ -11,7 +11,7 @@ import { Status } from "../../../Domain/Status";
 import { getUTCDate } from "../../../helpers/DateUtil";
 import {
     groupMetricsByStatuses,
-    IMetricByStatuses,
+    MetricByStatuses,
 } from "../../../helpers/group-metrics-by-statuses";
 import getStatusColor from "../Styles/StatusColor";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
@@ -22,7 +22,7 @@ type Props = {
 };
 
 type State = {
-    groupedMetrics: IMetricByStatuses;
+    groupedMetrics: MetricByStatuses;
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
@@ -34,7 +34,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         };
     }
 
-    static groupMetricsByStatuses(metrics: MetricItemList): IMetricByStatuses {
+    static groupMetricsByStatuses(metrics: MetricItemList): MetricByStatuses {
         return groupMetricsByStatuses(metrics);
     }
 
@@ -101,7 +101,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         return <MobileStatusIndicator size={40} statuses={statuses} />;
     }
 
-    filterMetricsByStatus(status: Status): IMetricByStatuses {
+    filterMetricsByStatus(status: Status): MetricByStatuses {
         const { groupedMetrics } = this.state;
         return groupedMetrics[status] || {};
     }

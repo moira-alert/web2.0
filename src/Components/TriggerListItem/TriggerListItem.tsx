@@ -14,7 +14,7 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-import { groupMetricsByStatuses, IMetricByStatuses } from "../../helpers/group-metrics-by-statuses";
+import { groupMetricsByStatuses, MetricByStatuses } from "../../helpers/group-metrics-by-statuses";
 import cn from "./TriggerListItem.less";
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
 
 type State = {
     showMetrics: boolean;
-    groupedMetrics: IMetricByStatuses;
+    groupedMetrics: MetricByStatuses;
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
