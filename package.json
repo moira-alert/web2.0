@@ -124,6 +124,7 @@
         "@types/react": "16.9.43",
         "@types/puppeteer": "^3.0.1",
         "@types/history": "4.7.11",
-        "event-source-polyfill": "1.0.25"
+        "event-source-polyfill": "1.0.25",
+        "es5-ext": "0.10.53"
     }
 }
