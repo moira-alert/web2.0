@@ -9,7 +9,8 @@ import { MetricItemList } from "../../../Domain/Metric";
 import { getPageLink } from "../../../Domain/Global";
 import { Status } from "../../../Domain/Status";
 import { getUTCDate } from "../../../helpers/DateUtil";
-import groupMetricsByStatuses, {
+import {
+    groupMetricsByStatuses,
     IMetricByStatuses,
 } from "../../../helpers/group-metrics-by-statuses";
 import getStatusColor from "../Styles/StatusColor";

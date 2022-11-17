@@ -14,7 +14,7 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-import groupMetricsByStatuses, { IMetricByStatuses } from "../../helpers/group-metrics-by-statuses";
+import { groupMetricsByStatuses, IMetricByStatuses } from "../../helpers/group-metrics-by-statuses";
 import cn from "./TriggerListItem.less";
 
 type Props = {
