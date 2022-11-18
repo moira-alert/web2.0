@@ -82,8 +82,12 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     {this.renderCounters()}
                 </div>
                 <div className={cn("data")}>
-                    <div className={cn("header")}>
-                        <ReactRouterLink className={cn("link")} to={getPageLink("trigger", id)}>
+                    <ReactRouterLink
+                        className={cn("header")}
+                        to={getPageLink("trigger", id)}
+                        data-tid="TriggerListItem_header"
+                    >
+                        <div className={cn("link")}>
                             <div className={cn("title")}>
                                 {searchMode ? (
                                     <div
@@ -108,20 +112,15 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     </div>
                                 )}
                             </div>
-                            <div
-                                className={cn({
-                                    targets: true,
-                                    dark: showMetrics,
-                                })}
-                            >
+                            <div className={cn({ targets: true })}>
                                 {targets.map((target) => (
                                     <div key={target} className={cn("target")}>
                                         {target}
                                     </div>
                                 ))}
                             </div>
-                        </ReactRouterLink>
-                    </div>
+                        </div>
+                    </ReactRouterLink>
                     <div className={cn("tags")}>
                         <TagGroup
                             onClick={(tag) => {
@@ -138,7 +137,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                             tags={tags}
                         />
                     </div>
-                    {showMetrics && metrics}
+                    {showMetrics && <div className={cn("metrics")}>{metrics}</div>}
                 </div>
             </div>
         );
