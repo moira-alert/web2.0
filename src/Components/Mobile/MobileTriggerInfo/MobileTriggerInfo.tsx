@@ -1,6 +1,6 @@
 import * as React from "react";
 import { addMinutes, format, getUnixTime, startOfDay } from "date-fns";
-import Remarkable from "remarkable";
+import { Remarkable } from "remarkable";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
