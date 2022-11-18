@@ -14,8 +14,8 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-import groupMetricsByStatuses, { IMetricByStatuses } from "../../helpers/group-metrics-by-statuses";
 import cn from "./TriggerListItem.less";
+import _ from "lodash";
 
 type Props = {
     data: Trigger;
@@ -27,7 +27,7 @@ type Props = {
 
 type State = {
     showMetrics: boolean;
-    groupedMetrics: IMetricByStatuses;
+    metrics: MetricItemList;
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
@@ -37,21 +37,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
         super(props);
         this.state = {
             showMetrics: false,
-            groupedMetrics: props.data.last_check
-                ? groupMetricsByStatuses(props.data.last_check.metrics)
-                : {},
+            metrics: props.data.last_check?.metrics || {},
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps: Props): void {
-        const { data } = this.props;
-        if (data !== nextProps.data) {
-            this.setState({
-                groupedMetrics: nextProps.data.last_check
-                    ? groupMetricsByStatuses(nextProps.data.last_check.metrics)
-                    : {},
-            });
-        }
     }
 
     static sortMetricsByValue(metrics: MetricItemList): MetricItemList {
@@ -169,8 +156,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     filterMetricsByStatus(status: Status): MetricItemList {
-        const { groupedMetrics } = this.state;
-        return groupedMetrics[status] || {};
+        const { metrics } = this.state;
+        return _.pickBy(metrics, (metric) => metric.state === status);
     }
 
     renderCounters(): React.ReactElement {
