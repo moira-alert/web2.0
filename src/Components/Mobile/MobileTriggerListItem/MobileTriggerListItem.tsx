@@ -9,20 +9,17 @@ import { MetricItemList } from "../../../Domain/Metric";
 import { getPageLink } from "../../../Domain/Global";
 import { Status } from "../../../Domain/Status";
 import { getUTCDate } from "../../../helpers/DateUtil";
-import {
-    groupMetricsByStatuses,
-    MetricByStatuses,
-} from "../../../helpers/group-metrics-by-statuses";
 import getStatusColor from "../Styles/StatusColor";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
 import cn from "./MobileTriggerListItem.less";
+import _ from "lodash";
 
 type Props = {
     data: Trigger;
 };
 
 type State = {
-    groupedMetrics: MetricByStatuses;
+    metrics: MetricItemList;
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
@@ -30,12 +27,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
         super(props);
         const metrics = props.data.last_check?.metrics;
         this.state = {
-            groupedMetrics: metrics ? TriggerListItem.groupMetricsByStatuses(metrics) : {},
+            metrics: metrics || {},
         };
-    }
-
-    static groupMetricsByStatuses(metrics: MetricItemList): MetricByStatuses {
-        return groupMetricsByStatuses(metrics);
     }
 
     render(): React.ReactElement {
@@ -101,8 +94,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
         return <MobileStatusIndicator size={40} statuses={statuses} />;
     }
 
-    filterMetricsByStatus(status: Status): MetricByStatuses {
-        const { groupedMetrics } = this.state;
-        return groupedMetrics[status] || {};
+    filterMetricsByStatus(status: Status): MetricItemList {
+        const { metrics } = this.state;
+        return _.pickBy(metrics, (metric) => metric.state === status);
     }
 }
