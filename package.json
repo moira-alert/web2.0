@@ -128,6 +128,7 @@
         "es5-ext": "0.10.53",
         "immer": "9.0.6",
         "ejs": "3.1.7",
-        "shell-quote": "1.7.2"
+        "shell-quote": "1.7.3",
+        "loader-utils": "2.0.0"
     }
 }
