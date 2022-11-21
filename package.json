@@ -125,6 +125,9 @@
         "@types/puppeteer": "^3.0.1",
         "@types/history": "4.7.11",
         "event-source-polyfill": "1.0.25",
-        "es5-ext": "0.10.53"
+        "es5-ext": "0.10.53",
+        "immer": "9.0.6",
+        "ejs": "3.1.7",
+        "shell-quote": "1.7.2"
     }
 }
