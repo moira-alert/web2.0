@@ -139,6 +139,8 @@
         "nanoid": "3.1.31",
         "browserslist": "4.16.5",
         "react-dev-utils": "11.0.4",
-        "node-notifier": "8.0.1"
+        "node-notifier": "8.0.1",
+        "jsdom": "16.5.0",
+        "got": "11.8.5"
     }
 }
