@@ -36,7 +36,7 @@
         "dompurify": "2.2.6",
         "file-saver": "2.0.2",
         "husky": "4.2.3",
-        "jest": "24.5.0",
+        "jest": "^29.3.1",
         "lodash": "^4.17.21",
         "npm-run-all": "4.1.5",
         "numeral": "2.0.6",
