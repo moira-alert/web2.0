@@ -5,6 +5,8 @@ import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import { clearInput } from "../../helpers/common";
 import cn from "./SearchSelector.less";
+import { withMoiraApi } from "../../Api/MoiraApiInjection";
+import MoiraApi, { TagList } from "../../Api/MoiraApi";
 
 // ToDo вынести в хелперы
 const searchTokens = (query: string, items: string[]): string[] => {
@@ -43,11 +45,13 @@ type Props = {
     remainingTokens: string[];
     onChange: (tags: string[], searchString: string) => void;
     onSearch: (query: string) => void;
+    moiraApi: MoiraApi;
 };
 
 type State = {
     searchText: string;
     clearedSearchValue: string;
+    allTags: TagList | null;
 };
 
 class SearchSelector extends React.Component<Props, State> {
@@ -61,7 +65,12 @@ class SearchSelector extends React.Component<Props, State> {
         this.state = {
             searchText: search,
             clearedSearchValue: clearInput(search),
+            allTags: null,
         };
+    }
+
+    async componentDidMount() {
+        this.state.allTags = await this.props.moiraApi.getTagList();
     }
 
     render(): React.ReactElement {
@@ -145,10 +154,13 @@ class SearchSelector extends React.Component<Props, State> {
     };
 
     renderToken = (token: string): React.ReactElement => (
-        <Token type="removable" onRemove={this.handleTokenRemove}>
+        <Token
+            type={this.state.allTags?.list.includes(token) ? "removable" : "nonexistent"}
+            onRemove={this.handleTokenRemove}
+        >
             {token}
         </Token>
     );
 }
 
-export { SearchSelector as default };
+export default withMoiraApi(SearchSelector);
