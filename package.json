@@ -85,7 +85,7 @@
         "classnames-loader": "^2.1.0",
         "creevey": "0.7.39",
         "cross-env": "5.2.0",
-        "css-loader": "4.0.0",
+        "css-loader": "^6.7.2",
         "eslint": "7.7.0",
         "eslint-config-prettier": "6.11.0",
         "eslint-plugin-babel": "5.3.0",
@@ -100,7 +100,7 @@
         "jest-puppeteer": "4.4.0",
         "json-server": "0.16.3",
         "less": "3.12.2",
-        "less-loader": "6.2.0",
+        "less-loader": "^11.1.0",
         "mini-css-extract-plugin": "^0.9.0",
         "mockdate": "3.0.2",
         "prettier": "2.0.5",
@@ -121,6 +121,7 @@
         "@types/react": "16.9.43",
         "@types/puppeteer": "^3.0.1",
         "@types/history": "4.7.11",
+        "@types/express-serve-static-core": "4.17.18",
         "event-source-polyfill": "1.0.25",
         "es5-ext": "0.10.53"
     }

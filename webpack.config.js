@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
-const supportedLocales = ['en'];
+const supportedLocales = ["en"];
 
 module.exports = {
     entry: {
@@ -21,9 +21,7 @@ module.exports = {
                 test: [/\.jsx?$/, /\.tsx?$/],
                 use: ["babel-loader"],
                 exclude: /node_modules/,
-                include: [
-                    path.resolve(__dirname, "src"),
-                ],
+                include: [path.resolve(__dirname, "src")],
             },
             {
                 test: /\.(png|woff|woff2|eot|svg)$/,
@@ -54,8 +52,8 @@ module.exports = {
             {
                 test: /\.m?js/,
                 resolve: {
-                    fullySpecified: false
-                }
+                    fullySpecified: false,
+                },
             },
         ],
     },
@@ -63,8 +61,8 @@ module.exports = {
         modules: ["node_modules", "local_modules"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
         alias: process.argv.includes("--mode=development")
-            ? {"react-dom": "@hot-loader/react-dom" }
-            : undefined
+            ? { "react-dom": "@hot-loader/react-dom" }
+            : undefined,
     },
     devtool: "cheap-source-map",
     plugins: [
@@ -81,14 +79,14 @@ module.exports = {
             },
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[fullhash:6].css",
+            filename: "app.[chunkhash:6].css",
             chunkFilename: "[name].[chunkhash:6].css",
         }),
         new webpack.ProvidePlugin({
-            process: 'process/browser',
-          }),
+            process: "process/browser",
+        }),
 
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
     ],
     optimization: {
         usedExports: true,
@@ -119,9 +117,9 @@ module.exports = {
                 process.env.API_MODE === "local"
                     ? { target: "http://localhost:8080", secure: false }
                     : {
-                        target: "http://localhost:9002",
-                        pathRewrite: { "^/api": "" },
-                    },
+                          target: "http://localhost:9002",
+                          pathRewrite: { "^/api": "" },
+                      },
         },
     },
 };
