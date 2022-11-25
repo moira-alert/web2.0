@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import cn from "./Token.less";
 import { Tooltip } from "@skbkontur/react-ui";
 
@@ -11,7 +11,6 @@ type Props = {
 
 const Token = (props: Props): React.ReactElement => {
     const { children, type, onRemove, onClick } = props;
-    const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
     if (type === "removable" || type === "nonexistent") {
         const handleRemove = () => {
@@ -19,27 +18,21 @@ const Token = (props: Props): React.ReactElement => {
         };
 
         return (
-            <span
-                className={cn("token", "removable", { nonexistent: type === "nonexistent" })}
-                onMouseEnter={({ target }) => setAnchor(target as HTMLElement)}
-                onMouseLeave={() => setAnchor(null)}
+            <Tooltip
+                render={() => (type === "nonexistent" ? "This tag doesn't exist" : null)}
+                trigger="hover"
+                pos="bottom center"
             >
-                {children}
-                <button
-                    type="button"
-                    className={cn("token-remove")}
-                    onClick={handleRemove}
-                    aria-label="Remove"
-                />
-                {type === "nonexistent" && anchor && (
-                    <Tooltip
-                        anchorElement={anchor}
-                        render={() => "This tag doesn't exist"}
-                        trigger="hover"
-                        pos="bottom center"
+                <span className={cn("token", "removable", { nonexistent: type === "nonexistent" })}>
+                    {children}
+                    <button
+                        type="button"
+                        className={cn("token-remove")}
+                        onClick={handleRemove}
+                        aria-label="Remove"
                     />
-                )}
-            </span>
+                </span>
+            </Tooltip>
         );
     }
 

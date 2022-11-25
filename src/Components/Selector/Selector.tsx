@@ -80,11 +80,13 @@ export default class Selector extends React.Component<Props, State> {
                     htmlFor="selector"
                     ref={this.dropdownAnchorRef}
                 >
-                    {tokens.map((token) => (
-                        <span key={token} className={cn("token-container")}>
-                            {renderToken(token)}
-                        </span>
-                    ))}
+                    <React.Profiler id="tokens" onRender={() => console.log("tokens rerendered")}>
+                        {tokens.map((token) => (
+                            <span key={token} className={cn("token-container")}>
+                                {renderToken(token)}
+                            </span>
+                        ))}
+                    </React.Profiler>
                     <input
                         className={cn("input")}
                         id="selector"
