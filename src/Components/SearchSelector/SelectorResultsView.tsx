@@ -1,5 +1,5 @@
 import * as React from "react";
-import Token from "../Token/Token";
+import Token, { TokenType } from "../Token/Token";
 import cn from "./SearchSelector.less";
 
 function SelectorResultsView({
@@ -25,7 +25,7 @@ function SelectorResultsView({
                     <ul className={cn("token-list")}>
                         {tokens.map((token) => (
                             <li className={cn("token-list-item")} key={token}>
-                                <Token type={"selectable"} onClick={onSelect}>
+                                <Token type={TokenType.SELECTABLE} onClick={onSelect}>
                                     {token}
                                 </Token>
                             </li>

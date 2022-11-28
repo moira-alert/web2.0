@@ -1,6 +1,6 @@
 import * as React from "react";
 import Selector from "../Selector/Selector";
-import Token from "../Token/Token";
+import Token, { TokenType } from "../Token/Token";
 import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import { clearInput } from "../../helpers/common";
@@ -146,16 +146,19 @@ export class SearchSelector extends React.Component<Props, State> {
         );
     };
 
-    getTokenType = (token: string) => {
+    getTokenType = (token: string): TokenType => {
         if (this.props.loading) {
-            return "removable";
+            return TokenType.REMOVABLE;
         }
 
-        return this.props.allTags.includes(token) ? "removable" : "nonexistent";
+        return this.props.allTags.includes(token) ? TokenType.REMOVABLE : TokenType.NONEXISTENT;
     };
 
     renderToken = (token: string): React.ReactElement => (
-        <Token type={this.getTokenType(token)} onRemove={this.handleTokenRemove}>
+        <Token
+            type={this.props.allTags.includes(token) ? "removable" : "nonexistent"}
+            onRemove={this.handleTokenRemove}
+        >
             {token}
         </Token>
     );
