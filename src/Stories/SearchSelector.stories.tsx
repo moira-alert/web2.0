@@ -10,6 +10,7 @@ storiesOf("SearchSelector", module)
         <SearchSelector
             search=""
             allTags={allTags}
+            loading={false}
             selectedTokens={[]}
             subscribedTokens={["subscribed"]}
             remainingTokens={["remaining"]}
@@ -21,6 +22,7 @@ storiesOf("SearchSelector", module)
         <SearchSelector
             search=""
             allTags={allTags}
+            loading={false}
             selectedTokens={["subscribed"]}
             subscribedTokens={["subscribed"]}
             remainingTokens={["remaining"]}
@@ -32,6 +34,7 @@ storiesOf("SearchSelector", module)
         <SearchSelector
             search="remaining"
             allTags={allTags}
+            loading={false}
             selectedTokens={["subscribed"]}
             subscribedTokens={["subscribed"]}
             remainingTokens={["remaining"]}
@@ -43,6 +46,7 @@ storiesOf("SearchSelector", module)
         <SearchSelector
             search="trolo-lo-lo"
             allTags={allTags}
+            loading={false}
             selectedTokens={["subscribed", "does_not_exist"]}
             subscribedTokens={["subscribed"]}
             remainingTokens={["remaining"]}

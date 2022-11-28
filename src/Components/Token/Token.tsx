@@ -2,9 +2,15 @@ import React from "react";
 import cn from "./Token.less";
 import { Tooltip } from "@skbkontur/react-ui";
 
+export enum TokenType {
+    REMOVABLE = "removable",
+    SELECTABLE = "selectable",
+    NONEXISTENT = "nonexistent",
+}
+
 type Props = {
     children: string;
-    type?: "removable" | "selectable" | "nonexistent";
+    type?: TokenType;
     onClick?: (token: string) => void;
     onRemove?: (token: string) => void;
 };
@@ -12,18 +18,22 @@ type Props = {
 const Token = (props: Props): React.ReactElement => {
     const { children, type, onRemove, onClick } = props;
 
-    if (type === "removable" || type === "nonexistent") {
+    if (type === TokenType.REMOVABLE || TokenType.NONEXISTENT) {
         const handleRemove = () => {
             onRemove?.(children);
         };
 
         return (
             <Tooltip
-                render={() => (type === "nonexistent" ? "This tag doesn't exist" : null)}
+                render={() => (type === TokenType.NONEXISTENT ? "This tag doesn't exist" : null)}
                 trigger="hover"
                 pos="bottom center"
             >
-                <span className={cn("token", "removable", { nonexistent: type === "nonexistent" })}>
+                <span
+                    className={cn("token", "removable", {
+                        nonexistent: type === TokenType.NONEXISTENT,
+                    })}
+                >
                     {children}
                     <button
                         type="button"
@@ -36,7 +46,7 @@ const Token = (props: Props): React.ReactElement => {
         );
     }
 
-    if (type === "selectable") {
+    if (type === TokenType.SELECTABLE) {
         const handleClick = () => {
             onClick?.(children);
         };

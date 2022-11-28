@@ -56,6 +56,7 @@ export default class TriggerListDesktop extends React.Component<TriggerListDeskt
                             <SearchSelector
                                 search={searchText}
                                 allTags={this.props.allTags}
+                                loading={this.props.loading}
                                 selectedTokens={selectedTags}
                                 subscribedTokens={difference(subscribedTags, selectedTags)}
                                 remainingTokens={difference(allTags, selectedTags)}
