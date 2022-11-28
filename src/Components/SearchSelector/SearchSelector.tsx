@@ -39,6 +39,7 @@ const searchTokens = (query: string, items: string[]): string[] => {
 type Props = {
     search: string;
     allTags: string[];
+    loading: boolean;
     selectedTokens: string[];
     subscribedTokens: string[];
     remainingTokens: string[];
@@ -145,11 +146,16 @@ export class SearchSelector extends React.Component<Props, State> {
         );
     };
 
+    getTokenType = (token: string) => {
+        if (this.props.loading) {
+            return "removable";
+        }
+
+        return this.props.allTags.includes(token) ? "removable" : "nonexistent";
+    };
+
     renderToken = (token: string): React.ReactElement => (
-        <Token
-            type={this.props.allTags.includes(token) ? "removable" : "nonexistent"}
-            onRemove={this.handleTokenRemove}
-        >
+        <Token type={this.getTokenType(token)} onRemove={this.handleTokenRemove}>
             {token}
         </Token>
     );
