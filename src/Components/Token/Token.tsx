@@ -1,9 +1,16 @@
-import * as React from "react";
+import React from "react";
 import cn from "./Token.less";
+import { Tooltip } from "@skbkontur/react-ui";
+
+export enum TokenType {
+    REMOVABLE = "removable",
+    SELECTABLE = "selectable",
+    NONEXISTENT = "nonexistent",
+}
 
 type Props = {
     children: string;
-    type?: "removable" | "selectable";
+    type?: TokenType;
     onClick?: (token: string) => void;
     onRemove?: (token: string) => void;
 };
@@ -11,25 +18,35 @@ type Props = {
 const Token = (props: Props): React.ReactElement => {
     const { children, type, onRemove, onClick } = props;
 
-    if (type === "removable") {
+    if (type === TokenType.REMOVABLE || TokenType.NONEXISTENT) {
         const handleRemove = () => {
             onRemove?.(children);
         };
 
         return (
-            <span className={cn("token", "removable")}>
-                {children}
-                <button
-                    type="button"
-                    className={cn("token-remove")}
-                    onClick={handleRemove}
-                    aria-label="Remove"
-                />
-            </span>
+            <Tooltip
+                render={() => (type === TokenType.NONEXISTENT ? "This tag doesn't exist" : null)}
+                trigger="hover"
+                pos="bottom center"
+            >
+                <span
+                    className={cn("token", "removable", {
+                        nonexistent: type === TokenType.NONEXISTENT,
+                    })}
+                >
+                    {children}
+                    <button
+                        type="button"
+                        className={cn("token-remove")}
+                        onClick={handleRemove}
+                        aria-label="Remove"
+                    />
+                </span>
+            </Tooltip>
         );
     }
 
-    if (type === "selectable") {
+    if (type === TokenType.SELECTABLE) {
         const handleClick = () => {
             onClick?.(children);
         };

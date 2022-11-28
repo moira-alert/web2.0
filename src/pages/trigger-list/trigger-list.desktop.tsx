@@ -7,7 +7,7 @@ import { getPageLink } from "../../Domain/Global";
 import { Trigger } from "../../Domain/Trigger";
 import Layout, { LayoutPlate, LayoutContent, LayoutFooter } from "../../Components/Layout/Layout";
 import { ColumnStack, RowStack, Fill, Fit } from "../../Components/ItemsStack/ItemsStack";
-import SearchSelector from "../../Components/SearchSelector/SearchSelector";
+import { SearchSelector } from "../../Components/SearchSelector/SearchSelector";
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
 import { TriggerListUpdate } from "./trigger-list";
@@ -55,6 +55,8 @@ export default class TriggerListDesktop extends React.Component<TriggerListDeskt
                         <Fill>
                             <SearchSelector
                                 search={searchText}
+                                allTags={this.props.allTags}
+                                loading={this.props.loading}
                                 selectedTokens={selectedTags}
                                 subscribedTokens={difference(subscribedTags, selectedTags)}
                                 remainingTokens={difference(allTags, selectedTags)}
