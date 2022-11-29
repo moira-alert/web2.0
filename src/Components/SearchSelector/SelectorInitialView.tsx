@@ -1,7 +1,7 @@
 import * as React from "react";
-import Token from "../Token/Token";
+import { Token } from "../Token/Token";
 import cn from "./SearchSelector.less";
-import { TokenType } from "../../Domain/TokenType";
+import { TokenType } from "../../helpers/TokenType";
 
 function SelectorInitialView({
     tokens,

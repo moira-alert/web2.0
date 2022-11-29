@@ -1,7 +1,7 @@
 import * as React from "react";
 import Selector from "../Selector/Selector";
-import Token from "../Token/Token";
-import { TokenType } from "../../Domain/TokenType";
+import { Token } from "../Token/Token";
+import { TokenType } from "../../helpers/TokenType";
 import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import { clearInput } from "../../helpers/common";

@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "./Token.less";
 import { Tooltip } from "@skbkontur/react-ui";
-import { TokenType } from "../../Domain/TokenType";
+import { TokenType } from "../../helpers/TokenType";
 
 type Props = {
     children: string;
@@ -10,7 +10,7 @@ type Props = {
     onRemove?: (token: string) => void;
 };
 
-const Token = (props: Props): React.ReactElement => {
+export const Token = (props: Props): React.ReactElement => {
     const { children, type, onRemove, onClick } = props;
 
     if (type === TokenType.REMOVABLE || type === TokenType.NONEXISTENT) {
@@ -55,5 +55,3 @@ const Token = (props: Props): React.ReactElement => {
 
     return <span className={cn("token")}>{children}</span>;
 };
-
-export { Token as default };
