@@ -1,12 +1,7 @@
 import React from "react";
 import cn from "./Token.less";
 import { Tooltip } from "@skbkontur/react-ui";
-
-export enum TokenType {
-    REMOVABLE = "removable",
-    SELECTABLE = "selectable",
-    NONEXISTENT = "nonexistent",
-}
+import { TokenType } from "../../Domain/TokenType";
 
 type Props = {
     children: string;
