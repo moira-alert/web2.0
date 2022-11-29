@@ -18,7 +18,7 @@ type Props = {
 const Token = (props: Props): React.ReactElement => {
     const { children, type, onRemove, onClick } = props;
 
-    if (type === TokenType.REMOVABLE || TokenType.NONEXISTENT) {
+    if (type === TokenType.REMOVABLE || type === TokenType.NONEXISTENT) {
         const handleRemove = () => {
             onRemove?.(children);
         };
