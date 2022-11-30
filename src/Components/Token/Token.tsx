@@ -1,12 +1,7 @@
 import React from "react";
 import cn from "./Token.less";
 import { Tooltip } from "@skbkontur/react-ui";
-
-export enum TokenType {
-    REMOVABLE = "removable",
-    SELECTABLE = "selectable",
-    NONEXISTENT = "nonexistent",
-}
+import { TokenType } from "../../helpers/TokenType";
 
 type Props = {
     children: string;
@@ -15,10 +10,10 @@ type Props = {
     onRemove?: (token: string) => void;
 };
 
-const Token = (props: Props): React.ReactElement => {
+export const Token = (props: Props): React.ReactElement => {
     const { children, type, onRemove, onClick } = props;
 
-    if (type === TokenType.REMOVABLE || TokenType.NONEXISTENT) {
+    if (type === TokenType.REMOVABLE || type === TokenType.NONEXISTENT) {
         const handleRemove = () => {
             onRemove?.(children);
         };
@@ -60,5 +55,3 @@ const Token = (props: Props): React.ReactElement => {
 
     return <span className={cn("token")}>{children}</span>;
 };
-
-export { Token as default };
