@@ -16,6 +16,7 @@ import DiscordLogo from "./discord-logo.svg";
 import PagerdutyLogo from "./pagerduty-logo.svg";
 import VictoropsLogo from "./victorops-logo.svg";
 import OpsgenieLogo from "./opsgenie-logo.svg";
+import MattermostLogo from "./mattermost-logo.svg";
 
 type Props = {
     type: string;
@@ -38,6 +39,7 @@ const TypeToIcon: { [key: string]: React.ReactElement } = {
     pagerduty: <SvgIcon path={PagerdutyLogo} size={14} offsetTop={2} />,
     victorops: <SvgIcon path={VictoropsLogo} size={14} offsetTop={2} />,
     opsgenie: <SvgIcon path={OpsgenieLogo} size={14} offsetTop={2} />,
+    mattermost: <SvgIcon path={MattermostLogo} size={14} offsetTop={2} />,
     phone: <PhoneIcon />,
     tel: <PhoneIcon />,
     sms: <PhoneIcon />,
