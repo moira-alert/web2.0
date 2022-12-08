@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.2] - 2022-12-08
+
+### Added
+
+* Issue and pull request templates #377
+* Creevey now runs in Docker, no Browserstack required #387
+* Click action on tags in trigger list & view #384
+* Mattermost as a delivery channel option #396
+
+### Fixed
+
+* Markdown not working in the mobile version #374
+* Interface inconsistencies in some modals #376 #383
+* Readme wording #380
+* Some deprecated bundling logic #382
+* Last event date format #389
+* Search by non-existent tags #353 #394
+* Trigger list item styles on hover #390
+* A bottleneck in trigger list rendering #391
+
 ## [2.7.1] - 2022-07-21
 
 ### Added
