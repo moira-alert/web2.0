@@ -56,6 +56,17 @@ test.describe("Trigger form", () => {
             ]);
             await expect(
                 page.locator(
+                    "text=Syntax error"
+                )
+            ).toBeVisible();
+
+            await targetInput(1).fill("compressPeriodicGaps()");
+            await Promise.all([
+                createTriggerButton.click(),
+                page.waitForResponse(/trigger\/check/),
+            ]);
+            await expect(
+                page.locator(
                     "text=Function is not supported, if you want to use it, switch to remote"
                 )
             ).toBeVisible();
@@ -106,9 +117,21 @@ test.describe("Trigger form", () => {
                 await createTriggerButton.click();
                 await expect(
                     page.locator(
+                        "text=Syntax error"
+                    )
+                ).toBeVisible();
+
+                await targetInput(2).fill("compressPeriodicGaps()");
+                await Promise.all([
+                    createTriggerButton.click(),
+                    page.waitForResponse(/trigger\/check/),
+                ]);
+                await expect(
+                    page.locator(
                         "text=Function is not supported, if you want to use it, switch to remote"
                     )
                 ).toBeVisible();
+                
                 await targetInput(2).fill("sumSeries(test.target.*");
                 await createTriggerButton.click();
                 await expect(page.locator("text=Syntax error")).toBeVisible();
@@ -128,6 +151,12 @@ test.describe("Trigger form", () => {
         await test.step("Create trigger & check for success", async () => {
             await createTriggerButton.click();
             await expect(page).toHaveURL(/[a-z\d]+-+/);
+            /*
+                Due to Moira's architecture quirks and using a non-relational DB, backend will return the response before the database finishes indexing/updating.
+                Therefore, a new trigger will not be instantly visible on the main page, which is not noticeable to users, but messes with this part of the test.
+                A hard wait was added on the next line as the simplest solution to this problem at the moment.
+            */ 
+            await page.waitForTimeout(1000);
             await mainPage.goto();
             await expect(page.locator("text=test name")).toBeVisible();
         });
