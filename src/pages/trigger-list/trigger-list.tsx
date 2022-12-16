@@ -3,7 +3,6 @@ import { RouteComponentProps } from "react-router-dom";
 import isEqual from "lodash/isEqual";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
-import intersection from "lodash/intersection";
 import queryString from "query-string";
 import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import { Trigger, TriggerList } from "../../Domain/Trigger";
@@ -107,6 +106,7 @@ class TriggerListPage extends React.Component<TriggerListProps, State> {
                 onChange={this.changeLocationSearch}
                 onSetMetricMaintenance={this.setMetricMaintenance}
                 onRemoveMetric={this.removeMetric}
+                history={this.props.history}
             />
         );
     }
@@ -133,7 +133,6 @@ class TriggerListPage extends React.Component<TriggerListProps, State> {
                 moiraApi.getTagList(),
             ]);
 
-            if (this.compareTagsAndRedirectIfHasUnknownTags(locationSearch.tags, tags.list)) return;
             if (this.checkPageAndRedirectIfNeed(triggers, locationSearch.page)) return;
 
             this.setState({
@@ -177,15 +176,6 @@ class TriggerListPage extends React.Component<TriggerListProps, State> {
         }
         if (isTagParamEnabled || isOnlyProblemsParamEnabled) {
             this.changeLocationSearch(searchToUpdate);
-            return true;
-        }
-        return false;
-    }
-
-    compareTagsAndRedirectIfHasUnknownTags(parsedTags: string[], moiraTags: string[]) {
-        const validSelectedTags = intersection(parsedTags, moiraTags);
-        if (parsedTags.length > validSelectedTags.length) {
-            this.changeLocationSearch({ tags: validSelectedTags });
             return true;
         }
         return false;

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { addMinutes, format, getUnixTime, startOfDay } from "date-fns";
+import { Remarkable } from "remarkable";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
@@ -18,10 +19,9 @@ import {
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
-import cn from "./MobileTriggerInfo.less";
 import { sanitize } from "dompurify";
 import { purifyConfig } from "../../../Domain/DOMPurify";
-import Remarkable from "remarkable";
+import cn from "./MobileTriggerInfo.less";
 
 const md = new Remarkable({ breaks: true });
 

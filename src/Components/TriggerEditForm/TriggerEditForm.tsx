@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
-import Remarkable from "remarkable";
+import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";

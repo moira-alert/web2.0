@@ -1,5 +1,15 @@
-import { addDecorator } from "@storybook/react";
-import { withCreevey } from "creevey";
+import "reflect-metadata";
 import "../src/style.less";
 
-addDecorator(withCreevey({ captureElement: "#root" }));
+export const parameters = {
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+        matchers: {
+            color: /(background|color)$/i,
+            date: /Date$/,
+        },
+    },
+    creevey: {
+        captureElement: "#root",
+    },
+};

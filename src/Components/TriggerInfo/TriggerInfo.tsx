@@ -1,7 +1,9 @@
 import * as React from "react";
+import { History } from "history";
 import { format, addMinutes, startOfDay, fromUnixTime, getUnixTime } from "date-fns";
-import Remarkable from "remarkable";
+import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
+import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
@@ -31,6 +33,7 @@ type Props = {
     supportEmail?: string;
     onThrottlingRemove: (triggerId: string) => void;
     onSetMaintenance: (maintenance: number) => void;
+    history: History;
 };
 
 function maintenanceDelta(maintenance?: number | null): number {
@@ -77,6 +80,7 @@ export default function TriggerInfo({
     supportEmail,
     onThrottlingRemove,
     onSetMaintenance,
+    history,
 }: Props): React.ReactElement {
     const {
         id,
@@ -205,7 +209,20 @@ export default function TriggerInfo({
                 )}
                 <dt>Tags</dt>
                 <dd>
-                    <TagGroup tags={tags} />
+                    <TagGroup
+                        onClick={(tag) => {
+                            history?.push(
+                                `/?${queryString.stringify(
+                                    { tags: [tag] },
+                                    {
+                                        arrayFormat: "index",
+                                        encode: true,
+                                    }
+                                )}`
+                            );
+                        }}
+                        tags={tags}
+                    />
                 </dd>
                 {(state === "EXCEPTION" || state === "ERROR") && <dt />}
                 {(state === "EXCEPTION" || state === "ERROR") && (

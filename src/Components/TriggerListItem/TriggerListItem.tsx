@@ -1,6 +1,8 @@
 import * as React from "react";
+import { History } from "history";
 import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
+import queryString from "query-string";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
@@ -12,21 +14,20 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-
-import groupMetricsByStatuses, { IMetricByStatuses } from "../../helpers/group-metrics-by-statuses";
-
 import cn from "./TriggerListItem.less";
+import _ from "lodash";
 
 type Props = {
     data: Trigger;
     searchMode: boolean;
     onChange?: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove?: (metric: string) => void;
+    history: History;
 };
 
 type State = {
     showMetrics: boolean;
-    groupedMetrics: IMetricByStatuses;
+    metrics: MetricItemList;
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
@@ -36,21 +37,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
         super(props);
         this.state = {
             showMetrics: false,
-            groupedMetrics: props.data.last_check
-                ? groupMetricsByStatuses(props.data.last_check.metrics)
-                : {},
+            metrics: props.data.last_check?.metrics || {},
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps: Props): void {
-        const { data } = this.props;
-        if (data !== nextProps.data) {
-            this.setState({
-                groupedMetrics: nextProps.data.last_check
-                    ? groupMetricsByStatuses(nextProps.data.last_check.metrics)
-                    : {},
-            });
-        }
     }
 
     static sortMetricsByValue(metrics: MetricItemList): MetricItemList {
@@ -94,8 +82,12 @@ export default class TriggerListItem extends React.Component<Props, State> {
                     {this.renderCounters()}
                 </div>
                 <div className={cn("data")}>
-                    <div className={cn("header")}>
-                        <ReactRouterLink className={cn("link")} to={getPageLink("trigger", id)}>
+                    <ReactRouterLink
+                        className={cn("header")}
+                        to={getPageLink("trigger", id)}
+                        data-tid="TriggerListItem_header"
+                    >
+                        <div className={cn("link")}>
                             <div className={cn("title")}>
                                 {searchMode ? (
                                     <div
@@ -120,24 +112,32 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     </div>
                                 )}
                             </div>
-                            <div
-                                className={cn({
-                                    targets: true,
-                                    dark: showMetrics,
-                                })}
-                            >
+                            <div className={cn({ targets: true })}>
                                 {targets.map((target) => (
                                     <div key={target} className={cn("target")}>
                                         {target}
                                     </div>
                                 ))}
                             </div>
-                        </ReactRouterLink>
-                    </div>
+                        </div>
+                    </ReactRouterLink>
                     <div className={cn("tags")}>
-                        <TagGroup tags={tags} />
+                        <TagGroup
+                            onClick={(tag) => {
+                                this.props.history?.push(
+                                    `/?${queryString.stringify(
+                                        { tags: [tag] },
+                                        {
+                                            arrayFormat: "index",
+                                            encode: true,
+                                        }
+                                    )}`
+                                );
+                            }}
+                            tags={tags}
+                        />
                     </div>
-                    {showMetrics && metrics}
+                    {showMetrics && <div className={cn("metrics")}>{metrics}</div>}
                 </div>
             </div>
         );
@@ -155,8 +155,8 @@ export default class TriggerListItem extends React.Component<Props, State> {
     }
 
     filterMetricsByStatus(status: Status): MetricItemList {
-        const { groupedMetrics } = this.state;
-        return groupedMetrics[status] || {};
+        const { metrics } = this.state;
+        return _.pickBy(metrics, (metric) => metric.state === status);
     }
 
     renderCounters(): React.ReactElement {
