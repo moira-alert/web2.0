@@ -21,9 +21,6 @@ jobs:
 
       - name: Build packages
         run: make packages
-        
-      - name: Build packages
-        run: sudo apt-get update && sudo apt-get install ruby-dev build-essential && sudo gem i fpm -f && make packages
 
       - name: Release
         uses: docker://antonyurchenko/git-release:v4.2.4
