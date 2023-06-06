@@ -7,13 +7,20 @@ on:
 jobs:
   build:
     name: Create Release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby 2.6
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+
+      - name: Install fpm
+        run: gem install fpm
 
       - name: Build packages
-        run: sudo apt-get update && sudo apt-get install ruby-dev build-essential && sudo gem i fpm -f && make packages
-
+        run: make packages
 
       - name: Release
         uses: docker://antonyurchenko/git-release:v4.2.4
