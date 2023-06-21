@@ -41,7 +41,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
         const isActionButtonDisabled = updateAndTestInProcess || updateInProcess || deleteInProcess;
 
         return (
-            <Modal onClose={onCancel} ignoreBackgroundClick>
+            <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
                 <Modal.Body>
                     <ResourceIDBadge title="Channel id:" id={contactInfo.id} />
