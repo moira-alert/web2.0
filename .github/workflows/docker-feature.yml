@@ -33,7 +33,7 @@ jobs:
               core.setFailed(`Request failed with error ${err}`)
             }
     
-      - name: test echo
+      - name: TEST ECHO
         run: |
             echo " ${{steps.comment-branch.outputs.head_sha}}"
             echo "${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}"
