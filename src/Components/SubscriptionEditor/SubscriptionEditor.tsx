@@ -91,7 +91,8 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             </Toggle>
                         </span>{" "}
                         <HelpTooltip closeButton={false}>
-                            You will be subscribed to ALL existing tags. May cause increased loads and alert spamming.
+                            You will be subscribed to ALL existing tags. May cause increased loads
+                            and alert spamming.
                         </HelpTooltip>
                     </div>
                 )}
