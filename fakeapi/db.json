@@ -44,7 +44,12 @@
                 "placeholder": "Enter the responder id"
             }
         ],
-        "supportEmail": "devopsteam@skbkontur.ru"
+        "supportEmail": "devopsteam@skbkontur.ru",
+        "featureFlags": {
+            "isPlottingDefaultOn": true,
+            "isPlottingAvailable": true,
+            "isSubscriptionToAllTagsAvailable": true
+        } 
     },
     "user": {
         "login": "testuser"
