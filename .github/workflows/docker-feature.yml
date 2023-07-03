@@ -32,7 +32,13 @@ jobs:
             } catch (err) {
               core.setFailed(`Request failed with error ${err}`)
             }
-      
+    
+      - name: test echo
+        run: |
+            echo " ${{steps.comment-branch.outputs.head_sha}}"
+            echo "${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}"
+            echo "${{ fromJSON(steps.get-pr.outputs.result).head.sha }}"
+          
 
       - name: Checkout PR branch
         uses: actions/checkout@v3
@@ -40,7 +46,6 @@ jobs:
           repository: ${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}
           ref: ${{ fromJSON(steps.get-pr.outputs.result).head.sha }}
 
-          
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -57,9 +62,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           file: ./Dockerfile
-          build-args: |
-            MoiraVersion=${{env.DOCKER_TAG}}
-            GIT_COMMIT=${{github.sha}}
           push: true
           tags: moira/web2.0-unstable:${{env.DOCKER_TAG}}
 
