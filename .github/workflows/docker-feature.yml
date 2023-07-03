@@ -32,14 +32,7 @@ jobs:
             } catch (err) {
               core.setFailed(`Request failed with error ${err}`)
             }
-    
-      - name: test echo
-        run: |
-            echo " ${{steps.comment-branch.outputs.head_sha}}"
-            echo "${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}"
-            echo "${{ fromJSON(steps.get-pr.outputs.result).head.sha }}"
           
-
       - name: Checkout PR branch
         uses: actions/checkout@v3
         with:
@@ -56,6 +49,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build docker tag
+        env:
+          BRANCH_NAME: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
+          COMMIT_SHA: ${{fromJSON(steps.get-pr.outputs.result).head.sha }}
         run: echo "DOCKER_TAG=$(echo ${GITHUB_REF_NAME////-}.$(date '+%Y-%m-%d').${GITHUB_SHA:0:7})" >> $GITHUB_ENV
 
       - name: Build and push
