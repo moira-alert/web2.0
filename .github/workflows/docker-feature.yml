@@ -33,6 +33,13 @@ jobs:
               core.setFailed(`Request failed with error ${err}`)
             }
     
+      - name: test echo
+        run: |
+            echo " ${{steps.comment-branch.outputs.head_sha}}"
+            echo "${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}"
+            echo "${{ fromJSON(steps.get-pr.outputs.result).head.sha }}"
+          
+
       - name: Checkout PR branch
         uses: actions/checkout@v3
         with:
