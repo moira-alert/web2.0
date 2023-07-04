@@ -57,6 +57,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          context: "https://github.com/${{fromJSON(steps.get-pr.outputs.result).head.repo.full_name}}.git#${{fromJSON(steps.get-pr.outputs.result).head.ref}}"
           file: ./Dockerfile
           push: true
           tags: moira/web2.0-unstable:${{env.DOCKER_TAG}}
