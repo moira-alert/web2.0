@@ -12,6 +12,7 @@ import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import cn from "./SubscriptionEditor.less";
+import { ConfigContext } from "../../contexts/ConfigContext";
 
 export type SubscriptionInfo = Omit<SubscriptionCreateInfo, "user" | "id">;
 
@@ -26,6 +27,10 @@ export default class SubscriptionEditor extends React.Component<Props> {
     render(): React.ReactNode {
         const { subscription, contacts, onChange, tags } = this.props;
         const { plotting = { enabled: true, theme: "light" } } = subscription;
+        const isAllTagsToggleVisible: boolean =
+            this.context?.featureFlags?.isSubscriptionToAllTagsAvailable ?? true;
+        const isAddPlottingVisible: boolean =
+            this.context?.featureFlags?.isPlottingAvailable ?? true;
         return (
             <div className={cn("form")}>
                 <div className={cn("row")}>
@@ -70,20 +75,27 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         </ValidationWrapperV1>
                     </div>
                 </div>
-                <div className={cn("row")}>
-                    <span>
-                        <Toggle
-                            checked={subscription.any_tags}
-                            onValueChange={(checked) =>
-                                onChange({
-                                    any_tags: checked,
-                                    tags: checked ? [] : subscription.tags,
-                                })
-                            }
-                        />
-                        {" Any tags"}
-                    </span>
-                </div>
+                {isAllTagsToggleVisible && (
+                    <div className={cn("row")}>
+                        <span>
+                            <Toggle
+                                checked={subscription.any_tags}
+                                onValueChange={(checked) =>
+                                    onChange({
+                                        any_tags: checked,
+                                        tags: checked ? [] : subscription.tags,
+                                    })
+                                }
+                            >
+                                All tags
+                            </Toggle>
+                        </span>{" "}
+                        <HelpTooltip closeButton={false}>
+                            You will be subscribed to ALL existing tags. May cause increased loads
+                            and alert spamming.
+                        </HelpTooltip>
+                    </div>
+                )}
                 <div className={cn("row")}>
                     <div className={cn("caption")}>Delivery schedule:</div>
                     <div className={cn("value")}>
@@ -126,40 +138,42 @@ export default class SubscriptionEditor extends React.Component<Props> {
                         {this.renderWarnExclusionExplanation()}
                     </HelpTooltip>
                 </div>
-                <div className={cn("row")}>
-                    <Checkbox
-                        checked={plotting.enabled}
-                        onValueChange={(checked) =>
-                            onChange({ plotting: { ...plotting, enabled: checked } })
-                        }
-                    >
-                        Add graph to notification
-                    </Checkbox>
-                    {plotting.enabled && (
-                        <div className={cn("row-options")}>
-                            <label>
-                                Light
-                                <span className={cn("graph-theme-toggle")}>
-                                    <Toggle
-                                        checked={plotting.theme === "dark"}
-                                        onChange={() =>
-                                            onChange({
-                                                plotting: {
-                                                    ...plotting,
-                                                    theme:
-                                                        plotting.theme === "dark"
-                                                            ? "light"
-                                                            : "dark",
-                                                },
-                                            })
-                                        }
-                                    />
-                                </span>
-                                Dark
-                            </label>
-                        </div>
-                    )}
-                </div>
+                {isAddPlottingVisible && (
+                    <div className={cn("row")}>
+                        <Checkbox
+                            checked={plotting.enabled}
+                            onValueChange={(checked) =>
+                                onChange({ plotting: { ...plotting, enabled: checked } })
+                            }
+                        >
+                            Add graph to notification
+                        </Checkbox>
+                        {plotting.enabled && (
+                            <div className={cn("row-options")}>
+                                <label>
+                                    Light
+                                    <span className={cn("graph-theme-toggle")}>
+                                        <Toggle
+                                            checked={plotting.theme === "dark"}
+                                            onChange={() =>
+                                                onChange({
+                                                    plotting: {
+                                                        ...plotting,
+                                                        theme:
+                                                            plotting.theme === "dark"
+                                                                ? "light"
+                                                                : "dark",
+                                                    },
+                                                })
+                                            }
+                                        />
+                                    </span>
+                                    Dark
+                                </label>
+                            </div>
+                        )}
+                    </div>
+                )}
                 <div className={cn("row")}>
                     <Checkbox
                         checked={subscription.enabled}
@@ -229,4 +243,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
         }
         return null;
     }
+
+    static contextType = ConfigContext;
 }

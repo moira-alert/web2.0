@@ -12,4 +12,9 @@ export interface Config {
     supportEmail: string;
     contacts: Array<ContactConfig>;
     remoteAllowed?: boolean;
+    featureFlags: {
+        isPlottingDefaultOn: boolean;
+        isPlottingAvailable: boolean;
+        isSubscriptionToAllTagsAvailable: boolean;
+    };
 }

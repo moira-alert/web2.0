@@ -15,6 +15,7 @@ import CreateSubscriptionModal from "../CreateSubscriptionModal/CreateSubscripti
 import type { SubscriptionInfo } from "../SubscriptionEditor/SubscriptionEditor";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import cn from "./SubscriptionList.less";
+import { ConfigContext } from "../../contexts/ConfigContext";
 
 export type { SubscriptionInfo };
 
@@ -139,6 +140,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
     };
 
     handleAddSubscription = (): void => {
+        const isPlottingDefaultOn = this.context?.featureFlags?.isPlottingDefaultOn ?? true;
         this.setState({
             newSubscriptionModalVisible: true,
             newSubscription: {
@@ -151,7 +153,7 @@ export default class SubscriptionList extends React.Component<Props, State> {
                 ignore_recoverings: false,
                 ignore_warnings: false,
                 plotting: {
-                    enabled: true,
+                    enabled: isPlottingDefaultOn,
                     theme: "light",
                 },
             },
@@ -309,4 +311,6 @@ export default class SubscriptionList extends React.Component<Props, State> {
             </Center>
         );
     }
+
+    static contextType = ConfigContext;
 }

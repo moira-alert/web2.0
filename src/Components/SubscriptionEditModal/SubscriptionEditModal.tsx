@@ -48,7 +48,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         const isActionButtonsDisabled =
             updateInProcess || updateAndTestInProcess || deleteInProcess;
         return (
-            <Modal ignoreBackgroundClick onClose={onCancel}>
+            <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Subscription editing</Modal.Header>
                 <Modal.Body>
                     <ResourceIDBadge title={"Subscription id:"} id={subscription.id} />

@@ -40,7 +40,7 @@ export default class NewContactModal extends React.Component<Props, State> {
             !value || !type || createInProcess || createAndTestInProcess;
 
         return (
-            <Modal onClose={onCancel} ignoreBackgroundClick>
+            <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Delivery channel adding</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>

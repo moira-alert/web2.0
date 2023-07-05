@@ -16,6 +16,7 @@ import { Gapped } from "@skbkontur/react-ui";
 import { RouteComponentProps } from "react-router";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
+import { ConfigContext } from "../contexts/ConfigContext";
 
 interface Props extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
@@ -76,50 +77,52 @@ class SettingsContainer extends React.Component<Props, State> {
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
-                    <RowStack gap={1} block>
-                        <LayoutTitle>Notifications</LayoutTitle>
-                        <Fill />
-                        <Grid columns={"max-content"} gap="4px">
-                            Current User: {login}
-                            <Gapped gap={4}>
-                                <span>Show for {team ? "team" : "user"}</span>
-                                <Select<Team>
-                                    use={"link"}
-                                    value={team ?? user}
-                                    items={userWithTeams}
-                                    renderValue={(value) => value.name}
-                                    renderItem={(value) => value.name}
-                                    onValueChange={this.handleChangeTeam}
+                    <ConfigContext.Provider value={config || null}>
+                        <RowStack gap={1} block>
+                            <LayoutTitle>Notifications</LayoutTitle>
+                            <Fill />
+                            <Grid columns={"max-content"} gap="4px">
+                                Current User: {login}
+                                <Gapped gap={4}>
+                                    <span>Show for {team ? "team" : "user"}</span>
+                                    <Select<Team>
+                                        use={"link"}
+                                        value={team ?? user}
+                                        items={userWithTeams}
+                                        renderValue={(value) => value.name}
+                                        renderItem={(value) => value.name}
+                                        onValueChange={this.handleChangeTeam}
+                                    />
+                                </Gapped>
+                            </Grid>
+                        </RowStack>
+                        {config != undefined && settings?.contacts != undefined && (
+                            <div style={{ marginBottom: 50 }}>
+                                <ContactList
+                                    contactDescriptions={config.contacts}
+                                    items={settings.contacts}
+                                    onTestContact={this.handleTestContact}
+                                    onAddContact={this.handleAddContact}
+                                    onUpdateContact={this.handleUpdateContact}
+                                    onRemoveContact={this.handleRemoveContact}
                                 />
-                            </Gapped>
-                        </Grid>
-                    </RowStack>
-                    {config != undefined && settings?.contacts != undefined && (
-                        <div style={{ marginBottom: 50 }}>
-                            <ContactList
-                                contactDescriptions={config.contacts}
-                                items={settings.contacts}
-                                onTestContact={this.handleTestContact}
-                                onAddContact={this.handleAddContact}
-                                onUpdateContact={this.handleUpdateContact}
-                                onRemoveContact={this.handleRemoveContact}
-                            />
-                        </div>
-                    )}
-                    {settings != undefined &&
-                        tags != undefined &&
-                        settings.subscriptions != undefined &&
-                        settings?.contacts.length > 0 && (
-                            <SubscriptionList
-                                tags={tags}
-                                contacts={settings.contacts}
-                                subscriptions={settings.subscriptions}
-                                onTestSubscription={this.handleTestSubscription}
-                                onAddSubscription={this.handleAddSubscription}
-                                onRemoveSubscription={this.handleRemoveSubscription}
-                                onUpdateSubscription={this.handleUpdateSubscription}
-                            />
+                            </div>
                         )}
+                        {settings != undefined &&
+                            tags != undefined &&
+                            settings.subscriptions != undefined &&
+                            settings?.contacts.length > 0 && (
+                                <SubscriptionList
+                                    tags={tags}
+                                    contacts={settings.contacts}
+                                    subscriptions={settings.subscriptions}
+                                    onTestSubscription={this.handleTestSubscription}
+                                    onAddSubscription={this.handleAddSubscription}
+                                    onRemoveSubscription={this.handleRemoveSubscription}
+                                    onUpdateSubscription={this.handleUpdateSubscription}
+                                />
+                            )}
+                    </ConfigContext.Provider>
                 </LayoutContent>
             </Layout>
         );

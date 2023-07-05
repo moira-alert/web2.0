@@ -45,7 +45,7 @@ export default class CreateSubscriptionModal extends React.Component<Props, Stat
         const isActionButtonsDisabled = createInProcess || createAndTestInProcess;
 
         return (
-            <Modal ignoreBackgroundClick onClose={onCancel}>
+            <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Subscription adding</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>
