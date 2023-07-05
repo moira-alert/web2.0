@@ -30,7 +30,7 @@ jobs:
             MoiraVersion=${{env.DOCKER_TAG}}
             GIT_COMMIT=${{github.sha}}
           push: true
-          tags: moira/web2-nightly:${{env.DOCKER_TAG}}
+          tags: moira/web2.0-nightly:${{env.DOCKER_TAG}}
 
       - name: Comment PR with build tag
         uses: mshick/add-pr-comment@v2
