@@ -22,6 +22,7 @@ type Props = {
     value: Metric;
     onRemove: () => void;
     onSetMaintenance: (maintenance: number) => void;
+    withTargets?: boolean;
 };
 
 type ButtonsState = "Default" | "SelectAction" | "SetMaintenance" | "DeleteConfirmation";
@@ -63,11 +64,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
                     <div className={cn("name")}>
                         {name != null && name !== "" ? name : "[No name]"}
                     </div>
-                    <div className={cn("tags")}>
-                        {roundValue(value.value)}
-                        {" @ "}
-                        {format(fromUnixTime(value.event_timestamp || 0), "MMMM d, HH:mm:ss")}
-                    </div>
+                    {this.renderTargets()}
                 </div>
                 <div className={cn("buttons")}>
                     <div className={cn("button-block", { visible: buttonsState === "Default" })}>
@@ -146,5 +143,37 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
         const { value } = this.props;
         const { state } = value;
         return <MobileStatusIndicator statuses={[state]} size={30} />;
+    }
+
+    private renderTargets() {
+        const values = this.props.value.values;
+        const valuesKeys = values ? Object.keys(values) : null;
+        const withTargets = this.props.withTargets;
+        return (
+            <div className={cn("tags")}>
+                <div>
+                    {valuesKeys
+                        ? valuesKeys.map(function (key) {
+                              const val = values ? values[key] : null;
+                              return val ? (
+                                  <div key={key}>
+                                      {withTargets ? (
+                                          <span className={cn("target-key")}>{key}: </span>
+                                      ) : null}
+                                      {roundValue(val)}{" "}
+                                  </div>
+                              ) : null;
+                          })
+                        : null}
+                </div>
+                <div className={cn("target-separator")}>@</div>
+                <div>
+                    {format(
+                        fromUnixTime(this.props.value.event_timestamp || 0),
+                        "MMMM d, HH:mm:ss"
+                    )}
+                </div>
+            </div>
+        );
     }
 }

@@ -7,10 +7,11 @@ type Props = {
     metrics: MetricItemList;
     onRemove: (metricName: string) => void;
     onSetMaintenance: (metricName: string, maintenance: number) => void;
+    withTargets?: boolean;
 };
 
 export default function MobileMetricsList(props: Props): React.ReactElement {
-    const { onSetMaintenance, onRemove, metrics } = props;
+    const { onSetMaintenance, onRemove, metrics, withTargets } = props;
 
     return (
         <div className={cn("root")}>
@@ -21,6 +22,7 @@ export default function MobileMetricsList(props: Props): React.ReactElement {
                     value={metrics[x]}
                     onRemove={() => onRemove(x)}
                     onSetMaintenance={(interval) => onSetMaintenance(x, interval)}
+                    withTargets={withTargets}
                 />
             ))}
         </div>

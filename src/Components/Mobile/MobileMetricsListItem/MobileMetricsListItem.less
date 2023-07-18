@@ -4,7 +4,7 @@
 @icon-place-width: 70px;
 
 .root {
-    height: @row-height;
+    min-height: @row-height;
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -123,6 +123,17 @@
         text-overflow: ellipsis;
         font-size: 14px;
         line-height: 18px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .target-key {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .target-separator {
+        padding: 0 4px;
     }
 
     .metrics {

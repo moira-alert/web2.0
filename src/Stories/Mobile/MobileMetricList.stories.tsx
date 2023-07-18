@@ -35,6 +35,17 @@ const items: MetricItemList = {
         suppressed: false,
         timestamp: 1503496225,
     },
+    "vm-ditrace3.with-many-targets": {
+        event_timestamp: 1503484033,
+        state: Status.OK,
+        suppressed: false,
+        timestamp: 1503496225,
+        values: {
+            t1: 109389189,
+            t2: 110389189,
+            t3: 111389189,
+        },
+    },
 };
 
 storiesOf("Mobile/MetricsList", module)
@@ -44,5 +55,13 @@ storiesOf("Mobile/MetricsList", module)
             metrics={items}
             onRemove={action("onRemove")}
             onSetMaintenance={action("onSetMaintenance")}
+        />
+    ))
+    .add("With Targets", () => (
+        <MobileMetricsList
+            metrics={items}
+            onRemove={action("onRemove")}
+            onSetMaintenance={action("onSetMaintenance")}
+            withTargets={true}
         />
     ));
