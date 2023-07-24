@@ -6,7 +6,7 @@ import { CreeveyTestFunction } from "creevey";
 import { createMemoryHistory } from "history";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
-import { Trigger } from "../Domain/Trigger";
+import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
 
 const history = createMemoryHistory();
@@ -15,7 +15,7 @@ history.push = action("history.push");
 const sourceData: Trigger = {
     mute_new_metrics: false,
     notify_about_new_metrics: false,
-    is_remote: false,
+    trigger_source: TriggerSource.GRAPHITE_LOCAL,
     id: "3e93211b-7fec-4c70-b5e1-abb36d6a4a1d",
     trigger_type: "falling",
     name: "ke.notifications-dev.mail-sender.alive",

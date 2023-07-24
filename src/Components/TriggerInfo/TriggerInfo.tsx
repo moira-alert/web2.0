@@ -14,7 +14,7 @@ import ClearIcon from "@skbkontur/react-icons/Clear";
 import DocumentCopyIcon from "@skbkontur/react-icons/DocumentCopy";
 import UserIcon from "@skbkontur/react-icons/User";
 import TagGroup from "../TagGroup/TagGroup";
-import { Trigger, TriggerState } from "../../Domain/Trigger";
+import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
 import { Schedule } from "../../Domain/Schedule";
 import { getPageLink } from "../../Domain/Global";
 import { purifyConfig } from "../../Domain/DOMPurify";
@@ -74,6 +74,17 @@ function ScheduleView(props: { data: Schedule }): React.ReactElement {
     );
 }
 
+function triggerSourceDescription(source: TriggerSource): string | undefined {
+    switch (source) {
+        case TriggerSource.GRAPHITE_REMOTE:
+            return "(remote)";
+        case TriggerSource.PROMETHEUS_REMOTE:
+            return "(prometheus)";
+        case TriggerSource.GRAPHITE_LOCAL:
+            return undefined;
+    }
+}
+
 export default function TriggerInfo({
     data,
     triggerState,
@@ -95,7 +106,7 @@ export default function TriggerInfo({
         sched,
         tags,
         throttling,
-        is_remote: isRemote,
+        trigger_source: triggerSource,
     } = data;
     const { state, msg: exceptionMessage, maintenance, maintenanceInfo } = triggerState;
 
@@ -171,7 +182,7 @@ export default function TriggerInfo({
                 </div>
             </header>
             <dl className={cn("list")}>
-                <dt>Target {isRemote && "(remote)"}</dt>
+                <dt>Target {triggerSourceDescription(triggerSource)}</dt>
                 <dd>
                     {targets.map((target) => (
                         <div key={target}>{target}</div>

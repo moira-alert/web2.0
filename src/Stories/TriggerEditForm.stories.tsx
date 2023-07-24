@@ -5,11 +5,11 @@ import StoryRouter from "storybook-react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { Status } from "../Domain/Status";
-import { Trigger } from "../Domain/Trigger";
+import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { DaysOfWeek } from "../Domain/Schedule";
 
 const sourceData: Trigger = {
-    is_remote: false,
+    trigger_source: TriggerSource.GRAPHITE_LOCAL,
     id: "69b1-91c1-423f-ab3b-d1a8",
     name: "ELK. Low disk space",
     desc: "",
@@ -48,7 +48,7 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
     {
         title: "Empty",
         data: {
-            is_remote: false,
+            trigger_source: TriggerSource.GRAPHITE_LOCAL,
             name: "",
             desc: "",
             targets: [""],
@@ -142,7 +142,7 @@ stories.forEach(({ title, data }) => {
             <TriggerEditForm
                 data={data}
                 tags={allTags}
-                remoteAllowed={data.is_remote}
+                remoteAllowed={data.trigger_source != TriggerSource.GRAPHITE_LOCAL}
                 onChange={action("onChange")}
                 validationResult={{
                     targets: [{ syntax_ok: true }],

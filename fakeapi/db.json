@@ -984,6 +984,7 @@
                     "timestamp": 1504511501
                 },
                 "is_remote": false,
+                "trigger_source": "graphite_local",
                 "highlights": {
                     "name": "Элитарный <mark>сангвиник</mark> в XXI веке",
                     "desc": "Пушкин подарил Гоголю фабулу \"Мертвых душ\" не потому, что <mark>одиночество диссонирует</mark> невротический этикет."
@@ -1687,6 +1688,7 @@
                     "timestamp": 1504511501
                 },
                 "is_remote": true,
+                "trigger_source": "graphite_remote",
                 "highlights": {
                     "name": "Деструктивный <mark>импрессионизм</mark> — актуальная национальная задача"
                 }
@@ -1882,6 +1884,7 @@
                     "timestamp": 1504511501
                 },
                 "is_remote": false,
+                "trigger_source": "graphite_local",
                 "highlights": {
                     "name": "Энергия либидо как лабораторность <mark>художественной культуры</mark>",
                     "desc": "Экспрессионизм <mark>многопланово представляет собой персональный хорал</mark>, однако само по себе состояние игры всегда амбивалентно."
@@ -1957,6 +1960,7 @@
                     "msg": "Trigger has no metrics"
                 },
                 "is_remote": true,
+                "trigger_source": "graphite_remote",
                 "highlights": {
                     "name": "<mark>Суггестивный эдипов комплекс:</mark> энергия либидо или экспрессионизм?"
                 }
@@ -2034,6 +2038,7 @@
                     "timestamp": 1504511501
                 },
                 "is_remote": false,
+                "trigger_source": "graphite_local",
                 "highlights": {
                     "name": "<mark>Почему возможна фабула?</mark>"
                 }
@@ -2728,6 +2733,7 @@
             "timestamp": 1504511501
         },
         "is_remote": false,
+        "trigger_source": "graphite_local",
         "alone_metrics": {
             "t2": true
         }

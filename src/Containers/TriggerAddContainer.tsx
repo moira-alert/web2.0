@@ -6,7 +6,7 @@ import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout"
 import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { DEFAULT_TRIGGER_TTL, Trigger } from "../Domain/Trigger";
+import { DEFAULT_TRIGGER_TTL, Trigger, TriggerSource } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
 import { Config } from "../Domain/Config";
@@ -41,7 +41,7 @@ const defaultTrigger: Partial<Trigger> = {
             { enabled: true, name: DaysOfWeek.Sun },
         ],
     },
-    is_remote: false,
+    trigger_source: TriggerSource.GRAPHITE_LOCAL,
     error_value: null,
     warn_value: null,
     trigger_type: "rising",

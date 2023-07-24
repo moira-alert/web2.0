@@ -36,7 +36,7 @@ export type Trigger = {
         maintenance?: number;
     };
     timestamp?: number;
-    is_remote: boolean;
+    trigger_source: TriggerSource;
     alone_metrics?: {
         [target_id: string]: boolean;
     };
@@ -81,9 +81,8 @@ export type ValidateTriggerResult = {
     targets: Array<ValidateTriggerTarget | undefined>;
 };
 
-enum TriggerDataSources {
-    LOCAL = "LOCAL",
-    GRAPHITE = "GRAPHITE",
+export enum TriggerSource {
+    GRAPHITE_LOCAL = "graphite_local",
+    GRAPHITE_REMOTE = "graphite_remote",
+    PROMETHEUS_REMOTE = "prometheus_remote",
 }
-
-export default TriggerDataSources;
