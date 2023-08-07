@@ -3,7 +3,9 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
-const supportedLocales = ['en'];
+const supportedLocales = ["en"];
+
+require("dotenv").config();
 
 module.exports = {
     entry: {
@@ -21,9 +23,7 @@ module.exports = {
                 test: [/\.jsx?$/, /\.tsx?$/],
                 use: ["babel-loader"],
                 exclude: /node_modules/,
-                include: [
-                    path.resolve(__dirname, "src"),
-                ],
+                include: [path.resolve(__dirname, "src")],
             },
             {
                 test: /\.(png|woff|woff2|eot|svg)$/,
@@ -57,8 +57,8 @@ module.exports = {
         modules: ["node_modules", "local_modules"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
         alias: process.argv.includes("--mode=development")
-            ? {"react-dom": "@hot-loader/react-dom" }
-            : undefined
+            ? { "react-dom": "@hot-loader/react-dom" }
+            : undefined,
     },
     devtool: "cheap-source-map",
     plugins: [
@@ -79,7 +79,7 @@ module.exports = {
             chunkFilename: "[name].[chunkhash:6].css",
         }),
 
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
     ],
     optimization: {
         usedExports: true,
@@ -108,11 +108,16 @@ module.exports = {
         proxy: {
             "/api":
                 process.env.API_MODE === "local"
-                    ? { target: "http://localhost:8080", secure: false }
+                    ? {
+                          target: process.env.MOIRA_API_URL,
+                          auth: `${process.env.MOIRA_API_LOGIN}:${process.env.MOIRA_API_PASSWORD}`,
+                          secure: false,
+                          changeOrigin: true,
+                      }
                     : {
-                        target: "http://localhost:9002",
-                        pathRewrite: { "^/api": "" },
-                    },
+                          target: "http://localhost:9002",
+                          pathRewrite: { "^/api": "" },
+                      },
         },
     },
 };
