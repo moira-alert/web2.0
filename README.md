@@ -20,13 +20,19 @@ All files will be prepared in the **dist** folder.
 yarn start
 ```
 
-Starts a dev server on port 9000 and a fakeapi server (provides mock api data) on port 9002, in parallel.
+Starts a dev server on port 9000 and a fakeapi server (provides mock api data) on port 9002, in parallel. **This is not recommended** because the fakeapi server may not be 100% consistent with the actual backend.
 
 ```bash
-yarn withBackend
+yarn start:dev-proxy
 ```
 
-Starts a dev server on port 9000 and a dockerized backend instance, in parallel.
+Starts a dev server on port 9000 and proxies all API requests to a separately deployed backend. The URL for API requests can be set with the `MOIRA_API_URL` env variable. Supports basic auth which can be configured using `MOIRA_API_LOGIN` and `MOIRA_API_PASSWORD` env variables.
+
+```bash
+yarn start:docker
+```
+
+Starts a dev server on port 9000 and a dockerized backend instance, in parallel. API requests are proxied to Docker.
 
 ```bash
 yarn start-with-local-api
