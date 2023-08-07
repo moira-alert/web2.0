@@ -5,8 +5,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
 const supportedLocales = ["en"];
 
-require("dotenv").config();
-
 module.exports = {
     entry: {
         app: path.resolve(__dirname, "src/index.ts"),
@@ -106,18 +104,10 @@ module.exports = {
         port: 9000,
         historyApiFallback: true,
         proxy: {
-            "/api":
-                process.env.API_MODE === "local"
-                    ? {
-                          target: process.env.MOIRA_API_URL,
-                          auth: `${process.env.MOIRA_API_LOGIN}:${process.env.MOIRA_API_PASSWORD}`,
-                          secure: false,
-                          changeOrigin: true,
-                      }
-                    : {
-                          target: "http://localhost:9002",
-                          pathRewrite: { "^/api": "" },
-                      },
+            "/api": {
+                target: "http://localhost:9002",
+                pathRewrite: { "^/api": "" },
+            },
         },
     },
 };
