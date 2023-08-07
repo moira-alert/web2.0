@@ -109,6 +109,7 @@
         "prettier": "2.0.5",
         "puppeteer": "5.2.1",
         "react-docgen-typescript-plugin": "0.6.0",
+        "react-window": "^1.8.9",
         "regenerator-runtime": "^0.13.5",
         "storybook-react-router": "1.0.8",
         "style-loader": "^1.2.1",

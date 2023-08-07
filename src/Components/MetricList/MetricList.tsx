@@ -12,6 +12,7 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import cn from "./MetricList.less";
+import { FixedSizeList as List } from "react-window";
 
 export type SortingColumn = "state" | "name" | "event" | "value";
 
@@ -53,6 +54,7 @@ export default function MetricList(props: Props): React.ReactElement {
         const { values } = items[metric];
         return !values || Object.keys(values).length === 1;
     });
+    const entries = Object.entries(items);
 
     return (
         <section className={cn("table")}>
@@ -111,82 +113,85 @@ export default function MetricList(props: Props): React.ReactElement {
                 </div>
             </header>
             <div className={cn("items")}>
-                {Object.keys(items).map((metric) => {
-                    const {
-                        value,
-                        values,
-                        event_timestamp: eventTimestamp = 0,
-                        state,
-                        maintenance,
-                        maintenance_info: maintenanceInfo,
-                    } = items[metric];
-                    const delta = maintenanceDelta(maintenance);
-                    return (
-                        <div key={metric} className={cn("row")}>
-                            {status && (
-                                <div className={cn("state")}>
-                                    <StatusIndicator statuses={[state]} size={10} />
+                <List height={1000} itemSize={25} itemCount={entries.length} itemData={entries}>
+                    {({ data, index, style }) => {
+                        const [metricName, metricData] = data[index];
+                        const {
+                            value,
+                            values,
+                            event_timestamp: eventTimestamp = 0,
+                            state,
+                            maintenance,
+                            maintenance_info: maintenanceInfo,
+                        } = metricData;
+                        const delta = maintenanceDelta(maintenance);
+                        return (
+                            <div key={metricName} className={cn("row")} style={style}>
+                                {status && (
+                                    <div className={cn("state")}>
+                                        <StatusIndicator statuses={[state]} size={10} />
+                                    </div>
+                                )}
+                                <div className={cn("name")}>{metricName}</div>
+                                <div className={cn("event")}>
+                                    {format(fromUnixTime(eventTimestamp), "MMM d, y, HH:mm:ss")}
                                 </div>
-                            )}
-                            <div className={cn("name")}>{metric}</div>
-                            <div className={cn("event")}>
-                                {format(fromUnixTime(eventTimestamp), "MMM d, y, HH:mm:ss")}
+                                <div className={cn("value")}>
+                                    <MetricValues
+                                        value={value}
+                                        values={values}
+                                        placeholder
+                                        hideTargetsNames={hideTargetsNames}
+                                    />
+                                </div>
+                                <div className={cn("maintenance")}>
+                                    <MaintenanceSelect
+                                        maintenance={maintenance}
+                                        caption={maintenanceCaption(delta)}
+                                        onSetMaintenance={(maintenanceValue) =>
+                                            onChange(metricName, maintenanceValue)
+                                        }
+                                    />
+                                </div>
+                                <div className={cn("author")}>
+                                    {delta > 0 &&
+                                        maintenanceInfo &&
+                                        maintenanceInfo.setup_user &&
+                                        maintenanceInfo.setup_time && (
+                                            <Tooltip
+                                                render={() => (
+                                                    <div>
+                                                        Maintenance was set
+                                                        <br />
+                                                        by {maintenanceInfo.setup_user}
+                                                        <br />
+                                                        at{" "}
+                                                        {format(
+                                                            fromUnixTime(
+                                                                maintenanceInfo.setup_time || 0
+                                                            ),
+                                                            "MMMM d, HH:mm:ss"
+                                                        )}
+                                                    </div>
+                                                )}
+                                            >
+                                                <UserIcon className={cn("maintenance-info")} />
+                                            </Tooltip>
+                                        )}
+                                </div>
+                                <div className={cn("delete")}>
+                                    <Button
+                                        use="link"
+                                        icon={<TrashIcon />}
+                                        onClick={() => onRemove(metricName)}
+                                    >
+                                        Delete
+                                    </Button>
+                                </div>
                             </div>
-                            <div className={cn("value")}>
-                                <MetricValues
-                                    value={value}
-                                    values={values}
-                                    placeholder
-                                    hideTargetsNames={hideTargetsNames}
-                                />
-                            </div>
-                            <div className={cn("maintenance")}>
-                                <MaintenanceSelect
-                                    maintenance={maintenance}
-                                    caption={maintenanceCaption(delta)}
-                                    onSetMaintenance={(maintenanceValue) =>
-                                        onChange(metric, maintenanceValue)
-                                    }
-                                />
-                            </div>
-                            <div className={cn("author")}>
-                                {delta > 0 &&
-                                    maintenanceInfo &&
-                                    maintenanceInfo.setup_user &&
-                                    maintenanceInfo.setup_time && (
-                                        <Tooltip
-                                            render={() => (
-                                                <div>
-                                                    Maintenance was set
-                                                    <br />
-                                                    by {maintenanceInfo.setup_user}
-                                                    <br />
-                                                    at{" "}
-                                                    {format(
-                                                        fromUnixTime(
-                                                            maintenanceInfo.setup_time || 0
-                                                        ),
-                                                        "MMMM d, HH:mm:ss"
-                                                    )}
-                                                </div>
-                                            )}
-                                        >
-                                            <UserIcon className={cn("maintenance-info")} />
-                                        </Tooltip>
-                                    )}
-                            </div>
-                            <div className={cn("delete")}>
-                                <Button
-                                    use="link"
-                                    icon={<TrashIcon />}
-                                    onClick={() => onRemove(metric)}
-                                >
-                                    Delete
-                                </Button>
-                            </div>
-                        </div>
-                    );
-                })}
+                        );
+                    }}
+                </List>
             </div>
         </section>
     );
