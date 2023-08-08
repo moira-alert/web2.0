@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const { mergeWithCustomize, customizeObject } = require("webpack-merge");
 const commonConfig = require("./webpack.config");
 
