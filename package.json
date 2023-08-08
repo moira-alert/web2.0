@@ -4,12 +4,15 @@
     "license": "MIT",
     "scripts": {
         "serve": "webpack-dev-server --mode=development",
-        "start-with-local-api": "cross-env API_MODE=local yarn serve",
+        "start": "npm-run-all --parallel serve fakeapi",
+        "start:dev-proxy": "yarn serve --config webpack.config.dev-proxy.js",
+        "start:docker": "npm-run-all --parallel backend start:docker-proxy",
+        "start:docker-proxy": "yarn serve --config webpack.config.docker-proxy.js",
+        "backend": "docker-compose -f src/tests/core/api/docker-compose.yml up",
         "build": "webpack --mode=production",
         "storybook": "cross-env NODE_ENV=development start-storybook -p 9001 -c .storybook --ci",
         "storybook:ci": "yarn storybook -- --ci --quiet",
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
-        "start": "npm-run-all --parallel serve fakeapi",
         "lint": "eslint --ext .tsx --ext .ts src/",
         "test": "cross-env NODE_ENV=testing jest \"./src\"",
         "test:e2e": "cross-env NODE_ENV=testing TYPE=e2e jest ./src/tests --runInBand",
@@ -17,8 +20,6 @@
         "creevey:update": "creevey -c .creevey/creevey.config.js --update",
         "creevey:ui": "creevey --ui -c .creevey/creevey.config.js",
         "creevey:ci": "creevey -c .creevey/creevey.config.js",
-        "backend": "docker-compose -f src/tests/core/api/docker-compose.yml up",
-        "withBackend": "npm-run-all --parallel backend start-with-local-api",
         "screenshots": "start-server-and-test storybook:ci http-get://localhost:9001 creevey:ci"
     },
     "husky": {
@@ -90,6 +91,7 @@
         "creevey": "0.7.39",
         "cross-env": "5.2.0",
         "css-loader": "4.0.0",
+        "dotenv": "^16.3.1",
         "eslint": "7.7.0",
         "eslint-config-prettier": "6.11.0",
         "eslint-plugin-babel": "5.3.0",
@@ -118,7 +120,8 @@
         "webpack": "4.44.0",
         "webpack-bundle-analyzer": "^3.8.0",
         "webpack-cli": "^3.3.12",
-        "webpack-dev-server": "^3.11.0"
+        "webpack-dev-server": "^3.11.0",
+        "webpack-merge": "^5.9.0"
     },
     "resolutions": {
         "@types/react-router": "5.1.18",
