@@ -35,12 +35,6 @@ yarn start:docker
 Starts a dev server on port 9000 and a dockerized backend instance, in parallel. API requests are proxied to Docker.
 
 ```bash
-yarn start-with-local-api
-```
-
-Starts a dev server as a proxy to your API service. Make sure you have a local Moira API service set up and add its URL to `webpack.dev.js` in `devServer.proxy` block.
-
-```bash
 yarn storybook
 ```
 
