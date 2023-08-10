@@ -49,6 +49,7 @@
         "react-hot-loader": "4.13.0",
         "react-router": "5.1.2",
         "react-router-dom": "5.1.2",
+        "react-virtualized-auto-sizer": "^1.0.20",
         "reflect-metadata": "^0.1.13",
         "remarkable": "^2.0.1",
         "start-server-and-test": "1.14.0"
