@@ -113,7 +113,7 @@ export default function MetricList(props: Props): React.ReactElement {
                 </div>
             </header>
             <div className={cn("items")}>
-                <List height={1000} itemSize={25} itemCount={entries.length} itemData={entries}>
+                <List height={500} itemSize={25} itemCount={entries.length} itemData={entries}>
                     {({ data, index, style }) => {
                         const [metricName, metricData] = data[index];
                         const {
