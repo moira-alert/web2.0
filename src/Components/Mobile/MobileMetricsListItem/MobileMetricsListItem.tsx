@@ -18,7 +18,7 @@ import { getUTCDate } from "../../../helpers/DateUtil";
 import cn from "./MobileMetricsListItem.less";
 
 type Props = {
-    style: React.CSSProperties;
+    style?: React.CSSProperties;
     name: string;
     value: Metric;
     onRemove: () => void;
