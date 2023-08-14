@@ -111,11 +111,12 @@ export default function MetricList(props: Props): React.ReactElement {
                             </Button>
                         )}
                 </div>
+                <div style={{ width: entries.length > 25 ? "50px" : 0 }}></div>
             </header>
             <div className={cn("items")}>
                 <List
                     height={500}
-                    width="auto"
+                    width="100%"
                     itemSize={20}
                     itemCount={entries.length}
                     itemData={entries}
