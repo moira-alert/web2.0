@@ -19,7 +19,7 @@ function maintenanceDelta(maintenance?: number | null): number {
     return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
-const hideTargetsNames = ({ values }) => !values || Object.keys(values).length === 1;
+const hideTargetsNames = ({ values }: Metric) => !values || Object.keys(values).length === 1;
 
 type MetricListItemProps = {
     status: boolean;
