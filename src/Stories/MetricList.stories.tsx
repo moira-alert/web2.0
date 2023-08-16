@@ -14,23 +14,12 @@ const items: MetricItemList = {
         value: 10.453,
         timestamp: 1503496225,
         maintenance: 1555804800,
-        values: {
-            additionalProp1: 0,
-            additionalProp2: 0,
-            additionalProp3: 0,
-        },
         maintenance_info: {
             setup_user: "Superman",
             setup_time: 1553158221,
         },
     },
     "vm-ditrace3.ditrace": {
-        values: {
-            additionalProp1: 0,
-            additionalProp2: 0,
-            additionalProp3: 0,
-        },
-
         event_timestamp: 1503486527,
         state: Status.WARN,
         suppressed: false,
@@ -38,12 +27,6 @@ const items: MetricItemList = {
         maintenance: 1504100565,
     },
     "vm-ditrace3.elasticsearch": {
-        values: {
-            additionalProp1: 0,
-            additionalProp2: 0,
-            additionalProp3: 0,
-        },
-
         event_timestamp: 1503486527,
         state: Status.ERROR,
         suppressed: false,
@@ -56,12 +39,6 @@ const items: MetricItemList = {
         },
     },
     "vm-ditrace3.nginx": {
-        // values: {
-        //     additionalProp1: 0,
-        //     additionalProp2: 0,
-        //     additionalProp3: 0,
-        // },
-
         event_timestamp: 1503484033,
         state: Status.OK,
         suppressed: false,
