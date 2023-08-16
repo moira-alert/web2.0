@@ -23,7 +23,7 @@ export default function MobileMetricsList(props: Props): React.ReactElement {
                     <List
                         height={height || 0}
                         width="100%"
-                        itemSize={52.67}
+                        itemSize={53}
                         itemCount={entries.length}
                         itemData={entries}
                     >
