@@ -58,7 +58,12 @@ export default function MetricList(props: Props): React.ReactElement {
 
     return (
         <section className={cn("table")}>
-            <header className={cn("row", "header")}>
+            <header
+                className={cn("row", "header")}
+                // Если кол-во элементов в списке больше 25, они выходят за границу видимой области, и появляется скроллбар.
+                // В этом случае добавляем пространство справа, чтобы заголовки не смещались относительно строк в списке.
+                style={{ scrollbarGutter: entries.length > 25 ? "stable" : "auto" }}
+            >
                 {status && <div className={cn("state")} />}
                 <div className={cn("name")}>
                     <button
@@ -111,11 +116,6 @@ export default function MetricList(props: Props): React.ReactElement {
                             </Button>
                         )}
                 </div>
-                {/*Добавляем пустой блок, чтобы подвинуть заголовки влево, когда у списка есть скроллбар. */}
-                {/*Скроллбар появляется, как только общая высота строк становится больше высоты списка.*/}
-                {/*Поэтому кол-во строк, при котором нужно подвинуть заголовок, это 500 (высота списка) / 20 (высота строки) = 25*/}
-                {/*Обсуждение на гитхабе: https://github.com/moira-alert/web2.0/pull/415#discussion_r1293250011*/}
-                <div style={{ width: entries.length > 25 ? "50px" : 0 }}></div>
             </header>
             <div className={cn("items")}>
                 <List
