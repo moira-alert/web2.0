@@ -64,5 +64,8 @@ export const sortMetrics = (
         sorted.reverse();
     }
 
-    return sorted.reduce((data, key) => ({ ...data, [key]: metrics[key] }), {});
+    return sorted.reduce((data, key) => {
+        data[key] = metrics[key];
+        return data;
+    }, {} as MetricItemList);
 };
