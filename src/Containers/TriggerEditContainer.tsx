@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Button } from "@skbkontur/react-ui";
+import { Button, Modal, Toast } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
 import MoiraApi from "../Api/MoiraApi";
@@ -19,6 +19,8 @@ type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 const TriggerEditContainer = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isSaveModalVisible, setIsSaveModalVisible] = useState<boolean>(false);
+    const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState<boolean>(false);
     const [isDeleteTriggerDialogOpen, setIsDeleteTriggerDialogOpen] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
@@ -39,20 +41,32 @@ const TriggerEditContainer = (props: Props) => {
             return;
         }
 
-        setIsLoading(true);
-
-        const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger);
-        if (!isTriggerValid) {
-            setIsLoading(false);
+        const isFormValid = await validationContainer.current?.validate();
+        if (!isFormValid) {
             return;
         }
 
+        setIsLoading(true);
         try {
-            await props.moiraApi.setTrigger(trigger.id, updatedTrigger);
-            props.history.push(getPageLink("trigger", updatedTrigger.id));
+            const { doAnyTargetsHaveError, doAnyTargetsHaveWarning } = await validateTrigger(
+                trigger
+            );
+            setIsLoading(false);
+
+            if (doAnyTargetsHaveError) {
+                setIsLoading(false);
+                validationContainer.current?.submit();
+                setIsSaveButtonDisabled(true);
+                return;
+            }
+
+            if (doAnyTargetsHaveWarning) {
+                setIsSaveModalVisible(true);
+            }
         } catch (error) {
+            Toast.push(error.message);
             setError(error.message);
+            throw error;
         } finally {
             setIsLoading(false);
         }
@@ -66,6 +80,7 @@ const TriggerEditContainer = (props: Props) => {
         setTrigger({ ...trigger, ...update });
         setError(undefined);
         if (update.targets) {
+            setIsSaveButtonDisabled(false);
             const newTargets =
                 validationResult?.targets.map((item, i) =>
                     i === targetIndex ? undefined : item
@@ -117,6 +132,37 @@ const TriggerEditContainer = (props: Props) => {
     return (
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
+                {isSaveModalVisible && (
+                    <Modal onClose={() => setIsSaveModalVisible(false)}>
+                        <Modal.Header>Test</Modal.Header>
+                        <Modal.Body>
+                            The Graphite function you&apos;ve used makes no sense in Moira or may
+                            generate unwanted side effects. Are you sure you want to save this
+                            trigger?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button
+                                onClick={async () => {
+                                    const updatedTrigger = updateTrigger(trigger);
+
+                                    setIsLoading(true);
+                                    try {
+                                        await props.moiraApi.setTrigger(trigger.id, updatedTrigger);
+                                        props.history.push(getPageLink("trigger", trigger.id));
+                                    } catch (error) {
+                                        setError(error.message);
+                                    } finally {
+                                        setIsLoading(false);
+                                    }
+                                }}
+                                use="primary"
+                            >
+                                Save
+                            </Button>
+                            <Button onClick={() => setIsSaveModalVisible(false)}>Cancel</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
                 <LayoutTitle>Edit trigger</LayoutTitle>
                 {trigger && (
                     <form>
@@ -141,6 +187,7 @@ const TriggerEditContainer = (props: Props) => {
                                             use="primary"
                                             onClick={handleSubmit}
                                             data-tid="Save Trigger"
+                                            disabled={isSaveButtonDisabled}
                                         >
                                             Save trigger
                                         </Button>

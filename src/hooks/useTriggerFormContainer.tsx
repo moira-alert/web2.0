@@ -1,6 +1,4 @@
-import { Dispatch, RefObject, SetStateAction, useState } from "react";
-import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Toast } from "@skbkontur/react-ui";
+import { Dispatch, SetStateAction, useState } from "react";
 import MoiraApi from "../Api/MoiraApi";
 import type { Trigger, ValidateTriggerResult, ValidateTriggerTarget } from "../Domain/Trigger";
 
@@ -8,9 +6,8 @@ type useTriggerFormContainerReturn = {
     validationResult: ValidateTriggerResult | undefined;
     setValidationResult: Dispatch<SetStateAction<ValidateTriggerResult | undefined>>;
     validateTrigger: (
-        container: RefObject<ValidationContainer>,
         trigger: Partial<Trigger>
-    ) => Promise<boolean>;
+    ) => Promise<{ doAnyTargetsHaveError: boolean; doAnyTargetsHaveWarning: boolean }>;
     updateTrigger: (trigger: Trigger | Partial<Trigger>) => Trigger | Partial<Trigger>;
 };
 
@@ -19,43 +16,27 @@ export const useTriggerFormContainer = (moiraApi: MoiraApi): useTriggerFormConta
         undefined
     );
 
-    const validateTrigger = async (
-        container: RefObject<ValidationContainer>,
-        trigger: Partial<Trigger>
-    ) => {
-        const isFormValid = await container.current?.validate();
-        if (!isFormValid) {
-            return false;
-        }
+    const validateTrigger = async (trigger: Partial<Trigger>) => {
+        const validationResult = await moiraApi.validateTrigger(trigger);
 
-        const validationResult = await validateTriggerData(trigger);
-        if (!validationResult) {
-            return false;
-        }
+        const doAnyTargetsHaveError = checkTargetsForErrors(validationResult);
+        const doAnyTargetsHaveWarning = checkTargetsForWarnings(validationResult);
 
-        const areTargetsValid = checkTargets(validationResult);
-        if (!areTargetsValid) {
+        if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
             setValidationResult(validationResult);
-            return false;
         }
 
-        return true;
+        return { doAnyTargetsHaveError, doAnyTargetsHaveWarning };
     };
 
-    const validateTriggerData = async (trigger: Trigger | Partial<Trigger>) => {
-        try {
-            return moiraApi.validateTrigger(trigger);
-        } catch (error) {
-            Toast.push(error.toString());
-            return false;
-        }
-    };
-
-    const checkTargets = ({ targets }: ValidateTriggerResult): boolean =>
-        targets.every(
+    const checkTargetsForErrors = ({ targets }: ValidateTriggerResult): boolean =>
+        targets.some(
             (target: ValidateTriggerTarget | undefined) =>
-                target?.syntax_ok && !target?.tree_of_problems
+                !target?.syntax_ok || target?.tree_of_problems?.type === "bad"
         );
+
+    const checkTargetsForWarnings = ({ targets }: ValidateTriggerResult): boolean =>
+        targets.some((target) => target?.tree_of_problems?.type === "warn");
 
     const updateTrigger = (trigger: Trigger | Partial<Trigger>) => {
         switch (trigger.trigger_type) {
