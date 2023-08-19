@@ -6,7 +6,7 @@ type State = {
     isSaveModalVisible: boolean;
     isSaveButtonDisabled: boolean;
     validationResult?: ValidateTriggerResult;
-    error?: string;
+    error: string | null;
 };
 
 export enum ActionType {
@@ -15,6 +15,7 @@ export enum ActionType {
     setIsSaveModalVisible = "setIsSaveModalVisible",
     setValidationResult = "setValidationResult",
     setError = "setError",
+    resetTargetValidationState = "resetTargetValidationState",
 }
 
 export type Action = {
@@ -27,7 +28,7 @@ const initialState: State = {
     isSaveModalVisible: false,
     isSaveButtonDisabled: false,
     validationResult: undefined,
-    error: undefined,
+    error: null,
 };
 
 const reducer = (state: State, { type, payload }: Action) => {
@@ -42,6 +43,10 @@ const reducer = (state: State, { type, payload }: Action) => {
             return { ...state, validationResult: payload };
         case ActionType.setError:
             return { ...state, error: payload };
+        case ActionType.resetTargetValidationState: {
+            const newTargets = state.validationResult?.targets.toSpliced(payload, 1) ?? [];
+            return { ...state, validationResult: { targets: newTargets } };
+        }
         default:
             throw new Error(`Unknown action type: ${type}`);
     }

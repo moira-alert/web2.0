@@ -41,14 +41,10 @@ const TriggerEditContainer = (props: Props) => {
         }
 
         setTrigger({ ...trigger, ...update });
-        dispatch({ type: ActionType.setError, payload: undefined });
-        if (update.targets) {
+        dispatch({ type: ActionType.setError, payload: null });
+        if (update.targets && targetIndex) {
             dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
-            const newTargets =
-                state.validationResult?.targets.map((item, i) =>
-                    i === targetIndex ? undefined : item
-                ) ?? [];
-            dispatch({ type: ActionType.setValidationResult, payload: { targets: newTargets } });
+            dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });
         }
     };
 
