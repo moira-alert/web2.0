@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button, Modal, Toast } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
+import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import type { Trigger } from "../Domain/Trigger";
@@ -14,63 +14,24 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { TriggerDeleteModal } from "../Components/TriggerDeleteModal/TriggerDeleteModal";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
+import {
+    ActionType,
+    useTriggerFormContainerReducer,
+} from "../hooks/useTriggerFormContainerReducer";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 const TriggerEditContainer = (props: Props) => {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isSaveModalVisible, setIsSaveModalVisible] = useState<boolean>(false);
-    const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState<boolean>(false);
+    const [state, dispatch] = useTriggerFormContainerReducer();
     const [isDeleteTriggerDialogOpen, setIsDeleteTriggerDialogOpen] = useState<boolean>(false);
-    const [error, setError] = useState<string | undefined>(undefined);
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
 
-    const {
-        validationResult,
-        setValidationResult,
-        validateTrigger,
-        updateTrigger,
-    } = useTriggerFormContainer(props.moiraApi);
-
     const validationContainer = useRef<ValidationContainer>(null);
+    const saveTrigger = useSaveTrigger(props.moiraApi, validationContainer, dispatch);
 
-    const handleSubmit = async () => {
-        if (!trigger) {
-            return;
-        }
-
-        const isFormValid = await validationContainer.current?.validate();
-        if (!isFormValid) {
-            return;
-        }
-
-        setIsLoading(true);
-        try {
-            const { doAnyTargetsHaveError, doAnyTargetsHaveWarning } = await validateTrigger(
-                trigger
-            );
-            setIsLoading(false);
-
-            if (doAnyTargetsHaveError) {
-                setIsLoading(false);
-                validationContainer.current?.submit();
-                setIsSaveButtonDisabled(true);
-                return;
-            }
-
-            if (doAnyTargetsHaveWarning) {
-                setIsSaveModalVisible(true);
-            }
-        } catch (error) {
-            Toast.push(error.message);
-            setError(error.message);
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const handleSubmit = async () => saveTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
@@ -78,32 +39,32 @@ const TriggerEditContainer = (props: Props) => {
         }
 
         setTrigger({ ...trigger, ...update });
-        setError(undefined);
+        dispatch({ type: ActionType.setError, payload: undefined });
         if (update.targets) {
-            setIsSaveButtonDisabled(false);
+            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
             const newTargets =
-                validationResult?.targets.map((item, i) =>
+                state.validationResult?.targets.map((item, i) =>
                     i === targetIndex ? undefined : item
                 ) ?? [];
-            setValidationResult({ targets: newTargets });
+            dispatch({ type: ActionType.setValidationResult, payload: { targets: newTargets } });
         }
     };
 
     const deleteTrigger = async (id: string) => {
-        setIsLoading(true);
+        dispatch({ type: ActionType.setIsLoading, payload: true });
         try {
             await props.moiraApi.delTrigger(id);
             props.history.push(getPageLink("index"));
         } catch (error) {
-            setError(error.message);
-            setIsLoading(false);
+            dispatch({ type: ActionType.setError, payload: error.message });
+            dispatch({ type: ActionType.setIsLoading, payload: false });
         }
     };
 
     const getData = async () => {
         if (typeof props.match.params.id !== "string") {
-            setError("Wrong trigger id");
-            setIsLoading(false);
+            dispatch({ type: ActionType.setError, payload: "Wrong trigger id" });
+            dispatch({ type: ActionType.setIsLoading, payload: false });
             return;
         }
 
@@ -118,9 +79,9 @@ const TriggerEditContainer = (props: Props) => {
             setConfig(config);
             setTags(list);
         } catch (error) {
-            setError(error.message);
+            dispatch({ type: ActionType.setError, payload: error.message });
         } finally {
-            setIsLoading(false);
+            dispatch({ type: ActionType.setIsLoading, payload: false });
         }
     };
 
@@ -130,10 +91,14 @@ const TriggerEditContainer = (props: Props) => {
     }, []);
 
     return (
-        <Layout loading={isLoading} error={error}>
+        <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
-                {isSaveModalVisible && (
-                    <Modal onClose={() => setIsSaveModalVisible(false)}>
+                {state.isSaveModalVisible && (
+                    <Modal
+                        onClose={() =>
+                            dispatch({ type: ActionType.setIsSaveModalVisible, payload: false })
+                        }
+                    >
                         <Modal.Header>Test</Modal.Header>
                         <Modal.Body>
                             The Graphite function you&apos;ve used makes no sense in Moira or may
@@ -145,21 +110,33 @@ const TriggerEditContainer = (props: Props) => {
                                 onClick={async () => {
                                     const updatedTrigger = updateTrigger(trigger);
 
-                                    setIsLoading(true);
+                                    dispatch({ type: ActionType.setIsLoading, payload: true });
                                     try {
                                         await props.moiraApi.setTrigger(trigger.id, updatedTrigger);
                                         props.history.push(getPageLink("trigger", trigger.id));
                                     } catch (error) {
-                                        setError(error.message);
+                                        dispatch({
+                                            type: ActionType.setError,
+                                            payload: error.message,
+                                        });
                                     } finally {
-                                        setIsLoading(false);
+                                        dispatch({ type: ActionType.setIsLoading, payload: false });
                                     }
                                 }}
                                 use="primary"
                             >
                                 Save
                             </Button>
-                            <Button onClick={() => setIsSaveModalVisible(false)}>Cancel</Button>
+                            <Button
+                                onClick={() =>
+                                    dispatch({
+                                        type: ActionType.setIsSaveModalVisible,
+                                        payload: false,
+                                    })
+                                }
+                            >
+                                Cancel
+                            </Button>
                         </Modal.Footer>
                     </Modal>
                 )}
@@ -175,7 +152,7 @@ const TriggerEditContainer = (props: Props) => {
                                             tags={tags || []}
                                             remoteAllowed={config.remoteAllowed}
                                             onChange={handleChange}
-                                            validationResult={validationResult}
+                                            validationResult={state.validationResult}
                                         />
                                     )}
                                 </ValidationContainer>
@@ -187,7 +164,7 @@ const TriggerEditContainer = (props: Props) => {
                                             use="primary"
                                             onClick={handleSubmit}
                                             data-tid="Save Trigger"
-                                            disabled={isSaveButtonDisabled}
+                                            disabled={state.isSaveButtonDisabled}
                                         >
                                             Save trigger
                                         </Button>

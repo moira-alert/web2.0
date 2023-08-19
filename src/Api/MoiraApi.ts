@@ -352,7 +352,6 @@ export default class MoiraApi {
     }
 
     validateTrigger = async (trigger: Partial<Trigger>): Promise<ValidateTriggerResult> => {
-        console.log(trigger);
         const url = `${this.apiUrl}/trigger/check`;
         const response = await fetch(url, {
             method: "PUT",

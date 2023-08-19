@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
+import { useTriggerFormContainer } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Trigger } from "../Domain/Trigger";
