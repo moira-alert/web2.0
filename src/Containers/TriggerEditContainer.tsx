@@ -33,11 +33,16 @@ const TriggerEditContainer = (props: Props) => {
     const validateTrigger = useValidateTrigger(props.moiraApi, dispatch, validationContainer);
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
-    const handleSubmit = async () => validateTrigger(trigger);
+    const handleSubmit = async () =>
+        trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
             return;
+        }
+
+        if (update.is_remote) {
+            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
         }
 
         setTrigger({ ...trigger, ...update });
