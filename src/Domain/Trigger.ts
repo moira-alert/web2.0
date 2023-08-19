@@ -64,6 +64,11 @@ export type TriggerState = {
     msg?: string;
 };
 
+export enum TriggerTargetProblemType {
+    WARN = "warn",
+    BAD = "bad",
+}
+
 export type TriggerTargetProblem = {
     argument: string;
     position: number;
@@ -85,5 +90,24 @@ enum TriggerDataSources {
     LOCAL = "LOCAL",
     GRAPHITE = "GRAPHITE",
 }
+
+export const triggerClientToPayload = (trigger: Trigger) => {
+    switch (trigger.trigger_type) {
+        case "expression":
+            return {
+                ...trigger,
+                error_value: null,
+                warn_value: null,
+            };
+        case "rising":
+        case "falling":
+            return {
+                ...trigger,
+                expression: "",
+            };
+        default:
+            throw new Error(`Unknown trigger type: ${trigger.trigger_type}`);
+    }
+};
 
 export default TriggerDataSources;

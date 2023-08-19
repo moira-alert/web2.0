@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Button, Modal, Toast } from "@skbkontur/react-ui";
+import { Button, Modal } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
@@ -18,6 +18,7 @@ import {
     ActionType,
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
+import { useValidateTrigger } from "../hooks/useValidateTrigger";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
@@ -29,9 +30,10 @@ const TriggerEditContainer = (props: Props) => {
     const [config, setConfig] = useState<Config | undefined>(undefined);
 
     const validationContainer = useRef<ValidationContainer>(null);
-    const saveTrigger = useSaveTrigger(props.moiraApi, validationContainer, dispatch);
+    const validateTrigger = useValidateTrigger(props.moiraApi, dispatch, validationContainer);
+    const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
-    const handleSubmit = async () => saveTrigger(trigger);
+    const handleSubmit = async () => validateTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
@@ -106,25 +108,7 @@ const TriggerEditContainer = (props: Props) => {
                             trigger?
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button
-                                onClick={async () => {
-                                    const updatedTrigger = updateTrigger(trigger);
-
-                                    dispatch({ type: ActionType.setIsLoading, payload: true });
-                                    try {
-                                        await props.moiraApi.setTrigger(trigger.id, updatedTrigger);
-                                        props.history.push(getPageLink("trigger", trigger.id));
-                                    } catch (error) {
-                                        dispatch({
-                                            type: ActionType.setError,
-                                            payload: error.message,
-                                        });
-                                    } finally {
-                                        dispatch({ type: ActionType.setIsLoading, payload: false });
-                                    }
-                                }}
-                                use="primary"
-                            >
+                            <Button onClick={() => saveTrigger(trigger)} use="primary">
                                 Save
                             </Button>
                             <Button
