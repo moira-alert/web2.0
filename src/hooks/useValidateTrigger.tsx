@@ -62,6 +62,7 @@ export const useValidateTrigger = (
 
             if (doAnyTargetsHaveWarning) {
                 dispatch({ type: ActionType.setIsSaveModalVisible, payload: true });
+                return;
             }
 
             await saveTrigger(payload);
