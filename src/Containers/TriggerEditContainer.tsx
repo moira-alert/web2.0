@@ -19,6 +19,7 @@ import {
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
+import { SaveTriggerModal } from "../Components/SaveTriggerModal/SaveTriggerModal";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
@@ -96,35 +97,11 @@ const TriggerEditContainer = (props: Props) => {
     return (
         <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
-                {state.isSaveModalVisible && (
-                    <Modal
-                        onClose={() =>
-                            dispatch({ type: ActionType.setIsSaveModalVisible, payload: false })
-                        }
-                    >
-                        <Modal.Header>Test</Modal.Header>
-                        <Modal.Body>
-                            The Graphite function you&apos;ve used makes no sense in Moira or may
-                            generate unwanted side effects. Are you sure you want to save this
-                            trigger?
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={() => saveTrigger(trigger)} use="primary">
-                                Save
-                            </Button>
-                            <Button
-                                onClick={() =>
-                                    dispatch({
-                                        type: ActionType.setIsSaveModalVisible,
-                                        payload: false,
-                                    })
-                                }
-                            >
-                                Cancel
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                )}
+                <SaveTriggerModal
+                    state={state}
+                    dispatch={dispatch}
+                    action={() => saveTrigger(trigger)}
+                />
                 <LayoutTitle>Edit trigger</LayoutTitle>
                 {trigger && (
                     <form>
