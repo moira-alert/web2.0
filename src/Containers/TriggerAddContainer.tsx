@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
-import { useTriggerFormContainer } from "../hooks/useSaveTrigger";
+import { useSaveTrigger, useTriggerFormContainer } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { DEFAULT_TRIGGER_TTL, Trigger } from "../Domain/Trigger";
@@ -17,6 +17,12 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";
+import { useValidateTrigger } from "../hooks/useValidateTrigger";
+import {
+    ActionType,
+    useTriggerFormContainerReducer,
+} from "../hooks/useTriggerFormContainerReducer";
+import { SaveTriggerModal } from "../Components/SaveTriggerModal/SaveTriggerModal";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -52,53 +58,31 @@ const defaultTrigger: Partial<Trigger> = {
 type Props = RouteComponentProps & { moiraApi: MoiraApi };
 
 const TriggerAddContainer = (props: Props) => {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | undefined>(undefined);
+    const [state, dispatch] = useTriggerFormContainerReducer();
     const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
 
-    const {
-        validationResult,
-        setValidationResult,
-        validateTrigger,
-        updateTrigger,
-    } = useTriggerFormContainer(props.moiraApi);
-
     const validationContainer = useRef<ValidationContainer>(null);
+    const validateTrigger = useValidateTrigger(props.moiraApi, dispatch, validationContainer);
+    const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
-    const handleSubmit = async () => {
-        setIsLoading(true);
-
-        const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger);
-        if (!isTriggerValid) {
-            setIsLoading(false);
-            return;
-        }
-
-        try {
-            const { id } = await props.moiraApi.addTrigger(updatedTrigger);
-            props.history.push(getPageLink("trigger", id));
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const handleSubmit = async () =>
+        trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
+        if (update.is_remote) {
+            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
+        }
+
         setTrigger({
             ...trigger,
             ...update,
         });
-        setError(undefined);
+        dispatch({ type: ActionType.setError, payload: null });
         if (update.targets) {
-            const newTargets =
-                validationResult?.targets.map((item, i) =>
-                    i === targetIndex ? undefined : item
-                ) ?? [];
-            setValidationResult({ targets: newTargets });
+            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
+            dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });
         }
     };
 
@@ -112,7 +96,10 @@ const TriggerAddContainer = (props: Props) => {
 
             handleChange(omitTrigger(trigger));
         } catch (error) {
-            setError(`File ${fileName} cannot be converted to trigger. ${error.message}`);
+            dispatch({
+                type: ActionType.setError,
+                payload: `File ${fileName} cannot be converted to trigger. ${error.message}`,
+            });
         }
     };
 
@@ -130,9 +117,9 @@ const TriggerAddContainer = (props: Props) => {
             setConfig(config);
             setTags(list);
         } catch (error) {
-            setError(error.message);
+            dispatch({ type: ActionType.setError, payload: error.message });
         } finally {
-            setIsLoading(false);
+            dispatch({ type: ActionType.setIsLoading, payload: false });
         }
     };
 
@@ -142,8 +129,13 @@ const TriggerAddContainer = (props: Props) => {
     }, []);
 
     return (
-        <Layout loading={isLoading} error={error}>
+        <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
+                <SaveTriggerModal
+                    state={state}
+                    dispatch={dispatch}
+                    action={() => saveTrigger(trigger)}
+                />
                 <LayoutRowStack baseline block gap={6} style={{ maxWidth: "800px" }}>
                     <Fill>
                         <LayoutTitle>Add trigger</LayoutTitle>
@@ -161,7 +153,7 @@ const TriggerAddContainer = (props: Props) => {
                                             remoteAllowed={config.remoteAllowed}
                                             tags={tags || []}
                                             onChange={handleChange}
-                                            validationResult={validationResult}
+                                            validationResult={state.validationResult}
                                         />
                                     )}
                                 </ValidationContainer>
@@ -171,7 +163,7 @@ const TriggerAddContainer = (props: Props) => {
                                     <Fit>
                                         <Button
                                             use="primary"
-                                            onClick={() => handleSubmit()}
+                                            onClick={handleSubmit}
                                             data-tid="Add Trigger"
                                         >
                                             Add trigger

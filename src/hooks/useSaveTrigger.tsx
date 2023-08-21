@@ -20,8 +20,11 @@ export const useSaveTrigger = (
 
         dispatch({ type: ActionType.setIsLoading, payload: true });
         try {
-            await moiraApi.setTrigger(trigger.id, payload);
-            history.push(getPageLink("trigger", trigger.id));
+            const action = payload.id
+                ? () => moiraApi.setTrigger(payload.id, payload)
+                : () => moiraApi.addTrigger(payload);
+            const { id } = await action();
+            history.push(getPageLink("trigger", id));
         } catch (error) {
             Toast.push(error.message);
             dispatch({
