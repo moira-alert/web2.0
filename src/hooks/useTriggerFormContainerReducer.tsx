@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { ValidateTriggerResult } from "../Domain/Trigger";
 
-type State = {
+export type State = {
     isLoading: boolean;
     isSaveModalVisible: boolean;
     isSaveButtonDisabled: boolean;

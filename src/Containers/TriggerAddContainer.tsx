@@ -22,7 +22,7 @@ import {
     ActionType,
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
-import { SaveTriggerModal } from "../Components/SaveTriggerModal/SaveTriggerModal";
+import { TriggerSaveModal } from "../Components/TriggerSaveModal/TriggerSaveModal";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -131,10 +131,10 @@ const TriggerAddContainer = (props: Props) => {
     return (
         <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
-                <SaveTriggerModal
+                <TriggerSaveModal
                     state={state}
                     dispatch={dispatch}
-                    action={() => saveTrigger(trigger)}
+                    callback={() => saveTrigger(trigger)}
                 />
                 <LayoutRowStack baseline block gap={6} style={{ maxWidth: "800px" }}>
                     <Fill>

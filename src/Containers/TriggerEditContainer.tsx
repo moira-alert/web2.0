@@ -19,7 +19,7 @@ import {
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
-import { SaveTriggerModal } from "../Components/SaveTriggerModal/SaveTriggerModal";
+import { TriggerSaveModal } from "../Components/TriggerSaveModal/TriggerSaveModal";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
@@ -97,10 +97,10 @@ const TriggerEditContainer = (props: Props) => {
     return (
         <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
-                <SaveTriggerModal
+                <TriggerSaveModal
                     state={state}
                     dispatch={dispatch}
-                    action={() => saveTrigger(trigger)}
+                    callback={() => saveTrigger(trigger)}
                 />
                 <LayoutTitle>Edit trigger</LayoutTitle>
                 {trigger && (

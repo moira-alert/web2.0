@@ -17,7 +17,7 @@ import {
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
-import { SaveTriggerModal } from "../Components/SaveTriggerModal/SaveTriggerModal";
+import { TriggerSaveModal } from "../Components/TriggerSaveModal/TriggerSaveModal";
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
@@ -102,10 +102,10 @@ const TriggerDuplicateContainer = (props: Props) => {
     return (
         <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
-                <SaveTriggerModal
+                <TriggerSaveModal
                     state={state}
                     dispatch={dispatch}
-                    action={() => saveTrigger(trigger)}
+                    callback={() => saveTrigger(trigger)}
                 />
                 <LayoutTitle>Duplicate trigger</LayoutTitle>
                 {trigger && (
