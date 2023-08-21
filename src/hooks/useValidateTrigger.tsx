@@ -5,6 +5,8 @@ import { triggerClientToPayload, TriggerTargetProblemType } from "../Domain/Trig
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Toast } from "@skbkontur/react-ui";
 import { Action, ActionType } from "./useTriggerFormContainerReducer";
+import { useSaveTrigger } from "./useSaveTrigger";
+import { History } from "history";
 
 const checkTargetsForErrors = ({ targets }: ValidateTriggerResult): boolean =>
     targets.some(
@@ -18,20 +20,22 @@ const checkTargetsForWarnings = ({ targets }: ValidateTriggerResult): boolean =>
 export const useValidateTrigger = (
     moiraApi: MoiraApi,
     dispatch: Dispatch<Action>,
-    validator: RefObject<ValidationContainer>
+    validator: RefObject<ValidationContainer>,
+    history: History<unknown>
 ) => {
     const validateTrigger = async (trigger: Partial<Trigger>) => {
         const validationResult = await moiraApi.validateTrigger(trigger);
 
         const doAnyTargetsHaveError = checkTargetsForErrors(validationResult);
         const doAnyTargetsHaveWarning = checkTargetsForWarnings(validationResult);
-
         if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
             dispatch({ type: ActionType.setValidationResult, payload: validationResult });
         }
 
         return { doAnyTargetsHaveError, doAnyTargetsHaveWarning };
     };
+
+    const saveTrigger = useSaveTrigger(moiraApi, dispatch, history);
 
     return async (trigger?: Trigger) => {
         if (!trigger) {
@@ -59,6 +63,8 @@ export const useValidateTrigger = (
             if (doAnyTargetsHaveWarning) {
                 dispatch({ type: ActionType.setIsSaveModalVisible, payload: true });
             }
+
+            await saveTrigger(payload);
         } catch (error) {
             Toast.push(error.message);
             dispatch({ type: ActionType.setError, payload: error.message });

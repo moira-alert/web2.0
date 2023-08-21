@@ -29,7 +29,12 @@ const TriggerDuplicateContainer = (props: Props) => {
     const [config, setConfig] = useState<Config | undefined>(undefined);
 
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTrigger = useValidateTrigger(props.moiraApi, dispatch, validationContainer);
+    const validateTrigger = useValidateTrigger(
+        props.moiraApi,
+        dispatch,
+        validationContainer,
+        props.history
+    );
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
     const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
