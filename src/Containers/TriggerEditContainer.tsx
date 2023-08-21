@@ -47,7 +47,7 @@ const TriggerEditContainer = (props: Props) => {
 
         setTrigger({ ...trigger, ...update });
         dispatch({ type: ActionType.setError, payload: null });
-        if (update.targets && targetIndex) {
+        if (update.targets) {
             dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
             dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });
         }
