@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Button, Modal } from "@skbkontur/react-ui";
+import { Button } from "@skbkontur/react-ui";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
@@ -47,12 +47,13 @@ const TriggerEditContainer = (props: Props) => {
             return;
         }
 
+        setTrigger({ ...trigger, ...update });
+        dispatch({ type: ActionType.setError, payload: null });
+
         if (update.is_remote) {
             dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
         }
 
-        setTrigger({ ...trigger, ...update });
-        dispatch({ type: ActionType.setError, payload: null });
         if (update.targets) {
             dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
             dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });

@@ -37,7 +37,7 @@ export const useValidateTrigger = (
 
     const saveTrigger = useSaveTrigger(moiraApi, dispatch, history);
 
-    return async (trigger?: Trigger) => {
+    return async (trigger?: Trigger | Partial<Trigger>) => {
         if (!trigger) {
             return;
         }

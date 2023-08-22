@@ -11,7 +11,7 @@ export const useSaveTrigger = (
     dispatch: Dispatch<Action>,
     history: History<unknown>
 ) => {
-    return async (trigger?: Trigger) => {
+    return async (trigger?: Trigger | Partial<Trigger>) => {
         if (!trigger) {
             return;
         }
@@ -21,7 +21,7 @@ export const useSaveTrigger = (
         dispatch({ type: ActionType.setIsLoading, payload: true });
         try {
             const action = payload.id
-                ? () => moiraApi.setTrigger(payload.id, payload)
+                ? () => moiraApi.setTrigger(payload.id!, payload)
                 : () => moiraApi.addTrigger(payload);
             const { id } = await action();
             history.push(getPageLink("trigger", id));

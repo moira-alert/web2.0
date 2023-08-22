@@ -6,7 +6,7 @@ import cn from "./Layout.less";
 type LayoutProps = {
     children?: React.ReactNode;
     loading?: boolean;
-    error?: string;
+    error?: string | null;
 };
 
 type PlateProps = {

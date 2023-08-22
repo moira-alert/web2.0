@@ -91,7 +91,7 @@ enum TriggerDataSources {
     GRAPHITE = "GRAPHITE",
 }
 
-export const triggerClientToPayload = (trigger: Trigger) => {
+export const triggerClientToPayload = (trigger: Trigger | Partial<Trigger>) => {
     switch (trigger.trigger_type) {
         case "expression":
             return {

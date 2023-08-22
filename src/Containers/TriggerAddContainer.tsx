@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
-import { useSaveTrigger, useTriggerFormContainer } from "../hooks/useSaveTrigger";
+import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { DEFAULT_TRIGGER_TTL, Trigger } from "../Domain/Trigger";
@@ -76,16 +76,14 @@ const TriggerAddContainer = (props: Props) => {
         trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
-        if (update.is_remote) {
-            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
-        }
-
         setTrigger({
             ...trigger,
             ...update,
         });
+
         dispatch({ type: ActionType.setError, payload: null });
-        if (update.targets) {
+
+        if (update.is_remote) {
             dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
             dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });
         }
