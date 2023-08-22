@@ -76,14 +76,18 @@ const TriggerAddContainer = (props: Props) => {
         trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
-        setTrigger({
-            ...trigger,
-            ...update,
-        });
+        if (!trigger) {
+            return;
+        }
 
+        setTrigger({ ...trigger, ...update });
         dispatch({ type: ActionType.setError, payload: null });
 
         if (update.is_remote) {
+            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
+        }
+
+        if (update.targets) {
             dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
             dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });
         }
