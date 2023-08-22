@@ -16,13 +16,13 @@ export const useSaveTrigger = (
             return;
         }
 
-        const payload = triggerClientToPayload(trigger);
+        const triggerPayload = triggerClientToPayload(trigger);
 
         dispatch({ type: ActionType.setIsLoading, payload: true });
         try {
-            const action = payload.id
-                ? () => moiraApi.setTrigger(payload.id!, payload)
-                : () => moiraApi.addTrigger(payload);
+            const action = triggerPayload.id
+                ? () => moiraApi.setTrigger(triggerPayload.id!, triggerPayload)
+                : () => moiraApi.addTrigger(triggerPayload);
             const { id } = await action();
             history.push(getPageLink("trigger", id));
         } catch (error) {

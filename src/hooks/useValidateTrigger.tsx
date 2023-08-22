@@ -1,21 +1,16 @@
 import { Dispatch, RefObject } from "react";
 import MoiraApi from "../Api/MoiraApi";
-import type { Trigger, ValidateTriggerResult, ValidateTriggerTarget } from "../Domain/Trigger";
-import { triggerClientToPayload, TriggerTargetProblemType } from "../Domain/Trigger";
+import type { Trigger } from "../Domain/Trigger";
+import {
+    checkTriggerTargetsForErrors,
+    checkTriggerTargetsForWarnings,
+    triggerClientToPayload,
+} from "../Domain/Trigger";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Toast } from "@skbkontur/react-ui";
 import { Action, ActionType } from "./useTriggerFormContainerReducer";
 import { useSaveTrigger } from "./useSaveTrigger";
 import { History } from "history";
-
-const checkTargetsForErrors = ({ targets }: ValidateTriggerResult): boolean =>
-    targets.some(
-        (target: ValidateTriggerTarget | undefined) =>
-            !target?.syntax_ok || target?.tree_of_problems?.type === TriggerTargetProblemType.BAD
-    );
-
-const checkTargetsForWarnings = ({ targets }: ValidateTriggerResult): boolean =>
-    targets.some((target) => target?.tree_of_problems?.type === TriggerTargetProblemType.WARN);
 
 export const useValidateTrigger = (
     moiraApi: MoiraApi,
@@ -23,18 +18,6 @@ export const useValidateTrigger = (
     validator: RefObject<ValidationContainer>,
     history: History<unknown>
 ) => {
-    const validateTrigger = async (trigger: Partial<Trigger>) => {
-        const validationResult = await moiraApi.validateTrigger(trigger);
-
-        const doAnyTargetsHaveError = checkTargetsForErrors(validationResult);
-        const doAnyTargetsHaveWarning = checkTargetsForWarnings(validationResult);
-        if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
-            dispatch({ type: ActionType.setValidationResult, payload: validationResult });
-        }
-
-        return { doAnyTargetsHaveError, doAnyTargetsHaveWarning };
-    };
-
     const saveTrigger = useSaveTrigger(moiraApi, dispatch, history);
 
     return async (trigger?: Trigger | Partial<Trigger>) => {
@@ -49,10 +32,15 @@ export const useValidateTrigger = (
 
         dispatch({ type: ActionType.setIsLoading, payload: true });
         try {
-            const payload = triggerClientToPayload(trigger);
-            const { doAnyTargetsHaveError, doAnyTargetsHaveWarning } = await validateTrigger(
-                payload
-            );
+            const triggerPayload = triggerClientToPayload(trigger);
+            const validationResult = await moiraApi.validateTrigger(triggerPayload);
+
+            const doAnyTargetsHaveError = checkTriggerTargetsForErrors(validationResult);
+            const doAnyTargetsHaveWarning = checkTriggerTargetsForWarnings(validationResult);
+
+            if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
+                dispatch({ type: ActionType.setValidationResult, payload: validationResult });
+            }
 
             if (doAnyTargetsHaveError) {
                 dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: true });
@@ -65,7 +53,7 @@ export const useValidateTrigger = (
                 return;
             }
 
-            await saveTrigger(payload);
+            await saveTrigger(triggerPayload);
         } catch (error) {
             Toast.push(error.message);
             dispatch({ type: ActionType.setError, payload: error.message });

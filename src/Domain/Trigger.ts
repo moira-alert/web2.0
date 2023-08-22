@@ -110,4 +110,13 @@ export const triggerClientToPayload = (trigger: Trigger | Partial<Trigger>) => {
     }
 };
 
+export const checkTriggerTargetsForErrors = ({ targets }: ValidateTriggerResult): boolean =>
+    targets.some(
+        (target: ValidateTriggerTarget | undefined) =>
+            !target?.syntax_ok || target?.tree_of_problems?.type === TriggerTargetProblemType.BAD
+    );
+
+export const checkTriggerTargetsForWarnings = ({ targets }: ValidateTriggerResult): boolean =>
+    targets.some((target) => target?.tree_of_problems?.type === TriggerTargetProblemType.WARN);
+
 export default TriggerDataSources;
