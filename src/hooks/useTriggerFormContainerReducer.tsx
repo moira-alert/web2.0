@@ -65,8 +65,9 @@ const reducer = (state: State, action: Action) => {
         case ActionType.setError:
             return { ...state, error: action.payload };
         case ActionType.resetTargetValidationState: {
-            // @ts-ignore Здесь TS не видит метод toSpliced на массиве. А он есть.
-            const newTargets = state.validationResult?.targets.toSpliced(action.payload, 1) ?? [];
+            const newTargets =
+                // @ts-ignore Здесь TS не видит метод toSpliced на массиве. А он есть.
+                state.validationResult?.targets.toSpliced(action.payload, 1, undefined) ?? [];
             return { ...state, validationResult: { targets: newTargets } };
         }
         default:
