@@ -15,7 +15,7 @@ export function TriggerSaveModal({
     return (
         (state.isSaveModalVisible && (
             <Modal width={600} onClose={() => dispatch(setIsSaveModalVisible(false))}>
-                <Modal.Header>Test</Modal.Header>
+                <Modal.Header>Save trigger</Modal.Header>
                 <Modal.Body>
                     The Graphite function you&apos;ve used makes no sense in Moira or may generate
                     unwanted side effects. Are you sure you want to save this trigger?
