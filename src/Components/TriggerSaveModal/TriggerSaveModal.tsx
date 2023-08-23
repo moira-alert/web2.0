@@ -1,4 +1,4 @@
-import { Action, ActionType, State } from "../../hooks/useTriggerFormContainerReducer";
+import { Action, setIsSaveModalVisible, State } from "../../hooks/useTriggerFormContainerReducer";
 import { Button, Gapped, Modal } from "@skbkontur/react-ui";
 import React, { Dispatch } from "react";
 import { Trigger } from "../../Domain/Trigger";
@@ -14,10 +14,7 @@ export function TriggerSaveModal({
 }) {
     return (
         (state.isSaveModalVisible && (
-            <Modal
-                width={600}
-                onClose={() => dispatch({ type: ActionType.setIsSaveModalVisible, payload: false })}
-            >
+            <Modal width={600} onClose={() => dispatch(setIsSaveModalVisible(false))}>
                 <Modal.Header>Test</Modal.Header>
                 <Modal.Body>
                     The Graphite function you&apos;ve used makes no sense in Moira or may generate
@@ -25,14 +22,7 @@ export function TriggerSaveModal({
                 </Modal.Body>
                 <Modal.Footer>
                     <Gapped gap={8}>
-                        <Button
-                            onClick={() =>
-                                dispatch({
-                                    type: ActionType.setIsSaveModalVisible,
-                                    payload: false,
-                                })
-                            }
-                        >
+                        <Button onClick={() => dispatch(setIsSaveModalVisible(false))}>
                             Cancel
                         </Button>
                         <Button onClick={() => callback()} use="primary">

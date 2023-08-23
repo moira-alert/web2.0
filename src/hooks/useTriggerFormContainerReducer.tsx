@@ -18,6 +18,31 @@ export enum ActionType {
     resetTargetValidationState = "resetTargetValidationState",
 }
 
+export const setIsLoading = (payload: boolean): Action => ({
+    type: ActionType.setIsLoading,
+    payload,
+});
+export const setIsSaveButtonDisabled = (payload: boolean): Action => ({
+    type: ActionType.setIsSaveButtonDisabled,
+    payload,
+});
+export const setIsSaveModalVisible = (payload: boolean): Action => ({
+    type: ActionType.setIsSaveModalVisible,
+    payload,
+});
+export const setValidationResult = (payload: ValidateTriggerResult): Action => ({
+    type: ActionType.setValidationResult,
+    payload,
+});
+export const setError = (payload: string | null): Action => ({
+    type: ActionType.setError,
+    payload,
+});
+export const resetTargetValidationState = (payload?: number): Action => ({
+    type: ActionType.resetTargetValidationState,
+    payload,
+});
+
 export type Action =
     | {
           type: ActionType.setIsLoading;

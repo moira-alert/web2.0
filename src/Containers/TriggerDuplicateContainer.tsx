@@ -13,7 +13,10 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import {
-    ActionType,
+    resetTargetValidationState,
+    setError,
+    setIsLoading,
+    setIsSaveButtonDisabled,
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
@@ -62,23 +65,23 @@ const TriggerDuplicateContainer = (props: Props) => {
         }
 
         setTrigger({ ...trigger, ...update });
-        dispatch({ type: ActionType.setError, payload: null });
+        dispatch(setError(null));
 
         if (update.is_remote) {
-            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
+            dispatch(setIsSaveButtonDisabled(false));
         }
 
         if (update.targets) {
-            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
-            dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });
+            dispatch(setIsSaveButtonDisabled(false));
+            dispatch(resetTargetValidationState(targetIndex));
         }
     };
 
     const getData = async () => {
         const { id } = props.match.params;
         if (typeof id !== "string") {
-            dispatch({ type: ActionType.setError, payload: "Wrong trigger id" });
-            dispatch({ type: ActionType.setIsLoading, payload: false });
+            dispatch(setError("Wrong trigger id"));
+            dispatch(setIsLoading(false));
             return;
         }
 
@@ -94,14 +97,15 @@ const TriggerDuplicateContainer = (props: Props) => {
             setConfig(config);
             setTags(list);
         } catch (error) {
-            dispatch({ type: ActionType.setError, payload: error.message });
+            dispatch(setError(error.message));
         } finally {
-            dispatch({ type: ActionType.setIsLoading, payload: false });
+            dispatch(setIsLoading(false));
         }
     };
 
     useEffect(() => {
         document.title = "Moira - Duplicate trigger";
+        dispatch(setIsLoading(true));
         getData();
     }, []);
 

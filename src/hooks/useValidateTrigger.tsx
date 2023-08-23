@@ -8,7 +8,14 @@ import {
 } from "../Domain/Trigger";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Toast } from "@skbkontur/react-ui";
-import { Action, ActionType } from "./useTriggerFormContainerReducer";
+import {
+    Action,
+    setError,
+    setIsLoading,
+    setIsSaveButtonDisabled,
+    setIsSaveModalVisible,
+    setValidationResult,
+} from "./useTriggerFormContainerReducer";
 import { useSaveTrigger } from "./useSaveTrigger";
 import { History } from "history";
 
@@ -30,7 +37,7 @@ export const useValidateTrigger = (
             return;
         }
 
-        dispatch({ type: ActionType.setIsLoading, payload: true });
+        dispatch(setIsLoading(true));
         try {
             const triggerPayload = triggerClientToPayload(trigger);
             const validationResult = await moiraApi.validateTrigger(triggerPayload);
@@ -39,27 +46,27 @@ export const useValidateTrigger = (
             const doAnyTargetsHaveWarning = checkTriggerTargetsForWarnings(validationResult);
 
             if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
-                dispatch({ type: ActionType.setValidationResult, payload: validationResult });
+                dispatch(setValidationResult(validationResult));
             }
 
             if (doAnyTargetsHaveError) {
-                dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: true });
+                dispatch(setIsSaveButtonDisabled(true));
                 validator.current?.submit();
                 return;
             }
 
             if (doAnyTargetsHaveWarning) {
-                dispatch({ type: ActionType.setIsSaveModalVisible, payload: true });
+                dispatch(setIsSaveModalVisible(true));
                 return;
             }
 
             await saveTrigger(triggerPayload);
         } catch (error) {
             Toast.push(error.message);
-            dispatch({ type: ActionType.setError, payload: error.message });
+            dispatch(setError(error.message));
             throw error;
         } finally {
-            dispatch({ type: ActionType.setIsLoading, payload: false });
+            dispatch(setIsLoading(false));
         }
     };
 };

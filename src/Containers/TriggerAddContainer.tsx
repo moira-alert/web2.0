@@ -19,7 +19,10 @@ import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack"
 import FileLoader from "../Components/FileLoader/FileLoader";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import {
-    ActionType,
+    resetTargetValidationState,
+    setError,
+    setIsLoading,
+    setIsSaveButtonDisabled,
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
 import { TriggerSaveModal } from "../Components/TriggerSaveModal/TriggerSaveModal";
@@ -81,15 +84,15 @@ const TriggerAddContainer = (props: Props) => {
         }
 
         setTrigger({ ...trigger, ...update });
-        dispatch({ type: ActionType.setError, payload: null });
+        dispatch(setError(null));
 
         if (update.is_remote) {
-            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
+            dispatch(setIsSaveButtonDisabled(false));
         }
 
         if (update.targets) {
-            dispatch({ type: ActionType.setIsSaveButtonDisabled, payload: false });
-            dispatch({ type: ActionType.resetTargetValidationState, payload: targetIndex });
+            dispatch(setIsSaveButtonDisabled(false));
+            dispatch(resetTargetValidationState(targetIndex));
         }
     };
 
@@ -103,10 +106,7 @@ const TriggerAddContainer = (props: Props) => {
 
             handleChange(omitTrigger(trigger));
         } catch (error) {
-            dispatch({
-                type: ActionType.setError,
-                payload: `File ${fileName} cannot be converted to trigger. ${error.message}`,
-            });
+            dispatch(setError(`File ${fileName} cannot be converted to trigger. ${error.message}`));
         }
     };
 
@@ -124,9 +124,9 @@ const TriggerAddContainer = (props: Props) => {
             setConfig(config);
             setTags(list);
         } catch (error) {
-            dispatch({ type: ActionType.setError, payload: error.message });
+            dispatch(setError(error.message));
         } finally {
-            dispatch({ type: ActionType.setIsLoading, payload: false });
+            dispatch(setIsLoading(false));
         }
     };
 

@@ -1,4 +1,4 @@
-import { Action, ActionType } from "./useTriggerFormContainerReducer";
+import { Action, setError, setIsLoading } from "./useTriggerFormContainerReducer";
 import { getPageLink } from "../Domain/Global";
 import MoiraApi from "../Api/MoiraApi";
 import { Dispatch } from "react";
@@ -18,7 +18,7 @@ export const useSaveTrigger = (
 
         const triggerPayload = triggerClientToPayload(trigger);
 
-        dispatch({ type: ActionType.setIsLoading, payload: true });
+        dispatch(setIsLoading(true));
         try {
             const action = triggerPayload.id
                 ? () => moiraApi.setTrigger(triggerPayload.id!, triggerPayload)
@@ -27,12 +27,9 @@ export const useSaveTrigger = (
             history.push(getPageLink("trigger", id));
         } catch (error) {
             Toast.push(error.message);
-            dispatch({
-                type: ActionType.setError,
-                payload: error.message,
-            });
+            dispatch(setError(error.message));
         } finally {
-            dispatch({ type: ActionType.setIsLoading, payload: false });
+            dispatch(setIsLoading(false));
         }
     };
 };
