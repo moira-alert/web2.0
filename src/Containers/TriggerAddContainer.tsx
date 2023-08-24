@@ -23,9 +23,10 @@ import {
     setError,
     setIsLoading,
     setIsSaveButtonDisabled,
+    setIsSaveModalVisible,
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
-import { TriggerSaveModal } from "../Components/TriggerSaveModal/TriggerSaveModal";
+import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -138,10 +139,10 @@ const TriggerAddContainer = (props: Props) => {
     return (
         <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
-                <TriggerSaveModal
-                    state={state}
-                    dispatch={dispatch}
-                    callback={() => saveTrigger(trigger)}
+                <TriggerSaveWarningModal
+                    isOpen={state.isSaveModalVisible}
+                    onClose={() => dispatch(setIsSaveModalVisible(false))}
+                    onSave={() => saveTrigger(trigger)}
                 />
                 <LayoutRowStack baseline block gap={6} style={{ maxWidth: "800px" }}>
                     <Fill>
