@@ -2,9 +2,9 @@ import { Dispatch, RefObject } from "react";
 import MoiraApi from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import {
-    checkTriggerTargetsForErrors,
-    checkTriggerTargetsForWarnings,
+    checkTriggerTarget,
     triggerClientToPayload,
+    TriggerTargetProblemType,
 } from "../Domain/Trigger";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Toast } from "@skbkontur/react-ui";
@@ -42,8 +42,12 @@ export const useValidateTrigger = (
             const triggerPayload = triggerClientToPayload(trigger);
             const validationResult = await moiraApi.validateTrigger(triggerPayload);
 
-            const doAnyTargetsHaveError = checkTriggerTargetsForErrors(validationResult);
-            const doAnyTargetsHaveWarning = checkTriggerTargetsForWarnings(validationResult);
+            const doAnyTargetsHaveError = validationResult.targets.some((target) =>
+                checkTriggerTarget(target, TriggerTargetProblemType.BAD)
+            );
+            const doAnyTargetsHaveWarning = validationResult.targets.some((target) =>
+                checkTriggerTarget(target, TriggerTargetProblemType.WARN)
+            );
 
             if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
                 dispatch(setValidationResult(validationResult));

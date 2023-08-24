@@ -110,13 +110,28 @@ export const triggerClientToPayload = (trigger: Trigger | Partial<Trigger>) => {
     }
 };
 
-export const checkTriggerTargetsForErrors = ({ targets }: ValidateTriggerResult): boolean =>
-    targets.some(
-        (target: ValidateTriggerTarget | undefined) =>
-            !target?.syntax_ok || target?.tree_of_problems?.type === TriggerTargetProblemType.BAD
-    );
+const checkTreeOfProblemsRecursively = (
+    node: TriggerTargetProblem,
+    type: TriggerTargetProblemType
+): boolean => {
+    if (node.type === type) {
+        return true;
+    }
 
-export const checkTriggerTargetsForWarnings = ({ targets }: ValidateTriggerResult): boolean =>
-    targets.some((target) => target?.tree_of_problems?.type === TriggerTargetProblemType.WARN);
+    return node.problems?.some((node) => checkTreeOfProblemsRecursively(node, type)) ?? false;
+};
+
+export const checkTriggerTarget = (
+    target: ValidateTriggerTarget | undefined,
+    type: TriggerTargetProblemType
+): boolean => {
+    if (!target) {
+        return false;
+    } else if (target.tree_of_problems) {
+        return checkTreeOfProblemsRecursively(target.tree_of_problems, type);
+    } else {
+        return !target.syntax_ok;
+    }
+};
 
 export default TriggerDataSources;
