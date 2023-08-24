@@ -2,6 +2,8 @@ import * as React from "react";
 import { MetricItemList } from "../../../Domain/Metric";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
 import cn from "./MobileMetricsList.less";
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 type Props = {
     metrics: MetricItemList;
@@ -12,19 +14,39 @@ type Props = {
 
 export default function MobileMetricsList(props: Props): React.ReactElement {
     const { onSetMaintenance, onRemove, metrics, withTargets } = props;
+    const entries = Object.entries(metrics);
 
     return (
         <div className={cn("root")}>
-            {Object.keys(metrics).map((x) => (
-                <MobileMetricsListItem
-                    key={x}
-                    name={x}
-                    value={metrics[x]}
-                    onRemove={() => onRemove(x)}
-                    onSetMaintenance={(interval) => onSetMaintenance(x, interval)}
-                    withTargets={withTargets}
-                />
-            ))}
+            <AutoSizer disableWidth>
+                {({ height }: { height?: number }) => (
+                    <List
+                        height={height || 0}
+                        width="100%"
+                        itemSize={53}
+                        itemCount={entries.length}
+                        itemData={entries}
+                    >
+                        {({ data, index, style }) => {
+                            const [metricName, metricData] = data[index];
+
+                            return (
+                                <MobileMetricsListItem
+                                    style={style}
+                                    key={metricName}
+                                    name={metricName}
+                                    value={metricData}
+                                    onRemove={() => onRemove(metricName)}
+                                    onSetMaintenance={(interval) =>
+                                        onSetMaintenance(metricName, interval)
+                                    }
+                                    withTargets={withTargets}
+                                />
+                            );
+                        }}
+                    </List>
+                )}
+            </AutoSizer>
         </div>
     );
 }

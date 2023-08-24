@@ -18,6 +18,7 @@ import { getUTCDate } from "../../../helpers/DateUtil";
 import cn from "./MobileMetricsListItem.less";
 
 type Props = {
+    style?: React.CSSProperties;
     name: string;
     value: Metric;
     onRemove: () => void;
@@ -47,11 +48,11 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
     };
 
     render(): React.ReactNode {
-        const { name, value } = this.props;
+        const { name, value, style } = this.props;
         const { buttonsState, deleted } = this.state;
 
         return (
-            <div className={cn("root", { deleted })}>
+            <div className={cn("root", { deleted })} style={style}>
                 <div className={cn("status")}>
                     {this.renderStatus()}
                     {isUnderkMaintenance(value.maintenance) && (
