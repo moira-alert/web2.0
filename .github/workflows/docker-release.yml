@@ -29,4 +29,4 @@ jobs:
             MoiraVersion=${{env.DOCKER_TAG}}
             GIT_COMMIT=${{github.sha}}
           push: true
-          tags: moira/web2:${{env.DOCKER_TAG}},moira/web2:latest
+          tags: moira/web2.0:${{env.DOCKER_TAG}},moira/web2:latest
