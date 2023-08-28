@@ -69,18 +69,13 @@ export default class MoiraApi {
 
     static async checkStatus(response: Response): Promise<void> {
         if (!(response.status >= 200 && response.status < 300)) {
-            let serverResponse: { status: string; error: string } | null = null;
-            const errorText = await response.text();
-            try {
-                serverResponse = JSON.parse(errorText);
-            } catch (error) {
-                throw new ApiError({ message: errorText, status: response.status });
-            }
+            const serverResponse = await response.json();
+
             throw new ApiError({
                 message: serverResponse
                     ? serverResponse.status +
                       (serverResponse.error ? `: ${serverResponse.error}` : "")
-                    : errorText,
+                    : serverResponse.error,
                 status: response.status,
             });
         }
@@ -342,6 +337,7 @@ export default class MoiraApi {
             body: JSON.stringify(data),
             credentials: "same-origin",
         });
+
         await MoiraApi.checkStatus(response);
         return response.json();
     }

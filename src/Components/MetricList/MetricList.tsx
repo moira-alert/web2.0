@@ -1,17 +1,12 @@
 import * as React from "react";
-import { format, fromUnixTime, getUnixTime } from "date-fns";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
-import UserIcon from "@skbkontur/react-icons/User";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { MetricItemList } from "../../Domain/Metric";
-import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
-import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import MetricValues from "../MetricValues/MetricValues";
-import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import cn from "./MetricList.less";
+import { FixedSizeList as List } from "react-window";
+import { MetricListItem } from "../MetricListItem/MetricListItem";
 
 export type SortingColumn = "state" | "name" | "event" | "value";
 
@@ -27,14 +22,6 @@ type Props = {
     onNoDataRemove?: () => void;
 };
 
-function maintenanceCaption(delta: number): React.ReactNode {
-    return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
-}
-
-function maintenanceDelta(maintenance?: number | null): number {
-    return (maintenance || 0) - getUnixTime(getUTCDate());
-}
-
 export default function MetricList(props: Props): React.ReactElement {
     const {
         status,
@@ -49,14 +36,17 @@ export default function MetricList(props: Props): React.ReactElement {
     } = props;
 
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
-    const hideTargetsNames = Object.keys(items).every((metric) => {
-        const { values } = items[metric];
-        return !values || Object.keys(values).length === 1;
-    });
+
+    const entries = Object.entries(items);
 
     return (
         <section className={cn("table")}>
-            <header className={cn("row", "header")}>
+            <header
+                className={cn("row", "header")}
+                // Если кол-во элементов в списке больше 25, они выходят за границу видимой области, и появляется скроллбар.
+                // В этом случае добавляем пространство справа, чтобы заголовки не смещались относительно строк в списке.
+                style={{ scrollbarGutter: entries.length > 25 ? "stable" : "auto" }}
+            >
                 {status && <div className={cn("state")} />}
                 <div className={cn("name")}>
                     <button
@@ -111,82 +101,24 @@ export default function MetricList(props: Props): React.ReactElement {
                 </div>
             </header>
             <div className={cn("items")}>
-                {Object.keys(items).map((metric) => {
-                    const {
-                        value,
-                        values,
-                        event_timestamp: eventTimestamp = 0,
-                        state,
-                        maintenance,
-                        maintenance_info: maintenanceInfo,
-                    } = items[metric];
-                    const delta = maintenanceDelta(maintenance);
-                    return (
-                        <div key={metric} className={cn("row")}>
-                            {status && (
-                                <div className={cn("state")}>
-                                    <StatusIndicator statuses={[state]} size={10} />
-                                </div>
-                            )}
-                            <div className={cn("name")}>{metric}</div>
-                            <div className={cn("event")}>
-                                {format(fromUnixTime(eventTimestamp), "MMM d, y, HH:mm:ss")}
-                            </div>
-                            <div className={cn("value")}>
-                                <MetricValues
-                                    value={value}
-                                    values={values}
-                                    placeholder
-                                    hideTargetsNames={hideTargetsNames}
-                                />
-                            </div>
-                            <div className={cn("maintenance")}>
-                                <MaintenanceSelect
-                                    maintenance={maintenance}
-                                    caption={maintenanceCaption(delta)}
-                                    onSetMaintenance={(maintenanceValue) =>
-                                        onChange(metric, maintenanceValue)
-                                    }
-                                />
-                            </div>
-                            <div className={cn("author")}>
-                                {delta > 0 &&
-                                    maintenanceInfo &&
-                                    maintenanceInfo.setup_user &&
-                                    maintenanceInfo.setup_time && (
-                                        <Tooltip
-                                            render={() => (
-                                                <div>
-                                                    Maintenance was set
-                                                    <br />
-                                                    by {maintenanceInfo.setup_user}
-                                                    <br />
-                                                    at{" "}
-                                                    {format(
-                                                        fromUnixTime(
-                                                            maintenanceInfo.setup_time || 0
-                                                        ),
-                                                        "MMMM d, HH:mm:ss"
-                                                    )}
-                                                </div>
-                                            )}
-                                        >
-                                            <UserIcon className={cn("maintenance-info")} />
-                                        </Tooltip>
-                                    )}
-                            </div>
-                            <div className={cn("delete")}>
-                                <Button
-                                    use="link"
-                                    icon={<TrashIcon />}
-                                    onClick={() => onRemove(metric)}
-                                >
-                                    Delete
-                                </Button>
-                            </div>
-                        </div>
-                    );
-                })}
+                <List
+                    height={500}
+                    width="100%"
+                    itemSize={20}
+                    itemCount={entries.length}
+                    itemData={entries}
+                >
+                    {({ data, index, style }) => (
+                        <MetricListItem
+                            status={status}
+                            data={data}
+                            index={index}
+                            style={style}
+                            onChange={onChange}
+                            onRemove={onRemove}
+                        />
+                    )}
+                </List>
             </div>
         </section>
     );

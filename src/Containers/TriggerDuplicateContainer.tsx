@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { useTriggerFormContainer } from "../hooks/useTriggerFormContainer";
+import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Trigger } from "../Domain/Trigger";
@@ -12,25 +12,34 @@ import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
+import {
+    resetTargetValidationState,
+    setError,
+    setIsLoading,
+    setIsSaveButtonDisabled,
+    setIsSaveModalVisible,
+    useTriggerFormContainerReducer,
+} from "../hooks/useTriggerFormContainerReducer";
+import { useValidateTrigger } from "../hooks/useValidateTrigger";
+import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 const TriggerDuplicateContainer = (props: Props) => {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | undefined>(undefined);
+    const [state, dispatch] = useTriggerFormContainerReducer();
     const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
 
-    const {
-        validationResult,
-        setValidationResult,
-        validateTrigger,
-        updateTrigger,
-    } = useTriggerFormContainer(props.moiraApi);
-
     const validationContainer = useRef<ValidationContainer>(null);
+    const validateTrigger = useValidateTrigger(
+        props.moiraApi,
+        dispatch,
+        validationContainer,
+        props.history
+    );
+    const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
     const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
         const trigger: Partial<Trigger> = { ...sourceTrigger };
@@ -48,29 +57,8 @@ const TriggerDuplicateContainer = (props: Props) => {
         };
     };
 
-    const handleSubmit = async () => {
-        if (!trigger) {
-            return;
-        }
-
-        setIsLoading(true);
-
-        const updatedTrigger = updateTrigger(trigger);
-        const isTriggerValid = await validateTrigger(validationContainer, updatedTrigger);
-        if (!isTriggerValid) {
-            setIsLoading(false);
-            return;
-        }
-
-        try {
-            const { id } = await props.moiraApi.addTrigger(updatedTrigger);
-            props.history.push(getPageLink("trigger", id));
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const handleSubmit = async () =>
+        trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
@@ -78,21 +66,23 @@ const TriggerDuplicateContainer = (props: Props) => {
         }
 
         setTrigger({ ...trigger, ...update });
-        setError(undefined);
+        dispatch(setError(null));
+
+        if (update.is_remote) {
+            dispatch(setIsSaveButtonDisabled(false));
+        }
+
         if (update.targets) {
-            const newTargets =
-                validationResult?.targets.map((item, i) =>
-                    i === targetIndex ? undefined : item
-                ) ?? [];
-            setValidationResult({ targets: newTargets });
+            dispatch(setIsSaveButtonDisabled(false));
+            dispatch(resetTargetValidationState(targetIndex));
         }
     };
 
     const getData = async () => {
         const { id } = props.match.params;
         if (typeof id !== "string") {
-            setError("Wrong trigger id");
-            setIsLoading(false);
+            dispatch(setError("Wrong trigger id"));
+            dispatch(setIsLoading(false));
             return;
         }
 
@@ -108,20 +98,26 @@ const TriggerDuplicateContainer = (props: Props) => {
             setConfig(config);
             setTags(list);
         } catch (error) {
-            setError(error.message);
+            dispatch(setError(error.message));
         } finally {
-            setIsLoading(false);
+            dispatch(setIsLoading(false));
         }
     };
 
     useEffect(() => {
         document.title = "Moira - Duplicate trigger";
+        dispatch(setIsLoading(true));
         getData();
     }, []);
 
     return (
-        <Layout loading={isLoading} error={error}>
+        <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
+                <TriggerSaveWarningModal
+                    isOpen={state.isSaveModalVisible}
+                    onClose={() => dispatch(setIsSaveModalVisible(false))}
+                    onSave={() => saveTrigger(trigger)}
+                />
                 <LayoutTitle>Duplicate trigger</LayoutTitle>
                 {trigger && (
                     <form>
@@ -134,7 +130,7 @@ const TriggerDuplicateContainer = (props: Props) => {
                                             tags={tags || []}
                                             remoteAllowed={config.remoteAllowed}
                                             onChange={handleChange}
-                                            validationResult={validationResult}
+                                            validationResult={state.validationResult}
                                         />
                                     )}
                                 </ValidationContainer>
@@ -142,12 +138,7 @@ const TriggerDuplicateContainer = (props: Props) => {
                             <Fit>
                                 <RowStack gap={3} baseline>
                                     <Fit>
-                                        <Button
-                                            use="primary"
-                                            onClick={() => {
-                                                handleSubmit();
-                                            }}
-                                        >
+                                        <Button use="primary" onClick={handleSubmit}>
                                             Duplicate trigger
                                         </Button>
                                     </Fit>
