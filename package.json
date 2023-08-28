@@ -9,7 +9,7 @@
         "start:docker": "npm-run-all --parallel backend start:docker-proxy",
         "start:docker-proxy": "yarn serve --config webpack.config.docker-proxy.js",
         "backend": "docker-compose -f src/tests/core/api/docker-compose.yml up",
-        "build": "webpack --mode=production",
+        "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --mode=production",
         "storybook": "cross-env NODE_ENV=development start-storybook -p 9001 -c .storybook --ci",
         "storybook:ci": "yarn storybook -- --ci --quiet",
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
