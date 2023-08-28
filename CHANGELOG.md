@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.3] - 2023-08-28
+
+### Added
+* Change PR Action logic to trigger build from comment and support build on forks (#401)
+* Some buttons can now be hidden with feature-flags (#402)
+* Optimize long metric list render (#415)
+
+### Fixed
+* Fix target values on mobile (#412)
+
 ## [2.7.2] - 2022-12-08
 
 ### Added
