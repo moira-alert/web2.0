@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build docker tag
-        run: echo "DOCKER_TAG=$(echo ${{github.ref_name}} | cut -c2-)}" >> $GITHUB_ENV
+        run: echo "DOCKER_TAG=$(echo ${{github.ref_name}} | cut -c2-)" >> $GITHUB_ENV
   
       - name: Build and push
         uses: docker/build-push-action@v4
@@ -29,4 +29,4 @@ jobs:
             MoiraVersion=${{env.DOCKER_TAG}}
             GIT_COMMIT=${{github.sha}}
           push: true
-          tags: moira/web2.0:${{env.DOCKER_TAG}},moira/web2.0:latest
+          tags: moira/web2:${{env.DOCKER_TAG}},moira/web2:latest
