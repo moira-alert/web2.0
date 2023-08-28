@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Some buttons can now be hidden with feature-flags (#402)
 * Optimize long metric list render (#415)
 
+
 ### Fixed
 * Fix target values on mobile (#412)
 
