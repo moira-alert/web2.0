@@ -21,6 +21,7 @@ export const useSaveTrigger = (
         dispatch(setIsLoading(true));
         try {
             const action = triggerPayload.id
+                // @ts-ignore This branch will only run if triggerPayload has id
                 ? () => moiraApi.setTrigger(triggerPayload.id!, triggerPayload)
                 : () => moiraApi.addTrigger(triggerPayload);
             const { id } = await action();

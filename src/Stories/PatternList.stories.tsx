@@ -6,6 +6,7 @@ import PatternList from "../Components/PatternList/PatternList";
 import { Pattern } from "../Domain/Pattern";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Status } from "../Domain/Status";
+import { TriggerSource } from "../Domain/Trigger";
 
 const items: Pattern[] = [
     {
@@ -15,7 +16,7 @@ const items: Pattern[] = [
             {
                 notify_about_new_metrics: false,
                 mute_new_metrics: false,
-                is_remote: false,
+                trigger_source: TriggerSource.GRAPHITE_LOCAL,
                 id: "e872a927-e6d2-4b2e-b1fb-63d2345357f2",
                 name: "KE_SYSTEM_CPU",
                 targets: ["KE.system.busc.*.cpu.usage"],
@@ -52,7 +53,7 @@ const items: Pattern[] = [
             {
                 notify_about_new_metrics: false,
                 mute_new_metrics: false,
-                is_remote: false,
+                trigger_source: TriggerSource.GRAPHITE_LOCAL,
                 id: "f08977e6-bfcd-4ca4-8e4a-5b3ffc56284b",
                 name: "focus351 Elasticsearch cluster status",
                 desc: "",

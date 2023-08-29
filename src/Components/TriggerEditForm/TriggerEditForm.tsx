@@ -19,9 +19,9 @@ import {
     DEFAULT_TRIGGER_TYPE,
     LOW_TRIGGER_TTL,
     Trigger,
+    TriggerSource,
     ValidateTriggerResult,
 } from "../../Domain/Trigger";
-import TriggerDataSources from "../../Domain/Trigger";
 import { purifyConfig } from "../../Domain/DOMPurify";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
@@ -114,7 +114,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
             ttl,
             ttl_state: ttlState,
             sched,
-            is_remote: isRemote,
+            trigger_source: triggerSource,
             trigger_type: triggerType,
             mute_new_metrics: muteNewMetrics,
             alone_metrics: aloneMetrics,
@@ -307,22 +307,24 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 </FormRow>
                 {remoteAllowed && (
                     <FormRow label="Data source" singleLineControlGroup>
-                        <RadioGroup<TriggerDataSources>
+                        <RadioGroup<TriggerSource>
                             name="data-source"
-                            defaultValue={
-                                isRemote ? TriggerDataSources.GRAPHITE : TriggerDataSources.LOCAL
-                            }
-                            onValueChange={(value: TriggerDataSources) =>
-                                onChange({ is_remote: value !== TriggerDataSources.LOCAL })
+                            defaultValue={triggerSource}
+                            onValueChange={(value: TriggerSource) =>
+                                onChange({ trigger_source: value })
                             }
                         >
                             <Gapped vertical gap={10}>
-                                <Radio value={TriggerDataSources.LOCAL}>Local (default)</Radio>
-                                <Radio value={TriggerDataSources.GRAPHITE}>
-                                    Graphite. Be careful, it may cause{" "}
+                                <Radio value={TriggerSource.GRAPHITE_LOCAL}> Local (default)</Radio>
+                                <Radio value={TriggerSource.GRAPHITE_REMOTE}>
+                                    Graphite Remote. Be careful, it may cause{" "}
                                     <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">
                                         extra load
                                     </Link>
+                                </Radio>
+                                <Radio value={TriggerSource.PROMETHEUS_REMOTE}>
+                                    {" "}
+                                    Prometheus Remote{" "}
                                 </Radio>
                             </Gapped>
                         </RadioGroup>

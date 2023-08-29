@@ -1,10 +1,10 @@
 import { DaysOfWeek } from "../../Domain/Schedule";
-import { Trigger } from "../../Domain/Trigger";
+import { Trigger, TriggerSource } from "../../Domain/Trigger";
 import { Status } from "../../Domain/Status";
 
 const data: Array<Trigger> = [
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 100.0,
         sched: {
@@ -64,7 +64,7 @@ const data: Array<Trigger> = [
             "\u041a\u0430\u0436\u0434\u0430\u044f \u043d\u043e\u0434\u0430 \u0441\u043e\u043e\u0431\u0449\u0430\u0435\u0442, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u043e \u0435\u0435 \u043c\u043d\u0435\u043d\u0438\u044e \u0434\u0440\u0443\u0433\u0438\u0445 \u043d\u043e\u0434 \u0432 \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0435 \u0443\u043f\u0430\u043b\u043e. \u041c\u044b \u0431\u0435\u0440\u0435\u043c \u043c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u0441\u0440\u0435\u0434\u0438 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430 \u0438 \u0441\u043b\u0435\u0434\u0438\u043c, \u0447\u0442\u043e\u0431\u044b \u043e\u043d\u043e \u0431\u044b\u043b\u043e \u043a\u0430\u043a \u043c\u043e\u0436\u043d\u043e \u0431\u043b\u0438\u0436\u0435 \u043a \u043d\u0443\u043b\u044e. \u041f\u043e \u044d\u0442\u043e\u043c\u0443 \u0442\u0440\u0438\u0433\u0433\u0435\u0440\u0443 \u043c\u043e\u0436\u043d\u043e \u043f\u043e\u043d\u044f\u0442\u044c, \u0447\u0442\u043e \u0443\u043f\u0430\u043b\u0430 \u043a\u0430\u043a\u0430\u044f-\u0442\u043e \u043d\u043e\u0434\u0430, \u043d\u043e \u043a\u0430\u043a\u0430\u044f \u0438\u043c\u0435\u043d\u043d\u043e - \u043d\u0435 \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442\u0441\u044f.",
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 1500.0,
         sched: {
@@ -122,7 +122,7 @@ const data: Array<Trigger> = [
         ],
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 200.0,
         sched: {
@@ -228,7 +228,7 @@ const data: Array<Trigger> = [
         ],
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 2000.0,
         sched: {
@@ -288,7 +288,7 @@ const data: Array<Trigger> = [
         ],
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 99.0,
         sched: {
@@ -344,7 +344,7 @@ const data: Array<Trigger> = [
         id: "024c6925-aa30-47b6-ac83-c3147b826ad7",
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 48.0,
         sched: {
@@ -2652,7 +2652,7 @@ const data: Array<Trigger> = [
             "\u0412\u0440\u0435\u043c\u044f \u0441 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0433\u043e \u0434\u0438\u0444\u0444 \u0431\u044d\u043a\u0430\u043f\u0430 \u0432 \u0447\u0430\u0441\u0430\u0445. \u043d\u0435 \u0434\u0435\u043b\u0430\u044e\u0442\u0441\u044f \u0441 \u043f\u044f\u0442\u043d\u0438\u0446\u044b \u043d\u0430 \u0441\u0443\u0431\u0431\u043e\u0442\u0443, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0432 \u0441\u0443\u0431\u0431\u043e\u0442\u0443 \u0432\u0440\u0435\u043c\u044f \u0432\u0441\u0435\u0433\u0434\u0430 \u0431\u0443\u0434\u0435\u0442 \u0431\u043e\u043b\u0435\u0435 36 \u0447\u0430\u0441\u043e\u0432 \u0438 \u0431\u0443\u0434\u0435\u0442 \u0432\u0430\u0440\u043d\u0438\u043d\u0433.",
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: null,
         sched: {
@@ -2709,7 +2709,7 @@ const data: Array<Trigger> = [
         id: "ee8abb13-fdf3-4651-9676-8abc01a4037f",
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 1.0,
         sched: {
@@ -2759,7 +2759,7 @@ const data: Array<Trigger> = [
         targets: ["movingAverage(KLADR.nginx.*.upstream_response_time.total.p95, '10min')"],
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 10000000000000000.0,
         sched: {
@@ -3269,7 +3269,7 @@ const data: Array<Trigger> = [
             "\u041e\u0431\u044b\u0447\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 GC \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 maxSeries \u043e\u0442 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430, \u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u2014 \u043d\u0435 \u0432\u0438\u0434\u0438\u0442, \u043a\u043e\u0433\u0434\u0430 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u0443\u0445\u043e\u0434\u044f\u0442 \u0432 NODATA. \u042d\u0442\u043e\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 \u0442\u043e\u043b\u044c\u043a\u043e NODATA, \u043d\u043e \u043f\u043e \u043a\u0430\u0436\u0434\u043e\u0439 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0439 \u043c\u0435\u0442\u0440\u0438\u043a\u0435 GC. \u0415\u0441\u043b\u0438 \u0442\u0443\u0442 \u0447\u0442\u043e-\u0442\u043e \u0443\u043f\u0430\u043b\u043e - \u0432\u0435\u0440\u043e\u044f\u0442\u043d\u043e, \u0434\u0435\u043b\u043e \u0432 logstash \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 \u0441 \u041a\u0430\u0441\u0441\u0430\u043d\u0434\u0440\u043e\u0439.",
     },
     {
-        is_remote: false,
+        trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 100000000000.0,
         sched: {

@@ -3,14 +3,14 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import StoryRouter from "storybook-react-router";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
-import { Trigger, TriggerState } from "../../Domain/Trigger";
+import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
 import { DaysOfWeek } from "../../Domain/Schedule";
 import { Status } from "../../Domain/Status";
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
     notify_about_new_metrics: false,
-    is_remote: false,
+    trigger_source: TriggerSource.GRAPHITE_LOCAL,
     error_value: 1000.0,
     sched: {
         endOffset: 1439,
