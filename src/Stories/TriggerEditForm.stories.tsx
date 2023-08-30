@@ -39,6 +39,7 @@ const sourceData: Trigger = {
     expression: "",
     notify_about_new_metrics: false,
     mute_new_metrics: false,
+    is_remote: false,
     alone_metrics: {},
 };
 
