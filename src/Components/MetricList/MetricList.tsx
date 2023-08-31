@@ -110,7 +110,7 @@ export default function MetricList(props: Props): React.ReactElement {
                 >
                     {({ data, index, style }) => (
                         <MetricListItem
-                            status={status}
+                            status={status ?? false}
                             data={data}
                             index={index}
                             style={style}

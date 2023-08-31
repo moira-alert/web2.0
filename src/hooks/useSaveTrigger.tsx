@@ -20,9 +20,9 @@ export const useSaveTrigger = (
 
         dispatch(setIsLoading(true));
         try {
-            const action = triggerPayload.id
-                // @ts-ignore This branch will only run if triggerPayload has id
-                ? () => moiraApi.setTrigger(triggerPayload.id!, triggerPayload)
+            const triggerID = triggerPayload.id;
+            const action = triggerID
+                ? () => moiraApi.setTrigger(triggerID, triggerPayload)
                 : () => moiraApi.addTrigger(triggerPayload);
             const { id } = await action();
             history.push(getPageLink("trigger", id));

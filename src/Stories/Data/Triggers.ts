@@ -31,6 +31,7 @@ const data: Array<Trigger> = [
         trigger_type: "falling",
         ttl: 600,
         warn_value: 1.0,
+        is_remote: false,
         last_check: {
             metrics: {
                 CatalogueTestingCluster: {
@@ -67,6 +68,7 @@ const data: Array<Trigger> = [
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
         mute_new_metrics: false,
         error_value: 1500.0,
+        is_remote: false,
         sched: {
             tzOffset: -300,
             days: [
@@ -151,6 +153,7 @@ const data: Array<Trigger> = [
         trigger_type: "falling",
         ttl: 600,
         warn_value: 50.0,
+        is_remote: false,
         last_check: {
             metrics: {
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
@@ -257,6 +260,7 @@ const data: Array<Trigger> = [
         trigger_type: "falling",
         ttl: 600,
         warn_value: 1500.0,
+        is_remote: false,
         last_check: {
             metrics: {
                 "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el1.indices._all.search.query_time_in_millis),1)": {
@@ -315,6 +319,7 @@ const data: Array<Trigger> = [
         trigger_type: "falling",
         ttl: 6000,
         warn_value: 95.0,
+        is_remote: false,
         last_check: {
             metrics: {
                 "ADK.elasticsearch.rosalco28.rosalco.jvm.mem.heap_used_percent": {
@@ -373,6 +378,7 @@ const data: Array<Trigger> = [
         trigger_type: "falling",
         ttl: 600,
         warn_value: 36.0,
+        is_remote: false,
         last_check: {
             metrics: {
                 "apple.konturcryptostatistics": {
@@ -2689,6 +2695,7 @@ const data: Array<Trigger> = [
         trigger_type: "expression",
         ttl: 600,
         warn_value: null,
+        is_remote: false,
         last_check: {
             metrics: {
                 "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection.currentbandwidth": {
@@ -2736,6 +2743,7 @@ const data: Array<Trigger> = [
         trigger_type: "rising",
         ttl: 600,
         warn_value: 0.5,
+        is_remote: false,
         last_check: {
             metrics: {
                 'movingAverage(KLADR.nginx.kladr_kontur_ru.upstream_response_time.total.p95,"10min")': {
@@ -2788,6 +2796,7 @@ const data: Array<Trigger> = [
         trigger_type: "expression",
         ttl: 1800,
         warn_value: 1000000000000000.0,
+        is_remote: false,
         last_check: {
             metrics: {
                 "Alko.EgaisCluster.rosalco44": {
@@ -3296,6 +3305,7 @@ const data: Array<Trigger> = [
         trigger_type: "falling",
         ttl: 900,
         warn_value: 150000000000.0,
+        is_remote: false,
         last_check: {
             metrics: {
                 ceph1: {

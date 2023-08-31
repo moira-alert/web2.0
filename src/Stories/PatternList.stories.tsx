@@ -28,6 +28,7 @@ const items: Pattern[] = [
                 trigger_type: "rising",
                 expression: "",
                 ttl: 600,
+                is_remote: false,
                 sched: {
                     days: [
                         { enabled: true, name: DaysOfWeek.Mon },
@@ -62,6 +63,7 @@ const items: Pattern[] = [
                 ],
                 warn_value: 1,
                 error_value: 0,
+                is_remote: false,
                 tags: ["Elasticsearch", "Focus", "DevOps"],
                 ttl_state: Status.NODATA,
                 throttling: 1,

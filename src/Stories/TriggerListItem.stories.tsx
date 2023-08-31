@@ -42,6 +42,7 @@ const sourceData: Trigger = {
     },
     warn_value: null,
     error_value: null,
+    is_remote: false,
     last_check: {
         metrics: {
             "sumSeries(KE-cloud.Notifications.*.MailSender.PfrReport.Alive)": {
