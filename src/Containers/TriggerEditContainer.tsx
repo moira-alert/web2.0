@@ -6,7 +6,7 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import type { Trigger } from "../Domain/Trigger";
+import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
@@ -44,7 +44,9 @@ const TriggerEditContainer = (props: Props) => {
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
     const handleSubmit = async () =>
-        trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
+        trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
+            ? saveTrigger(trigger)
+            : validateTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
@@ -54,7 +56,7 @@ const TriggerEditContainer = (props: Props) => {
         setTrigger({ ...trigger, ...update });
         dispatch(setError(null));
 
-        if (update.is_remote) {
+        if (update?.trigger_source === TriggerSource.GRAPHITE_LOCAL) {
             dispatch(setIsSaveButtonDisabled(false));
         }
 
