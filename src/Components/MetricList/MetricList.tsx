@@ -5,7 +5,7 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { MetricItemList } from "../../Domain/Metric";
 import cn from "./MetricList.less";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
 
 export type SortingColumn = "state" | "name" | "event" | "value";
@@ -104,20 +104,30 @@ export default function MetricList(props: Props): React.ReactElement {
                 <List
                     height={500}
                     width="100%"
-                    itemSize={20}
+                    itemSize={(index) => {
+                        const [, { values }] = entries[index];
+                        if (!values) {
+                            return 20;
+                        }
+
+                        return Object.keys(values).length * 20;
+                    }}
                     itemCount={entries.length}
                     itemData={entries}
                 >
-                    {({ data, index, style }) => (
-                        <MetricListItem
-                            status={status ?? false}
-                            data={data}
-                            index={index}
-                            style={style}
-                            onChange={onChange}
-                            onRemove={onRemove}
-                        />
-                    )}
+                    {({ data, index, style }) => {
+                        const [metricName, metricData] = data[index];
+                        return (
+                            <MetricListItem
+                                status={status ?? false}
+                                metricName={metricName}
+                                metricData={metricData}
+                                style={style}
+                                onChange={onChange}
+                                onRemove={onRemove}
+                            />
+                        );
+                    }}
                 </List>
             </div>
         </section>
