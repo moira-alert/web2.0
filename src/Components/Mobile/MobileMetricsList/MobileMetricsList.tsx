@@ -26,7 +26,7 @@ export default function MobileMetricsList(props: Props): React.ReactElement {
                         itemSize={(index) => {
                             const [, { values }] = entries[index];
                             if (!values) {
-                                return 53;
+                                return 45;
                             }
 
                             return 20 + Object.keys(values).length * 25;
