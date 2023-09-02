@@ -2,7 +2,7 @@ import * as React from "react";
 import { MetricItemList } from "../../../Domain/Metric";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
 import cn from "./MobileMetricsList.less";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 type Props = {
@@ -23,7 +23,14 @@ export default function MobileMetricsList(props: Props): React.ReactElement {
                     <List
                         height={height || 0}
                         width="100%"
-                        itemSize={53}
+                        itemSize={(index) => {
+                            const [, { values }] = entries[index];
+                            if (!values) {
+                                return 53;
+                            }
+
+                            return 20 + Object.keys(values).length * 25;
+                        }}
                         itemCount={entries.length}
                         itemData={entries}
                     >
