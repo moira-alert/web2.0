@@ -3,7 +3,7 @@ import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { MetricItemList } from "../../Domain/Metric";
+import { Metric, MetricItemList } from "../../Domain/Metric";
 import cn from "./MetricList.less";
 import { VariableSizeList as List } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
@@ -20,6 +20,15 @@ type Props = {
     onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
     onNoDataRemove?: () => void;
+};
+
+const getItemSize = (_metricName: string, metricData: Metric) => {
+    const { values } = metricData;
+    if (!values) {
+        return 20;
+    }
+
+    return Object.keys(values).length * 20;
 };
 
 export default function MetricList(props: Props): React.ReactElement {
@@ -104,14 +113,7 @@ export default function MetricList(props: Props): React.ReactElement {
                 <List
                     height={500}
                     width="100%"
-                    itemSize={(index) => {
-                        const [, { values }] = entries[index];
-                        if (!values) {
-                            return 20;
-                        }
-
-                        return Object.keys(values).length * 20;
-                    }}
+                    itemSize={(index) => getItemSize(...entries[index])}
                     itemCount={entries.length}
                     itemData={entries}
                 >
