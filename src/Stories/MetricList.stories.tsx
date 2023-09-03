@@ -37,6 +37,10 @@ const items: MetricItemList = {
             setup_user: null,
             setup_time: null,
         },
+        values: {
+            T1: 10938918,
+            T2: 42069,
+        },
     },
     "vm-ditrace3.nginx": {
         event_timestamp: 1503484033,
