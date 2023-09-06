@@ -171,7 +171,6 @@ const TriggerAddContainer = (props: Props) => {
                                             use="primary"
                                             onClick={handleSubmit}
                                             data-tid="Add Trigger"
-                                            disabled={state.isSaveButtonDisabled}
                                         >
                                             Add trigger
                                         </Button>
