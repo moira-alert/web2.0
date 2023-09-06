@@ -26,11 +26,11 @@ storiesOf("TriggerDeleteModal", module)
                 onClose={action("onClose")}
                 onDelete={() => new Promise(action("onDelete"))}
             >
-                Trigger
+                Trigger&nbsp;
                 <strong>
                     ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok
                 </strong>
-                will be deleted.
+                &nbsp; will be deleted.
             </ConfirmDeleteModal>
         ),
         captureElementParams
