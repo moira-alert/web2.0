@@ -89,11 +89,7 @@ const TriggerAddContainer = (props: Props) => {
         setTrigger({ ...trigger, ...update });
         dispatch(setError(null));
 
-        if (update?.trigger_source === TriggerSource.GRAPHITE_LOCAL) {
-            dispatch(setIsSaveButtonDisabled(false));
-        }
-
-        if (update.targets) {
+        if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
             dispatch(resetTargetValidationState(targetIndex));
         }
@@ -175,6 +171,7 @@ const TriggerAddContainer = (props: Props) => {
                                             use="primary"
                                             onClick={handleSubmit}
                                             data-tid="Add Trigger"
+                                            disabled={state.isSaveButtonDisabled}
                                         >
                                             Add trigger
                                         </Button>

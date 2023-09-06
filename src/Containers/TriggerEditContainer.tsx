@@ -45,8 +45,8 @@ const TriggerEditContainer = (props: Props) => {
 
     const handleSubmit = async () =>
         trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
-            ? saveTrigger(trigger)
-            : validateTrigger(trigger);
+            ? validateTrigger(trigger)
+            : saveTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
@@ -56,11 +56,7 @@ const TriggerEditContainer = (props: Props) => {
         setTrigger({ ...trigger, ...update });
         dispatch(setError(null));
 
-        if (update?.trigger_source === TriggerSource.GRAPHITE_LOCAL) {
-            dispatch(setIsSaveButtonDisabled(false));
-        }
-
-        if (update.targets) {
+        if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
             dispatch(resetTargetValidationState(targetIndex));
         }
