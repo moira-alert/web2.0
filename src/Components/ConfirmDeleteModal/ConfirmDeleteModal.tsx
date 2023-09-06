@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, Gapped, Modal } from "@skbkontur/react-ui";
 
-type Props = {
+interface ConfirmDeleteModalProps {
     message: string;
     children?: React.ReactNode;
     onClose: () => void;
     onDelete: () => Promise<void>;
-};
+}
 
-export const ConfirmDeleteModal = (props: Props): JSX.Element => (
+export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps): JSX.Element => (
     <Modal width={600} onClose={props.onClose}>
         <Modal.Header>{props.message}</Modal.Header>
         <Modal.Body data-tid="Delete Trigger Modal Body">{props.children}</Modal.Body>

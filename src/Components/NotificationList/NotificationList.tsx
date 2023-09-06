@@ -34,6 +34,11 @@ export default function NotificationList(props: Props): React.ReactElement {
         closeModal();
     };
 
+    const handleClickRemoveBtn = (key: string) => {
+        setNotificationId(key);
+        openModal();
+    };
+
     return Object.keys(items).length === 0 ? (
         <div className={cn("no-result")}>Empty :-)</div>
     ) : (
@@ -106,10 +111,7 @@ export default function NotificationList(props: Props): React.ReactElement {
                                 <Button
                                     use="link"
                                     icon={<TrashIcon />}
-                                    onClick={() => {
-                                        setNotificationId(key);
-                                        openModal();
-                                    }}
+                                    onClick={() => handleClickRemoveBtn(key)}
                                 >
                                     Remove
                                 </Button>
