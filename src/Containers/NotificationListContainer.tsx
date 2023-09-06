@@ -9,6 +9,7 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
+import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
 
 type Props = { moiraApi: MoiraApi };
 type State = {
@@ -16,12 +17,14 @@ type State = {
     error?: string;
     list?: Array<Notification>;
     notifierEnabled: boolean;
+    showConfirmModal: boolean;
 };
 
 class NotificationListContainer extends React.Component<Props, State> {
     state: State = {
         loading: true,
         notifierEnabled: true,
+        showConfirmModal: false,
     };
 
     componentDidMount() {
@@ -47,6 +50,13 @@ class NotificationListContainer extends React.Component<Props, State> {
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>{layoutTitle}</LayoutTitle>
+                    {this.state.showConfirmModal && (
+                        <ConfirmDeleteModal
+                            message="Are you sure with deleting all notifications?"
+                            onClose={() => this.setState({ showConfirmModal: false })}
+                            onDelete={this.removeAllNotifications}
+                        />
+                    )}
                     <Gapped gap={30}>
                         <Toggle checked={notifierEnabled} onValueChange={this.enableNotifier}>
                             Notifications
@@ -54,7 +64,7 @@ class NotificationListContainer extends React.Component<Props, State> {
                         <Button
                             use={"link"}
                             icon={<TrashIcon />}
-                            onClick={this.removeAllNotifications}
+                            onClick={() => this.setState({ showConfirmModal: true })}
                         >
                             Remove all
                         </Button>
@@ -123,7 +133,7 @@ class NotificationListContainer extends React.Component<Props, State> {
         } catch (error) {
             this.setState({ error: error.message });
         } finally {
-            this.setState({ loading: false });
+            this.setState({ loading: false, showConfirmModal: false });
         }
     };
 
