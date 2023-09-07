@@ -5,7 +5,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import { Trigger } from "../Domain/Trigger";
+import TriggerSource, { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
@@ -58,7 +58,9 @@ const TriggerDuplicateContainer = (props: Props) => {
     };
 
     const handleSubmit = async () =>
-        trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
+        trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
+            ? validateTrigger(trigger)
+            : saveTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
@@ -68,11 +70,7 @@ const TriggerDuplicateContainer = (props: Props) => {
         setTrigger({ ...trigger, ...update });
         dispatch(setError(null));
 
-        if (update.is_remote) {
-            dispatch(setIsSaveButtonDisabled(false));
-        }
-
-        if (update.targets) {
+        if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
             dispatch(resetTargetValidationState(targetIndex));
         }

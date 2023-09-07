@@ -41,7 +41,6 @@ export type Trigger = {
         [target_id: string]: boolean;
     };
     mute_new_metrics: boolean;
-    is_remote: boolean;
 };
 
 export type TriggerList = {

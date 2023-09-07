@@ -77,7 +77,9 @@ const TriggerAddContainer = (props: Props) => {
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
     const handleSubmit = async () =>
-        trigger?.is_remote ? saveTrigger(trigger) : validateTrigger(trigger);
+        trigger?.trigger_source == TriggerSource.GRAPHITE_LOCAL
+            ? validateTrigger(trigger)
+            : saveTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
         if (!trigger) {
@@ -87,11 +89,7 @@ const TriggerAddContainer = (props: Props) => {
         setTrigger({ ...trigger, ...update });
         dispatch(setError(null));
 
-        if (update.is_remote) {
-            dispatch(setIsSaveButtonDisabled(false));
-        }
-
-        if (update.targets) {
+        if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
             dispatch(resetTargetValidationState(targetIndex));
         }
