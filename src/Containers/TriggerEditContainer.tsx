@@ -12,7 +12,7 @@ import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
-import { TriggerDeleteModal } from "../Components/TriggerDeleteModal/TriggerDeleteModal";
+import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import {
     resetTargetValidationState,
@@ -24,12 +24,13 @@ import {
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
+import { useModal } from "../hooks/useModal";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 const TriggerEditContainer = (props: Props) => {
     const [state, dispatch] = useTriggerFormContainerReducer();
-    const [isDeleteTriggerDialogOpen, setIsDeleteTriggerDialogOpen] = useState<boolean>(false);
+    const { isModalOpen, closeModal, openModal } = useModal();
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
@@ -141,17 +142,20 @@ const TriggerEditContainer = (props: Props) => {
                                         </Button>
                                     </Fit>
                                     <Fit>
-                                        {isDeleteTriggerDialogOpen && (
-                                            <TriggerDeleteModal
-                                                triggerName={trigger.name}
-                                                onClose={() => setIsDeleteTriggerDialogOpen(false)}
+                                        {isModalOpen && (
+                                            <ConfirmDeleteModal
+                                                message={"Delete Trigger?"}
+                                                onClose={closeModal}
                                                 onDelete={() => deleteTrigger(trigger.id)}
-                                            />
+                                            >
+                                                Trigger <strong>{trigger.name}</strong> will be
+                                                deleted.
+                                            </ConfirmDeleteModal>
                                         )}
                                         <Button
                                             use="link"
                                             icon={<TrashIcon />}
-                                            onClick={() => setIsDeleteTriggerDialogOpen(true)}
+                                            onClick={openModal}
                                             data-tid="Open Delete Modal"
                                         >
                                             Delete
