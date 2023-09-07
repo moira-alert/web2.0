@@ -45,14 +45,15 @@ class NotificationListContainer extends React.Component<Props, State> {
 
     render(): React.ReactElement {
         const { loading, error, list, notifierEnabled } = this.state;
-        const layoutTitle = `Notifications ${Array.isArray(list) ? list.length : ""}`;
+        const notificationAmount = Array.isArray(list) ? list.length : "";
+        const layoutTitle = `Notifications ${notificationAmount}`;
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <LayoutTitle>{layoutTitle}</LayoutTitle>
                     {this.state.showConfirmModal && (
                         <ConfirmDeleteModal
-                            message="Are you sure with deleting all notifications?"
+                            message={`Are you sure with deleting all ${notificationAmount}  notifications?`}
                             onClose={() => this.setState({ showConfirmModal: false })}
                             onDelete={this.removeAllNotifications}
                         />
