@@ -53,7 +53,7 @@ class NotificationListContainer extends React.Component<Props, State> {
                     <LayoutTitle>{layoutTitle}</LayoutTitle>
                     {this.state.showConfirmModal && (
                         <ConfirmDeleteModal
-                            message={`Are you sure with deleting all ${notificationAmount}  notifications?`}
+                            message={`Are you sure with deleting all ${notificationAmount} notifications?`}
                             onClose={() => this.setState({ showConfirmModal: false })}
                             onDelete={this.removeAllNotifications}
                         />
