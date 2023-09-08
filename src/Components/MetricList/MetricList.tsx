@@ -3,10 +3,12 @@ import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { MetricItemList } from "../../Domain/Metric";
+import { Metric, MetricItemList } from "../../Domain/Metric";
 import cn from "./MetricList.less";
-import { FixedSizeList as List } from "react-window";
+import type { VariableSizeList } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
+import { useEffect, useRef } from "react";
 
 export type SortingColumn = "state" | "name" | "event" | "value";
 
@@ -20,6 +22,15 @@ type Props = {
     onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
     onNoDataRemove?: () => void;
+};
+
+const getItemSize = (_metricName: string, metricData: Metric) => {
+    const { values } = metricData;
+    if (!values) {
+        return 20;
+    }
+
+    return Object.keys(values).length * 20;
 };
 
 export default function MetricList(props: Props): React.ReactElement {
@@ -36,15 +47,18 @@ export default function MetricList(props: Props): React.ReactElement {
     } = props;
 
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
-
+    const ref = useRef<VariableSizeList>(null);
     const entries = Object.entries(items);
+
+    // When the sorting state is changed, call resetAfterIndex to recache row offsets and measurements
+    useEffect(() => ref.current?.resetAfterIndex(0), [sortingColumn, sortingDown]);
 
     return (
         <section className={cn("table")}>
             <header
                 className={cn("row", "header")}
-                // Если кол-во элементов в списке больше 25, они выходят за границу видимой области, и появляется скроллбар.
-                // В этом случае добавляем пространство справа, чтобы заголовки не смещались относительно строк в списке.
+                // When the list is over 25 elements, it becomes scrollable.
+                // Add a scrollbar gutter on the right to align header cells with row cells.
                 style={{ scrollbarGutter: entries.length > 25 ? "stable" : "auto" }}
             >
                 {status && <div className={cn("state")} />}
@@ -102,22 +116,26 @@ export default function MetricList(props: Props): React.ReactElement {
             </header>
             <div className={cn("items")}>
                 <List
+                    ref={ref}
                     height={500}
                     width="100%"
-                    itemSize={20}
+                    itemSize={(index) => getItemSize(...entries[index])}
                     itemCount={entries.length}
                     itemData={entries}
                 >
-                    {({ data, index, style }) => (
-                        <MetricListItem
-                            status={status ?? false}
-                            data={data}
-                            index={index}
-                            style={style}
-                            onChange={onChange}
-                            onRemove={onRemove}
-                        />
-                    )}
+                    {({ data, index, style }) => {
+                        const [metricName, metricData] = data[index];
+                        return (
+                            <MetricListItem
+                                status={status ?? false}
+                                metricName={metricName}
+                                metricData={metricData}
+                                style={style}
+                                onChange={onChange}
+                                onRemove={onRemove}
+                            />
+                        );
+                    }}
                 </List>
             </div>
         </section>
