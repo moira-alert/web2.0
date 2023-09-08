@@ -1,8 +1,8 @@
 import * as React from "react";
-import { MetricItemList } from "../../../Domain/Metric";
+import { Metric, MetricItemList } from "../../../Domain/Metric";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
 import cn from "./MobileMetricsList.less";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 type Props = {
@@ -10,6 +10,15 @@ type Props = {
     onRemove: (metricName: string) => void;
     onSetMaintenance: (metricName: string, maintenance: number) => void;
     withTargets?: boolean;
+};
+
+const getItemSize = (_metricName: string, metricData: Metric) => {
+    const { values } = metricData;
+    if (!values) {
+        return 45;
+    }
+
+    return 20 + Object.keys(values).length * 25;
 };
 
 export default function MobileMetricsList(props: Props): React.ReactElement {
@@ -23,7 +32,7 @@ export default function MobileMetricsList(props: Props): React.ReactElement {
                     <List
                         height={height || 0}
                         width="100%"
-                        itemSize={53}
+                        itemSize={(index) => getItemSize(...entries[index])}
                         itemCount={entries.length}
                         itemData={entries}
                     >
