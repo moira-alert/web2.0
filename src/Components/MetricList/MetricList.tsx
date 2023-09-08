@@ -5,8 +5,10 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Metric, MetricItemList } from "../../Domain/Metric";
 import cn from "./MetricList.less";
+import type { VariableSizeList } from "react-window";
 import { VariableSizeList as List } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
+import { useEffect, useRef } from "react";
 
 export type SortingColumn = "state" | "name" | "event" | "value";
 
@@ -45,15 +47,18 @@ export default function MetricList(props: Props): React.ReactElement {
     } = props;
 
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
-
+    const ref = useRef<VariableSizeList>(null);
     const entries = Object.entries(items);
+
+    // When the sorting state is changed, call resetAfterIndex to recache row offsets and measurements
+    useEffect(() => ref.current?.resetAfterIndex(0), [sortingColumn, sortingDown]);
 
     return (
         <section className={cn("table")}>
             <header
                 className={cn("row", "header")}
-                // Если кол-во элементов в списке больше 25, они выходят за границу видимой области, и появляется скроллбар.
-                // В этом случае добавляем пространство справа, чтобы заголовки не смещались относительно строк в списке.
+                // When the list is over 25 elements, it becomes scrollable.
+                // Add a scrollbar gutter on the right to align header cells with row cells.
                 style={{ scrollbarGutter: entries.length > 25 ? "stable" : "auto" }}
             >
                 {status && <div className={cn("state")} />}
@@ -111,6 +116,7 @@ export default function MetricList(props: Props): React.ReactElement {
             </header>
             <div className={cn("items")}>
                 <List
+                    ref={ref}
                     height={500}
                     width="100%"
                     itemSize={(index) => getItemSize(...entries[index])}
