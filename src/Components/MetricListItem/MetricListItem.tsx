@@ -23,8 +23,8 @@ const hideTargetsNames = ({ values }: Metric) => !values || Object.keys(values).
 
 type MetricListItemProps = {
     status: boolean;
-    data: [string, Metric][];
-    index: number;
+    metricName: string;
+    metricData: Metric;
     style: React.CSSProperties;
     onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
@@ -32,13 +32,12 @@ type MetricListItemProps = {
 
 export function MetricListItem({
     status,
-    data,
-    index,
+    metricName,
+    metricData,
     style,
     onChange,
     onRemove,
 }: MetricListItemProps) {
-    const [metricName, metricData] = data[index];
     const {
         value,
         values,
