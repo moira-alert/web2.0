@@ -171,6 +171,24 @@ class SettingsContainer extends React.Component<Props, State> {
         }, 0);
     };
 
+    onRemoveContactBtnClick = async (contact: Contact) => {
+        const { settings } = this.state;
+        if (settings == null) {
+            throw new Error("InvalidProgramState");
+        }
+
+        const potentialyCrashedSubs =
+            settings.subscriptions.filter(
+                (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
+            ) || [];
+
+        this.setState({
+            contact: contact,
+            showSubCrashModal: true,
+            crashedSubs: potentialyCrashedSubs,
+        });
+    };
+
     handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
         const { moiraApi } = this.props;
         const { settings, team, login } = this.state;
@@ -303,24 +321,6 @@ class SettingsContainer extends React.Component<Props, State> {
         } catch (error) {
             this.setState({ error: error.message });
         }
-    };
-
-    onRemoveContactBtnClick = async (contact: Contact) => {
-        const { settings } = this.state;
-        if (settings == null) {
-            throw new Error("InvalidProgramState");
-        }
-
-        const potentialyCrashedSubs =
-            settings.subscriptions.filter(
-                (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
-            ) || [];
-
-        this.setState({
-            contact: contact,
-            showSubCrashModal: true,
-            crashedSubs: potentialyCrashedSubs,
-        });
     };
 
     handleTestSubscription = async (subscription: Subscription) => {
