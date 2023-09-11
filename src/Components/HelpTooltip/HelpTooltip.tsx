@@ -17,15 +17,10 @@ export default function HelpTooltip({
     children,
     pos = "right top",
     closeButton,
-    trigger,
+    trigger = "click",
 }: HelpTooltipProps): React.ReactElement {
     return (
-        <Tooltip
-            pos={pos}
-            render={() => children}
-            trigger={trigger ? trigger : "click"}
-            closeButton={closeButton}
-        >
+        <Tooltip pos={pos} render={() => children} trigger={trigger} closeButton={closeButton}>
             <span className={cn.icon}>
                 <HelpDotIcon />
             </span>

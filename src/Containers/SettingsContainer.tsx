@@ -167,15 +167,14 @@ class SettingsContainer extends React.Component<Props, State> {
             throw new Error("InvalidProgramState");
         }
 
-        const potentiallyDisruptedSubscriptions  =
-            settings.subscriptions.filter(
-                (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
-            ) ;
+        const potentiallyDisruptedSubscriptions = settings.subscriptions.filter(
+            (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
+        );
 
         this.setState({
             contact: contact,
             showSubCrashModal: true,
-            disruptedSubs: potentiallyDisruptedSubscriptions ,
+            disruptedSubs: potentiallyDisruptedSubscriptions,
         });
     };
     private handleChangeTeam = async (userOrTeam: Team) => {
@@ -333,25 +332,17 @@ class SettingsContainer extends React.Component<Props, State> {
     handleTestSubscription = async (subscription: Subscription) => {
         const { moiraApi } = this.props;
         try {
-            this.setState({loading:true})
             await moiraApi.testSubscription(subscription.id);
         } catch (error) {
             this.setState({ error: error.message });
-        }
-        finally {
-            this.setState({loading:false})
         }
     };
 
     handleTestContact = async (contact: Contact) => {
         try {
-            this.setState({loading:true})
             await this.props.moiraApi.testContact(contact.id);
         } catch (error) {
             this.setState({ error: error.message });
-        }
-        finally {
-            this.setState({loading:false})
         }
     };
 
@@ -364,7 +355,6 @@ class SettingsContainer extends React.Component<Props, State> {
         try {
             await moiraApi.deleteContact(contact.id);
             this.setState({
-                loading:true,
                 settings: {
                     ...settings,
                     contacts: settings.contacts.filter((x) => x.id !== contact.id),
@@ -373,7 +363,7 @@ class SettingsContainer extends React.Component<Props, State> {
         } catch (error) {
             this.setState({ error: error.message });
         } finally {
-            this.setState({ showSubCrashModal: false,loading:false});
+            this.setState({ showSubCrashModal: false });
         }
     };
 

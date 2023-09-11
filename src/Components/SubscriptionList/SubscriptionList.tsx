@@ -18,14 +18,18 @@ export const SubscriptionList: React.FC<Props> = ({
     contacts,
     handleEditSubscription,
 }) => {
-
     return (
         <div className={cn("items-container")}>
             <table ref={tableRef} className={cn("items")}>
                 <tbody>
-                    {subscriptions.map((subscription) =>
-                        <SubscriptionRow key={subscription.id} subscription={subscription} contacts={contacts} onEditSubscription={handleEditSubscription}/>
-                    )}
+                    {subscriptions.map((subscription) => (
+                        <SubscriptionRow
+                            key={subscription.id}
+                            subscription={subscription}
+                            contacts={contacts}
+                            onEditSubscription={handleEditSubscription}
+                        />
+                    ))}
                 </tbody>
             </table>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { Gapped } from "@skbkontur/react-ui";
 import { Contact } from "../../../Domain/Contact";
 import { Subscription } from "../../../Domain/Subscription";
@@ -7,15 +7,19 @@ import ContactInfo from "../../ContactInfo/ContactInfo";
 import TagGroup from "../../TagGroup/TagGroup";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 
-import cn from './SubscriptionRow.less'
+import cn from "./SubscriptionRow.less";
 
 interface SubscriptionRowProps {
-    subscription: Subscription,
-    contacts: Contact[],
-    onEditSubscription: (subscription: Subscription) => void
+    subscription: Subscription;
+    contacts: Contact[];
+    onEditSubscription: (subscription: Subscription) => void;
 }
 
-export const SubscriptionRow:React.FC<SubscriptionRowProps> = ({subscription,contacts,onEditSubscription}) => {
+export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
+    subscription,
+    contacts,
+    onEditSubscription,
+}) => {
     const subscriptionContacts = subscription.contacts
         .map((x) => contacts.find((y) => y.id === x))
         .filter(notUndefined)
@@ -36,9 +40,7 @@ export const SubscriptionRow:React.FC<SubscriptionRowProps> = ({subscription,con
                 <Gapped gap={10}>{subscriptionContacts}</Gapped>
             </td>
             <td className={cn("enabled-cell")}>
-                {!subscription.enabled && (
-                    <span className={cn("disabled-label")}>Disabled</span>
-                )}
+                {!subscription.enabled && <span className={cn("disabled-label")}>Disabled</span>}
             </td>
             {areAnyDisruptedSubs && (
                 <td>
