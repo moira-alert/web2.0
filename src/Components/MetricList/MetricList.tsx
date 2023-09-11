@@ -12,6 +12,11 @@ import { useEffect, useRef } from "react";
 
 export type SortingColumn = "state" | "name" | "event" | "value";
 
+const MAX_LIST_LENGTH_BEFORE_SCROLLABLE = 25;
+const METRIC_LIST_HEIGHT = 500;
+const METRIC_LIST_ROW_HEIGHT = 20;
+const METRIC_LIST_ROW_PADDING = 5;
+
 type Props = {
     status?: boolean;
     items: MetricItemList;
@@ -27,11 +32,17 @@ type Props = {
 const getItemSize = (_metricName: string, metricData: Metric) => {
     const { values } = metricData;
     if (!values) {
-        return 20;
+        return METRIC_LIST_ROW_HEIGHT;
     }
 
-    return Object.keys(values).length * 20;
+    return Object.keys(values).length * METRIC_LIST_ROW_HEIGHT;
 };
+
+const getTotalSize = (entries: [string, Metric][]) =>
+    entries.reduce(
+        (totalSize, metric) => (totalSize += getItemSize(...metric)),
+        METRIC_LIST_ROW_PADDING
+    );
 
 export default function MetricList(props: Props): React.ReactElement {
     const {
@@ -57,9 +68,12 @@ export default function MetricList(props: Props): React.ReactElement {
         <section className={cn("table")}>
             <header
                 className={cn("row", "header")}
-                // When the list is over 25 elements, it becomes scrollable.
+                // When the metrics list is over MAX_LIST_LENGTH_BEFORE_SCROLLABLE items, it becomes scrollable.
                 // Add a scrollbar gutter on the right to align header cells with row cells.
-                style={{ scrollbarGutter: entries.length > 25 ? "stable" : "auto" }}
+                style={{
+                    scrollbarGutter:
+                        entries.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE ? "stable" : "auto",
+                }}
             >
                 {status && <div className={cn("state")} />}
                 <div className={cn("name")}>
@@ -117,7 +131,13 @@ export default function MetricList(props: Props): React.ReactElement {
             <div className={cn("items")}>
                 <List
                     ref={ref}
-                    height={500}
+                    height={
+                        // When the metrics list is over MAX_LIST_LENGTH_BEFORE_SCROLLABLE items, it will have a fixed 500px height.
+                        // Otherwise, the total height will be the sum of individual row heights.
+                        entries.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
+                            ? METRIC_LIST_HEIGHT
+                            : getTotalSize(entries)
+                    }
                     width="100%"
                     itemSize={(index) => getItemSize(...entries[index])}
                     itemCount={entries.length}
