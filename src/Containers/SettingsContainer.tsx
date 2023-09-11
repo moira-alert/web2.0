@@ -18,7 +18,7 @@ import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 import { ConfigContext } from "../contexts/ConfigContext";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
-import { SubscriptionsList } from "../Components/SubscriptionList/SubscriptionList";
+import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
 
 interface Props extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
@@ -97,15 +97,15 @@ class SettingsContainer extends React.Component<Props, State> {
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <ConfigContext.Provider value={config || null}>
-                        {showSubCrashModal && crashedSubs?.length && (
+                        {showSubCrashModal && crashedSubs?.length && settings && (
                             <ConfirmDeleteModal
                                 message={`Are you sure you want to delete this delivery channel? This will disrupt the functioning of the following subscriptions:`}
-                                onDelete={() => this.handleRemoveContact(contact!)}
+                                onDelete={() => this.handleRemoveContact(contact)}
                                 onClose={() => this.setState({ showSubCrashModal: false })}
                             >
-                                <SubscriptionsList
+                                <SubscriptionList
                                     handleEditSubscription={this.scrollToElement}
-                                    contacts={settings!.contacts}
+                                    contacts={settings.contacts}
                                     subscriptions={crashedSubs}
                                 />
                             </ConfirmDeleteModal>
@@ -167,7 +167,6 @@ class SettingsContainer extends React.Component<Props, State> {
         setTimeout(() => {
             const element = this.scrollRef.current as HTMLElement;
             const elementRect = element.getBoundingClientRect();
-            console.log(elementRect);
             window.scrollBy({ top: elementRect.bottom - window.innerHeight, behavior: "smooth" });
         }, 0);
     };
@@ -341,10 +340,10 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleRemoveContact = async (contact: Contact) => {
+    handleRemoveContact = async (contact?: Contact) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
-        if (settings == null) {
+        if (settings == null || !contact) {
             throw new Error("InvalidProgramState");
         }
         try {

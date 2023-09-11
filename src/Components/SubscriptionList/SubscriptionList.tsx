@@ -16,7 +16,7 @@ interface Props {
     handleEditSubscription: (subscription: Subscription) => void;
 }
 
-export const SubscriptionsList: React.FC<Props> = ({
+export const SubscriptionList: React.FC<Props> = ({
     tableRef,
     subscriptions,
     contacts,

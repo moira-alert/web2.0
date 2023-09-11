@@ -12,7 +12,7 @@ import CreateSubscriptionModal from "../../Components/CreateSubscriptionModal/Cr
 import type { SubscriptionInfo } from "../../Components/SubscriptionEditor/SubscriptionEditor";
 import TagDropdownSelect from "../../Components/TagDropdownSelect/TagDropdownSelect";
 import { ConfigContext } from "../../contexts/ConfigContext";
-import { SubscriptionsList } from "../../Components/SubscriptionList/SubscriptionList";
+import { SubscriptionList } from "../../Components/SubscriptionList/SubscriptionList";
 import { filterSubscriptions } from "../../helpers/common";
 
 import cn from "./SubscriptionListContainer.less";
@@ -192,7 +192,7 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                             </Fit>
                         </RowStack>
                     }
-                    <SubscriptionsList
+                    <SubscriptionList
                         tableRef={tableRef}
                         subscriptions={filteredSubscriptions}
                         contacts={contacts}
