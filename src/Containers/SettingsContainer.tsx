@@ -171,15 +171,6 @@ class SettingsContainer extends React.Component<Props, State> {
         }, 0);
     };
 
-    handleTestSubscription = async (subscription: Subscription) => {
-        const { moiraApi } = this.props;
-        try {
-            await moiraApi.testSubscription(subscription.id);
-        } catch (error) {
-            this.setState({ error: error.message });
-        }
-    };
-
     handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
         const { moiraApi } = this.props;
         const { settings, team, login } = this.state;
@@ -330,6 +321,15 @@ class SettingsContainer extends React.Component<Props, State> {
             showSubCrashModal: true,
             crashedSubs: potentialyCrashedSubs,
         });
+    };
+
+    handleTestSubscription = async (subscription: Subscription) => {
+        const { moiraApi } = this.props;
+        try {
+            await moiraApi.testSubscription(subscription.id);
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
     };
 
     handleTestContact = async (contact: Contact) => {
