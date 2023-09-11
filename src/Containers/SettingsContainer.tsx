@@ -8,7 +8,7 @@ import type { Subscription } from "../Domain/Subscription";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import ContactList from "../Components/ContactList/ContactList";
-import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
+import { SubscriptionListContainer } from "./SubscriptionListContainer/SubscriptionListContainer";
 import { SubscriptionInfo } from "../Components/SubscriptionEditor/SubscriptionEditor";
 import { Team } from "../Domain/Team";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
@@ -17,6 +17,8 @@ import { RouteComponentProps } from "react-router";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 import { ConfigContext } from "../contexts/ConfigContext";
+import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
+import { SubscriptionsList } from "../Components/SubscriptionList/SubscriptionList";
 
 interface Props extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
@@ -31,6 +33,9 @@ interface State {
     tags?: Array<string>;
     team?: Team;
     teams?: Team[];
+    showSubCrashModal: boolean;
+    contact?: Contact;
+    crashedSubs?: Subscription[];
 }
 
 class SettingsContainer extends React.Component<Props, State> {
@@ -38,8 +43,9 @@ class SettingsContainer extends React.Component<Props, State> {
 
     public state: State = {
         loading: true,
+        showSubCrashModal: false,
     };
-
+    scrollRef = React.createRef<HTMLTableElement>();
     async componentDidMount() {
         document.title = "Moira - Settings";
         try {
@@ -71,13 +77,39 @@ class SettingsContainer extends React.Component<Props, State> {
     }
 
     render(): React.ReactElement {
-        const { loading, error, login, tags, settings, config, team, teams } = this.state;
+        const {
+            loading,
+            error,
+            login,
+            tags,
+            settings,
+            config,
+            team,
+            teams,
+            showSubCrashModal,
+            contact,
+            crashedSubs,
+        } = this.state;
         const user = login ? { id: "", name: login } : { id: "", name: "Unknown" };
         const userWithTeams = teams ? [user, ...teams] : [];
+
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <ConfigContext.Provider value={config || null}>
+                        {showSubCrashModal && crashedSubs?.length && (
+                            <ConfirmDeleteModal
+                                message={`Are you sure you want to delete this delivery channel? This will disrupt the functioning of the following subscriptions:`}
+                                onDelete={() => this.handleRemoveContact(contact!)}
+                                onClose={() => this.setState({ showSubCrashModal: false })}
+                            >
+                                <SubscriptionsList
+                                    handleEditSubscription={this.scrollToElement}
+                                    contacts={settings!.contacts}
+                                    subscriptions={crashedSubs}
+                                />
+                            </ConfirmDeleteModal>
+                        )}
                         <RowStack gap={1} block>
                             <LayoutTitle>Notifications</LayoutTitle>
                             <Fill />
@@ -104,7 +136,7 @@ class SettingsContainer extends React.Component<Props, State> {
                                     onTestContact={this.handleTestContact}
                                     onAddContact={this.handleAddContact}
                                     onUpdateContact={this.handleUpdateContact}
-                                    onRemoveContact={this.handleRemoveContact}
+                                    onRemoveContact={this.onRemoveContactBtnClick}
                                 />
                             </div>
                         )}
@@ -112,7 +144,8 @@ class SettingsContainer extends React.Component<Props, State> {
                             tags != undefined &&
                             settings.subscriptions != undefined &&
                             settings?.contacts.length > 0 && (
-                                <SubscriptionList
+                                <SubscriptionListContainer
+                                    tableRef={this.scrollRef}
                                     tags={tags}
                                     contacts={settings.contacts}
                                     subscriptions={settings.subscriptions}
@@ -127,6 +160,17 @@ class SettingsContainer extends React.Component<Props, State> {
             </Layout>
         );
     }
+
+    scrollToElement = () => {
+        this.setState({ showSubCrashModal: false });
+
+        setTimeout(() => {
+            const element = this.scrollRef.current as HTMLElement;
+            const elementRect = element.getBoundingClientRect();
+            console.log(elementRect);
+            window.scrollBy({ top: elementRect.bottom - window.innerHeight, behavior: "smooth" });
+        }, 0);
+    };
 
     handleTestContact = async (contact: Contact) => {
         try {
@@ -279,6 +323,24 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
+    onRemoveContactBtnClick = async (contact: Contact) => {
+        const { settings } = this.state;
+        if (settings == null) {
+            throw new Error("InvalidProgramState");
+        }
+
+        const potentialyCrashedSubs =
+            settings.subscriptions.filter(
+                (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
+            ) || [];
+
+        this.setState({
+            contact: contact,
+            showSubCrashModal: true,
+            crashedSubs: potentialyCrashedSubs,
+        });
+    };
+
     handleRemoveContact = async (contact: Contact) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
@@ -295,6 +357,8 @@ class SettingsContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ showSubCrashModal: false });
         }
     };
 
