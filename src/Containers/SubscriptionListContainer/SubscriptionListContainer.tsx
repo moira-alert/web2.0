@@ -13,7 +13,7 @@ import type { SubscriptionInfo } from "../../Components/SubscriptionEditor/Subsc
 import TagDropdownSelect from "../../Components/TagDropdownSelect/TagDropdownSelect";
 import { ConfigContext } from "../../contexts/ConfigContext";
 import { SubscriptionList } from "../../Components/SubscriptionList/SubscriptionList";
-import { filterSubscriptions } from "../../helpers/common";
+import { filterSubscriptions } from "../../Domain/filterSubscriptions";
 
 import cn from "./SubscriptionListContainer.less";
 

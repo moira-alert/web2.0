@@ -35,7 +35,7 @@ interface State {
     teams?: Team[];
     showSubCrashModal: boolean;
     contact?: Contact;
-    crashedSubs?: Subscription[];
+    disruptedSubs?: Subscription[];
 }
 
 class SettingsContainer extends React.Component<Props, State> {
@@ -88,7 +88,7 @@ class SettingsContainer extends React.Component<Props, State> {
             teams,
             showSubCrashModal,
             contact,
-            crashedSubs,
+            disruptedSubs,
         } = this.state;
         const user = login ? { id: "", name: login } : { id: "", name: "Unknown" };
         const userWithTeams = teams ? [user, ...teams] : [];
@@ -97,7 +97,7 @@ class SettingsContainer extends React.Component<Props, State> {
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <ConfigContext.Provider value={config || null}>
-                        {showSubCrashModal && crashedSubs?.length && settings && (
+                        {showSubCrashModal && disruptedSubs?.length && settings && (
                             <ConfirmDeleteModal
                                 message={`Are you sure you want to delete this delivery channel? This will disrupt the functioning of the following subscriptions:`}
                                 onDelete={() => this.handleRemoveContact(contact)}
@@ -106,7 +106,7 @@ class SettingsContainer extends React.Component<Props, State> {
                                 <SubscriptionList
                                     handleEditSubscription={this.scrollToElement}
                                     contacts={settings.contacts}
-                                    subscriptions={crashedSubs}
+                                    subscriptions={disruptedSubs}
                                 />
                             </ConfirmDeleteModal>
                         )}
@@ -167,15 +167,15 @@ class SettingsContainer extends React.Component<Props, State> {
             throw new Error("InvalidProgramState");
         }
 
-        const potentialyCrashedSubs =
+        const potentiallyDisruptedSubscriptions  =
             settings.subscriptions.filter(
                 (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
-            ) || [];
+            ) ;
 
         this.setState({
             contact: contact,
             showSubCrashModal: true,
-            crashedSubs: potentialyCrashedSubs,
+            disruptedSubs: potentiallyDisruptedSubscriptions ,
         });
     };
     private handleChangeTeam = async (userOrTeam: Team) => {
@@ -333,17 +333,25 @@ class SettingsContainer extends React.Component<Props, State> {
     handleTestSubscription = async (subscription: Subscription) => {
         const { moiraApi } = this.props;
         try {
+            this.setState({loading:true})
             await moiraApi.testSubscription(subscription.id);
         } catch (error) {
             this.setState({ error: error.message });
+        }
+        finally {
+            this.setState({loading:false})
         }
     };
 
     handleTestContact = async (contact: Contact) => {
         try {
+            this.setState({loading:true})
             await this.props.moiraApi.testContact(contact.id);
         } catch (error) {
             this.setState({ error: error.message });
+        }
+        finally {
+            this.setState({loading:false})
         }
     };
 
@@ -356,6 +364,7 @@ class SettingsContainer extends React.Component<Props, State> {
         try {
             await moiraApi.deleteContact(contact.id);
             this.setState({
+                loading:true,
                 settings: {
                     ...settings,
                     contacts: settings.contacts.filter((x) => x.id !== contact.id),
@@ -364,7 +373,7 @@ class SettingsContainer extends React.Component<Props, State> {
         } catch (error) {
             this.setState({ error: error.message });
         } finally {
-            this.setState({ showSubCrashModal: false });
+            this.setState({ showSubCrashModal: false,loading:false});
         }
     };
 
