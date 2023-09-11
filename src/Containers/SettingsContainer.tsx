@@ -172,14 +172,6 @@ class SettingsContainer extends React.Component<Props, State> {
         }, 0);
     };
 
-    handleTestContact = async (contact: Contact) => {
-        try {
-            await this.props.moiraApi.testContact(contact.id);
-        } catch (error) {
-            this.setState({ error: error.message });
-        }
-    };
-
     handleTestSubscription = async (subscription: Subscription) => {
         const { moiraApi } = this.props;
         try {
@@ -339,6 +331,14 @@ class SettingsContainer extends React.Component<Props, State> {
             showSubCrashModal: true,
             crashedSubs: potentialyCrashedSubs,
         });
+    };
+
+    handleTestContact = async (contact: Contact) => {
+        try {
+            await this.props.moiraApi.testContact(contact.id);
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
     };
 
     handleRemoveContact = async (contact: Contact) => {
