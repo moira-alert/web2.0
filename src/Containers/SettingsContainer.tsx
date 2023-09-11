@@ -161,16 +161,6 @@ class SettingsContainer extends React.Component<Props, State> {
         );
     }
 
-    scrollToElement = () => {
-        this.setState({ showSubCrashModal: false });
-
-        setTimeout(() => {
-            const element = this.scrollRef.current as HTMLElement;
-            const elementRect = element.getBoundingClientRect();
-            window.scrollBy({ top: elementRect.bottom - window.innerHeight, behavior: "smooth" });
-        }, 0);
-    };
-
     onRemoveContactBtnClick = async (contact: Contact) => {
         const { settings } = this.state;
         if (settings == null) {
@@ -187,6 +177,23 @@ class SettingsContainer extends React.Component<Props, State> {
             showSubCrashModal: true,
             crashedSubs: potentialyCrashedSubs,
         });
+    };
+    private handleChangeTeam = async (userOrTeam: Team) => {
+        try {
+            if (userOrTeam.id) {
+                this.setState({ loading: true, team: userOrTeam });
+                await this.getTeamData(userOrTeam.id);
+                this.props.history.replace(getPageLink("settings", userOrTeam.id));
+            } else {
+                this.setState({ loading: true, team: undefined });
+                await this.getUserData();
+                this.props.history.replace(getPageLink("settings"));
+            }
+        } catch (error) {
+            this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
+        }
     };
 
     handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
@@ -361,24 +368,6 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    private handleChangeTeam = async (userOrTeam: Team) => {
-        try {
-            if (userOrTeam.id) {
-                this.setState({ loading: true, team: userOrTeam });
-                await this.getTeamData(userOrTeam.id);
-                this.props.history.replace(getPageLink("settings", userOrTeam.id));
-            } else {
-                this.setState({ loading: true, team: undefined });
-                await this.getUserData();
-                this.props.history.replace(getPageLink("settings"));
-            }
-        } catch (error) {
-            this.setState({ error: error.message });
-        } finally {
-            this.setState({ loading: false });
-        }
-    };
-
     private async getTeamsAndTags() {
         const [user, teams, tags, config] = await Promise.all([
             this.props.moiraApi.getUser(),
@@ -404,17 +393,26 @@ class SettingsContainer extends React.Component<Props, State> {
         });
     }
 
+    private async getTeamData(teamId: string) {
+        const settings = await this.props.moiraApi.getSettingsByTeam(teamId);
+
+        this.setState({ settings });
+    }
+
     private async getUserData() {
         const settings = await this.props.moiraApi.getSettings();
 
         this.setState({ settings });
     }
 
-    private async getTeamData(teamId: string) {
-        const settings = await this.props.moiraApi.getSettingsByTeam(teamId);
+    scrollToElement = () => {
+        this.setState({ showSubCrashModal: false });
 
-        this.setState({ settings });
-    }
+        setTimeout(() => {
+            const element = this.scrollRef.current as HTMLElement;
+            const elementRect = element.getBoundingClientRect();
+            window.scrollBy({ top: elementRect.bottom - window.innerHeight, behavior: "smooth" });
+        }, 0);
+    };
 }
-
 export default withMoiraApi(SettingsContainer);
