@@ -2,7 +2,6 @@ import React from "react";
 import { Gapped } from "@skbkontur/react-ui";
 import { Contact, filterSubscriptionContacts } from "../../../Domain/Contact";
 import { Subscription } from "../../../Domain/Subscription";
-import { notUndefined } from "../../../helpers/common";
 import ContactInfo from "../../ContactInfo/ContactInfo";
 import TagGroup from "../../TagGroup/TagGroup";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
