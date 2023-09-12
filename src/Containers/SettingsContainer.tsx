@@ -171,12 +171,17 @@ class SettingsContainer extends React.Component<Props, State> {
             (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
         );
 
-        this.setState({
-            contact: contact,
-            showSubCrashModal: true,
-            disruptedSubs: potentiallyDisruptedSubscriptions,
-        });
+        if (potentiallyDisruptedSubscriptions.length) {
+            this.setState({
+                contact: contact,
+                showSubCrashModal: true,
+                disruptedSubs: potentiallyDisruptedSubscriptions,
+            });
+            return;
+        }
+        this.handleRemoveContact(contact);
     };
+
     private handleChangeTeam = async (userOrTeam: Team) => {
         try {
             if (userOrTeam.id) {

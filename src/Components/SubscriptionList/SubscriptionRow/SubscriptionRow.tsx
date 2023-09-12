@@ -42,14 +42,15 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             <td className={cn("enabled-cell")}>
                 {!subscription.enabled && <span className={cn("disabled-label")}>Disabled</span>}
             </td>
-            {areAnyDisruptedSubs && (
-                <td>
+
+            <td>
+                {areAnyDisruptedSubs && (
                     <HelpTooltip trigger="hover">
                         It seems that this subscription is broken, please set up the delivery
                         channel.
                     </HelpTooltip>
-                </td>
-            )}
+                )}
+            </td>
         </tr>
     );
 };
