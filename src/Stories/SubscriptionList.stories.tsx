@@ -1,7 +1,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
+import { SubscriptionListContainer } from "../Containers/SubscriptionListContainer/SubscriptionListContainer";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
 import actionWithDelay from "./StoryUtils";
 
@@ -32,7 +32,7 @@ const contacts = [
 storiesOf("SubscriptionList", module)
     .addDecorator((story) => <ValidationContainer>{story()}</ValidationContainer>)
     .add("Defualt", () => (
-        <SubscriptionList
+        <SubscriptionListContainer
             {...commonProps}
             tags={tags}
             contacts={contacts}
@@ -63,7 +63,7 @@ storiesOf("SubscriptionList", module)
         />
     ))
     .add("WithDisabledItem", () => (
-        <SubscriptionList
+        <SubscriptionListContainer
             {...commonProps}
             tags={tags}
             contacts={contacts}
@@ -94,7 +94,7 @@ storiesOf("SubscriptionList", module)
         />
     ))
     .add("FewChannelsForSubscription", () => (
-        <SubscriptionList
+        <SubscriptionListContainer
             {...commonProps}
             tags={tags}
             contacts={contacts}
@@ -125,7 +125,7 @@ storiesOf("SubscriptionList", module)
         />
     ))
     .add("WithManyTags", () => (
-        <SubscriptionList
+        <SubscriptionListContainer
             {...commonProps}
             tags={tags}
             contacts={contacts}

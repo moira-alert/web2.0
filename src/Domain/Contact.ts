@@ -1,3 +1,5 @@
+import { Subscription } from "./Subscription";
+
 export enum ContactTypes {
     mail = "mail",
     email = "email",
@@ -21,3 +23,8 @@ export interface Contact {
 export interface ContactList {
     list: Array<Contact>;
 }
+
+export const filterSubscriptionContacts = (contacts: Contact[], subscription: Subscription) =>
+    contacts.filter((contact) =>
+        subscription.contacts.some((subscriptionContactId) => contact.id === subscriptionContactId)
+    );

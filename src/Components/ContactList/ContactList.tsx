@@ -9,6 +9,7 @@ import { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+
 import cn from "./ContactList.less";
 
 type Props = {

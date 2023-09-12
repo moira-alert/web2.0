@@ -8,7 +8,7 @@ import type { Subscription } from "../Domain/Subscription";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import ContactList from "../Components/ContactList/ContactList";
-import SubscriptionList from "../Components/SubscriptionList/SubscriptionList";
+import { SubscriptionListContainer } from "./SubscriptionListContainer/SubscriptionListContainer";
 import { SubscriptionInfo } from "../Components/SubscriptionEditor/SubscriptionEditor";
 import { Team } from "../Domain/Team";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
@@ -17,6 +17,8 @@ import { RouteComponentProps } from "react-router";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 import { ConfigContext } from "../contexts/ConfigContext";
+import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
+import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
 
 interface Props extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
@@ -31,6 +33,9 @@ interface State {
     tags?: Array<string>;
     team?: Team;
     teams?: Team[];
+    showSubCrashModal: boolean;
+    contact?: Contact;
+    disruptedSubs?: Subscription[];
 }
 
 class SettingsContainer extends React.Component<Props, State> {
@@ -38,8 +43,9 @@ class SettingsContainer extends React.Component<Props, State> {
 
     public state: State = {
         loading: true,
+        showSubCrashModal: false,
     };
-
+    scrollRef = React.createRef<HTMLTableElement>();
     async componentDidMount() {
         document.title = "Moira - Settings";
         try {
@@ -71,13 +77,39 @@ class SettingsContainer extends React.Component<Props, State> {
     }
 
     render(): React.ReactElement {
-        const { loading, error, login, tags, settings, config, team, teams } = this.state;
+        const {
+            loading,
+            error,
+            login,
+            tags,
+            settings,
+            config,
+            team,
+            teams,
+            showSubCrashModal,
+            contact,
+            disruptedSubs,
+        } = this.state;
         const user = login ? { id: "", name: login } : { id: "", name: "Unknown" };
         const userWithTeams = teams ? [user, ...teams] : [];
+
         return (
             <Layout loading={loading} error={error}>
                 <LayoutContent>
                     <ConfigContext.Provider value={config || null}>
+                        {showSubCrashModal && disruptedSubs?.length && settings && (
+                            <ConfirmDeleteModal
+                                message={`Are you sure you want to delete this delivery channel? This will disrupt the functioning of the following subscriptions:`}
+                                onDelete={() => this.handleRemoveContact(contact)}
+                                onClose={() => this.setState({ showSubCrashModal: false })}
+                            >
+                                <SubscriptionList
+                                    handleEditSubscription={this.scrollToElement}
+                                    contacts={settings.contacts}
+                                    subscriptions={disruptedSubs}
+                                />
+                            </ConfirmDeleteModal>
+                        )}
                         <RowStack gap={1} block>
                             <LayoutTitle>Notifications</LayoutTitle>
                             <Fill />
@@ -104,7 +136,7 @@ class SettingsContainer extends React.Component<Props, State> {
                                     onTestContact={this.handleTestContact}
                                     onAddContact={this.handleAddContact}
                                     onUpdateContact={this.handleUpdateContact}
-                                    onRemoveContact={this.handleRemoveContact}
+                                    onRemoveContact={this.onRemoveContactBtnClick}
                                 />
                             </div>
                         )}
@@ -112,7 +144,8 @@ class SettingsContainer extends React.Component<Props, State> {
                             tags != undefined &&
                             settings.subscriptions != undefined &&
                             settings?.contacts.length > 0 && (
-                                <SubscriptionList
+                                <SubscriptionListContainer
+                                    tableRef={this.scrollRef}
                                     tags={tags}
                                     contacts={settings.contacts}
                                     subscriptions={settings.subscriptions}
@@ -128,20 +161,42 @@ class SettingsContainer extends React.Component<Props, State> {
         );
     }
 
-    handleTestContact = async (contact: Contact) => {
-        try {
-            await this.props.moiraApi.testContact(contact.id);
-        } catch (error) {
-            this.setState({ error: error.message });
+    onRemoveContactBtnClick = async (contact: Contact) => {
+        const { settings } = this.state;
+        if (settings == null) {
+            throw new Error("InvalidProgramState");
         }
+
+        const potentiallyDisruptedSubscriptions = settings.subscriptions.filter(
+            (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
+        );
+
+        if (potentiallyDisruptedSubscriptions.length) {
+            this.setState({
+                contact: contact,
+                showSubCrashModal: true,
+                disruptedSubs: potentiallyDisruptedSubscriptions,
+            });
+            return;
+        }
+        this.handleRemoveContact(contact);
     };
 
-    handleTestSubscription = async (subscription: Subscription) => {
-        const { moiraApi } = this.props;
+    private handleChangeTeam = async (userOrTeam: Team) => {
         try {
-            await moiraApi.testSubscription(subscription.id);
+            if (userOrTeam.id) {
+                this.setState({ loading: true, team: userOrTeam });
+                await this.getTeamData(userOrTeam.id);
+                this.props.history.replace(getPageLink("settings", userOrTeam.id));
+            } else {
+                this.setState({ loading: true, team: undefined });
+                await this.getUserData();
+                this.props.history.replace(getPageLink("settings"));
+            }
         } catch (error) {
             this.setState({ error: error.message });
+        } finally {
+            this.setState({ loading: false });
         }
     };
 
@@ -279,10 +334,27 @@ class SettingsContainer extends React.Component<Props, State> {
         }
     };
 
-    handleRemoveContact = async (contact: Contact) => {
+    handleTestSubscription = async (subscription: Subscription) => {
+        const { moiraApi } = this.props;
+        try {
+            await moiraApi.testSubscription(subscription.id);
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
+    };
+
+    handleTestContact = async (contact: Contact) => {
+        try {
+            await this.props.moiraApi.testContact(contact.id);
+        } catch (error) {
+            this.setState({ error: error.message });
+        }
+    };
+
+    handleRemoveContact = async (contact?: Contact) => {
         const { moiraApi } = this.props;
         const { settings } = this.state;
-        if (settings == null) {
+        if (settings == null || !contact) {
             throw new Error("InvalidProgramState");
         }
         try {
@@ -295,24 +367,8 @@ class SettingsContainer extends React.Component<Props, State> {
             });
         } catch (error) {
             this.setState({ error: error.message });
-        }
-    };
-
-    private handleChangeTeam = async (userOrTeam: Team) => {
-        try {
-            if (userOrTeam.id) {
-                this.setState({ loading: true, team: userOrTeam });
-                await this.getTeamData(userOrTeam.id);
-                this.props.history.replace(getPageLink("settings", userOrTeam.id));
-            } else {
-                this.setState({ loading: true, team: undefined });
-                await this.getUserData();
-                this.props.history.replace(getPageLink("settings"));
-            }
-        } catch (error) {
-            this.setState({ error: error.message });
         } finally {
-            this.setState({ loading: false });
+            this.setState({ showSubCrashModal: false });
         }
     };
 
@@ -341,17 +397,26 @@ class SettingsContainer extends React.Component<Props, State> {
         });
     }
 
+    private async getTeamData(teamId: string) {
+        const settings = await this.props.moiraApi.getSettingsByTeam(teamId);
+
+        this.setState({ settings });
+    }
+
     private async getUserData() {
         const settings = await this.props.moiraApi.getSettings();
 
         this.setState({ settings });
     }
 
-    private async getTeamData(teamId: string) {
-        const settings = await this.props.moiraApi.getSettingsByTeam(teamId);
+    scrollToElement = () => {
+        this.setState({ showSubCrashModal: false });
 
-        this.setState({ settings });
-    }
+        setTimeout(() => {
+            const element = this.scrollRef.current as HTMLElement;
+            const elementRect = element.getBoundingClientRect();
+            window.scrollBy({ top: elementRect.bottom - window.innerHeight, behavior: "smooth" });
+        }, 0);
+    };
 }
-
 export default withMoiraApi(SettingsContainer);

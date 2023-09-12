@@ -36,3 +36,8 @@ export function getPagePath(page: PagePath): string {
 export function getPageLink(page: PageLink, id = ""): string {
     return PagesLinks[page].replace("%id%", id);
 }
+
+export enum ModalType {
+    subscriptionEditModal = "subscriptionEditModal",
+    newSubscriptionModal = "newSubscriptionModal",
+}
