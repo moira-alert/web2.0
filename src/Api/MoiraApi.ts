@@ -412,9 +412,9 @@ export default class MoiraApi {
     }
 
     async delMetric(triggerId: string, metric: string): Promise<void> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/metrics?name=${encodeURI(
-            metric
-        )}`;
+        const url = `${this.apiUrl}/trigger/${encodeURI(
+            triggerId
+        )}/metrics?name=${encodeURIComponent(metric)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
