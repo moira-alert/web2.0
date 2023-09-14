@@ -93,7 +93,7 @@ export default class TriggerListDesktop extends React.Component<TriggerListDeskt
                             caption="Next page"
                             activePage={activePage}
                             pagesCount={pageCount}
-                            onPageChange={(page) => onChange({ page })}
+                            onPageChange={this.handlePageChange}
                             withoutNavigationHint
                         />
                     </LayoutFooter>
@@ -101,6 +101,14 @@ export default class TriggerListDesktop extends React.Component<TriggerListDeskt
             </Layout>
         );
     }
+
+    handlePageChange = (page: number) => {
+        this.props.onChange({ page });
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
 
     handleChange = (tags: string[], searchText: string): void => {
         this.props.onChange({ tags, searchText });
