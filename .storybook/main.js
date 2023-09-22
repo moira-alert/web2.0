@@ -1,15 +1,26 @@
 module.exports = {
-    stories: ['../src/Stories/**/*.stories.tsx'],
-    addons: [
-        "creevey",
-    ],
-    webpackFinal: async (config, { configType }) => {
-        config.module.rules = config.module.rules.filter(rule => rule.test.toString() !== "/\\.css$/");
+    framework: {
+        name: "@storybook/react-webpack5",
+        options: {},
+    },
 
+    stories: ["../src/Stories/**/*.stories.tsx"],
+    addons: ["creevey"],
+
+    core: {
+        builder: "webpack5",
+    },
+    features: {
+        storyStoreV7: false,
+    },
+
+    webpackFinal: async (config, { configType }) => {
+        config.module.rules = config.module.rules.filter(
+            (rule) => rule.toString().test !== "/\\.css$/"
+        );
         config.module.rules.push({
-            test: /\.(css|less)$/,
+            test: /\.less$/i,
             use: [
-                "classnames-loader",
                 "style-loader",
                 {
                     loader: "css-loader",
@@ -17,13 +28,14 @@ module.exports = {
                         modules: true,
                     },
                 },
+                ,
                 "less-loader",
             ],
         });
 
         config.module.rules.push({
             test: /\.(ts|tsx)$/,
-            loader: require.resolve('babel-loader'),
+            loader: require.resolve("babel-loader"),
         });
 
         config.resolve.extensions.push(".ts", ".tsx");
@@ -31,13 +43,16 @@ module.exports = {
 
         return config;
     },
+
     typescript: {
-        check: false,
-        checkOptions: {},
-        reactDocgen: 'react-docgen-typescript',
+        reactDocgen: "react-docgen-typescript",
         reactDocgenTypescriptOptions: {
             shouldExtractLiteralValuesFromEnum: true,
             propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
         },
+    },
+
+    docs: {
+        inlineStories: true,
     },
 };
