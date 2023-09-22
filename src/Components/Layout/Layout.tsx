@@ -1,7 +1,11 @@
 import * as React from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
-import cn from "./Layout.less";
+import classNames from "classnames/bind";
+
+import styles from "./Layout.less";
+
+const cn = classNames.bind(styles);
 
 type LayoutProps = {
     children?: React.ReactNode;

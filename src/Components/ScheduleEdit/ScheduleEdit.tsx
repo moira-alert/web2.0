@@ -4,7 +4,11 @@ import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { Schedule } from "../../Domain/Schedule";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import cn from "./ScheduleEdit.less";
+import classNames from "classnames/bind";
+
+import styles from "./ScheduleEdit.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     schedule: Schedule;

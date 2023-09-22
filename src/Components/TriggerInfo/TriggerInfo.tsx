@@ -23,7 +23,11 @@ import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
-import cn from "./TriggerInfo.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerInfo.less";
+
+const cn = classNames.bind(styles);
 
 const md = new Remarkable({ breaks: true });
 

@@ -3,7 +3,11 @@ import { Contact } from "../../Domain/Contact";
 import { Subscription } from "../../Domain/Subscription";
 import { SubscriptionRow } from "./SubscriptionRow/SubscriptionRow";
 
-import cn from "./SubscriptionList.less";
+import classNames from "classnames/bind";
+
+import styles from "./SubscriptionList.less";
+
+const cn = classNames.bind(styles);
 
 interface Props {
     tableRef?: React.Ref<HTMLTableElement>;

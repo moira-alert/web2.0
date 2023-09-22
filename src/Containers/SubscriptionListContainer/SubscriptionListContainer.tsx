@@ -13,9 +13,12 @@ import { ConfigContext } from "../../contexts/ConfigContext";
 import { SubscriptionList } from "../../Components/SubscriptionList/SubscriptionList";
 import { filterSubscriptions } from "../../Domain/FilterSubscriptions";
 import { AddSubscriptionMessage } from "../../Components/AddSubscribtionMessage/AddSubscribtionMessage";
-
-import cn from "./SubscriptionListContainer.less";
 import { ModalType } from "../../Domain/Global";
+import classNames from "classnames/bind";
+
+import styles from "./SubscriptionListContainer.less";
+
+const cn = classNames.bind(styles);
 
 export type { SubscriptionInfo };
 

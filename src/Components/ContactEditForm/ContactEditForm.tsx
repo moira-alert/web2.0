@@ -6,7 +6,11 @@ import { Remarkable } from "remarkable";
 import { ContactConfig } from "../../Domain/Config";
 import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import cn from "./ContactEditForm.less";
+import classNames from "classnames/bind";
+
+import styles from "./ContactEditForm.less";
+
+const cn = classNames.bind(styles);
 
 const md = new Remarkable({ breaks: true });
 

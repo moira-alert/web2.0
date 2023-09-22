@@ -2,7 +2,11 @@ import * as React from "react";
 import { History } from "history";
 import { Trigger } from "../../Domain/Trigger";
 import TriggerListItem from "../TriggerListItem/TriggerListItem";
-import cn from "./TriggerList.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerList.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     items: Trigger[];

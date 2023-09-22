@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input/Input";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
-import { Calendar, CalendarDateShape } from "@skbkontur/react-ui/internal/Calendar";
+import { Calendar, CalendarDateShape } from "@skbkontur/react-ui";
 import { DateInput } from "@skbkontur/react-ui/components/DateInput/DateInput";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Menu } from "@skbkontur/react-ui/internal/Menu";
@@ -9,7 +9,11 @@ import { addMonths, format, getUnixTime, fromUnixTime, lastDayOfMonth, addDays }
 import { tooltip, ValidationContainer, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { ValidationInfo } from "@skbkontur/react-ui-validations/src/ValidationWrapper";
 import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
-import cn from "./CustomMaintenanceMenu.less";
+import classNames from "classnames/bind";
+
+import styles from "./CustomMaintenanceMenu.less";
+
+const cn = classNames.bind(styles);
 
 function splitDate(date: Date): [string, CalendarDateShape, string] {
     return [
@@ -144,11 +148,11 @@ export default function CustomMaintenanceMenu({
                 ))}
             </Menu>
             <Calendar
-                value={calendarDate}
+                value={calendarDate.toString()}
                 initialMonth={calendarDate.month}
                 initialYear={calendarDate.year}
-                minDate={todayDate}
-                maxDate={maxDate}
+                minDate={todayDate.toString()}
+                maxDate={maxDate.toString()}
                 onSelect={handleDatePick}
             />
             <footer className={cn("footer")}>

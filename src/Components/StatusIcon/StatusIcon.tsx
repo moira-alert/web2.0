@@ -1,7 +1,11 @@
 import * as React from "react";
 import { Status } from "../../Domain/Status";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import cn from "./StatusIcon.less";
+import classNames from "classnames/bind";
+
+import styles from "./StatusIcon.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     status: Status;

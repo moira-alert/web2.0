@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
-import cn from "./Toggle.less";
+import classNames from "classnames/bind";
+
+import styles from "./Toggle.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     checked?: boolean;

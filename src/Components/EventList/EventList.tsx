@@ -4,7 +4,11 @@ import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
-import cn from "./EventList.less";
+import classNames from "classnames/bind";
+
+import styles from "./EventList.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     items: {

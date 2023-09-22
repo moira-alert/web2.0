@@ -34,7 +34,11 @@ import CodeRef from "../CodeRef/CodeRef";
 import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./EditDescritionHelp";
-import cn from "./TriggerEditForm.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerEditForm.less";
+
+const cn = classNames.bind(styles);
 
 const md = new Remarkable({ breaks: true });
 

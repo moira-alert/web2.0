@@ -1,7 +1,11 @@
 import React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import ImportIcon from "@skbkontur/react-icons/Import";
-import cn from "./FileLoader.less";
+import classNames from "classnames/bind";
+
+import styles from "./FileLoader.less";
+
+const cn = classNames.bind(styles);
 
 type FileLoaderProps = {
     onLoad: (fileData: string, fileName: string) => void;
