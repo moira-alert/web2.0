@@ -1,17 +1,10 @@
 module.exports = {
-    framework: {
-        name: "@storybook/react-webpack5",
-        options: {},
-    },
-
-    stories: ["../src/Stories/**/*.stories.tsx"],
-    addons: ["creevey"],
+    stories: ["../src/**/*.stories.mdx", "../src/Stories/**/*.stories.tsx"],
+    addons: ["creevey", "@storybook/preset-typescript"],
+    framework: "@storybook/react",
 
     core: {
-        builder: "webpack5",
-    },
-    features: {
-        storyStoreV7: false,
+        builder: "@storybook/builder-webpack5",
     },
 
     webpackFinal: async (config, { configType }) => {
@@ -45,14 +38,10 @@ module.exports = {
     },
 
     typescript: {
-        reactDocgen: "react-docgen-typescript",
+        reactDocgen: "react-docgen-typescript-plugin",
         reactDocgenTypescriptOptions: {
             shouldExtractLiteralValuesFromEnum: true,
             propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
         },
-    },
-
-    docs: {
-        inlineStories: true,
     },
 };

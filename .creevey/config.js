@@ -3,6 +3,7 @@ const path = require("path");
 module.exports = {
     useDocker: true,
     storybookUrl: "http://localhost:9001",
+    storybookDir: path.join(__dirname, "../.storybook"),
     screenDir: path.join(__dirname, "images"),
     reportDir: path.join(__dirname, "report"),
     maxRetries: 2,
@@ -11,6 +12,6 @@ module.exports = {
             browserName: "chrome",
             platformName: "linux",
             viewport: { width: 1024, height: 720 },
-        }
+        },
     },
 };
