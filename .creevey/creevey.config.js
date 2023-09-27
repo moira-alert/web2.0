@@ -1,6 +1,10 @@
 const path = require("path");
+const { hybridStoriesProvider } = require("creevey");
 
 module.exports = {
+    storiesProvider: hybridStoriesProvider,
+    testsRegex: /.creevey.(t|j)s$/,
+    testsDir: path.join(__dirname, "src"),
     useDocker: true,
     storybookUrl: "http://localhost:9001",
     storybookDir: path.join(__dirname, "../.storybook"),

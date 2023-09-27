@@ -20,19 +20,19 @@ const iconTypes = [
 ];
 
 storiesOf("ContactTypeIcon", module)
-    .addParameters({
-        creevey: {
-            tests: {
-                async AllIcons() {
-                    // Some icons get by url and loaded with a delay
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // .addParameters({
+    //     creevey: {
+    //         tests: {
+    //             async AllIcons() {
+    //                 // Some icons get by url and loaded with a delay
+    //                 await new Promise((resolve) => setTimeout(resolve, 1000));
 
-                    // @ts-ignore matchImage is custom method
-                    await this.expect(await this.takeScreenshot()).to.matchImage();
-                },
-            },
-        },
-    })
+    //                 // @ts-ignore matchImage is custom method
+    //                 await this.expect(await this.takeScreenshot()).to.matchImage();
+    //             },
+    //         },
+    //     },
+    // })
     .add("AllIconsInList", () => (
         <div>
             {iconTypes.map((type: string) => (

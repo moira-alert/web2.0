@@ -6,14 +6,15 @@ import NewTagBadge from "../Components/NewTagBadge/NewTagBadge";
 
 storiesOf("Tag", module)
     .addDecorator((story) => <div style={{ padding: 5 }}>{story()}</div>)
-    .addParameters({
-        creevey: {
-            skip: {
-                stories: "NewTagBadge with remove",
-                reasons: "Unstable draw button angles with border-radius",
-            },
-        },
-    })
+    // .addParameters({
+    //     creevey: {
+    //         skip: {
+    //             "Unstable draw button angles with border-radius": {
+    //                 flacky: { stories: "NewTagBadge with remove" },
+    //             },
+    //         },
+    //     },
+    // })
     .add("Default", () => <Tag title="abonentsErrors" />)
     .add("Long title", () => <Tag title="dmitry:ReplicaClusterError.ReplicaClusterWarn" />)
     .add("Short title", () => <Tag title="test" />)

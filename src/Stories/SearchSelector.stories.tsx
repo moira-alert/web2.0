@@ -20,24 +20,24 @@ storiesOf("SearchSelector", module)
                 onChange={action("onChange")}
                 onSearch={action("onSearch")}
             />
-        ),
-        {
-            creevey: {
-                captureElement: null,
-                tests: {
-                    states: async function () {
-                        const simple = await this.takeScreenshot();
+        )
+        // {
+        //     creevey: {
+        //         captureElement: null,
+        //         tests: {
+        //             states: async function () {
+        //                 const simple = await this.takeScreenshot();
 
-                        const selector = this.browser.findElement({ css: "#selector" });
-                        await this.browser.actions().move({ origin: selector }).perform();
-                        await this.browser.actions().click().perform();
-                        const clicked = await this.takeScreenshot();
+        //                 const selector = this.browser.findElement({ css: "#selector" });
+        //                 await this.browser.actions().move({ origin: selector }).perform();
+        //                 await this.browser.actions().click().perform();
+        //                 const clicked = await this.takeScreenshot();
 
-                        await this.expect({ simple, clicked }).to.matchImages();
-                    } as CreeveyTestFunction,
-                },
-            },
-        }
+        //                 await this.expect({ simple, clicked }).to.matchImages();
+        //             } as CreeveyTestFunction,
+        //         },
+        //     },
+        // }
     )
     .add("with selected", () => (
         <SearchSelector
