@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @storybookreact-docgen-typescript-plugin@latest -D
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add react-scripts@latest
 
 PATH: 
   C:\Users\zaidler\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\zaidler\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\dotnet;C:\Program Files (x86)\Yarn\bin;C:\ProgramData\chocolatey\bin;%NVM_HOME%;%NVM_SYMLINK%;C:\Users\zaidler\AppData\Local\Microsoft\WindowsApps;C:\Users\zaidler\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\zaidler\AppData\Local\Programs\Git\cmd;C:\Users\zaidler\.dotnet\tools;C:\Users\zaidler\AppData\Local\Yarn\bin;C:\Users\zaidler\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
@@ -14,17 +14,16 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://nexus.kontur.host/repository/kontur-npm-group/@storybookreact-docgen-typescript-plugin: Not found
-      at Request.params.callback [as _callback] (C:\Users\zaidler\AppData\Roaming\nvm\v16.15.0\node_modules\yarn\lib\cli.js:66145:18)
-      at Request.self.callback (C:\Users\zaidler\AppData\Roaming\nvm\v16.15.0\node_modules\yarn\lib\cli.js:140890:22)
-      at Request.emit (node:events:527:28)
-      at Request.<anonymous> (C:\Users\zaidler\AppData\Roaming\nvm\v16.15.0\node_modules\yarn\lib\cli.js:141862:10)
-      at Request.emit (node:events:527:28)
-      at IncomingMessage.<anonymous> (C:\Users\zaidler\AppData\Roaming\nvm\v16.15.0\node_modules\yarn\lib\cli.js:141784:12)
+  Error: https://nexus.kontur.host/repository/kontur-npm-group/date-fns/-/date-fns-2.9.0.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Users\zaidler\AppData\Roaming\nvm\v16.15.0\node_modules\yarn\lib\cli.js:141517:19)
       at Object.onceWrapper (node:events:641:28)
-      at IncomingMessage.emit (node:events:539:35)
-      at endReadableNT (node:internal/streams/readable:1345:12)
-      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+      at ClientRequest.emit (node:events:527:28)
+      at TLSSocket.emitRequestTimeout (node:_http_client:771:9)
+      at Object.onceWrapper (node:events:641:28)
+      at TLSSocket.emit (node:events:539:35)
+      at TLSSocket.Socket._onTimeout (node:net:516:8)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
 
 npm manifest: 
   {
@@ -39,7 +38,7 @@ npm manifest:
           "start:docker-proxy": "yarn serve --config webpack.config.docker-proxy.js",
           "backend": "docker-compose -f src/tests/core/api/docker-compose.yml up",
           "build": "webpack --mode=production",
-          "storybook": "cross-env NODE_ENV=development start-storybook dev -p 9001 -c .storybook --ci --no-manager-cache",
+          "storybook": "cross-env NODE_ENV=development start-storybook dev -p 9001 -c .storybook --ci ",
           "storybook:ci": "yarn storybook --ci --quiet",
           "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
           "lint": "eslint --ext .tsx --ext .ts src/",
@@ -59,7 +58,7 @@ npm manifest:
       "dependencies": {
           "@skbkontur/react-icons": "^5.2.9",
           "@skbkontur/react-stack-layout": "1.0.3",
-          "@skbkontur/react-ui": "^4.16.0",
+          "@skbkontur/react-ui": "2.17.4",
           "@skbkontur/react-ui-validations": "1.1.3",
           "color-hash": "1.0.3",
           "date-fns": "2.9.0",
@@ -78,12 +77,14 @@ npm manifest:
           "react-hot-loader": "4.13.0",
           "react-router": "5.1.2",
           "react-router-dom": "5.1.2",
+          
           "react-virtualized-auto-sizer": "^1.0.20",
           "reflect-metadata": "^0.1.13",
           "remarkable": "^2.0.1",
           "start-server-and-test": "1.14.0"
       },
       "devDependencies": {
+          "react-ui-codemod": "1.3.0-beta.5",
           "@babel/core": "7.9.0",
           "@babel/plugin-proposal-class-properties": "7.8.3",
           "@babel/plugin-proposal-object-rest-spread": "7.9.5",
@@ -122,7 +123,7 @@ npm manifest:
           "babel-loader": "8.0.5",
           "babel-plugin-module-resolver": "4.0.0",
           "classnames": "2.2.6",
-          "creevey": "0.9.0-beta.5",
+          "creevey": "0.9.0-non-webpack.2",
           "cross-env": "5.2.0",
           "css-loader": "^6.8.1",
           "dotenv": "^16.3.1",
@@ -150,8 +151,7 @@ npm manifest:
           "regenerator-runtime": "^0.13.5",
           "storybook-react-router": "1.0.8",
           "style-loader": "^3.3.3",
-          "ts-loader": "^9.4.4",
-          "typescript": "^5.2.2",
+          "typescript": "4.0.2",
           "wait-on": "^4.0.1",
           "webpack": "^5.88.2",
           "webpack-bundle-analyzer": "^4.9.1",
@@ -254,7 +254,7 @@ Lockfile:
       semver "^5.4.1"
       source-map "^0.5.0"
   
-  "@babel/core@^7.1.0", "@babel/core@^7.12.10", "@babel/core@^7.4.5", "@babel/core@^7.7.5":
+  "@babel/core@^7.1.0", "@babel/core@^7.1.6", "@babel/core@^7.12.10", "@babel/core@^7.4.5", "@babel/core@^7.7.5":
     version "7.22.20"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/core/-/core-7.22.20.tgz#e3d0eed84c049e2a2ae0a64d27b6a37edec385b7"
     integrity sha512-Y6jd1ahLubuYweD/zJH+vvOY141v4f9igNQAQ+MBgq9JlHS2iTsZKn1aMsb3vGccZsXI16VzTBw52Xx0DWmtnA==
@@ -386,7 +386,7 @@ Lockfile:
     dependencies:
       "@babel/types" "^7.22.15"
   
-  "@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.12.13", "@babel/helper-module-imports@^7.16.7", "@babel/helper-module-imports@^7.22.15", "@babel/helper-module-imports@^7.22.5", "@babel/helper-module-imports@^7.8.3":
+  "@babel/helper-module-imports@^7.0.0", "@babel/helper-module-imports@^7.12.13", "@babel/helper-module-imports@^7.22.15", "@babel/helper-module-imports@^7.22.5", "@babel/helper-module-imports@^7.8.3":
     version "7.22.15"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/helper-module-imports/-/helper-module-imports-7.22.15.tgz#16146307acdc40cc00c3b2c647713076464bdbf0"
     integrity sha512-0pYVBnDKZO2fnSPCrgM/6WMc7eS20Fbok+0r88fp+YtWVLZrp4CkafFGIp+W0VKw4a22sgebPT99y+FDNMdP4w==
@@ -502,7 +502,7 @@ Lockfile:
       chalk "^2.4.2"
       js-tokens "^4.0.0"
   
-  "@babel/parser@^7.1.0", "@babel/parser@^7.12.11", "@babel/parser@^7.12.7", "@babel/parser@^7.18.8", "@babel/parser@^7.20.7", "@babel/parser@^7.22.15", "@babel/parser@^7.22.16", "@babel/parser@^7.4.3", "@babel/parser@^7.7.0", "@babel/parser@^7.9.0":
+  "@babel/parser@^7.1.0", "@babel/parser@^7.1.6", "@babel/parser@^7.12.11", "@babel/parser@^7.12.7", "@babel/parser@^7.18.8", "@babel/parser@^7.20.7", "@babel/parser@^7.22.15", "@babel/parser@^7.22.16", "@babel/parser@^7.4.3", "@babel/parser@^7.7.0", "@babel/parser@^7.9.0":
     version "7.22.16"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/parser/-/parser-7.22.16.tgz#180aead7f247305cce6551bea2720934e2fa2c95"
     integrity sha512-+gPfKv8UWeKKeJTUxe59+OobVcrYHETCsORl61EmSkmgymguYk/X5bp7GuUIXaFsc6y++v8ZxPsLSSuujqDphA==
@@ -541,7 +541,7 @@ Lockfile:
       "@babel/helper-create-class-features-plugin" "^7.8.3"
       "@babel/helper-plugin-utils" "^7.8.3"
   
-  "@babel/plugin-proposal-class-properties@^7.12.1", "@babel/plugin-proposal-class-properties@^7.7.0":
+  "@babel/plugin-proposal-class-properties@^7.1.0", "@babel/plugin-proposal-class-properties@^7.12.1", "@babel/plugin-proposal-class-properties@^7.7.0":
     version "7.18.6"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.18.6.tgz#b110f59741895f7ec21a6fff696ec46265c446a3"
     integrity sha512-cumfXOF0+nzZrrN8Rf0t7M+tF6sZc7vhQwYQck9q1/5w2OExlD+b4v4RpMJFaV1Z7WcDRgO6FqvxqxGlwo+RHQ==
@@ -618,7 +618,7 @@ Lockfile:
       "@babel/plugin-syntax-object-rest-spread" "^7.8.0"
       "@babel/plugin-transform-parameters" "^7.9.5"
   
-  "@babel/plugin-proposal-object-rest-spread@^7.12.1", "@babel/plugin-proposal-object-rest-spread@^7.6.2", "@babel/plugin-proposal-object-rest-spread@^7.9.5":
+  "@babel/plugin-proposal-object-rest-spread@^7.0.0", "@babel/plugin-proposal-object-rest-spread@^7.12.1", "@babel/plugin-proposal-object-rest-spread@^7.6.2", "@babel/plugin-proposal-object-rest-spread@^7.9.5":
     version "7.20.7"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.20.7.tgz#aa662940ef425779c75534a5c41e9d936edc390a"
     integrity sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==
@@ -1389,7 +1389,7 @@ Lockfile:
       levenary "^1.1.1"
       semver "^5.5.0"
   
-  "@babel/preset-env@^7.12.11", "@babel/preset-env@^7.18.6", "@babel/preset-env@^7.4.5":
+  "@babel/preset-env@^7.1.6", "@babel/preset-env@^7.12.11", "@babel/preset-env@^7.18.6", "@babel/preset-env@^7.4.5":
     version "7.22.20"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/preset-env/-/preset-env-7.22.20.tgz#de9e9b57e1127ce0a2f580831717f7fb677ceedb"
     integrity sha512-11MY04gGC4kSzlPHRfvVkNAZhUxOvm7DCJ37hPDnUENwe06npjIRAfInEMTGSb4LZK5ZgDFkv5hw0lGebHeTyg==
@@ -1537,7 +1537,7 @@ Lockfile:
       "@babel/helper-validator-option" "^7.12.17"
       "@babel/plugin-transform-typescript" "^7.13.0"
   
-  "@babel/preset-typescript@^7.12.7", "@babel/preset-typescript@^7.18.6":
+  "@babel/preset-typescript@^7.1.0", "@babel/preset-typescript@^7.12.7", "@babel/preset-typescript@^7.18.6":
     version "7.22.15"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/preset-typescript/-/preset-typescript-7.22.15.tgz#43db30516fae1d417d748105a0bc95f637239d48"
     integrity sha512-HblhNmh6yM+cU4VwbBRpxFhxsTdfS1zsvH9W+gEjD0ARV9+8B4sNfpI6GuhePti84nuvhiwKS539jKPFHskA9A==
@@ -1559,7 +1559,7 @@ Lockfile:
       pirates "^4.0.0"
       source-map-support "^0.5.16"
   
-  "@babel/register@^7.12.1", "@babel/register@^7.18.6":
+  "@babel/register@^7.0.0", "@babel/register@^7.12.1", "@babel/register@^7.18.6":
     version "7.22.15"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/register/-/register-7.22.15.tgz#c2c294a361d59f5fa7bcc8b97ef7319c32ecaec7"
     integrity sha512-V3Q3EqoQdn65RCgTLwauZaTfd1ShhwPmbBv+1dkZV/HpCGMKVyn6oFcRlI7RaKqiDQjX2Qd3AuoEguBgdjIKlg==
@@ -1583,14 +1583,14 @@ Lockfile:
       core-js-pure "^3.30.2"
       regenerator-runtime "^0.14.0"
   
-  "@babel/runtime@7.16.5":
-    version "7.16.5"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/runtime/-/runtime-7.16.5.tgz#7f3e34bf8bdbbadf03fbb7b1ea0d929569c9487a"
-    integrity sha512-TXWihFIS3Pyv5hzR7j6ihmeLkZfrXGxAr5UfSl8CHf+6q/wpiYDkUau0czckpYG8QmnCIuPpdLtuA9VmuGGyMA==
+  "@babel/runtime@7.12.5":
+    version "7.12.5"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+    integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
     dependencies:
       regenerator-runtime "^0.13.4"
   
-  "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.8", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.13", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+  "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.8", "@babel/runtime@^7.17.8", "@babel/runtime@^7.20.13", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
     version "7.22.15"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@babel/runtime/-/runtime-7.22.15.tgz#38f46494ccf6cf020bd4eed7124b425e83e523b8"
     integrity sha512-T0O+aa+4w0u06iNmapipJXMV4HoUir03hpx3/YqXXhu9xim3w+dVphjFWl1OH8NbZHw5Lbm9k45drDkgq2VNNA==
@@ -1666,23 +1666,6 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
     integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
   
-  "@emotion/babel-plugin@^11.11.0":
-    version "11.11.0"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/babel-plugin/-/babel-plugin-11.11.0.tgz#c2d872b6a7767a9d176d007f5b31f7d504bb5d6c"
-    integrity sha512-m4HEDZleaaCH+XgDDsPF15Ht6wTLsgDTeR3WYj9Q/k76JtWhrJjcP4+/XlG8LGT/Rol9qUfOIztXeA84ATpqPQ==
-    dependencies:
-      "@babel/helper-module-imports" "^7.16.7"
-      "@babel/runtime" "^7.18.3"
-      "@emotion/hash" "^0.9.1"
-      "@emotion/memoize" "^0.8.1"
-      "@emotion/serialize" "^1.1.2"
-      babel-plugin-macros "^3.1.0"
-      convert-source-map "^1.5.0"
-      escape-string-regexp "^4.0.0"
-      find-root "^1.1.0"
-      source-map "^0.5.7"
-      stylis "4.2.0"
-  
   "@emotion/cache@^10.0.27":
     version "10.0.29"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
@@ -1692,17 +1675,6 @@ Lockfile:
       "@emotion/stylis" "0.8.5"
       "@emotion/utils" "0.11.3"
       "@emotion/weak-memoize" "0.2.5"
-  
-  "@emotion/cache@^11.11.0":
-    version "11.11.0"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/cache/-/cache-11.11.0.tgz#809b33ee6b1cb1a625fef7a45bc568ccd9b8f3ff"
-    integrity sha512-P34z9ssTCBi3e9EI1ZsWpNHcfY1r09ZO0rZbRO2ob3ZQMnFI35jB536qoXbkdesr5EUhYi22anuEJuyxifaqAQ==
-    dependencies:
-      "@emotion/memoize" "^0.8.1"
-      "@emotion/sheet" "^1.2.2"
-      "@emotion/utils" "^1.2.1"
-      "@emotion/weak-memoize" "^0.3.1"
-      stylis "4.2.0"
   
   "@emotion/core@^10.0.20", "@emotion/core@^10.1.1":
     version "10.3.1"
@@ -1725,26 +1697,10 @@ Lockfile:
       "@emotion/utils" "0.11.3"
       babel-plugin-emotion "^10.0.27"
   
-  "@emotion/css@^11.7.1":
-    version "11.11.2"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/css/-/css-11.11.2.tgz#e5fa081d0c6e335352e1bc2b05953b61832dca5a"
-    integrity sha512-VJxe1ucoMYMS7DkiMdC2T7PWNbrEI0a39YRiyDvK2qq4lXwjRbVP/z4lpG+odCsRzadlR+1ywwrTzhdm5HNdew==
-    dependencies:
-      "@emotion/babel-plugin" "^11.11.0"
-      "@emotion/cache" "^11.11.0"
-      "@emotion/serialize" "^1.1.2"
-      "@emotion/sheet" "^1.2.2"
-      "@emotion/utils" "^1.2.1"
-  
   "@emotion/hash@0.8.0":
     version "0.8.0"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
     integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
-  
-  "@emotion/hash@^0.9.1":
-    version "0.9.1"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/hash/-/hash-0.9.1.tgz#4ffb0055f7ef676ebc3a5a91fb621393294e2f43"
-    integrity sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==
   
   "@emotion/is-prop-valid@0.8.8", "@emotion/is-prop-valid@^0.8.6":
     version "0.8.8"
@@ -1758,11 +1714,6 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
     integrity sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==
   
-  "@emotion/memoize@^0.8.1":
-    version "0.8.1"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/memoize/-/memoize-0.8.1.tgz#c1ddb040429c6d21d38cc945fe75c818cfb68e17"
-    integrity sha512-W2P2c/VRW1/1tLox0mVUalvnWXxavmv/Oum2aPsRcoDJuob75FC3Y8FbpfLwUegRcxINtGUMPq0tFCvYNTBXNA==
-  
   "@emotion/serialize@^0.11.15", "@emotion/serialize@^0.11.16":
     version "0.11.16"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/serialize/-/serialize-0.11.16.tgz#dee05f9e96ad2fb25a5206b6d759b2d1ed3379ad"
@@ -1774,26 +1725,10 @@ Lockfile:
       "@emotion/utils" "0.11.3"
       csstype "^2.5.7"
   
-  "@emotion/serialize@^1.1.2":
-    version "1.1.2"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/serialize/-/serialize-1.1.2.tgz#017a6e4c9b8a803bd576ff3d52a0ea6fa5a62b51"
-    integrity sha512-zR6a/fkFP4EAcCMQtLOhIgpprZOwNmCldtpaISpvz348+DP4Mz8ZoKaGGCQpbzepNIUWbq4w6hNZkwDyKoS+HA==
-    dependencies:
-      "@emotion/hash" "^0.9.1"
-      "@emotion/memoize" "^0.8.1"
-      "@emotion/unitless" "^0.8.1"
-      "@emotion/utils" "^1.2.1"
-      csstype "^3.0.2"
-  
   "@emotion/sheet@0.9.4":
     version "0.9.4"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/sheet/-/sheet-0.9.4.tgz#894374bea39ec30f489bbfc3438192b9774d32e5"
     integrity sha512-zM9PFmgVSqBw4zL101Q0HrBVTGmpAxFZH/pYx/cjJT5advXguvcgjHFTCaIO3enL/xr89vK2bh0Mfyj9aa0ANA==
-  
-  "@emotion/sheet@^1.2.2":
-    version "1.2.2"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/sheet/-/sheet-1.2.2.tgz#d58e788ee27267a14342303e1abb3d508b6d0fec"
-    integrity sha512-0QBtGvaqtWi+nx6doRwDdBIzhNdZrXUppvTM4dtZZWEGTXL/XE/yJxLMGlDT1Gt+UHH5IX1n+jkXyytE/av7OA==
   
   "@emotion/styled-base@^10.3.0":
     version "10.3.0"
@@ -1823,30 +1758,15 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
     integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
   
-  "@emotion/unitless@^0.8.1":
-    version "0.8.1"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/unitless/-/unitless-0.8.1.tgz#182b5a4704ef8ad91bde93f7a860a88fd92c79a3"
-    integrity sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==
-  
   "@emotion/utils@0.11.3":
     version "0.11.3"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/utils/-/utils-0.11.3.tgz#a759863867befa7e583400d322652a3f44820924"
     integrity sha512-0o4l6pZC+hI88+bzuaX/6BgOvQVhbt2PfmxauVaYOGgbsAw14wdKyvMCZXnsnsHys94iadcF+RG/wZyx6+ZZBw==
   
-  "@emotion/utils@^1.2.1":
-    version "1.2.1"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/utils/-/utils-1.2.1.tgz#bbab58465738d31ae4cb3dbb6fc00a5991f755e4"
-    integrity sha512-Y2tGf3I+XVnajdItskUCn6LX+VUDmP6lTL4fcqsXAv43dnlbZiuW4MWQW38rW/BVWSE7Q/7+XQocmpnRYILUmg==
-  
   "@emotion/weak-memoize@0.2.5":
     version "0.2.5"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
     integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
-  
-  "@emotion/weak-memoize@^0.3.1":
-    version "0.3.1"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@emotion/weak-memoize/-/weak-memoize-0.3.1.tgz#d0fce5d07b0620caa282b5131c297bb60f9d87e6"
-    integrity sha512-EsBwpc7hBUJWAsNPBmJy4hxWx12v6bshQsldrVmjxJoc3isbxhOrF2IcCpaXxfvq03NwkI7sbsOLXbYuqF/8Ww==
   
   "@gar/promisify@^1.0.1":
     version "1.1.3"
@@ -2398,28 +2318,29 @@ Lockfile:
       smoothscroll-polyfill "^0.4.4"
       warning "^4.0.3"
   
-  "@skbkontur/react-ui@^4.16.0":
-    version "4.16.0"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/react-ui/-/react-ui-4.16.0.tgz#f99d70966f047d9a97ea7cf4be14c366afac26c8"
-    integrity sha512-ij2jO1P4ZdC4OCZONlalGLtba4KGUYFR4Fi9DVu9em/trsCq/AF18yCUiPcAqKsQrDMWf0LSjnn0unps1PFKaA==
+  "@skbkontur/react-ui@2.17.4":
+    version "2.17.4"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/react-ui/-/react-ui-2.17.4.tgz#5dc3029b6f48c27cfee550c8727f4f2f64b8b8f7"
+    integrity sha512-S6lbEQuaCq3w5i9X0azUhuWTozuLbIsYoaM9fzJZpCW0VxUYCGZmCseDwXXbXbfOOnII0kTz+zRHt1a42Q7acg==
     dependencies:
-      "@babel/runtime" "7.16.5"
-      "@emotion/css" "^11.7.1"
-      eventemitter3 "^4.0.7"
+      "@babel/runtime" "7.12.5"
+      classnames "^2.2.6"
+      create-emotion "^10.0.14"
+      csstype "2.6.7"
+      eventemitter3 "^4.0.0"
       invariant "2.2.4"
       lodash.debounce "^4.0.8"
       lodash.isequal "^4.5.0"
       lodash.throttle "^4.1.1"
       normalize-wheel "^1.0.1"
-      prop-types "^15.8.0"
+      prop-types "^15.7.2"
       raf "^3.4.1"
-      react-focus-lock "^2.7.1"
+      react-focus-lock "^2.2.1"
       react-input-mask "2.0.4"
-      react-is "^17.0.2"
-      react-transition-group "^4.4.2"
+      react-transition-group "^4.3.0"
       shallowequal "^1.1.0"
-      stylis-plugin-extra-scope "^0.3.0"
-      tabbable "5.2.1"
+      stylis-plugin-extra-scope "^0.1.1"
+      tabbable "^4.0.0"
       warning "^4.0.3"
   
   "@storybook/addon-actions@6.4.22":
@@ -5323,6 +5244,16 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/ast-types-flow/-/ast-types-flow-0.0.7.tgz#f70b735c6bca1a5c9c22d982c3e39e7feba3bdad"
     integrity sha512-eBvWn1lvIApYMhzQMsu9ciLfkBY499mFZlNqG+/9WR7PVlroQw0vG30cOQQbaKz3sCEc44TAOu2ykzqXSNnwag==
   
+  ast-types@0.13.2:
+    version "0.13.2"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/ast-types/-/ast-types-0.13.2.tgz#df39b677a911a83f3a049644fb74fdded23cea48"
+    integrity sha512-uWMHxJxtfj/1oZClOxDEV1sQ1HCDkA4MG8Gr69KKeBjEVH0R84WlejZ0y2DcwyBlpAEMltmVYkVgqfLFb2oyiA==
+  
+  ast-types@0.13.3:
+    version "0.13.3"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/ast-types/-/ast-types-0.13.3.tgz#50da3f28d17bdbc7969a3a2d83a0e4a72ae755a7"
+    integrity sha512-XTZ7xGML849LkQP86sWdQzfhwbt3YwIO6MqbX9mUNYY98VKaaVZP7YNNm70IpwecbkkxmfC5IYAzOQ/2p29zRA==
+  
   ast-types@^0.14.2:
     version "0.14.2"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/ast-types/-/ast-types-0.14.2.tgz#600b882df8583e3cd4f2df5fa20fa83759d4bdfd"
@@ -5415,6 +5346,11 @@ Lockfile:
       chalk "^1.1.3"
       esutils "^2.0.2"
       js-tokens "^3.0.2"
+  
+  babel-core@^7.0.0-bridge.0:
+    version "7.0.0-bridge.0"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
+    integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
   
   babel-eslint@10.1.0:
     version "10.1.0"
@@ -5558,7 +5494,7 @@ Lockfile:
       cosmiconfig "^6.0.0"
       resolve "^1.12.0"
   
-  babel-plugin-macros@^3.0.1, babel-plugin-macros@^3.1.0:
+  babel-plugin-macros@^3.0.1:
     version "3.1.0"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/babel-plugin-macros/-/babel-plugin-macros-3.1.0.tgz#9ef6dc74deb934b4db344dc973ee851d148c50c1"
     integrity sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==
@@ -6565,7 +6501,7 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
     integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
   
-  classnames@^2.2.5:
+  classnames@^2.2.5, classnames@^2.2.6:
     version "2.3.2"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
     integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
@@ -7143,6 +7079,16 @@ Lockfile:
       bn.js "^4.1.0"
       elliptic "^6.5.3"
   
+  create-emotion@^10.0.14:
+    version "10.0.27"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/create-emotion/-/create-emotion-10.0.27.tgz#cb4fa2db750f6ca6f9a001a33fbf1f6c46789503"
+    integrity sha512-fIK73w82HPPn/RsAij7+Zt8eCE8SptcJ3WoRMfxMtjteYxud8GDTKKld7MYwAX2TVhrw29uR1N/bVGxeStHILg==
+    dependencies:
+      "@emotion/cache" "^10.0.27"
+      "@emotion/serialize" "^0.11.15"
+      "@emotion/sheet" "0.9.4"
+      "@emotion/utils" "0.11.3"
+  
   create-hash@^1.1.0, create-hash@^1.1.2, create-hash@^1.2.0:
     version "1.2.0"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"
@@ -7179,10 +7125,10 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
     integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
   
-  creevey@0.9.0-beta:
-    version "0.9.0-beta.5"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/creevey/-/creevey-0.9.0-beta.5.tgz#82bd39e3cc99e871c597476a0f18ba30e7f65d46"
-    integrity sha512-92kn5wrHtxT3b4UAe/StXMsYb87Hv3ujg9a5PdqvNUDlBBpx+dhf/Th04TlIR+VYxPuKr1oZyNlzz9CH+Mz6qQ==
+  creevey@0.9.0-non-webpack.2:
+    version "0.9.0-non-webpack.2"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/creevey/-/creevey-0.9.0-non-webpack.2.tgz#884edcaa04e9bf878b8f252336f68f7cacc47fa4"
+    integrity sha512-DzifgpCQk4/oK/WYg6wIc8Xh5bo61KJLk1W4XqM/mNGDJj5injjUYo9diwVJRNDg1ZOnBIAcZWCcTPmxKlRSDg==
     dependencies:
       "@babel/code-frame" "^7.18.6"
       "@babel/generator" "^7.18.7"
@@ -7241,7 +7187,6 @@ Lockfile:
       ts-node "^10.9.1"
       tsconfig-paths "^4.0.0"
       webpack-node-externals "^3.0.0"
-      whatwg-fetch "^3.6.2"
       ws "^8.8.0"
   
   cross-env@5.2.0:
@@ -7430,6 +7375,11 @@ Lockfile:
     integrity sha512-AZL67abkUzIuvcHqk7c09cezpGNcxUxU4Ioi/05xHk4DQeTkWmGYftIE6ctU6AEt+Gn4n1lDStOtj7FKycP71A==
     dependencies:
       cssom "~0.3.6"
+  
+  csstype@2.6.7:
+    version "2.6.7"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/csstype/-/csstype-2.6.7.tgz#20b0024c20b6718f4eda3853a1f5a1cce7f5e4a5"
+    integrity sha512-9Mcn9sFbGBAdmimWb2gLVDtFJzeKtDGIr76TUqmjZrw9LFXBMSU70lcs+C0/7fyCd6iBDqmksUcCOUIkisPHsQ==
   
   csstype@^2.2.0, csstype@^2.5.7:
     version "2.6.21"
@@ -8168,7 +8118,7 @@ Lockfile:
       memory-fs "^0.5.0"
       tapable "^1.0.0"
   
-  enhanced-resolve@^5.0.0, enhanced-resolve@^5.15.0:
+  enhanced-resolve@^5.15.0:
     version "5.15.0"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/enhanced-resolve/-/enhanced-resolve-5.15.0.tgz#1af946c7d93603eb88e9896cee4904dc012e9c35"
     integrity sha512-LXYT42KJ7lpIKECr2mAXIaMldcNCh/7E0KBKOu4KSfkHmP+mZmSs+8V5gBAqisWBy0OO4W5Oyys0GO1Y8KtdKg==
@@ -8593,7 +8543,7 @@ Lockfile:
       acorn-jsx "^5.3.1"
       eslint-visitor-keys "^1.3.0"
   
-  esprima@^4.0.0, esprima@^4.0.1:
+  esprima@^4.0.0, esprima@^4.0.1, esprima@~4.0.0:
     version "4.0.1"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/esprima/-/esprima-4.0.1.tgz#13b04cdb3e6c5d19df91ab6987a8695619b0aa71"
     integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
@@ -8659,7 +8609,7 @@ Lockfile:
       stream-combiner "~0.0.4"
       through "~2.3.1"
   
-  eventemitter3@^4.0.0, eventemitter3@^4.0.7:
+  eventemitter3@^4.0.0:
     version "4.0.7"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
     integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
@@ -9193,6 +9143,11 @@ Lockfile:
     version "3.2.9"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/flatted/-/flatted-3.2.9.tgz#7eb4c67ca1ba34232ca9d2d93e9886e611ad7daf"
     integrity sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==
+  
+  flow-parser@0.*:
+    version "0.216.1"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/flow-parser/-/flow-parser-0.216.1.tgz#eeba9b0b689deeccc34a6b7d2b1f97b8f943afc0"
+    integrity sha512-wstw46/C/8bRv/8RySCl15lK376j8DHxm41xFjD9eVL+jSS1UmVpbdLdA0LzGuS2v5uGgQiBLEj6mgSJQwW+MA==
   
   flush-write-stream@^1.0.0:
     version "1.1.1"
@@ -11698,6 +11653,30 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
     integrity sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==
   
+  jscodeshift@^0.7.0:
+    version "0.7.1"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/jscodeshift/-/jscodeshift-0.7.1.tgz#0236ad475d6f0770ca998a0160925d62b57d2507"
+    integrity sha512-YMkZSyoc8zg5woZL23cmWlnFLPH/mHilonGA7Qbzs7H6M4v4PH0Qsn4jeDyw+CHhVoAnm9UxQyB0Yw1OT+mktA==
+    dependencies:
+      "@babel/core" "^7.1.6"
+      "@babel/parser" "^7.1.6"
+      "@babel/plugin-proposal-class-properties" "^7.1.0"
+      "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
+      "@babel/preset-env" "^7.1.6"
+      "@babel/preset-flow" "^7.0.0"
+      "@babel/preset-typescript" "^7.1.0"
+      "@babel/register" "^7.0.0"
+      babel-core "^7.0.0-bridge.0"
+      colors "^1.1.2"
+      flow-parser "0.*"
+      graceful-fs "^4.1.11"
+      micromatch "^3.1.10"
+      neo-async "^2.5.0"
+      node-dir "^0.1.17"
+      recast "^0.18.1"
+      temp "^0.8.1"
+      write-file-atomic "^2.3.0"
+  
   jsdom@^11.5.1:
     version "11.12.0"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/jsdom/-/jsdom-11.12.0.tgz#1a80d40ddd378a1de59656e9e6dc5a3ba8657bc8"
@@ -12683,7 +12662,7 @@ Lockfile:
       snapdragon "^0.8.1"
       to-regex "^3.0.2"
   
-  micromatch@^4.0.0, micromatch@^4.0.2, micromatch@^4.0.4, micromatch@^4.0.5:
+  micromatch@^4.0.2, micromatch@^4.0.4, micromatch@^4.0.5:
     version "4.0.5"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/micromatch/-/micromatch-4.0.5.tgz#bc8999a7cbbf77cdc89f132f6e467051b49090c6"
     integrity sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==
@@ -13082,7 +13061,7 @@ Lockfile:
       lower-case "^2.0.2"
       tslib "^2.0.3"
   
-  node-dir@^0.1.10:
+  node-dir@^0.1.10, node-dir@^0.1.17:
     version "0.1.17"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/node-dir/-/node-dir-0.1.17.tgz#5f5665d93351335caabef8f1c554516cf5f1e4e5"
     integrity sha512-tmPX422rYgofd4epzrNoOXiE8XFZYOcCq1vD7MAXCDO+O+zndlA2ztdKKMa+EeuBG5tHETpr4ml4RGgpqDCCAg==
@@ -14241,6 +14220,11 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/prettier/-/prettier-2.3.0.tgz#b6a5bf1284026ae640f17f7ff5658a7567fc0d18"
     integrity sha512-kXtO4s0Lz/DW/IJ9QdWhAf7/NmPWQXkFr/r/WkR3vyI+0v8amTDxiaQSLzs8NBlytfLWX/7uQUMIW677yLKl4w==
   
+  prettier@^2:
+    version "2.8.8"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
+    integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==
+  
   pretty-error@^2.1.1:
     version "2.1.2"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/pretty-error/-/pretty-error-2.1.2.tgz#be89f82d81b1c86ec8fdfbc385045882727f93b6"
@@ -14308,6 +14292,11 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/prismjs/-/prismjs-1.27.0.tgz#bb6ee3138a0b438a3653dd4d6ce0cc6510a45057"
     integrity sha512-t13BGPUlFDR7wRB5kQDG4jjl7XeuH6jbJGt11JHPL96qwsEHNX2+68tFXqc1/k+/jALsbSWJKUOT/hcYAZ5LkA==
   
+  private@^0.1.8:
+    version "0.1.8"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
+    integrity sha512-VvivMrbvd2nKkiG38qjULzlc+4Vx4wm/whI9pQD35YrARNnhxeiRktSOhSukRLFNlzg6Br/cJPet5J/u19r/mg==
+  
   process-nextick-args@~2.0.0:
     version "2.0.1"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
@@ -14359,7 +14348,7 @@ Lockfile:
       kleur "^3.0.3"
       sisteransi "^1.0.5"
   
-  prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.0, prop-types@^15.8.1:
+  prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
     version "15.8.1"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
     integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -14751,7 +14740,7 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/react-foco/-/react-foco-1.2.0.tgz#f6e96553ccd02aa8d8b9fa12b415dba72b36492a"
     integrity sha512-Gw+JHFxdqn+tIcqxaxxmkpX+unR8Nbu7MFGfn8d8gmntgtfel7PXOxfVBMM7QD3nv/zpUd9WnzygHAoBqQ9REw==
   
-  react-focus-lock@^2.1.0, react-focus-lock@^2.7.1:
+  react-focus-lock@^2.1.0, react-focus-lock@^2.2.1:
     version "2.9.5"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/react-focus-lock/-/react-focus-lock-2.9.5.tgz#8a82f4f0128cccc27b9e77a4472e8a22f1b52189"
     integrity sha512-h6vrdgUbsH2HeD5I7I3Cx1PPrmwGuKYICS+kB9m+32X/9xHRrAbxgvaBpG7BFBN9h3tO+C3qX1QAVESmi4CiIA==
@@ -14973,7 +14962,7 @@ Lockfile:
       use-composed-ref "^1.3.0"
       use-latest "^1.2.1"
   
-  react-transition-group@^4.4.2:
+  react-transition-group@^4.3.0:
     version "4.4.5"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
     integrity sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==
@@ -14982,6 +14971,15 @@ Lockfile:
       dom-helpers "^5.0.1"
       loose-envify "^1.4.0"
       prop-types "^15.6.2"
+  
+  react-ui-codemod@1.3.0-beta.5:
+    version "1.3.0-beta.5"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/react-ui-codemod/-/react-ui-codemod-1.3.0-beta.5.tgz#eb0448bdd54d0917c78d56db4f9ff3fddf710781"
+    integrity sha512-gYLLRjYEnyoshQ8D7VtcvyGkVTUkLlR0GNAkqeXim9JuyOR9opn9H1pu1KOaMjUqpJ3mGiA6Wnpmy2xBhQu8qg==
+    dependencies:
+      ast-types "0.13.2"
+      jscodeshift "^0.7.0"
+      prettier "^2"
   
   react-virtualized-auto-sizer@^1.0.20:
     version "1.0.20"
@@ -15111,6 +15109,16 @@ Lockfile:
     integrity sha512-wlgPA6cCIIg9gKz0fgAPjnzh4yR/LnXovwuo9hvyGvx3h8nX4+/iLZplfUWasXpqD8BdnGnP5njOFjkUwPzvjA==
     dependencies:
       util.promisify "^1.0.0"
+  
+  recast@^0.18.1:
+    version "0.18.10"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/recast/-/recast-0.18.10.tgz#605ebbe621511eb89b6356a7e224bff66ed91478"
+    integrity sha512-XNvYvkfdAN9QewbrxeTOjgINkdY/odTgTS56ZNEWL9Ml0weT4T3sFtvnTuF+Gxyu46ANcRm1ntrF6F5LAJPAaQ==
+    dependencies:
+      ast-types "0.13.3"
+      esprima "~4.0.0"
+      private "^0.1.8"
+      source-map "~0.6.1"
   
   rechoir@^0.6.2:
     version "0.6.2"
@@ -15527,7 +15535,7 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
     integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
   
-  rimraf@2.6.3:
+  rimraf@2.6.3, rimraf@~2.6.2:
     version "2.6.3"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
     integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
@@ -16652,15 +16660,10 @@ Lockfile:
     dependencies:
       inline-style-parser "0.1.1"
   
-  stylis-plugin-extra-scope@^0.3.0:
-    version "0.3.0"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/stylis-plugin-extra-scope/-/stylis-plugin-extra-scope-0.3.0.tgz#8a19135273856694f7559a78d4d7a48928cd03e4"
-    integrity sha512-SaZ+SQk9saypYdJPmVv0cboRGyknxtvWdw1eCphd24wYKdgLdoLMZrZi4w3F24mLFCd+De8hCTPcfJXmL+C1Xg==
-  
-  stylis@4.2.0:
-    version "4.2.0"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/stylis/-/stylis-4.2.0.tgz#79daee0208964c8fe695a42fcffcac633a211a51"
-    integrity sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==
+  stylis-plugin-extra-scope@^0.1.1:
+    version "0.1.1"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/stylis-plugin-extra-scope/-/stylis-plugin-extra-scope-0.1.1.tgz#57899046899aa5102632b8e1f4b3d71c575395b5"
+    integrity sha512-0dRLrsgLb8H4qnzDwoMAMfm4sayeMrG9SpI/NycWR7Cx1hPf4byj8SeA8x7gzensvEDk94tut0lQn9hX3DBGiw==
   
   supports-color@8.1.1, supports-color@^8.0.0:
     version "8.1.1"
@@ -16744,10 +16747,10 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/synchronous-promise/-/synchronous-promise-2.0.17.tgz#38901319632f946c982152586f2caf8ddc25c032"
     integrity sha512-AsS729u2RHUfEra9xJrE39peJcc2stq2+poBXX8bcM08Y6g9j/i/PUzwNQqkaJde7Ntg1TO7bSREbR5sdosQ+g==
   
-  tabbable@5.2.1:
-    version "5.2.1"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/tabbable/-/tabbable-5.2.1.tgz#e3fda7367ddbb172dcda9f871c0fdb36d1c4cd9c"
-    integrity sha512-40pEZ2mhjaZzK0BnI+QGNjJO8UYx9pP5v7BGe17SORTO0OEuuaAwQTkAp8whcZvqon44wKFOikD+Al11K3JICQ==
+  tabbable@^4.0.0:
+    version "4.0.0"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/tabbable/-/tabbable-4.0.0.tgz#5bff1d1135df1482cf0f0206434f15eadbeb9261"
+    integrity sha512-H1XoH1URcBOa/rZZWxLxHCtOdVUEev+9vo5YdYhC9tCY4wnybX+VQrCYuy9ubkg69fCBxCONJOSLGfw0DWMffQ==
   
   table@^5.2.3:
     version "5.4.6"
@@ -16853,6 +16856,13 @@ Lockfile:
       isobject "^4.0.0"
       lodash "^4.17.21"
       memoizerific "^1.11.3"
+  
+  temp@^0.8.1:
+    version "0.8.4"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/temp/-/temp-0.8.4.tgz#8c97a33a4770072e0a05f919396c7665a7dd59f2"
+    integrity sha512-s0ZZzd0BzYv5tLSptZooSjK8oj6C+c19p7Vqta9+6NPOf7r+fxq0cJe6/oN4LTC79sy5NY8ucOJNgwsKCSbfqg==
+    dependencies:
+      rimraf "~2.6.2"
   
   term-size@^2.1.0:
     version "2.2.1"
@@ -17161,16 +17171,6 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/ts-dedent/-/ts-dedent-2.2.0.tgz#39e4bd297cd036292ae2394eb3412be63f563bb5"
     integrity sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==
   
-  ts-loader@^9.4.4:
-    version "9.4.4"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/ts-loader/-/ts-loader-9.4.4.tgz#6ceaf4d58dcc6979f84125335904920884b7cee4"
-    integrity sha512-MLukxDHBl8OJ5Dk3y69IsKVFRA/6MwzEqBgh+OXMPB/OD01KQuWPFd1WAQP8a5PeSCAxfnkhiuWqfmFJzJQt9w==
-    dependencies:
-      chalk "^4.1.0"
-      enhanced-resolve "^5.0.0"
-      micromatch "^4.0.0"
-      semver "^7.3.4"
-  
   ts-node@^10.9.1:
     version "10.9.1"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
@@ -17366,10 +17366,10 @@ Lockfile:
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
     integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
   
-  typescript@^5.2.2:
-    version "5.2.2"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
-    integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
+  typescript@4.0.2:
+    version "4.0.2"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/typescript/-/typescript-4.0.2.tgz#7ea7c88777c723c681e33bf7988be5d008d05ac2"
+    integrity sha512-e4ERvRV2wb+rRZ/IQeb3jm2VxBsirQLpQhdxplZ2MEzGvDkkMmPglecnNDfSUBivMjP93vRbngYYDQqQ/78bcQ==
   
   uglify-js@^3.1.4:
     version "3.17.4"
@@ -18241,11 +18241,6 @@ Lockfile:
     dependencies:
       iconv-lite "0.6.3"
   
-  whatwg-fetch@^3.6.2:
-    version "3.6.19"
-    resolved "https://nexus.kontur.host/repository/kontur-npm-group/whatwg-fetch/-/whatwg-fetch-3.6.19.tgz#caefd92ae630b91c07345537e67f8354db470973"
-    integrity sha512-d67JP4dHSbm2TrpFj8AbO8DnL1JXL5J9u0Kq2xW6d0TFDbCA3Muhdt8orXC22utleTVj7Prqt82baN6RBvnEgw==
-  
   whatwg-mimetype@^2.1.0, whatwg-mimetype@^2.2.0:
     version "2.3.0"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/whatwg-mimetype/-/whatwg-mimetype-2.3.0.tgz#3d4b1e0312d2079879f826aff18dbeeca5960fbf"
@@ -18421,6 +18416,15 @@ Lockfile:
     version "2.4.1"
     resolved "https://nexus.kontur.host/repository/kontur-npm-group/write-file-atomic/-/write-file-atomic-2.4.1.tgz#d0b05463c188ae804396fd5ab2a370062af87529"
     integrity sha512-TGHFeZEZMnv+gBFRfjAcxL5bPHrsGKtnb4qsFAws7/vlh+QfwAaySIw4AXP9ZskTTh5GWu3FLuJhsWVdiJPGvg==
+    dependencies:
+      graceful-fs "^4.1.11"
+      imurmurhash "^0.1.4"
+      signal-exit "^3.0.2"
+  
+  write-file-atomic@^2.3.0:
+    version "2.4.3"
+    resolved "https://nexus.kontur.host/repository/kontur-npm-group/write-file-atomic/-/write-file-atomic-2.4.3.tgz#1fd2e9ae1df3e75b8d8c367443c692d4ca81f481"
+    integrity sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==
     dependencies:
       graceful-fs "^4.1.11"
       imurmurhash "^0.1.4"

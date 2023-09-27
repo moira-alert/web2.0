@@ -1,6 +1,6 @@
 module.exports = {
     stories: ["../src/**/*.stories.mdx", "../src/Stories/**/*.stories.tsx"],
-    addons: ["creevey", "@storybook/preset-typescript"],
+    addons: ["creevey"],
     framework: "@storybook/react",
 
     core: {

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input/Input";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
-import { Calendar, CalendarDateShape } from "@skbkontur/react-ui";
+import { Calendar, CalendarDateShape } from "@skbkontur/react-ui/internal/Calendar";
 import { DateInput } from "@skbkontur/react-ui/components/DateInput/DateInput";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Menu } from "@skbkontur/react-ui/internal/Menu";
@@ -148,11 +148,11 @@ export default function CustomMaintenanceMenu({
                 ))}
             </Menu>
             <Calendar
-                value={calendarDate.toString()}
+                value={calendarDate}
                 initialMonth={calendarDate.month}
                 initialYear={calendarDate.year}
-                minDate={todayDate.toString()}
-                maxDate={maxDate.toString()}
+                minDate={todayDate}
+                maxDate={maxDate}
                 onSelect={handleDatePick}
             />
             <footer className={cn("footer")}>
