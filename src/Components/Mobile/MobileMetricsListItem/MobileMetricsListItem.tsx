@@ -56,7 +56,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
         const { buttonsState, deleted } = this.state;
 
         return (
-            <div className={cn("root", { deleted })}>
+            <div className={cn("root", { deleted })} style={style}>
                 <div className={cn("status")}>
                     {this.renderStatus()}
                     {isUnderkMaintenance(value.maintenance) && (

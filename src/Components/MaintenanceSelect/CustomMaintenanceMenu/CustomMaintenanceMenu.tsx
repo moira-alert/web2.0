@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input/Input";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
-import { Calendar, CalendarDateShape } from "@skbkontur/react-ui/internal/Calendar";
+import { Calendar, CalendarDateShape } from "@skbkontur/react-ui/components/Calendar";
 import { DateInput } from "@skbkontur/react-ui/components/DateInput/DateInput";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Menu } from "@skbkontur/react-ui/internal/Menu";
@@ -136,7 +136,7 @@ export default function CustomMaintenanceMenu({
 
     return (
         <div className={cn("container")}>
-            <Menu hasShadow={false} maxHeight="100%">
+            <Menu hasShadow={false}>
                 {PreparedTimes.map((preparedTime) => (
                     <MenuItem
                         key={preparedTime}
@@ -148,12 +148,12 @@ export default function CustomMaintenanceMenu({
                 ))}
             </Menu>
             <Calendar
-                value={calendarDate}
+                value={toStringDate(calendarDate)}
                 initialMonth={calendarDate.month}
                 initialYear={calendarDate.year}
-                minDate={todayDate}
-                maxDate={maxDate}
-                onSelect={handleDatePick}
+                minDate={toStringDate(todayDate)}
+                maxDate={toStringDate(maxDate)}
+                onValueChange={(value) => handleDatePick(toCalendarDate(value))}
             />
             <footer className={cn("footer")}>
                 <Input value={time} onValueChange={setTime} mask="99:99" width="55px" />

@@ -1,9 +1,6 @@
 import { Status } from "../../../Domain/Status";
-import classNames from "classnames/bind";
 
-import styles from "./variables.less";
-
-const cn = classNames.bind(styles);
+import variables from "./variables.less";
 
 const { okColor, errorColor, warnColor, noDataColor, unknownColor } = variables;
 

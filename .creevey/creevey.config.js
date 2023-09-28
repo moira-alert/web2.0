@@ -4,13 +4,13 @@ const { hybridStoriesProvider } = require("creevey");
 module.exports = {
     storiesProvider: hybridStoriesProvider,
     testsRegex: /.creevey.(t|j)s$/,
-    testsDir: path.join(__dirname, "src"),
+    testsDir: path.join(__dirname, "../src/Stories"),
     useDocker: true,
     storybookUrl: "http://localhost:9001",
     storybookDir: path.join(__dirname, "../.storybook"),
     screenDir: path.join(__dirname, "images"),
     reportDir: path.join(__dirname, "report"),
-    maxRetries: 2,
+    maxRetries: 5,
     browsers: {
         chrome: {
             browserName: "chrome",

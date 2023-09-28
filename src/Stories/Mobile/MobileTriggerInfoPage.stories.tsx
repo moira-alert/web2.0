@@ -126,7 +126,7 @@ const story = storiesOf("Mobile/TriggerInfoPage", module)
     .addParameters({
         creevey: {
             skip: {
-                "Loader animation": { flacky: { stories: "Loading" } },
+                flacky: { stories: "Loading" },
             },
         },
     });

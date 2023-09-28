@@ -16,7 +16,7 @@ export default function ModalError({
     maxWidth,
 }: FooterErrorProps): React.ReactElement | null {
     return message ? (
-        <div className={cn.root}>
+        <div className={cn("root")}>
             <div style={{ maxWidth }}>
                 <ErrorIcon /> {message}
             </div>
