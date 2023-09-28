@@ -4,7 +4,7 @@ const { hybridStoriesProvider } = require("creevey");
 module.exports = {
     storiesProvider: hybridStoriesProvider,
     testsRegex: /.creevey.(t|j)s$/,
-    testsDir: path.join(__dirname, "../src/Stories"),
+    testsDir: path.join(__dirname, "src"),
     useDocker: true,
     storybookUrl: "http://localhost:9001",
     storybookDir: path.join(__dirname, "../.storybook"),
@@ -15,7 +15,7 @@ module.exports = {
         chrome: {
             browserName: "chrome",
             platformName: "linux",
-            viewport: { width: 1024, height: 720 },
+            viewport: { width: 1280, height: 720 },
         },
     },
 };
