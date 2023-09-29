@@ -38,8 +38,13 @@ export default function FileLoader({
 
     return (
         <Button use="link">
-            <label className={cn.label}>
-                <input type="file" className={cn.input} onChange={handleFileLoad} accept=".json" />
+            <label className={cn("label")}>
+                <input
+                    type="file"
+                    className={cn("input")}
+                    onChange={handleFileLoad}
+                    accept=".json"
+                />
                 <ImportIcon /> {children || "Import"}
             </label>
         </Button>
