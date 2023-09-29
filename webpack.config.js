@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
 const supportedLocales = ["en"];
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     entry: {
@@ -94,6 +95,8 @@ module.exports = {
     devtool: "cheap-source-map",
 
     optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin({ parallel: true })],
         usedExports: true,
         splitChunks: {
             chunks: "all",

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Status } from "../../../Domain/Status";
 import StatusIndicator from "../../StatusIndicator/StatusIndicator";
+
 import styles from "./MobileStatusIndicator.less";
 
 type Props = {

@@ -2,7 +2,6 @@ module.exports = {
     stories: ["../src/**/*.stories.mdx", "../src/Stories/**/*.stories.tsx"],
     addons: ["creevey"],
     framework: "@storybook/react",
-
     core: {
         builder: "@storybook/builder-webpack5",
     },
