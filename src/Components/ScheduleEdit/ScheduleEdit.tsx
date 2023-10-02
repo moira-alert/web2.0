@@ -1,7 +1,5 @@
 import * as React from "react";
-import { Input } from "@skbkontur/react-ui/components/Input";
-import { Radio } from "@skbkontur/react-ui/components/Radio";
-import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { Input, Radio, Checkbox } from "@skbkontur/react-ui";
 import { Schedule } from "../../Domain/Schedule";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import classNames from "classnames/bind";
