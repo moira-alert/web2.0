@@ -65,9 +65,9 @@ type CustomMaintenanceMenuProps = {
 };
 
 export default function CustomMaintenanceMenu({
+    currentTime = new Date(),
     maintenance,
     setMaintenance,
-    currentTime = new Date(),
 }: CustomMaintenanceMenuProps): React.ReactElement {
     const [maintenanceTime, maintenanceDate] = maintenance
         ? splitDate(fromUnixTime(maintenance))
@@ -133,7 +133,7 @@ export default function CustomMaintenanceMenu({
             setMaintenance(getUnixTime(changedMaintenance));
         }
     };
-
+    console.log(calendarDate.month);
     return (
         <div className={cn("container")}>
             <Menu hasShadow={false}>
@@ -149,7 +149,7 @@ export default function CustomMaintenanceMenu({
             </Menu>
             <Calendar
                 value={toStringDate(calendarDate)}
-                initialMonth={calendarDate.month}
+                initialMonth={calendarDate.month + 1}
                 initialYear={calendarDate.year}
                 minDate={toStringDate(todayDate)}
                 maxDate={toStringDate(maxDate)}

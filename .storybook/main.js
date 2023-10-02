@@ -20,7 +20,6 @@ module.exports = {
                         modules: true,
                     },
                 },
-                ,
                 "less-loader",
             ],
         });
