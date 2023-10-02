@@ -52,7 +52,9 @@
         "react-virtualized-auto-sizer": "^1.0.20",
         "reflect-metadata": "^0.1.13",
         "remarkable": "^2.0.1",
-        "start-server-and-test": "1.14.0"
+        "start-server-and-test": "1.14.0",
+        "codemirror": "^6.0.1",
+        "react-codemirror2": "^7.2.1"
     },
     "devDependencies": {
         "@babel/core": "7.9.0",
