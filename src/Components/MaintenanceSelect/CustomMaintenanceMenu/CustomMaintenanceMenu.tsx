@@ -133,7 +133,7 @@ export default function CustomMaintenanceMenu({
             setMaintenance(getUnixTime(changedMaintenance));
         }
     };
-    console.log(calendarDate.month);
+
     return (
         <div className={cn("container")}>
             <Menu hasShadow={false}>
