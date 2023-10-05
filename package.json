@@ -86,7 +86,7 @@
         "@types/react-router-dom": "5.1.5",
         "@types/react-window": "^1.8.5",
         "@types/remarkable": "^2.0.3",
-        "@types/storybook-react-router": "1.0.1",
+        "@types/storybook-react-router": "1.0.4",
         "@typescript-eslint/eslint-plugin": "4.0.1",
         "@typescript-eslint/parser": "4.0.1",
         "babel-eslint": "10.1.0",
