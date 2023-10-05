@@ -311,7 +311,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {
+                {remoteAllowed && (
                     <FormRow label="Data source" singleLineControlGroup>
                         <RadioGroup<TriggerSource>
                             name="data-source"
@@ -335,7 +335,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             </Gapped>
                         </RadioGroup>
                     </FormRow>
-                }
+                )}
             </Form>
         );
     }
