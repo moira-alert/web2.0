@@ -9,8 +9,7 @@ storiesOf("Tag", module)
     .addParameters({
         creevey: {
             skip: {
-                stories: "NewTagBadge with remove",
-                reasons: "Unstable draw button angles with border-radius",
+                flacky: { stories: "NewTagBadge with remove" },
             },
         },
     })

@@ -11,8 +11,12 @@ import { Status } from "../../../Domain/Status";
 import { getUTCDate } from "../../../helpers/DateUtil";
 import getStatusColor from "../Styles/StatusColor";
 import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicator";
-import cn from "./MobileTriggerListItem.less";
 import _ from "lodash";
+import classNames from "classnames/bind";
+
+import styles from "./MobileTriggerListItem.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     data: Trigger;

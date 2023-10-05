@@ -1,7 +1,11 @@
 import * as React from "react";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import ColorHash from "color-hash";
-import cn from "./Tag.less";
+import classNames from "classnames/bind";
+
+import styles from "./Tag.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     title: string;

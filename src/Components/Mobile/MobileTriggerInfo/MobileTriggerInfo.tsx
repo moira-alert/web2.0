@@ -21,7 +21,11 @@ import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import { sanitize } from "dompurify";
 import { purifyConfig } from "../../../Domain/DOMPurify";
-import cn from "./MobileTriggerInfo.less";
+import classNames from "classnames/bind";
+
+import styles from "./MobileTriggerInfo.less";
+
+const cn = classNames.bind(styles);
 
 const md = new Remarkable({ breaks: true });
 

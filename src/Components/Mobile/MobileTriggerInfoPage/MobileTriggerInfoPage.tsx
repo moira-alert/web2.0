@@ -8,7 +8,11 @@ import getStatusColor from "../Styles/StatusColor";
 import MobileEmptyContentLoading from "../MobileEmptyContentLoading/MobileEmptyContentLoading";
 import MobileMetricsList from "../MobileMetricsList/MobileMetricsList";
 import MobileTriggerInfo from "../MobileTriggerInfo/MobileTriggerInfo";
-import cn from "./MobileTriggerInfoPage.less";
+import classNames from "classnames/bind";
+
+import styles from "./MobileTriggerInfoPage.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     data?: Trigger | null;

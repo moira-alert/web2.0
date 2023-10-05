@@ -4,15 +4,17 @@ import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
-import { Gapped } from "@skbkontur/react-ui/components/Gapped";
-import { Input } from "@skbkontur/react-ui/components/Input";
-import { Textarea } from "@skbkontur/react-ui/components/Textarea";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import { Link } from "@skbkontur/react-ui/components/Link";
-import { Tabs } from "@skbkontur/react-ui/components/Tabs";
-import { RadioGroup } from "@skbkontur/react-ui/components/RadioGroup";
-import { Radio } from "@skbkontur/react-ui/components/Radio";
-import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import {
+    RadioGroup,
+    Radio,
+    Checkbox,
+    Gapped,
+    Input,
+    Textarea,
+    Button,
+    Link,
+    Tabs,
+} from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import {
     DEFAULT_TRIGGER_TTL,
@@ -34,7 +36,11 @@ import CodeRef from "../CodeRef/CodeRef";
 import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./EditDescritionHelp";
-import cn from "./TriggerEditForm.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerEditForm.less";
+
+const cn = classNames.bind(styles);
 
 const md = new Remarkable({ breaks: true });
 
@@ -317,7 +323,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             <Gapped vertical gap={10}>
                                 <Radio value={TriggerSource.GRAPHITE_LOCAL}> Local (default)</Radio>
                                 <Radio value={TriggerSource.GRAPHITE_REMOTE}>
-                                    Graphite Remote. Be careful, it may cause{" "}
+                                    Graphite Remote. Be careful, it may cause&nbsp;
                                     <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">
                                         extra load
                                     </Link>

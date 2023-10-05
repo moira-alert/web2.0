@@ -1,5 +1,9 @@
 import React from "react";
-import cn from "./Tokens.less";
+import classNames from "classnames/bind";
+
+import styles from "./Tokens.less";
+
+const cn = classNames.bind(styles);
 
 type FunctionTokenProps = {
     children: React.ReactNode;

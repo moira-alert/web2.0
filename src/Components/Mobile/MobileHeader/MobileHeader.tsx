@@ -1,7 +1,11 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
-import cn from "./MobileHeader.less";
+import classNames from "classnames/bind";
+
+import styles from "./MobileHeader.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     color?: string;

@@ -6,7 +6,11 @@ import { ValidateTriggerTarget, TriggerTargetProblem } from "../../Domain/Trigge
 import parseExpression, { isEmptyString } from "./parser/parseExpression";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { highlightBadFunction, highlightTokens, renderToken } from "./highlightFunctions";
-import cn from "./HighlightInput.less";
+import classNames from "classnames/bind";
+
+import styles from "./HighlightInput.less";
+
+const cn = classNames.bind(styles);
 
 type HighlightInputProps = {
     onValueChange: (value: string) => void;

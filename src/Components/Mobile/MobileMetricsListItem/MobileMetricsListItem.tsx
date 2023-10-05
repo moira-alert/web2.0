@@ -15,7 +15,11 @@ import {
     MaintenanceList,
 } from "../../../Domain/Maintenance";
 import { getUTCDate } from "../../../helpers/DateUtil";
-import cn from "./MobileMetricsListItem.less";
+import classNames from "classnames/bind";
+
+import styles from "./MobileMetricsListItem.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     style?: React.CSSProperties;

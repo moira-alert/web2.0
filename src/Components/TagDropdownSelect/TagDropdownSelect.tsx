@@ -7,7 +7,11 @@ import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
 import Tag from "../Tag/Tag";
 import NewTagBadge from "../NewTagBadge/NewTagBadge";
-import cn from "./TagDropdownSelect.less";
+import classNames from "classnames/bind";
+
+import styles from "./TagDropdownSelect.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     value: Array<string>;

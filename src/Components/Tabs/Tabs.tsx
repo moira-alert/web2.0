@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Tabs } from "@skbkontur/react-ui/components/Tabs";
-import cn from "./Tabs.less";
+import classNames from "classnames/bind";
+
+import styles from "./Tabs.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     value: string;

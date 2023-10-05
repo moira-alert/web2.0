@@ -1,5 +1,9 @@
 import * as React from "react";
-import cn from "./Footer.less";
+import classNames from "classnames/bind";
+
+import styles from "./Footer.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     className?: string;

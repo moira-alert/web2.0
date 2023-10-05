@@ -12,16 +12,18 @@ import TagListContainer from "./Containers/TagListContainer";
 import PatternListContainer from "./Containers/PatternListContainer";
 import ErrorContainer from "./Containers/ErrorContainer";
 import { getPagePath } from "./Domain/Global";
-import cn from "./desktop.less";
-
+import classNames from "classnames/bind";
 import TriggerList, { TriggerListProps } from "./pages/trigger-list/trigger-list";
 import TriggerListDesktop, {
     TriggerListDesktopProps,
 } from "./pages/trigger-list/trigger-list.desktop";
-
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
 import TeamsContainer from "./Containers/TeamsContainer";
+
+import styles from "./desktop.less";
+
+const cn = classNames.bind(styles);
 
 type ResponsiveRouteProps = {
     exact?: boolean;

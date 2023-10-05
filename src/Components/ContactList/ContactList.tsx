@@ -9,8 +9,11 @@ import { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+import classNames from "classnames/bind";
 
-import cn from "./ContactList.less";
+import styles from "./ContactList.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     items: Array<Contact>;
