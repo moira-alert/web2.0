@@ -3,6 +3,7 @@
     "version": "1.1.0",
     "license": "MIT",
     "scripts": {
+        "prepare": "lezer-generator src/TriggerGrammar/TriggerGrammar.grammar -o src/TriggerGrammar/parser.ts",
         "serve": "webpack-dev-server --mode=development --static ./dist",
         "start": "npm-run-all --parallel serve fakeapi ",
         "start:dev-proxy": "yarn serve --config webpack.config.dev-proxy.js",

@@ -1,0 +1,28 @@
+@top BuiltExpression { expression }
+
+@skip { space }
+
+@tokens {
+  space { @whitespace+ }
+  identifier { @asciiLetter ( @asciiLetter  | "_" | Number)* }
+  String { '"' !["]* '"' | "'" ![']* "'" }
+  Number {@digit+}
+  "(" ")"
+}
+
+FunctionName { identifier }
+FunctionCall {
+    FunctionName "(" argumentList? ")"
+}
+Variable {identifier ((".") identifier)*}
+argumentList { expression ((",") expression)* }
+expression { ( String | Number | FunctionCall | Variable)+ }
+
+
+
+
+
+
+
+
+

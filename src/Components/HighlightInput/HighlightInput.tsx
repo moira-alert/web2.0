@@ -9,6 +9,7 @@ import { highlightBadFunction, highlightTokens, renderToken } from "./highlightF
 import classNames from "classnames/bind";
 
 import styles from "./HighlightInput.less";
+import { CodeEditor } from "./CodeEditor";
 
 const cn = classNames.bind(styles);
 
@@ -174,19 +175,20 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                         validationInfo={validateInput(value, errorMessage, warningMessage)}
                         renderMessage={tooltip("right middle")}
                     >
-                        <Input
+                        {/* <Input
                             ref={inputEl}
                             value={value}
                             width={width}
                             onValueChange={handleValueChange}
                             onBlur={handleInputBlur}
                             data-tid={props["data-tid"]}
-                        />
+                        /> */}
+                        <CodeEditor value={value} onValueChange={handleValueChange} />
                     </ValidationWrapperV1>
                 </ThemeContext.Provider>
-                <span className={cn("message")} ref={containerEl}>
+                {/* <span className={cn("message")} ref={containerEl}>
                     <span style={{ marginLeft: `-${scrollLeft}px` }}>{highlightText}</span>
-                </span>
+                </span> */}
             </div>
             <ErrorMessage error={errorMessage} warning={warningMessage} view={!changed} />
         </>
