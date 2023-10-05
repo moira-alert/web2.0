@@ -311,7 +311,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {remoteAllowed && (
+                {
                     <FormRow label="Data source" singleLineControlGroup>
                         <RadioGroup<TriggerSource>
                             name="data-source"
@@ -323,9 +323,9 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             <Gapped vertical gap={10}>
                                 <Radio value={TriggerSource.GRAPHITE_LOCAL}> Local (default)</Radio>
                                 <Radio value={TriggerSource.GRAPHITE_REMOTE}>
-                                    Graphite Remote. Be careful, it may cause&nbs;
+                                    Graphite Remote. Be careful, it may cause&nbsp;
                                     <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">
-                                        &nbsp;extra load
+                                        extra load
                                     </Link>
                                 </Radio>
                                 <Radio value={TriggerSource.PROMETHEUS_REMOTE}>
@@ -335,7 +335,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             </Gapped>
                         </RadioGroup>
                     </FormRow>
-                )}
+                }
             </Form>
         );
     }
