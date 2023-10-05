@@ -2,7 +2,13 @@ import { LRLanguage } from "@codemirror/language";
 import { LanguageSupport } from "@codemirror/language";
 import { styleTags, tags as t } from "@lezer/highlight";
 import { parser } from "./parser";
-import { foldNodeProp, foldInside, indentNodeProp, delimitedIndent } from "@codemirror/language";
+import {
+    foldNodeProp,
+    foldInside,
+    indentNodeProp,
+    delimitedIndent,
+    indentString,
+} from "@codemirror/language";
 import { completeFromList } from "@codemirror/autocomplete";
 
 // console.log(
@@ -25,18 +31,20 @@ const exampleLanguage = LRLanguage.define({
                 "[ ]": t.squareBracket,
                 "{ }": t.brace,
             }),
-            indentNodeProp.add({
-                BuiltExpression: (context) => context.column(context.node.from) + context.unit,
-            }),
             // indentNodeProp.add({
-            //     BuiltExpression: delimitedIndent({ closing: ")", align: true }),
+            //     BuiltExpression: (context) => context.column(context.node.from) + context.unit,
             // }),
+            indentNodeProp.add({
+                FunctionCall: delimitedIndent({ closing: ")", align: false }),
+            }),
+
             foldNodeProp.add({
-                BuiltExpression: foldInside,
+                FunctionCall: foldInside,
             }),
         ],
     }),
     languageData: {
+        indentOnInput: /^\s*\}$/,
         commentTokens: { line: "//" },
         closeBrackets: { brackets: ["(", "[", "{", '"', "'"] },
     },
