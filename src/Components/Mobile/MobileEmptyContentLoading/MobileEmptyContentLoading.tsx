@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
-import cn from "./MobileEmptyContentLoading.less";
+import classNames from "classnames/bind";
+
+import styles from "./MobileEmptyContentLoading.less";
+
+const cn = classNames.bind(styles);
 
 export default function MobileEmptyContentLoading(): React.ReactElement {
     return (

@@ -5,7 +5,11 @@ import { TokenType } from "../../helpers/TokenType";
 import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import { clearInput } from "../../helpers/common";
-import cn from "./SearchSelector.less";
+import classNames from "classnames/bind";
+
+import styles from "./SearchSelector.less";
+
+const cn = classNames.bind(styles);
 
 // ToDo вынести в хелперы
 const searchTokens = (query: string, items: string[]): string[] => {

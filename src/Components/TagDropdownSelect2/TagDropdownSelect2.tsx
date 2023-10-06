@@ -6,7 +6,11 @@ import { ScrollContainer } from "@skbkontur/react-ui/components/ScrollContainer"
 import { DropdownContainer } from "@skbkontur/react-ui/internal/DropdownContainer";
 import TagGroup from "../TagGroup/TagGroup";
 import Tag from "../Tag/Tag";
-import cn from "./TagDropdownSelect2.less";
+import classNames from "classnames/bind";
+
+import styles from "./TagDropdownSelect2.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     subscribed: Array<string>;

@@ -1,7 +1,12 @@
 import React from "react";
-import cn from "./Token.less";
 import { Tooltip } from "@skbkontur/react-ui";
 import { TokenType } from "../../helpers/TokenType";
+
+import classNames from "classnames/bind";
+
+import styles from "./Token.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     children: string;

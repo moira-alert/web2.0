@@ -1,6 +1,10 @@
 import * as React from "react";
 import WarningIcon from "@skbkontur/react-icons/Warning";
-import cn from "./Bar.less";
+import classNames from "classnames/bind";
+
+import styles from "./Bar.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     message: string;

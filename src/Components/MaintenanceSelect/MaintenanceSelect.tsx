@@ -11,7 +11,11 @@ import {
     MaintenanceList,
 } from "../../Domain/Maintenance";
 import CustomMaintenanceMenu from "./CustomMaintenanceMenu/CustomMaintenanceMenu";
-import cn from "./MaintenanceSelect.less";
+import classNames from "classnames/bind";
+
+import styles from "./MaintenanceSelect.less";
+
+const cn = classNames.bind(styles);
 
 type MaintenanceSelectProps = {
     caption: React.ReactNode;

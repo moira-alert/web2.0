@@ -1,7 +1,11 @@
 import * as React from "react";
 import AddIcon from "@skbkontur/react-icons/Add";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
-import cn from "./NewTagBadge.less";
+import classNames from "classnames/bind";
+
+import styles from "./NewTagBadge.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     title: string;

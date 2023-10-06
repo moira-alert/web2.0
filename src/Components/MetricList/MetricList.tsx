@@ -4,11 +4,15 @@ import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Metric, MetricItemList } from "../../Domain/Metric";
-import cn from "./MetricList.less";
 import type { VariableSizeList } from "react-window";
 import { VariableSizeList as List } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
 import { useEffect, useRef } from "react";
+import classNames from "classnames/bind";
+
+import styles from "./MetricList.less";
+
+const cn = classNames.bind(styles);
 
 export type SortingColumn = "state" | "name" | "event" | "value";
 

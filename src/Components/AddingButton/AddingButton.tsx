@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import cn from "./AddingButton.less";
+import classNames from "classnames/bind";
+
+import styles from "./AddingButton.less";
+
+const cn = classNames.bind(styles);
 
 interface IAddingButtonProps {
     to: string;

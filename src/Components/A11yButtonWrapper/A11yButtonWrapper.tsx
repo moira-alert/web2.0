@@ -1,5 +1,9 @@
 import * as React from "react";
-import cn from "./A11yButtonWrapper.less";
+import classNames from "classnames/bind";
+
+import styles from "./A11yButtonWrapper.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     children: React.ReactNode;

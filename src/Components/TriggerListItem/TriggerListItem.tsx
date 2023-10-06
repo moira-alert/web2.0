@@ -14,7 +14,12 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-import cn from "./TriggerListItem.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerListItem.less";
+
+const cn = classNames.bind(styles);
+
 import _ from "lodash";
 
 type Props = {

@@ -12,9 +12,13 @@ import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import cn from "./NotificationList.less";
 import { ConfirmDeleteModal } from "../ConfirmDeleteModal/ConfirmDeleteModal";
 import { useModal } from "../../hooks/useModal";
+import classNames from "classnames/bind";
+
+import styles from "./NotificationList.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     items: {

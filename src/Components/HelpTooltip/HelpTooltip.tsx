@@ -1,14 +1,14 @@
 import React, { ReactNode } from "react";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
-import { PopupPosition } from "@skbkontur/react-ui/internal/Popup";
+import { PopupPositionsType } from "@skbkontur/react-ui/internal/Popup";
 import { TooltipTrigger } from "@skbkontur/react-ui";
 
 import cn from "./HelpTooltip.less";
 
 type HelpTooltipProps = {
     children: ReactNode;
-    pos?: PopupPosition;
+    pos?: PopupPositionsType;
     closeButton?: boolean;
     trigger?: TooltipTrigger;
 };

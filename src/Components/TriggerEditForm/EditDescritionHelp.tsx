@@ -2,7 +2,11 @@ import React from "react";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import CodeRef from "../CodeRef/CodeRef";
-import cn from "./TriggerEditForm.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerEditForm.less";
+
+const cn = classNames.bind(styles);
 
 export default function EditDescriptionHelp(): React.ReactElement {
     return (

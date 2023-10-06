@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input/Input";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
-import { Calendar, CalendarDateShape } from "@skbkontur/react-ui/internal/Calendar";
+import { Calendar, CalendarDateShape } from "@skbkontur/react-ui/components/Calendar";
 import { DateInput } from "@skbkontur/react-ui/components/DateInput/DateInput";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Menu } from "@skbkontur/react-ui/internal/Menu";
@@ -9,7 +9,11 @@ import { addMonths, format, getUnixTime, fromUnixTime, lastDayOfMonth, addDays }
 import { tooltip, ValidationContainer, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { ValidationInfo } from "@skbkontur/react-ui-validations/src/ValidationWrapper";
 import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
-import cn from "./CustomMaintenanceMenu.less";
+import classNames from "classnames/bind";
+
+import styles from "./CustomMaintenanceMenu.less";
+
+const cn = classNames.bind(styles);
 
 function splitDate(date: Date): [string, CalendarDateShape, string] {
     return [
@@ -61,9 +65,9 @@ type CustomMaintenanceMenuProps = {
 };
 
 export default function CustomMaintenanceMenu({
+    currentTime = new Date(),
     maintenance,
     setMaintenance,
-    currentTime = new Date(),
 }: CustomMaintenanceMenuProps): React.ReactElement {
     const [maintenanceTime, maintenanceDate] = maintenance
         ? splitDate(fromUnixTime(maintenance))
@@ -132,7 +136,7 @@ export default function CustomMaintenanceMenu({
 
     return (
         <div className={cn("container")}>
-            <Menu hasShadow={false} maxHeight="100%">
+            <Menu hasShadow={false}>
                 {PreparedTimes.map((preparedTime) => (
                     <MenuItem
                         key={preparedTime}
@@ -144,12 +148,12 @@ export default function CustomMaintenanceMenu({
                 ))}
             </Menu>
             <Calendar
-                value={calendarDate}
-                initialMonth={calendarDate.month}
+                value={toStringDate(calendarDate)}
+                initialMonth={calendarDate.month + 1}
                 initialYear={calendarDate.year}
-                minDate={todayDate}
-                maxDate={maxDate}
-                onSelect={handleDatePick}
+                minDate={toStringDate(todayDate)}
+                maxDate={toStringDate(maxDate)}
+                onValueChange={(value) => handleDatePick(toCalendarDate(value))}
             />
             <footer className={cn("footer")}>
                 <Input value={time} onValueChange={setTime} mask="99:99" width="55px" />

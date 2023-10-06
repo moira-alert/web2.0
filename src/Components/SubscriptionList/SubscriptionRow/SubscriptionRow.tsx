@@ -5,8 +5,11 @@ import { Subscription } from "../../../Domain/Subscription";
 import ContactInfo from "../../ContactInfo/ContactInfo";
 import TagGroup from "../../TagGroup/TagGroup";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+import classNames from "classnames/bind";
 
-import cn from "./SubscriptionRow.less";
+import styles from "./SubscriptionRow.less";
+
+const cn = classNames.bind(styles);
 
 interface SubscriptionRowProps {
     subscription: Subscription;
@@ -25,7 +28,6 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     ).map((x: Contact) => <ContactInfo key={x.id} contact={x} />);
 
     const areAnyDisruptedSubs = getSubscriptionContacts.length === 0;
-
     return (
         <tr
             key={subscription.id}

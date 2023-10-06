@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Link, LinkProps } from "react-router-dom";
-import cn from "./RouterLink.less";
+import classNames from "classnames/bind";
+
+import styles from "./RouterLink.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     icon?: React.ReactNode;

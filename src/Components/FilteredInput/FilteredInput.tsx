@@ -1,6 +1,10 @@
 import React, { createRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
-import cn from "./FilteredInput.less";
+import classNames from "classnames/bind";
+
+import styles from "./FilteredInput.less";
+
+const cn = classNames.bind(styles);
 
 export type FilterValueResult<T> = {
     hintValue?: string;

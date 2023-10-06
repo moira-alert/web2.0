@@ -1,6 +1,10 @@
 // ToDo перевести на @skbkontur/react-stack-layout
 import React, { ReactNode, CSSProperties } from "react";
-import cn from "./ItemsStacks.less";
+import classNames from "classnames/bind";
+
+import styles from "./ItemsStacks.less";
+
+const cn = classNames.bind(styles);
 
 type VerticalAlign = "top" | "bottom" | "center" | "baseline" | "stretch";
 
