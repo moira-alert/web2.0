@@ -7,7 +7,11 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Contact } from "../../Domain/Contact";
 import { TagStat } from "../../Domain/Tag";
-import cn from "./TagList.less";
+import classNames from "classnames/bind";
+
+import styles from "./TagList.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     items: Array<TagStat>;

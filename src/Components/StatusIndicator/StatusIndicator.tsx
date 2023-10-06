@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Status, getStatusColor } from "../../Domain/Status";
-import cn from "./StatusIndicator.less";
+import classNames from "classnames/bind";
+
+import styles from "./StatusIndicator.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     disabled?: boolean;

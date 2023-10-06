@@ -7,7 +7,11 @@ import PeopleIcon from "@skbkontur/react-icons/People";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import svgLogo from "./moira-logo.svg";
-import cn from "./Header.less";
+import classNames from "classnames/bind";
+
+import styles from "./Header.less";
+
+const cn = classNames.bind(styles);
 
 export default function Header(): React.ReactElement {
     return (

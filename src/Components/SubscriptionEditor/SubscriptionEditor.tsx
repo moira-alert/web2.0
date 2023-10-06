@@ -11,8 +11,12 @@ import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import cn from "./SubscriptionEditor.less";
 import { ConfigContext } from "../../contexts/ConfigContext";
+import classNames from "classnames/bind";
+
+import styles from "./SubscriptionEditor.less";
+
+const cn = classNames.bind(styles);
 
 export type SubscriptionInfo = Omit<SubscriptionCreateInfo, "user" | "id">;
 

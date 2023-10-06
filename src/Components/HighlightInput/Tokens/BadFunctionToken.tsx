@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Tooltip } from "@skbkontur/react-ui";
-import cn from "./Tokens.less";
+import classNames from "classnames/bind";
+
+import styles from "./Tokens.less";
+
+const cn = classNames.bind(styles);
 
 type BadFunctionTokenProps = {
     type: "bad" | "warn";

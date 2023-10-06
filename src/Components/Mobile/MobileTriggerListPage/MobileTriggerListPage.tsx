@@ -5,7 +5,11 @@ import FilterIcon from "@skbkontur/react-icons/Filter";
 import { Trigger } from "../../../Domain/Trigger";
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
 import MobileHeader from "../MobileHeader/MobileHeader";
-import cn from "./MobileTriggerListPage.less";
+import classNames from "classnames/bind";
+
+import styles from "./MobileTriggerListPage.less";
+
+const cn = classNames.bind(styles);
 
 type MobileTriggerListPageProps = {
     loading?: boolean;

@@ -1,4 +1,5 @@
 import { Status } from "../../../Domain/Status";
+
 import variables from "./variables.less";
 
 const { okColor, errorColor, warnColor, noDataColor, unknownColor } = variables;

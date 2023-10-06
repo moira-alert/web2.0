@@ -1,9 +1,13 @@
 import * as React from "react";
 import { Metric, MetricItemList } from "../../../Domain/Metric";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
-import cn from "./MobileMetricsList.less";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import classNames from "classnames/bind";
+
+import styles from "./MobileMetricsList.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     metrics: MetricItemList;

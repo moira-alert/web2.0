@@ -1,6 +1,10 @@
 import * as React from "react";
 import Tag from "../Tag/Tag";
-import cn from "./TagGroup.less";
+import classNames from "classnames/bind";
+
+import styles from "./TagGroup.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     tags: Array<string>;

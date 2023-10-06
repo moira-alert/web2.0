@@ -6,7 +6,11 @@ import { ColumnStack, Fit, Fixed, RowStack } from "../ItemsStack/ItemsStack";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
-import cn from "./TriggerSimpleModeEditor.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerSimpleModeEditor.less";
+
+const cn = classNames.bind(styles);
 
 type WatchForType = "rising" | "falling";
 

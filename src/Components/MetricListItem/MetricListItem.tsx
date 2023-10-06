@@ -1,4 +1,3 @@
-import cn from "../MetricList/MetricList.less";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { format, fromUnixTime, getUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
@@ -10,6 +9,11 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import * as React from "react";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
+import classNames from "classnames/bind";
+
+import styles from "../MetricList/MetricList.less";
+
+const cn = classNames.bind(styles);
 
 function maintenanceCaption(delta: number): React.ReactNode {
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;

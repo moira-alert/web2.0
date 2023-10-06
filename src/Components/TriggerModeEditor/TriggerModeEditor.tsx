@@ -8,7 +8,11 @@ import TriggerSimpleModeEditor from "../TriggerSimpleModeEditor/TriggerSimpleMod
 import { RowStack, Fit, Fill } from "../ItemsStack/ItemsStack";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import cn from "./TriggerModeEditor.less";
+import classNames from "classnames/bind";
+
+import styles from "./TriggerModeEditor.less";
+
+const cn = classNames.bind(styles);
 
 type WatchForType = "rising" | "falling";
 

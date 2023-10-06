@@ -5,7 +5,11 @@ import difference from "lodash/difference";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import MobileHeader from "../MobileHeader/MobileHeader";
-import cn from "./MobileTagSelectorPage.less";
+import classNames from "classnames/bind";
+
+import styles from "./MobileTagSelectorPage.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     selectedTags: string[];

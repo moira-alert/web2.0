@@ -6,7 +6,11 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
-import cn from "./PatternList.less";
+import classNames from "classnames/bind";
+
+import styles from "./PatternList.less";
+
+const cn = classNames.bind(styles);
 
 export type SortingColumn = "metric" | "trigger";
 

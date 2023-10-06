@@ -1,7 +1,11 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import Foco from "react-foco";
-import cn from "./Selector.less";
+import classNames from "classnames/bind";
+
+import styles from "./Selector.less";
+
+const cn = classNames.bind(styles);
 
 const Portal = ({ children }: { children: React.ReactNode }) => {
     const container = document.body;

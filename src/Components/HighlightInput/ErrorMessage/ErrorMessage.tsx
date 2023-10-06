@@ -1,5 +1,9 @@
 import React from "react";
-import cn from "./ErrorMessage.less";
+import classNames from "classnames/bind";
+
+import styles from "./ErrorMessage.less";
+
+const cn = classNames.bind(styles);
 
 type ErrorMessageProps = {
     error?: string;
