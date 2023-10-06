@@ -4,17 +4,7 @@ import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
-import {
-    RadioGroup,
-    Radio,
-    Checkbox,
-    Gapped,
-    Input,
-    Textarea,
-    Button,
-    Link,
-    Tabs,
-} from "@skbkontur/react-ui";
+import { Checkbox, Input, Textarea, Button, Tabs } from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import {
     DEFAULT_TRIGGER_TTL,
@@ -323,31 +313,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         />
                     </ValidationWrapperV1>
                 </FormRow>
-                {remoteAllowed && (
-                    <FormRow label="Data source" singleLineControlGroup>
-                        <RadioGroup<TriggerSource>
-                            name="data-source"
-                            defaultValue={triggerSource}
-                            onValueChange={(value: TriggerSource) =>
-                                onChange({ trigger_source: value })
-                            }
-                        >
-                            <Gapped vertical gap={10}>
-                                <Radio value={TriggerSource.GRAPHITE_LOCAL}> Local (default)</Radio>
-                                <Radio value={TriggerSource.GRAPHITE_REMOTE}>
-                                    Graphite Remote. Be careful, it may cause&nbsp;
-                                    <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">
-                                        extra load
-                                    </Link>
-                                </Radio>
-                                <Radio value={TriggerSource.PROMETHEUS_REMOTE}>
-                                    {" "}
-                                    Prometheus Remote{" "}
-                                </Radio>
-                            </Gapped>
-                        </RadioGroup>
-                    </FormRow>
-                )}
             </Form>
         );
     }

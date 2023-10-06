@@ -8,6 +8,9 @@ interface Props {
     onSourceChange: (value: TriggerSource) => void;
 }
 
+const remoteTriggerLink =
+    "http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source";
+
 export const MetricSourceSelect: React.FC<Props> = ({ triggerSource, onSourceChange }) => {
     return (
         <RadioGroup<TriggerSource>
@@ -18,10 +21,8 @@ export const MetricSourceSelect: React.FC<Props> = ({ triggerSource, onSourceCha
             <Gapped vertical gap={10}>
                 <Radio value={TriggerSource.GRAPHITE_LOCAL}> Local (default)</Radio>
                 <Radio value={TriggerSource.GRAPHITE_REMOTE}>
-                    Graphite Remote. Be careful, it may cause{" "}
-                    <Link href="http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source">
-                        extra load
-                    </Link>
+                    Graphite Remote. Be careful, it may cause&nbsp;
+                    <Link href={remoteTriggerLink}>extra load</Link>
                 </Radio>
                 <Radio value={TriggerSource.PROMETHEUS_REMOTE}> Prometheus Remote </Radio>
             </Gapped>
