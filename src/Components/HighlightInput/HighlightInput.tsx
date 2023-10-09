@@ -80,7 +80,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
 
     const handleValueChange = (changedValue: string) => {
         setChanged(true);
-        onValueChange(changedValue);
+        onValueChange(changedValue.replace(/\s/g, ""));
     };
 
     let errorMessage: string | undefined;

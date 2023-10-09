@@ -44,7 +44,7 @@ const exampleLanguage = LRLanguage.define({
         ],
     }),
     languageData: {
-        indentOnInput: /^\s*\}$/,
+        indentOnInput: /^\s*(\)|})$/,
         commentTokens: { line: "//" },
         closeBrackets: { brackets: ["(", "[", "{", '"', "'"] },
     },
