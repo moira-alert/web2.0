@@ -64,6 +64,7 @@ const TriggerEditContainer = (props: Props) => {
     };
 
     const deleteTrigger = async (id: string) => {
+        closeModal();
         dispatch(setIsLoading(true));
         try {
             await props.moiraApi.delTrigger(id);
