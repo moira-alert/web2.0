@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { EditorState, basicSetup } from "@codemirror/basic-setup";
 import { EditorView, keymap } from "@codemirror/view";
-import { defaultKeymap, indentSelection } from "@codemirror/commands";
-import { indentNodeProp, LanguageSupport } from "@codemirror/language";
+import { defaultKeymap } from "@codemirror/commands";
 import { indentOnInput } from "@codemirror/language";
 import { triggerLanguage } from "../../TriggerGrammar/triggerLanguage";
 import { tags as t } from "@lezer/highlight";
