@@ -183,7 +183,11 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                             onBlur={handleInputBlur}
                             data-tid={props["data-tid"]}
                         /> */}
-                        <CodeEditor value={value} onValueChange={handleValueChange} />
+                        <CodeEditor
+                            problemTree={validate?.tree_of_problems}
+                            value={value}
+                            onValueChange={handleValueChange}
+                        />
                     </ValidationWrapperV1>
                 </ThemeContext.Provider>
                 {/* <span className={cn("message")} ref={containerEl}>
