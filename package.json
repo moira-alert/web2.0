@@ -8,7 +8,7 @@
         "start:dev-proxy": "yarn serve --config webpack.config.dev-proxy.js",
         "start:docker": "npm-run-all --parallel backend start:docker-proxy",
         "start:docker-proxy": "yarn serve --config webpack.config.docker-proxy.js",
-        "backend": "docker-compose -f src/tests/core/api/docker-compose.yml down --rmi all && docker-compose -f src/tests/core/api/docker-compose.yml up",
+        "backend": "docker compose -f src/tests/core/api/docker-compose.yml down --rmi all && docker compose -f src/tests/core/api/docker-compose.yml up",
         "build": "webpack --mode=production",
         "storybook": "cross-env NODE_ENV=development start-storybook dev -p 9001 -c .storybook --ci ",
         "storybook:ci": "yarn storybook --ci --quiet",
