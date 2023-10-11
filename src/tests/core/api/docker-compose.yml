@@ -7,7 +7,7 @@ services:
       - data:/data
 
   filter:
-    image: moira/filter-nightly
+    image: moira/filter-nightly:latest
     ports:
       - "2003:2003"
     depends_on:
@@ -16,7 +16,7 @@ services:
       - redis:localhost
 
   checker:
-    image: moira/checker-nightly
+    image: moira/checker-nightly:latest
     networks:
       - default
     depends_on:
@@ -26,7 +26,7 @@ services:
       - redis:localhost
 
   notifier:
-    image: moira/notifier-nightly
+    image: moira/notifier-nightly:latest
     depends_on:
       - redis
       - checker
@@ -34,7 +34,7 @@ services:
       - redis:localhost
 
   api:
-    image: moira/api-nightly
+    image: moira/api-nightly:latest
     depends_on:
       - redis
       - checker
@@ -45,7 +45,7 @@ services:
       - balancer
 
   web:
-    image: moira/web2
+    image: moira/web2:latest
     networks:
       - balancer
 
