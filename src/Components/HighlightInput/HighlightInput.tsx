@@ -184,15 +184,29 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                             data-tid={props["data-tid"]}
                         /> */}
                         <CodeEditor
-                            problemTree={validate?.tree_of_problems}
-                            value={value}
+                            width={width}
+                            problemTree={{
+                                argument: "firstFn",
+                                description:
+                                    "This function is unstable: it can return different historical values with each evaluation. Moira will show unexpected values that you don't see on your graphs.",
+                                position: 0,
+                                type: "bad",
+                                problems: [
+                                    { argument: "first", position: 0, type: "warn" },
+                                    {
+                                        argument: "secondFn",
+                                        position: 1,
+                                        type: "bad",
+                                        description:
+                                            "The function summarize has a time sampling parameter 13week larger than allowed by the config:3h0m0s",
+                                    },
+                                ],
+                            }}
+                            value={"func (first, secondFn(sdc))"}
                             onValueChange={handleValueChange}
                         />
                     </ValidationWrapperV1>
                 </ThemeContext.Provider>
-                {/* <span className={cn("message")} ref={containerEl}>
-                    <span style={{ marginLeft: `-${scrollLeft}px` }}>{highlightText}</span>
-                </span> */}
             </div>
             <ErrorMessage error={errorMessage} warning={warningMessage} view={!changed} />
         </>

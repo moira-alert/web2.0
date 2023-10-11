@@ -20,9 +20,10 @@ function Container({ defaultValue, children }: ContainerProps) {
 
 storiesOf("HighlightInput", module)
     .add("Highlight errors", () => (
-        <Container defaultValue="func (first, secondFn)">
+        <Container defaultValue="func(first, secondFn())">
             {(value, setValue) => (
                 <HighlightInput
+                    width="100%"
                     value={value}
                     onValueChange={setValue}
                     validate={{
@@ -53,6 +54,7 @@ storiesOf("HighlightInput", module)
         <Container defaultValue="func (first, secondFn">
             {(value, setValue) => (
                 <HighlightInput
+                    width="100%"
                     value={value}
                     onValueChange={setValue}
                     validate={{

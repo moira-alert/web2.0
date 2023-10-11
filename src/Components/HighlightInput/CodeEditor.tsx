@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { EditorState, basicSetup } from "@codemirror/basic-setup";
-import { EditorView, keymap, Decoration, DecorationSet } from "@codemirror/view";
+import { EditorView, keymap } from "@codemirror/view";
 import { defaultKeymap } from "@codemirror/commands";
 import { indentOnInput } from "@codemirror/language";
 import { triggerLanguage } from "../../TriggerGrammar/triggerLanguage";
@@ -8,6 +8,15 @@ import { tags as t } from "@lezer/highlight";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { badFunctionHighlightExtension } from "./badFunctionHighlightExtension";
 import { TriggerTargetProblem } from "../../Domain/Trigger";
+
+interface Props {
+    value: string;
+    width?: string;
+    func?: string;
+    position?: number;
+    problemTree?: TriggerTargetProblem;
+    onValueChange: (value: string) => void;
+}
 
 const highlightStyle = syntaxHighlighting(
     HighlightStyle.define([
@@ -17,15 +26,7 @@ const highlightStyle = syntaxHighlighting(
     ])
 );
 
-interface Props {
-    value: string;
-    func?: string;
-    position?: number;
-    problemTree?: TriggerTargetProblem;
-    onValueChange: (value: string) => void;
-}
-
-export const CodeEditor: React.FC<Props> = ({ value, problemTree, onValueChange }) => {
+export const CodeEditor: React.FC<Props> = ({ value, problemTree, width, onValueChange }) => {
     const editorRef = useRef<HTMLDivElement | null>(null);
 
     function formatQuery(input: string) {
@@ -52,6 +53,11 @@ export const CodeEditor: React.FC<Props> = ({ value, problemTree, onValueChange 
             const state = EditorState.create({
                 doc: formatQuery(value),
                 extensions: [
+                    EditorView.theme({
+                        "&": {
+                            width: width || "100%",
+                        },
+                    }),
                     basicSetup,
                     keymap.of([...defaultKeymap]),
                     EditorState.allowMultipleSelections.of(true),
