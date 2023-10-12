@@ -168,7 +168,7 @@ export const functionLabels = [
 export const formatQuery = (input: string) => {
     let output = "";
     let indentLevel = 0;
-    for (let char of input) {
+    for (const char of input) {
         if (char === "(") {
             output += char + "\n" + "  ".repeat(indentLevel + 1);
             indentLevel++;

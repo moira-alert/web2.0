@@ -27,7 +27,6 @@ import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./EditDescritionHelp";
 import { MetricSourceSelect } from "./MetricSourceSelect";
-
 import classNames from "classnames/bind";
 
 import styles from "./TriggerEditForm.less";

@@ -10,7 +10,7 @@ module.exports = {
     storybookDir: path.join(__dirname, "../.storybook"),
     screenDir: path.join(__dirname, "images"),
     reportDir: path.join(__dirname, "report"),
-    maxRetries: 5,
+    maxRetries: 2,
     browsers: {
         chrome: {
             browserName: "chrome",

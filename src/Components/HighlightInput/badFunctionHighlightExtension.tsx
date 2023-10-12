@@ -39,7 +39,7 @@ export const badFunctionTooltip = (problemTree?: TriggerTargetProblem) => {
             end: to,
             above: true,
             create() {
-                let dom = document.createElement("div");
+                const dom = document.createElement("div");
                 dom.textContent = text;
                 return { dom };
             },

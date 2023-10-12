@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { Input, ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
+import React, { useState } from "react";
+import { ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
 import { tooltip, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import { ValidateTriggerTarget, TriggerTargetProblem } from "../../Domain/Trigger";

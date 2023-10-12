@@ -97,7 +97,7 @@ export const CodeEditor: React.FC<Props> = ({
                 parent: editorRef.current,
             });
 
-            view.contentDOM.onblur = (event) => {
+            view.contentDOM.onblur = () => {
                 if (onBlur) {
                     onBlur();
                 }

@@ -37,6 +37,6 @@ const autoCompletion = initLanguage.data.of({
 });
 
 export const triggerLanguage = () => {
-    //@ts-ignore
+    //@ts-ignore LRLanguage is not assigned to Language
     return new LanguageSupport(initLanguage, [autoCompletion]);
 };
