@@ -8,8 +8,9 @@
   String { '"' !["]* '"' | "'" ![']* "'" }
   Number {@digit+}
   "(" ")"
+  "[" "]"
+  "{" "}"
 }
-
 FunctionName { identifier }
 FunctionCall {
     FunctionName "(" argumentList? ")"

@@ -8,13 +8,14 @@ import { tags as t } from "@lezer/highlight";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { badFunctionHighlightExtension } from "./badFunctionHighlightExtension";
 import { TriggerTargetProblem } from "../../Domain/Trigger";
-
+import { formatQuery } from "../../Domain/Target";
 interface Props {
     value: string;
     width?: string;
     func?: string;
     position?: number;
     problemTree?: TriggerTargetProblem;
+    onBlur?: () => void;
     onValueChange: (value: string) => void;
 }
 
@@ -26,27 +27,43 @@ const highlightStyle = syntaxHighlighting(
     ])
 );
 
-export const CodeEditor: React.FC<Props> = ({ value, problemTree, width, onValueChange }) => {
-    const editorRef = useRef<HTMLDivElement | null>(null);
+const transactionFilter = EditorState.transactionFilter.of((tr) => {
+    const newTr: {
+        changes: {
+            from: number;
+            toA: number;
+            fromB: number;
+            toB: number;
+            insert: string;
+        };
+    }[] = [];
+    if (tr.isUserEvent("input.paste")) {
+        tr.changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
+            const newText = formatQuery(inserted.toString().replace(/\s/g, ""));
 
-    function formatQuery(input: string) {
-        let output = "";
-        let indentLevel = 0;
-        for (let char of input) {
-            if (char === "(") {
-                output += char + "\n" + "  ".repeat(indentLevel + 1);
-                indentLevel++;
-            } else if (char === ")") {
-                output = output.trimEnd() + "\n" + "  ".repeat(indentLevel - 1) + char;
-                indentLevel--;
-            } else if (char === ",") {
-                output += char + "\n" + "  ".repeat(indentLevel);
-            } else {
-                output += char;
-            }
-        }
-        return output;
+            newTr.push({
+                changes: {
+                    from: fromA,
+                    toA: toA,
+                    fromB: fromB,
+                    toB: toB,
+                    insert: newText,
+                },
+            });
+        });
+        return newTr;
     }
+    return tr;
+});
+
+export const CodeEditor: React.FC<Props> = ({
+    value,
+    problemTree,
+    width,
+    onBlur,
+    onValueChange,
+}) => {
+    const editorRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (editorRef.current) {
@@ -71,26 +88,7 @@ export const CodeEditor: React.FC<Props> = ({ value, problemTree, width, onValue
                     EditorView.lineWrapping,
                     highlightStyle,
                     badFunctionHighlightExtension(problemTree),
-                    EditorState.transactionFilter.of((tr) => {
-                        const newTr = [];
-                        if (tr.isUserEvent("input.paste")) {
-                            tr.changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
-                                const newText = formatQuery(inserted.toString().replace(/\s/g, ""));
-
-                                newTr.push({
-                                    changes: {
-                                        from: fromA,
-                                        toA: toA,
-                                        fromB: fromB,
-                                        toB: toB,
-                                        insert: newText,
-                                    },
-                                });
-                            });
-                            return newTr;
-                        }
-                        return tr;
-                    }),
+                    transactionFilter,
                 ],
             });
 
@@ -98,6 +96,12 @@ export const CodeEditor: React.FC<Props> = ({ value, problemTree, width, onValue
                 state,
                 parent: editorRef.current,
             });
+
+            view.contentDOM.onblur = (event) => {
+                if (onBlur) {
+                    onBlur();
+                }
+            };
 
             return () => {
                 view.destroy();

@@ -1,15 +1,8 @@
-import { StateEffect, StateField, Extension, Range } from "@codemirror/state";
-import { DecorationSet, Decoration, EditorView, ViewUpdate } from "@codemirror/view";
+import { Extension, Range } from "@codemirror/state";
+import { DecorationSet, Decoration, EditorView, ViewUpdate, ViewPlugin } from "@codemirror/view";
 import { syntaxTree } from "@codemirror/language";
 import { TriggerTargetProblem } from "../../Domain/Trigger";
-import { hoverTooltip, ViewPlugin } from "@codemirror/view";
-
-type BadFunctionDecoration = {
-    from: number;
-    to: number;
-    problemTree: TriggerTargetProblem;
-};
-
+import { hoverTooltip } from "@codemirror/view";
 interface DefineFunction {
     type: TriggerTargetProblem["type"];
     argument: TriggerTargetProblem["argument"];
@@ -54,8 +47,6 @@ export const badFunctionTooltip = (problemTree?: TriggerTargetProblem) => {
     });
 };
 
-const addBackgroundDecoration = StateEffect.define<BadFunctionDecoration>();
-
 const defineFunction = (
     functionName: string,
     problemTree?: TriggerTargetProblem
@@ -82,89 +73,86 @@ const defineFunction = (
     return null;
 };
 
-const backgroundEffect = (view: ViewUpdate, problemTree?: TriggerTargetProblem): void => {
-    if (!view.docChanged || !view.viewportChanged) {
-        return;
-    }
-    const effects: StateEffect<BadFunctionDecoration>[] = [];
+const showBadFunctions = (problemTree?: TriggerTargetProblem) =>
+    ViewPlugin.fromClass(
+        class {
+            decorations: DecorationSet;
+            constructor(view: EditorView) {
+                this.decorations = highlightInvalidTokens(view, problemTree);
+            }
+
+            update(update: ViewUpdate) {
+                if (update.docChanged || update.viewportChanged) {
+                    this.decorations = highlightInvalidTokens(update.view, problemTree);
+                }
+            }
+        },
+        {
+            decorations: (v) => {
+                return v.decorations;
+            },
+        }
+    );
+
+function highlightInvalidTokens(view: EditorView, problemTree?: TriggerTargetProblem) {
     const doc = view.state.doc.toString();
     const syntax = syntaxTree(view.state);
-
+    const marks: Range<Decoration>[] = [];
+    const stack: number[] = [];
     syntax.iterate({
         enter(node) {
-            if (node.name !== "FunctionName" || !problemTree) {
-                return;
-            }
             const from = node.from;
             const to = node.to;
             const elementString = doc.substring(from, to);
 
-            const badFunction = defineFunction(elementString, problemTree);
-
-            if (!badFunction) {
-                return;
-            }
-
-            effects.push(
-                addBackgroundDecoration.of({
-                    from,
-                    to,
-                    problemTree,
-                })
-            );
-            return false;
-        },
-    });
-    if (effects.length > 0) {
-        view.view.dispatch({ effects });
-    }
-    console.log(effects);
-};
-
-const backgroundDecorationField = (problemTree?: TriggerTargetProblem) =>
-    StateField.define<DecorationSet>({
-        create() {
-            return Decoration.none;
-        },
-        update(backgroundDecoration, tr) {
-            let backgroundDecorationsRangeSet = backgroundDecoration.map(tr.changes);
-            const doc = tr.state.doc.toString();
-            const marks: Range<Decoration>[] = [];
-
-            tr.effects.forEach((effect) => {
-                if (!effect.is(addBackgroundDecoration)) {
+            if (node.name === "FunctionName" && problemTree) {
+                const badFunction = defineFunction(elementString, problemTree);
+                if (!badFunction) {
                     return;
                 }
-
-                const { from, to } = effect.value;
-                const funcType = defineFunction(doc.substring(from, to), problemTree)?.type;
                 const mark = Decoration.mark({
                     inclusiveEnd: true,
-                    class: funcType === "bad" ? "redFunction" : "yellowFunction",
+                    class: badFunction?.type === "bad" ? "redFunction" : "yellowFunction",
                 }).range(from, to);
 
                 marks.push(mark);
-            });
+                return false;
+            }
 
-            backgroundDecorationsRangeSet = backgroundDecorationsRangeSet.update({
-                add: marks,
-                filter(from, to) {
-                    const elementString = doc.substring(from, to);
-                    return defineFunction(elementString, problemTree) ? true : false;
-                },
-            });
+            if (node.name === "(") {
+                stack.push(node.from);
+            }
 
-            return backgroundDecorationsRangeSet;
+            if (node.name === ")") {
+                if (stack.length > 0) {
+                    stack.pop();
+                } else {
+                    const mark = Decoration.mark({
+                        inclusiveEnd: true,
+                        class: "unmatchedBracket",
+                    }).range(from, to);
+                    marks.push(mark);
+                }
+                return false;
+            }
         },
-        provide: (f) => EditorView.decorations.from(f),
     });
+    for (const openingBracketPos of stack) {
+        const mark = Decoration.mark({
+            inclusiveEnd: true,
+            class: "unmatchedBracket",
+        }).range(openingBracketPos, openingBracketPos + 1);
+        marks.push(mark);
+    }
+    marks.sort((a, b) => a.from - b.from);
+    return Decoration.set(marks);
+}
 
 export const badFunctionHighlightExtension: (problemTree?: TriggerTargetProblem) => Extension = (
     problemTree
 ) => {
     const extensions = [
-        EditorView.updateListener.of((view) => backgroundEffect(view, problemTree)),
-        backgroundDecorationField(problemTree),
+        showBadFunctions(problemTree),
         EditorView.theme({
             ".redFunction": {
                 backgroundColor: "#fcb6b1",
@@ -172,6 +160,10 @@ export const badFunctionHighlightExtension: (problemTree?: TriggerTargetProblem)
             },
             ".yellowFunction": {
                 backgroundColor: "#fce56f",
+                borderRadius: "2px",
+            },
+            ".unmatchedBracket": {
+                backgroundColor: "#fcb6b1",
                 borderRadius: "2px",
             },
         }),
