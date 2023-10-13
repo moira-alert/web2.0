@@ -135,7 +135,7 @@ export const CodeEditor: React.FC<Props> = ({
                 view.destroy();
             };
         }
-    }, []);
+    }, [problemTree]);
 
     return (
         <ValidationWrapperV1
