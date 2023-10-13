@@ -9,13 +9,21 @@ import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { badFunctionHighlightExtension } from "./badFunctionHighlightExtension";
 import { TriggerTargetProblem } from "../../Domain/Trigger";
 import { formatQuery } from "../../Domain/Target";
+import { tooltip, ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
+import { isEmptyString } from "./parser/parseExpression";
+import classNames from "classnames/bind";
+
+import styles from "./HighlightInput.less";
+
+const cn = classNames.bind(styles);
 interface Props {
     value: string;
     width?: string;
-    func?: string;
-    position?: number;
     problemTree?: TriggerTargetProblem;
+    errorMessage?: string;
+    warningMessage?: string;
     onBlur?: () => void;
+    onSubmit?: () => void;
     onValueChange: (value: string) => void;
 }
 
@@ -26,6 +34,24 @@ const highlightStyle = syntaxHighlighting(
         { tag: t.number, color: "#b86721" },
     ])
 );
+
+function validateInput(value: string, error?: string, warning?: string): ValidationInfo | null {
+    if (isEmptyString(value)) {
+        return {
+            type: "submit",
+            message: "Can't be empty",
+        };
+    }
+    if (error || warning) {
+        return {
+            type: "lostfocus",
+            level: error ? "error" : "warning",
+            message: null,
+        };
+    }
+
+    return null;
+}
 
 const transactionFilter = EditorState.transactionFilter.of((tr) => {
     const newTr: {
@@ -60,6 +86,8 @@ export const CodeEditor: React.FC<Props> = ({
     value,
     problemTree,
     width,
+    errorMessage,
+    warningMessage,
     onBlur,
     onValueChange,
 }) => {
@@ -109,5 +137,15 @@ export const CodeEditor: React.FC<Props> = ({
         }
     }, []);
 
-    return <div ref={editorRef} />;
+    return (
+        <ValidationWrapperV1
+            validationInfo={validateInput(value, errorMessage, warningMessage)}
+            renderMessage={tooltip("right middle")}
+        >
+            <div
+                className={cn({ warning: warningMessage && !errorMessage, error: errorMessage })}
+                ref={editorRef}
+            />
+        </ValidationWrapperV1>
+    );
 };

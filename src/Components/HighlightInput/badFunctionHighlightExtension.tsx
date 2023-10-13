@@ -82,7 +82,7 @@ const showBadFunctions = (problemTree?: TriggerTargetProblem) =>
             }
 
             update(update: ViewUpdate) {
-                if (update.docChanged || update.viewportChanged) {
+                if (update.docChanged || update.viewportChanged || problemTree) {
                     this.decorations = highlightInvalidTokens(update.view, problemTree);
                 }
             }
