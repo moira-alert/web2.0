@@ -1,3 +1,7 @@
+import { ValidationInfo } from "@skbkontur/react-ui-validations";
+import { TriggerTargetProblem } from "./Trigger";
+import { isEmptyString } from "../helpers/isEmptyString";
+
 export const functionLabels = [
     "absolute",
     "add",
@@ -165,21 +169,61 @@ export const functionLabels = [
     "weightedAverage",
 ];
 
-export const formatQuery = (input: string) => {
-    let output = "";
-    let indentLevel = 0;
-    for (const char of input) {
-        if (char === "(") {
-            output += char + "\n" + "  ".repeat(indentLevel + 1);
-            indentLevel++;
-        } else if (char === ")") {
-            output = output.trimEnd() + "\n" + "  ".repeat(indentLevel - 1) + char;
-            indentLevel--;
-        } else if (char === ",") {
-            output += char + "\n" + "  ".repeat(indentLevel);
-        } else {
-            output += char;
-        }
+export function getProblemMessage(
+    problemTree: TriggerTargetProblem
+): { error?: string; warning?: string } {
+    if (problemTree.type === "bad") {
+        return { error: `${problemTree.argument}: ${problemTree.description}` };
     }
-    return output;
-};
+
+    let errorMessage: string | undefined = undefined;
+    let warningMessage =
+        problemTree.type === "warn"
+            ? `${problemTree.argument}: ${problemTree.description}`
+            : undefined;
+
+    problemTree.problems?.forEach((problem) => {
+        if (errorMessage) {
+            return;
+        }
+        const { error, warning } = getProblemMessage(problem);
+        if (error) {
+            errorMessage = error;
+        }
+        if (!errorMessage && warningMessage) {
+            warningMessage = warning;
+        }
+    });
+
+    return { error: errorMessage, warning: warningMessage };
+}
+
+export function validateQuery(
+    value: string,
+    warningMessage?: string,
+    errorMessage?: string
+): ValidationInfo | null {
+    if (isEmptyString(value)) {
+        return {
+            type: "submit",
+            message: "Can't be empty",
+        };
+    }
+
+    if (errorMessage && warningMessage) {
+        return {
+            type: "lostfocus",
+            level: "error",
+            message: null,
+        };
+    }
+
+    const level = errorMessage ? "error" : warningMessage ? "warning" : null;
+    return level
+        ? {
+              type: "lostfocus",
+              level: level,
+              message: null,
+          }
+        : null;
+}

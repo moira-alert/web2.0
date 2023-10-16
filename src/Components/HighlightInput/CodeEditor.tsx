@@ -6,16 +6,13 @@ import { indentOnInput } from "@codemirror/language";
 import { triggerLanguage } from "../../TriggerGrammar/triggerLanguage";
 import { tags as t } from "@lezer/highlight";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
-import { badFunctionHighlightExtension } from "./badFunctionHighlightExtension";
+import { invalidTokensHighlightExtension } from "./invalidTokensHighlightExtension";
 import { TriggerTargetProblem } from "../../Domain/Trigger";
-import { formatQuery } from "../../Domain/Target";
-import { tooltip, ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
-import { isEmptyString } from "./parser/parseExpression";
-import classNames from "classnames/bind";
+import { formatQuery } from "../../helpers/formatQuery";
+import { tooltip, ValidationWrapper } from "@skbkontur/react-ui-validations";
+import { validateQuery } from "../../Domain/Target";
+import { ValidatedDiv } from "./ValidatedDiv";
 
-import styles from "./HighlightInput.less";
-
-const cn = classNames.bind(styles);
 interface Props {
     value: string;
     width?: string;
@@ -23,35 +20,17 @@ interface Props {
     errorMessage?: string;
     warningMessage?: string;
     onBlur?: () => void;
-    onSubmit?: () => void;
     onValueChange: (value: string) => void;
 }
 
 const highlightStyle = syntaxHighlighting(
     HighlightStyle.define([
-        { tag: t.variableName, color: "#6D6BDE" },
+        { tag: t.function(t.variableName), color: "#6D6BDE" },
+        { tag: t.variableName, color: "#208013" },
         { tag: t.string, color: "#3cb371" },
         { tag: t.number, color: "#b86721" },
     ])
 );
-
-function validateInput(value: string, error?: string, warning?: string): ValidationInfo | null {
-    if (isEmptyString(value)) {
-        return {
-            type: "submit",
-            message: "Can't be empty",
-        };
-    }
-    if (error || warning) {
-        return {
-            type: "lostfocus",
-            level: error ? "error" : "warning",
-            message: null,
-        };
-    }
-
-    return null;
-}
 
 const transactionFilter = EditorState.transactionFilter.of((tr) => {
     const newTr: {
@@ -65,7 +44,7 @@ const transactionFilter = EditorState.transactionFilter.of((tr) => {
     }[] = [];
     if (tr.isUserEvent("input.paste")) {
         tr.changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
-            const newText = formatQuery(inserted.toString().replace(/\s/g, ""));
+            const newText = formatQuery(inserted.toString().replace(/\s+/g, " "));
 
             newTr.push({
                 changes: {
@@ -93,6 +72,14 @@ export const CodeEditor: React.FC<Props> = ({
 }) => {
     const editorRef = useRef<HTMLDivElement | null>(null);
 
+    const [savedProblemTree, setSavedProblemTree] = React.useState<
+        TriggerTargetProblem | undefined
+    >(undefined);
+
+    if (problemTree !== undefined && savedProblemTree === undefined) {
+        setSavedProblemTree(problemTree);
+    }
+
     useEffect(() => {
         if (editorRef.current) {
             const state = EditorState.create({
@@ -105,17 +92,16 @@ export const CodeEditor: React.FC<Props> = ({
                     }),
                     basicSetup,
                     keymap.of([...defaultKeymap]),
-                    EditorState.allowMultipleSelections.of(true),
                     triggerLanguage(),
                     indentOnInput(),
                     EditorView.updateListener.of((update) => {
                         if (update.docChanged) {
-                            onValueChange(update.state.doc.toString());
+                            onValueChange(update.state.doc.toString().replace(/\s+/g, " "));
                         }
                     }),
                     EditorView.lineWrapping,
                     highlightStyle,
-                    badFunctionHighlightExtension(problemTree),
+                    invalidTokensHighlightExtension(problemTree),
                     transactionFilter,
                 ],
             });
@@ -125,27 +111,18 @@ export const CodeEditor: React.FC<Props> = ({
                 parent: editorRef.current,
             });
 
-            view.contentDOM.onblur = () => {
-                if (onBlur) {
-                    onBlur();
-                }
-            };
-
             return () => {
                 view.destroy();
             };
         }
-    }, [problemTree]);
+    }, [savedProblemTree]);
 
     return (
-        <ValidationWrapperV1
-            validationInfo={validateInput(value, errorMessage, warningMessage)}
+        <ValidationWrapper
+            validationInfo={validateQuery(value, warningMessage, errorMessage)}
             renderMessage={tooltip("right middle")}
         >
-            <div
-                className={cn({ warning: warningMessage && !errorMessage, error: errorMessage })}
-                ref={editorRef}
-            />
-        </ValidationWrapperV1>
+            <ValidatedDiv ref={editorRef} onBlur={onBlur} />
+        </ValidationWrapper>
     );
 };

@@ -7,7 +7,7 @@ import {
 } from "@skbkontur/react-ui-validations";
 import { Button, Gapped, Input, Modal, Textarea } from "@skbkontur/react-ui";
 import { Grid } from "../Grid/Grid";
-import { isEmptyString } from "../HighlightInput/parser/parseExpression";
+import { isEmptyString } from "../../helpers/isEmptyString";
 import { GridCell } from "../Grid/GridCell";
 
 interface TeamEditorProps {

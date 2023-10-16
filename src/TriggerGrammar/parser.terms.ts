@@ -5,4 +5,5 @@ export const
   Number = 3,
   FunctionCall = 5,
   FunctionName = 6,
-  Variable = 8
+  Value = 8,
+  Variable = 10

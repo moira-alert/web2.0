@@ -10,6 +10,7 @@ const initLanguage = LRLanguage.define({
     parser: parser.configure({
         props: [
             styleTags({
+                Variable: t.variableName,
                 FunctionName: t.function(t.variableName),
                 String: t.string,
                 Number: t.number,

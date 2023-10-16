@@ -51,7 +51,7 @@ const defineFunction = (
     functionName: string,
     problemTree?: TriggerTargetProblem
 ): DefineFunction | null => {
-    if (!problemTree || !problemTree.type) {
+    if (!problemTree) {
         return null;
     }
     if (problemTree.argument === functionName) {
@@ -148,7 +148,7 @@ function highlightInvalidTokens(view: EditorView, problemTree?: TriggerTargetPro
     return Decoration.set(marks);
 }
 
-export const badFunctionHighlightExtension: (problemTree?: TriggerTargetProblem) => Extension = (
+export const invalidTokensHighlightExtension: (problemTree?: TriggerTargetProblem) => Extension = (
     problemTree
 ) => {
     const extensions = [

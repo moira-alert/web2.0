@@ -1,4 +1,5 @@
 @top BuiltExpression { expression }
+@precedence {value }
 
 @skip { space }
 
@@ -10,14 +11,16 @@
   "(" ")"
   "[" "]"
   "{" "}"
+  "="
 }
 FunctionName { identifier }
 FunctionCall {
     FunctionName "(" argumentList? ")"
 }
-Variable {identifier ((".") identifier)*}
+Value {!value identifier ((".") identifier)* }
+Variable { identifier "=" }
 argumentList { expression ((",") expression)* }
-expression { ( String | Number | FunctionCall | Variable)+ }
+expression { ( String | Number | FunctionCall | Value | Variable)+ }
 
 @detectDelim
 

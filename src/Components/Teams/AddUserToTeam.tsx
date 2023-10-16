@@ -6,7 +6,7 @@ import {
     ValidationInfo,
     ValidationWrapper,
 } from "@skbkontur/react-ui-validations";
-import { isEmptyString } from "../HighlightInput/parser/parseExpression";
+import { isEmptyString } from "../../helpers/isEmptyString";
 import { Team } from "../../Domain/Team";
 
 interface AddUserProps {

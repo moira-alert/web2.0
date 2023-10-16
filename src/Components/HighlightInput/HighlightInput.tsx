@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
-import { ValidateTriggerTarget, TriggerTargetProblem } from "../../Domain/Trigger";
+import { ValidateTriggerTarget } from "../../Domain/Trigger";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { CodeEditor } from "./CodeEditor";
+import { getProblemMessage } from "../../Domain/Target";
 import classNames from "classnames/bind";
 
 import styles from "./HighlightInput.less";
@@ -17,35 +18,6 @@ type HighlightInputProps = {
     "data-tid"?: string;
 };
 
-function getProblemMessage(
-    problemTree: TriggerTargetProblem
-): { error?: string; warning?: string } {
-    if (problemTree.type === "bad") {
-        return { error: `${problemTree.argument}: ${problemTree.description}` };
-    }
-
-    let errorMessage: string | undefined = undefined;
-    let warningMessage =
-        problemTree.type === "warn"
-            ? `${problemTree.argument}: ${problemTree.description}`
-            : undefined;
-
-    problemTree.problems?.forEach((problem) => {
-        if (errorMessage) {
-            return;
-        }
-        const { error, warning } = getProblemMessage(problem);
-        if (error) {
-            errorMessage = error;
-        }
-        if (!warningMessage && warningMessage) {
-            warningMessage = warning;
-        }
-    });
-
-    return { error: errorMessage, warning: warningMessage };
-}
-
 export default function HighlightInput(props: HighlightInputProps): React.ReactElement {
     const { value, onValueChange, validate, width } = props;
     const [changed, setChanged] = useState<boolean>(false);
@@ -53,7 +25,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
 
     const handleValueChange = (changedValue: string) => {
         setChanged(true);
-        onValueChange(changedValue.replace(/\s/g, ""));
+        onValueChange(changedValue);
     };
 
     let errorMessage: string | undefined;
