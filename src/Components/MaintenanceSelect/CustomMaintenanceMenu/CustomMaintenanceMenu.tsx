@@ -149,7 +149,7 @@ export default function CustomMaintenanceMenu({
             </Menu>
             <Calendar
                 value={toStringDate(calendarDate)}
-                initialMonth={calendarDate.month}
+                initialMonth={calendarDate.month + 1}
                 initialYear={calendarDate.year}
                 minDate={toStringDate(todayDate)}
                 maxDate={toStringDate(maxDate)}
