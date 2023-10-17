@@ -2,10 +2,8 @@ import { kind, story, test } from "creevey";
 
 const waitForAnimation = async () =>
     test("animation", async function () {
-        const simple = await this.takeScreenshot();
-
         await this.browser.sleep(1000);
-        await this.expect({ simple }).to.matchImages();
+        await this.expect(await this.takeScreenshot()).to.matchImage("simple");
     });
 
 kind("HighlightInput", () => {
