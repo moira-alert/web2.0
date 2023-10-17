@@ -227,3 +227,25 @@ export function validateQuery(
           }
         : null;
 }
+
+export enum TargetQueryEntityColors {
+    functionName = "#6D6BDE",
+    variableName = "#208013",
+    string = "#3cb371",
+    number = "#b86721",
+}
+
+export const BadFunctionStyles = {
+    ".redFunction": {
+        backgroundColor: "#fcb6b1",
+        borderRadius: "2px",
+    },
+    ".yellowFunction": {
+        backgroundColor: "#fce56f",
+        borderRadius: "2px",
+    },
+    ".unmatchedBracket": {
+        backgroundColor: "#fcb6b1",
+        borderRadius: "2px",
+    },
+};

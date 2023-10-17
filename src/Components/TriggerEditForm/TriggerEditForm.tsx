@@ -187,17 +187,15 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets?.map((x, i) => (
                         <div key={`target-${i}`} className={cn("target")}>
-                            <span className={cn("target-number")}>T{i + 1}</span>
-                            <RowStack block verticalAlign="baseline" gap={1}>
+                            <RowStack block verticalAlign="center" gap={1}>
+                                <span className={cn("target-number")}>T{i + 1}</span>
                                 <Fill>
                                     <HighlightInput
-                                        width="100%"
                                         value={x}
                                         onValueChange={(value: string) =>
                                             this.handleUpdateTarget(i, value)
                                         }
                                         validate={validationResult?.targets?.[i]}
-                                        data-tid={`Target T${i + 1}`}
                                     />
                                 </Fill>
                                 {targets.length > 1 && (

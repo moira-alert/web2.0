@@ -3,6 +3,7 @@ import { DecorationSet, Decoration, EditorView, ViewUpdate, ViewPlugin } from "@
 import { syntaxTree } from "@codemirror/language";
 import { TriggerTargetProblem } from "../../Domain/Trigger";
 import { hoverTooltip } from "@codemirror/view";
+import { BadFunctionStyles } from "../../Domain/Target";
 interface DefineFunction {
     type: TriggerTargetProblem["type"];
     argument: TriggerTargetProblem["argument"];
@@ -151,23 +152,7 @@ function highlightInvalidTokens(view: EditorView, problemTree?: TriggerTargetPro
 export const invalidTokensHighlightExtension: (problemTree?: TriggerTargetProblem) => Extension = (
     problemTree
 ) => {
-    const extensions = [
-        showBadFunctions(problemTree),
-        EditorView.theme({
-            ".redFunction": {
-                backgroundColor: "#fcb6b1",
-                borderRadius: "2px",
-            },
-            ".yellowFunction": {
-                backgroundColor: "#fce56f",
-                borderRadius: "2px",
-            },
-            ".unmatchedBracket": {
-                backgroundColor: "#fcb6b1",
-                borderRadius: "2px",
-            },
-        }),
-    ];
+    const extensions = [showBadFunctions(problemTree), EditorView.theme(BadFunctionStyles)];
 
     const tooltipExtension = badFunctionTooltip(problemTree);
     if (tooltipExtension) {

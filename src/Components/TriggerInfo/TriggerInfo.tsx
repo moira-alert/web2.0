@@ -23,6 +23,8 @@ import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
+import { CodeEditor } from "../HighlightInput/CodeEditor";
+import { Gapped } from "@skbkontur/react-ui";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -188,9 +190,11 @@ export default function TriggerInfo({
             <dl className={cn("list")}>
                 <dt>Target {triggerSourceDescription(triggerSource)}</dt>
                 <dd>
-                    {targets.map((target) => (
-                        <div key={target}>{target}</div>
-                    ))}
+                    <Gapped vertical gap={10}>
+                        {targets.map((target, i) => (
+                            <CodeEditor disabled key={i} value={target} />
+                        ))}
+                    </Gapped>
                 </dd>
                 {desc && <dt>Description</dt>}
                 {desc && (

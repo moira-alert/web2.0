@@ -9,26 +9,29 @@ import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { invalidTokensHighlightExtension } from "./invalidTokensHighlightExtension";
 import { TriggerTargetProblem } from "../../Domain/Trigger";
 import { formatQuery } from "../../helpers/formatQuery";
-import { tooltip, ValidationWrapper } from "@skbkontur/react-ui-validations";
-import { validateQuery } from "../../Domain/Target";
-import { ValidatedDiv } from "./ValidatedDiv";
+import { TargetQueryEntityColors } from "../../Domain/Target";
+import classNames from "classnames/bind";
+
+import styles from "./HighlightInput.less";
+
+const cn = classNames.bind(styles);
 
 interface Props {
     value: string;
-    width?: string;
     problemTree?: TriggerTargetProblem;
-    errorMessage?: string;
-    warningMessage?: string;
+    error?: boolean;
+    warning?: boolean;
+    disabled?: boolean;
     onBlur?: () => void;
-    onValueChange: (value: string) => void;
+    onValueChange?: (value: string) => void;
 }
 
 const highlightStyle = syntaxHighlighting(
     HighlightStyle.define([
-        { tag: t.function(t.variableName), color: "#6D6BDE" },
-        { tag: t.variableName, color: "#208013" },
-        { tag: t.string, color: "#3cb371" },
-        { tag: t.number, color: "#b86721" },
+        { tag: t.function(t.variableName), color: TargetQueryEntityColors.functionName },
+        { tag: t.variableName, color: TargetQueryEntityColors.variableName },
+        { tag: t.string, color: TargetQueryEntityColors.string },
+        { tag: t.number, color: TargetQueryEntityColors.number },
     ])
 );
 
@@ -60,16 +63,15 @@ const transactionFilter = EditorState.transactionFilter.of((tr) => {
     }
     return tr;
 });
-
-export const CodeEditor: React.FC<Props> = ({
+export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeEditor({
     value,
     problemTree,
-    width,
-    errorMessage,
-    warningMessage,
+    error,
+    warning,
+    disabled,
     onBlur,
     onValueChange,
-}) => {
+}) {
     const editorRef = useRef<HTMLDivElement | null>(null);
 
     const [savedProblemTree, setSavedProblemTree] = React.useState<
@@ -85,17 +87,13 @@ export const CodeEditor: React.FC<Props> = ({
             const state = EditorState.create({
                 doc: formatQuery(value),
                 extensions: [
-                    EditorView.theme({
-                        "&": {
-                            width: width || "100%",
-                        },
-                    }),
+                    EditorState.readOnly.of(disabled || false),
                     basicSetup,
                     keymap.of([...defaultKeymap]),
                     triggerLanguage(),
                     indentOnInput(),
                     EditorView.updateListener.of((update) => {
-                        if (update.docChanged) {
+                        if (!disabled && onValueChange && update.docChanged) {
                             onValueChange(update.state.doc.toString().replace(/\s+/g, " "));
                         }
                     }),
@@ -118,11 +116,13 @@ export const CodeEditor: React.FC<Props> = ({
     }, [savedProblemTree]);
 
     return (
-        <ValidationWrapper
-            validationInfo={validateQuery(value, warningMessage, errorMessage)}
-            renderMessage={tooltip("right middle")}
-        >
-            <ValidatedDiv ref={editorRef} onBlur={onBlur} />
-        </ValidationWrapper>
+        <div
+            className={cn({
+                warning: warning,
+                error: error,
+            })}
+            ref={editorRef}
+            onBlur={onBlur}
+        />
     );
-};
+});

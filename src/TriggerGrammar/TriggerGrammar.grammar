@@ -23,10 +23,3 @@ argumentList { expression ((",") expression)* }
 expression { ( String | Number | FunctionCall | Value | Variable)+ }
 
 @detectDelim
-
-
-
-
-
-
-

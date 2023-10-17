@@ -3,7 +3,9 @@ import { ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
 import { ValidateTriggerTarget } from "../../Domain/Trigger";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { CodeEditor } from "./CodeEditor";
-import { getProblemMessage } from "../../Domain/Target";
+import { getProblemMessage, validateQuery } from "../../Domain/Target";
+import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
+
 import classNames from "classnames/bind";
 
 import styles from "./HighlightInput.less";
@@ -13,13 +15,11 @@ const cn = classNames.bind(styles);
 type HighlightInputProps = {
     onValueChange: (value: string) => void;
     value: string;
-    width?: string;
     validate?: ValidateTriggerTarget;
-    "data-tid"?: string;
 };
 
 export default function HighlightInput(props: HighlightInputProps): React.ReactElement {
-    const { value, onValueChange, validate, width } = props;
+    const { value, onValueChange, validate } = props;
     const [changed, setChanged] = useState<boolean>(false);
     const handleInputBlur = () => setChanged(false);
 
@@ -42,10 +42,9 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
             errorMessage = "Syntax error";
         }
     }
-
     return (
         <>
-            <div className={cn("messageContainer")} style={{ width }}>
+            <div className={cn("messageContainer")}>
                 <ThemeContext.Provider
                     value={ThemeFactory.create(
                         {
@@ -55,15 +54,17 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                         DEFAULT_THEME
                     )}
                 >
-                    <CodeEditor
-                        errorMessage={errorMessage}
-                        warningMessage={warningMessage}
-                        onBlur={handleInputBlur}
-                        problemTree={validate?.tree_of_problems}
-                        width={width}
-                        value={value}
-                        onValueChange={handleValueChange}
-                    />
+                    <ValidationWrapperV1
+                        validationInfo={validateQuery(value, warningMessage, errorMessage)}
+                        renderMessage={tooltip("right middle")}
+                    >
+                        <CodeEditor
+                            onBlur={handleInputBlur}
+                            problemTree={validate?.tree_of_problems}
+                            value={value}
+                            onValueChange={handleValueChange}
+                        />
+                    </ValidationWrapperV1>
                 </ThemeContext.Provider>
             </div>
             <ErrorMessage error={errorMessage} warning={warningMessage} view={!changed} />
