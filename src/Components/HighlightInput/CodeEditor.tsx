@@ -42,8 +42,8 @@ const transactionFilter = EditorState.transactionFilter.of((tr) => {
     const newTr: TransactionSpec[] = [];
     if (tr.isUserEvent("input.paste")) {
         const currentState = tr.startState;
-        //@ts-ignore not working without from-to args
-        tr.changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
+
+        tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
             const newText = formatQuery(inserted.toString().replace(/\s+/g, " "));
 
             const { ranges } = currentState.selection;
