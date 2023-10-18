@@ -2436,6 +2436,19 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
+"@prometheus-io/codemirror-promql@^0.47.2":
+  version "0.47.2"
+  resolved "https://registry.yarnpkg.com/@prometheus-io/codemirror-promql/-/codemirror-promql-0.47.2.tgz#e9860d676fbee2b57d5041cbb0c103746896f218"
+  integrity sha512-rHtRFchmV9jfJEpj0K+PCTrenE4SrNftPnJEmlhZ4u9RregJapQQo2WsQS7sFWzVTSPXDuBt/AEGw6uwXJoknw==
+  dependencies:
+    "@prometheus-io/lezer-promql" "0.47.2"
+    lru-cache "^6.0.0"
+
+"@prometheus-io/lezer-promql@0.47.2":
+  version "0.47.2"
+  resolved "https://registry.yarnpkg.com/@prometheus-io/lezer-promql/-/lezer-promql-0.47.2.tgz#115e3f2bce1a3b8bce2e47a04bd518146623a52a"
+  integrity sha512-PDh8O+2p5a/dk2kFmuZq9uTZbjRKngaGGvA+LYIhvq108W1R6jvtVBrQwIKhBfGuZqMm83LNN86lBOAX0tKjFQ==
+
 "@remix-run/router@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.9.0.tgz#9033238b41c4cbe1e961eccb3f79e2c588328cf6"
@@ -2494,12 +2507,12 @@
   resolved "https://registry.yarnpkg.com/@skbkontur/react-stack-layout/-/react-stack-layout-1.0.3.tgz#90425bd10b88268a6039694da6fa8ba257d2379f"
   integrity sha512-PrvGdQGE9ZTB+QBAKU5Jjr/gfpxBAVY0bK6sfeD+3mjqdmaKI6ocL/w4eEYL3M9RIgJfuavaaUlftftIncSRDg==
 
-"@skbkontur/react-ui-validations@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-validations/-/react-ui-validations-1.1.3.tgz#2b2eecde45c3ae6b346dad1df0eafa34d6ddafc5"
-  integrity sha512-iwGDjerG1sMO22SldHR3YD4dpOTYn6C9ZLKh8Dgg2igXUQAsYcwN2LkBdX+vX0CZfobzwJZntZV3rp9J/c0YaQ==
+"@skbkontur/react-ui-validations@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-validations/-/react-ui-validations-1.13.0.tgz#5ebee695a7c5a92a9c3bab33a990492327a71d7b"
+  integrity sha512-vjkhCtBLvRRDGRDHUWZ8WbAxbUx9W9qvPCzbUEBg0nhDbSSob6uwcuzHFLg3XgxludyKSx/kC7c1eh1GhdrmEw==
   dependencies:
-    prop-types "^15.7.2"
+    prop-types "^15.8.0"
     smoothscroll-polyfill "^0.4.4"
     warning "^4.0.3"
 
@@ -3980,6 +3993,13 @@
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.10.tgz#cc658ca319b6355399efc1f5b9e818f1a24bf999"
   integrity sha512-1UzDldn9GfYYEsWWnn/P4wkTlkZDH7lDb0wBMGbtIQc9zXEQq7FlKBdZUn6OBqD8sKZZ2RQO2mAjGpXiDGoRmQ==
 
+"@types/codemirror@^5.60.11":
+  version "5.60.10"
+  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-5.60.10.tgz#ac836a3ac20483988a0507cdbbaeb6ee0affa1e6"
+  integrity sha512-ZTA3teiCWKT8HUUofqlGPlShu5ojdIajizsS0HpH6GL0/iEdjRt7fXbCLHHqKYP5k7dC/HnnWIjZAiELUwBdjQ==
+  dependencies:
+    "@types/tern" "*"
+
 "@types/color-convert@^2.0.0":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/color-convert/-/color-convert-2.0.1.tgz#45216f0d8289c6ae32d139ed08c205a9c55bb5d0"
@@ -4431,6 +4451,13 @@
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.9.tgz#1481a4236267dd2d0ca2a637adb90f0ccb3d69c4"
   integrity sha512-fOHIwZua0sRltqWzODGUM6b4ffZrf/vzGUmNXdR+4DzuJP42PMbM5dLKcdzlYvv8bMJ3GALOzkk1q7cDm2zPyA==
+
+"@types/tern@*":
+  version "0.23.5"
+  resolved "https://registry.yarnpkg.com/@types/tern/-/tern-0.23.5.tgz#8d369a06749ea83956885cb734788ec208a0e900"
+  integrity sha512-POau56wDk3TQ0mQ0qG7XDzv96U5whSENZ9lC0htDvEH+9YUREo+J2U+apWcVRgR2UydEE70JXZo44goG+akTNQ==
+  dependencies:
+    "@types/estree" "*"
 
 "@types/trusted-types@*":
   version "2.0.4"

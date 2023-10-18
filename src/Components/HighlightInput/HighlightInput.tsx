@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
-import { ValidateTriggerTarget } from "../../Domain/Trigger";
+import TriggerSource, { ValidateTriggerTarget } from "../../Domain/Trigger";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { CodeEditor } from "./CodeEditor";
 import { getProblemMessage, validateQuery } from "../../Domain/Target";
@@ -13,15 +13,17 @@ import styles from "./HighlightInput.less";
 const cn = classNames.bind(styles);
 
 type HighlightInputProps = {
-    onValueChange: (value: string) => void;
     value: string;
+    onValueChange: (value: string) => void;
+    triggerSource?: TriggerSource;
     validate?: ValidateTriggerTarget;
 };
 
 export default function HighlightInput(props: HighlightInputProps): React.ReactElement {
-    const { value, onValueChange, validate } = props;
+    const { value, onValueChange, triggerSource, validate } = props;
     const [changed, setChanged] = useState<boolean>(false);
-    const handleInputBlur = () => setChanged(false);
+
+    const handleInputBlur = () => setChanged(true);
 
     const handleValueChange = (changedValue: string) => {
         setChanged(true);
@@ -31,7 +33,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
     let errorMessage: string | undefined;
     let warningMessage: string | undefined;
 
-    if (validate) {
+    if (validate && !changed) {
         if (validate.syntax_ok) {
             if (validate.tree_of_problems) {
                 ({ error: errorMessage, warning: warningMessage } = getProblemMessage(
@@ -59,6 +61,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                         renderMessage={tooltip("right middle")}
                     >
                         <CodeEditor
+                            triggerSource={triggerSource}
                             onBlur={handleInputBlur}
                             problemTree={validate?.tree_of_problems}
                             value={value}

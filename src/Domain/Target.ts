@@ -170,32 +170,32 @@ export const functionLabels = [
 ];
 
 export function getProblemMessage(
-    problemTree: TriggerTargetProblem
+    node: TriggerTargetProblem
 ): { error?: string; warning?: string } {
-    if (problemTree.type === "bad") {
-        return { error: `${problemTree.argument}: ${problemTree.description}` };
+    let error: string | undefined = undefined;
+    let warning: string | undefined = undefined;
+
+    if (node.type === "bad") {
+        error = `${node.argument}: ${node.description}`;
+    } else if (node.type === "warn") {
+        warning = `${node.argument}: ${node.description}`;
     }
 
-    let errorMessage: string | undefined = undefined;
-    let warningMessage =
-        problemTree.type === "warn"
-            ? `${problemTree.argument}: ${problemTree.description}`
-            : undefined;
+    if (node.problems) {
+        for (const problem of node.problems) {
+            const message = getProblemMessage(problem);
+            if (message.error) {
+                error = message.error;
+                break;
+            }
 
-    problemTree.problems?.forEach((problem) => {
-        if (errorMessage) {
-            return;
+            if (!error && message.warning) {
+                warning = message.warning;
+            }
         }
-        const { error, warning } = getProblemMessage(problem);
-        if (error) {
-            errorMessage = error;
-        }
-        if (!errorMessage && warningMessage) {
-            warningMessage = warning;
-        }
-    });
+    }
 
-    return { error: errorMessage, warning: warningMessage };
+    return { error, warning };
 }
 
 export function validateQuery(
@@ -212,7 +212,7 @@ export function validateQuery(
 
     if (errorMessage && warningMessage) {
         return {
-            type: "lostfocus",
+            type: "immediate",
             level: "error",
             message: null,
         };
@@ -221,7 +221,7 @@ export function validateQuery(
     const level = errorMessage ? "error" : warningMessage ? "warning" : null;
     return level
         ? {
-              type: "lostfocus",
+              type: "immediate",
               level: level,
               message: null,
           }

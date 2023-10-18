@@ -191,6 +191,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 <span className={cn("target-number")}>T{i + 1}</span>
                                 <Fill>
                                     <HighlightInput
+                                        triggerSource={data.trigger_source}
                                         value={x}
                                         onValueChange={(value: string) =>
                                             this.handleUpdateTarget(i, value)
