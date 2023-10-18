@@ -103,7 +103,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
                 view.destroy();
             };
         }
-    }, [problemTree]);
+    }, [problemTree, triggerSource]);
 
     return (
         <div ref={validationRef}>

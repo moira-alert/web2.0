@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
 import TriggerSource, { ValidateTriggerTarget } from "../../Domain/Trigger";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
@@ -22,6 +22,8 @@ type HighlightInputProps = {
 export default function HighlightInput(props: HighlightInputProps): React.ReactElement {
     const { value, onValueChange, triggerSource, validate } = props;
     const [changed, setChanged] = useState<boolean>(false);
+    const [error, setErrorMessage] = useState<string | undefined>(undefined);
+    const [warning, setWarningMessage] = useState<string | undefined>(undefined);
 
     const handleInputBlur = () => setChanged(true);
 
@@ -30,20 +32,24 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
         onValueChange(changedValue);
     };
 
-    let errorMessage: string | undefined;
-    let warningMessage: string | undefined;
-
-    if (validate && !changed) {
-        if (validate.syntax_ok) {
-            if (validate.tree_of_problems) {
-                ({ error: errorMessage, warning: warningMessage } = getProblemMessage(
-                    validate.tree_of_problems
-                ));
+    useEffect(() => {
+        let errorMessage: string | undefined;
+        let warningMessage: string | undefined;
+        if (validate && !changed) {
+            if (validate.syntax_ok) {
+                if (validate.tree_of_problems) {
+                    ({ error: errorMessage, warning: warningMessage } = getProblemMessage(
+                        validate.tree_of_problems
+                    ));
+                }
+            } else if (value.trim().length !== 0) {
+                errorMessage = "Syntax error";
             }
-        } else if (value.trim().length !== 0) {
-            errorMessage = "Syntax error";
         }
-    }
+        setErrorMessage(errorMessage);
+        setWarningMessage(warningMessage);
+    }, [validate, changed]);
+
     return (
         <>
             <div className={cn("messageContainer")}>
@@ -57,7 +63,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                     )}
                 >
                     <ValidationWrapperV1
-                        validationInfo={validateQuery(value, warningMessage, errorMessage)}
+                        validationInfo={validateQuery(value, warning, error)}
                         renderMessage={tooltip("right middle")}
                     >
                         <CodeEditor
@@ -70,7 +76,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                     </ValidationWrapperV1>
                 </ThemeContext.Provider>
             </div>
-            <ErrorMessage error={errorMessage} warning={warningMessage} view={!changed} />
+            <ErrorMessage error={error} warning={warning} view={!changed} />
         </>
     );
 }
