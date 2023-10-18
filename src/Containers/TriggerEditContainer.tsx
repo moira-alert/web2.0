@@ -48,7 +48,7 @@ const TriggerEditContainer = (props: Props) => {
             ? validateTrigger(trigger)
             : saveTrigger(trigger);
 
-    const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
+    const handleChange = (update: Partial<Trigger>) => {
         if (!trigger) {
             return;
         }

@@ -90,7 +90,6 @@ const TriggerAddContainer = (props: Props) => {
 
         if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
-            dispatch(resetTargetValidationState(targetIndex));
         }
     };
 
