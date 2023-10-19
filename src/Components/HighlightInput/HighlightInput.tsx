@@ -35,7 +35,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
     useEffect(() => {
         let errorMessage: string | undefined;
         let warningMessage: string | undefined;
-        if (validate && !changed) {
+        if (validate) {
             if (validate.syntax_ok) {
                 if (validate.tree_of_problems) {
                     ({ error: errorMessage, warning: warningMessage } = getProblemMessage(
@@ -63,7 +63,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                     )}
                 >
                     <ValidationWrapperV1
-                        validationInfo={validateQuery(value, warning, error)}
+                        validationInfo={!changed && validateQuery(value, warning, error)}
                         renderMessage={tooltip("right middle")}
                     >
                         <CodeEditor
