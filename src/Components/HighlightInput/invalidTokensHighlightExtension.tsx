@@ -55,7 +55,7 @@ const defineFunction = (
     if (!problemTree) {
         return null;
     }
-    if (problemTree.argument === functionName) {
+    if (problemTree.argument === functionName && problemTree.type) {
         return {
             type: problemTree.type,
             argument: problemTree.argument,
