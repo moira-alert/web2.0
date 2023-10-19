@@ -3,7 +3,7 @@ import { EditorState, basicSetup } from "@codemirror/basic-setup";
 import { EditorView, keymap } from "@codemirror/view";
 import { defaultKeymap } from "@codemirror/commands";
 import { indentOnInput } from "@codemirror/language";
-import { triggerLanguage } from "../../TriggerGrammar/triggerLanguage";
+import { graphiteLanguage } from "../../TriggerGrammar/graphiteLanguage";
 import { tags as t } from "@lezer/highlight";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { invalidTokensHighlightExtension } from "./invalidTokensHighlightExtension";
@@ -44,7 +44,7 @@ const transactionFilter = EditorState.transactionFilter.of((tr) => {
         const currentState = tr.startState;
 
         tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
-            const newText = formatQuery(inserted.toString().replace(/\s+/g, " "));
+            const newText = formatQuery(inserted);
 
             const { ranges } = currentState.selection;
 
@@ -68,7 +68,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     const languageToUse =
         triggerSource === TriggerSource.PROMETHEUS_REMOTE
             ? promQL.asExtension()
-            : triggerLanguage();
+            : graphiteLanguage();
 
     const extensions = [
         EditorState.readOnly.of(disabled || false),
@@ -90,7 +90,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     useEffect(() => {
         if (editorRef.current) {
             const state = EditorState.create({
-                doc: formatQuery(value),
+                doc: value,
                 extensions: extensions,
             });
 

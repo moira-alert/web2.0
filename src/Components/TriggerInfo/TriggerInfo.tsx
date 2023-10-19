@@ -192,7 +192,12 @@ export default function TriggerInfo({
                 <dd>
                     <Gapped vertical gap={10}>
                         {targets.map((target, i) => (
-                            <CodeEditor disabled key={i} value={target} />
+                            <CodeEditor
+                                triggerSource={triggerSource}
+                                disabled
+                                key={i}
+                                value={target}
+                            />
                         ))}
                     </Gapped>
                 </dd>

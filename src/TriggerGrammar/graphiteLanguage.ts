@@ -37,7 +37,7 @@ const autoCompletion = initLanguage.data.of({
     autocomplete: completeFromList([...functionCompletion]),
 });
 
-export const triggerLanguage = () => {
+export const graphiteLanguage = () => {
     //@ts-ignore LRLanguage is not assigned to Language
     return new LanguageSupport(initLanguage, [autoCompletion]);
 };
