@@ -90,7 +90,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     useEffect(() => {
         if (editorRef.current) {
             const state = EditorState.create({
-                doc: value,
+                doc: formatQuery(value),
                 extensions: extensions,
             });
 
