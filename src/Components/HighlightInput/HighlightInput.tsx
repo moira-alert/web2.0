@@ -25,11 +25,19 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
     const [error, setErrorMessage] = useState<string | undefined>(undefined);
     const [warning, setWarningMessage] = useState<string | undefined>(undefined);
 
-    const handleInputBlur = () => setChanged(true);
+    const resetValidationState = () => {
+        setChanged(true);
+        setWarningMessage(undefined);
+        setErrorMessage(undefined);
+    };
+
+    const handleInputBlur = () => {
+        resetValidationState();
+    };
 
     const handleValueChange = (changedValue: string) => {
-        setChanged(true);
         onValueChange(changedValue);
+        resetValidationState();
     };
 
     useEffect(() => {
@@ -48,7 +56,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
         }
         setErrorMessage(errorMessage);
         setWarningMessage(warningMessage);
-    }, [validate, changed]);
+    }, [validate]);
 
     return (
         <>
@@ -63,7 +71,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                     )}
                 >
                     <ValidationWrapperV1
-                        validationInfo={!changed && validateQuery(value, warning, error)}
+                        validationInfo={validateQuery(value, warning, error)}
                         renderMessage={tooltip("right middle")}
                     >
                         <CodeEditor
