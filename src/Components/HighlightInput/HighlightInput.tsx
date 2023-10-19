@@ -26,7 +26,7 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
     const [warning, setWarningMessage] = useState<string | undefined>(undefined);
 
     const resetValidationState = () => {
-        setChanged(true);
+        setChanged(false);
         setWarningMessage(undefined);
         setErrorMessage(undefined);
     };
