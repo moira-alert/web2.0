@@ -104,7 +104,12 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         languageToUse,
     ];
 
-    const ShowModeExtensions = [languageToUse, EditorView.editable.of(!disabled), ShowModeTheme];
+    const ShowModeExtensions = [
+        basicSetup,
+        languageToUse,
+        EditorView.editable.of(!disabled),
+        ShowModeTheme,
+    ];
 
     if (!isPromQl) {
         ShowModeExtensions.push(GraphiteHighlightStyle);
