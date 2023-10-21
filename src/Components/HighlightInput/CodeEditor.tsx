@@ -29,7 +29,7 @@ interface Props {
     onValueChange?: (value: string) => void;
 }
 
-const highlightStyle = syntaxHighlighting(
+const GraphiteHighlightStyle = syntaxHighlighting(
     HighlightStyle.define([
         { tag: t.function(t.variableName), color: TargetQueryEntityColors.functionName },
         { tag: t.variableName, color: TargetQueryEntityColors.variableName },
@@ -61,12 +61,11 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
 ) {
     const editorRef = useRef<HTMLDivElement | null>(null);
 
+    const isPromQl = triggerSource === TriggerSource.PROMETHEUS_REMOTE;
+
     const promQL = new PromQLExtension();
 
-    const languageToUse =
-        triggerSource === TriggerSource.PROMETHEUS_REMOTE
-            ? promQL.asExtension()
-            : graphiteLanguage();
+    const languageToUse = isPromQl ? promQL.asExtension() : graphiteLanguage();
 
     const transactionFilter = EditorState.transactionFilter.of((tr) => {
         const newTr: TransactionSpec[] = [];
@@ -99,18 +98,17 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
                 onValueChange(update.state.doc.toString().replace(/\s+/g, ""));
             }
         }),
-        highlightStyle,
+        GraphiteHighlightStyle,
         invalidTokensHighlightExtension(problemTree),
         transactionFilter,
         languageToUse,
     ];
 
-    const ShowModeExtensions = [
-        languageToUse,
-        EditorView.editable.of(!disabled),
-        highlightStyle,
-        ShowModeTheme,
-    ];
+    const ShowModeExtensions = [languageToUse, EditorView.editable.of(!disabled), ShowModeTheme];
+
+    if (!isPromQl) {
+        ShowModeExtensions.push(GraphiteHighlightStyle);
+    }
 
     const PrometeusExtensions = [
         basicSetup,
@@ -128,13 +126,11 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         if (disabled) {
             return ShowModeExtensions;
         }
-        return triggerSource === TriggerSource.PROMETHEUS_REMOTE
-            ? PrometeusExtensions
-            : GraphiteExtensions;
+        return isPromQl ? PrometeusExtensions : GraphiteExtensions;
     };
 
     const shellFormat = () => {
-        return triggerSource === TriggerSource.PROMETHEUS_REMOTE ? value : formatQuery(value);
+        return isPromQl ? value : formatQuery(value);
     };
 
     useEffect(() => {
