@@ -117,11 +117,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         keymap.of([...defaultKeymap]),
         EditorView.updateListener.of((update) => {
             if (onValueChange && update.docChanged) {
-                onValueChange(
-                    triggerSource === TriggerSource.PROMETHEUS_REMOTE
-                        ? update.state.doc.toString()
-                        : update.state.doc.toString().replace(/\s+/g, "")
-                );
+                onValueChange(update.state.doc.toString());
             }
         }),
         languageToUse,
