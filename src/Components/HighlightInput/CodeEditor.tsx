@@ -59,8 +59,6 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     { value, triggerSource, problemTree, error, warning, disabled, onBlur, onValueChange },
     validationRef
 ) {
-    const prevTriggerSource = useRef<TriggerSource | undefined>(triggerSource);
-
     const editorRef = useRef<HTMLDivElement | null>(null);
 
     const promQL = new PromQLExtension();
@@ -98,7 +96,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         indentOnInput(),
         EditorView.updateListener.of((update) => {
             if (onValueChange && update.docChanged) {
-                onValueChange(update.state.doc.toString().replace(/\s+/g, " ").trim());
+                onValueChange(update.state.doc.toString().replace(/\s+/g, ""));
             }
         }),
         highlightStyle,
@@ -119,7 +117,11 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         keymap.of([...defaultKeymap]),
         EditorView.updateListener.of((update) => {
             if (onValueChange && update.docChanged) {
-                onValueChange(update.state.doc.toString().replace(/\s+/g, " "));
+                onValueChange(
+                    triggerSource === TriggerSource.PROMETHEUS_REMOTE
+                        ? update.state.doc.toString()
+                        : update.state.doc.toString().replace(/\s+/g, "")
+                );
             }
         }),
         languageToUse,
@@ -135,23 +137,14 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
             : GraphiteExtensions;
     };
 
-    const valueToRender = () => {
-        let currentValue;
-        if (triggerSource !== prevTriggerSource.current) {
-            currentValue = "";
-            prevTriggerSource.current = triggerSource;
-        } else {
-            currentValue = formatQuery(value);
-        }
-        return triggerSource === TriggerSource.PROMETHEUS_REMOTE
-            ? currentValue
-            : formatQuery(currentValue);
+    const shellFormat = () => {
+        return triggerSource === TriggerSource.PROMETHEUS_REMOTE ? value : formatQuery(value);
     };
 
     useEffect(() => {
         if (editorRef.current) {
             const state = EditorState.create({
-                doc: valueToRender(),
+                doc: shellFormat(),
                 extensions: extensionsToUse(),
             });
 
