@@ -189,7 +189,7 @@ export default function TriggerInfo({
             </header>
             <dl className={cn("list")}>
                 <dt>Target {triggerSourceDescription(triggerSource)}</dt>
-                <dd>
+                <dd className={cn("codeEditor")}>
                     <Gapped vertical gap={10}>
                         {targets.map((target, i) => (
                             <CodeEditor
