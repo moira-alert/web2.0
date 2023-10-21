@@ -15,8 +15,9 @@
 }
 FunctionName { identifier }
 FunctionCall {
-    FunctionName "(" argumentList? ")"
+    FunctionName ArgumentList
 }
+ArgumentList {"(" argumentList? ")"}
 Value {!value identifier ((".") identifier)* }
 Variable { identifier "=" }
 argumentList { expression ((",") expression)* }

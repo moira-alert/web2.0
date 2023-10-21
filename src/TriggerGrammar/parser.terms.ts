@@ -3,7 +3,8 @@ export const
   BuiltExpression = 1,
   String = 2,
   Number = 3,
-  FunctionCall = 5,
-  FunctionName = 6,
-  Value = 8,
-  Variable = 10
+  FunctionCall = 4,
+  FunctionName = 5,
+  ArgumentList = 8,
+  Value = 9,
+  Variable = 11

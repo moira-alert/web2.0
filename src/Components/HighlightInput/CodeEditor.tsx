@@ -38,29 +38,29 @@ const highlightStyle = syntaxHighlighting(
     ])
 );
 
-const transactionFilter = EditorState.transactionFilter.of((tr) => {
-    const newTr: TransactionSpec[] = [];
-    if (tr.isUserEvent("input.paste")) {
-        const currentState = tr.startState;
-
-        tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
-            const newText = formatQuery(inserted);
-
-            const { ranges } = currentState.selection;
-
-            if (ranges.length > 0) {
-                const tr = currentState.replaceSelection(newText);
-                newTr.push(tr);
-            }
-        });
-        return newTr;
-    }
-    return tr;
+const GraphiteTheme = EditorView.theme({
+    ".cm-content": {
+        whiteSpace: "break-spaces",
+        wordBreak: "break-all",
+    },
 });
+
+const ShowModeTheme = EditorView.theme({
+    ".cm-gutters": {
+        display: "none",
+    },
+
+    ".cm-activeLine": {
+        backgroundColor: "transparent",
+    },
+});
+
 export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeEditor(
     { value, triggerSource, problemTree, error, warning, disabled, onBlur, onValueChange },
     validationRef
 ) {
+    const prevTriggerSource = useRef<TriggerSource | undefined>(triggerSource);
+
     const editorRef = useRef<HTMLDivElement | null>(null);
 
     const promQL = new PromQLExtension();
@@ -70,28 +70,89 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
             ? promQL.asExtension()
             : graphiteLanguage();
 
-    const extensions = [
-        EditorState.readOnly.of(disabled || false),
+    const transactionFilter = EditorState.transactionFilter.of((tr) => {
+        const newTr: TransactionSpec[] = [];
+
+        if (tr.isUserEvent("input.paste")) {
+            const currentState = tr.startState;
+
+            tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
+                const newText = formatQuery(inserted);
+
+                const { ranges } = currentState.selection;
+
+                if (ranges.length > 0) {
+                    const tr = currentState.replaceSelection(newText);
+                    newTr.push(tr);
+                }
+            });
+            return newTr;
+        }
+        return tr;
+    });
+
+    const GraphiteExtensions = [
+        GraphiteTheme,
         basicSetup,
         keymap.of([...defaultKeymap]),
         indentOnInput(),
         EditorView.updateListener.of((update) => {
-            if (!disabled && onValueChange && update.docChanged) {
-                onValueChange(update.state.doc.toString().replace(/\s+/g, " "));
+            if (onValueChange && update.docChanged) {
+                onValueChange(update.state.doc.toString().replace(/\s+/g, " ").trim());
             }
         }),
-        EditorView.lineWrapping,
         highlightStyle,
         invalidTokensHighlightExtension(problemTree),
         transactionFilter,
         languageToUse,
     ];
 
+    const ShowModeExtensions = [
+        languageToUse,
+        EditorView.editable.of(!disabled),
+        highlightStyle,
+        ShowModeTheme,
+    ];
+
+    const PrometeusExtensions = [
+        basicSetup,
+        keymap.of([...defaultKeymap]),
+        EditorView.updateListener.of((update) => {
+            if (onValueChange && update.docChanged) {
+                onValueChange(update.state.doc.toString().replace(/\s+/g, " "));
+            }
+        }),
+        languageToUse,
+        EditorView.lineWrapping,
+    ];
+
+    const extensionsToUse = () => {
+        if (disabled) {
+            return ShowModeExtensions;
+        }
+        return triggerSource === TriggerSource.PROMETHEUS_REMOTE
+            ? PrometeusExtensions
+            : GraphiteExtensions;
+    };
+
+    const valueToRender = () => {
+        let currentValue;
+        if (triggerSource !== prevTriggerSource.current) {
+            currentValue = "";
+            prevTriggerSource.current = triggerSource;
+        } else {
+            currentValue = formatQuery(value);
+        }
+        return triggerSource === TriggerSource.PROMETHEUS_REMOTE
+            ? currentValue
+            : formatQuery(currentValue);
+    };
+
     useEffect(() => {
         if (editorRef.current) {
             const state = EditorState.create({
-                doc: formatQuery(value),
-                extensions: extensions,
+                doc: valueToRender(),
+                extensions: extensionsToUse(),
             });
 
             const view = new EditorView({

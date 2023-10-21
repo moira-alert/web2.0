@@ -20,7 +20,7 @@ const initLanguage = LRLanguage.define({
             }),
 
             foldNodeProp.add({
-                FunctionCall: foldInside,
+                ArgumentList: foldInside,
             }),
         ],
     }),
