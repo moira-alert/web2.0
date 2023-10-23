@@ -1,4 +1,4 @@
-import { parseExpression } from "../Components/HighlightInput/tokenizer";
+import { parseExpression } from "./tokenizer";
 
 export const formatQuery = (input: string | Iterable<string>) => {
     const inputString = input.toString().trim();
@@ -9,6 +9,8 @@ export const formatQuery = (input: string | Iterable<string>) => {
         if (token.value === "(" || token.value === "{") {
             output += token.value + "\n" + "  ".repeat(indentLevel + 1);
             indentLevel++;
+        } else if (token.value === "|") {
+            output += token.value + "\n";
         } else if (token.value === ")" || token.value === "}") {
             output = output.trimEnd() + "\n" + "  ".repeat(indentLevel - 1) + token.value;
             indentLevel--;
