@@ -48,6 +48,7 @@ const GraphiteTheme = EditorView.theme({
 const ShowModeTheme = EditorView.theme({
     ".cm-gutters": {
         borderRight: "none",
+        backgroundColor: "transparent",
     },
 
     ".cm-lineNumbers ": {
