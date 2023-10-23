@@ -45,6 +45,24 @@ const GraphiteTheme = EditorView.theme({
     },
 });
 
+const ShowModeTheme = EditorView.theme({
+    ".cm-gutters": {
+        borderRight: "none",
+    },
+
+    ".cm-lineNumbers ": {
+        display: "none !important",
+    },
+
+    ".cm-activeLineGutter": {
+        backgroundColor: "transparent",
+    },
+
+    ".cm-activeLine": {
+        backgroundColor: "transparent",
+    },
+});
+
 export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeEditor(
     { value, triggerSource, problemTree, error, warning, disabled, onBlur, onValueChange },
     validationRef
@@ -76,24 +94,6 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
             return newTr;
         }
         return tr;
-    });
-
-    const ShowModeTheme = EditorView.theme({
-        ".cm-gutters": {
-            borderRight: "none",
-        },
-
-        ".cm-lineNumbers ": {
-            display: "none !important",
-        },
-
-        ".cm-activeLineGutter": {
-            backgroundColor: "transparent",
-        },
-
-        ".cm-activeLine": {
-            backgroundColor: "transparent",
-        },
     });
 
     const GraphiteExtensions = [
