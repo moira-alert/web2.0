@@ -4,6 +4,8 @@ export type Token = {
     startPosition: number;
 };
 
+const dividers = ["(", ")", "{", "}", ","];
+
 export const isEmptyString = (str: string): boolean => str.trim().length === 0;
 
 const isStringToken = (str: string) => {
@@ -75,13 +77,7 @@ export function splitFunction(expression: string): string[] {
                 tokenSeparator = symbol === '"' || symbol === "'" ? symbol : undefined;
                 tokenStart = i;
 
-                if (
-                    symbol === "(" ||
-                    symbol === ")" ||
-                    symbol === "{" ||
-                    symbol === "}" ||
-                    symbol === ","
-                ) {
+                if (dividers.includes(symbol)) {
                     tokens.push(symbol);
                     tokenStart += 1;
                 }
@@ -104,13 +100,7 @@ export function splitFunction(expression: string): string[] {
             }
             tokenSeparator = symbol;
             tokenStart = i;
-        } else if (
-            symbol === "(" ||
-            symbol === ")" ||
-            symbol === "{" ||
-            symbol === "}" ||
-            symbol === ","
-        ) {
+        } else if (dividers.includes(symbol)) {
             if (tokenStart < i) {
                 tokens.push(expression.slice(tokenStart, i));
             }
