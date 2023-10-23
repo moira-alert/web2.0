@@ -19,7 +19,6 @@ import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack"
 import FileLoader from "../Components/FileLoader/FileLoader";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import {
-    resetTargetValidationState,
     setError,
     setIsLoading,
     setIsSaveButtonDisabled,
@@ -81,7 +80,7 @@ const TriggerAddContainer = (props: Props) => {
             ? validateTrigger(trigger)
             : saveTrigger(trigger);
 
-    const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
+    const handleChange = (update: Partial<Trigger>) => {
         if (!trigger) {
             return;
         }
@@ -91,7 +90,6 @@ const TriggerAddContainer = (props: Props) => {
 
         if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
-            dispatch(resetTargetValidationState(targetIndex));
         }
     };
 

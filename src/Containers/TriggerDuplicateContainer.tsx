@@ -13,7 +13,6 @@ import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import {
-    resetTargetValidationState,
     setError,
     setIsLoading,
     setIsSaveButtonDisabled,
@@ -62,7 +61,7 @@ const TriggerDuplicateContainer = (props: Props) => {
             ? validateTrigger(trigger)
             : saveTrigger(trigger);
 
-    const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
+    const handleChange = (update: Partial<Trigger>) => {
         if (!trigger) {
             return;
         }
@@ -72,7 +71,6 @@ const TriggerDuplicateContainer = (props: Props) => {
 
         if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
-            dispatch(resetTargetValidationState(targetIndex));
         }
     };
 

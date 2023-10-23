@@ -65,9 +65,9 @@ type CustomMaintenanceMenuProps = {
 };
 
 export default function CustomMaintenanceMenu({
-    currentTime = new Date(),
     maintenance,
     setMaintenance,
+    currentTime = new Date(),
 }: CustomMaintenanceMenuProps): React.ReactElement {
     const [maintenanceTime, maintenanceDate] = maintenance
         ? splitDate(fromUnixTime(maintenance))

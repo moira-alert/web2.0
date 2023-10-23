@@ -1,0 +1,26 @@
+@top BuiltExpression { expression }
+@precedence {value }
+
+@skip { space }
+
+@tokens {
+  space { @whitespace+ }
+  identifier { @asciiLetter ( @asciiLetter  | "_" | Number)* }
+  String { '"' !["]* '"' | "'" ![']* "'" }
+  Number {@digit+}
+  "(" ")"
+  "[" "]"
+  "{" "}"
+  "="
+}
+FunctionName { identifier }
+FunctionCall {
+    FunctionName ArgumentList
+}
+ArgumentList {"(" argumentList? ")"}
+Value {!value identifier ((".") identifier)* }
+Variable { identifier "=" }
+argumentList { expression ((",") expression)* }
+expression { ( String | Number | FunctionCall | Value | Variable)+ }
+
+@detectDelim

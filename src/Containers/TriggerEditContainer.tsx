@@ -15,7 +15,6 @@ import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import {
-    resetTargetValidationState,
     setError,
     setIsLoading,
     setIsSaveButtonDisabled,
@@ -49,7 +48,7 @@ const TriggerEditContainer = (props: Props) => {
             ? validateTrigger(trigger)
             : saveTrigger(trigger);
 
-    const handleChange = (update: Partial<Trigger>, targetIndex?: number) => {
+    const handleChange = (update: Partial<Trigger>) => {
         if (!trigger) {
             return;
         }
@@ -59,7 +58,6 @@ const TriggerEditContainer = (props: Props) => {
 
         if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
-            dispatch(resetTargetValidationState(targetIndex));
         }
     };
 

@@ -1,10 +1,7 @@
-import { ReactElement } from "react";
-
 export type Token = {
     value: string;
     type: "bracket" | "fnName" | "empty" | "string" | "variable";
     startPosition: number;
-    render?: ReactElement;
 };
 
 export const isEmptyString = (str: string): boolean => str.trim().length === 0;
@@ -41,14 +38,14 @@ export function makeTokens(expression: string[]): Token[] {
             result[k].type = "empty";
         } else if (isStringToken(current)) {
             result[k].type = "string";
-        } else if (current === "(") {
+        } else if (current === "(" || current === "{") {
             result[k].type = "bracket";
 
             if (variableIndex !== undefined) {
                 result[variableIndex].type = "fnName";
                 variableIndex = undefined;
             }
-        } else if (current === ")") {
+        } else if (current === ")" || current === "}") {
             result[k].type = "bracket";
             if (variableIndex !== undefined) {
                 variableIndex = undefined;
@@ -78,7 +75,13 @@ export function splitFunction(expression: string): string[] {
                 tokenSeparator = symbol === '"' || symbol === "'" ? symbol : undefined;
                 tokenStart = i;
 
-                if (symbol === "(" || symbol === ")" || symbol === ",") {
+                if (
+                    symbol === "(" ||
+                    symbol === ")" ||
+                    symbol === "{" ||
+                    symbol === "}" ||
+                    symbol === ","
+                ) {
                     tokens.push(symbol);
                     tokenStart += 1;
                 }
@@ -101,7 +104,13 @@ export function splitFunction(expression: string): string[] {
             }
             tokenSeparator = symbol;
             tokenStart = i;
-        } else if (symbol === "(" || symbol === ")" || symbol === ",") {
+        } else if (
+            symbol === "(" ||
+            symbol === ")" ||
+            symbol === "{" ||
+            symbol === "}" ||
+            symbol === ","
+        ) {
             if (tokenStart < i) {
                 tokens.push(expression.slice(tokenStart, i));
             }
@@ -116,6 +125,6 @@ export function splitFunction(expression: string): string[] {
     return tokens;
 }
 
-export default function parseExpression(expression: string): Token[] {
+export function parseExpression(expression: string): Token[] {
     return makeTokens(splitFunction(expression));
 }

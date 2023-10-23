@@ -27,7 +27,6 @@ import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./EditDescritionHelp";
 import { MetricSourceSelect } from "./MetricSourceSelect";
-
 import classNames from "classnames/bind";
 
 import styles from "./TriggerEditForm.less";
@@ -46,11 +45,13 @@ type Props = {
 
 type State = {
     descriptionMode: "edit" | "preview";
+    sourceChanged: boolean;
 };
 
 export default class TriggerEditForm extends React.Component<Props, State> {
     public state: State = {
         descriptionMode: "edit",
+        sourceChanged: false,
     };
 
     static validateRequiredString(
@@ -179,26 +180,26 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                     <FormRow label="Data source" singleLineControlGroup>
                         <MetricSourceSelect
                             triggerSource={triggerSource}
-                            onSourceChange={(value: TriggerSource) =>
-                                onChange({ trigger_source: value })
-                            }
+                            onSourceChange={(value: TriggerSource) => {
+                                this.setState({ sourceChanged: true });
+                                onChange({ trigger_source: value });
+                            }}
                         />
                     </FormRow>
                 )}
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets?.map((x, i) => (
                         <div key={`target-${i}`} className={cn("target")}>
-                            <span className={cn("target-number")}>T{i + 1}</span>
-                            <RowStack block verticalAlign="baseline" gap={1}>
+                            <RowStack block verticalAlign="center" gap={1}>
+                                <span className={cn("target-number")}>T{i + 1}</span>
                                 <Fill>
                                     <HighlightInput
-                                        width="100%"
-                                        value={x}
+                                        triggerSource={data.trigger_source}
+                                        value={this.state.sourceChanged ? "" : x}
                                         onValueChange={(value: string) =>
                                             this.handleUpdateTarget(i, value)
                                         }
                                         validate={validationResult?.targets?.[i]}
-                                        data-tid={`Target T${i + 1}`}
                                     />
                                 </Fill>
                                 {targets.length > 1 && (

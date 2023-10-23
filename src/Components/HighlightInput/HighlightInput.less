@@ -1,16 +1,20 @@
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
 .messageContainer {
     position: relative;
-    width: max-content;
-    caret-color: #000;
+    width: 100%;
 }
 
-.message {
-    position: absolute;
-    top: 5px;
-    left: 7px;
-    user-select: none;
-    pointer-events: none;
-    overflow: hidden;
-    width: calc(100% - 22px);
-    white-space: nowrap;
+.error {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-color: #dd473b;
+    box-shadow: 0 0 0 calc(2px - 1px) #dd473b
 }
+
+.warning {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-color: #f69c00;
+    box-shadow: 0 0 0 calc(2px - 1px) #f69c00
+}
+

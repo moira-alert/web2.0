@@ -15,7 +15,6 @@ export enum ActionType {
     setIsSaveModalVisible = "setIsSaveModalVisible",
     setValidationResult = "setValidationResult",
     setError = "setError",
-    resetTargetValidationState = "resetTargetValidationState",
 }
 
 export const setIsLoading = (payload: boolean): Action => ({
@@ -36,10 +35,6 @@ export const setValidationResult = (payload: ValidateTriggerResult): Action => (
 });
 export const setError = (payload: string | null): Action => ({
     type: ActionType.setError,
-    payload,
-});
-export const resetTargetValidationState = (payload?: number): Action => ({
-    type: ActionType.resetTargetValidationState,
     payload,
 });
 
@@ -63,10 +58,6 @@ export type Action =
     | {
           type: ActionType.setError;
           payload: string | null;
-      }
-    | {
-          type: ActionType.resetTargetValidationState;
-          payload?: number;
       };
 
 const initialState: State = {
@@ -89,12 +80,6 @@ const reducer = (state: State, action: Action) => {
             return { ...state, validationResult: action.payload };
         case ActionType.setError:
             return { ...state, error: action.payload };
-        case ActionType.resetTargetValidationState: {
-            const newTargets =
-                // @ts-ignore Здесь TS не видит метод toSpliced на массиве. А он есть.
-                state.validationResult?.targets.toSpliced(action.payload, 1, undefined) ?? [];
-            return { ...state, validationResult: { targets: newTargets } };
-        }
         default:
             throw new Error(`Unknown action: ${JSON.stringify(action)}`);
     }
