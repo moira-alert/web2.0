@@ -26,7 +26,7 @@ Starts a dev server on port 9000 and a fakeapi server (provides mock api data) o
 yarn start:dev-proxy
 ```
 
-For SKB Kontur developers only. Starts a dev server on port 9000 and proxies all API requests to 9002 port. Forward 9002 port to api Pod. The easiest way is to use [Lens](https://k8slens.dev/). Staging cluster config is [here](https://k8s.testkontur.ru/).
+For SKB Kontur developers only. Starts a dev server on port 9000 and proxies all API requests to port 9002, which is forwarded to API Kubernetes pod. For the easiest way to use Lens, see: https://k8slens.dev/. The staging cluster config is [here](https://k8s.testkontur.ru/).
 
 ```bash
 yarn start:docker
