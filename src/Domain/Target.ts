@@ -206,22 +206,17 @@ export function validateQuery(
         };
     }
 
-    if (errorMessage && warningMessage) {
+    if (errorMessage || warningMessage) {
+        const level = errorMessage ? "error" : warningMessage ? "warning" : null;
+
         return {
             type: "immediate",
-            level: "error",
+            level: level,
             message: null,
         };
     }
 
-    const level = errorMessage ? "error" : warningMessage ? "warning" : null;
-    return level
-        ? {
-              type: "immediate",
-              level: level,
-              message: null,
-          }
-        : null;
+    return null;
 }
 
 export enum TargetQueryEntityColors {

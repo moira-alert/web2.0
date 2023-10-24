@@ -2,15 +2,15 @@ import React, { useEffect, useRef } from "react";
 import { EditorState, basicSetup } from "@codemirror/basic-setup";
 import { EditorView, keymap } from "@codemirror/view";
 import { defaultKeymap } from "@codemirror/commands";
-import { indentOnInput } from "@codemirror/language";
+import { indentOnInput, foldAll } from "@codemirror/language";
 import { graphiteLanguage } from "../../TriggerGrammar/graphiteLanguage";
 import { tags as t } from "@lezer/highlight";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { invalidTokensHighlightExtension } from "./invalidTokensHighlightExtension";
 import TriggerSource, { TriggerTargetProblem } from "../../Domain/Trigger";
-import { formatQuery } from "../../helpers/formatQuery";
+import { formatQuery } from "./formatQuery";
 import { TargetQueryEntityColors } from "../../Domain/Target";
-import { PromQLExtension } from "@prometheus-io/codemirror-promql";
+import { PromQLExtension } from "@clavinjune/codemirror-metricsql";
 import { TransactionSpec } from "@codemirror/state";
 import classNames from "classnames/bind";
 
@@ -39,6 +39,7 @@ const GraphiteHighlightStyle = syntaxHighlighting(
 );
 
 const GraphiteTheme = EditorView.theme({
+
     "& .cm-content": {
         whiteSpace: "break-spaces",
         wordBreak: "break-all",
@@ -47,7 +48,16 @@ const GraphiteTheme = EditorView.theme({
 
 const ShowModeTheme = EditorView.theme({
     ".cm-gutters": {
-        display: "none",
+        borderRight: "none",
+        backgroundColor: "transparent",
+    },
+
+    ".cm-lineNumbers ": {
+        display: "none !important",
+    },
+
+    ".cm-activeLineGutter": {
+        backgroundColor: "transparent",
     },
 
     ".cm-activeLine": {
@@ -149,6 +159,8 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
                 state,
                 parent: editorRef.current,
             });
+
+            disabled && foldAll(view);
 
             return () => {
                 view.destroy();
