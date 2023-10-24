@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const { mergeWithCustomize, customizeObject } = require("webpack-merge");
 const commonConfig = require("./webpack.config");
 
@@ -9,10 +7,7 @@ module.exports = mergeWithCustomize({
     devServer: {
         proxy: {
             "/api": {
-                target: process.env.MOIRA_API_URL,
-                auth: `${process.env.MOIRA_API_LOGIN}:${process.env.MOIRA_API_PASSWORD}`,
-                secure: false,
-                changeOrigin: true,
+                target: "http://localhost:9002",
             },
         },
     },
