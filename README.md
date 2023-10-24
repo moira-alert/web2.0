@@ -26,6 +26,12 @@ Starts a dev server on port 9000 and a fakeapi server (provides mock api data) o
 yarn start:dev-proxy
 ```
 
+Starts a dev server on port 9000 and proxies all API requests to a separately deployed backend. The URL for API requests can be set with the `MOIRA_API_URL` env variable. Supports basic auth which can be configured using `MOIRA_API_LOGIN` and `MOIRA_API_PASSWORD` env variables.
+
+```bash
+yarn start:port-forward
+```
+
 For SKB Kontur developers only. Starts a dev server on port 9000 and proxies all API requests to port 9002, which is forwarded to API Kubernetes pod. For the easiest way to use Lens, see: https://k8slens.dev/. The staging cluster config is [here](https://k8s.testkontur.ru/).
 
 ```bash
