@@ -4,8 +4,7 @@ import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
-import CopyIcon from "@skbkontur/react-icons/Copy";
-import { Checkbox, Input, Textarea, Button, Tabs, Hint } from "@skbkontur/react-ui";
+import { Checkbox, Input, Textarea, Button, Tabs } from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import {
     DEFAULT_TRIGGER_TTL,
@@ -28,6 +27,7 @@ import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./EditDescritionHelp";
 import { MetricSourceSelect } from "./MetricSourceSelect";
+import { CopyButton } from "./CopyButton";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerEditForm.less";
@@ -191,7 +191,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                 <FormRow label="Target" useTopAlignForLabel>
                     {targets?.map((x, i) => (
                         <div key={`target-${i}`} className={cn("target")}>
-                            <RowStack block verticalAlign="center" gap={1}>
+                            <RowStack block verticalAlign="top" gap={1}>
                                 <span className={cn("target-number")}>T{i + 1}</span>
                                 <Fill>
                                     <HighlightInput
@@ -203,9 +203,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                         validate={validationResult?.targets?.[i]}
                                     />
                                 </Fill>
-                                <Hint text="Copy as single string">
-                                    <Button use="link" icon={<CopyIcon />} onClick={() => {}} />
-                                </Hint>
 
                                 {targets.length > 1 && (
                                     <Fit>
@@ -231,6 +228,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                     </Fit>
                                 )}
                             </RowStack>
+                            <CopyButton className={cn("copyButton")} value={x} />
                         </div>
                     ))}
                     <Button use="link" icon={<AddIcon />} onClick={() => this.handleAddTarget()}>

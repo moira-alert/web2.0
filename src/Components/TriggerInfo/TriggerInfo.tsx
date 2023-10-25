@@ -25,6 +25,8 @@ import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
 import { Gapped } from "@skbkontur/react-ui";
+import { CopyButton } from "../TriggerEditForm/CopyButton";
+
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -192,12 +194,17 @@ export default function TriggerInfo({
                 <dd className={cn("codeEditor")}>
                     <Gapped vertical gap={10}>
                         {targets.map((target, i) => (
-                            <CodeEditor
-                                triggerSource={triggerSource}
-                                disabled
-                                key={i}
-                                value={target}
-                            />
+                            <>
+                                <CodeEditor
+                                    triggerSource={triggerSource}
+                                    disabled
+                                    key={i}
+                                    value={target}
+                                />
+                                <div className={cn("copyButton")}>
+                                    <CopyButton value={target} />
+                                </div>
+                            </>
                         ))}
                     </Gapped>
                 </dd>
