@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - 2023-10-25
+
+### Added
+
+ - Add pretty editor and display for targets #440 (by @EduardZaydler)
+ - Add prometheus triggers #413 (by @tetrergeru)
+ - Add confirm deleting modal before deleting all notifications #424 (by @EduardZaydler)
+ - When channel deleted subscription is displayed as broken #426 (by @EduardZaydler)
+
+### Fixes
+
+ - Metric list rows visually overlapping on desktop #421 (by @sol-un)
+ - Deleting metric with non-url simbols #428 (by @EduardZaydler)
+ - Update dependencies (by @EduardZaydler)
+
+## [2.8.4] - 2023-09-12
+
+### Fixed
+- Fix metric list height (#425) 
+- Fix metric list rows visually overlapping on desktop (#421)
+
 ## [2.8.3] - 2023-08-28
 
 ### Added
