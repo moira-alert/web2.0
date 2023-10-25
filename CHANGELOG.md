@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.8.4] - 2023-09-12
 
 ### Fixed
+
 - Fix metric list height (#425) 
 - Fix metric list rows visually overlapping on desktop (#421)
 
