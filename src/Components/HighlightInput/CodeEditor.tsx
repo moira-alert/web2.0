@@ -39,7 +39,7 @@ const GraphiteHighlightStyle = syntaxHighlighting(
 );
 
 const GraphiteTheme = EditorView.theme({
-    "&.cm-content": {
+    "& .cm-content": {
         whiteSpace: "break-spaces",
         wordBreak: "break-all",
     },

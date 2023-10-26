@@ -7,6 +7,7 @@
         "serve": "webpack-dev-server --mode=development --static ./dist",
         "start": "npm-run-all --parallel serve fakeapi",
         "start:dev-proxy": "yarn serve --config webpack.config.dev-proxy.js",
+        "start:port-forward": "yarn serve --config webpack.config.port-forward.js",
         "start:docker": "npm-run-all --parallel backend start:docker-proxy",
         "start:docker-proxy": "yarn serve --config webpack.config.docker-proxy.js",
         "backend": "docker compose -f src/tests/core/api/docker-compose.yml down --rmi all && docker compose -f src/tests/core/api/docker-compose.yml up",
