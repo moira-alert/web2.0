@@ -4,7 +4,7 @@ import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
-import { Checkbox, Input, Textarea, Button, Tabs } from "@skbkontur/react-ui";
+import { Checkbox, Input, Textarea, Button, Tabs, Hint } from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import {
     DEFAULT_TRIGGER_TTL,
@@ -228,7 +228,9 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                     </Fit>
                                 )}
                             </RowStack>
-                            <CopyButton className={cn("copyButton")} value={x} />
+                            <Hint text="Copy without formatting">
+                                <CopyButton className={cn("copyButton")} value={x} />
+                            </Hint>
                         </div>
                     ))}
                     <Button use="link" icon={<AddIcon />} onClick={() => this.handleAddTarget()}>

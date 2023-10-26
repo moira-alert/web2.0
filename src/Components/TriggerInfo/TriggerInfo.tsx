@@ -24,7 +24,7 @@ import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
-import { Gapped } from "@skbkontur/react-ui";
+import { Gapped, Hint } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/CopyButton";
 
 import classNames from "classnames/bind";
@@ -195,15 +195,17 @@ export default function TriggerInfo({
                     <Gapped vertical gap={10}>
                         {targets.map((target, i) => (
                             <>
+                                <div className={cn("copyButtonWrapper")}>
+                                    <Hint text="Copy without formatting">
+                                        <CopyButton className={cn("copyButton")} value={target} />
+                                    </Hint>
+                                </div>
                                 <CodeEditor
                                     triggerSource={triggerSource}
                                     disabled
                                     key={i}
                                     value={target}
                                 />
-                                <div className={cn("copyButton")}>
-                                    <CopyButton value={target} />
-                                </div>
                             </>
                         ))}
                     </Gapped>
