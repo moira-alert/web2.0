@@ -149,6 +149,7 @@ export default function CustomMaintenanceMenu({
             </Menu>
             <Calendar
                 value={toStringDate(calendarDate)}
+                //@ts-ignore number is in Range<1,13>
                 initialMonth={calendarDate.month + 1}
                 initialYear={calendarDate.year}
                 minDate={toStringDate(todayDate)}

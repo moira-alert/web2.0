@@ -1,4 +1,8 @@
 {
+    "settings": {
+        "react": { 
+          "version": "16.14.0"
+        }},
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "./tsconfig.json",

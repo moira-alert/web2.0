@@ -148,23 +148,24 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     };
 
     useEffect(() => {
-        if (editorRef.current) {
-            const state = EditorState.create({
-                doc: shellFormat(),
-                extensions: extensionsToUse(),
-            });
-
-            const view = new EditorView({
-                state,
-                parent: editorRef.current,
-            });
-
-            disabled && foldAll(view);
-
-            return () => {
-                view.destroy();
-            };
+        if (!editorRef.current) {
+            return;
         }
+        const state = EditorState.create({
+            doc: shellFormat(),
+            extensions: extensionsToUse(),
+        });
+
+        const view = new EditorView({
+            state,
+            parent: editorRef.current,
+        });
+
+        disabled && foldAll(view);
+
+        return () => {
+            view.destroy();
+        };
     }, [problemTree, triggerSource]);
 
     return (
