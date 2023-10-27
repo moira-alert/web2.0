@@ -38,6 +38,5 @@ const autoCompletion = initLanguage.data.of({
 });
 
 export const graphiteLanguage = () => {
-    //@ts-ignore LRLanguage is not assigned to Language
     return new LanguageSupport(initLanguage, [autoCompletion]);
 };
