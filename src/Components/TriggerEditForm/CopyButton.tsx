@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Toast } from "@skbkontur/react-ui";
 import CopyIcon from "@skbkontur/react-icons/Copy";
 
-interface Props {
+interface IProps {
     value: string;
     className?: string;
 }
@@ -18,7 +18,7 @@ const copy = async (text: string) => {
     }
 };
 
-export const CopyButton: React.FC<Props> = ({ value, className }) => {
+export const CopyButton: React.FC<IProps> = ({ value, className }) => {
     const handleCopy = () => {
         Toast.push("Target value copied");
         copy(value.trim());

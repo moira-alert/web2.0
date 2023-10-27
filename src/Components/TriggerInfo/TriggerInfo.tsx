@@ -35,14 +35,14 @@ const cn = classNames.bind(styles);
 
 const md = new Remarkable({ breaks: true });
 
-type Props = {
+interface IProps {
     data: Trigger;
     triggerState: TriggerState;
     supportEmail?: string;
     onThrottlingRemove: (triggerId: string) => void;
     onSetMaintenance: (maintenance: number) => void;
     history: History;
-};
+}
 
 function maintenanceDelta(maintenance?: number | null): number {
     return (maintenance || 0) - getUnixTime(getUTCDate());
@@ -100,7 +100,7 @@ export default function TriggerInfo({
     onThrottlingRemove,
     onSetMaintenance,
     history,
-}: Props): React.ReactElement {
+}: IProps): React.ReactElement {
     const {
         id,
         name,
