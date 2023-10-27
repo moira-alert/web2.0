@@ -1761,14 +1761,14 @@
 
 "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz#a23514e8fb9af1269d5f7788aa556798d61c6b59"
+  resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz#a23514e8fb9af1269d5f7788aa556798d61c6b59"
   integrity sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==
   dependencies:
     eslint-visitor-keys "^3.3.0"
 
 "@eslint-community/regexpp@^4.5.1":
   version "4.9.1"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@eslint-community/regexpp/-/regexpp-4.9.1.tgz#449dfa81a57a1d755b09aa58d826c1262e4283b4"
+  resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.9.1.tgz#449dfa81a57a1d755b09aa58d826c1262e4283b4"
   integrity sha512-Y27x+MBLjXa+0JWDhykM3+JE+il3kHKAEqabfEWq3SDhZjLYb6/BHL/JKFnH3fe207JaXkyDo685Oc2Glt6ifA==
 
 "@gar/promisify@^1.0.1":
@@ -4206,7 +4206,7 @@
 
 "@types/json-schema@^7.0.12":
   version "7.0.14"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@types/json-schema/-/json-schema-7.0.14.tgz#74a97a5573980802f32c8e47b663530ab3b6b7d1"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.14.tgz#74a97a5573980802f32c8e47b663530ab3b6b7d1"
   integrity sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw==
 
 "@types/json5@^0.0.29":
@@ -4335,7 +4335,7 @@
 
 "@types/react-router-dom@5.1.5":
   version "5.1.5"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@types/react-router-dom/-/react-router-dom-5.1.5.tgz#7c334a2ea785dbad2b2dcdd83d2cf3d9973da090"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.5.tgz#7c334a2ea785dbad2b2dcdd83d2cf3d9973da090"
   integrity sha512-ArBM4B1g3BWLGbaGvwBGO75GNFbLDUthrDojV2vHLih/Tq8M+tgvY1DSwkuNrPSwdp/GUL93WSEpTZs8nVyJLw==
   dependencies:
     "@types/history" "*"
@@ -4344,7 +4344,7 @@
 
 "@types/react-router@*", "@types/react-router@5.1.18", "@types/react-router@^5.1.0":
   version "5.1.18"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@types/react-router/-/react-router-5.1.18.tgz#c8851884b60bc23733500d86c1266e1cfbbd9ef3"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-5.1.18.tgz#c8851884b60bc23733500d86c1266e1cfbbd9ef3"
   integrity sha512-YYknwy0D0iOwKQgz9v8nOzt2J6l4gouBmDnWqUUznltOTaon+r8US8ky8HvN0tXvc38U9m6z/t2RsVsnd1zM0g==
   dependencies:
     "@types/history" "^4.7.11"
@@ -4394,7 +4394,7 @@
 
 "@types/semver@^7.5.0":
   version "7.5.4"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@types/semver/-/semver-7.5.4.tgz#0a41252ad431c473158b22f9bfb9a63df7541cff"
+  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.5.4.tgz#0a41252ad431c473158b22f9bfb9a63df7541cff"
   integrity sha512-MMzuxN3GdFwskAnb6fz0orFvhfqi752yjaXylr0Rp4oDg5H0Zn1IuyRhDVvYOwAXoJirx2xuS16I3WjxnAIHiQ==
 
 "@types/send@*":
@@ -4550,7 +4550,7 @@
 
 "@typescript-eslint/eslint-plugin@^6.8.1-alpha.62":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/eslint-plugin/-/eslint-plugin-6.8.1-alpha.62.tgz#4f1df6bfb2cd40faeefc21de1caea5a1d5ee2762"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-6.8.1-alpha.62.tgz#4f1df6bfb2cd40faeefc21de1caea5a1d5ee2762"
   integrity sha512-4y9JUV9Puxw5khNnh8t9XncKjGQ5juEuIUXePoFrzNewkll46OOO9tYflUeLHu0HrmqBRU2izc8/mFFnGZ1BWQ==
   dependencies:
     "@eslint-community/regexpp" "^4.5.1"
@@ -4567,7 +4567,7 @@
 
 "@typescript-eslint/parser@^6.8.1-alpha.62":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/parser/-/parser-6.8.1-alpha.62.tgz#38c4545befe341619e76016da59c9caa4cd8478f"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-6.8.1-alpha.62.tgz#38c4545befe341619e76016da59c9caa4cd8478f"
   integrity sha512-3RWaQRM7dVcgFT71FziHuq9EO6EMpZzl4edcHmsLKOGnXf0NO0y3P9k4q22fbO5LavsLI18rOZfatneL0+pCPw==
   dependencies:
     "@typescript-eslint/scope-manager" "6.8.1-alpha.62+9ad391788"
@@ -4578,7 +4578,7 @@
 
 "@typescript-eslint/scope-manager@6.8.1-alpha.62+9ad391788":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/scope-manager/-/scope-manager-6.8.1-alpha.62.tgz#cd8ad88d68dc76b242be76c28ee9d9641d3be054"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-6.8.1-alpha.62.tgz#cd8ad88d68dc76b242be76c28ee9d9641d3be054"
   integrity sha512-9qrtOagpBxH5IcgJmhNxIbSI05ew0eec5mzY3nSC/jgugWzaPQ/JlIvT3ZfpH0pdE73xuqSPOdnYrAzkkYvNqQ==
   dependencies:
     "@typescript-eslint/types" "6.8.1-alpha.62+9ad391788"
@@ -4586,7 +4586,7 @@
 
 "@typescript-eslint/type-utils@6.8.1-alpha.62+9ad391788":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/type-utils/-/type-utils-6.8.1-alpha.62.tgz#c3c2719ee45d78c18075835842559604a4f25fcb"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-6.8.1-alpha.62.tgz#c3c2719ee45d78c18075835842559604a4f25fcb"
   integrity sha512-v2/TUr5ctZBR/hLQNC0pARqfHGrG8Sn07k3/UoISjSFaqSJ3h5awwIKAgW92bSrunlEb9nY7W3cFWBOxen5iDg==
   dependencies:
     "@typescript-eslint/typescript-estree" "6.8.1-alpha.62+9ad391788"
@@ -4596,12 +4596,12 @@
 
 "@typescript-eslint/types@6.8.1-alpha.62+9ad391788":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/types/-/types-6.8.1-alpha.62.tgz#6f5eacd3d67a234141aae7973538a8f6d54ea614"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-6.8.1-alpha.62.tgz#6f5eacd3d67a234141aae7973538a8f6d54ea614"
   integrity sha512-JiUb8YKb720nIfih6dgJ3QdiZPFU8OMRXy+Hj8RwTm1Hs8yg8+rZ9izBmmma1oWYwdtYpa+CqPWA7vzbthpeHA==
 
 "@typescript-eslint/typescript-estree@6.8.1-alpha.62+9ad391788":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/typescript-estree/-/typescript-estree-6.8.1-alpha.62.tgz#3967b0dac36b048e29d3c9600bbfddb6b55a69b1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-6.8.1-alpha.62.tgz#3967b0dac36b048e29d3c9600bbfddb6b55a69b1"
   integrity sha512-GGy80Kvpsa3Ky6VnvV2jH6246MWGcrCm0RjkDrCLfCVhg2w70J+3hi+TFX9ttC5tVZEknmH3Tdk/jbeOel2CDQ==
   dependencies:
     "@typescript-eslint/types" "6.8.1-alpha.62+9ad391788"
@@ -4614,7 +4614,7 @@
 
 "@typescript-eslint/utils@6.8.1-alpha.62+9ad391788":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/utils/-/utils-6.8.1-alpha.62.tgz#3bf4988b2244a82c3f44b8109d2a87959e5ac836"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-6.8.1-alpha.62.tgz#3bf4988b2244a82c3f44b8109d2a87959e5ac836"
   integrity sha512-Knm2T5sAy/Hqqiz+VRZdFPBKS/UVMWpET4yhaRVTEMb2kL/rkQ1tDWkaaZrJBvzzL0wZJXS4OzH1KVwKHDhbpw==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
@@ -4627,7 +4627,7 @@
 
 "@typescript-eslint/visitor-keys@6.8.1-alpha.62+9ad391788":
   version "6.8.1-alpha.62"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@typescript-eslint/visitor-keys/-/visitor-keys-6.8.1-alpha.62.tgz#36c82323714ceeb002aab77bfa21836e78c88f3c"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-6.8.1-alpha.62.tgz#36c82323714ceeb002aab77bfa21836e78c88f3c"
   integrity sha512-H1Xzk+9+yoe9x7QMtgOtTFRHpiiZeZT7LKCKWx/Hrxc5NvlJbkjsP5p3qrTFio/XjyigY6u+aiWOB401F7+NmA==
   dependencies:
     "@typescript-eslint/types" "6.8.1-alpha.62+9ad391788"
@@ -5355,7 +5355,7 @@ array.prototype.reduce@^1.0.6:
 
 array.prototype.tosorted@^1.1.1:
   version "1.1.2"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/array.prototype.tosorted/-/array.prototype.tosorted-1.1.2.tgz#620eff7442503d66c799d95503f82b475745cefd"
+  resolved "https://registry.yarnpkg.com/array.prototype.tosorted/-/array.prototype.tosorted-1.1.2.tgz#620eff7442503d66c799d95503f82b475745cefd"
   integrity sha512-HuQCHOlk1Weat5jzStICBCd83NxiIMwqDg/dHEsoefabn/hJRj5pVdWcPUSpRrwhwxZOsQassMpgN/xRYFBMIg==
   dependencies:
     call-bind "^1.0.2"
@@ -5446,7 +5446,7 @@ async-each@^1.0.1:
 
 asynciterator.prototype@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/asynciterator.prototype/-/asynciterator.prototype-1.0.0.tgz#8c5df0514936cdd133604dfcc9d3fb93f09b2b62"
+  resolved "https://registry.yarnpkg.com/asynciterator.prototype/-/asynciterator.prototype-1.0.0.tgz#8c5df0514936cdd133604dfcc9d3fb93f09b2b62"
   integrity sha512-wwHYEIS0Q80f5mosx3L/dfG5t5rjEa9Ft51GTaNt862EnpyGHpgz2RkZvLPp1oF5TnAiTohkEKVEu8pQPJI7Vg==
   dependencies:
     has-symbols "^1.0.3"
@@ -8002,7 +8002,7 @@ es-get-iterator@^1.0.2, es-get-iterator@^1.1.3:
 
 es-iterator-helpers@^1.0.12:
   version "1.0.15"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/es-iterator-helpers/-/es-iterator-helpers-1.0.15.tgz#bd81d275ac766431d19305923707c3efd9f1ae40"
+  resolved "https://registry.yarnpkg.com/es-iterator-helpers/-/es-iterator-helpers-1.0.15.tgz#bd81d275ac766431d19305923707c3efd9f1ae40"
   integrity sha512-GhoY8uYqd6iwUl2kgjTm4CZAf6oo5mHK7BPqx3rKgx893YSsy0LGHV6gfqqQvZt/8xM8xeOnfXBCfqclMKkJ5g==
   dependencies:
     asynciterator.prototype "^1.0.0"
@@ -8204,7 +8204,7 @@ eslint-plugin-react-hooks@4.1.0:
 
 eslint-plugin-react@^7.33.2:
   version "7.33.2"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/eslint-plugin-react/-/eslint-plugin-react-7.33.2.tgz#69ee09443ffc583927eafe86ffebb470ee737608"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.33.2.tgz#69ee09443ffc583927eafe86ffebb470ee737608"
   integrity sha512-73QQMKALArI8/7xGLNI/3LylrEYrlKZSb5C9+q3OtOewTnMQi5cT+aE9E41sLCmli3I9PGGmD1yiZydyo4FEPw==
   dependencies:
     array-includes "^3.1.6"
@@ -8259,7 +8259,7 @@ eslint-visitor-keys@^1.0.0, eslint-visitor-keys@^1.1.0, eslint-visitor-keys@^1.3
 
 eslint-visitor-keys@^3.3.0, eslint-visitor-keys@^3.4.1:
   version "3.4.3"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/eslint-visitor-keys/-/eslint-visitor-keys-3.4.3.tgz#0cd72fe8550e3c2eae156a96a4dddcd1c8ac5800"
+  resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-3.4.3.tgz#0cd72fe8550e3c2eae156a96a4dddcd1c8ac5800"
   integrity sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag==
 
 eslint@7.7.0:
@@ -9412,7 +9412,7 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.3
 
 graphemer@^1.4.0:
   version "1.4.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
+  resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
 gzip-size@^6.0.0:
@@ -10176,7 +10176,7 @@ is-arrayish@^0.2.1:
 
 is-async-function@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/is-async-function/-/is-async-function-2.0.0.tgz#8e4418efd3e5d3a6ebb0164c05ef5afb69aa9646"
+  resolved "https://registry.yarnpkg.com/is-async-function/-/is-async-function-2.0.0.tgz#8e4418efd3e5d3a6ebb0164c05ef5afb69aa9646"
   integrity sha512-Y1JXKrfykRJGdlDwdKlLpLyMIiWqWvuSd17TvZk68PLAOGOoF4Xyav1z0Xhoi+gCYjZVeC5SI+hYFOfvXmGRCA==
   dependencies:
     has-tostringtag "^1.0.0"
@@ -10315,7 +10315,7 @@ is-extglob@^2.1.0, is-extglob@^2.1.1:
 
 is-finalizationregistry@^1.0.2:
   version "1.0.2"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/is-finalizationregistry/-/is-finalizationregistry-1.0.2.tgz#c8749b65f17c133313e661b1289b95ad3dbd62e6"
+  resolved "https://registry.yarnpkg.com/is-finalizationregistry/-/is-finalizationregistry-1.0.2.tgz#c8749b65f17c133313e661b1289b95ad3dbd62e6"
   integrity sha512-0by5vtUJs8iFQb5TYUHHPudOR+qXYIMKtiUzvLIZITZUjknFmziyBJuLhVRc+Ds0dREFlskDNJKYIdIzu/9pfw==
   dependencies:
     call-bind "^1.0.2"
@@ -10734,7 +10734,7 @@ iterate-value@^1.0.2:
 
 iterator.prototype@^1.1.2:
   version "1.1.2"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/iterator.prototype/-/iterator.prototype-1.1.2.tgz#5e29c8924f01916cb9335f1ff80619dcff22b0c0"
+  resolved "https://registry.yarnpkg.com/iterator.prototype/-/iterator.prototype-1.1.2.tgz#5e29c8924f01916cb9335f1ff80619dcff22b0c0"
   integrity sha512-DR33HMMr8EzwuRL8Y9D3u2BMj8+RqSE850jfGu59kS7tbmPLzGkZmVSfyCFSDxuZiEY6Rzt3T2NA/qU+NwVj1w==
   dependencies:
     define-properties "^1.2.1"
@@ -11448,7 +11448,7 @@ jsx-ast-utils@^2.0.1:
 
 "jsx-ast-utils@^2.4.1 || ^3.0.0":
   version "3.3.5"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/jsx-ast-utils/-/jsx-ast-utils-3.3.5.tgz#4766bd05a8e2a11af222becd19e15575e52a853a"
+  resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-3.3.5.tgz#4766bd05a8e2a11af222becd19e15575e52a853a"
   integrity sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==
   dependencies:
     array-includes "^3.1.6"
@@ -12843,7 +12843,7 @@ object.getownpropertydescriptors@^2.0.3, object.getownpropertydescriptors@^2.1.2
 
 object.hasown@^1.1.2:
   version "1.1.3"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/object.hasown/-/object.hasown-1.1.3.tgz#6a5f2897bb4d3668b8e79364f98ccf971bda55ae"
+  resolved "https://registry.yarnpkg.com/object.hasown/-/object.hasown-1.1.3.tgz#6a5f2897bb4d3668b8e79364f98ccf971bda55ae"
   integrity sha512-fFI4VcYpRHvSLXxP7yiZOMAd331cPfd2p7PFDVbgUsYOfCT3tICVqXWngbjr4m49OvsBwUBQ6O2uQoJvy3RexA==
   dependencies:
     define-properties "^1.2.0"
@@ -14443,7 +14443,7 @@ reflect-metadata@^0.1.13:
 
 reflect.getprototypeof@^1.0.4:
   version "1.0.4"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/reflect.getprototypeof/-/reflect.getprototypeof-1.0.4.tgz#aaccbf41aca3821b87bb71d9dcbc7ad0ba50a3f3"
+  resolved "https://registry.yarnpkg.com/reflect.getprototypeof/-/reflect.getprototypeof-1.0.4.tgz#aaccbf41aca3821b87bb71d9dcbc7ad0ba50a3f3"
   integrity sha512-ECkTw8TmJwW60lOTR+ZkODISW6RQ8+2CL3COqtiJKLd6MmB45hN51HprHFziKLGkAuTGQhBb91V8cy+KHlaCjw==
   dependencies:
     call-bind "^1.0.2"
@@ -14787,7 +14787,7 @@ resolve@^1.1.6, resolve@^1.10.0, resolve@^1.12.0, resolve@^1.14.2, resolve@^1.17
 
 resolve@^2.0.0-next.4:
   version "2.0.0-next.5"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/resolve/-/resolve-2.0.0-next.5.tgz#6b0ec3107e671e52b68cd068ef327173b90dc03c"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-2.0.0-next.5.tgz#6b0ec3107e671e52b68cd068ef327173b90dc03c"
   integrity sha512-U7WjGVG9sH8tvjW5SmGbQuui75FiyjAX72HX15DwBBwF9dNiQZRQAg9nnPhYy+TUnE0+VcrttuvNI8oSxZcocA==
   dependencies:
     is-core-module "^2.13.0"
@@ -16298,7 +16298,7 @@ trough@^1.0.0:
 
 ts-api-utils@^1.0.1:
   version "1.0.3"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/ts-api-utils/-/ts-api-utils-1.0.3.tgz#f12c1c781d04427313dbac808f453f050e54a331"
+  resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-1.0.3.tgz#f12c1c781d04427313dbac808f453f050e54a331"
   integrity sha512-wNMeqtMz5NtwpT/UZGY5alT+VoKdSsOOP/kqHFcUW1P/VRhH2wJ48+DN2WwUliNbQ976ETwDL0Ifd2VVvgonvg==
 
 ts-dedent@^2.0.0, ts-dedent@^2.2.0:
@@ -16484,7 +16484,7 @@ typedarray@^0.0.6:
 
 typescript@^5.2.2:
   version "5.2.2"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
   integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
 
 uglify-js@^3.1.4:
@@ -17355,7 +17355,7 @@ which-boxed-primitive@^1.0.2:
 
 which-builtin-type@^1.1.3:
   version "1.1.3"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/which-builtin-type/-/which-builtin-type-1.1.3.tgz#b1b8443707cc58b6e9bf98d32110ff0c2cbd029b"
+  resolved "https://registry.yarnpkg.com/which-builtin-type/-/which-builtin-type-1.1.3.tgz#b1b8443707cc58b6e9bf98d32110ff0c2cbd029b"
   integrity sha512-YmjsSMDBYsM1CaFiayOVT06+KJeXf0o5M/CAd4o1lTadFAtacTUM49zoYxr/oroopFDfhvN6iEcBxUyc3gvKmw==
   dependencies:
     function.prototype.name "^1.1.5"
