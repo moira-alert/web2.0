@@ -11,7 +11,7 @@ import TriggerSource, { TriggerTargetProblem } from "../../Domain/Trigger";
 import { formatQuery } from "./formatQuery";
 import { TargetQueryEntityColors } from "../../Domain/Target";
 import { PromQLExtension } from "@clavinjune/codemirror-metricsql";
-import { TransactionSpec } from "@codemirror/state";
+import { TransactionSpec, EditorSelection } from "@codemirror/state";
 import classNames from "classnames/bind";
 
 import styles from "./HighlightInput.less";
@@ -64,6 +64,40 @@ const ShowModeTheme = EditorView.theme({
     },
 });
 
+const quadrupleClickCopy = EditorView.mouseSelectionStyle.of((view, event) => {
+    if (event.detail !== 4 || event.button !== 0) return null;
+    return {
+        get() {
+            const range = EditorSelection.range(0, view.state.doc.length);
+            return EditorSelection.create([range]);
+        },
+        update() {
+            return true;
+        },
+    };
+});
+
+const transactionFilter = EditorState.transactionFilter.of((tr) => {
+    const newTr: TransactionSpec[] = [];
+
+    if (tr.isUserEvent("input.paste")) {
+        const currentState = tr.startState;
+
+        tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
+            const newText = formatQuery(inserted);
+
+            const { ranges } = currentState.selection;
+
+            if (ranges.length > 0) {
+                const tr = currentState.replaceSelection(newText);
+                newTr.push(tr);
+            }
+        });
+        return newTr;
+    }
+    return tr;
+});
+
 export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeEditor(
     { value, triggerSource, problemTree, error, warning, disabled, onBlur, onValueChange },
     validationRef
@@ -75,27 +109,6 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     const promQL = new PromQLExtension();
 
     const languageToUse = isPromQl ? promQL.asExtension() : graphiteLanguage();
-
-    const transactionFilter = EditorState.transactionFilter.of((tr) => {
-        const newTr: TransactionSpec[] = [];
-
-        if (tr.isUserEvent("input.paste")) {
-            const currentState = tr.startState;
-
-            tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
-                const newText = formatQuery(inserted);
-
-                const { ranges } = currentState.selection;
-
-                if (ranges.length > 0) {
-                    const tr = currentState.replaceSelection(newText);
-                    newTr.push(tr);
-                }
-            });
-            return newTr;
-        }
-        return tr;
-    });
 
     const GraphiteExtensions = [
         GraphiteTheme,
@@ -111,6 +124,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         invalidTokensHighlightExtension(problemTree),
         transactionFilter,
         languageToUse,
+        quadrupleClickCopy,
     ];
 
     const ShowModeExtensions = [
@@ -118,6 +132,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         languageToUse,
         EditorView.editable.of(!disabled),
         ShowModeTheme,
+        quadrupleClickCopy,
     ];
 
     if (!isPromQl) {
