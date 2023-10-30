@@ -3,4 +3,6 @@
 /flow
 /flow-typed
 webpack.*.js
-TriggerGrammar/
+src/TriggerGrammar/parser.terms.ts
+src/TriggerGrammar/parser.ts
+src/Stories/*.creevey.ts

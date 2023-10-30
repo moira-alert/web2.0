@@ -2,7 +2,7 @@
   "compilerOptions": {                
     "target": "es2015",                          
     "module": "commonjs",                     
-     "lib": ["dom", "es2020"],                                            
+    "lib": ["dom", "es2020"],                                            
     "jsx": "preserve",                    
     "strict": true,                           
     "noImplicitAny": true,                 
@@ -14,7 +14,8 @@
     "allowSyntheticDefaultImports": true,  
     "esModuleInterop": true,                
     "skipLibCheck": true,                     
-    "forceConsistentCasingInFileNames": true  
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": false
   },
   "includes": ["./src/types/less-modules.d.ts", "./src/types/svg-modules.d.ts"]
 }

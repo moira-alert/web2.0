@@ -136,6 +136,7 @@ function highlightInvalidTokens(view: EditorView, problemTree?: TriggerTargetPro
                 }
                 return false;
             }
+            return true;
         },
     });
     for (const openingBracketPos of stack) {

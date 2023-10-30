@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { kind, story, test } from "creevey";
 
 const moveToElement = async () => {
