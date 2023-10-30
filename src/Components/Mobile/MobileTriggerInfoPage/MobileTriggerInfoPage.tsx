@@ -56,14 +56,12 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
                         </Sticky>
                     )}
                     {metrics != null && (
-                        <div className={cn("metrics-list")}>
-                            <MobileMetricsList
-                                withTargets={trigger?.targets && trigger.targets.length > 1}
-                                metrics={metrics}
-                                onRemove={onRemoveMetric}
-                                onSetMaintenance={onSetMetricMaintenance}
-                            />
-                        </div>
+                        <MobileMetricsList
+                            withTargets={trigger?.targets && trigger.targets.length > 1}
+                            metrics={metrics}
+                            onRemove={onRemoveMetric}
+                            onSetMaintenance={onSetMetricMaintenance}
+                        />
                     )}
                 </div>
             </div>
