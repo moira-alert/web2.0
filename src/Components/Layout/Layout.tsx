@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useRef, ReactNode, FC, useEffect } from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import classNames from "classnames/bind";
@@ -7,75 +7,63 @@ import styles from "./Layout.less";
 
 const cn = classNames.bind(styles);
 
-type LayoutProps = {
-    children?: React.ReactNode;
+interface ILayoutProps {
+    children?: ReactNode;
     loading?: boolean;
     error?: string | null;
-};
-
-type PlateProps = {
-    children?: React.ReactNode;
-};
-
-type TitleProps = {
-    children: React.ReactNode;
-};
-
-type ContentProps = {
-    children?: React.ReactNode;
-};
-
-type PagingProps = {
-    children?: React.ReactNode;
-};
-
-export default class Layout extends React.Component<LayoutProps> {
-    static Plate = function Plate({ children }: PlateProps): React.ReactElement {
-        return (
-            <div className={cn("grey-plate")}>
-                <div className={cn("container")}>{children}</div>
-            </div>
-        );
-    };
-
-    static Title = function Title({ children }: TitleProps): React.ReactElement {
-        return <h1 className={cn("title")}>{children}</h1>;
-    };
-
-    static Content = function Content({ children }: ContentProps): React.ReactElement {
-        return (
-            <div className={cn("content")}>
-                <div className={cn("container")}>{children}</div>
-            </div>
-        );
-    };
-
-    static Footer = function Paging({ children }: PagingProps): React.ReactElement {
-        return (
-            <div className={cn("paging")}>
-                <div className={cn("container")}>{children}</div>
-            </div>
-        );
-    };
-
-    render(): React.ReactNode {
-        const { loading = false, error = null, children } = this.props;
-        return (
-            <main className={cn("layout")}>
-                {error && (
-                    <div className={cn("error")}>
-                        <WarningIcon /> {error}
-                    </div>
-                )}
-                <Loader className={cn("loading")} active={loading} caption="Loading">
-                    {children}
-                </Loader>
-            </main>
-        );
-    }
 }
 
-export const LayoutTitle = Layout.Title;
-export const LayoutPlate = Layout.Plate;
-export const LayoutContent = Layout.Content;
-export const LayoutFooter = Layout.Footer;
+interface IBlockProps {
+    children?: ReactNode;
+    className?: string;
+}
+
+export const Block: FC<IBlockProps> = ({ children, className }) => (
+    <div className={cn(className)}>
+        <div className={cn("container")}>{children}</div>
+    </div>
+);
+
+export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, children }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            const element = scrollRef.current;
+            const elementRect = element.getBoundingClientRect();
+            window.scrollBy({
+                top: elementRect.bottom - window.innerHeight,
+                behavior: "smooth",
+            });
+        }
+    }, [error]);
+
+    return (
+        <main className={cn("layout")}>
+            {error && (
+                <div ref={scrollRef} className={cn("error")}>
+                    <WarningIcon /> {error}
+                </div>
+            )}
+            <Loader className={cn("loading")} active={loading} caption="Loading">
+                {children}
+            </Loader>
+        </main>
+    );
+};
+
+export const LayoutTitle: FC<IBlockProps> = ({ children, className }) => (
+    <h1 className={cn("title", className)}>{children}</h1>
+);
+
+export const LayoutPlate: FC<IBlockProps> = ({ children, className }) => (
+    <Block className={cn("grey-plate", className)}>{children}</Block>
+);
+
+export const LayoutContent: FC<IBlockProps> = ({ children, className }) => (
+    <Block className={cn("content", className)}>{children}</Block>
+);
+
+export const LayoutFooter: FC<IBlockProps> = ({ children, className }) => (
+    <Block className={cn("paging", className)}>{children}</Block>
+);

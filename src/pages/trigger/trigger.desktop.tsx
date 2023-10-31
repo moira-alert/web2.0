@@ -5,7 +5,7 @@ import { Center } from "@skbkontur/react-ui/components/Center";
 import type { Trigger, TriggerState } from "../../Domain/Trigger";
 import type { Event } from "../../Domain/Event";
 import type { SortingColumn } from "../../Components/MetricList/MetricList";
-import Layout, { LayoutPlate, LayoutContent } from "../../Components/Layout/Layout";
+import { Layout, LayoutPlate, LayoutContent } from "../../Components/Layout/Layout";
 import Tabs, { Tab } from "../../Components/Tabs/Tabs";
 import TriggerInfo from "../../Components/TriggerInfo/TriggerInfo";
 import MetricList from "../../Components/MetricList/MetricList";

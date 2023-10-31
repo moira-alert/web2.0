@@ -10,7 +10,7 @@ import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
-import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";

@@ -13,7 +13,7 @@ import { Config } from "../Domain/Config";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { omitTrigger } from "../helpers/omitTypes";
 import RouterLink from "../Components/RouterLink/RouterLink";
-import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";

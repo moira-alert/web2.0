@@ -4,7 +4,6 @@ import MoiraApi from "../Api/MoiraApi";
 import { Dispatch } from "react";
 import { History } from "history";
 import { Trigger, triggerClientToPayload } from "../Domain/Trigger";
-import { Toast } from "@skbkontur/react-ui";
 
 export const useSaveTrigger = (
     moiraApi: MoiraApi,
@@ -27,7 +26,6 @@ export const useSaveTrigger = (
             const { id } = await action();
             history.push(getPageLink("trigger", id));
         } catch (error) {
-            Toast.push(error.message);
             dispatch(setError(error.message));
         } finally {
             dispatch(setIsLoading(false));
