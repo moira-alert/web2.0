@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { storiesOf } from "@storybook/react";
-import Layout from "../Components/Layout/Layout";
+import { Layout, LayoutContent, LayoutFooter, LayoutPlate } from "../Components/Layout/Layout";
 
 type Props = {
     width?: number | string;
@@ -41,48 +41,48 @@ SpaceFiller.defaultProps = {
 storiesOf("Layout", module)
     .add("Default", () => (
         <Layout>
-            <Layout.Content>
+            <LayoutContent>
                 <SpaceFiller />
-            </Layout.Content>
+            </LayoutContent>
         </Layout>
     ))
     .add("With Error", () => (
         <Layout error="Error message here">
-            <Layout.Content>
+            <LayoutContent>
                 <SpaceFiller />
-            </Layout.Content>
+            </LayoutContent>
         </Layout>
     ))
     .add("With Plate", () => (
         <Layout>
-            <Layout.Plate>
+            <LayoutPlate>
                 <SpaceFiller height={50} label="Plate" />
-            </Layout.Plate>
-            <Layout.Content>
+            </LayoutPlate>
+            <LayoutContent>
                 <SpaceFiller />
-            </Layout.Content>
+            </LayoutContent>
         </Layout>
     ))
     .add("With Paging", () => (
         <Layout>
-            <Layout.Content>
+            <LayoutContent>
                 <SpaceFiller />
-            </Layout.Content>
-            <Layout.Footer>
+            </LayoutContent>
+            <LayoutFooter>
                 <SpaceFiller height={30} label="Paging" />
-            </Layout.Footer>
+            </LayoutFooter>
         </Layout>
     ))
     .add("With Plate and paging", () => (
         <Layout>
-            <Layout.Plate>
+            <LayoutPlate>
                 <SpaceFiller height={50} label="Plate" />
-            </Layout.Plate>
-            <Layout.Content>
+            </LayoutPlate>
+            <LayoutContent>
                 <SpaceFiller />
-            </Layout.Content>
-            <Layout.Footer>
+            </LayoutContent>
+            <LayoutFooter>
                 <SpaceFiller height={30} label="Paging" />
-            </Layout.Footer>
+            </LayoutFooter>
         </Layout>
     ));
