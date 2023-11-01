@@ -9,6 +9,7 @@ import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
 import FileExport from "../FileExport/FileExport";
 import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
+import queryString from "query-string";
 
 type Props = {
     subscription: Subscription;
@@ -78,6 +79,12 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                         >
                             Save and test
                         </Button>
+                        <Button
+                            use="primary"
+                            onClick={() => this.handleGetTriggers(subscription.tags)}
+                        >
+                            Triggers
+                        </Button>
                         <FileExport
                             title={this.getFileName()}
                             data={omitSubscription(subscription)}
@@ -98,6 +105,16 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
             </Modal>
         );
     }
+
+    handleGetTriggers = (tags: string[]) => {
+        const params = `/?${queryString.stringify(
+            { tags: tags },
+            {
+                arrayFormat: "index",
+            }
+        )}`;
+        window.open(`${params}`, "_blank");
+    };
 
     handleUpdate = async (): Promise<void> => {
         if (!(await this.validateForm())) {
