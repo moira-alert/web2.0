@@ -1,10 +1,12 @@
 import React from "react";
-import { Gapped } from "@skbkontur/react-ui";
+import { Link, Gapped, Hint } from "@skbkontur/react-ui";
 import { Contact, filterSubscriptionContacts } from "../../../Domain/Contact";
 import { Subscription } from "../../../Domain/Subscription";
 import ContactInfo from "../../ContactInfo/ContactInfo";
 import TagGroup from "../../TagGroup/TagGroup";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+import queryString from "query-string";
+
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
@@ -28,6 +30,18 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     ).map((x: Contact) => <ContactInfo key={x.id} contact={x} />);
 
     const areAnyDisruptedSubs = getSubscriptionContacts.length === 0;
+
+    const handleGetTriggers = (e: React.MouseEvent<HTMLAnchorElement>, tags: string[]) => {
+        e.stopPropagation();
+        const params = `/?${queryString.stringify(
+            { tags: tags },
+            {
+                arrayFormat: "index",
+            }
+        )}`;
+        window.open(`${params}`, "_blank");
+    };
+
     return (
         <tr
             key={subscription.id}
@@ -36,6 +50,11 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
         >
             <td className={cn("tags-cell")}>
                 <TagGroup tags={subscription.tags} />
+            </td>
+            <td>
+                <Hint text="Show all associated triggers">
+                    <Link onClick={(e) => handleGetTriggers(e, subscription.tags)}>Triggers</Link>
+                </Hint>
             </td>
             <td className={cn("contacts-cell")}>
                 <Gapped gap={10}>{getSubscriptionContacts}</Gapped>
