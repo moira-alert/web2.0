@@ -7,7 +7,7 @@ import MoiraApi from "../Api/MoiraApi";
 import type { Notification } from "../Domain/Notification";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
-import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
 

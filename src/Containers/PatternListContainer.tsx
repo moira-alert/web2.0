@@ -4,7 +4,7 @@ import { Pattern } from "../Domain/Pattern";
 import { SortingColumn } from "../Components/PatternList/PatternList";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import PatternList from "../Components/PatternList/PatternList";
-import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 
 type Props = { moiraApi: MoiraApi };
 type State = {

@@ -7,7 +7,6 @@ import {
     TriggerTargetProblemType,
 } from "../Domain/Trigger";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Toast } from "@skbkontur/react-ui";
 import {
     Action,
     setError,
@@ -66,7 +65,6 @@ export const useValidateTrigger = (
 
             await saveTrigger(triggerPayload);
         } catch (error) {
-            Toast.push(error.message);
             dispatch(setError(error.message));
             throw error;
         } finally {

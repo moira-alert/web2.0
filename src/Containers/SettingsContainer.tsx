@@ -6,7 +6,7 @@ import type { Settings } from "../Domain/Settings";
 import type { Contact } from "../Domain/Contact";
 import type { Subscription } from "../Domain/Subscription";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import ContactList from "../Components/ContactList/ContactList";
 import { SubscriptionListContainer } from "./SubscriptionListContainer/SubscriptionListContainer";
 import { SubscriptionInfo } from "../Components/SubscriptionEditor/SubscriptionEditor";

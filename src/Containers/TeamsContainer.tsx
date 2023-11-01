@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router";
 import { Toast } from "@skbkontur/react-ui";
 import MoiraApi, { ApiError } from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import Layout, { LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { Team } from "../Domain/Team";
 import { Teams } from "../Components/Teams/Teams";
 
