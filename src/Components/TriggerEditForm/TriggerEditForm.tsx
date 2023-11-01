@@ -46,13 +46,11 @@ type Props = {
 
 type State = {
     descriptionMode: "edit" | "preview";
-    sourceChanged: boolean;
 };
 
 export default class TriggerEditForm extends React.Component<Props, State> {
     public state: State = {
         descriptionMode: "edit",
-        sourceChanged: false,
     };
 
     static validateRequiredString(
@@ -182,7 +180,6 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                         <MetricSourceSelect
                             triggerSource={triggerSource}
                             onSourceChange={(value: TriggerSource) => {
-                                this.setState({ sourceChanged: true });
                                 onChange({ trigger_source: value });
                             }}
                         />
@@ -196,7 +193,7 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                                 <Fill>
                                     <HighlightInput
                                         triggerSource={data.trigger_source}
-                                        value={this.state.sourceChanged ? "" : x}
+                                        value={x}
                                         onValueChange={(value: string) =>
                                             this.handleUpdateTarget(i, value)
                                         }
