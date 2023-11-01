@@ -66,7 +66,6 @@ export const useValidateTrigger = (
 
             await saveTrigger(triggerPayload);
         } catch (error) {
-            Toast.push(error.message);
             dispatch(setError(error.message));
             throw error;
         } finally {
