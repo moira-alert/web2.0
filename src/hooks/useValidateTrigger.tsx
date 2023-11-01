@@ -7,7 +7,6 @@ import {
     TriggerTargetProblemType,
 } from "../Domain/Trigger";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { Toast } from "@skbkontur/react-ui";
 import {
     Action,
     setError,
