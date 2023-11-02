@@ -1,7 +1,5 @@
 import * as React from "react";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
-import { Remarkable } from "remarkable";
-import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Checkbox, Input, Textarea, Button, Tabs, Hint } from "@skbkontur/react-ui";
@@ -28,13 +26,12 @@ import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./EditDescritionHelp";
 import { MetricSourceSelect } from "./MetricSourceSelect";
 import { CopyButton } from "./CopyButton";
+import ReactMarkdown from "react-markdown";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerEditForm.less";
 
 const cn = classNames.bind(styles);
-
-const md = new Remarkable({ breaks: true });
 
 type Props = {
     data: Partial<Trigger>;
@@ -169,12 +166,12 @@ export default class TriggerEditForm extends React.Component<Props, State> {
                             <EditDescriptionHelp />
                         </>
                     ) : (
-                        <div
+                        <ReactMarkdown
                             className={cn("wysiwyg", "description-preview")}
-                            dangerouslySetInnerHTML={{
-                                __html: sanitize(md.render(desc || ""), purifyConfig),
-                            }}
-                        />
+                            disallowedElements={purifyConfig}
+                        >
+                            {desc || ""}
+                        </ReactMarkdown>
                     )}
                 </FormRow>
                 {remoteAllowed && (
