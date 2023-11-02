@@ -6,7 +6,6 @@ import ContactInfo from "../../ContactInfo/ContactInfo";
 import TagGroup from "../../TagGroup/TagGroup";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import queryString from "query-string";
-
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
@@ -31,16 +30,12 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
 
     const areAnyDisruptedSubs = getSubscriptionContacts.length === 0;
 
-    const handleGetTriggers = (e: React.MouseEvent<HTMLAnchorElement>, tags: string[]) => {
-        e.stopPropagation();
-        const params = `/?${queryString.stringify(
-            { tags: tags },
-            {
-                arrayFormat: "index",
-            }
-        )}`;
-        window.open(`${params}`, "_blank");
-    };
+    const triggersPageParams = `/?${queryString.stringify(
+        { tags: subscription.tags },
+        {
+            arrayFormat: "index",
+        }
+    )}`;
 
     return (
         <tr
@@ -51,9 +46,15 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             <td className={cn("tags-cell")}>
                 <TagGroup tags={subscription.tags} />
             </td>
-            <td>
+            <td className={cn("triggers-cell")}>
                 <Hint text="Show all associated triggers">
-                    <Link onClick={(e) => handleGetTriggers(e, subscription.tags)}>Triggers</Link>
+                    <Link
+                        target="_blank"
+                        href={triggersPageParams}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        Show triggers
+                    </Link>
                 </Hint>
             </td>
             <td className={cn("contacts-cell")}>
