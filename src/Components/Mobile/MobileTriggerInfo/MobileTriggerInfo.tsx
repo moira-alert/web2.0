@@ -18,7 +18,7 @@ import {
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import ReactMarkdown from "react-markdown";
 import { purifyConfig } from "../../../Domain/DOMPurify";
 import classNames from "classnames/bind";
 

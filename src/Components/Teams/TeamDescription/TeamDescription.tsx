@@ -4,7 +4,7 @@ import EditIcon from "@skbkontur/react-icons/Edit";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Team } from "../../../Domain/Team";
 import { TeamEditor } from "../TeamEditor/TeamEditor";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import ReactMarkdown from "react-markdown";
 import { purifyConfig } from "../../../Domain/DOMPurify";
 import classNames from "classnames/bind";
 
