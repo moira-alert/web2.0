@@ -26,11 +26,12 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
     };
 
     const description = props.team.description ? (
-        <div className={cn("wysiwyg", "descriptionContainer")}>
-            <ReactMarkdown disallowedElements={purifyConfig}>
-                {props.team.description}
-            </ReactMarkdown>
-
+        <>
+            <div className={cn("wysiwyg", "descriptionContainer")}>
+                <ReactMarkdown disallowedElements={purifyConfig}>
+                    {props.team.description}
+                </ReactMarkdown>
+            </div>
             <Button
                 className={cn("editDescBtn")}
                 icon={<EditIcon />}
@@ -39,7 +40,7 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
             >
                 Edit Description
             </Button>
-        </div>
+        </>
     ) : (
         <Button icon={<AddIcon />} use={"link"} onClick={() => setEdit(true)}>
             Add description
