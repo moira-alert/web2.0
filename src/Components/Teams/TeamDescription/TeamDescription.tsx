@@ -26,7 +26,7 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
     };
 
     const description = props.team.description ? (
-        <div className={cn("descriptionContainer")}>
+        <div className={cn("wysiwyg", "descriptionContainer")}>
             <ReactMarkdown disallowedElements={purifyConfig}>
                 {props.team.description}
             </ReactMarkdown>
