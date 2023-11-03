@@ -4,7 +4,7 @@ import DeleteIcon from "@skbkontur/react-icons/Delete";
 import { Team } from "../../Domain/Team";
 import { Grid } from "../Grid/Grid";
 import { Users } from "./Users";
-import { TeamEditor } from "./TeamEditor";
+import { TeamEditor } from "./TeamEditor/TeamEditor";
 import { Confirm } from "./Confirm";
 import { TeamDescription } from "./TeamDescription/TeamDescription";
 import { Hovered, HoveredShow } from "./Hovered/Hovered";

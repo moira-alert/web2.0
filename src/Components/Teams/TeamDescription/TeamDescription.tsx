@@ -3,8 +3,7 @@ import { Button } from "@skbkontur/react-ui";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Team } from "../../../Domain/Team";
-import { TeamEditor } from "../TeamEditor";
-import { Hovered, HoveredShow } from "../Hovered/Hovered";
+import { TeamEditor } from "../TeamEditor/TeamEditor";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { purifyConfig } from "../../../Domain/DOMPurify";
 import classNames from "classnames/bind";
@@ -27,22 +26,20 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
     };
 
     const description = props.team.description ? (
-        <Hovered>
-            <div className={cn("descriptionContainer")}>
-                <ReactMarkdown disallowedElements={purifyConfig}>
-                    {props.team.description}
-                </ReactMarkdown>
-                &nbsp;
-                <HoveredShow>
-                    <Button
-                        icon={<EditIcon />}
-                        use={"link"}
-                        onClick={() => setEdit(true)}
-                        width="20px"
-                    />
-                </HoveredShow>
-            </div>
-        </Hovered>
+        <div className={cn("descriptionContainer")}>
+            <ReactMarkdown disallowedElements={purifyConfig}>
+                {props.team.description}
+            </ReactMarkdown>
+
+            <Button
+                className={cn("editDescBtn")}
+                icon={<EditIcon />}
+                use={"link"}
+                onClick={() => setEdit(true)}
+            >
+                Edit Description
+            </Button>
+        </div>
     ) : (
         <Button icon={<AddIcon />} use={"link"} onClick={() => setEdit(true)}>
             Add description
