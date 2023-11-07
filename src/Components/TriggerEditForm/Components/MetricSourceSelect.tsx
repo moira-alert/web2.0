@@ -1,6 +1,6 @@
 import React from "react";
 import { Gapped, Radio, RadioGroup } from "@skbkontur/react-ui";
-import TriggerSource from "../../Domain/Trigger";
+import TriggerSource from "../../../Domain/Trigger";
 import { Link } from "@skbkontur/react-ui/components/Link";
 
 interface Props {
