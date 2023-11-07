@@ -37,10 +37,8 @@ export function FormRow({
     return (
         <div className={cn("row")}>
             {labelElement}
-            <div className={cn("control")}>
-                <div style={style} className={cn({ group: singleLineControlGroup })}>
-                    {children}
-                </div>
+            <div style={style} className={cn("control", { group: singleLineControlGroup })}>
+                {children}
             </div>
         </div>
     );
