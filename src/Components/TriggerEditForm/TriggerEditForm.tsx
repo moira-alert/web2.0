@@ -69,10 +69,6 @@ const TriggerEditForm: FC<IProps> = ({
         alone_metrics: aloneMetrics,
     } = data;
 
-    if (sched == null) {
-        throw new Error("InvalidProgramState");
-    }
-
     const handleUpdateTarget = (targetIndex: number, value: string): void => {
         const newTargets = [...(data.targets ?? [])];
         newTargets[targetIndex] = value;
@@ -103,6 +99,7 @@ const TriggerEditForm: FC<IProps> = ({
         error_value: data.error_value ?? null,
         warn_value: data.warn_value ?? null,
     };
+    console.log(sched);
 
     return (
         <Form>
@@ -258,10 +255,22 @@ const TriggerEditForm: FC<IProps> = ({
                 </HelpTooltip>
             </FormRow>
             <FormRow label="Watch time">
-                <ScheduleEdit
-                    schedule={sched}
-                    onChange={(schedule) => onChange({ sched: schedule })}
-                />
+                <ValidationWrapperV1
+                    validationInfo={
+                        sched?.days.every((day) => !day.enabled)
+                            ? {
+                                  type: "submit",
+                                  message: "Schedule can't be empty",
+                              }
+                            : null
+                    }
+                    renderMessage={tooltip("top left")}
+                >
+                    <ScheduleEdit
+                        schedule={sched}
+                        onChange={(schedule) => onChange({ sched: schedule })}
+                    />
+                </ValidationWrapperV1>
             </FormRow>
             <FormRow label="Tags" useTopAlignForLabel>
                 <ValidationWrapperV1

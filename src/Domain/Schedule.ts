@@ -38,3 +38,14 @@ export function createSchedule(days: DaysOfWeek[]): Schedule {
         endOffset: 1439,
     };
 }
+
+export const defaultSchedule = (schedule: Schedule | undefined) => {
+    return {
+        startOffset: schedule?.startOffset || 0,
+        endOffset: schedule?.endOffset || 1439,
+        tzOffset: schedule?.tzOffset || new Date().getTimezoneOffset(),
+        days:
+            schedule?.days ||
+            Object.values(DaysOfWeek).map((day) => ({ name: day, enabled: false })),
+    };
+};
