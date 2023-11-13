@@ -1,10 +1,6 @@
-import * as React from "react";
-import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
 import React, { useState, FC } from "react";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
 import { validateRequiredString, validateTTL } from "./Validations/validations";
-import { Remarkable } from "remarkable";
-import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Checkbox, Input, Textarea, Button, Tabs, Hint } from "@skbkontur/react-ui";
@@ -27,9 +23,10 @@ import { Status, StatusesList } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import EditDescriptionHelp from "./EditDescritionHelp";
-import { MetricSourceSelect } from "./MetricSourceSelect";
-import { CopyButton } from "./CopyButton";
+import EditDescriptionHelp from "./Components/EditDescritionHelp";
+import { MetricSourceSelect } from "./Components/MetricSourceSelect";
+import { CopyButton } from "./Components/CopyButton";
+import { Form, FormRow } from "./Components/Form";
 import ReactMarkdown from "react-markdown";
 import classNames from "classnames/bind";
 
@@ -86,12 +83,36 @@ const TriggerEditForm: FC<IProps> = ({
     };
 
     const handleRemoveTarget = (targetIndex: number): void => {
-        const newTargets = (data.targets ?? []).filter((_, index) => index !== targetIndex);
-        const newAloneMetrics: { [key: string]: boolean } = {};
-        for (let i = 0; i < newTargets.length; i++) {
-            newAloneMetrics[`t${i + 1}`] = data.alone_metrics?.[`t${i + 2}`] ?? false;
+        const aloneMetricsIndex = [];
+
+        for (let i = 0; i < (targets?.length ?? 0); i += 1) {
+            const target = `t${i + 1}`;
+            aloneMetricsIndex[i] = aloneMetrics?.[target];
         }
-        onChange({ targets: newTargets, alone_metrics: newAloneMetrics });
+
+        const newAloneMetricsIndex = [
+            ...aloneMetricsIndex.slice(0, targetIndex),
+            ...aloneMetricsIndex.slice(targetIndex + 1),
+        ];
+
+        const newAloneMetrics: {
+            [key: string]: boolean;
+        } = {};
+
+        for (let i = 0; i < (targets?.length ?? 0); i += 1) {
+            const target = `t${i + 1}`;
+            const metricIndex = newAloneMetricsIndex[i];
+            if (metricIndex) {
+                newAloneMetrics[target] = metricIndex;
+            }
+        }
+        onChange({
+            targets: [
+                ...(targets?.slice(0, targetIndex) ?? []),
+                ...(targets?.slice(targetIndex + 1) ?? []),
+            ],
+            alone_metrics: newAloneMetrics,
+        });
     };
 
     const handleAddTarget = (): void => {
