@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "@skbkontur/react-ui/components/Link";
-import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import CodeRef from "../CodeRef/CodeRef";
+import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+import CodeRef from "../../CodeRef/CodeRef";
 import classNames from "classnames/bind";
 
-import styles from "./TriggerEditForm.less";
+import styles from "../TriggerEditForm.less";
 
 const cn = classNames.bind(styles);
 

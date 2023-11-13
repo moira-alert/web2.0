@@ -23,7 +23,7 @@ import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
 import { Gapped, Hint } from "@skbkontur/react-ui";
-import { CopyButton } from "../TriggerEditForm/CopyButton";
+import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import ReactMarkdown from "react-markdown";
 import classNames from "classnames/bind";
 
