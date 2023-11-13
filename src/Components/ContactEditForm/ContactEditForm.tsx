@@ -2,15 +2,17 @@ import * as React from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
+import { Remarkable } from "remarkable";
 import { ContactConfig } from "../../Domain/Config";
 import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import ReactMarkdown from "react-markdown";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEditForm.less";
 
 const cn = classNames.bind(styles);
+
+const md = new Remarkable({ breaks: true });
 
 type Props = {
     contactDescriptions: Array<ContactConfig>;
@@ -69,9 +71,13 @@ export default class ContactEditForm extends React.Component<Props> {
                     </ValidationWrapperV1>
                 </div>
                 {currentContactConfig?.help && (
-                    <ReactMarkdown className={cn("row", "comment")}>
-                        {currentContactConfig.help}
-                    </ReactMarkdown>
+                    /* ToDo избавиться от dangerouslySetInnerHTML */
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: md.render(currentContactConfig.help),
+                        }}
+                        className={cn("row", "comment")}
+                    />
                 )}
             </div>
         );
