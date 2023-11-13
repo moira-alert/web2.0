@@ -33,6 +33,9 @@ export const TargetsList: FC<IProps> = ({
 }) => {
     const [ids, setIds] = useIds(targets?.length || 0);
 
+    const targetsRef = React.useRef(targets);
+    const idsRef = React.useRef(ids);
+
     const handleUpdateAloneMetrics = (targetIndex: number, value: boolean): void => {
         const target = `t${targetIndex + 1}`;
 
@@ -105,9 +108,6 @@ export const TargetsList: FC<IProps> = ({
             ],
         });
     };
-
-    const targetsRef = React.useRef(targets);
-    const idsRef = React.useRef(ids);
 
     useEffect(() => {
         targetsRef.current = targets;
