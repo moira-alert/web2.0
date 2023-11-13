@@ -2,15 +2,9 @@ import React, { ReactElement, useState } from "react";
 import { Button } from "@skbkontur/react-ui";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import AddIcon from "@skbkontur/react-icons/Add";
-import { Team } from "../../../Domain/Team";
-import { TeamEditor } from "../TeamEditor/TeamEditor";
-import ReactMarkdown from "react-markdown";
-import { purifyConfig } from "../../../Domain/DOMPurify";
-import classNames from "classnames/bind";
-
-import styles from "./TeamDescription.less";
-
-const cn = classNames.bind(styles);
+import { Team } from "../../Domain/Team";
+import { TeamEditor } from "./TeamEditor";
+import { Hovered, HoveredShow } from "./Hovered/Hovered";
 
 interface TeamDescriptionProps {
     team: Team;
@@ -26,21 +20,17 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
     };
 
     const description = props.team.description ? (
-        <>
-            <div className={cn("wysiwyg", "descriptionContainer")}>
-                <ReactMarkdown disallowedElements={purifyConfig}>
-                    {props.team.description}
-                </ReactMarkdown>
-            </div>
-            <Button
-                className={cn("editDescBtn")}
-                icon={<EditIcon />}
-                use={"link"}
-                onClick={() => setEdit(true)}
-            >
-                Edit Description
-            </Button>
-        </>
+        <Hovered>
+            {props.team.description}&nbsp;
+            <HoveredShow>
+                <Button
+                    icon={<EditIcon />}
+                    use={"link"}
+                    onClick={() => setEdit(true)}
+                    width="20px"
+                />
+            </HoveredShow>
+        </Hovered>
     ) : (
         <Button icon={<AddIcon />} use={"link"} onClick={() => setEdit(true)}>
             Add description

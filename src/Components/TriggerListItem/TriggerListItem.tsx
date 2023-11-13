@@ -14,7 +14,6 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView from "../MetricList/MetricList";
-import { sanitize } from "dompurify";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerListItem.less";
@@ -99,7 +98,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                                     <div
                                         className={cn("name")}
                                         dangerouslySetInnerHTML={{
-                                            __html: sanitize(searchModeName || name),
+                                            __html: searchModeName || name,
                                         }}
                                     />
                                 ) : (
