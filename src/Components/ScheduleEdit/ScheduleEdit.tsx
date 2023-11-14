@@ -13,41 +13,42 @@ const cn = classNames.bind(styles);
 interface IProps {
     schedule?: Schedule;
     error?: boolean;
+    onBlur?: React.FocusEventHandler<HTMLDivElement>;
     onChange: (schedule: Schedule) => void;
 }
 
-const ScheduleEdit: FC<IProps> = ({ schedule, error, onChange }) => {
+const ScheduleEdit: FC<IProps> = React.forwardRef<HTMLDivElement, IProps>(function ScheduleEdit(
+    { schedule, error, onChange, onBlur },
+    validationRef
+) {
     const defaultSched = useMemo(() => defaultSchedule(schedule), [schedule]);
     const [allDay, setAllDay] = useState(
         defaultSched.startOffset === 0 && defaultSched.endOffset === 1439
     );
 
-    const DaysOfWeekCheckboxes = () => (
-        <div className={cn("days", { validationError: error })}>
-            {defaultSched.days.map(({ name, enabled }, i) => (
-                <Checkbox
-                    key={name}
-                    checked={enabled}
-                    onValueChange={(checked) =>
-                        onChange({
-                            ...defaultSched,
-                            days: [
-                                ...defaultSched.days.slice(0, i),
-                                { name, enabled: checked },
-                                ...defaultSched.days.slice(i + 1),
-                            ],
-                        })
-                    }
-                >
-                    {name}
-                </Checkbox>
-            ))}
-        </div>
-    );
-
     return (
         <>
-            <DaysOfWeekCheckboxes />
+            <div onFocus={onBlur} ref={validationRef} className={cn("days")}>
+                {defaultSched.days.map(({ name, enabled }, i) => (
+                    <Checkbox
+                        error={error}
+                        key={name}
+                        checked={enabled}
+                        onValueChange={(checked) =>
+                            onChange({
+                                ...defaultSched,
+                                days: [
+                                    ...defaultSched.days.slice(0, i),
+                                    { name, enabled: checked },
+                                    ...defaultSched.days.slice(i + 1),
+                                ],
+                            })
+                        }
+                    >
+                        {name}
+                    </Checkbox>
+                ))}
+            </div>
 
             <div className={cn("group")}>
                 <span className={cn("radio")}>
@@ -112,7 +113,7 @@ const ScheduleEdit: FC<IProps> = ({ schedule, error, onChange }) => {
             </div>
         </>
     );
-};
+});
 
 const formatTime = (time: number): string => {
     const HOUR_IN_DAY = 24;

@@ -1,13 +1,15 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import { LOW_TRIGGER_TTL } from "../../../Domain/Trigger";
+import { Schedule } from "../../../Domain/Schedule";
 
 export const validateRequiredString = (
     value: string,
     message?: string
 ): ValidationInfo | null | undefined => {
-    return value.trim().length === 0
+    const isEmptyValue = !value.trim().length;
+    return isEmptyValue
         ? {
-              type: value.trim().length === 0 ? "submit" : "lostfocus",
+              type: isEmptyValue ? "submit" : "lostfocus",
               message: message || "Can't be empty",
           }
         : null;
@@ -37,4 +39,17 @@ export const validateTTL = (value?: number): ValidationInfo | null => {
     }
 
     return null;
+};
+
+export const validateSched = (schedule: Schedule | undefined): ValidationInfo | null => {
+    if (!schedule) {
+        return null;
+    }
+
+    return schedule?.days.every((day) => !day.enabled)
+        ? {
+              type: "submit",
+              message: "Schedule can't be empty",
+          }
+        : null;
 };

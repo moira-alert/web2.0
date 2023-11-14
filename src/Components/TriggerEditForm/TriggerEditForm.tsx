@@ -1,6 +1,6 @@
 import React, { useState, FC } from "react";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
-import { validateRequiredString, validateTTL } from "./Validations/validations";
+import { validateRequiredString, validateSched, validateTTL } from "./Validations/validations";
 import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
@@ -99,7 +99,6 @@ const TriggerEditForm: FC<IProps> = ({
         error_value: data.error_value ?? null,
         warn_value: data.warn_value ?? null,
     };
-    console.log(sched);
 
     return (
         <Form>
@@ -256,14 +255,7 @@ const TriggerEditForm: FC<IProps> = ({
             </FormRow>
             <FormRow label="Watch time">
                 <ValidationWrapperV1
-                    validationInfo={
-                        sched?.days.every((day) => !day.enabled)
-                            ? {
-                                  type: "submit",
-                                  message: "Schedule can't be empty",
-                              }
-                            : null
-                    }
+                    validationInfo={validateSched(sched)}
                     renderMessage={tooltip("top left")}
                 >
                     <ScheduleEdit
