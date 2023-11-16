@@ -21,7 +21,7 @@ const ScheduleEdit: FC<IProps> = React.forwardRef<HTMLDivElement, IProps>(functi
     { schedule, error, onChange, onBlur },
     validationRef
 ) {
-    const defaultSched = useMemo(() => defaultSchedule(schedule), [schedule]);
+    const defaultSched = useMemo(() => defaultSchedule(schedule), []);
     const [allDay, setAllDay] = useState(
         defaultSched.startOffset === 0 && defaultSched.endOffset === 1439
     );
