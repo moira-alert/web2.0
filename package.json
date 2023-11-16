@@ -24,7 +24,7 @@
         "creevey:ui": "creevey --ui -c .creevey/creevey.config.js",
         "creevey:ci": "creevey -c .creevey/creevey.config.js",
         "screenshots": "start-server-and-test storybook:ci http-get://localhost:9001 creevey:ci"
-    },   
+    },
     "dependencies": {
         "@clavinjune/codemirror-metricsql": "^0.0.1-dev.1010230001",
         "@codemirror/basic-setup": "^0.20.0",
@@ -55,7 +55,8 @@
         "react-virtualized-auto-sizer": "^1.0.20",
         "reflect-metadata": "^0.1.13",
         "remarkable": "^2.0.1",
-        "start-server-and-test": "1.14.0"
+        "start-server-and-test": "1.14.0",
+        "uuid": "^9.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.23.0",
@@ -91,6 +92,7 @@
         "@types/react-window": "^1.8.5",
         "@types/remarkable": "^2.0.3",
         "@types/storybook-react-router": "1.0.4",
+        "@types/uuid": "^9.0.7",
         "@typescript-eslint/eslint-plugin": "^6.9.0",
         "@typescript-eslint/parser": "^6.9.0",
         "babel-eslint": "10.1.0",
