@@ -50,29 +50,14 @@ export const TargetsList: FC<IProps> = ({
     };
 
     const handleRemoveTarget = (targetIndex: number): void => {
-        const aloneMetricsIndex = [];
+        const aloneMetricsIndex = targets?.map((_, i) => aloneMetrics?.[`t${i + 1}`]) ?? [];
 
-        for (let i = 0; i < (targets?.length ?? 0); i += 1) {
-            const target = `t${i + 1}`;
-            aloneMetricsIndex[i] = aloneMetrics?.[target];
-        }
+        const newAloneMetricsIndex = aloneMetricsIndex.filter((_, i) => i !== targetIndex);
 
-        const newAloneMetricsIndex = [
-            ...aloneMetricsIndex.slice(0, targetIndex),
-            ...aloneMetricsIndex.slice(targetIndex + 1),
-        ];
-
-        const newAloneMetrics: {
-            [key: string]: boolean;
-        } = {};
-
-        for (let i = 0; i < (targets?.length ?? 0); i += 1) {
-            const target = `t${i + 1}`;
-            const metricIndex = newAloneMetricsIndex[i];
-            if (metricIndex) {
-                newAloneMetrics[target] = metricIndex;
-            }
-        }
+        const newAloneMetrics = newAloneMetricsIndex.reduce(
+            (acc, item, index) => ({ ...acc, [`t${index + 1}`]: item }),
+            {} as Record<string, boolean>
+        );
 
         onChange({
             targets: [
@@ -116,7 +101,7 @@ export const TargetsList: FC<IProps> = ({
 
     return (
         <>
-            {targets.map((x, i) => {
+            {targets.map((target, i) => {
                 return (
                     <div key={ids[i]} className={cn("target")}>
                         <RowStack block verticalAlign="top" gap={1}>
@@ -124,7 +109,7 @@ export const TargetsList: FC<IProps> = ({
                             <Fill>
                                 <HighlightInput
                                     triggerSource={triggerSource}
-                                    value={x}
+                                    value={target}
                                     onValueChange={(value: string) => {
                                         handleUpdateTarget(ids[i], value);
                                     }}
@@ -156,7 +141,7 @@ export const TargetsList: FC<IProps> = ({
                             )}
                         </RowStack>
                         <Hint text="Copy without formatting">
-                            <CopyButton className={cn("copyButton")} value={x} />
+                            <CopyButton className={cn("copyButton")} value={target} />
                         </Hint>
                     </div>
                 );
