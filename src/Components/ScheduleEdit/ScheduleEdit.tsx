@@ -21,10 +21,16 @@ const ScheduleEdit: FC<IProps> = React.forwardRef<HTMLDivElement, IProps>(functi
     { schedule, error, onChange, onBlur },
     validationRef
 ) {
-    const defaultSched = useMemo(() => defaultSchedule(schedule), []);
+    const defaultSched = useMemo(() => defaultSchedule(schedule), [schedule]);
     const [allDay, setAllDay] = useState(
         defaultSched.startOffset === 0 && defaultSched.endOffset === 1439
     );
+
+    const time = useMemo(() => {
+        const start = formatTime(defaultSched.startOffset);
+        const end = formatTime(defaultSched.endOffset);
+        return { start, end };
+    }, []);
 
     return (
         <>
@@ -76,7 +82,7 @@ const ScheduleEdit: FC<IProps> = React.forwardRef<HTMLDivElement, IProps>(functi
                         At specific interval
                     </Radio>
                     <Input
-                        value={formatTime(defaultSched.startOffset)}
+                        value={time.start}
                         width={60}
                         mask="99:99"
                         disabled={allDay}
@@ -89,7 +95,7 @@ const ScheduleEdit: FC<IProps> = React.forwardRef<HTMLDivElement, IProps>(functi
                     />
                     <span>—</span>
                     <Input
-                        value={formatTime(defaultSched.endOffset)}
+                        value={time.end}
                         width={60}
                         mask="99:99"
                         disabled={allDay}
