@@ -65,7 +65,6 @@ const TriggerAddContainer = (props: Props) => {
     const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
-
     const validationContainer = useRef<ValidationContainer>(null);
     const validateTrigger = useValidateTrigger(
         props.moiraApi,
@@ -74,7 +73,6 @@ const TriggerAddContainer = (props: Props) => {
         props.history
     );
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
-
     const handleSubmit = async () =>
         trigger?.trigger_source == TriggerSource.GRAPHITE_LOCAL
             ? validateTrigger(trigger)
@@ -85,7 +83,10 @@ const TriggerAddContainer = (props: Props) => {
             return;
         }
 
-        setTrigger({ ...trigger, ...update });
+        setTrigger((prev) => {
+            return { ...prev, ...update };
+        });
+
         dispatch(setError(null));
 
         if (update.targets || update?.trigger_source) {
@@ -114,9 +115,8 @@ const TriggerAddContainer = (props: Props) => {
         try {
             const { list } = await props.moiraApi.getTagList();
             const config = await props.moiraApi.getConfig();
-            setTrigger({
-                ...trigger,
-                tags: localTags,
+            setTrigger((prev) => {
+                return { ...prev, tags: localTags };
             });
             setConfig(config);
             setTags(list);

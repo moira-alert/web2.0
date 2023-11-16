@@ -3,10 +3,7 @@ import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
 import { validateRequiredString, validateTTL } from "./Validations/validations";
 import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
-import RemoveIcon from "@skbkontur/react-icons/Remove";
-import AddIcon from "@skbkontur/react-icons/Add";
-import { Checkbox, Input, Textarea, Button, Tabs, Hint } from "@skbkontur/react-ui";
-import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
+import { Checkbox, Input, Textarea, Tabs } from "@skbkontur/react-ui";
 import {
     DEFAULT_TRIGGER_TTL,
     DEFAULT_TRIGGER_TYPE,
@@ -23,11 +20,10 @@ import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Status, StatusesList } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
-import HighlightInput from "../HighlightInput/HighlightInput";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import EditDescriptionHelp from "./Components/EditDescritionHelp";
 import { MetricSourceSelect } from "./Components/MetricSourceSelect";
-import { CopyButton } from "./Components/CopyButton";
+import { TargetsList } from "./Components/TargetsList";
 import { Form, FormRow } from "./Components/Form";
 import classNames from "classnames/bind";
 
@@ -72,32 +68,6 @@ const TriggerEditForm: FC<IProps> = ({
     if (sched == null) {
         throw new Error("InvalidProgramState");
     }
-
-    const handleUpdateTarget = (targetIndex: number, value: string): void => {
-        const newTargets = [...(data.targets ?? [])];
-        newTargets[targetIndex] = value;
-        onChange({ targets: newTargets }, targetIndex);
-    };
-
-    const handleUpdateAloneMetrics = (targetIndex: number, value: boolean): void => {
-        const newAloneMetrics = { ...(data.alone_metrics ?? {}) };
-        newAloneMetrics[`t${targetIndex + 1}`] = value;
-        onChange({ alone_metrics: newAloneMetrics });
-    };
-
-    const handleRemoveTarget = (targetIndex: number): void => {
-        const newTargets = (data.targets ?? []).filter((_, index) => index !== targetIndex);
-        const newAloneMetrics: { [key: string]: boolean } = {};
-        for (let i = 0; i < newTargets.length; i++) {
-            newAloneMetrics[`t${i + 1}`] = data.alone_metrics?.[`t${i + 2}`] ?? false;
-        }
-        onChange({ targets: newTargets, alone_metrics: newAloneMetrics });
-    };
-
-    const handleAddTarget = (): void => {
-        const newTargets = [...(data.targets ?? []), ""];
-        onChange({ trigger_type: "expression", targets: newTargets });
-    };
 
     const triggerModeEditorValue: ValueType = {
         error_value: data.error_value ?? null,
@@ -155,57 +125,20 @@ const TriggerEditForm: FC<IProps> = ({
                 <FormRow label="Data source" singleLineControlGroup>
                     <MetricSourceSelect
                         triggerSource={triggerSource}
-                        onSourceChange={(value: TriggerSource) => {
-                            onChange({ trigger_source: value });
-                        }}
+                        onSourceChange={(value: TriggerSource) =>
+                            onChange({ trigger_source: value })
+                        }
                     />
                 </FormRow>
             )}
             <FormRow label="Target" useTopAlignForLabel>
-                {targets?.map((x, i) => (
-                    <div key={`target-${i}`} className={cn("target")}>
-                        <RowStack block verticalAlign="top" gap={1}>
-                            <span className={cn("target-number")}>T{i + 1}</span>
-                            <Fill>
-                                <HighlightInput
-                                    triggerSource={data.trigger_source}
-                                    value={x}
-                                    onValueChange={(value: string) => handleUpdateTarget(i, value)}
-                                    validate={validationResult?.targets?.[i]}
-                                />
-                            </Fill>
-
-                            {targets.length > 1 && (
-                                <Fit>
-                                    <Checkbox
-                                        checked={aloneMetrics?.[`t${i + 1}`]}
-                                        onValueChange={(value) =>
-                                            handleUpdateAloneMetrics(i, value)
-                                        }
-                                        data-tid={`Target Single ${i + 1}`}
-                                    >
-                                        Single
-                                    </Checkbox>
-                                </Fit>
-                            )}
-                            {targets.length > 1 && (
-                                <Fit>
-                                    <Button
-                                        icon={<RemoveIcon />}
-                                        onClick={() => handleRemoveTarget(i)}
-                                        data-tid="Target Remove"
-                                    ></Button>
-                                </Fit>
-                            )}
-                        </RowStack>
-                        <Hint text="Copy without formatting">
-                            <CopyButton className={cn("copyButton")} value={x} />
-                        </Hint>
-                    </div>
-                ))}
-                <Button use="link" icon={<AddIcon />} onClick={() => handleAddTarget()}>
-                    Add one more
-                </Button>
+                <TargetsList
+                    targets={targets ?? [""]}
+                    alone_metrics={aloneMetrics ?? {}}
+                    trigger_source={triggerSource ?? TriggerSource.GRAPHITE_LOCAL}
+                    validationResult={validationResult}
+                    onChange={(value) => onChange(value)}
+                />
             </FormRow>
 
             <FormRow>
