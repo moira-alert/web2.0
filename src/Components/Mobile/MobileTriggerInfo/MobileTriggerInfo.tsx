@@ -104,7 +104,7 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                                         className={cn("plain-row", "description")}
                                         disallowedElements={purifyConfig}
                                     >
-                                        {trigger.desc}
+                                        {trigger.desc.replace(/\\n/g, "  \n")}
                                     </ReactMarkdown>
                                 )}
                                 {sched != null && (

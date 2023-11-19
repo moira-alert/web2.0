@@ -70,7 +70,7 @@ export default class ContactEditForm extends React.Component<Props> {
                 </div>
                 {currentContactConfig?.help && (
                     <ReactMarkdown className={cn("row", "comment")}>
-                        {currentContactConfig.help}
+                        {currentContactConfig.help.replace(/\\n/g, "  \n")}
                     </ReactMarkdown>
                 )}
             </div>

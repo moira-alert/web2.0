@@ -29,7 +29,7 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
         <>
             <div className={cn("wysiwyg", "descriptionContainer")}>
                 <ReactMarkdown disallowedElements={purifyConfig}>
-                    {props.team.description}
+                    {props.team.description.replace(/\\n/g, "  \n")}
                 </ReactMarkdown>
             </div>
             <Button

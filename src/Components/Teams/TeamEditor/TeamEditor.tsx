@@ -104,7 +104,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                                 className={cn("wysiwyg", "description-preview")}
                                 disallowedElements={purifyConfig}
                             >
-                                {description || ""}
+                                {description.replace(/\\n/g, "  \n")}
                             </ReactMarkdown>
                         )}
                     </Grid>

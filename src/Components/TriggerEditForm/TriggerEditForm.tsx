@@ -168,7 +168,7 @@ const TriggerEditForm: FC<IProps> = ({
                         className={cn("wysiwyg", "description-preview")}
                         disallowedElements={purifyConfig}
                     >
-                        {desc || ""}
+                        {(desc || "").replace(/\\n/g, "  \n")}
                     </ReactMarkdown>
                 )}
             </FormRow>
