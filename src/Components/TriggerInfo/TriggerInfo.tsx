@@ -1,8 +1,6 @@
 import * as React from "react";
 import { History } from "history";
 import { format, addMinutes, startOfDay, fromUnixTime, getUnixTime } from "date-fns";
-import { Remarkable } from "remarkable";
-import { sanitize } from "dompurify";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
@@ -17,7 +15,6 @@ import TagGroup from "../TagGroup/TagGroup";
 import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
 import { Schedule } from "../../Domain/Schedule";
 import { getPageLink } from "../../Domain/Global";
-import { purifyConfig } from "../../Domain/DOMPurify";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
@@ -26,14 +23,12 @@ import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
 import { Gapped, Hint } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
-
+import { Markdown } from "../Markdown/Markdown";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
 
 const cn = classNames.bind(styles);
-
-const md = new Remarkable({ breaks: true });
 
 interface IProps {
     data: Trigger;
@@ -216,12 +211,9 @@ export default function TriggerInfo({
                 </dd>
                 {desc && <dt>Description</dt>}
                 {desc && (
-                    <dd
-                        className={cn("description", "wysiwyg")}
-                        dangerouslySetInnerHTML={{
-                            __html: sanitize(md.render(desc), purifyConfig),
-                        }}
-                    />
+                    <dd className={cn("description", "wysiwyg")}>
+                        <Markdown markdown={desc} />
+                    </dd>
                 )}
                 {!expression && <dt>Value</dt>}
                 {!expression && (

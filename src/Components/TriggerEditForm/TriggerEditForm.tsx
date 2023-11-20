@@ -1,9 +1,7 @@
-import React, { useState, FC } from "react";
+import React, { FC } from "react";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
 import { validateRequiredString, validateSched, validateTTL } from "./Validations/validations";
-import { Remarkable } from "remarkable";
-import { sanitize } from "dompurify";
-import { Checkbox, Input, Textarea, Tabs } from "@skbkontur/react-ui";
+import { Checkbox, Input, Textarea } from "@skbkontur/react-ui";
 import {
     DEFAULT_TRIGGER_TTL,
     DEFAULT_TRIGGER_TYPE,
@@ -11,7 +9,6 @@ import {
     TriggerSource,
     ValidateTriggerResult,
 } from "../../Domain/Trigger";
-import { purifyConfig } from "../../Domain/DOMPurify";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
@@ -25,13 +22,13 @@ import EditDescriptionHelp from "./Components/EditDescritionHelp";
 import { MetricSourceSelect } from "./Components/MetricSourceSelect";
 import { TargetsList } from "./Components/TargetsList";
 import { Form, FormRow } from "./Components/Form";
+import { Markdown } from "../Markdown/Markdown";
+import { useEditPreviewTabs } from "../../hooks/useEditPreviewTabs/useEditPreviewTabs";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerEditForm.less";
 
 const cn = classNames.bind(styles);
-
-const md = new Remarkable({ breaks: true });
 
 interface IProps {
     data: Partial<Trigger>;
@@ -48,7 +45,7 @@ const TriggerEditForm: FC<IProps> = ({
     onChange,
     validationResult,
 }) => {
-    const [descriptionMode, setDescriptionMode] = useState<"edit" | "preview">("edit");
+    const { descriptionView, EditPreviewComponent } = useEditPreviewTabs();
 
     const {
         name,
@@ -87,19 +84,9 @@ const TriggerEditForm: FC<IProps> = ({
             </FormRow>
             <FormRow label="Description" useTopAlignForLabel>
                 <div className={cn("description-mode-tabs")}>
-                    <Tabs
-                        value={descriptionMode}
-                        onValueChange={(value) => setDescriptionMode(value)}
-                    >
-                        <Tabs.Tab id="edit" data-tid="Description Edit">
-                            Edit
-                        </Tabs.Tab>
-                        <Tabs.Tab id="preview" data-tid="Description Preview">
-                            Preview
-                        </Tabs.Tab>
-                    </Tabs>
+                    <EditPreviewComponent />
                 </div>
-                {descriptionMode === "edit" ? (
+                {descriptionView === "edit" ? (
                     <>
                         <Textarea
                             width="100%"
@@ -109,11 +96,9 @@ const TriggerEditForm: FC<IProps> = ({
                         <EditDescriptionHelp />
                     </>
                 ) : (
-                    <div
+                    <Markdown
                         className={cn("wysiwyg", "description-preview")}
-                        dangerouslySetInnerHTML={{
-                            __html: sanitize(md.render(desc || ""), purifyConfig),
-                        }}
+                        markdown={desc || ""}
                     />
                 )}
             </FormRow>
