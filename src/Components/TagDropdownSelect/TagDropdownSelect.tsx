@@ -18,6 +18,7 @@ type Props = {
     onChange: (tagList: Array<string>) => void;
     availableTags: Array<string>;
     error?: boolean;
+    onBlur?: React.FocusEventHandler<HTMLDivElement>;
     isDisabled?: boolean;
     width: number;
     allowCreateNewTags?: boolean;
@@ -48,7 +49,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     }
 
     render(): React.ReactElement {
-        const { width, value, availableTags, allowCreateNewTags } = this.props;
+        const { width, value, availableTags, allowCreateNewTags, onBlur } = this.props;
         const { inputValue, focusedIndex, isFocused: opened } = this.state;
         const filtredTags = this.filterTags(difference(availableTags, value));
 
@@ -72,6 +73,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                         className={cn("tags-menu")}
                                         style={{ width }}
                                         ref={this.tagsRef}
+                                        onBlur={onBlur}
                                     >
                                         {filtredTags.length > 0 || allowCreateNewTags ? (
                                             <div className={cn("tag-list")}>

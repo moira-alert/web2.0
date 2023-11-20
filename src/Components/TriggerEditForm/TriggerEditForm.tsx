@@ -1,6 +1,6 @@
 import React, { useState, FC } from "react";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
-import { validateRequiredString, validateTTL } from "./Validations/validations";
+import { validateRequiredString, validateSched, validateTTL } from "./Validations/validations";
 import { Remarkable } from "remarkable";
 import { sanitize } from "dompurify";
 import { Checkbox, Input, Textarea, Tabs } from "@skbkontur/react-ui";
@@ -64,10 +64,6 @@ const TriggerEditForm: FC<IProps> = ({
         mute_new_metrics: muteNewMetrics,
         alone_metrics: aloneMetrics,
     } = data;
-
-    if (sched == null) {
-        throw new Error("InvalidProgramState");
-    }
 
     const triggerModeEditorValue: ValueType = {
         error_value: data.error_value ?? null,
@@ -191,10 +187,15 @@ const TriggerEditForm: FC<IProps> = ({
                 </HelpTooltip>
             </FormRow>
             <FormRow label="Watch time">
-                <ScheduleEdit
-                    schedule={sched}
-                    onChange={(schedule) => onChange({ sched: schedule })}
-                />
+                <ValidationWrapperV1
+                    validationInfo={validateSched(sched)}
+                    renderMessage={tooltip("top left")}
+                >
+                    <ScheduleEdit
+                        schedule={sched}
+                        onChange={(schedule) => onChange({ sched: schedule })}
+                    />
+                </ValidationWrapperV1>
             </FormRow>
             <FormRow label="Tags" useTopAlignForLabel>
                 <ValidationWrapperV1
