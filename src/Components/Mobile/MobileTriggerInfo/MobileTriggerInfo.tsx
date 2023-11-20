@@ -18,8 +18,7 @@ import {
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
-import ReactMarkdown from "react-markdown";
-import { purifyConfig } from "../../../Domain/DOMPurify";
+import { Markdown } from "../../Markdown/Markdown";
 import classNames from "classnames/bind";
 
 import styles from "./MobileTriggerInfo.less";
@@ -100,12 +99,10 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                         {trigger != null && (
                             <div className={cn("info")}>
                                 {trigger.desc && (
-                                    <ReactMarkdown
+                                    <Markdown
                                         className={cn("plain-row", "description")}
-                                        disallowedElements={purifyConfig}
-                                    >
-                                        {trigger.desc.replace(/\\n/g, "  \n")}
-                                    </ReactMarkdown>
+                                        markdown={trigger.desc}
+                                    />
                                 )}
                                 {sched != null && (
                                     <div className={cn("form-row")}>

@@ -9,8 +9,7 @@ import { Button, Gapped, Input, Modal, Textarea } from "@skbkontur/react-ui";
 import { Grid } from "../../Grid/Grid";
 import { isEmptyString } from "../../../helpers/isEmptyString";
 import { GridCell } from "../../Grid/GridCell";
-import ReactMarkdown from "react-markdown";
-import { purifyConfig } from "../../../Domain/DOMPurify";
+import { Markdown } from "../../Markdown/Markdown";
 import { useEditPreviewTabs } from "../../../hooks/useEditPreviewTabs/useEditPreviewTabs";
 import classNames from "classnames/bind";
 
@@ -100,12 +99,10 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                                 autoResize
                             />
                         ) : (
-                            <ReactMarkdown
+                            <Markdown
+                                markdown={description}
                                 className={cn("wysiwyg", "description-preview")}
-                                disallowedElements={purifyConfig}
-                            >
-                                {description.replace(/\\n/g, "  \n")}
-                            </ReactMarkdown>
+                            />
                         )}
                     </Grid>
                 </Modal.Body>

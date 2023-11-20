@@ -12,7 +12,6 @@ import {
     TriggerSource,
     ValidateTriggerResult,
 } from "../../Domain/Trigger";
-import { purifyConfig } from "../../Domain/DOMPurify";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
@@ -27,7 +26,7 @@ import EditDescriptionHelp from "./Components/EditDescritionHelp";
 import { MetricSourceSelect } from "./Components/MetricSourceSelect";
 import { CopyButton } from "./Components/CopyButton";
 import { Form, FormRow } from "./Components/Form";
-import ReactMarkdown from "react-markdown";
+import { Markdown } from "../Markdown/Markdown";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerEditForm.less";
@@ -164,12 +163,10 @@ const TriggerEditForm: FC<IProps> = ({
                         <EditDescriptionHelp />
                     </>
                 ) : (
-                    <ReactMarkdown
+                    <Markdown
                         className={cn("wysiwyg", "description-preview")}
-                        disallowedElements={purifyConfig}
-                    >
-                        {(desc || "").replace(/\\n/g, "  \n")}
-                    </ReactMarkdown>
+                        markdown={desc || ""}
+                    />
                 )}
             </FormRow>
             {remoteAllowed && (

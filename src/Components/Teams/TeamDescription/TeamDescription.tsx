@@ -4,8 +4,7 @@ import EditIcon from "@skbkontur/react-icons/Edit";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Team } from "../../../Domain/Team";
 import { TeamEditor } from "../TeamEditor/TeamEditor";
-import ReactMarkdown from "react-markdown";
-import { purifyConfig } from "../../../Domain/DOMPurify";
+import { Markdown } from "../../Markdown/Markdown";
 import classNames from "classnames/bind";
 
 import styles from "./TeamDescription.less";
@@ -28,9 +27,7 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
     const description = props.team.description ? (
         <>
             <div className={cn("wysiwyg", "descriptionContainer")}>
-                <ReactMarkdown disallowedElements={purifyConfig}>
-                    {props.team.description.replace(/\\n/g, "  \n")}
-                </ReactMarkdown>
+                <Markdown markdown={props.team.description} />
             </div>
             <Button
                 className={cn("editDescBtn")}

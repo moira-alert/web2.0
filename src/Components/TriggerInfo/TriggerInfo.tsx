@@ -15,7 +15,6 @@ import TagGroup from "../TagGroup/TagGroup";
 import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
 import { Schedule } from "../../Domain/Schedule";
 import { getPageLink } from "../../Domain/Global";
-import { purifyConfig } from "../../Domain/DOMPurify";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
@@ -24,7 +23,7 @@ import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
 import { Gapped, Hint } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
-import ReactMarkdown from "react-markdown";
+import { Markdown } from "../Markdown/Markdown";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -213,7 +212,7 @@ export default function TriggerInfo({
                 {desc && <dt>Description</dt>}
                 {desc && (
                     <dd className={cn("description", "wysiwyg")}>
-                        <ReactMarkdown disallowedElements={purifyConfig}>{desc}</ReactMarkdown>
+                        <Markdown markdown={desc} />
                     </dd>
                 )}
                 {!expression && <dt>Value</dt>}

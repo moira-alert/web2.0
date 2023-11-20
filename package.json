@@ -55,6 +55,7 @@
         "react-router-dom": "5.1.2",
         "react-virtualized-auto-sizer": "^1.0.20",
         "reflect-metadata": "^0.1.13",
+        "remark-breaks": "^4.0.0",
         "start-server-and-test": "1.14.0"
     },
     "devDependencies": {

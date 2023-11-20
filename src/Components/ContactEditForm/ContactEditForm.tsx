@@ -5,7 +5,7 @@ import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-u
 import { ContactConfig } from "../../Domain/Config";
 import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import ReactMarkdown from "react-markdown";
+import { Markdown } from "../Markdown/Markdown";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEditForm.less";
@@ -69,9 +69,10 @@ export default class ContactEditForm extends React.Component<Props> {
                     </ValidationWrapperV1>
                 </div>
                 {currentContactConfig?.help && (
-                    <ReactMarkdown className={cn("row", "comment")}>
-                        {currentContactConfig.help.replace(/\\n/g, "  \n")}
-                    </ReactMarkdown>
+                    <Markdown
+                        markdown={currentContactConfig.help}
+                        className={cn("row", "comment")}
+                    />
                 )}
             </div>
         );
