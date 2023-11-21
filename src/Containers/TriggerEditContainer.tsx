@@ -49,11 +49,10 @@ const TriggerEditContainer = (props: Props) => {
             : saveTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>) => {
-        if (!trigger) {
-            return;
-        }
-
-        setTrigger({ ...trigger, ...update });
+        setTrigger((prev) => {
+            if (!prev) return;
+            return { ...prev, ...update };
+        });
         dispatch(setError(null));
 
         if (update.targets || update?.trigger_source) {
