@@ -1,6 +1,5 @@
 import * as React from "react";
 import { addMinutes, format, getUnixTime, startOfDay } from "date-fns";
-import { Remarkable } from "remarkable";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
@@ -19,15 +18,12 @@ import {
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
-import { sanitize } from "dompurify";
-import { purifyConfig } from "../../../Domain/DOMPurify";
+import { Markdown } from "../../Markdown/Markdown";
 import classNames from "classnames/bind";
 
 import styles from "./MobileTriggerInfo.less";
 
 const cn = classNames.bind(styles);
-
-const md = new Remarkable({ breaks: true });
 
 type Props = {
     data?: Trigger | null;
@@ -103,11 +99,9 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                         {trigger != null && (
                             <div className={cn("info")}>
                                 {trigger.desc && (
-                                    <div
+                                    <Markdown
                                         className={cn("plain-row", "description")}
-                                        dangerouslySetInnerHTML={{
-                                            __html: sanitize(md.render(trigger.desc), purifyConfig),
-                                        }}
+                                        markdown={trigger.desc}
                                     />
                                 )}
                                 {sched != null && (

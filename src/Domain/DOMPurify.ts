@@ -1,3 +1,1 @@
-export const purifyConfig = {
-    FORBID_TAGS: ["img"],
-};
+export const purifyConfig = ["img"];
