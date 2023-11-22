@@ -60,6 +60,8 @@
         "uuid": "^9.0.1"
     },
     "devDependencies": {
+        "@babel/core": "^7.23.3",
+        "@babel/preset-env": "^7.23.3",
         "@hot-loader/react-dom": "16.13.0",
         "@lezer/generator": "^1.5.1",
         "@storybook/addon-actions": "6.4.22",
