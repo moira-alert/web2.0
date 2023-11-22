@@ -26,7 +26,7 @@ module.exports = {
 
         config.module.rules.push({
             test: /\.(ts|tsx)$/,
-            loader: require.resolve("babel-loader"),
+            loader: require.resolve("ts-loader"),
         });
 
         config.resolve.extensions.push(".ts", ".tsx");

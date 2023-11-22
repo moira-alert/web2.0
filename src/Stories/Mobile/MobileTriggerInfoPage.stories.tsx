@@ -1,7 +1,6 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
 import { DaysOfWeek } from "../../Domain/Schedule";
@@ -121,15 +120,13 @@ const stories: Array<{
     },
 ];
 
-const story = storiesOf("Mobile/TriggerInfoPage", module)
-    .addDecorator(StoryRouter())
-    .addParameters({
-        creevey: {
-            skip: {
-                flacky: { stories: "Loading" },
-            },
+const story = storiesOf("Mobile/TriggerInfoPage", module).addParameters({
+    creevey: {
+        skip: {
+            flacky: { stories: "Loading" },
         },
-    });
+    },
+});
 
 story.add("Loading", () => (
     <MobileTriggerInfoPage
