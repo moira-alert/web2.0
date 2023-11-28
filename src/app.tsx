@@ -6,8 +6,16 @@ import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
 import MoiraApi from "./Api/MoiraApi";
 import { ApiProvider } from "./Api/MoiraApiInjection";
 import checkMobile from "./helpers/check-mobile";
+import * as Sentry from "@sentry/react";
+import ErrorContainer from "./Containers/ErrorContainer";
 
 import "./style.less";
+
+Sentry.init({
+    dsn: "https://f15c489f9f0c4e0b9232ce8ec447bd3f@sentry.kontur.host/600",
+
+    tracesSampleRate: 1.0,
+});
 
 const root = document.getElementById("root");
 
@@ -18,9 +26,11 @@ const render = (Component: ComponentType) => {
         ReactDOM.render(
             <BrowserRouter>
                 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-                    <ApiProvider value={moiraApi}>
-                        <Component />
-                    </ApiProvider>
+                    <Sentry.ErrorBoundary fallback={ErrorContainer("Error has occured")}>
+                        <ApiProvider value={moiraApi}>
+                            <Component />
+                        </ApiProvider>
+                    </Sentry.ErrorBoundary>
                 </LocaleContext.Provider>
             </BrowserRouter>,
             root
