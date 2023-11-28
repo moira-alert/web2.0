@@ -3,7 +3,7 @@
     "target": "es2015",                          
     "module": "commonjs",                     
     "lib": ["dom", "es2020"],                                            
-    "jsx": "preserve",                    
+    "jsx": "react",                    
     "strict": true,                           
     "noImplicitAny": true,                 
     "noUnusedLocals": true,                
