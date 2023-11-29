@@ -2965,13 +2965,6 @@
     "@sentry/types" "7.81.1"
     "@sentry/utils" "7.81.1"
 
-"@sentry/tracing@^7.81.1":
-  version "7.81.1"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@sentry/tracing/-/tracing-7.81.1.tgz#274f76119cdc3e58a4767ce8085cfc73cea13330"
-  integrity sha512-of9WMu0XgEBl9onTEk8SMaxj4BUadaUvHH96T1OpRMjdyuCM/3u2mjCkh3ekINr3Fu/uT2kJ/kO3goUxfcdXIQ==
-  dependencies:
-    "@sentry-internal/tracing" "7.81.1"
-
 "@sentry/types@7.81.1":
   version "7.81.1"
   resolved "https://nexus.kontur.host/repository/kontur-npm-group/@sentry/types/-/types-7.81.1.tgz#2b2551fc291e1089651fd574a68f7c4175878bd5"

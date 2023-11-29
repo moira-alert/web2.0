@@ -10,3 +10,36 @@ export const clearInput = (input: string | Array<string>): string => {
 
     return cleared;
 };
+
+const domains = {
+    local: "localhost",
+    dev: ".testkontur.ru",
+    staging: "moira-staging.kube.testkontur.ru",
+    prod: ".skbkontur.ru",
+};
+
+export enum Platform {
+    LOCAL = "local",
+    DEV = "dev",
+    PROD = "prod",
+}
+
+export const getPlatformSettings = (): {
+    platform: Platform;
+} => {
+    if (window.location.hostname.includes(domains.local)) {
+        return {
+            platform: Platform.LOCAL,
+        };
+    }
+
+    if (window.location.hostname.includes(domains.dev)) {
+        return {
+            platform: Platform.DEV,
+        };
+    }
+
+    return {
+        platform: Platform.PROD,
+    };
+};

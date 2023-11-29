@@ -13,7 +13,6 @@ import "./style.less";
 
 Sentry.init({
     dsn: "https://f15c489f9f0c4e0b9232ce8ec447bd3f@sentry.kontur.host/600",
-
     tracesSampleRate: 1.0,
 });
 
