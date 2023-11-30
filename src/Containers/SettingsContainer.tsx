@@ -1,8 +1,6 @@
-import * as React from "react";
+import React, { FC, useRef, useEffect } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import MoiraApi from "../Api/MoiraApi";
-import type { Config } from "../Domain/Config";
-import type { Settings } from "../Domain/Settings";
 import type { Contact } from "../Domain/Contact";
 import type { Subscription } from "../Domain/Subscription";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
@@ -19,50 +17,35 @@ import { Grid } from "../Components/Grid/Grid";
 import { ConfigContext } from "../contexts/ConfigContext";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
-
+import { useLoadSettingsData } from "../hooks/useLoadSettingsData";
+import {
+    useSettingsContainerReducer,
+    setError,
+    setIsLoading,
+    setSettings,
+    setShowSubCrashModal,
+    setTeamsAndTags,
+    setDisruptedSubs,
+} from "../hooks/useSettingsContainerReducer";
 interface Props extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
 }
 
-interface State {
-    loading: boolean;
-    error?: string;
-    login?: string;
-    settings?: Settings;
-    config?: Config;
-    tags?: Array<string>;
-    team?: Team;
-    teams?: Team[];
-    showSubCrashModal: boolean;
-    contact?: Contact;
-    disruptedSubs?: Subscription[];
-}
+const SettingsContainer: FC<Props> = ({ moiraApi, match, history }) => {
+    const teamId = match.params.teamId;
+    const [state, dispatch] = useSettingsContainerReducer();
+    const { loadData, getTeamOrUserData } = useLoadSettingsData(moiraApi, dispatch, teamId);
+    const { login, teams, tags, config, team } = state.teamsAndTags ?? {};
+    const { settings, disruptedSubs } = state;
+    const scrollRef = useRef<HTMLTableElement>(null);
 
-class SettingsContainer extends React.Component<Props, State> {
-    private teamId = this.props.match.params.teamId;
+    const isConfirmDeleteModalVisible =
+        state.isShowSubCrashModal && disruptedSubs?.length && settings;
 
-    public state: State = {
-        loading: true,
-        showSubCrashModal: false,
-    };
-    scrollRef = React.createRef<HTMLTableElement>();
-    async componentDidMount() {
-        document.title = "Moira - Settings";
-        try {
-            await this.getTeamsAndTags();
-            if (this.teamId) {
-                await this.getTeamData(this.teamId);
-            } else {
-                await this.getUserData();
-            }
-        } catch (error) {
-            this.setState({ error: error.message });
-        } finally {
-            this.setState({ loading: false });
-        }
-    }
+    const user = { id: "", name: login ?? "Unknown" };
+    const userWithTeams = teams ? [user, ...teams] : [];
 
-    static normalizeContactValueForApi(contactType: string, value: string): string {
+    const normalizeContactValueForApi = (contactType: string, value: string): string => {
         let result = value.trim();
         if (contactType === "twilio voice" || contactType === "twilio sms") {
             if (result.length >= 11) {
@@ -74,96 +57,10 @@ class SettingsContainer extends React.Component<Props, State> {
             return result;
         }
         return result;
-    }
+    };
 
-    render(): React.ReactElement {
-        const {
-            loading,
-            error,
-            login,
-            tags,
-            settings,
-            config,
-            team,
-            teams,
-            showSubCrashModal,
-            contact,
-            disruptedSubs,
-        } = this.state;
-        const user = login ? { id: "", name: login } : { id: "", name: "Unknown" };
-        const userWithTeams = teams ? [user, ...teams] : [];
-
-        return (
-            <Layout loading={loading} error={error}>
-                <LayoutContent>
-                    <ConfigContext.Provider value={config || null}>
-                        {showSubCrashModal && disruptedSubs?.length && settings && (
-                            <ConfirmDeleteModal
-                                message={`Are you sure you want to delete this delivery channel? This will disrupt the functioning of the following subscriptions:`}
-                                onDelete={() => this.handleRemoveContact(contact)}
-                                onClose={() => this.setState({ showSubCrashModal: false })}
-                            >
-                                <SubscriptionList
-                                    handleEditSubscription={this.scrollToElement}
-                                    contacts={settings.contacts}
-                                    subscriptions={disruptedSubs}
-                                />
-                            </ConfirmDeleteModal>
-                        )}
-                        <RowStack gap={1} block>
-                            <LayoutTitle>Notifications</LayoutTitle>
-                            <Fill />
-                            <Grid columns={"max-content"} gap="4px">
-                                Current User: {login}
-                                <Gapped gap={4}>
-                                    <span>Show for {team ? "team" : "user"}</span>
-                                    <Select<Team>
-                                        use={"link"}
-                                        value={team ?? user}
-                                        items={userWithTeams}
-                                        renderValue={(value) => value.name}
-                                        renderItem={(value) => value.name}
-                                        onValueChange={this.handleChangeTeam}
-                                    />
-                                </Gapped>
-                            </Grid>
-                        </RowStack>
-                        {config != undefined && settings?.contacts != undefined && (
-                            <div style={{ marginBottom: 50 }}>
-                                <ContactList
-                                    contactDescriptions={config.contacts}
-                                    items={settings.contacts}
-                                    onTestContact={this.handleTestContact}
-                                    onAddContact={this.handleAddContact}
-                                    onUpdateContact={this.handleUpdateContact}
-                                    onRemoveContact={this.onRemoveContactBtnClick}
-                                />
-                            </div>
-                        )}
-                        {settings != undefined &&
-                            tags != undefined &&
-                            settings.subscriptions != undefined &&
-                            settings?.contacts.length > 0 && (
-                                <SubscriptionListContainer
-                                    tableRef={this.scrollRef}
-                                    tags={tags}
-                                    contacts={settings.contacts}
-                                    subscriptions={settings.subscriptions}
-                                    onTestSubscription={this.handleTestSubscription}
-                                    onAddSubscription={this.handleAddSubscription}
-                                    onRemoveSubscription={this.handleRemoveSubscription}
-                                    onUpdateSubscription={this.handleUpdateSubscription}
-                                />
-                            )}
-                    </ConfigContext.Provider>
-                </LayoutContent>
-            </Layout>
-        );
-    }
-
-    onRemoveContactBtnClick = async (contact: Contact) => {
-        const { settings } = this.state;
-        if (settings == null) {
+    const onRemoveContactBtnClick = async (contact: Contact) => {
+        if (settings === undefined) {
             throw new Error("InvalidProgramState");
         }
 
@@ -172,49 +69,36 @@ class SettingsContainer extends React.Component<Props, State> {
         );
 
         if (potentiallyDisruptedSubscriptions.length) {
-            this.setState({
-                contact: contact,
-                showSubCrashModal: true,
-                disruptedSubs: potentiallyDisruptedSubscriptions,
-            });
+            dispatch(setShowSubCrashModal(true));
+            dispatch(setDisruptedSubs(potentiallyDisruptedSubscriptions));
             return;
         }
-        this.handleRemoveContact(contact);
+        handleRemoveContact(contact);
     };
 
-    private handleChangeTeam = async (userOrTeam: Team) => {
+    const handleChangeTeam = async (userOrTeam: Team) => {
+        dispatch(setIsLoading(true));
         try {
-            if (userOrTeam.id) {
-                this.setState({ loading: true, team: userOrTeam });
-                await this.getTeamData(userOrTeam.id);
-                this.props.history.replace(getPageLink("settings", userOrTeam.id));
-            } else {
-                this.setState({ loading: true, team: undefined });
-                await this.getUserData();
-                this.props.history.replace(getPageLink("settings"));
-            }
+            dispatch(setTeamsAndTags({ team: userOrTeam.id ? userOrTeam : undefined }));
+            await getTeamOrUserData(userOrTeam.id);
+            history.push(getPageLink("settings", userOrTeam.id ?? undefined));
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         } finally {
-            this.setState({ loading: false });
+            dispatch(setIsLoading(false));
         }
     };
 
-    handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
-        const { moiraApi } = this.props;
-        const { settings, team, login } = this.state;
+    const handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
         const contactType = contact.type;
 
-        if (settings == undefined || contactType == undefined || login == undefined) {
+        if (settings === undefined || contactType === undefined || login === undefined) {
             throw new Error("InvalidProgramState");
         }
 
         try {
             const requestContact = {
-                value: SettingsContainer.normalizeContactValueForApi(
-                    contactType,
-                    contact.value ?? ""
-                ),
+                value: normalizeContactValueForApi(contactType, contact.value ?? ""),
                 type: contactType,
                 user: team ? undefined : login,
             };
@@ -222,50 +106,40 @@ class SettingsContainer extends React.Component<Props, State> {
             const newContact = team
                 ? await moiraApi.addTeamContact(requestContact, team)
                 : await moiraApi.addContact(requestContact);
+            dispatch(setSettings({ contacts: [...settings.contacts, newContact] }));
 
-            this.setState({
-                settings: {
-                    ...settings,
-                    contacts: [...settings.contacts, newContact],
-                },
-            });
             return newContact;
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
             return undefined;
         }
     };
 
-    handleUpdateContact = async (contact: Contact) => {
-        const { moiraApi } = this.props;
-        const { settings } = this.state;
-        if (settings == null) {
+    const handleUpdateContact = async (contact: Contact) => {
+        if (settings === undefined) {
             throw new Error("InvalidProgramState");
         }
         const { contacts } = settings;
         try {
             await moiraApi.updateContact({
                 ...contact,
-                value: SettingsContainer.normalizeContactValueForApi(contact.type, contact.value),
+                value: normalizeContactValueForApi(contact.type, contact.value),
             });
             const index = contacts.findIndex((x) => x.id === contact.id);
-            this.setState({
-                settings: {
-                    ...settings,
+            dispatch(
+                setSettings({
                     contacts: [...contacts.slice(0, index), contact, ...contacts.slice(index + 1)],
-                },
-            });
+                })
+            );
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         }
     };
 
-    handleAddSubscription = async (
+    const handleAddSubscription = async (
         subscription: SubscriptionInfo
     ): Promise<Subscription | undefined> => {
-        const { moiraApi } = this.props;
-        const { settings, team } = this.state;
-        if (settings == null) {
+        if (settings === undefined) {
             throw new Error("InvalidProgramState");
         }
         try {
@@ -277,146 +151,162 @@ class SettingsContainer extends React.Component<Props, State> {
             const newSubscriptions = team
                 ? await moiraApi.addTeamSubscription(requestSubscription, team)
                 : await moiraApi.addSubscription(requestSubscription);
-            this.setState({
-                settings: {
-                    ...settings,
-                    subscriptions: [...settings.subscriptions, newSubscriptions],
-                },
-            });
+            dispatch(setSettings({ subscriptions: [...settings.subscriptions, newSubscriptions] }));
+
             return newSubscriptions;
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
             return undefined;
         }
     };
 
-    handleUpdateSubscription = async (subscription: Subscription) => {
-        const { moiraApi } = this.props;
-        const { settings } = this.state;
-        if (settings == null) {
+    const handleUpdateSubscription = async (subscription: Subscription) => {
+        if (settings === undefined) {
             throw new Error("InvalidProgramState");
         }
         const { subscriptions } = settings;
         try {
             await moiraApi.updateSubscription(subscription);
             const index = subscriptions.findIndex((x) => x.id === subscription.id);
-            this.setState({
-                settings: {
-                    ...settings,
+            dispatch(
+                setSettings({
                     subscriptions: [
                         ...subscriptions.slice(0, index),
                         subscription,
                         ...subscriptions.slice(index + 1),
                     ],
-                },
-            });
+                })
+            );
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         }
     };
 
-    handleRemoveSubscription = async (subscription: Subscription) => {
-        const { moiraApi } = this.props;
-        const { settings } = this.state;
-        if (settings == null) {
+    const handleRemoveSubscription = async (subscription: Subscription) => {
+        if (settings === undefined) {
             throw new Error("InvalidProgramState");
         }
         try {
             await moiraApi.delSubscription(subscription.id);
-            this.setState({
-                settings: {
-                    ...settings,
+            dispatch(
+                setSettings({
                     subscriptions: settings.subscriptions.filter((x) => x.id !== subscription.id),
-                },
-            });
+                })
+            );
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         }
     };
 
-    handleTestSubscription = async (subscription: Subscription) => {
-        const { moiraApi } = this.props;
+    const handleTestSubscription = async (subscription: Subscription) => {
         try {
             await moiraApi.testSubscription(subscription.id);
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         }
     };
 
-    handleTestContact = async (contact: Contact) => {
+    const handleTestContact = async (contact: Contact) => {
         try {
-            await this.props.moiraApi.testContact(contact.id);
+            await moiraApi.testContact(contact.id);
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         }
     };
 
-    handleRemoveContact = async (contact?: Contact) => {
-        const { moiraApi } = this.props;
-        const { settings } = this.state;
-        if (settings == null || !contact) {
+    const handleRemoveContact = async (contact?: Contact) => {
+        if (settings === undefined || !contact) {
             throw new Error("InvalidProgramState");
         }
         try {
             await moiraApi.deleteContact(contact.id);
-            this.setState({
-                settings: {
-                    ...settings,
+            dispatch(
+                setSettings({
                     contacts: settings.contacts.filter((x) => x.id !== contact.id),
-                },
-            });
+                })
+            );
         } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         } finally {
-            this.setState({ showSubCrashModal: false });
+            dispatch(setShowSubCrashModal(false));
         }
     };
 
-    private async getTeamsAndTags() {
-        const [user, teams, tags, config] = await Promise.all([
-            this.props.moiraApi.getUser(),
-            this.props.moiraApi.getTeams(),
-            this.props.moiraApi.getTagList(),
-            this.props.moiraApi.getConfig(),
-        ]);
-
-        let team;
-
-        if (this.props.match.params.teamId) {
-            team = teams.teams.find(
-                (teamOverview) => teamOverview.id === this.props.match.params.teamId
-            );
-        }
-
-        this.setState({
-            login: user.login,
-            teams: teams.teams,
-            tags: tags.list,
-            config: config,
-            team: team,
-        });
-    }
-
-    private async getTeamData(teamId: string) {
-        const settings = await this.props.moiraApi.getSettingsByTeam(teamId);
-
-        this.setState({ settings });
-    }
-
-    private async getUserData() {
-        const settings = await this.props.moiraApi.getSettings();
-
-        this.setState({ settings });
-    }
-
-    scrollToElement = () => {
-        this.setState({ showSubCrashModal: false });
-
+    const scrollToElement = () => {
+        dispatch(setShowSubCrashModal(false));
         setTimeout(() => {
-            const element = this.scrollRef.current as HTMLElement;
+            const element = scrollRef.current as HTMLElement;
             const elementRect = element.getBoundingClientRect();
             window.scrollBy({ top: elementRect.bottom - window.innerHeight, behavior: "smooth" });
         }, 0);
     };
-}
+
+    useEffect(() => {
+        loadData();
+        document.title = "Moira - Settings";
+    }, [teamId]);
+
+    return (
+        <Layout loading={state.isLoading} error={state.error}>
+            <LayoutContent>
+                <ConfigContext.Provider value={config || null}>
+                    {isConfirmDeleteModalVisible && (
+                        <ConfirmDeleteModal
+                            message={`Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:`}
+                            onClose={() => dispatch(setShowSubCrashModal(false))}
+                        >
+                            <SubscriptionList
+                                handleEditSubscription={scrollToElement}
+                                contacts={settings.contacts}
+                                subscriptions={disruptedSubs}
+                            />
+                        </ConfirmDeleteModal>
+                    )}
+                    <RowStack gap={1} block>
+                        <LayoutTitle>Notifications</LayoutTitle>
+                        <Fill />
+                        <Grid columns={"max-content"} gap="4px">
+                            Current User: {login}
+                            <Gapped gap={4}>
+                                <span>Show for {team ? "team" : "user"}</span>
+                                <Select<Team>
+                                    use={"link"}
+                                    value={team ?? user}
+                                    items={userWithTeams}
+                                    renderValue={(value) => value.name}
+                                    renderItem={(value) => value.name}
+                                    onValueChange={handleChangeTeam}
+                                />
+                            </Gapped>
+                        </Grid>
+                    </RowStack>
+                    {config !== undefined && settings?.contacts !== undefined && (
+                        <div style={{ marginBottom: 50 }}>
+                            <ContactList
+                                contactDescriptions={config.contacts}
+                                items={settings.contacts}
+                                onTestContact={handleTestContact}
+                                onAddContact={handleAddContact}
+                                onUpdateContact={handleUpdateContact}
+                                onRemoveContact={onRemoveContactBtnClick}
+                            />
+                        </div>
+                    )}
+                    {settings !== undefined && tags !== undefined && (
+                        <SubscriptionListContainer
+                            tableRef={scrollRef}
+                            tags={tags.list}
+                            contacts={settings.contacts}
+                            subscriptions={settings.subscriptions}
+                            onTestSubscription={handleTestSubscription}
+                            onAddSubscription={handleAddSubscription}
+                            onRemoveSubscription={handleRemoveSubscription}
+                            onUpdateSubscription={handleUpdateSubscription}
+                        />
+                    )}
+                </ConfigContext.Provider>
+            </LayoutContent>
+        </Layout>
+    );
+};
 export default withMoiraApi(SettingsContainer);
