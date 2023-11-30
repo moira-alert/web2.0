@@ -39,6 +39,9 @@ const SettingsContainer: FC<Props> = ({ moiraApi, match, history }) => {
     const { settings, disruptedSubs } = state;
     const scrollRef = useRef<HTMLTableElement>(null);
 
+    const isConfirmDeleteModalVisible =
+        state.isShowSubCrashModal && disruptedSubs?.length && settings;
+
     const user = { id: "", name: login ?? "Unknown" };
     const userWithTeams = teams ? [user, ...teams] : [];
 
@@ -247,7 +250,7 @@ const SettingsContainer: FC<Props> = ({ moiraApi, match, history }) => {
         <Layout loading={state.isLoading} error={state.error}>
             <LayoutContent>
                 <ConfigContext.Provider value={config || null}>
-                    {state.isShowSubCrashModal && disruptedSubs?.length && settings && (
+                    {isConfirmDeleteModalVisible && (
                         <ConfirmDeleteModal
                             message={`Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:`}
                             onClose={() => dispatch(setShowSubCrashModal(false))}
