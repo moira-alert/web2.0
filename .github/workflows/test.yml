@@ -19,13 +19,29 @@ jobs:
 
       - name: Run unit tests
         run: yarn test
+  playwright:
+    name: 'Playwright Tests'
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.40.0-jammy
+      options: --user root
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: yarn install
 
       - name: Run screenshot tests
         run: yarn screenshots
+        env:
+          HOME: /root
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
+        if: ${{ always() }}
         with:
           name: screenshots-report
-          path: .creevey/report
+          path: test-results

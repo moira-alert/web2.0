@@ -1,14 +1,5 @@
 import "reflect-metadata";
 import "../src/style.less";
-import { MemoryRouter } from "react-router";
-
-export const decorators = [
-    (Story) => (
-        <MemoryRouter initialEntries={["/"]}>
-            <Story />
-        </MemoryRouter>
-    ),
-];
 
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
@@ -17,8 +8,5 @@ export const parameters = {
             color: /(background|color)$/i,
             date: /Date$/,
         },
-    },
-    creevey: {
-        captureElement: "#root",
     },
 };

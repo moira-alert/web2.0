@@ -3,7 +3,7 @@
     "target": "es2015",                          
     "module": "commonjs",                     
     "lib": ["dom", "es2020"],                                            
-    "jsx": "react",                    
+    "jsx": "preserve",                    
     "strict": true,                           
     "noImplicitAny": true,                 
     "noUnusedLocals": true,                
@@ -16,6 +16,7 @@
     "skipLibCheck": true,                     
     "forceConsistentCasingInFileNames": true,
     "useUnknownInCatchVariables": false,
+    "resolveJsonModule": true,
     "sourceMap": true
   },
   "includes": ["./src/types/less-modules.d.ts", "./src/types/svg-modules.d.ts"]

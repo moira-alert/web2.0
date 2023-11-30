@@ -1,6 +1,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import StoryRouter from "storybook-react-router";
 import MetricList from "../Components/MetricList/MetricList";
 import { MetricItemList } from "../Domain/Metric";
 import { Status } from "../Domain/Status";
@@ -54,6 +55,7 @@ const items: MetricItemList = {
 };
 
 storiesOf("MetricList", module)
+    .addDecorator(StoryRouter())
     .add("Default", () => (
         <MetricList
             items={items}

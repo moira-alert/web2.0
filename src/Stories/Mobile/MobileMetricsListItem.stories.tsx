@@ -1,6 +1,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import StoryRouter from "storybook-react-router";
 import { Metric } from "../../Domain/Metric";
 import { Status } from "../../Domain/Status";
 import MobileMetricsListItem from "../../Components/Mobile/MobileMetricsListItem/MobileMetricsListItem";
@@ -20,6 +21,7 @@ const metricData: Metric = {
 };
 
 storiesOf("Mobile/MetricsListItem", module)
+    .addDecorator(StoryRouter())
     .add("With Status Indicator", () => (
         <MobileMetricsListItem
             name={metricName}

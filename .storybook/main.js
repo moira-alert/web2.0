@@ -1,6 +1,5 @@
 module.exports = {
     stories: ["../src/**/*.stories.mdx", "../src/Stories/**/*.stories.tsx"],
-    addons: ["creevey"],
     framework: "@storybook/react",
     core: {
         builder: "@storybook/builder-webpack5",
@@ -26,7 +25,7 @@ module.exports = {
 
         config.module.rules.push({
             test: /\.(ts|tsx)$/,
-            loader: require.resolve("ts-loader"),
+            loader: require.resolve("babel-loader"),
         });
 
         config.resolve.extensions.push(".ts", ".tsx");

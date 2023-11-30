@@ -1,6 +1,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import StoryRouter from "storybook-react-router";
 import PatternList from "../Components/PatternList/PatternList";
 import { Pattern } from "../Domain/Pattern";
 import { DaysOfWeek } from "../Domain/Schedule";
@@ -106,6 +107,8 @@ const items: Pattern[] = [
     },
 ];
 
-storiesOf("PatternList", module).add("Default", () => (
-    <PatternList items={items} onRemove={action("onRemove")} sortingColumn="metric" />
-));
+storiesOf("PatternList", module)
+    .addDecorator(StoryRouter())
+    .add("Default", () => (
+        <PatternList items={items} onRemove={action("onRemove")} sortingColumn="metric" />
+    ));

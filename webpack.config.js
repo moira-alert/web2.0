@@ -3,10 +3,8 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
-const TerserPlugin = require("terser-webpack-plugin");
 const supportedLocales = ["en"];
-
-const isDev = process.argv.includes("--mode=development");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     entry: {
@@ -32,18 +30,19 @@ module.exports = {
                 collapseWhitespace: true,
             },
         }),
-        !isDev &&
-            new MiniCssExtractPlugin({
-                filename: "app.[contenthash:6].css",
-                chunkFilename: "[name].[chunkhash:6].css",
-            }),
+        new MiniCssExtractPlugin({
+            filename: "app.[contenthash:6].css",
+            chunkFilename: "[name].[chunkhash:6].css",
+        }),
+
+        new webpack.HotModuleReplacementPlugin(),
     ],
     module: {
         rules: [
             {
-                test: [/\.tsx?$/],
-                use: ["ts-loader"],
-                exclude: /node_modules|Stories/,
+                test: [/\.jsx?$/, /\.tsx?$/],
+                use: ["babel-loader"],
+                exclude: /node_modules/,
                 include: [path.resolve(__dirname, "src")],
             },
             {
@@ -59,17 +58,28 @@ module.exports = {
                 ],
             },
             {
-                test: /\.less$|css$/i,
+                test: /\.css$/i,
                 use: [
-                    isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: "css-loader",
                         options: {
-                            modules: {
-                                localIdentName: isDev ? "[path][name]__[local]" : "[contenthash:6]",
-                            },
+                            modules: true,
                         },
                     },
+                ],
+            },
+            {
+                test: /\.less$/i,
+                use: [
+                    "style-loader",
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: true,
+                        },
+                    },
+                    ,
                     "less-loader",
                 ],
             },
@@ -78,13 +88,15 @@ module.exports = {
     resolve: {
         modules: ["node_modules", "local_modules"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
-        alias: isDev ? { "react-dom": "@hot-loader/react-dom" } : undefined,
+        alias: process.argv.includes("--mode=development")
+            ? { "react-dom": "@hot-loader/react-dom" }
+            : undefined,
     },
-    devtool: "source-map",
+    devtool: "cheap-source-map",
 
     optimization: {
         minimize: true,
-        minimizer: [new TerserPlugin({ parallel: true, terserOptions: { sourceMap: true } })],
+        minimizer: [new TerserPlugin({ parallel: true })],
         usedExports: true,
         splitChunks: {
             chunks: "all",
