@@ -1,8 +1,29 @@
-{"env": {
-    "testing": {
-        "presets":[
-            "@babel/typescript",
-            "@babel/preset-env"
-        ]
+{
+    "plugins": [
+        "react-hot-loader/babel",
+        ["@babel/plugin-proposal-class-properties",{"loose":true}],
+        ["@babel/plugin-transform-private-methods",{"loose":true}],
+        ["@babel/plugin-transform-private-property-in-object",{"loose":true}],
+        "@babel/plugin-transform-destructuring",
+        "@babel/plugin-proposal-object-rest-spread"
+    ],
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "modules": false
+            }
+        ],
+        "@babel/typescript",
+        "@babel/preset-react"
+    ],
+    "env": {
+        "testing": {
+            "presets":[
+                "@babel/typescript",
+                "@babel/preset-env",
+                "@babel/preset-react"
+            ]
+        }
     }
-}}
+}

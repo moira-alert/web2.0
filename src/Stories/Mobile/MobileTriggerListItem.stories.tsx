@@ -1,5 +1,6 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
+import StoryRouter from "storybook-react-router";
 import MobileTriggerListItem from "../../Components/Mobile/MobileTriggerListItem/MobileTriggerListItem";
 import { DaysOfWeek } from "../../Domain/Schedule";
 import { Trigger, TriggerSource } from "../../Domain/Trigger";
@@ -434,7 +435,7 @@ const stories: Array<{
     },
 ];
 
-const story = storiesOf("Mobile/TriggerListItem", module);
+const story = storiesOf("Mobile/TriggerListItem", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
     story.add(title, () => <MobileTriggerListItem data={data} />);
