@@ -1,6 +1,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import StoryRouter from "storybook-react-router";
 import { createMemoryHistory } from "history";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
@@ -434,7 +435,7 @@ const stories: Array<{
     },
 ];
 
-const story = storiesOf("TriggerListItem", module);
+const story = storiesOf("TriggerListItem", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
