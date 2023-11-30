@@ -8,13 +8,25 @@ import { ApiProvider } from "./Api/MoiraApiInjection";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import ErrorContainer from "./Containers/ErrorContainer";
+import { Platform, getPlatformSettings } from "./helpers/common";
 
 import "./style.less";
 
-Sentry.init({
-    dsn: "https://f15c489f9f0c4e0b9232ce8ec447bd3f@sentry.kontur.host/600",
-    tracesSampleRate: 1.0,
-});
+const initSentry = () => {
+    if (process.env.SENTRY_DSN_KEY !== undefined) {
+        Sentry.init({
+            dsn: process.env.SENTRY_DSN_KEY,
+            debug: getPlatformSettings().platform === Platform.LOCAL,
+            environment: getPlatformSettings().platform,
+            enabled:
+                getPlatformSettings().platform !== Platform.LOCAL &&
+                process.env.SENTRY_DSN_KEY !== undefined,
+            tracesSampleRate: 1.0,
+        });
+    }
+};
+
+initSentry();
 
 const root = document.getElementById("root");
 

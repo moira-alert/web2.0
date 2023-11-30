@@ -5,8 +5,16 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
 const TerserPlugin = require("terser-webpack-plugin");
 const supportedLocales = ["en"];
+const dotenv = require("dotenv");
+const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
 const isDev = process.argv.includes("--mode=development");
+const env = dotenv.config().parsed;
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+}, {});
 
 module.exports = {
     entry: {
@@ -20,6 +28,13 @@ module.exports = {
         clean: true,
     },
     plugins: [
+        sentryWebpackPlugin({
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: process.env.SENTRY_ORG_NAME,
+            project: process.env.SENTRY_PROJECT_NAME,
+            url: process.env.SENTRY_URL,
+        }),
+        new webpack.DefinePlugin(envKeys),
         new ContextReplacementPlugin(
             /date-fns[\/\\]/,
             new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
