@@ -17,10 +17,5 @@ module.exports = {
             platformName: "linux",
             viewport: { width: 1280, height: 720 },
         },
-        firefox: {
-            browserName: "firefox",
-            platformName: "linux",
-            viewport: { width: 1280, height: 720 },
-        },
     },
 };
