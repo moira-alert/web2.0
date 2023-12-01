@@ -2740,154 +2740,112 @@
   },
   "state": {
       "metrics": {
-        "bst-k8s-m01": {
-            "event_timestamp": 1679905560,
+        "vm-elk-f1": {
+            "event_timestamp": 1503992518,
             "state": "OK",
             "suppressed": false,
-            "timestamp": 1701322140,
+            "timestamp": 1504516241,
             "values": {
-                "t1": 1428248.1833333333
+                "t1": 82.5,
+                "t2": 20.23
             },
+            "maintenance": 1555804800,
             "maintenance_info": {
-                "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_user": "Superman",
+                "setup_time": 1553158221
             }
         },
-        "bst-k8s-n01": {
-            "event_timestamp": 1687783440,
+        "vm-elk-l1": {
+            "event_timestamp": 1503992686,
             "state": "OK",
             "suppressed": false,
-            "timestamp": 1701322140,
+            "timestamp": 1504516241,
             "values": {
-                "t1": 5570386.866666664
+                "t1": 96.54,
+                "t2": 19.87
             },
             "maintenance_info": {
                 "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_time": null
             }
         },
-        "bst-k8s-n02": {
-            "event_timestamp": 1687858920,
+        "vm-elk-r1": {
+            "event_timestamp": 1503992698,
             "state": "OK",
             "suppressed": false,
-            "timestamp": 1701322140,
+            "timestamp": 1504516241,
             "values": {
-                "t1": 6260361.350000001
+                "t1": 93.22,
+                "t2": 20.77
             },
             "maintenance_info": {
                 "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_time": null
             }
         },
-        "bst-k8s-n03": {
-            "event_timestamp": 1696855740,
+        "vm-elk-r2": {
+            "event_timestamp": 1503992299,
             "state": "OK",
             "suppressed": false,
-            "timestamp": 1701322140,
+            "timestamp": 1504516241,
             "values": {
-                "t1": 5833048.066666667
+                "t1": 89.54,
+                "t2": 18.45
             },
             "maintenance_info": {
                 "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_time": null
             }
         },
-        "bst-k8s-n04": {
-            "event_timestamp": 1687785480,
-            "state": "OK",
+        "vm-elk-s1": {
+            "event_timestamp": 1504407083,
+            "state": "WARN",
             "suppressed": false,
-            "timestamp": 1701322140,
+            "timestamp": 1504516241,
             "values": {
-                "t1": 1183627.8999999997
+                "t1": 180095,
+                "t2": 19.39
             },
             "maintenance_info": {
                 "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_time": null
             }
         },
-        "bst-k8s-n05": {
-            "event_timestamp": 1687771860,
-            "state": "OK",
+        "vm-elk-s2": {
+            "event_timestamp": 1504390505,
+            "state": "WARN",
             "suppressed": false,
-            "timestamp": 1701322140,
+            "timestamp": 1504516241,
             "values": {
-                "t1": 252846.5333333333
+                "t1": 19.83
             },
             "maintenance_info": {
                 "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_time": null
             }
         },
-        "bst-k8s-n07": {
-            "event_timestamp": 1696855980,
+        "vm-elk-s3": {
+            "event_timestamp": 1503992825,
             "state": "OK",
             "suppressed": false,
-            "timestamp": 1701322140,
+            "timestamp": 1504516241,
             "values": {
-                "t1": 48737.26666666667
+                "t1": 180095,
+                "t2": 20.52
             },
             "maintenance_info": {
                 "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_time": null
             }
         },
-        "bst-k8s-n08": {
-            "event_timestamp": 1696855620,
-            "state": "OK",
+        "vm-elk-s4": {
+            "event_timestamp": 1503999000,
+            "state": "NODATA",
             "suppressed": false,
-            "timestamp": 1701322140,
-            "values": {
-                "t1": 696282.1666666669
-            },
+            "timestamp": 1504516241,
             "maintenance_info": {
                 "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
-            }
-        },
-        "bst-k8s-n09": {
-            "event_timestamp": 1696855740,
-            "state": "OK",
-            "suppressed": false,
-            "timestamp": 1701322140,
-            "values": {
-                "t1": 3632.0333333333324
-            },
-            "maintenance_info": {
-                "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
-            }
-        },
-        "bst-k8s-n10": {
-            "event_timestamp": 1685124180,
-            "state": "OK",
-            "suppressed": false,
-            "timestamp": 1701322140,
-            "values": {
-                "t1": 97100.54999999997
-            },
-            "maintenance_info": {
-                "setup_user": null,
-                "setup_time": null,
-                "remove_user": null,
-                "remove_time": null
+                "setup_time": null
             }
         }
       },
