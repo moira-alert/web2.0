@@ -20,6 +20,9 @@ jobs:
       - name: Run unit tests
         run: yarn test
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: Run screenshot tests
         run: yarn screenshots
 
