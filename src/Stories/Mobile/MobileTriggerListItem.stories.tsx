@@ -435,7 +435,7 @@ const stories: Array<{
     },
 ];
 
-const story = storiesOf("Mobile/TriggerListItem", module).addDecorator(StoryRouter());
+const story = storiesOf("Mobile/MobileTriggerListItem", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
     story.add(title, () => <MobileTriggerListItem data={data} />);

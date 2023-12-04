@@ -9,7 +9,4 @@ export const parameters = {
             date: /Date$/,
         },
     },
-    creevey: {
-        captureElement: "#root",
-    },
 };

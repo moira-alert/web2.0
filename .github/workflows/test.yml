@@ -28,4 +28,4 @@ jobs:
         if: ${{ failure() }}
         with:
           name: screenshots-report
-          path: .creevey/report
+          path: test-results

@@ -16,6 +16,7 @@
     "skipLibCheck": true,                     
     "forceConsistentCasingInFileNames": true,
     "useUnknownInCatchVariables": false,
+    "resolveJsonModule": true,
     "sourceMap": true
   },
   "includes": ["./src/types/less-modules.d.ts", "./src/types/svg-modules.d.ts"]

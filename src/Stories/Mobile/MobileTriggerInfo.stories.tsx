@@ -147,7 +147,7 @@ const stories: Array<{
     },
 ];
 
-const story = storiesOf("Mobile/TriggerInfo", module).addDecorator(StoryRouter());
+const story = storiesOf("Mobile/MobileTriggerInfo", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data, triggerState: state }) => {
     story.add(title, () => (
