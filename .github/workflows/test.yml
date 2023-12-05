@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: mcr.microsoft.com/playwright:v1.40.0-jammy
+      options: --user root
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
