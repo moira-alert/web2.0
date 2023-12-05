@@ -21,7 +21,7 @@ jobs:
         run: yarn test
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps chromium
 
       - name: Run screenshot tests
         run: yarn screenshots
