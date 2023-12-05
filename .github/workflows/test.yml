@@ -21,10 +21,9 @@ jobs:
         run: yarn test
   playwright:
     name: 'Playwright Tests'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.40.0-jammy
-      options: --user root
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -37,8 +36,6 @@ jobs:
 
       - name: Run screenshot tests
         run: yarn screenshots
-        env:
-          HOME: /root
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
