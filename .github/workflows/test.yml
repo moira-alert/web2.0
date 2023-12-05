@@ -35,7 +35,7 @@ jobs:
         run: yarn install
 
       - name: Run screenshot tests
-        run: yarn pw:screenshotTest
+        run: yarn screenshots
         env:
           HOME: /root
 
