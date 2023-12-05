@@ -24,12 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.40.0-jammy
+      options: --user 777
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
-          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install
