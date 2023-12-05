@@ -35,7 +35,9 @@ jobs:
         run: yarn install
 
       - name: Run screenshot tests
-        run: yarn screenshots
+        run: yarn pw:screenshotTest
+        env:
+          HOME: /root
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
