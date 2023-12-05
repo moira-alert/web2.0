@@ -12,7 +12,7 @@ for (const [component, stories] of Object.entries(componentList)) {
     test.describe(`${component}`, async () => {
         for (const story of stories) {
             test(`${story.split("--")[1]}`, async ({ page }, testInfo) => {
-                await page.goto(storybookUrl + iFrameUrl + story, { waitUntil: "networkidle" });
+                await page.goto(storybookUrl + iFrameUrl + story);
                 await expectToMatchScreenshot(page, testInfo, component);
             });
         }
