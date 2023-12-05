@@ -10,13 +10,13 @@ const config: PlaywrightTestConfig = {
     },
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 0 : 1,
+    retries: 1,
     workers: process.env.CI ? 1 : undefined,
     reporter: [["list"], ["html", { open: "on-failure" }]],
     use: {
         actionTimeout: 0,
         baseURL: "http://localhost:9000",
-        trace: "on",
+        trace: "on-first-retry",
         headless: !!process.env.CI,
     },
 
