@@ -20,7 +20,7 @@
     "test": "cross-env NODE_ENV=testing jest \"./src\"",
     "test:e2e": "cross-env NODE_ENV=testing TYPE=e2e jest ./src/tests --runInBand",
     "prettier": "prettier \"./src/**/*.{ts,tsx}\"",
-    "pw:screenshotTest":"xvfb-run npx playwright test screenshotTest",
+    "pw:screenshotTest":"npx playwright test screenshotTest",
     "screenshots": "start-server-and-test storybook:ci http://localhost:9001 pw:screenshotTest"
   },
   "dependencies": {
