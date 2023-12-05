@@ -6,6 +6,9 @@ const storybookUrl = "http://localhost:9001";
 const iFrameUrl = "/iframe.html?id=";
 
 for (const [component, stories] of Object.entries(componentList)) {
+    test.beforeEach(async ({}, testInfo) => {
+        testInfo.snapshotSuffix = "";
+    });
     test.describe(`Screenshot tests for component: ${component}`, async () => {
         for (const story of stories) {
             test(`Screenshot test for story: ${story.split("--")[1]}`, async ({
