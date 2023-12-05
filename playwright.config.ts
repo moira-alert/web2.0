@@ -12,10 +12,9 @@ const config: PlaywrightTestConfig = {
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 1,
     workers: process.env.CI ? 1 : undefined,
-    reporter: [["list"], ["html", { open: "on-failure" }]],
+    reporter: process.env.CI ? "github" : [["list"], ["html", { open: "on-failure" }]],
     use: {
         actionTimeout: 0,
-        baseURL: "http://localhost:9000",
         trace: "on-first-retry",
         headless: !!process.env.CI,
     },
