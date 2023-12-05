@@ -9,11 +9,9 @@ for (const [component, stories] of Object.entries(componentList)) {
     test.beforeEach(async ({}, testInfo) => {
         testInfo.snapshotSuffix = "";
     });
-    test.describe(`Screenshot tests for component: ${component}`, async () => {
+    test.describe(`${component}`, async () => {
         for (const story of stories) {
-            test(`Screenshot test for story: ${story.split("--")[1]}`, async ({
-                page,
-            }, testInfo) => {
+            test(`${story.split("--")[1]}`, async ({ page }, testInfo) => {
                 await page.goto(storybookUrl + iFrameUrl + story, { waitUntil: "networkidle" });
                 await expectToMatchScreenshot(page, testInfo, component);
             });

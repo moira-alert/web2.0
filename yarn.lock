@@ -2647,7 +2647,7 @@
 
 "@playwright/test@^1.40.1":
   "integrity" "sha512-EaaawMTOeEItCRvfmkI9v6rBkF1svM8wjl/YPRrg2N2Wmp+4qJYkWtJsbew1szfKKDm6fPLy4YAanBhIlf9dWw=="
-  "resolved" "https://registry.yarnpkg.com/@playwright/test/-/test-1.40.1.tgz"
+  "resolved" "https://nexus.kontur.host/repository/kontur-npm-group/@playwright/test/-/test-1.40.1.tgz"
   "version" "1.40.1"
   dependencies:
     "playwright" "1.40.1"
@@ -4519,7 +4519,7 @@
 
 "@types/node@*", "@types/node@^20.10.1":
   "integrity" "sha512-T2qwhjWwGH81vUEx4EXmBKsTJRXFXNZTL4v0gi01+zyBmCwzE6TyHszqX01m+QHTEq+EZNo13NeJIdEqf+Myrg=="
-  "resolved" "https://registry.yarnpkg.com/@types/node/-/node-20.10.1.tgz"
+  "resolved" "https://nexus.kontur.host/repository/kontur-npm-group/@types/node/-/node-20.10.1.tgz"
   "version" "20.10.1"
   dependencies:
     "undici-types" "~5.26.4"
@@ -7290,70 +7290,6 @@
   "resolved" "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz"
   "version" "1.1.1"
 
-"creevey@0.9.0-non-webpack.2":
-  "integrity" "sha512-DzifgpCQk4/oK/WYg6wIc8Xh5bo61KJLk1W4XqM/mNGDJj5injjUYo9diwVJRNDg1ZOnBIAcZWCcTPmxKlRSDg=="
-  "resolved" "https://registry.yarnpkg.com/creevey/-/creevey-0.9.0-non-webpack.2.tgz"
-  "version" "0.9.0-non-webpack.2"
-  dependencies:
-    "@babel/code-frame" "^7.18.6"
-    "@babel/generator" "^7.18.7"
-    "@babel/helpers" "^7.18.6"
-    "@babel/parser" "^7.18.8"
-    "@babel/plugin-transform-runtime" "^7.18.6"
-    "@babel/preset-env" "^7.18.6"
-    "@babel/preset-typescript" "^7.18.6"
-    "@babel/register" "^7.18.6"
-    "@babel/runtime-corejs3" "^7.18.6"
-    "@babel/traverse" "^7.18.8"
-    "@babel/types" "^7.18.8"
-    "@koa/cors" "^3.3.0"
-    "@octokit/core" "^4.0.4"
-    "@storybook/components" "^6.5.9"
-    "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/testing-library" "^0.0.13"
-    "@storybook/theming" "^6.5.9"
-    "@types/chai" "^4.3.1"
-    "@types/selenium-webdriver" "^4.1.5"
-    "airbnb-js-shims" "^2.2.1"
-    "babel-plugin-tsconfig-paths" "^1.0.3"
-    "chai" "^4.3.6"
-    "chalk" "^4.1.2"
-    "chokidar" "^3.5.3"
-    "core-js" "^3.23.4"
-    "dockerode" "^3.3.2"
-    "event-source-polyfill" "1.0.25"
-    "find-cache-dir" "^3.3.1"
-    "get-tsconfig" "^4.2.0"
-    "global-jsdom" "8.5.0"
-    "jsdom" "^20.0.0"
-    "koa" "^2.13.4"
-    "koa-bodyparser" "^4.3.0"
-    "koa-mount" "^4.0.0"
-    "koa-static" "^5.0.0"
-    "loader-utils" "^3.2.0"
-    "lodash" "^4.17.21"
-    "loglevel" "^1.8.0"
-    "loglevel-plugin-prefix" "^0.8.4"
-    "micromatch" "^4.0.5"
-    "minimist" "^1.2.6"
-    "mocha" "~10.0.0"
-    "null-loader" "^4.0.1"
-    "ora" "^5.4.1"
-    "pirates" "^4.0.5"
-    "pixelmatch" "^5.3.0"
-    "pngjs" "^6.0.0"
-    "polished" "^4.2.2"
-    "qs" "^6.11.0"
-    "regenerator-runtime" "^0.13.7"
-    "resolve-from" "^5.0.0"
-    "schema-utils" "^4.0.0"
-    "selenium-webdriver" "^4.3.1"
-    "shelljs" "^0.8.5"
-    "ts-node" "^10.9.1"
-    "tsconfig-paths" "^4.0.0"
-    "webpack-node-externals" "^3.0.0"
-    "ws" "^8.8.0"
-
 "crelt@^1.0.5":
   "integrity" "sha512-VQ2MBenTq1fWZUH9DJNGti7kKv6EeAuYr3cLwxUWhIu1baTaXh4Ib5W2CqHVqib4/MqbYGJqiL3Zb8GJZr3l4g=="
   "resolved" "https://registry.yarnpkg.com/crelt/-/crelt-1.0.6.tgz"
@@ -9062,7 +8998,7 @@
 
 "file-uri-to-path@1.0.0":
   "integrity" "sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw=="
-  "resolved" "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz"
+  "resolved" "https://nexus.kontur.host/repository/kontur-npm-group/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz"
   "version" "1.0.0"
 
 "fill-range@^4.0.0":
@@ -14082,12 +14018,12 @@
 
 "playwright-core@1.40.1":
   "integrity" "sha512-+hkOycxPiV534c4HhpfX6yrlawqVUzITRKwHAmYfmsVreltEl6fAZJ3DPfLMOODw0H3s1Itd6MDCWmP1fl/QvQ=="
-  "resolved" "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.40.1.tgz"
+  "resolved" "https://nexus.kontur.host/repository/kontur-npm-group/playwright-core/-/playwright-core-1.40.1.tgz"
   "version" "1.40.1"
 
 "playwright@1.40.1":
   "integrity" "sha512-2eHI7IioIpQ0bS1Ovg/HszsN/XKNwEG1kbzSDDmADpclKc7CyqkHw7Mg2JCz/bbCxg25QUPcjksoMW7JcIFQmw=="
-  "resolved" "https://registry.yarnpkg.com/playwright/-/playwright-1.40.1.tgz"
+  "resolved" "https://nexus.kontur.host/repository/kontur-npm-group/playwright/-/playwright-1.40.1.tgz"
   "version" "1.40.1"
   dependencies:
     "playwright-core" "1.40.1"
@@ -17343,7 +17279,7 @@
 
 "undici-types@~5.26.4":
   "integrity" "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA=="
-  "resolved" "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz"
+  "resolved" "https://nexus.kontur.host/repository/kontur-npm-group/undici-types/-/undici-types-5.26.5.tgz"
   "version" "5.26.5"
 
 "unfetch@^4.2.0":
