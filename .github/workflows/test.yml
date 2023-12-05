@@ -19,12 +19,25 @@ jobs:
 
       - name: Run unit tests
         run: yarn test
+  playwright:
+    name: 'Playwright Tests'
+    runs-on: ubuntu-22.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.40.0-jammy
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+      - name: Install dependencies
+        run: yarn install
 
       - name: Run screenshot tests
         run: yarn screenshots
+        env:
+          HOME: /root
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
