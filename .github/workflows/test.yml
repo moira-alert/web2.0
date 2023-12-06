@@ -19,27 +19,12 @@ jobs:
 
       - name: Run unit tests
         run: yarn test
-  playwright:
-    name: 'Playwright Tests'
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.40.0-jammy
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
+ 
+      - name: Build Docker image
+        run: docker build -t playwright-tests -f Dockerfile.tests .
           
-      - name: Install dependencies
-        run: yarn install
-          
-      - name: Run screenshot tests
-        run: | 
-          chown -R 777 /root
-          chmod -R 777 /root
-          yarn screenshots
-        env:
-          HOME: /root
+      - name: Run screenshot tests on Docker
+        run: docker run playwright-tests
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
