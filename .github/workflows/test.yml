@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.40.0-jammy
+      env:
+        HOME: /root
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -32,21 +34,14 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
-        env:
-          HOME: /root
 
       - name: check config
         run: | 
           ls ~/.config
           cat ~/.config/yarn
-        env:
-          HOME: /root  
 
       - name: Run screenshot tests
         run: yarn screenshots
-        
-        env:
-          HOME: /root
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
