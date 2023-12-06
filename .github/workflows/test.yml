@@ -32,7 +32,7 @@ jobs:
           node-version: "16"
 
       - name: Change Yarn Rights
-        run: sudo chmod -R 777 /root/.config/yarn
+        run: chmod -R 777 /root/.config/yarn
 
       - name: Install dependencies
         run: yarn install
