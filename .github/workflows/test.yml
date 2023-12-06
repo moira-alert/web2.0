@@ -33,8 +33,8 @@ jobs:
         run: yarn install
       - name: Giving rights
         run: | 
-          chown "$USER":"$USER" /home/"$USER"/.docker -R
-          chmod g+rwx "/home/$USER/.docker" -R
+          chown  -R 777 /github
+          chmod chmod -R 777 /github
 
       - name: Run screenshot tests
         run: yarn screenshots
