@@ -31,11 +31,11 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Change Yarn Rights
-        run: chmod -R 777 /root/.config/yarn
-
       - name: Install dependencies
         run: yarn install
+        
+      - name: Change Yarn Rights
+        run: chmod -R 777 /root/.config/yarn
 
       - name: Run screenshot tests
         run: yarn screenshots
