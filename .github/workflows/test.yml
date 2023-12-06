@@ -23,7 +23,7 @@ jobs:
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.38.0-focal
+      image: mcr.microsoft.com/playwright:v1.40.0-jammy
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -31,6 +31,10 @@ jobs:
           node-version: "16"
       - name: Install dependencies
         run: yarn install
+      - name: Giving rights
+        run: | 
+          chown "$USER":"$USER" /home/"$USER"/.docker -R
+          chmod g+rwx "/home/$USER/.docker" -R
 
       - name: Run screenshot tests
         run: yarn screenshots
