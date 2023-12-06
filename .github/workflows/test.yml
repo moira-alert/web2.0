@@ -33,8 +33,8 @@ jobs:
         run: yarn install
       - name: Giving rights
         run: | 
-          chown  -R 777 /github
-          chmod chmod -R 777 /github
+          chown -R 777 /github
+          chmod -R 777 /github
 
       - name: Run screenshot tests
         run: yarn screenshots
