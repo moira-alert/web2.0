@@ -38,7 +38,9 @@ jobs:
       - name: check config
         run: | 
           ls ~/.config/yarn
-          cat ~/.config/yarn  
+          cat ~/.config/yarn
+        env:
+          HOME: /root  
 
       - name: Run screenshot tests
         run: yarn screenshots
