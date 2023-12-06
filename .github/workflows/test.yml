@@ -29,15 +29,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
+          
       - name: Install dependencies
         run: yarn install
-      - name: Giving rights
-        run: | 
-          chown -R 777 /github
-          chmod -R 777 /github
-
+          
       - name: Run screenshot tests
-        run: yarn screenshots
+        run: | 
+          chown -R 777 /root
+          chmod -R 777 /root
+          yarn screenshots
         env:
           HOME: /root
 
