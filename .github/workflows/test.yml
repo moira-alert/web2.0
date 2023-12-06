@@ -32,6 +32,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        env:
+          HOME: /root
 
       - name: check config
         run: | 
