@@ -33,10 +33,16 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: check config
+        run: | 
+          ls ~/.config/yarn
+          cat ~/.config/yarn  
+
       - name: Run screenshot tests
         run: yarn screenshots
+        
         env:
-          HOME: /home/$USER
+          HOME: /root
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
