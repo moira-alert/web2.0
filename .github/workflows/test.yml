@@ -37,7 +37,7 @@ jobs:
 
       - name: check config
         run: | 
-          ls ~/.config/yarn
+          ls ~/.config
           cat ~/.config/yarn
         env:
           HOME: /root  
