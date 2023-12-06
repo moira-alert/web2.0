@@ -30,6 +30,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
+          
+      - name: Change Yarn cache directory
+        run: yarn config set cache-folder /github/home/.yarn-cache
 
       - name: Install dependencies
         run: yarn install
