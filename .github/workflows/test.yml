@@ -33,9 +33,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
-        
+
       - name: Change Yarn Rights
-        run: chmod -R 777 /root/.config/yarn
+        run: chmod -R 777 ~/.config/yarn
 
       - name: Run screenshot tests
         run: yarn screenshots
