@@ -35,11 +35,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: check config
-        run: | 
-          ls ~/.config
-          cat ~/.config/yarn
-
       - name: Run screenshot tests
         run: yarn screenshots
 
