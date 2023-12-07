@@ -21,7 +21,7 @@ jobs:
         run: yarn test
  
       - name: Build Docker image
-        run: docker build -t playwright-tests -f Dockerfile.tests .
+        run: docker build -t playwright-tests -f -e CI=true Dockerfile.tests .
           
       - name: Run screenshot tests on Docker
         run: docker run --rm -v $(pwd)/test-results:/app/test-results playwright-tests
