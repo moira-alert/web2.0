@@ -1,9 +1,11 @@
+FROM node:16
+
 FROM mcr.microsoft.com/playwright:v1.40.0-jammy
 
 WORKDIR /app
 
-COPY . .
+VOLUME /app/test-results
 
-ENV CI=true
+COPY . .
 
 CMD ["yarn", "screenshots"]
