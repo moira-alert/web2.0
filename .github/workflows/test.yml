@@ -24,7 +24,7 @@ jobs:
         run: docker build -t playwright-tests -f Dockerfile.tests .
           
       - name: Run screenshot tests on Docker
-        run: docker run --rm -v $(pwd)/test-results:/app/test-results -e CI=true playwright-tests
+        run: docker run --rm -v $(pwd)/test-results:/app/test-results playwright-tests
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
