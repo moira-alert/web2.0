@@ -14,7 +14,7 @@ export default function AddingButton(props: IAddingButtonProps): React.ReactElem
     const { to } = props;
     return (
         <Link to={to} className={cn("button")} data-tid="Add Trigger">
-            Add Trigger
+            Add Trigge
         </Link>
     );
 }
