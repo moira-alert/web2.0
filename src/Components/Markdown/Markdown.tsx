@@ -12,6 +12,7 @@ interface IProps {
 export const Markdown: FC<IProps> = ({ markdown, className }) => {
     return (
         <ReactMarkdown
+            linkTarget="_blank"
             className={className}
             disallowedElements={purifyConfig}
             remarkPlugins={[remarkBreaks]}
