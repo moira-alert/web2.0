@@ -20,11 +20,11 @@ jobs:
       - name: Run unit tests
         run: yarn test
  
-      - name: Build Docker image
-        run: docker build -t playwright-tests -f Dockerfile.tests .
-          
-      - name: Run screenshot tests on Docker
-        run: docker run --rm -e CI=true -v $(pwd)/test-results:/app/test-results playwright-tests
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: yarn screenshots
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
