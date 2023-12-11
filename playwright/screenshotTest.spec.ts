@@ -10,9 +10,9 @@ for (const [component, stories] of Object.entries(componentList)) {
     });
     test.describe(async () => {
         for (const story of stories) {
-            test(`${story}`, async ({ page }, testInfo) => {
+            test(`${story}`, async ({ page }) => {
                 await page.goto(getStoryURL(story));
-                await expectToMatchScreenshot(page, testInfo, component);
+                await expectToMatchScreenshot(page, component);
             });
         }
     });
