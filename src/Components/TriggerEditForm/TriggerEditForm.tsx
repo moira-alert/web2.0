@@ -12,7 +12,7 @@ import {
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
-import TriggerModeEditor, { ValueType } from "../TriggerModeEditor/TriggerModeEditor";
+import { ValueType, TriggerModeEditor } from "../TriggerModeEditor/TriggerModeEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Status, StatusesList } from "../../Domain/Status";
