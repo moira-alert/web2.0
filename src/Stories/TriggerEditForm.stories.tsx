@@ -1,6 +1,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import StoryRouter from "storybook-react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { Status } from "../Domain/Status";
@@ -134,7 +135,7 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
     },
 ];
 
-const story = storiesOf("TriggerEditForm", module);
+const story = storiesOf("TriggerEditForm", module).addDecorator(StoryRouter());
 
 stories.forEach(({ title, data }) => {
     story.add(title, () => (
