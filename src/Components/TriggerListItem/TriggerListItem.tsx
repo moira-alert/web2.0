@@ -135,6 +135,19 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
     }
 
+    handleSort(column: SortingColumn) {
+        const { sortingColumn, sortingDown } = this.state;
+
+        if (column === sortingColumn) {
+            this.setState({ sortingDown: !sortingDown });
+        } else {
+            this.setState({
+                sortingColumn: column,
+                sortingDown: true,
+            });
+        }
+    }
+
     getHasExceptionState(): boolean {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
@@ -229,16 +242,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
                         sortingDown
                     )}
                     sortingColumn={sortingColumn}
-                    onSort={(sorting) => {
-                        if (sorting === sortingColumn) {
-                            this.setState({ sortingDown: !sortingDown });
-                        } else {
-                            this.setState({
-                                sortingColumn: sorting,
-                                sortingDown: true,
-                            });
-                        }
-                    }}
+                    onSort={(column) => this.handleSort(column)}
                     sortingDown={sortingDown}
                     onChange={(metric: string, maintenance: number) =>
                         onChange?.(data.id, metric, maintenance)
