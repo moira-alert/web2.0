@@ -4,6 +4,7 @@ import { devices } from "@playwright/test";
 const config: PlaywrightTestConfig = {
     testDir: "./playwright",
     snapshotDir: "./playwright/snapshots",
+    snapshotPathTemplate: "{snapshotDir}/{arg}{ext}",
     timeout: 30 * 1000,
     expect: {
         timeout: 5000,
