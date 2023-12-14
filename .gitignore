@@ -6,3 +6,4 @@
 .idea/
 .vscode/
 storybook-static/
+yarn-error.log

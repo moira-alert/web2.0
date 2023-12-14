@@ -1,7 +1,6 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import StoryRouter from "storybook-react-router";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import { Notification } from "../Domain/Notification";
 import { Status } from "../Domain/Status";
@@ -71,6 +70,5 @@ const items: { [id: string]: Array<Notification> } = {
 };
 
 storiesOf("NotificationList", module)
-    .addDecorator(StoryRouter())
     .add("Default", () => <NotificationList items={items} onRemove={action("onRemove")} />)
     .add("Empty", () => <NotificationList items={{}} onRemove={action("onRemove")} />);
