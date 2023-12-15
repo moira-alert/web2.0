@@ -19,13 +19,6 @@ function Container({ defaultValue, children }: ContainerProps) {
 }
 
 storiesOf("HighlightInput", module)
-    .addParameters({
-        creevey: {
-            skip: {
-                flacky: { stories: ["With syntax fail", "Highlight errors"] },
-            },
-        },
-    })
     .add("Highlight errors", () => (
         <Container defaultValue="func(first, secondFn())">
             {(value, setValue) => (

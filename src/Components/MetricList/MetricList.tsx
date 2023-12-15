@@ -79,7 +79,21 @@ export default function MetricList(props: Props): React.ReactElement {
                         entries.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE ? "stable" : "auto",
                 }}
             >
-                {status && <div className={cn("state")} />}
+                {status && (
+                    <div className={cn("state")}>
+                        <button
+                            type="button"
+                            className={cn("a11y-span", { sorting: onSort })}
+                            onClick={onSort && (() => onSort("state"))}
+                        >
+                            State
+                            {sortingColumn === "state" && (
+                                <span className={cn("icon")}>{sortingIcon}</span>
+                            )}
+                        </button>
+                    </div>
+                )}
+
                 <div className={cn("name")}>
                     <button
                         type="button"
@@ -140,7 +154,7 @@ export default function MetricList(props: Props): React.ReactElement {
                         // Otherwise, the total height will be the sum of individual row heights.
                         entries.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
                             ? METRIC_LIST_HEIGHT
-                            : getTotalSize(entries)
+                            : getTotalSize(entries) + 2
                     }
                     width="100%"
                     itemSize={(index) => getItemSize(...entries[index])}

@@ -2,7 +2,7 @@ import * as React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import TriggerModeEditor from "../Components/TriggerModeEditor/TriggerModeEditor";
+import { TriggerModeEditor } from "../Components/TriggerModeEditor/TriggerModeEditor";
 
 storiesOf("TriggerModeEditor", module)
     .addDecorator((story) => (

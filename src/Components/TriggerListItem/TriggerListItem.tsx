@@ -13,8 +13,9 @@ import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
-import MetricListView from "../MetricList/MetricList";
+import MetricListView, { SortingColumn } from "../MetricList/MetricList";
 import { sanitize } from "dompurify";
+import { sortMetrics } from "../../helpers/sort-metrics";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerListItem.less";
@@ -34,6 +35,8 @@ type Props = {
 type State = {
     showMetrics: boolean;
     metrics: MetricItemList;
+    sortingColumn: SortingColumn;
+    sortingDown: boolean;
 };
 
 export default class TriggerListItem extends React.Component<Props, State> {
@@ -44,26 +47,9 @@ export default class TriggerListItem extends React.Component<Props, State> {
         this.state = {
             showMetrics: false,
             metrics: props.data.last_check?.metrics || {},
+            sortingColumn: "event",
+            sortingDown: false,
         };
-    }
-
-    static sortMetricsByValue(metrics: MetricItemList): MetricItemList {
-        return Object.keys(metrics)
-            .sort((x: string, y: string) => {
-                const valueA = metrics[x].value || 0;
-                const valueB = metrics[y].value || 0;
-                if (valueA < valueB) {
-                    return -1;
-                }
-                if (valueA > valueB) {
-                    return 1;
-                }
-                return 0;
-            })
-            .reduce((data: MetricItemList, key: string) => {
-                data[key] = metrics[key];
-                return data;
-            }, {});
     }
 
     render(): React.ReactNode {
@@ -149,6 +135,19 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
     }
 
+    handleSort(column: SortingColumn) {
+        const { sortingColumn, sortingDown } = this.state;
+
+        if (column === sortingColumn) {
+            this.setState({ sortingDown: !sortingDown });
+        } else {
+            this.setState({
+                sortingColumn: column,
+                sortingDown: true,
+            });
+        }
+    }
+
     getHasExceptionState(): boolean {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
@@ -224,6 +223,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
 
     renderMetrics(): React.ReactNode {
         const { onChange, onRemove, data } = this.props;
+        const { sortingColumn, sortingDown } = this.state;
         if (!onChange || !onRemove) {
             return null;
         }
@@ -236,9 +236,14 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const metrics: Array<React.ReactElement> = statuses.map((status: Status) => (
             <Tab key={status} id={status} label={getStatusCaption(status)}>
                 <MetricListView
-                    items={TriggerListItem.sortMetricsByValue(this.filterMetricsByStatus(status))}
-                    sortingColumn="value"
-                    sortingDown
+                    items={sortMetrics(
+                        this.filterMetricsByStatus(status),
+                        sortingColumn,
+                        sortingDown
+                    )}
+                    sortingColumn={sortingColumn}
+                    onSort={(column) => this.handleSort(column)}
+                    sortingDown={sortingDown}
                     onChange={(metric: string, maintenance: number) =>
                         onChange?.(data.id, metric, maintenance)
                     }

@@ -4,7 +4,7 @@ module.exports = {
     core: {
         builder: "@storybook/builder-webpack5",
     },
-
+    babel: { presets: ["@babel/preset-react"] },
     webpackFinal: async (config, { configType }) => {
         config.module.rules = config.module.rules.filter(
             (rule) => rule.toString().test !== "/\\.css$/"
@@ -25,7 +25,7 @@ module.exports = {
 
         config.module.rules.push({
             test: /\.(ts|tsx)$/,
-            loader: require.resolve("babel-loader"),
+            loader: require.resolve("ts-loader"),
         });
 
         config.resolve.extensions.push(".ts", ".tsx");

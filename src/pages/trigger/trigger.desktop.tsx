@@ -37,7 +37,7 @@ type State = {
 
 class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
     public state: State = {
-        sortingColumn: "state",
+        sortingColumn: "event",
         sortingDown: false,
     };
 
