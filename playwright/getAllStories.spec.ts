@@ -6,7 +6,7 @@ const storybookUrl = "http://localhost:9001";
 test.describe("Get a list of all stories", () => {
     test("Get a list of all stories", async ({ page }) => {
         await page.goto(storybookUrl);
-        const componentList: string[] = [];
+        const componentList: { [key: string]: string[] } = {};
 
         const componentsLocator = page.locator(
             '#storybook-explorer-tree >> //*[@data-nodetype="component"]'
@@ -24,6 +24,10 @@ test.describe("Get a list of all stories", () => {
                 await componentHandle.click();
             }
 
+            if (componentText !== null) {
+                componentList[componentText] = [];
+            }
+
             const dataItemId = await componentHandle.getAttribute("data-item-id");
 
             const stories = page.locator(
@@ -35,7 +39,7 @@ test.describe("Get a list of all stories", () => {
                 const storyItemId = await stories.nth(i).getAttribute("data-item-id");
 
                 if (storyItemId !== null && componentText !== null) {
-                    componentList.push(storyItemId);
+                    componentList[componentText].push(storyItemId);
                 }
             }
         }
