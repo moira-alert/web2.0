@@ -58,6 +58,7 @@
     "devDependencies": {
         "@babel/core": "^7.23.3",
         "@babel/preset-env": "^7.23.3",
+        "@babel/preset-typescript": "7.13.0",
         "@hot-loader/react-dom": "16.13.0",
         "@lezer/generator": "1.0.0",
         "@playwright/test": "^1.40.1",
