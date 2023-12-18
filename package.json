@@ -20,10 +20,8 @@
         "test": "cross-env NODE_ENV=testing jest \"./src\"",
         "test:e2e": "cross-env NODE_ENV=testing TYPE=e2e jest ./src/tests --runInBand",
         "prettier": "prettier \"./src/**/*.{ts,tsx}\"",
-        "creevey:update": "creevey -c .creevey/creevey.config.js --update",
-        "creevey:ui": "creevey --ui -c .creevey/creevey.config.js",
-        "creevey:ci": "creevey -c .creevey/creevey.config.js",
-        "screenshots": "start-server-and-test storybook:ci http-get://localhost:9001 creevey:ci"
+        "pw:screenshotTest":"xvfb-run npx playwright test screenshotTest",
+        "screenshots": "start-server-and-test storybook:ci http://localhost:9001 pw:screenshotTest"
     },
     "dependencies": {
         "@clavinjune/codemirror-metricsql": "^0.0.1-dev.1010230001",
@@ -60,8 +58,10 @@
     "devDependencies": {
         "@babel/core": "^7.23.3",
         "@babel/preset-env": "^7.23.3",
+        "@babel/preset-typescript": "7.13.0",
         "@hot-loader/react-dom": "16.13.0",
         "@lezer/generator": "1.0.0",
+        "@playwright/test": "^1.40.1",
         "@storybook/addon-actions": "6.4.22",
         "@storybook/addons": "6.4.22",
         "@storybook/builder-webpack5": "6.4.22",
@@ -84,7 +84,6 @@
         "@typescript-eslint/eslint-plugin": "^6.9.0",
         "@typescript-eslint/parser": "^6.9.0",
         "classnames": "2.2.6",
-        "creevey": "0.9.0-non-webpack.2",
         "cross-env": "5.2.0",
         "css-loader": "^6.8.1",
         "dotenv": "^16.3.1",

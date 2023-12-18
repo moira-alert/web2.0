@@ -7,3 +7,7 @@
 .vscode/
 storybook-static/
 yarn-error.log
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

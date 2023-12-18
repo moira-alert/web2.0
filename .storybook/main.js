@@ -1,11 +1,10 @@
 module.exports = {
     stories: ["../src/**/*.stories.mdx", "../src/Stories/**/*.stories.tsx"],
-    addons: ["creevey"],
     framework: "@storybook/react",
     core: {
         builder: "@storybook/builder-webpack5",
     },
-
+    babel: { presets: ["@babel/preset-react"] },
     webpackFinal: async (config, { configType }) => {
         config.module.rules = config.module.rules.filter(
             (rule) => rule.toString().test !== "/\\.css$/"
