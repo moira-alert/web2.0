@@ -99,9 +99,9 @@ export function StateChart({
                                     lineWidth: 0,
                                 }))
                                 .sort((a, b) => {
-                                    const texta = Number(a.text.split(":")[1]);
-                                    const textb = Number(b.text.split(":")[1]);
-                                    return textb - texta;
+                                    const count1 = Number(a.text.split(":")[1]);
+                                    const count2 = Number(b.text.split(":")[1]);
+                                    return count2 - count1;
                                 }) ?? []
                         );
                     },
