@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
 import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import { Input } from "@skbkontur/react-ui/components/Input";
@@ -69,6 +69,10 @@ export const TriggerModeEditor: FC<IProps> = ({
 
     const configureValues = (watchForType: WatchForType) =>
         watchForField === `${watchForType}` ? values : { warn_value: null, error_value: null };
+
+    useEffect(() => {
+        disableSimpleMode && setMode("advanced");
+    });
 
     return (
         <>
