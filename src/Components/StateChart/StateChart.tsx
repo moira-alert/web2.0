@@ -98,10 +98,11 @@ export function StateChart({
                                         : backgroundColor,
                                     lineWidth: 0,
                                 }))
+                                .filter((_el, index) => data[index] !== 0)
                                 .sort((a, b) => {
-                                    const count1 = Number(a.text.split(":")[1]);
-                                    const count2 = Number(b.text.split(":")[1]);
-                                    return count2 - count1;
+                                    const metricAmount1 = Number(a.text.split(":")[1]);
+                                    const metricAmount2 = Number(b.text.split(":")[1]);
+                                    return metricAmount2 - metricAmount1;
                                 }) ?? []
                         );
                     },
