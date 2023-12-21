@@ -12,7 +12,6 @@ import MetricList from "../../Components/MetricList/MetricList";
 import EventList from "../../Components/EventList/EventList";
 import { Status } from "../../Domain/Status";
 import { sortMetrics } from "../../helpers/sort-metrics";
-import { StateChart } from "../../Components/StateChart/StateChart";
 
 export type TriggerDesktopProps = {
     trigger?: Trigger;
@@ -105,19 +104,11 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                                 setTriggerMaintenance(trigger.id, maintenance)
                             }
                             history={this.props.history}
+                            metrics={metrics}
                         />
                     </LayoutPlate>
                 )}
                 <LayoutContent>
-                    {isMetrics && (
-                        <StateChart
-                            displayLegend
-                            enableTooltip
-                            height={"10rem"}
-                            width={"18rem"}
-                            metrics={metrics}
-                        />
-                    )}
                     {!(isMetrics || isEvents) ? (
                         <Center>
                             <span style={{ color: "#888888" }}>

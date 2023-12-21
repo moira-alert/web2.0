@@ -90,13 +90,19 @@ export function StateChart({
                         const { labels, datasets } = chart.data;
                         const { data, backgroundColor } = datasets[0];
                         return (
-                            labels?.map((label, index) => ({
-                                text: `${label}: ${data[index]}`,
-                                fillStyle: Array.isArray(backgroundColor)
-                                    ? backgroundColor[index]
-                                    : backgroundColor,
-                                lineWidth: 0,
-                            })) ?? []
+                            labels
+                                ?.map((label, index) => ({
+                                    text: `${label}: ${data[index]}`,
+                                    fillStyle: Array.isArray(backgroundColor)
+                                        ? backgroundColor[index]
+                                        : backgroundColor,
+                                    lineWidth: 0,
+                                }))
+                                .sort((a, b) => {
+                                    const texta = Number(a.text.split(":")[1]);
+                                    const textb = Number(b.text.split(":")[1]);
+                                    return textb - texta;
+                                }) ?? []
                         );
                     },
                 },
