@@ -91,6 +91,7 @@ const TriggerEditForm: FC<IProps> = ({
                         <Textarea
                             width="100%"
                             value={desc || ""}
+                            data-tid="Description"
                             onValueChange={(value) => onChange({ desc: value })}
                         />
                         <EditDescriptionHelp />

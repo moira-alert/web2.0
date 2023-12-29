@@ -134,7 +134,11 @@ const TriggerDuplicateContainer = (props: Props) => {
                             <Fit>
                                 <RowStack gap={3} baseline>
                                     <Fit>
-                                        <Button use="primary" onClick={handleSubmit}>
+                                        <Button
+                                            data-tid="Duplicate Trigger"
+                                            use="primary"
+                                            onClick={handleSubmit}
+                                        >
                                             Duplicate trigger
                                         </Button>
                                     </Fit>

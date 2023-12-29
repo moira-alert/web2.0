@@ -209,6 +209,7 @@ export default function TriggerInfo({
                                         </Hint>
                                     </div>
                                     <CodeEditor
+                                        data-tid={`T${i + 1}`}
                                         triggerSource={triggerSource}
                                         disabled
                                         key={i}

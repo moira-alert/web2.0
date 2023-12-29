@@ -80,6 +80,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                                 Name:
                                 <ValidationWrapper validationInfo={validateName()}>
                                     <Input
+                                        data-tid="Team name"
                                         value={name}
                                         onValueChange={setName}
                                         width={"100%"}
@@ -93,6 +94,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                         </GridCell>
                         {descriptionView === "edit" ? (
                             <Textarea
+                                data-tid="Team description"
                                 value={description}
                                 onValueChange={setDescription}
                                 width="100%"
@@ -109,11 +111,21 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                 <Modal.Footer>
                     <Gapped gap={8}>
                         {team ? (
-                            <Button use={"primary"} onClick={handleSaveTeam} width={100}>
+                            <Button
+                                data-tid="Save team"
+                                use={"primary"}
+                                onClick={handleSaveTeam}
+                                width={100}
+                            >
                                 Save
                             </Button>
                         ) : (
-                            <Button use={"primary"} onClick={handleAddTeam} width={100}>
+                            <Button
+                                data-tid="Confirm add team"
+                                use={"primary"}
+                                onClick={handleAddTeam}
+                                width={100}
+                            >
                                 Add
                             </Button>
                         )}

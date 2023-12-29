@@ -72,6 +72,7 @@ export function Users(props: UsersProps): ReactElement {
                         icon={<AddIcon />}
                         use={"link"}
                         width={0}
+                        data-tid="Add user"
                         onClick={() => setAddingUser(true)}
                     >
                         Add User

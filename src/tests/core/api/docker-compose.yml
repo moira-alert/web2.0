@@ -6,6 +6,15 @@ services:
     volumes:
       - data:/data
 
+  graphite:
+    image: graphiteapp/graphite-statsd
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./local/prometheus.yml:/etc/prometheus/prometheus.yml
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+
   filter:
     image: moira/filter-nightly:latest
     ports:
@@ -35,6 +44,8 @@ services:
 
   api:
     image: moira/api-nightly:latest
+    volumes:
+      - ./local/api.yml:/etc/moira/api.yml
     depends_on:
       - redis
       - checker

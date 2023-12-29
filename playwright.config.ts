@@ -15,6 +15,7 @@ const config: PlaywrightTestConfig = {
     workers: process.env.CI ? 1 : undefined,
     reporter: process.env.CI ? "github" : [["list"], ["html", { open: "on-failure" }]],
     use: {
+        baseURL: "http://localhost:9000",
         actionTimeout: 0,
         trace: "on-first-retry",
     },

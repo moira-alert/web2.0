@@ -108,6 +108,7 @@ export const TargetsList: FC<IProps> = ({
                             <span className={cn("target-number")}>T{i + 1}</span>
                             <Fill>
                                 <HighlightInput
+                                    data-tid={`T${i + 1}`}
                                     triggerSource={triggerSource}
                                     value={target}
                                     onValueChange={(value: string) => {
@@ -135,7 +136,7 @@ export const TargetsList: FC<IProps> = ({
                                     <Button
                                         icon={<RemoveIcon />}
                                         onClick={() => handleRemoveTarget(i)}
-                                        data-tid="Target Remove"
+                                        data-tid={`Target remove ${i + 1}`}
                                     ></Button>
                                 </Fit>
                             )}

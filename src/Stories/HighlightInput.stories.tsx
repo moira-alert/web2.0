@@ -23,6 +23,7 @@ storiesOf("HighlightInput", module)
         <Container defaultValue="func(first, secondFn())">
             {(value, setValue) => (
                 <HighlightInput
+                    data-tid="0"
                     value={value}
                     onValueChange={setValue}
                     validate={{
@@ -53,6 +54,7 @@ storiesOf("HighlightInput", module)
         <Container defaultValue="func (first, secondFn">
             {(value, setValue) => (
                 <HighlightInput
+                    data-tid="0"
                     value={value}
                     onValueChange={setValue}
                     validate={{
