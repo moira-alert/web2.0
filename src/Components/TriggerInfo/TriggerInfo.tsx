@@ -290,7 +290,6 @@ export default function TriggerInfo({
                 </dl>
                 {isMetrics && (
                     <div className={cn("state-chart")}>
-                        {" "}
                         <MetricStateChart
                             displayLegend
                             enableTooltip
