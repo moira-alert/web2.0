@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import {
     ArcElement,
     Chart,
@@ -14,6 +14,14 @@ import { Status, getStatusColor } from "../../Domain/Status";
 import { Metric } from "../../Domain/Metric";
 
 export type MetricNameToStateMap = Record<string, Metric>;
+
+export interface IProps {
+    metrics: MetricNameToStateMap;
+    width?: string;
+    height?: string;
+    displayLegend?: boolean;
+    enableTooltip?: boolean;
+}
 
 export const countMetricsByStatus = (metrics: MetricNameToStateMap) =>
     Object.values(metrics).reduce(
@@ -32,19 +40,13 @@ export const countMetricsByStatus = (metrics: MetricNameToStateMap) =>
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function MetricStateChart({
+export const MetricStateChart: FC<IProps> = ({
     metrics,
     width,
     height,
     displayLegend = false,
     enableTooltip = false,
-}: {
-    metrics: MetricNameToStateMap;
-    width: string;
-    height: string;
-    displayLegend?: boolean;
-    enableTooltip?: boolean;
-}) {
+}) => {
     const metricsStatusToCountMap = countMetricsByStatus(metrics);
 
     const data: ChartData<"doughnut"> = {
@@ -107,4 +109,4 @@ export function MetricStateChart({
             />
         </div>
     );
-}
+};
