@@ -18,13 +18,12 @@ export type MetricNameToStateMap = Record<string, Metric>;
 export const countMetricsByStatus = (metrics: MetricNameToStateMap) =>
     Object.values(metrics).reduce(
         (acc, item) => {
-            const currentCount = acc.get(item.state);
-            acc.set(item.state, currentCount! + 1);
+            const currentCount = acc.get(item.state) ?? 0;
+            acc.set(item.state, currentCount + 1);
             return acc;
         },
         new Map([
             [Status.ERROR, 0],
-            [Status.EXCEPTION, 0],
             [Status.NODATA, 0],
             [Status.OK, 0],
             [Status.WARN, 0],
@@ -33,7 +32,7 @@ export const countMetricsByStatus = (metrics: MetricNameToStateMap) =>
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function StateChart({
+export function MetricStateChart({
     metrics,
     width,
     height,
@@ -50,7 +49,6 @@ export function StateChart({
 
     const data: ChartData<"doughnut"> = {
         labels: Array.from(metricsStatusToCountMap.keys()),
-
         datasets: [
             {
                 data: Array.from(metricsStatusToCountMap.values()),
@@ -64,23 +62,7 @@ export function StateChart({
 
     const options = {
         maintainAspectRatio: false,
-        offset: 4,
-        borderRadius: 3,
-        animations: {
-            backgroundColor: ({ dataIndex }: { dataIndex: number }) => {
-                if (dataIndex === 1) {
-                    return {
-                        duration: 1030,
-                        type: "color",
-                        easing: "easeInOutExpo",
-                        to: "#ff572240",
-                        from: "#ff5722",
-                        loop: true,
-                    };
-                }
-                return false;
-            },
-        },
+        animation: false,
         plugins: {
             legend: {
                 display: displayLegend,
@@ -89,21 +71,24 @@ export function StateChart({
                     generateLabels(chart: Chart): LegendItem[] {
                         const { labels, datasets } = chart.data;
                         const { data, backgroundColor } = datasets[0];
+
                         return (
                             labels
-                                ?.map((label, index) => ({
-                                    text: `${label}: ${data[index]}`,
-                                    fillStyle: Array.isArray(backgroundColor)
+                                ?.map((label, index) => {
+                                    const value = data[index];
+                                    const metricAmount = Number(value);
+                                    const fillStyle = Array.isArray(backgroundColor)
                                         ? backgroundColor[index]
-                                        : backgroundColor,
-                                    lineWidth: 0,
-                                }))
-                                .filter((_el, index) => data[index] !== 0)
-                                .sort((a, b) => {
-                                    const metricAmount1 = Number(a.text.split(":")[1]);
-                                    const metricAmount2 = Number(b.text.split(":")[1]);
-                                    return metricAmount2 - metricAmount1;
-                                }) ?? []
+                                        : backgroundColor;
+                                    return {
+                                        text: `${label}: ${value}`,
+                                        fillStyle,
+                                        lineWidth: 0,
+                                        metricAmount,
+                                    };
+                                })
+                                .filter((item) => item.metricAmount !== 0)
+                                .sort((a, b) => b.metricAmount - a.metricAmount) ?? []
                         );
                     },
                 },

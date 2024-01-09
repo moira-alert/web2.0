@@ -24,7 +24,7 @@ import { CodeEditor } from "../HighlightInput/CodeEditor";
 import { Gapped, Hint } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import { Markdown } from "../Markdown/Markdown";
-import { StateChart } from "../StateChart/StateChart";
+import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
 import classNames from "classnames/bind";
 
@@ -291,7 +291,7 @@ export default function TriggerInfo({
                 {isMetrics && (
                     <div className={cn("state-chart")}>
                         {" "}
-                        <StateChart
+                        <MetricStateChart
                             displayLegend
                             enableTooltip
                             height={"10rem"}
