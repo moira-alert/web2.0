@@ -104,6 +104,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                                 setTriggerMaintenance(trigger.id, maintenance)
                             }
                             history={this.props.history}
+                            metrics={metrics}
                         />
                     </LayoutPlate>
                 )}
