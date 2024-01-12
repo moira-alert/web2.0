@@ -5,15 +5,14 @@ type Props = {
     values?: {
         [metric: string]: number;
     };
-    value?: number;
     placeholder: boolean;
     hideTargetsNames?: boolean;
 };
 
 export default function MetricValues(props: Props): React.ReactElement {
-    const { value, values, placeholder, hideTargetsNames } = props;
+    const { values, placeholder, hideTargetsNames } = props;
     if (values === undefined) {
-        return <div>{roundValue(value, placeholder)}</div>;
+        return <div>{roundValue(values, placeholder)}</div>;
     }
     const arr = Object.keys(values).map((key) => {
         return {
@@ -24,6 +23,7 @@ export default function MetricValues(props: Props): React.ReactElement {
     if (arr.length === 1 && hideTargetsNames === true) {
         return <div id="targetsNames">{roundValue(arr[0].value, placeholder)}</div>;
     }
+
     return (
         <div>
             {arr.map((val) => (

@@ -23,7 +23,9 @@ function maintenanceDelta(maintenance?: number | null): number {
     return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
-const hideTargetsNames = ({ values }: Metric) => !values || Object.keys(values).length === 1;
+export const hideTargetsNames = (values: { [metric: string]: number } | undefined) => {
+    return !values || Object.keys(values).length === 1;
+};
 
 type MetricListItemProps = {
     status: boolean;
@@ -43,7 +45,6 @@ export function MetricListItem({
     onRemove,
 }: MetricListItemProps) {
     const {
-        value,
         values,
         event_timestamp: eventTimestamp = 0,
         state,
@@ -64,10 +65,9 @@ export function MetricListItem({
             </div>
             <div className={cn("value")}>
                 <MetricValues
-                    value={value}
                     values={values}
                     placeholder
-                    hideTargetsNames={hideTargetsNames(metricData)}
+                    hideTargetsNames={hideTargetsNames(metricData.values)}
                 />
             </div>
             <div className={cn("maintenance")}>
