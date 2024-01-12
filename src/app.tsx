@@ -12,25 +12,33 @@ import { Platform, getPlatformSettings } from "./helpers/common";
 
 import "./style.less";
 
-const initSentry = () => {
-    if (process.env.SENTRY_DSN_KEY !== undefined) {
-        Sentry.init({
-            dsn: process.env.SENTRY_DSN_KEY,
-            debug: getPlatformSettings().platform === Platform.LOCAL,
-            environment: getPlatformSettings().platform,
-            enabled:
-                getPlatformSettings().platform !== Platform.LOCAL &&
-                process.env.SENTRY_DSN_KEY !== undefined,
-            tracesSampleRate: 1.0,
-        });
+const moiraApi = new MoiraApi("/api");
+
+const getDSN = async () => {
+    try {
+        const { sentry } = await moiraApi.getConfig();
+        return sentry?.dsn;
+    } catch (error) {
+        return Promise.reject("Error getting DSN");
     }
+};
+
+const isLocalPlatform = getPlatformSettings().platform === Platform.LOCAL;
+
+const initSentry = async () => {
+    const key = await getDSN();
+    Sentry.init({
+        dsn: key,
+        debug: isLocalPlatform,
+        environment: getPlatformSettings().platform,
+        enabled: !isLocalPlatform,
+        tracesSampleRate: 1.0,
+    });
 };
 
 initSentry();
 
 const root = document.getElementById("root");
-
-const moiraApi = new MoiraApi("/api");
 
 const render = (Component: ComponentType) => {
     if (root !== null) {
