@@ -5,7 +5,7 @@ interface ConfirmDeleteModalProps {
     message: string;
     children?: React.ReactNode;
     onClose: () => void;
-    onDelete: () => Promise<void>;
+    onDelete?: () => Promise<void>;
 }
 
 export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps): JSX.Element => (
@@ -17,9 +17,11 @@ export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps): JSX.Element 
                 <Button onClick={props.onClose} use="primary" data-tid="Close Delete Modal">
                     Cancel
                 </Button>
-                <Button onClick={props.onDelete} use="danger" data-tid="Delete Trigger">
-                    Delete
-                </Button>
+                {props.onDelete && (
+                    <Button onClick={props.onDelete} use="danger" data-tid="Delete Trigger">
+                        Delete
+                    </Button>
+                )}
             </Gapped>
         </Modal.Footer>
     </Modal>

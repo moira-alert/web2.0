@@ -120,13 +120,7 @@ const stories: Array<{
     },
 ];
 
-const story = storiesOf("Mobile/TriggerInfoPage", module).addParameters({
-    creevey: {
-        skip: {
-            flacky: { stories: "Loading" },
-        },
-    },
-});
+const story = storiesOf("Mobile/TriggerInfoPage", module);
 
 story.add("Loading", () => (
     <MobileTriggerInfoPage

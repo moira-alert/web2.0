@@ -31,7 +31,8 @@
     flex-wrap: wrap;
     margin-top: 0;
     margin-bottom: 0;
-
+    overflow: hidden;
+    grid-column: 1;
     dt {
         font-style: italic;
         margin-top: 10px;
@@ -45,10 +46,11 @@
         width: calc(~'100% - 150px');
 
         &.description {
+            word-wrap: break-word;
             overflow: hidden;
         }
         &.codeEditor {
-            margin-left: -14px;
+            margin-left: -16px;
         }
     }
 }
@@ -60,7 +62,7 @@
 .copyButton{
     position: absolute;
     top: 5px;
-    left: -20px;
+    left: -18px;
 }
 
 .maintenance-info {
@@ -72,4 +74,17 @@
     .line-2 {
         margin-left: 20px;
     }
+}
+
+.info-section {
+    display: grid;
+    grid-auto-columns: 1fr 288px;
+}
+
+.state-chart {
+    grid-column: 2;
+    padding-left: 10px;
+    min-width: 288px;
+    display: flex;
+    align-items: center
 }

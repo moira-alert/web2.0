@@ -19,18 +19,10 @@ const iconTypes = [
     "tel",
 ];
 
-storiesOf("ContactTypeIcon", module)
-    .addParameters({
-        creevey: {
-            skip: {
-                flacky: { stories: "AllIconsInList" },
-            },
-        },
-    })
-    .add("AllIconsInList", () => (
-        <div>
-            {iconTypes.map((type: string) => (
-                <ContactTypeIcon key={type} type={type} />
-            ))}
-        </div>
-    ));
+storiesOf("ContactTypeIcon", module).add("AllIconsInList", () => (
+    <div>
+        {iconTypes.map((type: string) => (
+            <ContactTypeIcon key={type} type={type} />
+        ))}
+    </div>
+));

@@ -37,7 +37,7 @@ type State = {
 
 class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
     public state: State = {
-        sortingColumn: "state",
+        sortingColumn: "event",
         sortingDown: false,
     };
 
@@ -104,6 +104,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                                 setTriggerMaintenance(trigger.id, maintenance)
                             }
                             history={this.props.history}
+                            metrics={metrics}
                         />
                     </LayoutPlate>
                 )}

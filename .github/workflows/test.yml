@@ -19,13 +19,16 @@ jobs:
 
       - name: Run unit tests
         run: yarn test
-
-      - name: Run screenshot tests
-        run: yarn screenshots
+ 
+      - name: Build Docker image
+        run: docker build -t playwright-tests -f Dockerfile.tests .
+          
+      - name: Run screenshot tests on Docker
+        run: docker run --rm -e CI=true -v $(pwd)/test-results:/app/test-results playwright-tests
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
+        if: ${{ always() }}
         with:
           name: screenshots-report
-          path: .creevey/report
+          path: test-results

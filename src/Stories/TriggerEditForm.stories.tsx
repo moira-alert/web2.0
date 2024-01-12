@@ -127,6 +127,8 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                 "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)",
                 "aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 6, 8)",
             ],
+            expression:
+                "t1 > 134500 ? ERROR : (PREV_STATE == OK ? (t1 > 5 : WARN ? OK) : (t1 > 6000000000 ? WARN : OK))",
             ttl_state: Status.OK,
             notify_about_new_metrics: true,
             alone_metrics: { t2: true },

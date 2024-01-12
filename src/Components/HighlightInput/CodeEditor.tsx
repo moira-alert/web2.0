@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { EditorState, basicSetup } from "@codemirror/basic-setup";
-import { EditorView, keymap } from "@codemirror/view";
+import { keymap } from "@codemirror/view";
 import { defaultKeymap } from "@codemirror/commands";
 import { indentOnInput, foldAll } from "@codemirror/language";
 import { graphiteLanguage } from "../../TriggerGrammar/graphiteLanguage";
@@ -11,7 +10,8 @@ import TriggerSource, { TriggerTargetProblem } from "../../Domain/Trigger";
 import { formatQuery } from "./formatQuery";
 import { TargetQueryEntityColors } from "../../Domain/Target";
 import { PromQLExtension } from "@clavinjune/codemirror-metricsql";
-import { TransactionSpec, EditorSelection } from "@codemirror/state";
+import { basicSetup, EditorView } from "codemirror";
+import { TransactionSpec, EditorSelection, EditorState } from "@codemirror/state";
 import classNames from "classnames/bind";
 
 import styles from "./HighlightInput.less";
