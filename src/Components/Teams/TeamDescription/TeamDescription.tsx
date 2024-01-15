@@ -39,7 +39,14 @@ export function TeamDescription(props: TeamDescriptionProps): ReactElement {
             </Button>
         </>
     ) : (
-        <Button icon={<AddIcon />} use={"link"} onClick={() => setEdit(true)}>
+        <Button
+            icon={<AddIcon />}
+            use={"link"}
+            onClick={() => {
+                setEdit(true);
+                throw new Error("test error dev");
+            }}
+        >
             Add description
         </Button>
     );
