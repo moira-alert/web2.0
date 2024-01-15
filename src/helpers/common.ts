@@ -18,28 +18,23 @@ export enum Platform {
     PROD = "prod",
 }
 
-export const getPlatformSettings = (): {
-    platform: Platform;
-} => {
-    if (window.location.hostname.includes(Platform.LOCAL)) {
-        return {
-            platform: Platform.LOCAL,
-        };
-    }
+const isPlatform = (platform: Platform): boolean => {
+    return window.location.hostname.includes(platform);
+};
 
-    if (window.location.hostname.includes(Platform.DEV)) {
-        return {
-            platform: Platform.DEV,
-        };
-    }
+const platforms: Record<Platform, boolean> = {
+    [Platform.LOCAL]: isPlatform(Platform.LOCAL),
+    [Platform.DEV]: isPlatform(Platform.DEV),
+    [Platform.STAGING]: isPlatform(Platform.STAGING),
+    [Platform.PROD]:
+        !isPlatform(Platform.LOCAL) && !isPlatform(Platform.DEV) && !isPlatform(Platform.STAGING),
+};
 
-    if (window.location.hostname.includes(Platform.STAGING)) {
-        return {
-            platform: Platform.STAGING,
-        };
+export const getPlatform = (): Platform => {
+    for (const platform in platforms) {
+        if (platforms[platform as Platform]) {
+            return platform as Platform;
+        }
     }
-
-    return {
-        platform: Platform.PROD,
-    };
+    throw new Error("No matching platform found");
 };

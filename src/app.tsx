@@ -8,7 +8,7 @@ import { ApiProvider } from "./Api/MoiraApiInjection";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import ErrorContainer from "./Containers/ErrorContainer";
-import { Platform, getPlatformSettings } from "./helpers/common";
+import { Platform, getPlatform } from "./helpers/common";
 
 import "./style.less";
 
@@ -23,14 +23,14 @@ const getDSN = async () => {
     }
 };
 
-const isLocalPlatform = getPlatformSettings().platform === Platform.LOCAL;
+const isLocalPlatform = getPlatform() === Platform.LOCAL;
 
 const initSentry = async () => {
     const key = await getDSN();
     Sentry.init({
         dsn: key,
         debug: isLocalPlatform,
-        environment: getPlatformSettings().platform,
+        environment: getPlatform(),
         enabled: !isLocalPlatform,
         tracesSampleRate: 1.0,
     });
