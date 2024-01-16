@@ -1,7 +1,5 @@
 import React from "react";
 import { saveAs } from "file-saver";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import ExportIcon from "@skbkontur/react-icons/Export";
 import { Subscription } from "../../Domain/Subscription";
 import { Contact } from "../../Domain/Contact";
 import { Trigger } from "../../Domain/Trigger";
@@ -19,9 +17,5 @@ export default function FileExport({ title, data, children }: FileExportProps): 
         saveAs(blob, `${title}.json`);
     };
 
-    return (
-        <Button use="link" onClick={handleExport} icon={<ExportIcon />}>
-            {children || "Export"}
-        </Button>
-    );
+    return <span onClick={handleExport}>{children || "Export"}</span>;
 }

@@ -1,31 +1,41 @@
 import * as React from "react";
 import { History } from "history";
-import { format, addMinutes, startOfDay, fromUnixTime, getUnixTime } from "date-fns";
+import { format, fromUnixTime } from "date-fns";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
+import ExportIcon from "@skbkontur/react-icons/Export";
+import TrashIcon from "@skbkontur/react-icons/Trash";
 import ErrorIcon from "@skbkontur/react-icons/Error";
-import ClockIcon from "@skbkontur/react-icons/Clock";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import ClearIcon from "@skbkontur/react-icons/Clear";
+import ClockIcon from "@skbkontur/react-icons/Clock";
+import ArrowTriangleDownIcon from "@skbkontur/react-icons/ArrowTriangleDown";
 import DocumentCopyIcon from "@skbkontur/react-icons/DocumentCopy";
-import UserIcon from "@skbkontur/react-icons/User";
 import TagGroup from "../TagGroup/TagGroup";
-import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
-import { Schedule } from "../../Domain/Schedule";
+import {
+    Trigger,
+    TriggerState,
+    maintenanceDelta,
+    triggerSourceDescription,
+} from "../../Domain/Trigger";
 import { getPageLink } from "../../Domain/Global";
-import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
+import { humanizeDuration } from "../../helpers/DateUtil";
 import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
-import { Gapped, Hint } from "@skbkontur/react-ui";
+import { Gapped, Hint, DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
+import { ConfirmDeleteModal } from "../ConfirmDeleteModal/ConfirmDeleteModal";
+import { useModal } from "../../hooks/useModal";
+import { LinkMenuItem } from "./Components/LinkMenuItem";
+import { ScheduleView } from "./Components/ScheduleView";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -33,17 +43,14 @@ import styles from "./TriggerInfo.less";
 const cn = classNames.bind(styles);
 
 interface IProps {
-    data: Trigger;
+    trigger: Trigger;
     triggerState: TriggerState;
     supportEmail?: string;
     metrics?: MetricItemList;
+    deleteTrigger: (id: string) => void;
     onThrottlingRemove: (triggerId: string) => void;
     onSetMaintenance: (maintenance: number) => void;
     history: History;
-}
-
-function maintenanceDelta(maintenance?: number | null): number {
-    return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
 function maintenanceCaption(delta: number): React.ReactNode {
@@ -56,46 +63,12 @@ function maintenanceCaption(delta: number): React.ReactNode {
     );
 }
 
-function ScheduleView(props: { data: Schedule }): React.ReactElement {
-    const { data } = props;
-    const { days, startOffset, endOffset, tzOffset } = data;
-
-    const startTime = format(addMinutes(startOfDay(getUTCDate()), startOffset), "HH:mm");
-
-    const endTime = format(addMinutes(startOfDay(getUTCDate()), endOffset), "HH:mm");
-
-    const timeZone = format(addMinutes(startOfDay(getUTCDate()), Math.abs(tzOffset)), "HH:mm");
-
-    const timeZoneSign = tzOffset < 0 ? "+" : "−";
-    const enabledDays = days.filter(({ enabled }) => enabled);
-
-    return (
-        <>
-            {days.length === enabledDays.length
-                ? "Everyday"
-                : enabledDays.map(({ name }) => name).join(", ")}{" "}
-            {startTime}—{endTime} (GMT {timeZoneSign}
-            {timeZone})
-        </>
-    );
-}
-
-function triggerSourceDescription(source: TriggerSource): string | undefined {
-    switch (source) {
-        case TriggerSource.GRAPHITE_REMOTE:
-            return "(remote)";
-        case TriggerSource.PROMETHEUS_REMOTE:
-            return "(prometheus)";
-        case TriggerSource.GRAPHITE_LOCAL:
-            return undefined;
-    }
-}
-
 export default function TriggerInfo({
-    data,
+    trigger,
     triggerState,
     supportEmail,
     metrics,
+    deleteTrigger,
     onThrottlingRemove,
     onSetMaintenance,
     history,
@@ -114,8 +87,9 @@ export default function TriggerInfo({
         tags,
         throttling,
         trigger_source: triggerSource,
-    } = data;
-    const { state, msg: exceptionMessage, maintenance, maintenanceInfo } = triggerState;
+    } = trigger;
+    const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
+    const { isModalOpen, openModal, closeModal } = useModal();
 
     const isMetrics = metrics && Object.keys(metrics).length > 0;
     const hasExpression = expression != null && expression !== "";
@@ -129,64 +103,77 @@ export default function TriggerInfo({
                     {name != null && name !== "" ? name : "[No name]"}
                 </h1>
                 <div className={cn("controls")}>
-                    {throttling !== 0 && (
-                        <span className={cn("control")}>
-                            <Button
-                                use="link"
-                                icon={<ClearIcon />}
-                                onClick={() => onThrottlingRemove(id)}
-                            >
-                                Disable throttling
-                            </Button>
-                        </span>
-                    )}
-                    <span className={cn("control")} data-tid="Edit">
-                        <RouterLink to={getPageLink("triggerEdit", id)} icon={<EditIcon />}>
+                    <span className={cn("control")}>
+                        <RouterLink
+                            data-tid="Edit"
+                            to={getPageLink("triggerEdit", id)}
+                            icon={<EditIcon />}
+                        >
                             Edit
                         </RouterLink>
                     </span>
                     <span className={cn("control")}>
-                        <FileExport data={omitTrigger(data)} title={`trigger ${name || id}`} />
-                    </span>
-                    <span className={cn("control")}>
-                        <RouterLink
-                            to={getPageLink("triggerDuplicate", id)}
-                            icon={<DocumentCopyIcon />}
+                        <Tooltip
+                            render={() => {
+                                const isInfo =
+                                    delta > 0 &&
+                                    maintenance_info &&
+                                    maintenance_info.setup_user &&
+                                    maintenance_info.setup_time;
+
+                                if (!isInfo) {
+                                    return null;
+                                }
+                                return (
+                                    <div>
+                                        Maintenance was set
+                                        <br />
+                                        by {maintenance_info.setup_user}
+                                        <br />
+                                        at{" "}
+                                        {format(
+                                            fromUnixTime(maintenance_info.setup_time),
+                                            "MMMM d, HH:mm:ss"
+                                        )}
+                                    </div>
+                                );
+                            }}
                         >
-                            Duplicate
-                        </RouterLink>
+                            <MaintenanceSelect
+                                maintenance={maintenance}
+                                caption={maintenanceCaption(delta)}
+                                onSetMaintenance={onSetMaintenance}
+                            />
+                        </Tooltip>
                     </span>
-                    <span className={cn("control")}>
-                        <MaintenanceSelect
-                            maintenance={maintenance}
-                            caption={maintenanceCaption(delta)}
-                            onSetMaintenance={onSetMaintenance}
+                    <DropdownMenu
+                        caption={
+                            <Button use="link">
+                                Other <ArrowTriangleDownIcon color="#6b99d3" />
+                            </Button>
+                        }
+                    >
+                        {throttling !== 0 && (
+                            <LinkMenuItem
+                                title="Disable throttling"
+                                onClick={() => onThrottlingRemove(id)}
+                                icon={<ClearIcon />}
+                            />
+                        )}
+                        <LinkMenuItem icon={<ExportIcon />}>
+                            <FileExport
+                                data={omitTrigger(trigger)}
+                                title={`trigger ${name || id}`}
+                            />
+                        </LinkMenuItem>
+                        <LinkMenuItem
+                            icon={<DocumentCopyIcon />}
+                            link={getPageLink("triggerDuplicate", id)}
+                            title={"Duplicate"}
                         />
-                    </span>
-                    <span>
-                        {delta > 0 &&
-                            maintenanceInfo &&
-                            maintenanceInfo.setup_user &&
-                            maintenanceInfo.setup_time && (
-                                <Tooltip
-                                    render={() => (
-                                        <div>
-                                            Maintenance was set
-                                            <br />
-                                            by {maintenanceInfo.setup_user}
-                                            <br />
-                                            at{" "}
-                                            {format(
-                                                fromUnixTime(maintenanceInfo.setup_time),
-                                                "MMMM d, HH:mm:ss"
-                                            )}
-                                        </div>
-                                    )}
-                                >
-                                    <UserIcon className={cn("maintenance-info")} />
-                                </Tooltip>
-                            )}
-                    </span>
+                        <MenuSeparator />
+                        <LinkMenuItem title="Delete" icon={<TrashIcon />} onClick={openModal} />
+                    </DropdownMenu>
                 </div>
             </header>
             <div className={cn("info-section")}>
@@ -273,7 +260,7 @@ export default function TriggerInfo({
                                 Please verify trigger target
                                 {hasMultipleTargets ? "s" : ""}
                                 {hasExpression ? " and expression" : ""} on{" "}
-                                <RouterLink to={`/trigger/${data.id}/edit`}>
+                                <RouterLink to={`/trigger/${trigger.id}/edit`}>
                                     trigger edit page
                                 </RouterLink>
                                 .
@@ -300,6 +287,18 @@ export default function TriggerInfo({
                     </div>
                 )}
             </div>
+            {isModalOpen && trigger && (
+                <ConfirmDeleteModal
+                    message={"Delete Trigger?"}
+                    onClose={closeModal}
+                    onDelete={() => {
+                        closeModal();
+                        deleteTrigger(trigger.id);
+                    }}
+                >
+                    Trigger <strong>{trigger.name}</strong> will be deleted.
+                </ConfirmDeleteModal>
+            )}
         </section>
     );
 }

@@ -137,7 +137,7 @@ const stories: Array<{
         triggerState: {
             ...triggerState,
             maintenance: Date.now() / 1000 + 3600,
-            maintenanceInfo: {
+            maintenance_info: {
                 setup_user: "Batman",
                 setup_time: 1553158221,
             },
@@ -153,7 +153,8 @@ stories.forEach(({ title, data, triggerState: state }) => {
         <TriggerInfo
             supportEmail="support@mail.ru"
             triggerState={state}
-            data={data}
+            trigger={data}
+            deleteTrigger={action("onDeleteTrigger")}
             onThrottlingRemove={action("onThrottlingRemove")}
             onSetMaintenance={action("onSetMaintenance")}
             history={history}
