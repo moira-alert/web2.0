@@ -22,19 +22,9 @@ const isPlatform = (platform: Platform): boolean => {
     return window.location.hostname.includes(platform);
 };
 
-const platforms: Record<Platform, boolean> = {
-    [Platform.LOCAL]: isPlatform(Platform.LOCAL),
-    [Platform.DEV]: isPlatform(Platform.DEV),
-    [Platform.STAGING]: isPlatform(Platform.STAGING),
-    [Platform.PROD]:
-        !isPlatform(Platform.LOCAL) && !isPlatform(Platform.DEV) && !isPlatform(Platform.STAGING),
-};
-
 export const getPlatform = (): Platform => {
-    for (const platform in platforms) {
-        if (platforms[platform as Platform]) {
-            return platform as Platform;
-        }
-    }
-    throw new Error("No matching platform found");
+    if (isPlatform(Platform.LOCAL)) return Platform.LOCAL;
+    if (isPlatform(Platform.DEV)) return Platform.DEV;
+    if (isPlatform(Platform.STAGING)) return Platform.STAGING;
+    return Platform.PROD;
 };

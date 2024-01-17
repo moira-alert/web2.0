@@ -8,35 +8,13 @@ import { ApiProvider } from "./Api/MoiraApiInjection";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import ErrorContainer from "./Containers/ErrorContainer";
-import { Platform, getPlatform } from "./helpers/common";
+import { initSentry } from "./helpers/initSentry";
 
 import "./style.less";
 
 const moiraApi = new MoiraApi("/api");
 
-const getDSN = async () => {
-    try {
-        const { sentry } = await moiraApi.getConfig();
-        return sentry?.dsn;
-    } catch (error) {
-        return Promise.reject("Error getting DSN");
-    }
-};
-
-const isLocalPlatform = getPlatform() === Platform.LOCAL;
-
-const initSentry = async () => {
-    const key = await getDSN();
-    Sentry.init({
-        dsn: key,
-        debug: isLocalPlatform,
-        environment: getPlatform(),
-        enabled: !isLocalPlatform,
-        tracesSampleRate: 1.0,
-    });
-};
-
-initSentry();
+initSentry(moiraApi);
 
 const root = document.getElementById("root");
 
@@ -45,7 +23,12 @@ const render = (Component: ComponentType) => {
         ReactDOM.render(
             <BrowserRouter>
                 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-                    <Sentry.ErrorBoundary fallback={ErrorContainer("Error has occured")}>
+                    <Sentry.ErrorBoundary
+                        fallback={({ error, componentStack }) =>
+                            ErrorContainer(`${error.toString()};
+                            ${componentStack}`)
+                        }
+                    >
                         <ApiProvider value={moiraApi}>
                             <Component />
                         </ApiProvider>
