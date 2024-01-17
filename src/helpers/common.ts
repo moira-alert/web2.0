@@ -23,8 +23,8 @@ const isPlatform = (platform: Platform): boolean => {
 };
 
 export const getPlatform = (): Platform => {
-    if (isPlatform(Platform.LOCAL)) return Platform.LOCAL;
+    if (isPlatform(Platform.PROD)) return Platform.PROD;
     if (isPlatform(Platform.DEV)) return Platform.DEV;
     if (isPlatform(Platform.STAGING)) return Platform.STAGING;
-    return Platform.PROD;
+    return Platform.LOCAL;
 };

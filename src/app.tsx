@@ -24,10 +24,9 @@ const render = (Component: ComponentType) => {
             <BrowserRouter>
                 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
                     <Sentry.ErrorBoundary
-                        fallback={({ error, componentStack }) =>
-                            ErrorContainer(`${error.toString()};
-                            ${componentStack}`)
-                        }
+                        fallback={({ error, componentStack }) => (
+                            <ErrorContainer title={error.toString()} message={componentStack} />
+                        )}
                     >
                         <ApiProvider value={moiraApi}>
                             <Component />
