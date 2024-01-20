@@ -3,7 +3,7 @@ on:
   pull_request:
 jobs:
   test:
-    name: Test frontend
+    name: Unit and screenshot tests
     runs-on: ubuntu-22.04
 
     steps:
