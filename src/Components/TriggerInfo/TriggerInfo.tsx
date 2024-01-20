@@ -292,18 +292,6 @@ export default function TriggerInfo({
                             </dd>
                         )}
                     </dl>
-                    {isMetrics && (
-                        <div className={cn("state-chart")}>
-                            {" "}
-                            <StateChart
-                                displayLegend
-                                enableTooltip
-                                height={"10rem"}
-                                width={"18rem"}
-                                metrics={metrics}
-                            />
-                        </div>
-                    )}
                 </div>
                 {isMetrics && (
                     <div className={cn("state-chart")}>
