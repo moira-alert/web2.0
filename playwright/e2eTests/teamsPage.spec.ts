@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { clearDatabase } from "../src/tests/core/utils";
-import { TeamsPage } from "./pages/teams.page";
+import { clearDatabase } from "../../src/tests/core/utils";
+import { TeamsPage } from "../pages/teams.page";
 
 test.afterAll(async () => {
     await clearDatabase();

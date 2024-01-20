@@ -1,8 +1,8 @@
 import { test, expect, Page } from "@playwright/test";
-import { clearDatabase } from "../src/tests/core/utils";
-import { MainPage } from "./pages/main.page";
-import { TriggerForm } from "./pages/triggerForm";
-import { TriggerInfoPage } from "./pages/triggerInfo.page";
+import { clearDatabase } from "../../src/tests/core/utils";
+import { MainPage } from "../pages/main.page";
+import { TriggerForm } from "../pages/triggerForm";
+import { TriggerInfoPage } from "../pages/triggerInfo.page";
 
 test.afterAll(async () => {
     await clearDatabase();

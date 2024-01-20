@@ -2,7 +2,6 @@ import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 
 const config: PlaywrightTestConfig = {
-    testMatch: "**/playwright/*.spec.ts",
     testDir: "./playwright",
     snapshotDir: "./playwright/snapshots",
     snapshotPathTemplate: "{snapshotDir}/{arg}{ext}",
