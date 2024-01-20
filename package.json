@@ -18,9 +18,9 @@
         "fakeapi": "json-server --watch fakeapi/db.json --routes fakeapi/routes.json --port 9002",
         "lint": "eslint --ext .tsx --ext .ts src/",
         "test": "cross-env NODE_ENV=testing jest \"./src\"",
-        "test:e2e": "start-server-and-test \"yarn start:docker\" http://localhost:9000 \"npx playwright e2eTests/\"",
+        "test:e2e": "start-server-and-test \"yarn start:docker\" http://localhost:9000 \"npx playwright test e2eTests/\"",
         "prettier": "prettier \"./src/**/*.{ts,tsx}\"",
-        "pw:screenshotTest":"xvfb-run npx playwright test screenshotTests/",
+        "pw:screenshotTest":"xvfb-run npx playwright test screenshotTests/screenshotTest.spec.ts",
         "screenshots": "start-server-and-test storybook:ci http://localhost:9001 pw:screenshotTest"
     },
     "dependencies": {
