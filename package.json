@@ -54,8 +54,7 @@
         "react-virtualized-auto-sizer": "^1.0.20",
         "reflect-metadata": "^0.1.13",
         "remark-breaks": "^4.0.0",
-        "start-server-and-test": "1.14.0",
-        "uuid": "^9.0.1"
+        "start-server-and-test": "1.14.0"
     },
     "devDependencies": {
         "@babel/core": "^7.23.3",
@@ -82,7 +81,6 @@
         "@types/react-dom": "16.9.8",
         "@types/react-router-dom": "5.1.5",
         "@types/react-window": "^1.8.5",
-        "@types/uuid": "^9.0.7",
         "@typescript-eslint/eslint-plugin": "^6.9.0",
         "@typescript-eslint/parser": "^6.9.0",
         "classnames": "2.2.6",

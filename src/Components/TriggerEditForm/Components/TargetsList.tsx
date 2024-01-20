@@ -6,7 +6,6 @@ import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import HighlightInput from "../../HighlightInput/HighlightInput";
 import { CopyButton } from "./CopyButton";
 import { useIds } from "../../../hooks/useIds";
-import { v4 as uuidv4 } from "uuid";
 import TriggerSource, { Trigger, ValidateTriggerResult } from "../../../Domain/Trigger";
 import classNames from "classnames/bind";
 
@@ -79,7 +78,7 @@ export const TargetsList: FC<IProps> = ({
             trigger_type: "expression",
             targets: [...targetsRef.current, ""],
         });
-        const newId = uuidv4();
+        const newId = crypto.randomUUID();
         setIds((prevIds) => [...prevIds, newId]);
     };
 
