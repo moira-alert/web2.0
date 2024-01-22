@@ -96,6 +96,11 @@ export default function TriggerInfo({
     const hasMultipleTargets = targets.length > 1;
     const delta = maintenanceDelta(maintenance);
 
+    const onDeleteTrigger = () => {
+        closeModal();
+        deleteTrigger(trigger.id);
+    };
+
     return (
         <section>
             <header className={cn("header")}>
@@ -291,10 +296,7 @@ export default function TriggerInfo({
                 <ConfirmDeleteModal
                     message={"Delete Trigger?"}
                     onClose={closeModal}
-                    onDelete={() => {
-                        closeModal();
-                        deleteTrigger(trigger.id);
-                    }}
+                    onDelete={onDeleteTrigger}
                 >
                     Trigger <strong>{trigger.name}</strong> will be deleted.
                 </ConfirmDeleteModal>
