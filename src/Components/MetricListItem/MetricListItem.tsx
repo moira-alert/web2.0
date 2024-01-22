@@ -23,7 +23,7 @@ function maintenanceDelta(maintenance?: number | null): number {
     return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
-export const hideTargetsNames = (values: { [metric: string]: number } | undefined) => {
+const hideTargetsNames = (values: { [metric: string]: number } | undefined) => {
     return !values || Object.keys(values).length === 1;
 };
 
