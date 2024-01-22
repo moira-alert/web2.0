@@ -1,4 +1,3 @@
-import { Platform } from "../helpers/common";
 import { ContactTypes } from "./Contact";
 
 export interface ContactConfig {
@@ -19,4 +18,10 @@ export interface Config {
         isSubscriptionToAllTagsAvailable: boolean;
     };
     sentry?: { dsn: string; platform: Platform };
+}
+
+export enum Platform {
+    DEV = "dev",
+    STAGING = "staging",
+    PROD = "prod",
 }

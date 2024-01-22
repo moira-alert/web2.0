@@ -1,5 +1,4 @@
 import MoiraApi from "../Api/MoiraApi";
-import { getPlatform, Platform } from "./common";
 import * as Sentry from "@sentry/react";
 
 const getDSNConfig = async (api: MoiraApi) => {
@@ -18,11 +17,11 @@ export const initSentry = async (api: MoiraApi) => {
     }
 
     const { dsn, platform } = config;
-    const isLocalPlatform = platform === Platform.LOCAL;
+    const isLocalPlatform = platform !== undefined;
     Sentry.init({
         dsn,
         debug: isLocalPlatform,
-        environment: getPlatform(platform),
+        environment: platform,
         enabled: !isLocalPlatform,
         tracesSampleRate: 1.0,
     });
