@@ -18,13 +18,9 @@ export enum Platform {
     PROD = "prod",
 }
 
-const isPlatform = (platform: Platform): boolean => {
-    return window.location.hostname.includes(platform);
-};
-
-export const getPlatform = (): Platform => {
-    if (isPlatform(Platform.PROD)) return Platform.PROD;
-    if (isPlatform(Platform.DEV)) return Platform.DEV;
-    if (isPlatform(Platform.STAGING)) return Platform.STAGING;
+export const getPlatform = (platform: Platform): Platform => {
+    if (platform === Platform.PROD) return Platform.PROD;
+    if (platform === Platform.DEV) return Platform.DEV;
+    if (platform === Platform.STAGING) return Platform.STAGING;
     return Platform.LOCAL;
 };

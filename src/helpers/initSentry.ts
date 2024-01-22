@@ -2,23 +2,27 @@ import MoiraApi from "../Api/MoiraApi";
 import { getPlatform, Platform } from "./common";
 import * as Sentry from "@sentry/react";
 
-const getDSN = async (api: MoiraApi) => {
+const getDSNConfig = async (api: MoiraApi) => {
     try {
-        const { sentry } = await api.getConfig();
-        return sentry?.dsn;
+        const res = await api.getConfig();
+        return res.sentry;
     } catch (error) {
         return Promise.reject("Error getting DSN");
     }
 };
 
-const isLocalPlatform = getPlatform() === Platform.LOCAL;
-
 export const initSentry = async (api: MoiraApi) => {
-    const key = await getDSN(api);
+    const config = await getDSNConfig(api);
+    if (!config) {
+        return;
+    }
+
+    const { dsn, platform } = config;
+    const isLocalPlatform = platform === Platform.LOCAL;
     Sentry.init({
-        dsn: key,
+        dsn,
         debug: isLocalPlatform,
-        environment: getPlatform(),
+        environment: getPlatform(platform),
         enabled: !isLocalPlatform,
         tracesSampleRate: 1.0,
     });

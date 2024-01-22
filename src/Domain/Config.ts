@@ -1,3 +1,4 @@
+import { Platform } from "../helpers/common";
 import { ContactTypes } from "./Contact";
 
 export interface ContactConfig {
@@ -17,5 +18,5 @@ export interface Config {
         isPlottingAvailable: boolean;
         isSubscriptionToAllTagsAvailable: boolean;
     };
-    sentry?: { dsn: string };
+    sentry?: { dsn: string; platform: Platform };
 }
