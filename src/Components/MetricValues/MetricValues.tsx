@@ -20,7 +20,7 @@ export default function MetricValues(props: Props): React.ReactElement {
             value: values[key],
         };
     });
-    if (arr.length === 1 && hideTargetsNames === true) {
+    if (arr.length === 1 && hideTargetsNames) {
         return <div id="targetsNames">{roundValue(arr[0].value, placeholder)}</div>;
     }
 
