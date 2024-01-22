@@ -1,7 +1,0 @@
-# scrape_configs:
-#   - job_name: 'prometheus'
-#     static_configs:
-#       - targets: ['localhost:9090']
-#   - job_name: 'moira-api'
-#     static_configs:
-#       - targets: ['api:8091']

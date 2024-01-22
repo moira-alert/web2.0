@@ -1,10 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { clearDatabase } from "../../src/tests/core/utils";
 import { TeamsPage } from "../pages/teams.page";
-
-test.afterAll(async () => {
-    await clearDatabase();
-});
 
 let TEAM_NAME = "test team name";
 let TEAM_DESCRIPTION = "test team description";
@@ -32,7 +27,7 @@ test.describe.serial("TeamsPage", () => {
                 ),
             ]);
         });
-        await test.step("Edit existing team", async () => {
+        await test.step("Edit team description", async () => {
             await teamsPage.editDescriptionButton.click();
             await expect(teamsPage.nameInput("Team name")).not.toBeVisible();
             await expect(teamsPage.teamDescription).toContainText(TEAM_DESCRIPTION);
@@ -40,6 +35,7 @@ test.describe.serial("TeamsPage", () => {
             TEAM_DESCRIPTION += " changed";
             await teamsPage.teamDescription.fill(TEAM_DESCRIPTION);
             await page.getByRole("button", { name: "Save" }).click();
+            await expect(page.getByText(TEAM_DESCRIPTION)).toBeVisible();
         });
         await test.step("Add user", async () => {
             await teamsPage.showUsersButton.click();
@@ -47,6 +43,15 @@ test.describe.serial("TeamsPage", () => {
             await expect(page.getByText(`Add User to ${TEAM_NAME}`)).toBeVisible();
             await teamsPage.nameInput("User name").fill(USER_NAME);
             await teamsPage.addUserModalButton.click();
+        });
+        await test.step("Delete user", async () => {
+            await teamsPage.deleteUserButton(USER_NAME).click();
+            await page.getByRole("button", { name: "Confirm" }).click();
+            await expect(
+                page.locator(
+                    `:text(${USER_NAME}):right-of span[data-tid='Delete user ${USER_NAME}']`
+                )
+            ).not.toBeVisible();
         });
     });
 });

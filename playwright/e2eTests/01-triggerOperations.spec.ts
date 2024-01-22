@@ -1,18 +1,13 @@
 import { test, expect, Page } from "@playwright/test";
-import { clearDatabase } from "../../src/tests/core/utils";
 import { MainPage } from "../pages/main.page";
 import { TriggerForm } from "../pages/triggerForm";
 import { TriggerInfoPage } from "../pages/triggerInfo.page";
 
-test.afterAll(async () => {
-    await clearDatabase();
-});
-
 let TRIGGER_NAME = "test trigger name";
 let TRIGGER_DESCRIPTION = "test trigger description";
 let TRIGGER_TARGET = "aliasByMetric(testmetric)";
-let TEST_TAG = "testTag";
 let EXPRESSION = "t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)";
+export let TEST_TAG = "testTag";
 
 const clearTargetField = async (page: Page, numOfTimes: number) => {
     for (let i = 0; i <= numOfTimes; i++) {
@@ -121,6 +116,4 @@ test.describe("Add trigger form", () => {
             await triggerForm.submitButton("Duplicate").click();
         });
     });
-
-    test("Check validation", () => {});
 });
