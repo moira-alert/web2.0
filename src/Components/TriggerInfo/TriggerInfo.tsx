@@ -160,10 +160,11 @@ export default function TriggerInfo({
                     >
                         {throttling !== 0 && (
                             <LinkMenuItem
-                                title="Disable throttling"
                                 onClick={() => onThrottlingRemove(id)}
                                 icon={<ClearIcon />}
-                            />
+                            >
+                                Disable throttling
+                            </LinkMenuItem>
                         )}
                         <LinkMenuItem icon={<ExportIcon />}>
                             <FileExport
@@ -174,10 +175,13 @@ export default function TriggerInfo({
                         <LinkMenuItem
                             icon={<DocumentCopyIcon />}
                             link={getPageLink("triggerDuplicate", id)}
-                            title={"Duplicate"}
-                        />
+                        >
+                            Duplicate
+                        </LinkMenuItem>
                         <MenuSeparator />
-                        <LinkMenuItem title="Delete" icon={<TrashIcon />} onClick={openModal} />
+                        <LinkMenuItem icon={<TrashIcon />} onClick={openModal}>
+                            Delete
+                        </LinkMenuItem>
                     </DropdownMenu>
                 </div>
             </header>

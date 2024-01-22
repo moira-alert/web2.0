@@ -4,13 +4,12 @@ import { MenuItem } from "@skbkontur/react-ui";
 
 interface ILinkMenuItemProps {
     link?: string;
-    title?: string;
     icon?: React.ReactElement;
     onClick?: () => void;
-    children?: React.ReactElement;
+    children: React.ReactElement | string;
 }
 
-export const LinkMenuItem = ({ link, title, icon, onClick, children }: ILinkMenuItemProps) => {
+export const LinkMenuItem = ({ link, icon, onClick, children }: ILinkMenuItemProps) => {
     return (
         <MenuItem
             href={link}
@@ -27,7 +26,6 @@ export const LinkMenuItem = ({ link, title, icon, onClick, children }: ILinkMenu
                 );
             }}
         >
-            {title}
             {children}
         </MenuItem>
     );

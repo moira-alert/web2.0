@@ -123,7 +123,6 @@ const TriggerEditContainer = (props: Props) => {
                                             Save trigger
                                         </Button>
                                     </Fit>
-                                    <Fit></Fit>
                                     <Fit>
                                         <RouterLink to={getPageLink("trigger", trigger.id)}>
                                             Cancel
