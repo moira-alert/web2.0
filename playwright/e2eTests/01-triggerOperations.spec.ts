@@ -7,7 +7,7 @@ let TRIGGER_NAME = "test trigger name";
 let TRIGGER_DESCRIPTION = "test trigger description";
 let TRIGGER_TARGET = "aliasByMetric(testmetric)";
 let EXPRESSION = "t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)";
-export let TEST_TAG = "testTag";
+let TEST_TAG = "testTag";
 
 const clearTargetField = async (page: Page, numOfTimes: number) => {
     for (let i = 0; i <= numOfTimes; i++) {

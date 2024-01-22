@@ -1,7 +1,6 @@
 import { test } from "@playwright/test";
 import { clearDatabase } from "../../src/tests/core/utils";
 import { NotificationsPage } from "../pages/notifications.page";
-import { TEST_TAG } from "./01-triggerOperations.spec";
 
 test.afterAll(async () => {
     await clearDatabase();
@@ -9,6 +8,7 @@ test.afterAll(async () => {
 
 let TEST_CHANNEL_TYPE = "E-mail";
 let TEST_CHANNEL_ACCOUNT_NAME = "testmail@test.com";
+let TEST_TAG = "testTag";
 
 test.describe("NotificationsPage", () => {
     test("Notifications operations", async ({ page }) => {
