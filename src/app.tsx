@@ -6,21 +6,32 @@ import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
 import MoiraApi from "./Api/MoiraApi";
 import { ApiProvider } from "./Api/MoiraApiInjection";
 import checkMobile from "./helpers/check-mobile";
+import * as Sentry from "@sentry/react";
+import ErrorContainer from "./Containers/ErrorContainer";
+import { initSentry } from "./helpers/initSentry";
 
 import "./style.less";
 
-const root = document.getElementById("root");
-
 const moiraApi = new MoiraApi("/api");
+
+initSentry(moiraApi);
+
+const root = document.getElementById("root");
 
 const render = (Component: ComponentType) => {
     if (root !== null) {
         ReactDOM.render(
             <BrowserRouter>
                 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-                    <ApiProvider value={moiraApi}>
-                        <Component />
-                    </ApiProvider>
+                    <Sentry.ErrorBoundary
+                        fallback={({ error, componentStack }) => (
+                            <ErrorContainer title={error.toString()} message={componentStack} />
+                        )}
+                    >
+                        <ApiProvider value={moiraApi}>
+                            <Component />
+                        </ApiProvider>
+                    </Sentry.ErrorBoundary>
                 </LocaleContext.Provider>
             </BrowserRouter>,
             root

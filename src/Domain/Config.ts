@@ -17,4 +17,11 @@ export interface Config {
         isPlottingAvailable: boolean;
         isSubscriptionToAllTagsAvailable: boolean;
     };
+    sentry?: { dsn: string; platform: Platform };
+}
+
+export enum Platform {
+    DEV = "dev",
+    STAGING = "staging",
+    PROD = "prod",
 }
