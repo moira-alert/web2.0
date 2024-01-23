@@ -17,7 +17,7 @@ export const initSentry = async (api: MoiraApi) => {
     }
 
     const { dsn, platform } = config;
-    const isLocalPlatform = platform !== undefined;
+    const isLocalPlatform = platform === undefined;
     Sentry.init({
         dsn,
         debug: isLocalPlatform,
