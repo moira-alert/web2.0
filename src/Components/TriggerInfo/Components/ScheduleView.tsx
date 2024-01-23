@@ -21,7 +21,7 @@ export function ScheduleView(props: { data: Schedule }): React.ReactElement {
             {days.length === enabledDays.length
                 ? "Everyday"
                 : enabledDays.map(({ name }) => name).join(", ")}{" "}
-            {startTime}—{endTime} (GMT {timeZoneSign}
+            {startTime}—{endTime} (GMT {tzOffset !== 0 && timeZoneSign}
             {timeZone})
         </>
     );
