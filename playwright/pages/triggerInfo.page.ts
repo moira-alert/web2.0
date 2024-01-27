@@ -5,6 +5,7 @@ export class TriggerInfoPage {
     readonly triggerId: string | undefined;
     readonly editButton: Locator;
     readonly target: (targetIndex: number) => Locator;
+    readonly menuListButton: Locator;
     readonly duplicateButton: Locator;
 
     constructor(page: Page, triggerId?: string) {
@@ -12,6 +13,7 @@ export class TriggerInfoPage {
         this.triggerId = triggerId;
         this.editButton = page.locator("[data-tid='Edit']");
         this.target = (targetIndex) => page.locator(`[data-tid=T${targetIndex}]`);
+        this.menuListButton = page.getByText("Other");
         this.duplicateButton = page.getByText("Duplicate");
     }
 

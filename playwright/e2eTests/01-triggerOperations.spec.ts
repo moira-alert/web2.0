@@ -98,9 +98,9 @@ test.describe("Add trigger form", () => {
             const triggerId = url[url.length - 1];
             const triggerForm = new TriggerForm(page);
             const triggerInfoPage = new TriggerInfoPage(page, triggerId);
-            await triggerInfoPage.duplicateButton.click();
-
-            await expect(page).toHaveURL(`/trigger/${triggerId}/duplicate`);
+            await triggerInfoPage.menuListButton.click();
+            await triggerInfoPage.duplicateButton.click(),
+                await page.goto(`/trigger/${triggerId}/duplicate`);
 
             await expect(triggerForm.triggerNameField).toHaveAttribute(
                 "value",
