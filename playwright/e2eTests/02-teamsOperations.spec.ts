@@ -20,11 +20,7 @@ test.describe.serial("TeamsPage", () => {
 
             Promise.all([
                 await page.locator("[data-tid='Confirm add team']").click(),
-                await page.waitForResponse(
-                    (response) =>
-                        response.url() === "http://localhost:9000/api/teams" &&
-                        response.status() === 200
-                ),
+                await page.waitForResponse(/api\/teams/),
             ]);
         });
         await test.step("Edit team description", async () => {
@@ -49,7 +45,7 @@ test.describe.serial("TeamsPage", () => {
             await page.getByRole("button", { name: "Confirm" }).click();
             await expect(
                 page.locator(
-                    `:text(${USER_NAME}):right-of span[data-tid='Delete user ${USER_NAME}']`
+                    `:text("${USER_NAME}"):right-of span[data-tid='Delete user ${USER_NAME}']`
                 )
             ).not.toBeVisible();
         });

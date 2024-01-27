@@ -1,10 +1,5 @@
 import { test } from "@playwright/test";
-import { clearDatabase } from "../../src/tests/core/utils";
 import { NotificationsPage } from "../pages/notifications.page";
-
-test.afterAll(async () => {
-    await clearDatabase();
-});
 
 let TEST_CHANNEL_TYPE = "E-mail";
 let TEST_CHANNEL_ACCOUNT_NAME = "testmail@test.com";
@@ -28,7 +23,8 @@ test.describe("NotificationsPage", () => {
             await notificationsPage.modalSelectChannelTypeButton.click();
             TEST_CHANNEL_TYPE = "Telegram";
             await page.getByRole("button", { name: `${TEST_CHANNEL_TYPE}` }).click();
-            TEST_CHANNEL_ACCOUNT_NAME += "changed";
+            TEST_CHANNEL_ACCOUNT_NAME = "#testtelegramaccount";
+            await page.locator(`input:below(:text('${TEST_CHANNEL_TYPE}'))`).clear();
             await page
                 .locator(`input:below(:text('${TEST_CHANNEL_TYPE}'))`)
                 .fill(TEST_CHANNEL_ACCOUNT_NAME);
@@ -40,7 +36,9 @@ test.describe("NotificationsPage", () => {
             await page.locator(`button:has-text("${TEST_CHANNEL_ACCOUNT_NAME}")`).click();
             await page.locator("[data-tid='Tag dropdown select']").click();
             await page.locator(`[data-tid='Tag ${TEST_TAG}']`).click();
-            await page.getByRole("button", { name: "Add" }).click();
+            const responsePromise = page.waitForResponse(/api\/subscription/);
+            await page.getByRole("button", { name: "Add", exact: true }).click();
+            await responsePromise;
         });
     });
 });
