@@ -5,7 +5,7 @@ interface ConfirmDeleteModalProps {
     message: string;
     children?: React.ReactNode;
     onClose: () => void;
-    onDelete?: () => Promise<void>;
+    onDelete?: () => void;
 }
 
 export const ConfirmDeleteModal = (props: ConfirmDeleteModalProps): JSX.Element => (

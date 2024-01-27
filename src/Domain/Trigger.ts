@@ -1,6 +1,8 @@
 import { Status } from "./Status";
 import { MetricItemList } from "./Metric";
 import { Schedule } from "./Schedule";
+import { getUnixTime } from "date-fns";
+import { getUTCDate } from "../helpers/DateUtil";
 
 export type TriggerType = "rising" | "falling" | "expression";
 export const DEFAULT_TRIGGER_TYPE = "rising";
@@ -53,7 +55,7 @@ export type TriggerList = {
 
 export type TriggerState = {
     maintenance?: number;
-    maintenanceInfo?: {
+    maintenance_info?: {
         setup_user?: string | null;
         setup_time: number;
     };
@@ -135,5 +137,20 @@ export const checkTriggerTarget = (
         return !target.syntax_ok;
     }
 };
+
+export function triggerSourceDescription(source: TriggerSource): string | undefined {
+    switch (source) {
+        case TriggerSource.GRAPHITE_REMOTE:
+            return "(remote)";
+        case TriggerSource.PROMETHEUS_REMOTE:
+            return "(prometheus)";
+        case TriggerSource.GRAPHITE_LOCAL:
+            return undefined;
+    }
+}
+
+export function maintenanceDelta(maintenance?: number | null): number {
+    return (maintenance || 0) - getUnixTime(getUTCDate());
+}
 
 export default TriggerSource;

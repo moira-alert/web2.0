@@ -79,6 +79,7 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
                             Save and test
                         </Button>
                         <FileExport
+                            isButton
                             title={this.getFileName()}
                             data={omitSubscription(subscription)}
                         >

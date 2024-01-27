@@ -19,6 +19,7 @@ export type TriggerDesktopProps = {
     events: Array<Event>;
     page: number;
     pageCount: number;
+    deleteTrigger: (id: string) => void;
     disableThrottling: (id: string) => void;
     setTriggerMaintenance: (id: string, maintenance: number) => void;
     setMetricMaintenance: (id: string, metric: string, maintenance: number) => void;
@@ -73,6 +74,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
             events,
             page,
             pageCount,
+            deleteTrigger,
             disableThrottling,
             setTriggerMaintenance,
             setMetricMaintenance,
@@ -97,7 +99,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                 {trigger && state && (
                     <LayoutPlate>
                         <TriggerInfo
-                            data={trigger}
+                            trigger={trigger}
                             triggerState={state}
                             onThrottlingRemove={() => disableThrottling(trigger.id)}
                             onSetMaintenance={(maintenance) =>
@@ -105,6 +107,7 @@ class TriggerDesktop extends React.Component<TriggerDesktopProps, State> {
                             }
                             history={this.props.history}
                             metrics={metrics}
+                            deleteTrigger={deleteTrigger}
                         />
                     </LayoutPlate>
                 )}

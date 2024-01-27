@@ -5,7 +5,6 @@ export type Metric = {
     timestamp: number;
     suppressed?: boolean;
     event_timestamp?: number;
-    value?: number;
     values?: {
         [metric: string]: number;
     };
