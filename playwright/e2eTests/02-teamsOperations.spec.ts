@@ -45,7 +45,7 @@ test.describe.serial("TeamsPage", () => {
             await page.getByRole("button", { name: "Confirm" }).click();
             await expect(
                 page.locator(
-                    `:text("${USER_NAME}"):right-of span[data-tid='Delete user ${USER_NAME}']`
+                    `:text("${USER_NAME}"):right-of(span[data-tid='Delete user ${USER_NAME}'])`
                 )
             ).not.toBeVisible();
         });
