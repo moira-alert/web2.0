@@ -9,10 +9,11 @@ const config: PlaywrightTestConfig = {
     expect: {
         timeout: 5000,
     },
+
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 1,
-    workers: 1,
+    workers: process.env.CI ? 1 : undefined,
     reporter: process.env.CI ? "github" : [["list"], ["html", { open: "on-failure" }]],
     use: {
         baseURL: "http://localhost:9000",

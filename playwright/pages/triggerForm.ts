@@ -10,6 +10,7 @@ export class TriggerForm {
     readonly target: (targetIndex: number) => Locator;
     readonly warnValue: Locator;
     readonly errorValue: Locator;
+    readonly addTag: () => Promise<void>;
     readonly tagsField: Locator;
     readonly newTagButton: Locator;
     readonly graphiteLocalRadio: Locator;
@@ -36,11 +37,21 @@ export class TriggerForm {
         this.graphiteRemoteRadio = page.locator("[data-tid='Graphite remote']");
         this.prometheusRemoteRadio = page.locator("[data-tid='Prometheus remote']");
         this.addTargetButton = page.getByText("Add one more");
-        this.advancedModeTab = page.getByText("Advanced mode");
-        this.simpleModeTab = page.getByText("Simple mode");
+        this.advancedModeTab = page.getByText('a:has-text("Advanced mode"');
+        this.simpleModeTab = page.locator('a:has-text("Simple mode")');
         this.deleteTarget = (targetIndex) =>
             page.locator(`[data-tid='Target remove ${targetIndex}']`);
         this.expressionField = page.getByPlaceholder("t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)");
         this.statusSelect = page.locator("[data-tid='Status select dropdown']");
+        this.addTag = async () => {
+            await this.tagsField.click();
+            const tag = page.getByText("testTag");
+            if (await tag.isVisible()) {
+                tag.click();
+                return;
+            }
+            await this.tagsField.fill("testTag");
+            await this.newTagButton.click();
+        };
     }
 }

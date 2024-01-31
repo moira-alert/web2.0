@@ -1,0 +1,45 @@
+import test, { expect } from "./fixtures/addTriggerFixture";
+import { TeamsPage } from "../pages/teams.page";
+
+test("Teams operations", async ({ page, testTeamName, testTeamDescription, testUserName }) => {
+    const teamsPage = new TeamsPage(page);
+    await test.step("Add team", async () => {
+        await teamsPage.gotoTeamsPage();
+        await expect(page).toHaveURL("/teams");
+        await teamsPage.addTeamButton.click();
+        await teamsPage.nameInput("Team name").fill(testTeamName);
+        await teamsPage.teamDescription.fill(testTeamDescription);
+        await teamsPage.previewButton.click();
+        await expect(teamsPage.nameInput("Team name")).toHaveAttribute("value", testTeamName);
+        await expect(page.getByText(testTeamDescription)).toBeVisible();
+
+        Promise.all([
+            await page.locator("[data-tid='Confirm add team']").click(),
+            await page.waitForResponse(/api\/teams/),
+        ]);
+    });
+    await test.step("Edit team description", async () => {
+        await teamsPage.editDescriptionButton.click();
+        await expect(teamsPage.nameInput("Team name")).not.toBeVisible();
+        await expect(teamsPage.teamDescription).toContainText(testTeamDescription);
+        await teamsPage.teamDescription.fill(testTeamDescription + " changed");
+        await page.getByRole("button", { name: "Save" }).click();
+        await expect(page.getByText(testTeamDescription + " changed")).toBeVisible();
+    });
+    await test.step("Add user", async () => {
+        await teamsPage.showUsersButton.click();
+        await page.locator("text=Add User").click();
+        await expect(page.getByText(`Add User to ${testTeamName}`)).toBeVisible();
+        await teamsPage.nameInput("User name").fill(testUserName);
+        await teamsPage.addUserModalButton.click();
+    });
+    await test.step("Delete user", async () => {
+        await teamsPage.deleteUserButton(testUserName).click();
+        await page.getByRole("button", { name: "Confirm" }).click();
+        await expect(
+            page.locator(
+                `:text("${testUserName}"):right-of(span[data-tid='Delete user ${testUserName}'])`
+            )
+        ).not.toBeVisible();
+    });
+});
