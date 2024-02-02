@@ -13,10 +13,10 @@ test("Teams operations", async ({ page, testTeamName, testTeamDescription, testU
         await expect(teamsPage.nameInput("Team name")).toHaveAttribute("value", testTeamName);
         await expect(page.getByText(testTeamDescription)).toBeVisible();
 
-        Promise.all([
-            await page.locator("[data-tid='Confirm add team']").click(),
-            await page.waitForResponse(/api\/teams/),
-        ]);
+        const addTeamPromise = page.waitForResponse(/api\/teams/);
+        await page.locator("[data-tid='Confirm add team']").click();
+        await addTeamPromise;
+        await expect(page.getByText(testTeamName)).toBeVisible();
     });
     await test.step("Edit team description", async () => {
         await teamsPage.editDescriptionButton.click();
@@ -32,6 +32,7 @@ test("Teams operations", async ({ page, testTeamName, testTeamDescription, testU
         await expect(page.getByText(`Add User to ${testTeamName}`)).toBeVisible();
         await teamsPage.nameInput("User name").fill(testUserName);
         await teamsPage.addUserModalButton.click();
+        await expect(page.getByText(testUserName)).toBeVisible();
     });
     await test.step("Delete user", async () => {
         await teamsPage.deleteUserButton(testUserName).click();

@@ -1,4 +1,5 @@
 import test from "./fixtures/addTriggerFixture";
+import { expect } from "@playwright/test";
 import { NotificationsPage } from "../pages/notifications.page";
 
 test("Notifications operations", async ({
@@ -16,6 +17,7 @@ test("Notifications operations", async ({
         await page.getByRole("button", { name: `${testChannelType}` }).click();
         await page.locator(`input:below(:text('${testChannelType}'))`).fill(testChannelAccountName);
         await notificationsPage.modalActionDeliveryChannelButton("Add").click();
+        await expect(page.getByText(testChannelAccountName)).toBeVisible();
     });
     await test.step("Edit existing delivery channel", async () => {
         notificationsPage.deliveryChannelItem(testChannelAccountName).click();

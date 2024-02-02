@@ -1,13 +1,7 @@
-import { Page, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
 import test from "./fixtures/addTriggerFixture";
 import { TriggerInfoPage } from "../pages/triggerInfo.page";
 import { TriggerForm } from "../pages/triggerForm";
-
-const clearTargetField = async (page: Page, numOfTimes: number) => {
-    for (let i = 0; i <= numOfTimes; i++) {
-        await page.keyboard.press("Backspace");
-    }
-};
 
 test("Duplicate trigger", async ({ testTriggerName, testTriggerDescription, addTrigger }) => {
     const { page, testTriggerID } = addTrigger;
@@ -51,7 +45,8 @@ test("Edit existing trigger", async ({
     await triggerForm.descriptionField.fill(`${testTriggerDescription} changed`);
     await triggerForm.prometheusRemoteRadio.click();
     await triggerForm.target(1).click();
-    await clearTargetField(page, "testmetric".length);
+    await triggerForm.target(1).click({ clickCount: 3 });
+    await page.keyboard.press("Backspace");
     await triggerForm.target(1).pressSequentially("metric1");
     await triggerForm.addTargetButton.click();
     await expect(triggerForm.simpleModeTab).toHaveAttribute("tabindex", "-1");
@@ -70,9 +65,8 @@ test("Edit existing trigger", async ({
     await expect(triggerForm.prometheusRemoteRadio).toBeChecked();
     await expect(triggerForm.triggerNameField).toHaveValue(`${testTriggerName} changed`);
     await expect(triggerForm.descriptionField).toHaveValue(`${testTriggerDescription} changed`);
-
-    Promise.all([
-        await triggerForm.submitButton("Save").click(),
-        await page.waitForResponse(/api\/trigger/),
-    ]);
+    await triggerForm.submitButton("Save").click();
+    await expect(page).toHaveURL(`/trigger/${testTriggerID}`);
+    await expect(page.getByText(`${testTriggerName} changed`)).toBeVisible();
+    await expect(page.getByText(`${testTriggerDescription} changed`)).toBeVisible();
 });
