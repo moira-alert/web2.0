@@ -4,7 +4,6 @@ export type Event = {
     state: Status;
     old_state: Status;
     timestamp: number;
-    value?: number;
     values?: {
         [metric: string]: number;
     };

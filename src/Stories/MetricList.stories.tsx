@@ -9,7 +9,7 @@ const items: MetricItemList = {
         event_timestamp: 1503484033,
         state: Status.NODATA,
         suppressed: false,
-        value: 10.453,
+        values: { T1: 10.453 },
         timestamp: 1503496225,
         maintenance: 1555804800,
         maintenance_info: {
@@ -29,7 +29,6 @@ const items: MetricItemList = {
         state: Status.ERROR,
         suppressed: false,
         timestamp: 1503496225,
-        value: 109389189,
         maintenance: 1504118563,
         maintenance_info: {
             setup_user: null,

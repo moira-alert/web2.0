@@ -11,6 +11,7 @@ import { withMoiraApi } from "../../Api/MoiraApiInjection";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { TriggerDesktopProps } from "./trigger.desktop";
 import { TriggerMobileProps } from "./trigger.mobile";
+import { getPageLink } from "../../Domain/Global";
 
 export type TriggerProps = RouteComponentProps<{ id: string }> & {
     moiraApi: MoiraApi;
@@ -64,30 +65,6 @@ class TriggerPage extends React.Component<TriggerProps, State> {
         };
     }
 
-    static getEventMetricName(event: Event, triggerName: string): string {
-        if (event.trigger_event) {
-            return triggerName;
-        }
-        return event.metric.length !== 0 ? event.metric : "No metric evaluated";
-    }
-
-    static composeEvents(
-        events: Array<Event>,
-        triggerName: string
-    ): {
-        [key: string]: Array<Event>;
-    } {
-        return events.reduce((data: { [key: string]: Array<Event> }, event: Event) => {
-            const metric = this.getEventMetricName(event, triggerName);
-            if (data[metric]) {
-                data[metric].push(event);
-            } else {
-                data[metric] = [event];
-            }
-            return data;
-        }, {});
-    }
-
     render() {
         const {
             loading,
@@ -109,6 +86,7 @@ class TriggerPage extends React.Component<TriggerProps, State> {
                 pageCount={pageCount}
                 loading={loading}
                 error={error}
+                deleteTrigger={this.deleteTrigger}
                 disableThrottling={this.disableThrottling}
                 setTriggerMaintenance={this.setTriggerMaintenance}
                 setMetricMaintenance={this.setMetricMaintenance}
@@ -186,6 +164,16 @@ class TriggerPage extends React.Component<TriggerProps, State> {
         this.setState({ loading: true });
         await moiraApi.delNoDataMetric(triggerId);
         this.loadData();
+    };
+
+    deleteTrigger = async (id: string) => {
+        const { moiraApi } = this.props;
+        try {
+            await moiraApi.delTrigger(id);
+            this.props.history.push(getPageLink("index"));
+        } catch (error) {
+            this.setState({ loading: false, error: error.message });
+        }
     };
 
     changeLocationSearch = (update: { page: number }) => {

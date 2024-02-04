@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui";
-import TrashIcon from "@skbkontur/react-icons/Trash";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
 import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
@@ -12,7 +11,6 @@ import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
-import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import {
     setError,
@@ -23,13 +21,11 @@ import {
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
-import { useModal } from "../hooks/useModal";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 const TriggerEditContainer = (props: Props) => {
     const [state, dispatch] = useTriggerFormContainerReducer();
-    const { isModalOpen, closeModal, openModal } = useModal();
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
@@ -57,18 +53,6 @@ const TriggerEditContainer = (props: Props) => {
 
         if (update.targets || update?.trigger_source) {
             dispatch(setIsSaveButtonDisabled(false));
-        }
-    };
-
-    const deleteTrigger = async (id: string) => {
-        closeModal();
-        dispatch(setIsLoading(true));
-        try {
-            await props.moiraApi.delTrigger(id);
-            props.history.push(getPageLink("index"));
-        } catch (error) {
-            dispatch(setError(error.message));
-            dispatch(setIsLoading(false));
         }
     };
 
@@ -137,26 +121,6 @@ const TriggerEditContainer = (props: Props) => {
                                             disabled={state.isSaveButtonDisabled}
                                         >
                                             Save trigger
-                                        </Button>
-                                    </Fit>
-                                    <Fit>
-                                        {isModalOpen && (
-                                            <ConfirmDeleteModal
-                                                message={"Delete Trigger?"}
-                                                onClose={closeModal}
-                                                onDelete={() => deleteTrigger(trigger.id)}
-                                            >
-                                                Trigger <strong>{trigger.name}</strong> will be
-                                                deleted.
-                                            </ConfirmDeleteModal>
-                                        )}
-                                        <Button
-                                            use="link"
-                                            icon={<TrashIcon />}
-                                            onClick={openModal}
-                                            data-tid="Open Delete Modal"
-                                        >
-                                            Delete
                                         </Button>
                                     </Fit>
                                     <Fit>

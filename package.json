@@ -26,6 +26,7 @@
     "dependencies": {
         "@clavinjune/codemirror-metricsql": "0.0.1-dev.1010230001",
         "@lezer/highlight": "1.1.6",
+        "@sentry/react": "7.81.1",
         "@skbkontur/react-icons": "5.2.9",
         "@skbkontur/react-stack-layout": "1.0.3",
         "@skbkontur/react-ui": "4.16.0",

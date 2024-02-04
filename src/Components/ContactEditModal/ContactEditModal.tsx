@@ -71,6 +71,7 @@ export default class ContactEditModal extends React.Component<Props, State> {
                             Save and test
                         </Button>
                         <FileExport
+                            isButton
                             title={`delivery channel ${contactInfo.type} ${contactInfo.value}`}
                             data={omitContact(contactInfo)}
                         >

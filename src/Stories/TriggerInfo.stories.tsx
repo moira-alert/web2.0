@@ -67,10 +67,11 @@ const triggerState: TriggerState = {
 const commonProps = {
     supportEmail: "support@mail.ru",
     triggerState,
-    data: sourceData,
+    trigger: sourceData,
     onThrottlingRemove: action("onThrottlingRemove"),
     onSetMaintenance: action("onSetMaintenance"),
     history,
+    deleteTrigger: (id: string) => action(`onTriggerDelete${id}`),
 };
 
 export const Default = () => <TriggerInfo {...commonProps} />;
@@ -78,18 +79,18 @@ export const Default = () => <TriggerInfo {...commonProps} />;
 export const DescriptionInMultipleLine = () => (
     <TriggerInfo
         {...commonProps}
-        data={{ ...sourceData, desc: "Some list:\n- Line 1\n- Line 2\n- Line 3" }}
+        trigger={{ ...sourceData, desc: "Some list:\n- Line 1\n- Line 2\n- Line 3" }}
     />
 );
 
 export const WithThrottling = () => (
-    <TriggerInfo {...commonProps} data={{ ...sourceData, throttling: Date.now() }} />
+    <TriggerInfo {...commonProps} trigger={{ ...sourceData, throttling: Date.now() }} />
 );
 
 export const NotEveryday = () => (
     <TriggerInfo
         {...commonProps}
-        data={{
+        trigger={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -117,7 +118,7 @@ export const WithError = () => (
             state: Status.EXCEPTION,
             msg: "Some error message message message message message.",
         }}
-        data={{
+        trigger={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -150,7 +151,7 @@ export const WithMaintenanceAndMaintenanceInfo = () => (
         triggerState={{
             ...triggerState,
             maintenance: Date.now() / 1000 + 3600,
-            maintenanceInfo: {
+            maintenance_info: {
                 setup_user: "Batman",
                 setup_time: 1553158221,
             },

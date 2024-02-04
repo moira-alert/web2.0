@@ -65,8 +65,9 @@ const TriggerDuplicateContainer = (props: Props) => {
         if (!trigger) {
             return;
         }
-
-        setTrigger({ ...trigger, ...update });
+        setTrigger((prev) => {
+            return { ...prev, ...update };
+        });
         dispatch(setError(null));
 
         if (update.targets || update?.trigger_source) {
