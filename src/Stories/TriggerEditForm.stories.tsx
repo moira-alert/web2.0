@@ -1,11 +1,22 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { Status } from "../Domain/Status";
 import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { DaysOfWeek } from "../Domain/Schedule";
+import { Meta } from "@storybook/react";
+
+const meta: Meta = {
+    title: "TriggerEditForm",
+    decorators: [
+        (story) => (
+            <div style={{ maxWidth: "650px" }}>
+                <ValidationContainer>{story()}</ValidationContainer>
+            </div>
+        ),
+    ],
+};
 
 const sourceData: Trigger = {
     trigger_source: TriggerSource.GRAPHITE_LOCAL,
@@ -44,10 +55,17 @@ const sourceData: Trigger = {
 
 const allTags = ["devops", "critical", "error", "warning", "del", "moira"];
 
-const stories: Array<{ title: string; data: Partial<Trigger> }> = [
-    {
-        title: "Empty",
-        data: {
+const commonProps = {
+    tags: allTags,
+    remoteAllowed: sourceData.trigger_source != TriggerSource.GRAPHITE_LOCAL,
+    onChange: action("onChange"),
+    validationResult: { targets: [{ syntax_ok: true }] },
+};
+
+export const Empty = () => (
+    <TriggerEditForm
+        {...commonProps}
+        data={{
             trigger_source: TriggerSource.GRAPHITE_LOCAL,
             name: "",
             desc: "",
@@ -72,11 +90,14 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                 ],
             },
             alone_metrics: {},
-        },
-    },
-    {
-        title: "Simple",
-        data: {
+        }}
+    />
+);
+
+export const Simple = () => (
+    <TriggerEditForm
+        {...commonProps}
+        data={{
             ...sourceData,
             targets: ["aliasByNode(DevOps.system.*ditrace*.process.*.uptime, 2, 4)"],
             sched: {
@@ -93,11 +114,14 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                     { enabled: true, name: DaysOfWeek.Sun },
                 ],
             },
-        },
-    },
-    {
-        title: "Advanced",
-        data: {
+        }}
+    />
+);
+
+export const Advanced = () => (
+    <TriggerEditForm
+        {...commonProps}
+        data={{
             ...sourceData,
             trigger_type: "expression",
             expression:
@@ -116,11 +140,14 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
                     { enabled: false, name: DaysOfWeek.Sun },
                 ],
             },
-        },
-    },
-    {
-        title: "Full filled",
-        data: {
+        }}
+    />
+);
+
+export const FullFilled = () => (
+    <TriggerEditForm
+        {...commonProps}
+        data={{
             ...sourceData,
             desc: "Very usefull trigger",
             targets: [
@@ -132,24 +159,8 @@ const stories: Array<{ title: string; data: Partial<Trigger> }> = [
             ttl_state: Status.OK,
             notify_about_new_metrics: true,
             alone_metrics: { t2: true },
-        },
-    },
-];
+        }}
+    />
+);
 
-const story = storiesOf("TriggerEditForm", module);
-
-stories.forEach(({ title, data }) => {
-    story.add(title, () => (
-        <ValidationContainer>
-            <TriggerEditForm
-                data={data}
-                tags={allTags}
-                remoteAllowed={data.trigger_source != TriggerSource.GRAPHITE_LOCAL}
-                onChange={action("onChange")}
-                validationResult={{
-                    targets: [{ syntax_ok: true }],
-                }}
-            />
-        </ValidationContainer>
-    ));
-});
+export default meta;

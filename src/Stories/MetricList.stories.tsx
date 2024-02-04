@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import MetricList from "../Components/MetricList/MetricList";
 import { MetricItemList } from "../Domain/Metric";
@@ -53,25 +52,31 @@ const items: MetricItemList = {
     },
 };
 
-storiesOf("MetricList", module)
-    .add("Default", () => (
-        <MetricList
-            items={items}
-            sortingColumn="value"
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
-    ))
-    .add("With Status Indicator", () => (
-        <MetricList
-            items={items}
-            status
-            sortingColumn="value"
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-        />
-    ))
-    .add("With Remove all NODATA", () => (
+export default {
+    title: "MetricList",
+};
+
+export const Default = () => (
+    <MetricList
+        items={items}
+        sortingColumn="value"
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const WithStatusIndicator = () => (
+    <MetricList
+        items={items}
+        status
+        sortingColumn="value"
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+    />
+);
+
+export const WithRemoveAllNodata = {
+    render: () => (
         <MetricList
             items={items}
             status
@@ -81,4 +86,7 @@ storiesOf("MetricList", module)
             onRemove={action("onRemove")}
             onNoDataRemove={action("onNoDataRemove")}
         />
-    ));
+    ),
+
+    name: "With Remove all NODATA",
+};

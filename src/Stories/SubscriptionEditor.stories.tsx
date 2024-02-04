@@ -1,13 +1,17 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import SubscriptionEditor from "../Components/SubscriptionEditor/SubscriptionEditor";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
+import { Meta } from "@storybook/react";
 
-storiesOf("SubscriptionEditor", module)
-    .addDecorator((story) => <ValidationContainer>{story()}</ValidationContainer>)
-    .add("empty", () => (
+const meta: Meta = {
+    title: "SubscriptionEditor",
+    decorators: [(story) => <ValidationContainer>{story()}</ValidationContainer>],
+};
+
+export const Empty = {
+    render: () => (
         <SubscriptionEditor
             onChange={action("onChange")}
             tags={["tag1", "tag2"]}
@@ -34,8 +38,13 @@ storiesOf("SubscriptionEditor", module)
                 },
             }}
         />
-    ))
-    .add("with data", () => (
+    ),
+
+    name: "empty",
+};
+
+export const WithData = {
+    render: () => (
         <SubscriptionEditor
             onChange={action("onChange")}
             tags={["tag1", "tag2"]}
@@ -58,32 +67,38 @@ storiesOf("SubscriptionEditor", module)
                 ignore_warnings: false,
             }}
         />
-    ))
-    .add("With Degradation", () => (
-        <SubscriptionEditor
-            onChange={action("onChange")}
-            tags={["tag1", "tag2"]}
-            contacts={[
-                {
-                    id: "1",
-                    type: "email",
-                    user: "1",
-                    value: "test@mail.ru",
-                },
-            ]}
-            subscription={{
-                sched: createSchedule(WholeWeek),
-                tags: ["tag1"],
-                throttling: false,
-                contacts: ["1"],
-                enabled: true,
-                ignore_recoverings: true,
-                ignore_warnings: false,
-                any_tags: false,
-            }}
-        />
-    ))
-    .add("Without graph", () => (
+    ),
+
+    name: "with data",
+};
+
+export const WithDegradation = () => (
+    <SubscriptionEditor
+        onChange={action("onChange")}
+        tags={["tag1", "tag2"]}
+        contacts={[
+            {
+                id: "1",
+                type: "email",
+                user: "1",
+                value: "test@mail.ru",
+            },
+        ]}
+        subscription={{
+            sched: createSchedule(WholeWeek),
+            tags: ["tag1"],
+            throttling: false,
+            contacts: ["1"],
+            enabled: true,
+            ignore_recoverings: true,
+            ignore_warnings: false,
+            any_tags: false,
+        }}
+    />
+);
+
+export const WithoutGraph = {
+    render: () => (
         <SubscriptionEditor
             onChange={action("onChange")}
             tags={["tag1", "tag2"]}
@@ -110,8 +125,13 @@ storiesOf("SubscriptionEditor", module)
                 },
             }}
         />
-    ))
-    .add("With graph in dark theme", () => (
+    ),
+
+    name: "Without graph",
+};
+
+export const WithGraphInDarkTheme = {
+    render: () => (
         <SubscriptionEditor
             onChange={action("onChange")}
             tags={["tag1", "tag2"]}
@@ -138,8 +158,13 @@ storiesOf("SubscriptionEditor", module)
                 },
             }}
         />
-    ))
-    .add("With graph in light theme", () => (
+    ),
+
+    name: "With graph in dark theme",
+};
+
+export const WithGraphInLightTheme = {
+    render: () => (
         <SubscriptionEditor
             onChange={action("onChange")}
             tags={["tag1", "tag2"]}
@@ -166,4 +191,9 @@ storiesOf("SubscriptionEditor", module)
                 },
             }}
         />
-    ));
+    ),
+
+    name: "With graph in light theme",
+};
+
+export default meta;

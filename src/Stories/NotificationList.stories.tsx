@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import { Notification } from "../Domain/Notification";
@@ -69,6 +68,9 @@ const items: { [id: string]: Array<Notification> } = {
     ],
 };
 
-storiesOf("NotificationList", module)
-    .add("Default", () => <NotificationList items={items} onRemove={action("onRemove")} />)
-    .add("Empty", () => <NotificationList items={{}} onRemove={action("onRemove")} />);
+export default {
+    title: "NotificationList",
+};
+
+export const Default = () => <NotificationList items={items} onRemove={action("onRemove")} />;
+export const Empty = () => <NotificationList items={{}} onRemove={action("onRemove")} />;

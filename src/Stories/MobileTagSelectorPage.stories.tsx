@@ -1,9 +1,12 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import MobileTagSelectorPage from "../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
 
-storiesOf("Mobile/TagSelectorPage", module).add("Default", () => (
+export default {
+    title: "Mobile/TagSelectorPage",
+};
+
+export const Default = () => (
     <MobileTagSelectorPage
         availableTags={["hello", "world"]}
         selectedTags={[]}
@@ -11,4 +14,4 @@ storiesOf("Mobile/TagSelectorPage", module).add("Default", () => (
         onClose={action("onClose")}
         onChange={action("onChange")}
     />
-));
+);

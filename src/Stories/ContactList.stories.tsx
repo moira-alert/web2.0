@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import ContactList from "../Components/ContactList/ContactList";
 import actionWithDelay from "./StoryUtils";
 import contactConfigs from "./Data/ContactConfigs";
@@ -12,9 +11,17 @@ const commonProps = {
     onAddContact: actionWithDelay("onAddContact", 2000),
 };
 
-storiesOf("ContactList", module)
-    .add("empty", () => <ContactList {...commonProps} items={[]} />)
-    .add("one item", () => (
+export default {
+    title: "ContactList",
+    component: ContactList,
+};
+
+export const Empty = {
+    render: () => <ContactList {...commonProps} items={[]} />,
+};
+
+export const OneItem = {
+    render: () => (
         <ContactList
             {...commonProps}
             items={[
@@ -26,8 +33,11 @@ storiesOf("ContactList", module)
                 },
             ]}
         />
-    ))
-    .add("few items", () => (
+    ),
+};
+
+export const FewItems = {
+    render: () => (
         <ContactList
             {...commonProps}
             items={[
@@ -45,8 +55,11 @@ storiesOf("ContactList", module)
                 },
             ]}
         />
-    ))
-    .add("invalid item", () => (
+    ),
+};
+
+export const InvalidItem = {
+    render: () => (
         <ContactList
             {...commonProps}
             items={[
@@ -58,4 +71,5 @@ storiesOf("ContactList", module)
                 },
             ]}
         />
-    ));
+    ),
+};

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import ContactTypeIcon from "../Components/ContactTypeIcon/ContactTypeIcon";
 
 const iconTypes = [
@@ -19,10 +18,14 @@ const iconTypes = [
     "tel",
 ];
 
-storiesOf("ContactTypeIcon", module).add("AllIconsInList", () => (
+export default {
+    title: "ContactTypeIcon",
+};
+
+export const AllIconsInList = () => (
     <div>
         {iconTypes.map((type: string) => (
             <ContactTypeIcon key={type} type={type} />
         ))}
     </div>
-));
+);

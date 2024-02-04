@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { LangCodes } from "@skbkontur/react-ui/lib/locale";
 import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
@@ -14,16 +13,21 @@ function Wrapper({ children }: { children: ReactNode }) {
     );
 }
 
-storiesOf("MaintenanceSelect", module)
-    .add("CustomMaintenanceMenu", () => (
-        <Wrapper>
-            <CustomMaintenanceMenu
-                currentTime={new Date(2020, 5, 10, 6)}
-                setMaintenance={action("setMaintenance")}
-            />
-        </Wrapper>
-    ))
-    .add("CustomMaintenanceMenu with initial maintenance", () => (
+export default {
+    title: "MaintenanceSelect",
+};
+
+export const _CustomMaintenanceMenu = () => (
+    <Wrapper>
+        <CustomMaintenanceMenu
+            currentTime={new Date(2020, 5, 10, 6)}
+            setMaintenance={action("setMaintenance")}
+        />
+    </Wrapper>
+);
+
+export const CustomMaintenanceMenuWithInitialMaintenance = {
+    render: () => (
         <Wrapper>
             <CustomMaintenanceMenu
                 currentTime={new Date(2020, 5, 9, 6)}
@@ -31,4 +35,7 @@ storiesOf("MaintenanceSelect", module)
                 setMaintenance={action("setMaintenance")}
             />
         </Wrapper>
-    ));
+    ),
+
+    name: "Custommaintenancemenu with initial maintenance",
+};

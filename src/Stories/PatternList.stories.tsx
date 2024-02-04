@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import PatternList from "../Components/PatternList/PatternList";
 import { Pattern } from "../Domain/Pattern";
@@ -106,6 +105,10 @@ const items: Pattern[] = [
     },
 ];
 
-storiesOf("PatternList", module).add("Default", () => (
+export default {
+    title: "PatternList",
+};
+
+export const Default = () => (
     <PatternList items={items} onRemove={action("onRemove")} sortingColumn="metric" />
-));
+);

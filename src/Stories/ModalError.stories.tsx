@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from "react";
-import { storiesOf } from "@storybook/react";
 import { Button, Modal } from "@skbkontur/react-ui";
 import ModalError from "../Components/ModalError/ModalError";
 
@@ -18,8 +17,12 @@ const Wrapper = ({ children, init }: WrapperProps) => {
     return children(message, handleView);
 };
 
-storiesOf("ModalError", module)
-    .add("Error hidden", () => {
+export default {
+    title: "ModalError",
+};
+
+export const ErrorHidden = {
+    render: () => {
         return (
             <Wrapper>
                 {(message, handleClick) => (
@@ -34,8 +37,13 @@ storiesOf("ModalError", module)
                 )}
             </Wrapper>
         );
-    })
-    .add("Error shown", () => {
+    },
+
+    name: "Error hidden",
+};
+
+export const ErrorShown = {
+    render: () => {
         return (
             <Wrapper init>
                 {(message, handleClick) => (
@@ -50,4 +58,7 @@ storiesOf("ModalError", module)
                 )}
             </Wrapper>
         );
-    });
+    },
+
+    name: "Error shown",
+};

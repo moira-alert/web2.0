@@ -1,8 +1,7 @@
 module.exports = {
-    stories: ["../src/**/*.stories.mdx", "../src/Stories/**/*.stories.tsx"],
-    framework: "@storybook/react",
-    core: {
-        builder: "@storybook/builder-webpack5",
+    stories: ["../src/Stories/**/*.stories.tsx"],
+    framework: {
+        name: "@storybook/react-webpack5",
     },
     babel: { presets: ["@babel/preset-react"] },
     webpackFinal: async (config, { configType }) => {
