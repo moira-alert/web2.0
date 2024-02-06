@@ -6,7 +6,7 @@ test("Notifications operations", async ({
     testChannelType,
     testChannelAccountName,
     testTag,
-    addTrigger,
+    page,
 }) => {
     const { page } = addTrigger;
     const notificationsPage = new NotificationsPage(page);
