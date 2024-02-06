@@ -43,4 +43,13 @@ test("Teams operations", async ({ page, testTeamName, testTeamDescription, testU
             )
         ).not.toBeVisible();
     });
+    await test.step("Delete team", async () => {
+        await teamsPage.deleteTeamButton(testTeamName).click();
+        await page.getByRole("button", { name: "Confirm" }).click();
+        await expect(
+            page.locator(
+                `:text("${testTeamName}"):right-of(span[data-tid='Delete team ${testTeamName}'])`
+            )
+        ).not.toBeVisible();
+    });
 });
