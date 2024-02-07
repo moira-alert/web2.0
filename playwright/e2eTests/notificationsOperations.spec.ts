@@ -1,6 +1,15 @@
-import test from "./fixtures/addTriggerFixture";
-import { expect } from "@playwright/test";
+import { test as base, expect } from "playwright/test";
 import { NotificationsPage } from "../pages/notifications.page";
+
+const test = base.extend<{
+    testChannelType: string;
+    testChannelAccountName: string;
+    testTag: string;
+}>({
+    testChannelType: "E-mail",
+    testChannelAccountName: "testmail@test.com",
+    testTag: "testTag",
+});
 
 test("Notifications operations", async ({
     testChannelType,
@@ -20,6 +29,7 @@ test("Notifications operations", async ({
         await notificationsPage.modalActionDeliveryChannelButton("Add").click();
         await expect(page.getByText(testChannelAccountName)).toBeVisible();
     });
+
     await test.step("Edit existing delivery channel", async () => {
         notificationsPage.deliveryChannelItem(testChannelAccountName).click();
         await notificationsPage.modalSelectChannelTypeButton.click();
@@ -31,6 +41,7 @@ test("Notifications operations", async ({
             .fill(testChannelAccountNameEdited);
         await notificationsPage.modalActionDeliveryChannelButton("Save").click();
     });
+
     await test.step("Add subscription", async () => {
         await notificationsPage.addSubscriptionButton.click();
         await notificationsPage.modalSelectDeliveryChannelButton.click();

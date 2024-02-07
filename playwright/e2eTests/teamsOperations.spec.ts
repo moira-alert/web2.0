@@ -1,5 +1,15 @@
-import test, { expect } from "./fixtures/addTriggerFixture";
+import { test as base, expect } from "@playwright/test";
 import { TeamsPage } from "../pages/teams.page";
+
+const test = base.extend<{
+    testTeamName: string;
+    testTeamDescription: string;
+    testUserName: string;
+}>({
+    testTeamName: "test team name",
+    testTeamDescription: "test team description",
+    testUserName: "test user name",
+});
 
 test("Teams operations", async ({ page, testTeamName, testTeamDescription, testUserName }) => {
     const teamsPage = new TeamsPage(page);
