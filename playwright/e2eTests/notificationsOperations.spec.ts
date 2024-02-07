@@ -14,9 +14,9 @@ const test = base.extend<{
     channelAccountName: "testmail@test.com",
     channelAccountNameEdited: "#testtelegramaccount",
     tag: "testTag",
-    notificationsPage: ({ page }, use) => {
+    notificationsPage: async ({ page }, use) => {
         const notificationsPage = new NotificationsPage(page);
-        use(notificationsPage);
+        await use(notificationsPage);
     },
 });
 

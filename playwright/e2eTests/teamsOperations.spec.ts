@@ -10,9 +10,9 @@ const test = base.extend<{
     teamName: "test team name",
     teamDescription: "test team description",
     userName: "test user name",
-    teamsPage: ({ page }, use) => {
+    teamsPage: async ({ page }, use) => {
         const teamsPage = new TeamsPage(page);
-        use(teamsPage);
+        await use(teamsPage);
     },
 });
 
