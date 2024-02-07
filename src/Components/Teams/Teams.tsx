@@ -4,7 +4,7 @@ import { Team } from "../../Domain/Team";
 import { Grid } from "../Grid/Grid";
 import { Users } from "./Users";
 import { TeamEditor } from "./TeamEditor/TeamEditor";
-import { TeamComponent } from "./TeamComponent/TeamComponent";
+import { Team as TeamComponent } from "./Team/Team";
 
 interface TeamsProps {
     login?: string;

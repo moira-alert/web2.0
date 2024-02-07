@@ -9,7 +9,7 @@ import { Hovered, HoveredShow } from "../Hovered/Hovered";
 import { Confirm } from "../Confirm";
 import classNames from "classnames/bind";
 
-import styles from "./TeamComponent.less";
+import styles from "./Team.less";
 
 const cn = classNames.bind(styles);
 
@@ -19,7 +19,7 @@ interface ITeamProps {
     deleteTeam: (team: Team) => void;
 }
 
-export function TeamComponent({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement {
+export function Team({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement {
     const [edit, setEdit] = useState(false);
 
     const handleSave = (team: Team) => {
