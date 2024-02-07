@@ -8,10 +8,11 @@ test.describe.configure({ mode: "serial" });
 
 test("Add trigger", async ({ testTriggerName, testTriggerDescription, page }) => {
     const mainPage = new MainPage(page);
-    const triggerForm = new TriggerForm(page);
     await mainPage.gotoMainPage();
     await mainPage.addTriggerButton.click();
     await expect(page).toHaveURL("/trigger/new");
+
+    const triggerForm = new TriggerForm(page);
     await triggerForm.triggerNameField.fill(testTriggerName);
     await triggerForm.descriptionField.fill(testTriggerDescription);
     await triggerForm.target(1).click();
@@ -30,11 +31,12 @@ test("Add trigger", async ({ testTriggerName, testTriggerDescription, page }) =>
     await expect(page.getByText(testTriggerDescription)).toBeVisible();
 });
 
+test("Duplicate trigger", async ({ testTriggerName, testTriggerDescription, page }) => {
+    const mainPage = new MainPage(page);
+    await mainPage.gotoMainPage();
+    await page.getByText(testTriggerName).click();
 
-test("Duplicate trigger", async ({ testTriggerName, testTriggerDescription, addTrigger }) => {
-    const { page, testTriggerID } = addTrigger;
-    const triggerInfoPage = new TriggerInfoPage(page, testTriggerID);
-    await triggerInfoPage.gotoTriggerInfoPage();
+    const triggerInfoPage = new TriggerInfoPage(page);
     await triggerInfoPage.menuListButton.click();
 
     const [duplicateTriggerPage] = await Promise.all([
@@ -49,10 +51,12 @@ test("Duplicate trigger", async ({ testTriggerName, testTriggerDescription, addT
     await expect(triggerForm.simpleModeTab).toHaveAttribute("tabindex", "0");
     await expect(triggerForm.statusSelect).toHaveText("NODATA");
 
-    Promise.all([
-        await triggerForm.submitButton("Duplicate").click(),
-        await duplicateTriggerPage.waitForResponse(/api\/trigger/),
-    ]);
+    const responsePromise = duplicateTriggerPage.waitForResponse(/api\/trigger$/);
+    await triggerForm.submitButton("Duplicate").click();
+    await responsePromise;
+
+    await mainPage.gotoMainPage();
+    await expect(duplicateTriggerPage.getByText(testTriggerName + " (copy)")).toBeVisible();
 });
 
 test("Edit existing trigger", async ({
@@ -61,12 +65,16 @@ test("Edit existing trigger", async ({
     testExpression,
     page,
 }) => {
-    const { testTriggerID } = addTrigger;
-    const triggerInfoPage = new TriggerInfoPage(page, testTriggerID);
+    const mainPage = new MainPage(page);
+    await mainPage.gotoMainPage();
+    await page.getByText(testTriggerName, { exact: true }).click();
 
-    await triggerInfoPage.gotoTriggerInfoPage();
+    const triggerInfoPage = new TriggerInfoPage(page);
+    await triggerInfoPage.menuListButton.click();
     await triggerInfoPage.editButton.click();
-    await expect(page).toHaveURL(`/trigger/${testTriggerID}/edit`);
+    await expect(page).toHaveURL(/trigger\/.*\/edit/);
+
+    const triggerForm = new TriggerForm(page);
     await triggerForm.triggerNameField.fill(`${testTriggerName} changed`);
     await triggerForm.descriptionField.fill(`${testTriggerDescription} changed`);
     await triggerForm.prometheusRemoteRadio.click();
@@ -84,15 +92,16 @@ test("Edit existing trigger", async ({
     await triggerForm.deleteTarget(2).click();
     await triggerForm.expressionField.fill(testExpression);
     await triggerForm.statusSelect.click();
-    const status = page.getByText("OK");
-    await status.click();
-    await expect(triggerForm.target(1)).toContainText("metric1");
-    await expect(triggerForm.target(2)).toContainText("metric3");
-    await expect(triggerForm.prometheusRemoteRadio).toBeChecked();
-    await expect(triggerForm.triggerNameField).toHaveValue(`${testTriggerName} changed`);
-    await expect(triggerForm.descriptionField).toHaveValue(`${testTriggerDescription} changed`);
+    await page.getByText("OK").click();
+
+    const responsePromise = page.waitForResponse(/api\/trigger\/.*/);
     await triggerForm.submitButton("Save").click();
-    await expect(page).toHaveURL(`/trigger/${testTriggerID}`);
+    const response = await responsePromise;
+    const responseJson = await response.json();
+
+    await expect(page).toHaveURL(`/trigger/${responseJson.id}`);
     await expect(page.getByText(`${testTriggerName} changed`)).toBeVisible();
     await expect(page.getByText(`${testTriggerDescription} changed`)).toBeVisible();
+    await expect(page.getByText("metric1")).toBeVisible();
+    await expect(page.getByText("metric3")).toBeVisible();
 });
