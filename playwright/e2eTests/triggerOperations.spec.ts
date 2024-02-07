@@ -105,3 +105,23 @@ test("Edit existing trigger", async ({
     await expect(page.getByText("metric1")).toBeVisible();
     await expect(page.getByText("metric3")).toBeVisible();
 });
+
+test("Delete trigger", async ({ testTriggerName, page }) => {
+    const mainPage = new MainPage(page);
+    await mainPage.gotoMainPage();
+    await page.getByText(`${testTriggerName} changed`).click();
+    const triggerInfoPage = new TriggerInfoPage(page);
+    await triggerInfoPage.menuListButton.click();
+    await triggerInfoPage.deleteButton.click();
+
+    await page.getByRole("button", { name: "Delete" }).click();
+    await expect(page.getByText(`${testTriggerName} changed`)).not.toBeVisible();
+
+    await mainPage.gotoMainPage();
+    await page.getByText(`${testTriggerName} (copy)`).click();
+    await triggerInfoPage.menuListButton.click();
+    await triggerInfoPage.deleteButton.click();
+
+    await page.getByRole("button", { name: "Delete" }).click();
+    await expect(page.getByText(`${testTriggerName} (copy)`)).not.toBeVisible();
+});
