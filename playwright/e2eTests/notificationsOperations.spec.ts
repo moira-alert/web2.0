@@ -16,15 +16,12 @@ const test = base.extend<{
     tag: "testTag",
     notificationsPage: async ({ page }, use) => {
         const notificationsPage = new NotificationsPage(page);
+        await notificationsPage.gotoNotificationsPage();
         await use(notificationsPage);
     },
 });
 
 test.describe.configure({ mode: "serial" });
-
-test.beforeEach(async ({ notificationsPage }) => {
-    await notificationsPage.gotoNotificationsPage();
-});
 
 test("Add delivery channel", async ({
     channelType,

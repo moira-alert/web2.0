@@ -12,15 +12,12 @@ const test = base.extend<{
     userName: "test user name",
     teamsPage: async ({ page }, use) => {
         const teamsPage = new TeamsPage(page);
+        await teamsPage.gotoTeamsPage();
         await use(teamsPage);
     },
 });
 
 test.describe.configure({ mode: "serial" });
-
-test.beforeEach(async ({ teamsPage }) => {
-    teamsPage.gotoTeamsPage();
-});
 
 test("Add team", async ({ page, teamName, teamDescription, teamsPage }) => {
     await expect(page).toHaveURL("/teams");
