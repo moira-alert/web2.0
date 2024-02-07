@@ -16,7 +16,6 @@ const test = base.extend<{
     tag: "testTag",
     notificationsPage: async ({ page }, use) => {
         const notificationsPage = new NotificationsPage(page);
-        await notificationsPage.gotoNotificationsPage();
         await use(notificationsPage);
     },
 });
@@ -29,6 +28,7 @@ test("Add delivery channel", async ({
     page,
     notificationsPage,
 }) => {
+    await notificationsPage.gotoNotificationsPage();
     await notificationsPage.addDeliveryChannelButton.click();
     await notificationsPage.modalSelectChannelTypeButton.click();
     await page.getByRole("button", { name: `${channelType}` }).click();
@@ -44,6 +44,7 @@ test("Edit existing delivery channel", async ({
     page,
     notificationsPage,
 }) => {
+    await notificationsPage.gotoNotificationsPage();
     notificationsPage.deliveryChannelItem(channelAccountName).click();
     await notificationsPage.modalSelectChannelTypeButton.click();
     await page.getByRole("button", { name: `${channelTypeEdited}` }).click();
@@ -53,6 +54,7 @@ test("Edit existing delivery channel", async ({
 });
 
 test("Add subscription", async ({ channelAccountNameEdited, tag, page, notificationsPage }) => {
+    await notificationsPage.gotoNotificationsPage();
     await notificationsPage.addSubscriptionButton.click();
     await notificationsPage.modalSelectDeliveryChannelButton.click();
     await page.locator(`button:has-text("${channelAccountNameEdited}")`).click();
@@ -62,11 +64,13 @@ test("Add subscription", async ({ channelAccountNameEdited, tag, page, notificat
 });
 
 test("Delete subscription", async ({ channelAccountNameEdited, page, notificationsPage }) => {
+    await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).nth(1).click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
 });
 
 test("Delete delivery channel", async ({ channelAccountNameEdited, page, notificationsPage }) => {
+    await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).first().click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
 });
