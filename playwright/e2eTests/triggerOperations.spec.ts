@@ -32,8 +32,6 @@ test("Add trigger", async ({ testTriggerName, testTriggerDescription, page }) =>
 });
 
 test("Duplicate trigger", async ({ testTriggerName, testTriggerDescription, page }) => {
-    test.slow(); // For some reason, this test flaps hard when trying to find the previously created trigger on the main page. This seems to fix the issue.
-
     const mainPage = new MainPage(page);
     await mainPage.gotoMainPage();
     await page.getByText(testTriggerName).click();
