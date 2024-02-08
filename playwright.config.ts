@@ -23,10 +23,23 @@ const config: PlaywrightTestConfig = {
 
     projects: [
         {
-            name: "chromium",
+            name: "chromium-all",
+            testIgnore: [
+                "notificationsOperations.spec.ts",
+                "getAllStories.spec.ts",
+                "screenshotTest.spec.ts",
+            ],
             use: {
                 ...devices["Desktop Chrome"],
             },
+        },
+        {
+            name: "chromium-notifications",
+            testMatch: "notificationsOperations.spec.ts",
+            use: {
+                ...devices["Desktop Chrome"],
+            },
+            dependencies: ["chromium-all"],
         },
     ],
 };
