@@ -47,6 +47,7 @@ test("Add trigger", async ({ triggerName, triggerDescription, page }) => {
     await expect(page).toHaveURL(`/trigger/${responseJson.id}`);
     await expect(page.getByText(triggerName)).toBeVisible();
     await expect(page.getByText(triggerDescription)).toBeVisible();
+    await page.waitForTimeout(1000);
 });
 
 test("Duplicate trigger", async ({

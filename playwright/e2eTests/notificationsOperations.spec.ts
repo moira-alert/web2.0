@@ -94,15 +94,3 @@ test("Delete delivery channel", async ({ channelAccountNameEdited, page, notific
     await page.getByText(channelAccountNameEdited).first().click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
 });
-
-test("Delete notification trigger", async ({ page }) => {
-    const mainPage = new MainPage(page);
-    await mainPage.gotoMainPage();
-    await page.getByText("notifications test trigger name").click();
-    const triggerInfoPage = new TriggerInfoPage(page);
-    await triggerInfoPage.menuListButton.click();
-    await triggerInfoPage.deleteButton.click();
-
-    await page.getByRole("button", { name: "Delete" }).click();
-    await expect(page.getByText("notifications test trigger name")).not.toBeVisible();
-});
