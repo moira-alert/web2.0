@@ -26,7 +26,7 @@ const test = base.extend<{
 
 test.describe.configure({ mode: "serial" });
 
-test("Add trigger", async ({ page }) => {
+test("Add notification trigger", async ({ page }) => {
     const mainPage = new MainPage(page);
     const triggerForm = new TriggerForm(page);
     await mainPage.gotoMainPage();
@@ -95,7 +95,7 @@ test("Delete delivery channel", async ({ channelAccountNameEdited, page, notific
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
 });
 
-test("Delete trigger", async ({ page }) => {
+test("Delete notification trigger", async ({ page }) => {
     const mainPage = new MainPage(page);
     await mainPage.gotoMainPage();
     await page.getByText("notifications test trigger name").click();
