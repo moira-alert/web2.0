@@ -1,5 +1,7 @@
-import { test as base, expect } from "playwright/test";
+import { expect, test as base, Page } from "@playwright/test";
 import { NotificationsPage } from "../pages/notifications.page";
+import { MainPage } from "../pages/main.page";
+import { TriggerForm } from "../pages/triggerForm";
 
 const test = base.extend<{
     channelType: string;
@@ -8,6 +10,7 @@ const test = base.extend<{
     channelAccountNameEdited: string;
     tag: string;
     notificationsPage: NotificationsPage;
+    addTrigger: Page;
 }>({
     channelType: "E-mail",
     channelTypeEdited: "Telegram",
@@ -17,6 +20,23 @@ const test = base.extend<{
     notificationsPage: async ({ page }, use) => {
         const notificationsPage = new NotificationsPage(page);
         await use(notificationsPage);
+    },
+    addTrigger: async ({ page }, use) => {
+        const mainPage = new MainPage(page);
+        const triggerForm = new TriggerForm(page);
+        await mainPage.gotoMainPage();
+        await mainPage.addTriggerButton.click();
+        await expect(page).toHaveURL("/trigger/new");
+        await triggerForm.triggerNameField.fill("test trigger name");
+        await triggerForm.descriptionField.fill("test trigger description");
+        await triggerForm.target(1).click();
+        await triggerForm.target(1).pressSequentially("testmetric");
+        await triggerForm.warnValue.fill("1");
+        await triggerForm.errorValue.fill("2");
+        await triggerForm.addTag();
+        await triggerForm.submitButton("Add").click();
+
+        await use(page);
     },
 });
 
