@@ -2,7 +2,6 @@ import { expect, test as base, Page } from "@playwright/test";
 import { NotificationsPage } from "../pages/notifications.page";
 import { MainPage } from "../pages/main.page";
 import { TriggerForm } from "../pages/triggerForm";
-import { TriggerInfoPage } from "../pages/triggerInfo.page";
 
 const test = base.extend<{
     channelType: string;
