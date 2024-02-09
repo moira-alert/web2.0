@@ -6,6 +6,7 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { Team } from "../Domain/Team";
 import { Teams } from "../Components/Teams/Teams";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 interface Props extends RouteComponentProps {
     moiraApi: MoiraApi;
@@ -16,11 +17,6 @@ const TeamsContainer = ({ moiraApi }: Props) => {
     const [teams, setTeams] = useState<Team[] | undefined>();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>();
-
-    useEffect(() => {
-        document.title = "Moira - Teams";
-        getData();
-    }, []);
 
     const getData = async () => {
         try {
@@ -109,6 +105,11 @@ const TeamsContainer = ({ moiraApi }: Props) => {
             setError(error.message);
         }
     };
+
+    useEffect(() => {
+        getData();
+        setDocumentTitle("Teams");
+    }, []);
 
     return (
         <Layout loading={loading} error={error}>

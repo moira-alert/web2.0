@@ -21,6 +21,7 @@ import {
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
@@ -81,7 +82,7 @@ const TriggerEditContainer = (props: Props) => {
     };
 
     useEffect(() => {
-        document.title = "Moira - Edit trigger";
+        setDocumentTitle("Edit trigger");
         dispatch(setIsLoading(true));
         getData();
     }, []);

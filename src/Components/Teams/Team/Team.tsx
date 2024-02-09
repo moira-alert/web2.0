@@ -20,10 +20,10 @@ interface ITeamProps {
 }
 
 export function Team({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement {
-    const [edit, setEdit] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
     const handleSave = (team: Team) => {
-        setEdit(false);
+        setIsEditing(false);
         updateTeam(team);
     };
 
@@ -53,13 +53,17 @@ export function Team({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement
                 className={cn("editDescBtn")}
                 icon={<EditIcon />}
                 use={"link"}
-                onClick={() => setEdit(true)}
+                onClick={() => setIsEditing(true)}
             >
                 Edit Team
             </Button>
 
-            {edit ? (
-                <TeamEditor team={team} onSaveTeam={handleSave} onClose={() => setEdit(false)} />
+            {isEditing ? (
+                <TeamEditor
+                    team={team}
+                    onSaveTeam={handleSave}
+                    onClose={() => setIsEditing(false)}
+                />
             ) : null}
         </>
     );
