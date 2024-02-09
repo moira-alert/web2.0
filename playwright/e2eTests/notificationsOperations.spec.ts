@@ -2,6 +2,7 @@ import { expect, test as base, Page } from "@playwright/test";
 import { NotificationsPage } from "../pages/notifications.page";
 import { MainPage } from "../pages/main.page";
 import { TriggerForm } from "../pages/triggerForm";
+import { TriggerInfoPage } from "../pages/triggerInfo.page";
 
 const test = base.extend<{
     channelType: string;
@@ -31,8 +32,8 @@ test("Add trigger", async ({ page }) => {
     await mainPage.gotoMainPage();
     await mainPage.addTriggerButton.click();
     await expect(page).toHaveURL("/trigger/new");
-    await triggerForm.triggerNameField.fill("test trigger name");
-    await triggerForm.descriptionField.fill("test trigger description");
+    await triggerForm.triggerNameField.fill("notifications test trigger name");
+    await triggerForm.descriptionField.fill("notifications test trigger description");
     await triggerForm.target(1).click();
     await triggerForm.target(1).pressSequentially("testmetric");
     await triggerForm.warnValue.fill("1");
@@ -92,4 +93,16 @@ test("Delete delivery channel", async ({ channelAccountNameEdited, page, notific
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).first().click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
+});
+
+test("Delete trigger", async ({ page }) => {
+    const mainPage = new MainPage(page);
+    await mainPage.gotoMainPage();
+    await page.getByText("notifications test trigger name").click();
+    const triggerInfoPage = new TriggerInfoPage(page);
+    await triggerInfoPage.menuListButton.click();
+    await triggerInfoPage.deleteButton.click();
+
+    await page.getByRole("button", { name: "Delete" }).click();
+    await expect(page.getByText("notifications test trigger name")).not.toBeVisible();
 });
