@@ -47,7 +47,7 @@ export class TriggerForm {
             await this.tagsField.click();
             const tag = page.getByText("testTag");
             if (await tag.isVisible()) {
-                tag.click();
+                await tag.click();
                 return;
             }
             await this.tagsField.fill("testTag");
