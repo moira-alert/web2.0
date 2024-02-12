@@ -18,7 +18,7 @@ const test = base.extend<{
     channelAccountName: "testmail@test.com",
     channelAccountNameEdited: "#testtelegramaccount",
     triggerName: "notifications test trigger",
-    tag: "testTag",
+    tag: "notificationsTestTag",
     notificationsPage: async ({ page }, use) => {
         const notificationsPage = new NotificationsPage(page);
         await use(notificationsPage);
@@ -27,18 +27,28 @@ const test = base.extend<{
 
 test.describe.configure({ mode: "serial" });
 
-test("Add notification trigger", async ({ page, triggerName }) => {
+test("Add notification trigger", async ({ page, triggerName, tag }) => {
     const mainPage = new MainPage(page);
-    const triggerForm = new TriggerForm(page);
     await mainPage.gotoMainPage();
     await mainPage.addTriggerButton.click();
     await expect(page).toHaveURL("/trigger/new");
+
+    const triggerForm = new TriggerForm(page);
     await triggerForm.triggerNameField.fill(triggerName);
     await triggerForm.target(1).click();
     await triggerForm.target(1).pressSequentially("testmetric");
     await triggerForm.warnValue.fill("1");
-    await triggerForm.addTag();
+    await triggerForm.errorValue.fill("2");
+    await triggerForm.tagsField.click();
+    await triggerForm.addTag(tag);
+    const responsePromise = page.waitForResponse(/api\/trigger$/);
     await triggerForm.submitButton("Add").click();
+    const response = await responsePromise;
+    const responseJson = await response.json();
+
+    await expect(page).toHaveURL(`/trigger/${responseJson.id}`);
+    await expect(page.getByText(triggerName)).toBeVisible();
+    await page.waitForTimeout(1000);
 });
 
 test("Add delivery channel", async ({

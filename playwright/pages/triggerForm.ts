@@ -10,7 +10,7 @@ export class TriggerForm {
     readonly target: (targetIndex: number) => Locator;
     readonly warnValue: Locator;
     readonly errorValue: Locator;
-    readonly addTag: () => Promise<void>;
+    readonly addTag: (tagName: string) => Promise<void>;
     readonly tagsField: Locator;
     readonly newTagButton: Locator;
     readonly graphiteLocalRadio: Locator;
@@ -43,14 +43,14 @@ export class TriggerForm {
             page.locator(`[data-tid='Target remove ${targetIndex}']`);
         this.expressionField = page.getByPlaceholder("t1 >= 10 ? ERROR : (t1 >= 1 ? WARN : OK)");
         this.statusSelect = page.locator("[data-tid='Status select dropdown']");
-        this.addTag = async () => {
+        this.addTag = async (tagName) => {
             await this.tagsField.click();
-            const tag = page.getByText("testTag");
+            const tag = page.getByText(tagName, { exact: true });
             if (await tag.isVisible()) {
                 await tag.click();
                 return;
             }
-            await this.tagsField.fill("testTag");
+            await this.tagsField.fill(tagName);
             await this.newTagButton.click();
         };
     }

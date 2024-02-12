@@ -37,7 +37,8 @@ test("Add trigger", async ({ triggerName, triggerDescription, page }) => {
     await triggerForm.target(1).pressSequentially("testmetric");
     await triggerForm.warnValue.fill("1");
     await triggerForm.errorValue.fill("2");
-    await triggerForm.tagsField.fill("testTag");
+    await triggerForm.tagsField.click();
+    await triggerForm.addTag("testTag");
     await page.getByText("testTag").click();
     const responsePromise = page.waitForResponse(/api\/trigger$/);
     await triggerForm.submitButton("Add").click();
