@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import EventList from "../Components/EventList/EventList";
 import { Event } from "../Domain/Event";
 import { Status } from "../Domain/Status";
@@ -123,4 +122,8 @@ const items: { [key: string]: Array<Event> } = {
     ],
 };
 
-storiesOf("EventList", module).add("Default", () => <EventList items={items} />);
+export default {
+    title: "EventList",
+};
+
+export const Default = () => <EventList items={items} />;

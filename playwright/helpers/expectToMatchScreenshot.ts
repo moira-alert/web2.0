@@ -7,7 +7,7 @@ export async function expectToMatchScreenshot(page: Page, component: string, sto
             `${story}.png`,
         ]);
     } else {
-        const element = page.locator("#root");
+        const element = page.locator("#storybook-root");
         await expect(element).toHaveScreenshot([component, `${story}.png`]);
     }
 }

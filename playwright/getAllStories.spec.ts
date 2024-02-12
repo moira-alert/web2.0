@@ -14,7 +14,8 @@ test.describe("Get a list of all stories", () => {
         const components = await componentsLocator.elementHandles();
 
         for (const componentHandle of components) {
-            const componentText = await componentHandle.textContent();
+            const componentTextContent = await componentHandle.textContent();
+            const componentText = componentTextContent?.trim();
 
             const isComponentClicked = await componentHandle.evaluate(
                 (node) => (node as Element).getAttribute("aria-expanded") === "true"
@@ -24,7 +25,7 @@ test.describe("Get a list of all stories", () => {
                 await componentHandle.click();
             }
 
-            if (componentText !== null) {
+            if (componentText !== undefined) {
                 componentList[componentText] = [];
             }
 
@@ -38,7 +39,7 @@ test.describe("Get a list of all stories", () => {
             for (let i = 0; i < count; i++) {
                 const storyItemId = await stories.nth(i).getAttribute("data-item-id");
 
-                if (storyItemId !== null && componentText !== null) {
+                if (storyItemId !== null && componentText !== undefined) {
                     componentList[componentText].push(storyItemId);
                 }
             }

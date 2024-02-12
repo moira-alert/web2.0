@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Metric } from "../../Domain/Metric";
 import { Status } from "../../Domain/Status";
@@ -19,21 +18,25 @@ const metricData: Metric = {
     },
 };
 
-storiesOf("Mobile/MetricsListItem", module)
-    .add("With Status Indicator", () => (
-        <MobileMetricsListItem
-            name={metricName}
-            value={metricData}
-            onRemove={action("onRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
-        />
-    ))
-    .add("With Targets", () => (
-        <MobileMetricsListItem
-            name={metricName}
-            value={metricData}
-            onRemove={action("onRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
-            withTargets={true}
-        />
-    ));
+export default {
+    title: "Mobile/MetricsListItem",
+};
+
+export const WithStatusIndicator = () => (
+    <MobileMetricsListItem
+        name={metricName}
+        value={metricData}
+        onRemove={action("onRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+    />
+);
+
+export const WithTargets = () => (
+    <MobileMetricsListItem
+        name={metricName}
+        value={metricData}
+        onRemove={action("onRemove")}
+        onSetMaintenance={action("onSetMaintenance")}
+        withTargets={true}
+    />
+);
