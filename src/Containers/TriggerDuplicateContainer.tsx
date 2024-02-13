@@ -21,6 +21,7 @@ import {
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
@@ -102,7 +103,7 @@ const TriggerDuplicateContainer = (props: Props) => {
     };
 
     useEffect(() => {
-        document.title = "Moira - Duplicate trigger";
+        setDocumentTitle("Duplicate trigger");
         dispatch(setIsLoading(true));
         getData();
     }, []);

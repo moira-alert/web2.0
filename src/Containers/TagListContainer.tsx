@@ -5,6 +5,7 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import TagList from "../Components/TagList/TagList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import MoiraApi from "../Api/MoiraApi";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 type Props = { moiraApi: MoiraApi };
 type State = {
@@ -20,7 +21,7 @@ class TagListContainer extends React.Component<Props, State> {
     };
 
     public componentDidMount() {
-        document.title = "Moira - Tags";
+        setDocumentTitle("Tags");
         this.getData(this.props);
     }
 

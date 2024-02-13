@@ -26,6 +26,7 @@ import {
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -128,7 +129,7 @@ const TriggerAddContainer = (props: Props) => {
     };
 
     useEffect(() => {
-        document.title = "Moira - Add trigger";
+        setDocumentTitle("Add trigger");
         getData();
     }, []);
 

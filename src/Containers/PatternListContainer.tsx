@@ -5,6 +5,7 @@ import { SortingColumn } from "../Components/PatternList/PatternList";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import PatternList from "../Components/PatternList/PatternList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 type Props = { moiraApi: MoiraApi };
 type State = {
@@ -23,7 +24,7 @@ class PatternListContainer extends React.Component<Props, State> {
     };
 
     public componentDidMount() {
-        document.title = "Moira - Patterns";
+        setDocumentTitle("Patterns");
         this.getData(this.props);
     }
 
