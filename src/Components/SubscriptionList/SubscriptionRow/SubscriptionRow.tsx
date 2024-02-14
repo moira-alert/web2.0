@@ -44,7 +44,9 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             onClick={() => onEditSubscription(subscription)}
         >
             <td className={cn("tags-cell")}>
-                <TagGroup tags={subscription.tags} />
+                <div>
+                    <TagGroup tags={subscription.tags} />
+                </div>
             </td>
             <td className={cn("triggers-cell")}>
                 <Hint text="Show all associated triggers">
@@ -58,7 +60,9 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                 </Hint>
             </td>
             <td className={cn("contacts-cell")}>
-                <Gapped gap={10}>{getSubscriptionContacts}</Gapped>
+                <Gapped wrap gap={10}>
+                    {getSubscriptionContacts}
+                </Gapped>
             </td>
             <td className={cn("enabled-cell")}>
                 {!subscription.enabled && <span className={cn("disabled-label")}>Disabled</span>}

@@ -3,6 +3,7 @@ import MobileTriggerListPage from "../../Components/Mobile/MobileTriggerListPage
 import MobileTagSelectorPage from "../../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
 import type { Trigger } from "../../Domain/Trigger";
 import { TriggerListUpdate } from "./trigger-list";
+import { History } from "history";
 
 export type TriggerListMobileProps = {
     selectedTags: string[];
@@ -11,6 +12,7 @@ export type TriggerListMobileProps = {
     triggers: Array<Trigger>;
     activePage: number;
     pageCount: number;
+    history: History;
     onChange: (update: TriggerListUpdate) => void;
 };
 
@@ -31,6 +33,7 @@ export default class TriggerListMobile extends React.Component<TriggerListMobile
             triggers,
             activePage,
             pageCount,
+            history,
             onChange,
         } = this.props;
         const { showTagSelector } = this.state;
@@ -54,6 +57,7 @@ export default class TriggerListMobile extends React.Component<TriggerListMobile
                 loading={false}
                 onOpenTagSelector={() => this.setState({ showTagSelector: true })}
                 activePage={activePage}
+                history={history}
                 pageCount={pageCount}
                 onChange={onChange}
             />

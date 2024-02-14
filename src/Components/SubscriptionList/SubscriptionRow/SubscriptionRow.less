@@ -32,6 +32,34 @@
     max-width: 350px;
 }
 
+@media screen and (max-width:  600px) {
+  .item {
+        max-height: 30px;
+        overflow: hidden;
+    };
+  td > div {
+    max-width: 60px;
+    max-height: 20px;
+    overflow: hidden;
+    position: relative;
+    -webkit-mask-image: linear-gradient(
+        to bottom right,
+        black 20%,
+        transparent,
+    );
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 20px;
+
+    mask-image: linear-gradient(
+        to bottom right,
+        black 20%,
+        transparent
+    );
+    mask-repeat: no-repeat;
+    mask-size: 100% 20px;
+  }
+}
+
 .triggers-cell {
     display: table-cell;
     white-space: nowrap;

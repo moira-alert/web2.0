@@ -4,4 +4,26 @@
     margin-bottom: 24px;
 }
 
+.subscriptionBtnContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto,  1fr));
+  grid-auto-flow: column;
+  gap: 5px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+@media (max-width:  600px) {
+  .subscriptionBtnContainer {
+    grid-template-columns:  1fr;
+    grid-auto-flow: row;
+  }
+}
+
 

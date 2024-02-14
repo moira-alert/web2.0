@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
-import { Fill, RowStack, Fit } from "@skbkontur/react-stack-layout";
 import { Subscription } from "../../Domain/Subscription";
 import { createSchedule, WholeWeek } from "../../Domain/Schedule";
 import { Contact } from "../../Domain/Contact";
@@ -168,41 +167,38 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
     };
 
     return (
-        <div>
+        <>
             {subscriptions.length > 0 ? (
-                <div>
-                    {
-                        <RowStack gap={1} baseline block>
-                            <h2 className={cn("header")}>Subscriptions</h2>
-                            <Fill />
-                            <Fit>
-                                <Button
-                                    width={180}
-                                    use="default"
-                                    icon={<AddIcon />}
-                                    onClick={handleAddSubscription}
-                                >
-                                    Add subscription
-                                </Button>
-                            </Fit>
-                            <Fit>
-                                <TagDropdownSelect
-                                    width={280}
-                                    value={filterTags}
-                                    availableTags={availableTags}
-                                    onChange={handleFilterTagsChange}
-                                    placeholder=" Filter subscriptions by Tags"
-                                />
-                            </Fit>
-                        </RowStack>
-                    }
+                <>
+                    <div className={cn("row")}>
+                        <h2 className={cn("header")}>Subscriptions</h2>
+
+                        <div className={cn("subscriptionBtnContainer")}>
+                            <Button
+                                width={180}
+                                use="default"
+                                icon={<AddIcon />}
+                                onClick={handleAddSubscription}
+                            >
+                                Add subscription
+                            </Button>
+
+                            <TagDropdownSelect
+                                width={"180px"}
+                                value={filterTags}
+                                availableTags={availableTags}
+                                onChange={handleFilterTagsChange}
+                                placeholder="Filter subscriptions by Tag"
+                            />
+                        </div>
+                    </div>
                     <SubscriptionList
                         tableRef={tableRef}
                         subscriptions={filteredSubscriptions}
                         contacts={contacts}
                         handleEditSubscription={handleEditSubscription}
                     />
-                </div>
+                </>
             ) : (
                 <AddSubscriptionMessage onAddSubscription={handleAddSubscription} />
             )}
@@ -231,6 +227,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                     onRemoveSubscription={handleRemoveSubscription}
                 />
             )}
-        </div>
+        </>
     );
 };
