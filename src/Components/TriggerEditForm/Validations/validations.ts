@@ -55,11 +55,10 @@ export const validateSched = (schedule: Schedule | undefined): ValidationInfo | 
 };
 
 export const validateClusterID = (clusterID: string | undefined | null): ValidationInfo | null => {
-    if (clusterID == null || clusterID === undefined) {
-        return {
-            type: "submit",
-            message: "Can't be empty",
-        };
-    }
-    return null;
+    return !clusterID
+        ? {
+              type: "submit",
+              message: "Can't be empty",
+          }
+        : null;
 };
