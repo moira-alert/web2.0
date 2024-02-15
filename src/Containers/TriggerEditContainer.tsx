@@ -46,6 +46,12 @@ const TriggerEditContainer = (props: Props) => {
             : saveTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>) => {
+        if (update.trigger_source) {
+            setTrigger((prev) => {
+                if (!prev) return;
+                return { ...prev, cluster_id: null };
+            });
+        }
         setTrigger((prev) => {
             if (!prev) return;
             return { ...prev, ...update };
@@ -106,6 +112,7 @@ const TriggerEditContainer = (props: Props) => {
                                             data={trigger}
                                             tags={tags || []}
                                             remoteAllowed={config.remoteAllowed}
+                                            metricSourceClusters={config.metric_source_clusters}
                                             onChange={handleChange}
                                             validationResult={state.validationResult}
                                         />

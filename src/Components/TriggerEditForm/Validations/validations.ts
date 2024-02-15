@@ -53,3 +53,13 @@ export const validateSched = (schedule: Schedule | undefined): ValidationInfo | 
           }
         : null;
 };
+
+export const validateClusterID = (clusterID: string | undefined | null): ValidationInfo | null => {
+    if (clusterID == null || clusterID === undefined) {
+        return {
+            type: "submit",
+            message: "Can't be empty",
+        };
+    }
+    return null;
+};
