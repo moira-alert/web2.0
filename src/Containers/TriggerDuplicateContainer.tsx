@@ -70,16 +70,17 @@ const TriggerDuplicateContainer = (props: Props) => {
         if (update.trigger_source) {
             setTrigger((prev) => {
                 if (!prev) return;
-                return { ...prev, cluster_id: null };
+                return { ...prev, cluster_id: null, ...update };
             });
+            dispatch(setIsSaveButtonDisabled(false));
+            return;
         }
-
         setTrigger((prev) => {
             return { ...prev, ...update };
         });
         dispatch(setError(null));
 
-        if (update.targets || update?.trigger_source) {
+        if (update.targets) {
             dispatch(setIsSaveButtonDisabled(false));
         }
     };

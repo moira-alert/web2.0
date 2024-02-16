@@ -16,9 +16,9 @@ export const ClusterSelect = React.forwardRef<Select<string | null>, IClusterSel
         { clusterID, metricSourceClusters, triggerSource, error, onChange },
         validationRef
     ) {
-        const clusterIDs = metricSourceClusters?.reduce((acc: string[], item) => {
+        const clusterEntities = metricSourceClusters?.reduce((acc: string[][], item) => {
             if (item.trigger_source === triggerSource) {
-                acc.push(item.cluster_id);
+                acc.push([item.cluster_id, item.cluster_name]);
             }
             return acc;
         }, []);
@@ -28,10 +28,10 @@ export const ClusterSelect = React.forwardRef<Select<string | null>, IClusterSel
                 className={error ? "validationError" : ""}
                 ref={validationRef}
                 value={clusterID}
-                renderItem={(value) => value}
-                renderValue={(value) => (!clusterID ? null : value)}
-                items={clusterIDs}
-                onValueChange={(value: string | null) => onChange({ cluster_id: value })}
+                renderItem={(_value, item) => item}
+                renderValue={(_value, item) => (!clusterID ? null : item)}
+                items={clusterEntities}
+                onValueChange={(value) => onChange({ cluster_id: value })}
             />
         );
     }
