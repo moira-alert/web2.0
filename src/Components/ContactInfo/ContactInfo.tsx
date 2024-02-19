@@ -4,13 +4,15 @@ import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 
 type Props = {
     contact: Contact;
+    className?: string;
 };
 
-export default function ContactInfo(props: Props): React.ReactElement {
-    const { contact } = props;
+export default function ContactInfo({ contact, className }: Props): React.ReactElement {
     return (
-        <>
-            <ContactTypeIcon type={contact.type} /> {contact.value}
-        </>
+        <div className={className}>
+            <ContactTypeIcon type={contact.type} />
+            &nbsp;
+            <span>{contact.value}</span>
+        </div>
     );
 }

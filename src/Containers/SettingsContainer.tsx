@@ -27,11 +27,11 @@ import {
     setTeamsAndTags,
     setDisruptedSubs,
 } from "../hooks/useSettingsContainerReducer";
-interface Props extends RouteComponentProps<{ teamId?: string }> {
+export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
 }
 
-const SettingsContainer: FC<Props> = ({ moiraApi, match, history }) => {
+const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, history }) => {
     const teamId = match.params.teamId;
     const [state, dispatch] = useSettingsContainerReducer();
     const { loadData, getTeamOrUserData } = useLoadSettingsData(moiraApi, dispatch, teamId);

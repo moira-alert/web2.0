@@ -69,13 +69,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                 offsetY={1}
                                 hasFixedWidth
                             >
-                                <ScrollContainer maxHeight={300}>
-                                    <div
-                                        className={cn("tags-menu")}
-                                        style={{ width }}
-                                        ref={this.tagsRef}
-                                        onBlur={onBlur}
-                                    >
+                                <div className={cn("tags-menu")} ref={this.tagsRef} onBlur={onBlur}>
+                                    <ScrollContainer maxHeight={300}>
                                         {filtredTags.length > 0 || allowCreateNewTags ? (
                                             <div className={cn("tag-list")}>
                                                 {filtredTags.map((tag, i) => (
@@ -107,8 +102,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                                 No matched tags found.
                                             </div>
                                         )}
-                                    </div>
-                                </ScrollContainer>
+                                    </ScrollContainer>
+                                </div>
                             </DropdownContainer>
                         )}
                     </div>

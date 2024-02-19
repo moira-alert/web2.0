@@ -1,7 +1,9 @@
+@import '~styles/variables.less';
+
 .item {
     cursor: pointer;
 
-    &:hover {
+    &:hover, &.enabled-cell:hover{
         background-color: #f8f8f8;
     }
 
@@ -15,8 +17,20 @@
         border-bottom: 0;
     }
 
-    .contact {
-        margin-right: 10px;
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top:  0;
+        right:  calc(100% - 80px);
+        bottom:  0;
+        background-color: #f8f8f8;
+        opacity:  0;
+    }
+
+    &:hover::after {
+        opacity:  1;
     }
 }
 
@@ -28,57 +42,72 @@
     background-color: #ffcece;
 }
 
-.tags-cell {
-    max-width: 350px;
-}
-
-@media screen and (max-width:  600px) {
-  .item {
-        max-height: 30px;
-        overflow: hidden;
-    };
-  td > div {
-    max-width: 60px;
-    max-height: 20px;
-    overflow: hidden;
-    position: relative;
-    -webkit-mask-image: linear-gradient(
-        to bottom right,
-        black 20%,
-        transparent,
-    );
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 20px;
-
-    mask-image: linear-gradient(
-        to bottom right,
-        black 20%,
-        transparent
-    );
-    mask-repeat: no-repeat;
-    mask-size: 100% 20px;
-  }
-}
-
 .triggers-cell {
     display: table-cell;
     white-space: nowrap;
 }
 
-.contacts-cell {
-    width: 80%;
+.contacts-content {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.contact {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .enabled-cell {
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
+    text-align: end;
 }
 
 .disabled-label {
+    overflow: hidden;
     color: #D43517;
     font-weight: 700;
 }
 
 .tooltip-cell {
     width: 10px;
+}
+
+@media screen and (min-width: @breakpoint) {
+    .showMore-button-cell {
+        display: none;
+    }
+}
+
+@media screen and (max-width: @breakpoint) {
+    td > div {
+        max-height: 20px;
+        overflow: hidden;
+        box-sizing: border-box;
+        max-width: 90px;
+    }
+
+    .contact > span:nth-child(2) {
+        display: none;
+    }
+
+    .triggers-cell {
+        display: table-cell;
+        white-space: nowrap;
+        max-width: 45px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .expanded {
+        td > div {
+            max-height: 100%;
+        }
+
+        .contact > span:nth-child(2) {
+            display: inline-block;
+        }
+    }
 }

@@ -172,7 +172,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                 <>
                     <div className={cn("row")}>
                         <h2 className={cn("header")}>Subscriptions</h2>
-
                         <div className={cn("subscriptionBtnContainer")}>
                             <Button
                                 width={180}
@@ -182,9 +181,8 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                             >
                                 Add subscription
                             </Button>
-
                             <TagDropdownSelect
-                                width={"180px"}
+                                width={180}
                                 value={filterTags}
                                 availableTags={availableTags}
                                 onChange={handleFilterTagsChange}
