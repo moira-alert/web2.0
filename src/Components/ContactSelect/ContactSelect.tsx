@@ -52,7 +52,7 @@ export default class ContactSelect extends React.Component<Props> {
                     .filter(notUndefined)
                     .map((x) => (
                         <div key={x.id} className={cn("contact")}>
-                            <ContactInfo contact={x} />{" "}
+                            <ContactInfo contact={x} />
                             <A11yButtonWrapper onClick={() => this.handleRemoveContact(x)}>
                                 <TrashIcon />
                             </A11yButtonWrapper>

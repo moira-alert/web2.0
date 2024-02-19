@@ -85,7 +85,7 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                     </Link>
                 </Hint>
             </td>
-            <td>
+            <td className={cn("contacts-cell")}>
                 <div className={cn("contacts-content")}>{getSubscriptionContacts}</div>
             </td>
             {!subscription.enabled && (
