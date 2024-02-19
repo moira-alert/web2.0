@@ -52,6 +52,7 @@ const defaultTrigger: Partial<Trigger> = {
         ],
     },
     trigger_source: TriggerSource.GRAPHITE_LOCAL,
+    cluster_id: "default",
     error_value: null,
     warn_value: null,
     trigger_type: "rising",
@@ -83,14 +84,20 @@ const TriggerAddContainer = (props: Props) => {
         if (!trigger) {
             return;
         }
-
+        if (update.trigger_source) {
+            setTrigger((prev) => {
+                return { ...prev, cluster_id: null, ...update };
+            });
+            dispatch(setIsSaveButtonDisabled(false));
+            return;
+        }
         setTrigger((prev) => {
             return { ...prev, ...update };
         });
 
         dispatch(setError(null));
 
-        if (update.targets || update?.trigger_source) {
+        if (update.targets) {
             dispatch(setIsSaveButtonDisabled(false));
         }
     };
@@ -156,6 +163,7 @@ const TriggerAddContainer = (props: Props) => {
                                         <TriggerEditForm
                                             data={trigger}
                                             remoteAllowed={config.remoteAllowed}
+                                            metricSourceClusters={config.metric_source_clusters}
                                             tags={tags || []}
                                             onChange={handleChange}
                                             validationResult={state.validationResult}

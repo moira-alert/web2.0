@@ -39,6 +39,7 @@ export type Trigger = {
     };
     timestamp?: number;
     trigger_source: TriggerSource;
+    cluster_id?: string | null;
     alone_metrics?: {
         [target_id: string]: boolean;
     };

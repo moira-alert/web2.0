@@ -46,13 +46,21 @@ const TriggerEditContainer = (props: Props) => {
             : saveTrigger(trigger);
 
     const handleChange = (update: Partial<Trigger>) => {
+        if (update.trigger_source) {
+            setTrigger((prev) => {
+                if (!prev) return;
+                return { ...prev, cluster_id: null, ...update };
+            });
+            dispatch(setIsSaveButtonDisabled(false));
+            return;
+        }
         setTrigger((prev) => {
             if (!prev) return;
             return { ...prev, ...update };
         });
         dispatch(setError(null));
 
-        if (update.targets || update?.trigger_source) {
+        if (update.targets) {
             dispatch(setIsSaveButtonDisabled(false));
         }
     };
@@ -106,6 +114,7 @@ const TriggerEditContainer = (props: Props) => {
                                             data={trigger}
                                             tags={tags || []}
                                             remoteAllowed={config.remoteAllowed}
+                                            metricSourceClusters={config.metric_source_clusters}
                                             onChange={handleChange}
                                             validationResult={state.validationResult}
                                         />
