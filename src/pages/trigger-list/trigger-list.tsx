@@ -13,6 +13,7 @@ import { TriggerListMobileProps } from "./trigger-list.mobile";
 import { TriggerListDesktopProps } from "./trigger-list.desktop";
 import MoiraApi from "../../Api/MoiraApi";
 import { clearInput } from "../../helpers/common";
+import { setDocumentTitle } from "../../helpers/setDocumentTitle";
 
 export type TriggerListUpdate = {
     tags?: Array<string>;
@@ -47,7 +48,7 @@ class TriggerListPage extends React.Component<TriggerListProps, State> {
     };
 
     componentDidMount() {
-        document.title = "Moira - Triggers";
+        setDocumentTitle("Triggers");
         this.loadData();
     }
 

@@ -1,4 +1,5 @@
 import { Status } from "./Status";
+import TriggerSource from "./Trigger";
 
 export type Metric = {
     state: Status;
@@ -17,4 +18,10 @@ export type Metric = {
 
 export type MetricItemList = {
     [metric: string]: Metric;
+};
+
+export type TMetricSourceCluster = {
+    trigger_source: TriggerSource;
+    cluster_id: string;
+    cluster_name: string;
 };

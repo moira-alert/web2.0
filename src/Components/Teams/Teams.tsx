@@ -1,13 +1,10 @@
 import React, { ReactElement, useState } from "react";
-import { Button, Gapped } from "@skbkontur/react-ui";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { Button } from "@skbkontur/react-ui";
 import { Team } from "../../Domain/Team";
 import { Grid } from "../Grid/Grid";
 import { Users } from "./Users";
 import { TeamEditor } from "./TeamEditor/TeamEditor";
-import { Confirm } from "./Confirm";
-import { TeamDescription } from "./TeamDescription/TeamDescription";
-import { Hovered, HoveredShow } from "./Hovered/Hovered";
+import { Team as TeamComponent } from "./Team/Team";
 
 interface TeamsProps {
     login?: string;
@@ -33,20 +30,11 @@ export function Teams(props: TeamsProps): ReactElement {
             {props.teams?.map((team) => {
                 return (
                     <div key={team.id}>
-                        <Hovered>
-                            <Gapped gap={8}>
-                                <h2>{team.name}</h2>
-                                <HoveredShow>
-                                    <Confirm
-                                        message={`Do you really want to remove "${team.name}" team?`}
-                                        action={() => props.deleteTeam(team)}
-                                    >
-                                        <Button use={"link"} icon={<DeleteIcon />} />
-                                    </Confirm>
-                                </HoveredShow>
-                            </Gapped>
-                        </Hovered>
-                        <TeamDescription team={team} updateTeam={props.updateTeam} />
+                        <TeamComponent
+                            deleteTeam={props.deleteTeam}
+                            team={team}
+                            updateTeam={props.updateTeam}
+                        />
                         <Grid gap="4px" margin="8px 0 0">
                             <Users
                                 login={props.login}

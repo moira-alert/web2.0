@@ -27,6 +27,8 @@ import {
     setTeamsAndTags,
     setDisruptedSubs,
 } from "../hooks/useSettingsContainerReducer";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
+
 export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
 }
@@ -243,7 +245,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
 
     useEffect(() => {
         loadData();
-        document.title = "Moira - Settings";
+        setDocumentTitle("Settings");
     }, [teamId]);
 
     return (

@@ -21,6 +21,7 @@ import {
 } from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
@@ -65,12 +66,21 @@ const TriggerDuplicateContainer = (props: Props) => {
         if (!trigger) {
             return;
         }
+
+        if (update.trigger_source) {
+            setTrigger((prev) => {
+                if (!prev) return;
+                return { ...prev, cluster_id: null, ...update };
+            });
+            dispatch(setIsSaveButtonDisabled(false));
+            return;
+        }
         setTrigger((prev) => {
             return { ...prev, ...update };
         });
         dispatch(setError(null));
 
-        if (update.targets || update?.trigger_source) {
+        if (update.targets) {
             dispatch(setIsSaveButtonDisabled(false));
         }
     };
@@ -102,7 +112,7 @@ const TriggerDuplicateContainer = (props: Props) => {
     };
 
     useEffect(() => {
-        document.title = "Moira - Duplicate trigger";
+        setDocumentTitle("Duplicate trigger");
         dispatch(setIsLoading(true));
         getData();
     }, []);
@@ -126,6 +136,7 @@ const TriggerDuplicateContainer = (props: Props) => {
                                             data={trigger}
                                             tags={tags || []}
                                             remoteAllowed={config.remoteAllowed}
+                                            metricSourceClusters={config.metric_source_clusters}
                                             onChange={handleChange}
                                             validationResult={state.validationResult}
                                         />

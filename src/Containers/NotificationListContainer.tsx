@@ -10,6 +10,7 @@ import MoiraServiceStates from "../Domain/MoiraServiceStates";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
+import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
 type Props = { moiraApi: MoiraApi };
 type State = {
@@ -28,7 +29,7 @@ class NotificationListContainer extends React.Component<Props, State> {
     };
 
     componentDidMount() {
-        document.title = "Moira - Notifications";
+        setDocumentTitle("Notifications");
         this.fetch(this.props);
     }
 
