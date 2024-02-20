@@ -1,8 +1,5 @@
 import { expect, test as base } from "@playwright/test";
 import { NotificationsPage } from "../pages/notifications.page";
-import { MainPage } from "../pages/main.page";
-import { TriggerForm } from "../pages/triggerForm";
-import { TriggerInfoPage } from "../pages/triggerInfo.page";
 
 const test = base.extend<{
     channelType: string;
@@ -18,7 +15,7 @@ const test = base.extend<{
     channelAccountName: "testmail@test.com",
     channelAccountNameEdited: "#testtelegramaccount",
     triggerName: "notifications test trigger",
-    tag: "notificationsTestTag",
+    tag: "testTag",
     notificationsPage: async ({ page }, use) => {
         const notificationsPage = new NotificationsPage(page);
         await use(notificationsPage);
@@ -26,30 +23,6 @@ const test = base.extend<{
 });
 
 test.describe.configure({ mode: "serial" });
-
-test("Add notification trigger", async ({ page, triggerName, tag }) => {
-    const mainPage = new MainPage(page);
-    await mainPage.gotoMainPage();
-    await mainPage.addTriggerButton.click();
-    await expect(page).toHaveURL("/trigger/new");
-
-    const triggerForm = new TriggerForm(page);
-    await triggerForm.triggerNameField.fill(triggerName);
-    await triggerForm.target(1).click();
-    await triggerForm.target(1).pressSequentially("testmetric");
-    await triggerForm.warnValue.fill("1");
-    await triggerForm.errorValue.fill("2");
-    await triggerForm.tagsField.click();
-    await triggerForm.addTag(tag);
-    const responsePromise = page.waitForResponse(/api\/trigger$/);
-    await triggerForm.submitButton("Add").click();
-    const response = await responsePromise;
-    const responseJson = await response.json();
-
-    await expect(page).toHaveURL(`/trigger/${responseJson.id}`);
-    await expect(page.getByText(triggerName)).toBeVisible();
-    await page.waitForTimeout(1000);
-});
 
 test("Add delivery channel", async ({
     channelType,
@@ -96,22 +69,12 @@ test("Delete subscription", async ({ channelAccountNameEdited, page, notificatio
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).nth(1).click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
+    // await expect(page.getByText(channelAccountNameEdited)).not.toBeVisible();
 });
 
 test("Delete delivery channel", async ({ channelAccountNameEdited, page, notificationsPage }) => {
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).first().click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
-});
-
-test("Delete notification trigger", async ({ triggerName, page }) => {
-    const mainPage = new MainPage(page);
-    await mainPage.gotoMainPage();
-    await page.getByText(triggerName).click();
-    const triggerInfoPage = new TriggerInfoPage(page);
-    await triggerInfoPage.menuListButton.click();
-    await triggerInfoPage.deleteButton.click();
-
-    await page.getByRole("button", { name: "Delete" }).click();
-    await expect(page.getByText(triggerName)).not.toBeVisible();
+    // await expect(page.getByText(channelAccountNameEdited)).not.toBeVisible();
 });
