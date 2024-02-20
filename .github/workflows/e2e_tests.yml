@@ -17,6 +17,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
           
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+          
       - name: Run tests
         run: yarn test:e2e
           
