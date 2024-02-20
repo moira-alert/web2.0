@@ -1,6 +1,11 @@
-import { clearDatabase } from "../../src/tests/core/utils";
-import { test as cleanup } from "@playwright/test";
+import { test as cleanup, expect } from "@playwright/test";
 
-cleanup("Clearing database", async () => {
-    await clearDatabase();
+cleanup("Deleting tag", async ({ request }) => {
+    const response = await request.delete("/api/tag", {
+        data: {
+            list: ["testTag"],
+        },
+    });
+
+    expect(response.status()).toBe(200);
 });

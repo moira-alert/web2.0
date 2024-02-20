@@ -1,6 +1,6 @@
-import { test as setup, expect } from "@playwright/test";
+import { test as cleanup, expect } from "@playwright/test";
 
-setup("Adding tag", async ({ request }) => {
+cleanup("Adding tag", async ({ request }) => {
     const response = await request.post("/api/tag", {
         data: {
             list: ["testTag"],
