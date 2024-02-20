@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import MobileTriggerInfo from "../../Components/Mobile/MobileTriggerInfo/MobileTriggerInfo";
 import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
@@ -57,104 +56,117 @@ const triggerState: TriggerState = {
     trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
 };
 
-const stories: Array<{
-    title: string;
-    triggerState: TriggerState;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        triggerState: { ...triggerState },
-        data: { ...sourceData },
-    },
-    {
-        title: "With throttling",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Not everyday",
-        triggerState: { ...triggerState },
-        data: {
-            ...sourceData,
-            sched: {
-                endOffset: 1439,
-                days: [
-                    { enabled: true, name: DaysOfWeek.Mon },
-                    { enabled: false, name: DaysOfWeek.Tue },
-                    { enabled: true, name: DaysOfWeek.Wed },
-                    { enabled: true, name: DaysOfWeek.Thu },
-                    { enabled: true, name: DaysOfWeek.Fri },
-                    { enabled: false, name: DaysOfWeek.Sat },
-                    { enabled: true, name: DaysOfWeek.Sun },
-                ],
-                startOffset: 0,
-                tzOffset: -300,
-            },
-        },
-    },
-    {
-        title: "WithError",
-        triggerState: {
-            ...triggerState,
-            state: Status.EXCEPTION,
-            msg: "Some error message message message message message.",
-        },
-        data: {
-            ...sourceData,
-            sched: {
-                endOffset: 1439,
-                days: [
-                    { enabled: true, name: DaysOfWeek.Mon },
-                    { enabled: false, name: DaysOfWeek.Tue },
-                    { enabled: true, name: DaysOfWeek.Wed },
-                    { enabled: true, name: DaysOfWeek.Thu },
-                    { enabled: true, name: DaysOfWeek.Fri },
-                    { enabled: false, name: DaysOfWeek.Sat },
-                    { enabled: true, name: DaysOfWeek.Sun },
-                ],
-                startOffset: 0,
-                tzOffset: -300,
-            },
-        },
-    },
-    {
-        title: "WithLogMessageError",
-        triggerState: {
-            ...triggerState,
-            state: Status.EXCEPTION,
-            msg:
-                "Some error very very very very very very very very very very very message message message message message.",
-        },
-        data: sourceData,
-    },
-    {
-        title: "WithLongDescription",
-        triggerState: { ...triggerState },
-        data: {
-            ...sourceData,
-            desc: `Some error ${Array(100).fill("very").join(" ")} long description`,
-        },
-    },
-    {
-        title: "WithLongName With spaces",
-        triggerState: { ...triggerState },
-        data: {
-            ...sourceData,
-            name: "Some very very very very very very very very very long name",
-        },
-    },
-];
+const commonProps = {
+    triggerState,
+    onThrottlingRemove: action("onThrottlingRemove"),
+    onSetMaintenance: action("onSetMaintenance"),
+};
 
-const story = storiesOf("Mobile/MobileTriggerInfo", module);
+export default {
+    title: "Mobile/MobileTriggerInfo",
+    component: MobileTriggerInfo,
+};
 
-stories.forEach(({ title, data, triggerState: state }) => {
-    story.add(title, () => (
+export const Default = {
+    render: () => <MobileTriggerInfo {...commonProps} data={sourceData} />,
+};
+
+export const WithThrottling = {
+    render: () => (
+        <MobileTriggerInfo {...commonProps} data={{ ...sourceData, throttling: Date.now() }} />
+    ),
+};
+
+export const NotEveryday = {
+    render: () => (
         <MobileTriggerInfo
-            triggerState={state}
-            data={data}
-            onThrottlingRemove={action("onThrottlingRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
+            {...commonProps}
+            data={{
+                ...sourceData,
+                sched: {
+                    endOffset: 1439,
+                    days: [
+                        { enabled: true, name: DaysOfWeek.Mon },
+                        { enabled: false, name: DaysOfWeek.Tue },
+                        { enabled: true, name: DaysOfWeek.Wed },
+                        { enabled: true, name: DaysOfWeek.Thu },
+                        { enabled: true, name: DaysOfWeek.Fri },
+                        { enabled: false, name: DaysOfWeek.Sat },
+                        { enabled: true, name: DaysOfWeek.Sun },
+                    ],
+                    startOffset: 0,
+                    tzOffset: -300,
+                },
+            }}
         />
-    ));
-});
+    ),
+};
+
+export const WithError = {
+    render: () => (
+        <MobileTriggerInfo
+            {...commonProps}
+            triggerState={{
+                ...triggerState,
+                state: Status.EXCEPTION,
+                msg: "Some error message message message message message.",
+            }}
+            data={{
+                ...sourceData,
+                sched: {
+                    endOffset: 1439,
+                    days: [
+                        { enabled: true, name: DaysOfWeek.Mon },
+                        { enabled: false, name: DaysOfWeek.Tue },
+                        { enabled: true, name: DaysOfWeek.Wed },
+                        { enabled: true, name: DaysOfWeek.Thu },
+                        { enabled: true, name: DaysOfWeek.Fri },
+                        { enabled: false, name: DaysOfWeek.Sat },
+                        { enabled: true, name: DaysOfWeek.Sun },
+                    ],
+                    startOffset: 0,
+                    tzOffset: -300,
+                },
+            }}
+        />
+    ),
+};
+
+export const WithLogMessageError = {
+    render: () => (
+        <MobileTriggerInfo
+            {...commonProps}
+            triggerState={{
+                ...triggerState,
+                state: Status.EXCEPTION,
+                msg:
+                    "Some error very very very very very very very very very very very message message message message message.",
+            }}
+            data={sourceData}
+        />
+    ),
+};
+
+export const WithLongDescription = {
+    render: () => (
+        <MobileTriggerInfo
+            data={{
+                ...sourceData,
+                desc: `Some error ${Array(100).fill("very").join(" ")} long description`,
+            }}
+            {...commonProps}
+        />
+    ),
+};
+
+export const WithLongNameWithSpaces = {
+    render: () => (
+        <MobileTriggerInfo
+            {...commonProps}
+            data={{
+                ...sourceData,
+                name: "Some very very very very very very very very very long name",
+            }}
+        />
+    ),
+};

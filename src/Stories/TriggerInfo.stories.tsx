@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import { DaysOfWeek } from "../Domain/Schedule";
@@ -9,6 +8,10 @@ import { createMemoryHistory } from "history";
 
 const history = createMemoryHistory();
 history.push = action("history.push");
+
+export default {
+    title: "TriggerInfo",
+};
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -61,30 +64,33 @@ const triggerState: TriggerState = {
     trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
 };
 
-const stories: Array<{
-    title: string;
-    triggerState: TriggerState;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        triggerState: { ...triggerState },
-        data: { ...sourceData },
-    },
-    {
-        title: "Description in multiple line",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, desc: "Some list:\n- Line 1\n- Line 2\n- Line 3" },
-    },
-    {
-        title: "With throttling",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Not everyday",
-        triggerState: { ...triggerState },
-        data: {
+const commonProps = {
+    supportEmail: "support@mail.ru",
+    triggerState,
+    trigger: sourceData,
+    onThrottlingRemove: action("onThrottlingRemove"),
+    onSetMaintenance: action("onSetMaintenance"),
+    history,
+    deleteTrigger: (id: string) => action(`onTriggerDelete${id}`),
+};
+
+export const Default = () => <TriggerInfo {...commonProps} />;
+
+export const DescriptionInMultipleLine = () => (
+    <TriggerInfo
+        {...commonProps}
+        trigger={{ ...sourceData, desc: "Some list:\n- Line 1\n- Line 2\n- Line 3" }}
+    />
+);
+
+export const WithThrottling = () => (
+    <TriggerInfo {...commonProps} trigger={{ ...sourceData, throttling: Date.now() }} />
+);
+
+export const NotEveryday = () => (
+    <TriggerInfo
+        {...commonProps}
+        trigger={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -100,16 +106,19 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-    {
-        title: "WithError",
-        triggerState: {
+        }}
+    />
+);
+
+export const WithError = () => (
+    <TriggerInfo
+        {...commonProps}
+        triggerState={{
             ...triggerState,
             state: Status.EXCEPTION,
             msg: "Some error message message message message message.",
-        },
-        data: {
+        }}
+        trigger={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -125,39 +134,27 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-    {
-        title: "With maintenance",
-        triggerState: { ...triggerState, maintenance: Date.now() / 1000 + 3600 },
-        data: { ...sourceData },
-    },
-    {
-        title: "With maintenance and maintenance info",
-        triggerState: {
+        }}
+    />
+);
+
+export const WithMaintenance = () => (
+    <TriggerInfo
+        {...commonProps}
+        triggerState={{ ...triggerState, maintenance: Date.now() / 1000 + 3600 }}
+    />
+);
+
+export const WithMaintenanceAndMaintenanceInfo = () => (
+    <TriggerInfo
+        {...commonProps}
+        triggerState={{
             ...triggerState,
             maintenance: Date.now() / 1000 + 3600,
             maintenance_info: {
                 setup_user: "Batman",
                 setup_time: 1553158221,
             },
-        },
-        data: { ...sourceData },
-    },
-];
-
-const story = storiesOf("TriggerInfo", module);
-
-stories.forEach(({ title, data, triggerState: state }) => {
-    story.add(title, () => (
-        <TriggerInfo
-            supportEmail="support@mail.ru"
-            triggerState={state}
-            trigger={data}
-            deleteTrigger={action("onDeleteTrigger")}
-            onThrottlingRemove={action("onThrottlingRemove")}
-            onSetMaintenance={action("onSetMaintenance")}
-            history={history}
-        />
-    ));
-});
+        }}
+    />
+);

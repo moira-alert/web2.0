@@ -12,6 +12,7 @@ import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHum
 import { TriggerDesktopProps } from "./trigger.desktop";
 import { TriggerMobileProps } from "./trigger.mobile";
 import { getPageLink } from "../../Domain/Global";
+import { setDocumentTitle } from "../../helpers/setDocumentTitle";
 
 export type TriggerProps = RouteComponentProps<{ id: string }> & {
     moiraApi: MoiraApi;
@@ -39,7 +40,7 @@ class TriggerPage extends React.Component<TriggerProps, State> {
     };
 
     componentDidMount() {
-        document.title = "Moira - Trigger";
+        setDocumentTitle("Trigger");
         this.loadData();
     }
 
@@ -116,7 +117,7 @@ class TriggerPage extends React.Component<TriggerProps, State> {
 
             // ToDo написать проверку на превышение страниц
 
-            document.title = `Moira - Trigger - ${trigger.name}`;
+            setDocumentTitle(`Trigger - ${trigger.name}`);
 
             this.setState({
                 page,

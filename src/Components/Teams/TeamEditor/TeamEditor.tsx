@@ -65,6 +65,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
         onSaveTeam?.({
             ...team,
             description: description,
+            name: name,
         });
     };
 
@@ -75,20 +76,15 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                 <Modal.Body>
                     <EditPreviewComponent />
                     <Grid columns="120px 400px" gap="16px">
-                        {!team && (
-                            <>
-                                Name:
-                                <ValidationWrapper validationInfo={validateName()}>
-                                    <Input
-                                        data-tid="Team name"
-                                        value={name}
-                                        onValueChange={setName}
-                                        width={"100%"}
-                                        disabled={Boolean(team)}
-                                    />
-                                </ValidationWrapper>
-                            </>
-                        )}
+                        Name:
+                        <ValidationWrapper validationInfo={validateName()}>
+                            <Input
+                                data-tid="Team name"
+                                value={name}
+                                onValueChange={setName}
+                                width={"100%"}
+                            />
+                        </ValidationWrapper>
                         <GridCell align={"flex-start"} margin="8px 0 0">
                             Description:
                         </GridCell>

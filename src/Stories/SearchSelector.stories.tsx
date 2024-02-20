@@ -1,12 +1,15 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { SearchSelector } from "../Components/SearchSelector/SearchSelector";
 
 const allTags = ["subscribed", "remaining"];
 
-storiesOf("SearchSelector", module)
-    .add("default", () => (
+export default {
+    title: "SearchSelector",
+};
+
+export const Default = {
+    render: () => (
         <SearchSelector
             search=""
             allTags={allTags}
@@ -17,8 +20,13 @@ storiesOf("SearchSelector", module)
             onChange={action("onChange")}
             onSearch={action("onSearch")}
         />
-    ))
-    .add("with selected", () => (
+    ),
+
+    name: "default",
+};
+
+export const WithSelected = {
+    render: () => (
         <SearchSelector
             search=""
             allTags={allTags}
@@ -29,8 +37,13 @@ storiesOf("SearchSelector", module)
             onChange={action("onSearch")}
             onSearch={action("onSearch")}
         />
-    ))
-    .add("with search query", () => (
+    ),
+
+    name: "with selected",
+};
+
+export const WithSearchQuery = {
+    render: () => (
         <SearchSelector
             search="remaining"
             allTags={allTags}
@@ -41,8 +54,13 @@ storiesOf("SearchSelector", module)
             onSearch={action("onSearch")}
             onChange={action("onSearch")}
         />
-    ))
-    .add("no tag for result", () => (
+    ),
+
+    name: "with search query",
+};
+
+export const NoTagForResult = {
+    render: () => (
         <SearchSelector
             search="trolo-lo-lo"
             allTags={allTags}
@@ -53,4 +71,7 @@ storiesOf("SearchSelector", module)
             onSearch={action("onSearch")}
             onChange={action("onSearch")}
         />
-    ));
+    ),
+
+    name: "no tag for result",
+};

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { createMemoryHistory } from "history";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
@@ -72,25 +71,38 @@ const sourceData: Trigger = {
     },
 };
 
-const stories: Array<{
-    title: string;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        data: { ...sourceData },
-    },
-    {
-        title: "Long trigger name",
-        data: {
+const commonProps = {
+    searchMode: false,
+    onChange: action("onChange"),
+    onRemove: action("onRemove"),
+    history,
+};
+
+export const Default = () => (
+    <TriggerListItem
+        searchMode={false}
+        data={sourceData}
+        onChange={action("onChange")}
+        onRemove={action("onRemove")}
+        history={history}
+    />
+);
+
+export const LongTriggerName = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             name:
                 "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
-        },
-    },
-    {
-        title: "Large counters",
-        data: {
+        }}
+    />
+);
+
+export const LargeCounters = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -237,11 +249,14 @@ const stories: Array<{
                 state: Status.OK,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "Few states",
-        data: {
+        }}
+    />
+);
+
+export const FewStates = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -272,11 +287,14 @@ const stories: Array<{
                 state: Status.OK,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "No metrics",
-        data: {
+        }}
+    />
+);
+
+export const NoMetrics = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {},
@@ -284,11 +302,14 @@ const stories: Array<{
                 state: Status.EXCEPTION,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "Lot targets",
-        data: {
+        }}
+    />
+);
+
+export const LotTargets = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             targets: [
                 "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)",
@@ -306,42 +327,54 @@ const stories: Array<{
                 "sumSeries(KE-cloud.Notifications.*.MailSender.StatReport.Alive)",
                 "sumSeries(KE-cloud.Notifications.*.MailSender.Submission.Alive)",
             ],
-        },
-    },
-    {
-        title: "One long target name",
-        data: {
+        }}
+    />
+);
+
+export const OneLongTargetName = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             targets: [
                 "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive.KE-cloud.Notifications.*.MailSender.Expert.Alive.KE-cloud.Notifications.*.MailSender.K705Letter.Alive.KE-cloud.Notifications.*.MailSender.MrApplication.AliveKE-cloud.Notifications.*.MailSender.MrDemand.Alive.KE-cloud.Notifications.*.MailSender.MrIon.Alive)",
             ],
-        },
-    },
-    {
-        title: "Short tags",
-        data: { ...sourceData, tags: ["dev", "test_"] },
-    },
-    {
-        title: "Long tags",
-        data: {
+        }}
+    />
+);
+
+export const ShortTags = () => (
+    <TriggerListItem {...commonProps} data={{ ...sourceData, tags: ["dev", "test_"] }} />
+);
+
+export const LongTags = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             tags: ["dev-or-not-dev-what-is-question", "ke.notifications-dev-test-sort"],
-        },
-    },
-    {
-        title: "Lot tags",
-        data: {
+        }}
+    />
+);
+
+export const LotTags = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             tags: ["dev", "test_", "ke.notifications", "ke.notifications-dev"],
-        },
-    },
-    {
-        title: "Throttling flag",
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Lot of all data",
-        data: {
+        }}
+    />
+);
+
+export const ThrottlingFlag = () => (
+    <TriggerListItem {...commonProps} data={{ ...sourceData, throttling: Date.now() }} />
+);
+
+export const LotOfAllData = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             throttling: Date.now(),
             last_check: {
@@ -399,11 +432,14 @@ const stories: Array<{
                 "ke.notifications-dev",
                 "very.long.tag.why.you.choice.that.name",
             ],
-        },
-    },
-    {
-        title: "Exception state",
-        data: {
+        }}
+    />
+);
+
+export const ExceptionState = () => (
+    <TriggerListItem
+        {...commonProps}
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -430,20 +466,10 @@ const stories: Array<{
                 state: Status.EXCEPTION,
                 score: 14000,
             },
-        },
-    },
-];
+        }}
+    />
+);
 
-const story = storiesOf("TriggerListItem", module);
-
-stories.forEach(({ title, data }) => {
-    story.add(title, () => (
-        <TriggerListItem
-            searchMode={false}
-            data={data}
-            onChange={action("onChange")}
-            onRemove={action("onRemove")}
-            history={history}
-        />
-    ));
-});
+export default {
+    title: "TriggerListItem",
+};

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage/MobileTriggerInfoPage";
 import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";
@@ -57,25 +56,37 @@ const triggerState: TriggerState = {
     trigger_id: "e8304401-718e-4a73-8d13-e9abe4c91d69",
 };
 
-const stories: Array<{
-    title: string;
-    triggerState: TriggerState;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        triggerState: { ...triggerState },
-        data: { ...sourceData },
-    },
-    {
-        title: "With throttling",
-        triggerState: { ...triggerState },
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Not everyday",
-        triggerState: { ...triggerState },
-        data: {
+export default { title: "Mobile/TriggerInfoPage" };
+
+const commonProps = {
+    metrics: undefined,
+    onRemoveMetric: action("onRemoveMetric"),
+    onSetMetricMaintenance: action("onSetMetricMaintenance"),
+    onSetTriggerMaintenance: action("onSetTriggerMaintenance"),
+    onThrottlingRemove: action("onThrottlingRemove"),
+};
+
+export const Loading = () => (
+    <MobileTriggerInfoPage {...commonProps} data={null} triggerState={null} />
+);
+
+export const Default = () => (
+    <MobileTriggerInfoPage {...commonProps} triggerState={{ ...triggerState }} data={sourceData} />
+);
+
+export const WithThrottling = () => (
+    <MobileTriggerInfoPage
+        {...commonProps}
+        triggerState={{ ...triggerState }}
+        data={{ ...sourceData, throttling: Date.now() }}
+    />
+);
+
+export const NotEveryday = () => (
+    <MobileTriggerInfoPage
+        {...commonProps}
+        triggerState={{ ...triggerState }}
+        data={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -91,16 +102,19 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-    {
-        title: "WithError",
-        triggerState: {
+        }}
+    />
+);
+
+export const WithError = () => (
+    <MobileTriggerInfoPage
+        {...commonProps}
+        triggerState={{
             ...triggerState,
             state: Status.EXCEPTION,
             msg: "Some error message message message message message.",
-        },
-        data: {
+        }}
+        data={{
             ...sourceData,
             sched: {
                 endOffset: 1439,
@@ -116,35 +130,6 @@ const stories: Array<{
                 startOffset: 0,
                 tzOffset: -300,
             },
-        },
-    },
-];
-
-const story = storiesOf("Mobile/TriggerInfoPage", module);
-
-story.add("Loading", () => (
-    <MobileTriggerInfoPage
-        data={null}
-        triggerState={null}
-        metrics={undefined}
-        loading
-        onRemoveMetric={action("onRemoveMetric")}
-        onSetMetricMaintenance={action("onSetMetricMaintenance")}
-        onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
-        onThrottlingRemove={action("onThrottlingRemove")}
+        }}
     />
-));
-
-stories.forEach(({ title, data, triggerState: state }) => {
-    story.add(title, () => (
-        <MobileTriggerInfoPage
-            triggerState={state}
-            data={data}
-            metrics={undefined}
-            onRemoveMetric={action("onRemoveMetric")}
-            onSetMetricMaintenance={action("onSetMetricMaintenance")}
-            onSetTriggerMaintenance={action("onSetTriggerMaintenance")}
-            onThrottlingRemove={action("onThrottlingRemove")}
-        />
-    ));
-});
+);

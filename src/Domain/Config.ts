@@ -1,4 +1,5 @@
 import { ContactTypes } from "./Contact";
+import { TMetricSourceCluster } from "./Metric";
 
 export interface ContactConfig {
     type: ContactTypes;
@@ -17,6 +18,7 @@ export interface Config {
         isPlottingAvailable: boolean;
         isSubscriptionToAllTagsAvailable: boolean;
     };
+    metric_source_clusters: TMetricSourceCluster[];
     sentry?: { dsn: string; platform: Platform };
 }
 

@@ -120,7 +120,7 @@ export default class MoiraApi {
     }
 
     getSettingsByTeam(teamId: string): Promise<Settings> {
-        return this.get<Settings>(`/teams/${encodeURI(teamId)}/settings`);
+        return this.get<Settings>(`/teams/${encodeURIComponent(teamId)}/settings`);
     }
 
     async addContact(contact: ContactCreateInfo): Promise<Contact> {
@@ -135,7 +135,7 @@ export default class MoiraApi {
     }
 
     async addTeamContact(contact: ContactCreateInfo, team: Team): Promise<Contact> {
-        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}/contacts`;
+        const url = `${this.apiUrl}/teams/${encodeURIComponent(team.id)}/contacts`;
         const response = await fetch(url, {
             method: "POST",
             credentials: "same-origin",
@@ -146,7 +146,7 @@ export default class MoiraApi {
     }
 
     async testContact(contactId: string): Promise<void> {
-        const url = `${this.apiUrl}/contact/${encodeURI(contactId)}/test`;
+        const url = `${this.apiUrl}/contact/${encodeURIComponent(contactId)}/test`;
         const response = await fetch(url, {
             method: "POST",
             credentials: "same-origin",
@@ -155,7 +155,7 @@ export default class MoiraApi {
     }
 
     async updateContact(contact: Contact): Promise<Contact> {
-        const url = `${this.apiUrl}/contact/${encodeURI(contact.id)}`;
+        const url = `${this.apiUrl}/contact/${encodeURIComponent(contact.id)}`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
@@ -183,7 +183,7 @@ export default class MoiraApi {
         subscription: SubscriptionCreateInfo,
         team: Team
     ): Promise<Subscription> {
-        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}/subscriptions`;
+        const url = `${this.apiUrl}/teams/${encodeURIComponent(team.id)}/subscriptions`;
         if (subscription.id != null) {
             throw new Error("InvalidProgramState: id of subscription must be null or undefined");
         }
@@ -197,7 +197,7 @@ export default class MoiraApi {
     }
 
     async updateSubscription(subscription: Subscription): Promise<Subscription> {
-        const url = `${this.apiUrl}/subscription/${encodeURI(subscription.id)}`;
+        const url = `${this.apiUrl}/subscription/${encodeURIComponent(subscription.id)}`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
@@ -208,7 +208,7 @@ export default class MoiraApi {
     }
 
     async testSubscription(subscriptionId: string): Promise<void> {
-        const url = `${this.apiUrl}/subscription/${encodeURI(subscriptionId)}/test`;
+        const url = `${this.apiUrl}/subscription/${encodeURIComponent(subscriptionId)}/test`;
         const response = await fetch(url, {
             method: "PUT",
             credentials: "same-origin",
@@ -217,7 +217,7 @@ export default class MoiraApi {
     }
 
     async deleteContact(contactId: string): Promise<void> {
-        const url = `${this.apiUrl}/contact/${encodeURI(contactId)}`;
+        const url = `${this.apiUrl}/contact/${encodeURIComponent(contactId)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -236,7 +236,7 @@ export default class MoiraApi {
     }
 
     async delPattern(pattern: string): Promise<void> {
-        const url = `${this.apiUrl}/pattern/${encodeURI(pattern)}`;
+        const url = `${this.apiUrl}/pattern/${encodeURIComponent(pattern)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -265,7 +265,7 @@ export default class MoiraApi {
     }
 
     async delTag(tag: string): Promise<void> {
-        const url = `${this.apiUrl}/tag/${encodeURI(tag)}`;
+        const url = `${this.apiUrl}/tag/${encodeURIComponent(tag)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -298,7 +298,7 @@ export default class MoiraApi {
     }
 
     async getTrigger(id: string, params?: { populated: boolean }): Promise<Trigger> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(id)}${
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(id)}${
             params ? `?${queryString.stringify(params)}` : ""
         }`;
 
@@ -331,7 +331,7 @@ export default class MoiraApi {
     ): Promise<{
         [key: string]: string;
     }> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(id)}`;
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(id)}`;
         const response = await fetch(url, {
             method: "PUT",
             body: JSON.stringify(data),
@@ -343,7 +343,7 @@ export default class MoiraApi {
     }
 
     async delTrigger(id: string): Promise<void> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(id)}`;
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(id)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -371,7 +371,7 @@ export default class MoiraApi {
             };
         }
     ): Promise<void> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/setMaintenance`;
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(triggerId)}/setMaintenance`;
         const response = await fetch(url, {
             method: "PUT",
             body: JSON.stringify(data),
@@ -381,7 +381,7 @@ export default class MoiraApi {
     }
 
     async getTriggerState(id: string): Promise<TriggerState> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(id)}/state`;
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(id)}/state`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
@@ -391,7 +391,7 @@ export default class MoiraApi {
     }
 
     async getTriggerEvents(id: string, page: number): Promise<EventList> {
-        const url = `${this.apiUrl}/event/${encodeURI(id)}?p=${page}&size=${
+        const url = `${this.apiUrl}/event/${encodeURIComponent(id)}?p=${page}&size=${
             this.eventHistoryPageSize
         }`;
         const response = await fetch(url, {
@@ -403,7 +403,7 @@ export default class MoiraApi {
     }
 
     async delThrottling(triggerId: string): Promise<void> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/throttling`;
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(triggerId)}/throttling`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -412,7 +412,7 @@ export default class MoiraApi {
     }
 
     async delMetric(triggerId: string, metric: string): Promise<void> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(
             triggerId
         )}/metrics?name=${encodeURIComponent(metric)}`;
         const response = await fetch(url, {
@@ -423,7 +423,7 @@ export default class MoiraApi {
     }
 
     async delNoDataMetric(triggerId: string): Promise<void> {
-        const url = `${this.apiUrl}/trigger/${encodeURI(triggerId)}/metrics/nodata`;
+        const url = `${this.apiUrl}/trigger/${encodeURIComponent(triggerId)}/metrics/nodata`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -442,7 +442,7 @@ export default class MoiraApi {
     }
 
     async delNotification(id: string): Promise<void> {
-        const url = `${this.apiUrl}/notification?id=${encodeURI(id)}`;
+        const url = `${this.apiUrl}/notification?id=${encodeURIComponent(id)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -469,7 +469,7 @@ export default class MoiraApi {
     }
 
     async delSubscription(subscriptionId: string): Promise<void> {
-        const url = `${this.apiUrl}/subscription/${encodeURI(subscriptionId)}`;
+        const url = `${this.apiUrl}/subscription/${encodeURIComponent(subscriptionId)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -520,7 +520,7 @@ export default class MoiraApi {
     }
 
     async updateTeam(team: Team): Promise<{ id: string }> {
-        const url = `${this.apiUrl}/teams/${encodeURI(team.id)}`;
+        const url = `${this.apiUrl}/teams/${encodeURIComponent(team.id)}`;
         const response = await fetch(url, {
             method: "PATCH",
             body: JSON.stringify(team),
@@ -531,7 +531,7 @@ export default class MoiraApi {
     }
 
     async delTeam(teamId: string): Promise<void> {
-        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}`;
+        const url = `${this.apiUrl}/teams/${encodeURIComponent(teamId)}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",
@@ -540,7 +540,7 @@ export default class MoiraApi {
     }
 
     async getUsers(teamId: string): Promise<{ usernames: string[] }> {
-        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
+        const url = `${this.apiUrl}/teams/${encodeURIComponent(teamId)}/users`;
         const response = await fetch(url, {
             method: "GET",
             credentials: "same-origin",
@@ -550,7 +550,7 @@ export default class MoiraApi {
     }
 
     async addUser(teamId: string, userName: string): Promise<void> {
-        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users`;
+        const url = `${this.apiUrl}/teams/${encodeURIComponent(teamId)}/users`;
         const response = await fetch(url, {
             method: "POST",
             body: JSON.stringify({ usernames: [userName] }),
@@ -561,7 +561,9 @@ export default class MoiraApi {
     }
 
     async delUser(teamId: string, userName: string): Promise<void> {
-        const url = `${this.apiUrl}/teams/${encodeURI(teamId)}/users/${encodeURI(userName)}`;
+        const url = `${this.apiUrl}/teams/${encodeURIComponent(teamId)}/users/${encodeURIComponent(
+            userName
+        )}`;
         const response = await fetch(url, {
             method: "DELETE",
             credentials: "same-origin",

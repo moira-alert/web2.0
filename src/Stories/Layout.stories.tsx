@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { storiesOf } from "@storybook/react";
 import { Layout, LayoutContent, LayoutFooter, LayoutPlate } from "../Components/Layout/Layout";
 
 type Props = {
@@ -38,51 +37,58 @@ SpaceFiller.defaultProps = {
     label: "Children",
 };
 
-storiesOf("Layout", module)
-    .add("Default", () => (
-        <Layout>
-            <LayoutContent>
-                <SpaceFiller />
-            </LayoutContent>
-        </Layout>
-    ))
-    .add("With Error", () => (
-        <Layout error="Error message here">
-            <LayoutContent>
-                <SpaceFiller />
-            </LayoutContent>
-        </Layout>
-    ))
-    .add("With Plate", () => (
-        <Layout>
-            <LayoutPlate>
-                <SpaceFiller height={50} label="Plate" />
-            </LayoutPlate>
-            <LayoutContent>
-                <SpaceFiller />
-            </LayoutContent>
-        </Layout>
-    ))
-    .add("With Paging", () => (
-        <Layout>
-            <LayoutContent>
-                <SpaceFiller />
-            </LayoutContent>
-            <LayoutFooter>
-                <SpaceFiller height={30} label="Paging" />
-            </LayoutFooter>
-        </Layout>
-    ))
-    .add("With Plate and paging", () => (
-        <Layout>
-            <LayoutPlate>
-                <SpaceFiller height={50} label="Plate" />
-            </LayoutPlate>
-            <LayoutContent>
-                <SpaceFiller />
-            </LayoutContent>
-            <LayoutFooter>
-                <SpaceFiller height={30} label="Paging" />
-            </LayoutFooter>
-        </Layout>
-    ));
+export default {
+    title: "Layout",
+};
+
+export const Default = () => (
+    <Layout>
+        <LayoutContent>
+            <SpaceFiller />
+        </LayoutContent>
+    </Layout>
+);
+
+export const WithError = () => (
+    <Layout error="Error message here">
+        <LayoutContent>
+            <SpaceFiller />
+        </LayoutContent>
+    </Layout>
+);
+
+export const WithPlate = () => (
+    <Layout>
+        <LayoutPlate>
+            <SpaceFiller height={50} label="Plate" />
+        </LayoutPlate>
+        <LayoutContent>
+            <SpaceFiller />
+        </LayoutContent>
+    </Layout>
+);
+
+export const WithPaging = () => (
+    <Layout>
+        <LayoutContent>
+            <SpaceFiller />
+        </LayoutContent>
+        <LayoutFooter>
+            <SpaceFiller height={30} label="Paging" />
+        </LayoutFooter>
+    </Layout>
+);
+
+export const WithPlateAndPaging = () => (
+    <Layout>
+        <LayoutPlate>
+            <SpaceFiller height={50} label="Plate" />
+        </LayoutPlate>
+        <LayoutContent>
+            <SpaceFiller />
+        </LayoutContent>
+        <LayoutFooter>
+            <SpaceFiller height={30} label="Paging" />
+        </LayoutFooter>
+    </Layout>
+);

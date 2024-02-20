@@ -1,6 +1,11 @@
 import React, { FC } from "react";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
-import { validateRequiredString, validateSched, validateTTL } from "./Validations/validations";
+import {
+    validateClusterID,
+    validateRequiredString,
+    validateSched,
+    validateTTL,
+} from "./Validations/validations";
 import { Checkbox, Input, Textarea } from "@skbkontur/react-ui";
 import {
     DEFAULT_TRIGGER_TTL,
@@ -9,6 +14,7 @@ import {
     TriggerSource,
     ValidateTriggerResult,
 } from "../../Domain/Trigger";
+import { TMetricSourceCluster } from "../../Domain/Metric";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
@@ -24,6 +30,7 @@ import { TargetsList } from "./Components/TargetsList";
 import { Form, FormRow } from "./Components/Form";
 import { Markdown } from "../Markdown/Markdown";
 import { useEditPreviewTabs } from "../../hooks/useEditPreviewTabs/useEditPreviewTabs";
+import { ClusterSelect } from "./Components/ClusterSelect";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerEditForm.less";
@@ -34,6 +41,7 @@ interface IProps {
     data: Partial<Trigger>;
     tags: Array<string>;
     remoteAllowed?: boolean | null;
+    metricSourceClusters?: TMetricSourceCluster[] | null;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
     validationResult?: ValidateTriggerResult;
 }
@@ -42,6 +50,7 @@ const TriggerEditForm: FC<IProps> = ({
     data,
     tags: allTags,
     remoteAllowed,
+    metricSourceClusters,
     onChange,
     validationResult,
 }) => {
@@ -57,6 +66,7 @@ const TriggerEditForm: FC<IProps> = ({
         ttl_state: ttlState,
         sched,
         trigger_source: triggerSource,
+        cluster_id,
         trigger_type: triggerType,
         mute_new_metrics: muteNewMetrics,
         alone_metrics: aloneMetrics,
@@ -111,6 +121,21 @@ const TriggerEditForm: FC<IProps> = ({
                             onChange({ trigger_source: value })
                         }
                     />
+                </FormRow>
+            )}
+            {metricSourceClusters && triggerSource && (
+                <FormRow label="Cluster">
+                    <ValidationWrapperV1
+                        validationInfo={validateClusterID(cluster_id)}
+                        renderMessage={tooltip("right middle")}
+                    >
+                        <ClusterSelect
+                            triggerSource={triggerSource}
+                            metricSourceClusters={metricSourceClusters}
+                            onChange={onChange}
+                            clusterID={cluster_id}
+                        />
+                    </ValidationWrapperV1>
                 </FormRow>
             )}
             <FormRow label="Target" useTopAlignForLabel>

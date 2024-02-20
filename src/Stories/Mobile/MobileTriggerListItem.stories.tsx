@@ -1,5 +1,4 @@
 import * as React from "react";
-import { storiesOf } from "@storybook/react";
 import MobileTriggerListItem from "../../Components/Mobile/MobileTriggerListItem/MobileTriggerListItem";
 import { DaysOfWeek } from "../../Domain/Schedule";
 import { Trigger, TriggerSource } from "../../Domain/Trigger";
@@ -67,25 +66,21 @@ const sourceData: Trigger = {
     },
 };
 
-const stories: Array<{
-    title: string;
-    data: Trigger;
-}> = [
-    {
-        title: "Default",
-        data: { ...sourceData },
-    },
-    {
-        title: "Long trigger name",
-        data: {
+export const Default = () => <MobileTriggerListItem data={{ ...sourceData }} />;
+
+export const LongTriggerName = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             name:
                 "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
-        },
-    },
-    {
-        title: "Large counters",
-        data: {
+        }}
+    />
+);
+
+export const LargeCounters = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -232,11 +227,13 @@ const stories: Array<{
                 state: Status.OK,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "Few states",
-        data: {
+        }}
+    />
+);
+
+export const FewStates = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -267,11 +264,13 @@ const stories: Array<{
                 state: Status.OK,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "No metrics",
-        data: {
+        }}
+    />
+);
+
+export const NoMetrics = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {},
@@ -279,33 +278,39 @@ const stories: Array<{
                 state: Status.EXCEPTION,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "Short tags",
-        data: { ...sourceData, tags: ["dev", "test_"] },
-    },
-    {
-        title: "Long tags",
-        data: {
+        }}
+    />
+);
+
+export const ShortTags = () => (
+    <MobileTriggerListItem data={{ ...sourceData, tags: ["dev", "test_"] }} />
+);
+
+export const LongTags = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             tags: ["dev-or-not-dev-what-is-question", "ke.notifications-dev-test-sort"],
-        },
-    },
-    {
-        title: "Lot tags",
-        data: {
+        }}
+    />
+);
+
+export const LotTags = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             tags: ["dev", "test_", "ke.notifications", "ke.notifications-dev"],
-        },
-    },
-    {
-        title: "Throttling flag",
-        data: { ...sourceData, throttling: Date.now() },
-    },
-    {
-        title: "Lot of all data",
-        data: {
+        }}
+    />
+);
+
+export const ThrottlingFlag = () => (
+    <MobileTriggerListItem data={{ ...sourceData, throttling: Date.now() }} />
+);
+
+export const LotOfAllData = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             throttling: Date.now(),
             last_check: {
@@ -363,11 +368,13 @@ const stories: Array<{
                 "ke.notifications-dev",
                 "very.long.tag.why.you.choice.that.name",
             ],
-        },
-    },
-    {
-        title: "Exception state",
-        data: {
+        }}
+    />
+);
+
+export const ExceptionState = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -394,11 +401,13 @@ const stories: Array<{
                 state: Status.EXCEPTION,
                 score: 14000,
             },
-        },
-    },
-    {
-        title: "Maintenance",
-        data: {
+        }}
+    />
+);
+
+export const Maintenance = () => (
+    <MobileTriggerListItem
+        data={{
             ...sourceData,
             last_check: {
                 metrics: {
@@ -430,12 +439,8 @@ const stories: Array<{
                 state: Status.OK,
                 score: 14000,
             },
-        },
-    },
-];
+        }}
+    />
+);
 
-const story = storiesOf("Mobile/MobileTriggerListItem", module);
-
-stories.forEach(({ title, data }) => {
-    story.add(title, () => <MobileTriggerListItem data={data} />);
-});
+export default { title: "Mobile/MobileTriggerListItem" };
