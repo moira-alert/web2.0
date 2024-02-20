@@ -31,9 +31,8 @@ const config: PlaywrightTestConfig = {
             name: "chromium",
             use: {
                 ...devices["Desktop Chrome"],
-                storageState: "storageState.json",
             },
-            dependencies: ["setup"],
+            dependencies: !!process.env.SKIP_SETUP ? [] : ["setup"],
         },
         {
             name: "cleanup db",
