@@ -27,9 +27,10 @@ export const ClusterSelect = React.forwardRef<Select<string | null>, IClusterSel
             <Select<string | null>
                 className={error ? "validationError" : ""}
                 ref={validationRef}
-                value={clusterID}
+                value={clusterID || clusterEntities[0][0]}
+                disabled={clusterEntities.length === 1}
                 renderItem={(_value, item) => item}
-                renderValue={(_value, item) => (!clusterID ? null : item)}
+                renderValue={(_value, item) => item}
                 items={clusterEntities}
                 onValueChange={(value) => onChange({ cluster_id: value })}
             />
