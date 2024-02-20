@@ -8,6 +8,4 @@ setup("Adding tag", async ({ request, context }) => {
     });
 
     expect(response.status()).toBe(200);
-
-    await context.storageState({ path: "storageState.json" });
 });
