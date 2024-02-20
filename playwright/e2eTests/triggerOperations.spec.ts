@@ -104,6 +104,8 @@ test("Edit existing trigger", async ({
     await triggerForm.triggerNameField.fill(triggerNameChanged);
     await triggerForm.descriptionField.fill(triggerDescriptionChanged);
     await triggerForm.prometheusRemoteRadio.click();
+    await triggerForm.clusterSelect.click();
+    await page.getByText("Prometheus 1").click();
     await triggerForm.target(1).click();
     await triggerForm.target(1).click({ clickCount: 3 });
     await page.keyboard.press("Backspace");
@@ -120,13 +122,12 @@ test("Edit existing trigger", async ({
     await triggerForm.statusSelect.click();
     await page.getByText("OK").click();
 
-    // const responsePromise = page.waitForResponse(/api\/trigger\/.*/);
+    const responsePromise = page.waitForResponse(/api\/trigger\/.*/);
     await triggerForm.submitButton("Save").click();
-    // const response = await responsePromise;
-    // const responseJson = await response.json();
+    const response = await responsePromise;
+    const responseJson = await response.json();
 
-    // await expect(page).toHaveURL(`/trigger/${responseJson.id}`);
-    await page.waitForTimeout(3000);
+    await expect(page).toHaveURL(`/trigger/${responseJson.id}`);
     await expect(page.getByText(triggerNameChanged)).toBeVisible();
     await expect(page.getByText(triggerDescriptionChanged)).toBeVisible();
     await expect(page.getByText("metric1")).toBeVisible();

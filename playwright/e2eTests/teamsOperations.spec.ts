@@ -34,13 +34,15 @@ test("Add team", async ({ page, teamName, teamDescription, teamsPage }) => {
     await expect(page.getByText(teamName)).toBeVisible();
 });
 
-test("Edit team description", async ({ page, teamDescription, teamsPage }) => {
-    await teamsPage.editDescriptionButton.click();
-    await expect(teamsPage.nameInput("Team name")).not.toBeVisible();
+test("Edit team description", async ({ page, teamDescription, teamsPage, teamName }) => {
+    await teamsPage.editTeamButton.click();
+    await expect(teamsPage.nameInput("Team name")).toHaveValue(teamName);
     await expect(teamsPage.teamDescription).toContainText(teamDescription);
     await teamsPage.teamDescription.fill(teamDescription + " changed");
+    await teamsPage.nameInput("Team name").fill(teamName + " changed");
     await page.getByRole("button", { name: "Save" }).click();
     await expect(page.getByText(teamDescription + " changed")).toBeVisible();
+    await expect(page.getByText(teamName + " changed")).toBeVisible();
 });
 
 test("Add user", async ({ page, teamName, userName, teamsPage }) => {
@@ -62,7 +64,7 @@ test("Delete user", async ({ page, userName, teamsPage }) => {
 });
 
 test("Delete team", async ({ page, teamName, teamsPage }) => {
-    await teamsPage.deleteTeamButton(teamName).click();
+    await teamsPage.deleteTeamButton(teamName + " changed").click();
     await page.getByRole("button", { name: "Confirm" }).click();
     await expect(
         page.locator(`:text("${teamName}"):right-of(span[data-tid='Delete team ${teamName}'])`)

@@ -6,7 +6,7 @@ export class TeamsPage {
     readonly nameInput: (testId: string) => Locator;
     readonly teamDescription: Locator;
     readonly previewButton: Locator;
-    readonly editDescriptionButton: Locator;
+    readonly editTeamButton: Locator;
     readonly showUsersButton: Locator;
     readonly addUserModalButton: Locator;
     readonly deleteUserButton: (userName: string) => Locator;
@@ -18,7 +18,7 @@ export class TeamsPage {
         this.nameInput = (testId) => page.locator(`label[data-tid='${testId}'] > span > input`);
         this.teamDescription = page.locator("[data-tid='Team description']");
         this.previewButton = page.getByText("Preview");
-        this.editDescriptionButton = page.getByRole("button", { name: "Edit Description" });
+        this.editTeamButton = page.getByRole("button", { name: "Edit Team" });
         this.showUsersButton = page.getByText("Show users");
         this.addUserModalButton = page.locator("[data-tid='Add user modal']");
         this.deleteUserButton = (userName) => page.locator(`[data-tid="Delete user ${userName}"]`);

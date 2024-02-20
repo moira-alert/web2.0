@@ -16,6 +16,7 @@ export class TriggerForm {
     readonly graphiteLocalRadio: Locator;
     readonly graphiteRemoteRadio: Locator;
     readonly prometheusRemoteRadio: Locator;
+    readonly clusterSelect: Locator;
     readonly addTargetButton: Locator;
     readonly advancedModeTab: Locator;
     readonly simpleModeTab: Locator;
@@ -36,6 +37,7 @@ export class TriggerForm {
         this.graphiteLocalRadio = page.locator("[data-tid='Graphite local']");
         this.graphiteRemoteRadio = page.locator("[data-tid='Graphite remote']");
         this.prometheusRemoteRadio = page.locator("[data-tid='Prometheus remote']");
+        this.clusterSelect = page.locator("[data-tid='Cluster select']");
         this.addTargetButton = page.getByText("Add one more");
         this.advancedModeTab = page.getByText('a:has-text("Advanced mode"');
         this.simpleModeTab = page.locator('a:has-text("Simple mode")');

@@ -1,11 +1,6 @@
-import { chromium, test as setup, expect } from "@playwright/test";
-import { clearDatabase } from "../../src/tests/core/utils";
+import { test as setup, expect } from "@playwright/test";
 
-setup("Adding tag", async ({ request }) => {
-    const browser = await chromium.launch();
-    const page = await browser.newPage();
-    await clearDatabase();
-
+setup("Adding tag", async ({ request, context }) => {
     const response = await request.post("/api/tag", {
         data: {
             list: ["testTag"],
@@ -14,6 +9,5 @@ setup("Adding tag", async ({ request }) => {
 
     expect(response.status()).toBe(200);
 
-    await page.context().storageState({ path: "storageState.json" });
-    await browser.close();
+    await context.storageState({ path: "storageState.json" });
 });

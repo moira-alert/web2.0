@@ -25,6 +25,7 @@ const config: PlaywrightTestConfig = {
         {
             name: "setup",
             testMatch: /global\.setup\.ts/,
+            teardown: "cleanup db",
         },
         {
             name: "chromium",
@@ -33,6 +34,10 @@ const config: PlaywrightTestConfig = {
                 storageState: "storageState.json",
             },
             dependencies: ["setup"],
+        },
+        {
+            name: "cleanup db",
+            testMatch: /global\.teardown\.ts/,
         },
     ],
 };

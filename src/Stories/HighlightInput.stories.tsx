@@ -25,7 +25,6 @@ export const HighlightErrors = () => (
     <Container defaultValue="func(first, secondFn())">
         {(value, setValue) => (
             <HighlightInput
-                data-tid="0"
                 value={value}
                 onValueChange={setValue}
                 validate={{
@@ -57,7 +56,6 @@ export const WithSyntaxFail = () => (
     <Container defaultValue="func (first, secondFn">
         {(value, setValue) => (
             <HighlightInput
-                data-tid="0"
                 value={value}
                 onValueChange={setValue}
                 validate={{

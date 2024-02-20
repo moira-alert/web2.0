@@ -53,6 +53,7 @@ test("Edit existing delivery channel", async ({
     await page.locator(`input:below(:text('${channelTypeEdited}'))`).clear();
     await page.locator(`input:below(:text('${channelTypeEdited}'))`).fill(channelAccountNameEdited);
     await notificationsPage.modalActionDeliveryChannelButton("Save").click();
+    await expect(page.getByText(channelAccountNameEdited)).toBeVisible();
 });
 
 test("Add subscription", async ({ channelAccountNameEdited, tag, page, notificationsPage }) => {
@@ -65,16 +66,32 @@ test("Add subscription", async ({ channelAccountNameEdited, tag, page, notificat
     await notificationsPage.modalActionDeliveryChannelButton("Add").click();
 });
 
+test("Can`t delete channel with active subscription", async ({
+    channelAccountNameEdited,
+    page,
+    notificationsPage,
+}) => {
+    await notificationsPage.gotoNotificationsPage();
+    await page.getByText(channelAccountNameEdited).first().click();
+    await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
+    await expect(
+        page.getByText(
+            "Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:"
+        )
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Cancel" }).click();
+});
+
 test("Delete subscription", async ({ channelAccountNameEdited, page, notificationsPage }) => {
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).nth(1).click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
-    // await expect(page.getByText(channelAccountNameEdited)).not.toBeVisible();
+    await expect(page.getByText(channelAccountNameEdited).nth(1)).not.toBeVisible();
 });
 
 test("Delete delivery channel", async ({ channelAccountNameEdited, page, notificationsPage }) => {
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).first().click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
-    // await expect(page.getByText(channelAccountNameEdited)).not.toBeVisible();
+    await expect(page.getByText(channelAccountNameEdited)).not.toBeVisible();
 });
