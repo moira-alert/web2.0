@@ -1,7 +1,7 @@
 import { test as setup, expect } from "@playwright/test";
 
 setup("Adding tag", async ({ request, context }) => {
-    if (!process.argv.includes("--skip-setup")) {
+    if (!process.env.SKIP_SETUP) {
         const response = await request.post("/api/tag", {
             data: {
                 list: ["testTag"],
