@@ -1,6 +1,7 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
-import { LOW_TRIGGER_TTL } from "../../../Domain/Trigger";
+import TriggerSource, { LOW_TRIGGER_TTL } from "../../../Domain/Trigger";
 import { Schedule } from "../../../Domain/Schedule";
+import { TMetricSourceCluster } from "../../../Domain/Metric";
 
 export const validateRequiredString = (
     value: string,
@@ -50,6 +51,27 @@ export const validateSched = (schedule: Schedule | undefined): ValidationInfo | 
         ? {
               type: "submit",
               message: "Schedule can't be empty",
+          }
+        : null;
+};
+
+export const validateClusterID = (
+    clusterID: string | undefined | null,
+    triggerSource: TriggerSource,
+    metricSourceClusters: TMetricSourceCluster[]
+): ValidationInfo | null => {
+    const clusterEntities = metricSourceClusters?.reduce((acc: string[][], item) => {
+        if (item.trigger_source === triggerSource) {
+            acc.push([item.cluster_id, item.cluster_name]);
+        }
+        return acc;
+    }, []);
+
+    const isValid = clusterEntities.length !== 1 && !clusterID;
+    return isValid
+        ? {
+              type: "submit",
+              message: "Can't be empty",
           }
         : null;
 };

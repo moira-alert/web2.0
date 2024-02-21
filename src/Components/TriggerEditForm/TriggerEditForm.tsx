@@ -1,6 +1,11 @@
 import React, { FC } from "react";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
-import { validateRequiredString, validateSched, validateTTL } from "./Validations/validations";
+import {
+    validateClusterID,
+    validateRequiredString,
+    validateSched,
+    validateTTL,
+} from "./Validations/validations";
 import { Checkbox, Input, Textarea } from "@skbkontur/react-ui";
 import {
     DEFAULT_TRIGGER_TTL,
@@ -119,12 +124,21 @@ const TriggerEditForm: FC<IProps> = ({
             )}
             {metricSourceClusters && triggerSource && (
                 <FormRow label="Cluster">
-                    <ClusterSelect
-                        triggerSource={triggerSource}
-                        metricSourceClusters={metricSourceClusters}
-                        onChange={onChange}
-                        clusterID={cluster_id}
-                    />
+                    <ValidationWrapperV1
+                        validationInfo={validateClusterID(
+                            cluster_id,
+                            triggerSource,
+                            metricSourceClusters
+                        )}
+                        renderMessage={tooltip("right middle")}
+                    >
+                        <ClusterSelect
+                            triggerSource={triggerSource}
+                            metricSourceClusters={metricSourceClusters}
+                            onChange={onChange}
+                            clusterID={cluster_id}
+                        />
+                    </ValidationWrapperV1>
                 </FormRow>
             )}
             <FormRow label="Target" useTopAlignForLabel>

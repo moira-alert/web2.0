@@ -58,7 +58,7 @@ const TriggerDuplicateContainer = (props: Props) => {
     };
 
     const handleSubmit = async () =>
-        trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
+        trigger?.trigger_source !== TriggerSource.GRAPHITE_REMOTE
             ? validateTrigger(trigger)
             : saveTrigger(trigger);
 

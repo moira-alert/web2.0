@@ -41,7 +41,7 @@ const TriggerEditContainer = (props: Props) => {
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
     const handleSubmit = async () =>
-        trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
+        trigger?.trigger_source !== TriggerSource.GRAPHITE_REMOTE
             ? validateTrigger(trigger)
             : saveTrigger(trigger);
 

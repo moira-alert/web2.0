@@ -23,12 +23,16 @@ export const ClusterSelect = React.forwardRef<Select<string | null>, IClusterSel
             return acc;
         }, []);
 
+        const isSelectDisabled = clusterEntities.length === 1;
+
+        const value = isSelectDisabled ? clusterEntities.flat()[0] : clusterID;
+
         return (
             <Select<string | null>
                 className={error ? "validationError" : ""}
                 ref={validationRef}
-                value={clusterID || clusterEntities[0][0]}
-                disabled={clusterEntities.length === 1}
+                value={value}
+                disabled={isSelectDisabled}
                 renderItem={(_value, item) => item}
                 renderValue={(_value, item) => item}
                 items={clusterEntities}
