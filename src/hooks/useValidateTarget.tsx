@@ -1,4 +1,4 @@
-import { Dispatch, RefObject } from "react";
+import { Dispatch } from "react";
 import MoiraApi from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import {
@@ -6,7 +6,6 @@ import {
     triggerClientToPayload,
     TriggerTargetProblemType,
 } from "../Domain/Trigger";
-import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import {
     Action,
     setError,
@@ -18,21 +17,15 @@ import {
 import { useSaveTrigger } from "./useSaveTrigger";
 import { History } from "history";
 
-export const useValidateTrigger = (
+export const useValidateTarget = (
     moiraApi: MoiraApi,
     dispatch: Dispatch<Action>,
-    validator: RefObject<ValidationContainer>,
     history: History<unknown>
 ) => {
     const saveTrigger = useSaveTrigger(moiraApi, dispatch, history);
 
     return async (trigger?: Trigger | Partial<Trigger>) => {
         if (!trigger) {
-            return;
-        }
-
-        const isFormValid = await validator.current?.validate();
-        if (!isFormValid) {
             return;
         }
 
@@ -54,7 +47,6 @@ export const useValidateTrigger = (
 
             if (doAnyTargetsHaveError) {
                 dispatch(setIsSaveButtonDisabled(true));
-                validator.current?.submit();
                 return;
             }
 
