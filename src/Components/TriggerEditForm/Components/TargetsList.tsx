@@ -6,7 +6,7 @@ import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import HighlightInput from "../../HighlightInput/HighlightInput";
 import { CopyButton } from "./CopyButton";
 import { useIds } from "../../../hooks/useIds";
-import TriggerSource, { Trigger, ValidateTriggerResult } from "../../../Domain/Trigger";
+import TriggerSource, { Trigger, ValidateTargetsResult } from "../../../Domain/Trigger";
 import classNames from "classnames/bind";
 
 import styles from "../TriggerEditForm.less";
@@ -19,7 +19,7 @@ interface IProps {
         [target_id: string]: boolean;
     };
     trigger_source: TriggerSource;
-    validationResult?: ValidateTriggerResult;
+    validationResult?: ValidateTargetsResult;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
 }
 

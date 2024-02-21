@@ -12,7 +12,7 @@ import {
     DEFAULT_TRIGGER_TYPE,
     Trigger,
     TriggerSource,
-    ValidateTriggerResult,
+    ValidateTargetsResult,
 } from "../../Domain/Trigger";
 import { TMetricSourceCluster } from "../../Domain/Metric";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
@@ -43,7 +43,7 @@ interface IProps {
     remoteAllowed?: boolean | null;
     metricSourceClusters?: TMetricSourceCluster[] | null;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
-    validationResult?: ValidateTriggerResult;
+    validationResult?: ValidateTargetsResult;
 }
 
 const TriggerEditForm: FC<IProps> = ({
