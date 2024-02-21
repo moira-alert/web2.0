@@ -32,7 +32,7 @@ export const useValidateTarget = (
         dispatch(setIsLoading(true));
         try {
             const triggerPayload = triggerClientToPayload(trigger);
-            const validationResult = await moiraApi.validateTrigger(triggerPayload);
+            const validationResult = await moiraApi.validateTarget(triggerPayload);
 
             const doAnyTargetsHaveError = validationResult.targets.some((target) =>
                 checkTriggerTarget(target, TriggerTargetProblemType.BAD)
