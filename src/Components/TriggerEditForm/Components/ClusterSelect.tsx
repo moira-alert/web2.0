@@ -25,6 +25,7 @@ export const ClusterSelect = React.forwardRef<Select<string | null>, IClusterSel
 
         return (
             <Select<string | null>
+                data-tid="Cluster select"
                 className={error ? "validationError" : ""}
                 ref={validationRef}
                 value={clusterID}
