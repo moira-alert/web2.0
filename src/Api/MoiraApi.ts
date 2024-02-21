@@ -1,7 +1,7 @@
 import * as queryString from "query-string";
 import { Config } from "../Domain/Config";
 import { EventList } from "../Domain/Event";
-import { Trigger, TriggerList, TriggerState, ValidateTriggerResult } from "../Domain/Trigger";
+import { Trigger, TriggerList, TriggerState, ValidateTargetsResult } from "../Domain/Trigger";
 import { Settings } from "../Domain/Settings";
 import { TagStat } from "../Domain/Tag";
 import { PatternList } from "../Domain/Pattern";
@@ -351,7 +351,7 @@ export default class MoiraApi {
         await MoiraApi.checkStatus(response);
     }
 
-    validateTrigger = async (trigger: Partial<Trigger>): Promise<ValidateTriggerResult> => {
+    validateTarget = async (trigger: Partial<Trigger>): Promise<ValidateTargetsResult> => {
         const url = `${this.apiUrl}/trigger/check`;
         const response = await fetch(url, {
             method: "PUT",
