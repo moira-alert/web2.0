@@ -26,6 +26,7 @@ export default function StatusSelect(props: Props): React.ReactElement {
 
     return (
         <Select<Status, StatusesCaptions>
+            data-tid="Status select dropdown"
             width={130}
             value={value}
             renderItem={renderItem}

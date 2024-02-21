@@ -186,104 +186,109 @@ export default function TriggerInfo({
                 </div>
             </header>
             <div className={cn("info-section")}>
-                <dl className={cn("list")}>
-                    <dt>
-                        Target
-                        <br />
-                        {triggerSourceDescription(triggerSource)}
-                    </dt>
-                    <dd className={cn("codeEditor")}>
-                        <Gapped vertical gap={10}>
-                            {targets.map((target, i) => (
-                                <>
-                                    <div className={cn("copyButtonWrapper")}>
-                                        <Hint text="Copy without formatting">
-                                            <CopyButton
-                                                className={cn("copyButton")}
-                                                value={target}
-                                            />
-                                        </Hint>
-                                    </div>
-                                    <CodeEditor
-                                        triggerSource={triggerSource}
-                                        disabled
-                                        key={i}
-                                        value={target}
-                                    />
-                                </>
-                            ))}
-                        </Gapped>
-                    </dd>
-                    {desc && <dt>Description</dt>}
-                    {desc && (
-                        <dd className={cn("description", "wysiwyg")}>
-                            <Markdown markdown={desc} />
+                <div className={cn("info-section")}>
+                    <dl className={cn("list")}>
+                        <dt>
+                            Target
+                            <br />
+                            {triggerSourceDescription(triggerSource)}
+                        </dt>
+                        <dd className={cn("codeEditor")}>
+                            <Gapped vertical gap={10}>
+                                {targets.map((target, i) => (
+                                    <>
+                                        <div className={cn("copyButtonWrapper")}>
+                                            <Hint text="Copy without formatting">
+                                                <CopyButton
+                                                    className={cn("copyButton")}
+                                                    value={target}
+                                                />
+                                            </Hint>
+                                        </div>
+                                        <CodeEditor
+                                            data-tid={`T${i + 1}`}
+                                            triggerSource={triggerSource}
+                                            disabled
+                                            key={i}
+                                            value={target}
+                                        />
+                                    </>
+                                ))}
+                            </Gapped>
                         </dd>
-                    )}
-                    {!expression && <dt>Value</dt>}
-                    {!expression && (
+                        {desc && <dt>Description</dt>}
+                        {desc && (
+                            <dd className={cn("description", "wysiwyg")}>
+                                <Markdown markdown={desc} />
+                            </dd>
+                        )}
+                        {!expression && <dt>Value</dt>}
+                        {!expression && (
+                            <dd>
+                                {warnValue != null && `Warning: ${warnValue}. `}
+                                {errorValue != null && `Error: ${errorValue}. `}
+                                Set {ttlState} if has no value for {ttl} seconds
+                            </dd>
+                        )}
+                        {expression && <dt>Expression</dt>}
+                        {expression && (
+                            <dd>
+                                {`${expression}. `}
+                                Set {ttlState} if has no value for {ttl} seconds
+                            </dd>
+                        )}
+                        {sched && <dt>Schedule</dt>}
+                        {sched && (
+                            <dd>
+                                <ScheduleView data={sched} />
+                            </dd>
+                        )}
+                        <dt>Tags</dt>
                         <dd>
-                            {warnValue != null && `Warning: ${warnValue}. `}
-                            {errorValue != null && `Error: ${errorValue}. `}
-                            Set {ttlState} if has no value for {ttl} seconds
+                            <TagGroup
+                                onClick={(tag) => {
+                                    history?.push(
+                                        `/?${queryString.stringify(
+                                            { tags: [tag] },
+                                            {
+                                                arrayFormat: "index",
+                                                encode: true,
+                                            }
+                                        )}`
+                                    );
+                                }}
+                                tags={tags}
+                            />
                         </dd>
-                    )}
-                    {expression && <dt>Expression</dt>}
-                    {expression && (
-                        <dd>
-                            {`${expression}. `}
-                            Set {ttlState} if has no value for {ttl} seconds
-                        </dd>
-                    )}
-                    {sched && <dt>Schedule</dt>}
-                    {sched && (
-                        <dd>
-                            <ScheduleView data={sched} />
-                        </dd>
-                    )}
-                    <dt>Tags</dt>
-                    <dd>
-                        <TagGroup
-                            onClick={(tag) => {
-                                history?.push(
-                                    `/?${queryString.stringify(
-                                        { tags: [tag] },
-                                        {
-                                            arrayFormat: "index",
-                                            encode: true,
-                                        }
-                                    )}`
-                                );
-                            }}
-                            tags={tags}
-                        />
-                    </dd>
-                    {(state === "EXCEPTION" || state === "ERROR") && <dt />}
-                    {(state === "EXCEPTION" || state === "ERROR") && (
-                        <dd className={cn("exception-explanation")}>
-                            <div className={cn("line-1")}>
-                                <ErrorIcon color="#D43517" /> Trigger in {state} state.{" "}
-                                {exceptionMessage}
-                            </div>
-                            <div className={cn("line-2")}>
-                                Please verify trigger target
-                                {hasMultipleTargets ? "s" : ""}
-                                {hasExpression ? " and expression" : ""} on{" "}
-                                <RouterLink to={`/trigger/${trigger.id}/edit`}>
-                                    trigger edit page
-                                </RouterLink>
-                                .
-                                {supportEmail && (
-                                    <span>
-                                        {" "}
-                                        Or <Link href={`mailto:${supportEmail}`}>contact</Link> with
-                                        server administrator.
-                                    </span>
-                                )}
-                            </div>
-                        </dd>
-                    )}
-                </dl>
+                        {(state === "EXCEPTION" || state === "ERROR") && <dt />}
+                        {(state === "EXCEPTION" || state === "ERROR") && (
+                            <dd className={cn("exception-explanation")}>
+                                <div className={cn("line-1")}>
+                                    <ErrorIcon color="#D43517" /> Trigger in {state} state.{" "}
+                                    {exceptionMessage}
+                                </div>
+                                <div className={cn("line-2")}>
+                                    Please verify trigger target
+                                    {hasMultipleTargets ? "s" : ""}
+                                    {hasExpression ? " and expression" : ""} on{" "}
+                                    <RouterLink to={`/trigger/${trigger.id}/edit`}>
+                                        trigger edit page
+                                    </RouterLink>
+                                    .
+                                    {supportEmail && (
+                                        <span>
+                                            {" "}
+                                            Or <Link href={`mailto:${supportEmail}`}>
+                                                contact
+                                            </Link>{" "}
+                                            with server administrator.
+                                        </span>
+                                    )}
+                                </div>
+                            </dd>
+                        )}
+                    </dl>
+                </div>
                 {isMetrics && (
                     <div className={cn("state-chart")}>
                         <MetricStateChart
