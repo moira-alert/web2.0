@@ -29,7 +29,7 @@ export default class ContactEditForm extends React.Component<Props> {
         ]);
 
         return (
-            <div className={cn("form")}>
+            <>
                 <div className={cn("row")}>
                     <Select<string, string>
                         placeholder="Select channel type"
@@ -75,7 +75,7 @@ export default class ContactEditForm extends React.Component<Props> {
                         className={cn("row", "comment")}
                     />
                 )}
-            </div>
+            </>
         );
     }
 

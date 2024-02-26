@@ -2,9 +2,12 @@ import * as React from "react";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import FilterIcon from "@skbkontur/react-icons/Filter";
+import SettingsIcon from "@skbkontur/react-icons/Settings";
 import { Trigger } from "../../../Domain/Trigger";
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
 import MobileHeader from "../MobileHeader/MobileHeader";
+import { getPageLink } from "../../../Domain/Global";
+import { History } from "history";
 import classNames from "classnames/bind";
 
 import styles from "./MobileTriggerListPage.less";
@@ -17,6 +20,7 @@ type MobileTriggerListPageProps = {
     selectedTags?: Array<string> | null;
     activePage: number;
     pageCount: number;
+    history: History;
     onChange: (pageObject: { page: number }) => void;
     onOpenTagSelector: () => void;
 };
@@ -29,6 +33,7 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
             onOpenTagSelector,
             activePage,
             pageCount,
+            history,
             onChange,
         } = this.props;
 
@@ -40,6 +45,10 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                         <MobileHeader.RightButton
                             icon={<FilterIcon />}
                             onClick={onOpenTagSelector}
+                        />
+                        <MobileHeader.RightButton
+                            onClick={() => history.push(getPageLink("settings"))}
+                            icon={<SettingsIcon />}
                         />
                     </MobileHeader.HeaderBlock>
                 </MobileHeader>

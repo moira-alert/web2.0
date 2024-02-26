@@ -1,7 +1,31 @@
+@import '~styles/variables.less';
+
 .header {
     font-size: 18px;
     font-weight: 400;
     margin-bottom: 24px;
+}
+
+.subscriptionBtnContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto,  1fr));
+  grid-auto-flow: column;
+  grid-gap: 5px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+@media screen and (max-width:  @breakpoint) {
+  .subscriptionBtnContainer {
+    grid-template-columns:  1fr;
+    grid-auto-flow: row;
+  }
 }
 
 

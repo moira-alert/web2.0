@@ -1,7 +1,9 @@
+@import '~styles/variables.less';
+
 .item {
     cursor: pointer;
 
-    &:hover {
+    &:hover, &.enabled-cell:hover{
         background-color: #f8f8f8;
     }
 
@@ -15,8 +17,20 @@
         border-bottom: 0;
     }
 
-    .contact {
-        margin-right: 10px;
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top:  0;
+        right:  calc(100% - 80px);
+        bottom:  0;
+        background-color: #f8f8f8;
+        opacity:  0;
+    }
+
+    &:hover::after {
+        opacity:  1;
     }
 }
 
@@ -28,13 +42,26 @@
     background-color: #ffcece;
 }
 
-.tags-cell {
-    max-width: 350px;
-}
-
 .triggers-cell {
     display: table-cell;
     white-space: nowrap;
+}
+
+.contacts-content {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tags-cell {
+    max-width: 150px;
+}
+
+.contact {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .contacts-cell {
@@ -42,15 +69,57 @@
 }
 
 .enabled-cell {
-    min-width: 80px;
-    max-width: 80px;
+    width: 80px;
+    text-align: end;
 }
 
 .disabled-label {
+    overflow: hidden;
     color: #D43517;
     font-weight: 700;
 }
 
 .tooltip-cell {
     width: 10px;
+}
+
+@media screen and (min-width: @breakpoint) {
+    .showMore-button-cell {
+        display: none;
+    }
+}
+
+@media screen and (max-width: @breakpoint) {
+    .tags-content {
+        max-height: 20px;
+        overflow: hidden;
+        box-sizing: border-box;
+        max-width: 90px;
+    }
+
+    .contact > span:nth-child(2) {
+        display: none;
+    }
+
+    .triggers-cell {
+        display: table-cell;
+        white-space: nowrap;
+        max-width: 45px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .expanded {
+        .tags-content {
+            max-height: 100%;
+        }
+
+        .contacts-content {
+            max-width: 90px;
+        }
+
+        .contact > span:nth-child(2) {
+            display: inline-block;
+        }
+    }
 }

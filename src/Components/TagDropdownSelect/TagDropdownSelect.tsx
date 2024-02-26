@@ -20,7 +20,7 @@ type Props = {
     error?: boolean;
     onBlur?: React.FocusEventHandler<HTMLDivElement>;
     isDisabled?: boolean;
-    width: number;
+    width?: string | number;
     allowCreateNewTags?: boolean;
     placeholder?: string;
     "data-tid"?: string;
@@ -67,14 +67,10 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                 align="left"
                                 getParent={() => this.containerRef.current}
                                 offsetY={1}
+                                hasFixedWidth
                             >
-                                <ScrollContainer maxHeight={300}>
-                                    <div
-                                        className={cn("tags-menu")}
-                                        style={{ width }}
-                                        ref={this.tagsRef}
-                                        onBlur={onBlur}
-                                    >
+                                <div className={cn("tags-menu")} ref={this.tagsRef} onBlur={onBlur}>
+                                    <ScrollContainer maxHeight={300}>
                                         {filtredTags.length > 0 || allowCreateNewTags ? (
                                             <div className={cn("tag-list")}>
                                                 {filtredTags.map((tag, i) => (
@@ -106,8 +102,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                                 No matched tags found.
                                             </div>
                                         )}
-                                    </div>
-                                </ScrollContainer>
+                                    </ScrollContainer>
+                                </div>
                             </DropdownContainer>
                         )}
                     </div>
@@ -243,30 +239,32 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         : cn("input-area", { focused: isFocused, error })
                 }
             >
-                {value.length !== 0 &&
-                    value.map((tag) => (
-                        <span className={cn("tag-wrap")} key={tag}>
-                            <Tag title={tag} onRemove={() => this.handleRemoveTag(tag)} />
-                        </span>
-                    ))}
-                <input
-                    className={cn("input")}
-                    value={inputValue}
-                    onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
-                        event.target instanceof HTMLInputElement && event.target.selectionStart
-                            ? this.handleKeyDown(event.key, event.target.selectionStart)
-                            : null
-                    }
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        event.target instanceof HTMLInputElement
-                            ? this.setState({ inputValue: event.target.value, focusedIndex: 0 })
-                            : null
-                    }
-                    onFocus={() => this.setState({ isFocused: true })}
-                    disabled={isDisabled}
-                    placeholder={value.length === 0 ? placeholder : undefined}
-                    data-tid={dataTid}
-                />
+                <ScrollContainer maxHeight={300}>
+                    {value.length !== 0 &&
+                        value.map((tag) => (
+                            <div className={cn("tag-wrap")} key={tag}>
+                                <Tag title={tag} onRemove={() => this.handleRemoveTag(tag)} />
+                            </div>
+                        ))}
+                    <input
+                        className={cn("input")}
+                        value={inputValue}
+                        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
+                            event.target instanceof HTMLInputElement && event.target.selectionStart
+                                ? this.handleKeyDown(event.key, event.target.selectionStart)
+                                : null
+                        }
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                            event.target instanceof HTMLInputElement
+                                ? this.setState({ inputValue: event.target.value, focusedIndex: 0 })
+                                : null
+                        }
+                        onFocus={() => this.setState({ isFocused: true })}
+                        disabled={isDisabled}
+                        placeholder={value.length === 0 ? placeholder : undefined}
+                        data-tid={dataTid}
+                    />
+                </ScrollContainer>
             </div>
         );
     }

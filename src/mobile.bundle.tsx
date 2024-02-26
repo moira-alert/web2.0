@@ -3,14 +3,13 @@ import { hot } from "react-hot-loader/root";
 import { Switch, Route } from "react-router-dom";
 import MobileErrorContainer from "./Containers/MobileErrorContainer";
 import { getPagePath } from "./Domain/Global";
-
 import TriggerList, { TriggerListProps } from "./pages/trigger-list/trigger-list";
 import TriggerListMobile, {
     TriggerListMobileProps,
 } from "./pages/trigger-list/trigger-list.mobile";
-
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerMobile, { TriggerMobileProps } from "./pages/trigger/trigger.mobile";
+import { MobileSettingsPage } from "./Components/Mobile/MobileSettingsPage/MobileSettingsPage";
 
 type ResponsiveRouteProps = {
     exact?: boolean;
@@ -41,6 +40,7 @@ function Mobile() {
                 container={Trigger}
                 view={TriggerMobile}
             />
+            <Route exact path={getPagePath("settings")} component={MobileSettingsPage} />
             <Route component={MobileErrorContainer} />
         </Switch>
     );
