@@ -90,7 +90,7 @@
 }
 
 @media screen and (max-width: @breakpoint) {
-    td > div {
+    .tags-content {
         max-height: 20px;
         overflow: hidden;
         box-sizing: border-box;
@@ -110,8 +110,12 @@
     }
 
     .expanded {
-        td > div {
+        .tags-content {
             max-height: 100%;
+        }
+
+        .contacts-content {
+            max-width: 90px;
         }
 
         .contact > span:nth-child(2) {

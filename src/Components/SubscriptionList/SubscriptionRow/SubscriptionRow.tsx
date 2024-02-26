@@ -72,7 +72,9 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                 )}
             </td>
             <td className={cn("tags-cell")}>
-                <TagGroup tags={subscription.tags} />
+                <div className={cn("tags-content")}>
+                    <TagGroup tags={subscription.tags} />
+                </div>
             </td>
             <td className={cn("triggers-cell")}>
                 <Hint text="Show all associated triggers">

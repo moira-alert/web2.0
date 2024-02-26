@@ -242,9 +242,9 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                 <ScrollContainer maxHeight={300}>
                     {value.length !== 0 &&
                         value.map((tag) => (
-                            <span className={cn("tag-wrap")} key={tag}>
+                            <div className={cn("tag-wrap")} key={tag}>
                                 <Tag title={tag} onRemove={() => this.handleRemoveTag(tag)} />
-                            </span>
+                            </div>
                         ))}
                     <input
                         className={cn("input")}
