@@ -25,7 +25,6 @@ interface Props {
     error?: boolean;
     warning?: boolean;
     disabled?: boolean;
-    "data-tid": string;
     onBlur?: () => void;
     onValueChange?: (value: string) => void;
 }
@@ -100,17 +99,7 @@ const transactionFilter = EditorState.transactionFilter.of((tr) => {
 });
 
 export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeEditor(
-    {
-        value,
-        triggerSource,
-        problemTree,
-        error,
-        warning,
-        disabled,
-        "data-tid": dataTid,
-        onBlur,
-        onValueChange,
-    },
+    { value, triggerSource, problemTree, error, warning, disabled, onBlur, onValueChange },
     validationRef
 ) {
     const editorRef = useRef<HTMLDivElement | null>(null);
@@ -128,7 +117,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         indentOnInput(),
         EditorView.updateListener.of((update) => {
             if (onValueChange && update.docChanged) {
-                onValueChange(update.state.doc.toString().replace(/\n\s*/g, ""));
+                onValueChange(update.state.doc.toString().replace(/\s+/g, ""));
             }
         }),
         GraphiteHighlightStyle,
@@ -197,7 +186,6 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     return (
         <div ref={validationRef}>
             <div
-                data-tid={dataTid}
                 className={cn({
                     warning: warning,
                     error: error,

@@ -86,7 +86,7 @@ export type ValidateTriggerTarget = {
     tree_of_problems?: TriggerTargetProblem;
 };
 
-export type ValidateTargetsResult = {
+export type ValidateTriggerResult = {
     targets: Array<ValidateTriggerTarget | undefined>;
 };
 

@@ -50,7 +50,6 @@ export default class ContactEditForm extends React.Component<Props> {
                             v && onChange({ type: v });
                         }}
                         items={contactItems}
-                        data-tid="Select channel type"
                     />
                 </div>
                 <div className={cn("row")}>

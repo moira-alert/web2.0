@@ -41,23 +41,13 @@ export function AddUserToTeam(props: AddUserProps): ReactElement {
                     <Grid columns="60px 300px" gap="16px">
                         Name:
                         <ValidationWrapper validationInfo={nameValidate}>
-                            <Input
-                                data-tid="User name"
-                                value={name}
-                                onValueChange={setName}
-                                width={"100%"}
-                            />
+                            <Input value={name} onValueChange={setName} width={"100%"} />
                         </ValidationWrapper>
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>
                     <Gapped gap={8}>
-                        <Button
-                            data-tid="Add user modal"
-                            use={"primary"}
-                            onClick={handleAdd}
-                            width={100}
-                        >
+                        <Button use={"primary"} onClick={handleAdd} width={100}>
                             Add User
                         </Button>
                         <Button onClick={props.onClose}>Cancel</Button>

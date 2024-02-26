@@ -19,7 +19,7 @@ import {
     setIsSaveModalVisible,
     useTriggerFormContainerReducer,
 } from "../hooks/useTriggerFormContainerReducer";
-import { useValidateTarget } from "../hooks/useValidateTarget";
+import { useValidateTrigger } from "../hooks/useValidateTrigger";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
 
@@ -32,20 +32,18 @@ const TriggerEditContainer = (props: Props) => {
     const [config, setConfig] = useState<Config | undefined>(undefined);
 
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
+    const validateTrigger = useValidateTrigger(
+        props.moiraApi,
+        dispatch,
+        validationContainer,
+        props.history
+    );
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
 
-    const handleSubmit = async () => {
-        const isFormValid = await validationContainer.current?.validate();
-        if (!isFormValid) {
-            return;
-        }
-
-        // Backend validation looks for errors in relation to the current version of Carbon, but for the remote target, the expression should be checked in relation to the remote source.
+    const handleSubmit = async () =>
         trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
-            ? validateTarget(trigger)
+            ? validateTrigger(trigger)
             : saveTrigger(trigger);
-    };
 
     const handleChange = (update: Partial<Trigger>) => {
         if (update.trigger_source) {

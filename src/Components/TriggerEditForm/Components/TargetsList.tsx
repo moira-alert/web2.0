@@ -6,7 +6,7 @@ import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import HighlightInput from "../../HighlightInput/HighlightInput";
 import { CopyButton } from "./CopyButton";
 import { useIds } from "../../../hooks/useIds";
-import TriggerSource, { Trigger, ValidateTargetsResult } from "../../../Domain/Trigger";
+import TriggerSource, { Trigger, ValidateTriggerResult } from "../../../Domain/Trigger";
 import classNames from "classnames/bind";
 
 import styles from "../TriggerEditForm.less";
@@ -19,7 +19,7 @@ interface IProps {
         [target_id: string]: boolean;
     };
     trigger_source: TriggerSource;
-    validationResult?: ValidateTargetsResult;
+    validationResult?: ValidateTriggerResult;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
 }
 
@@ -107,7 +107,6 @@ export const TargetsList: FC<IProps> = ({
                             <span className={cn("target-number")}>T{i + 1}</span>
                             <Fill>
                                 <HighlightInput
-                                    data-tid={`T${i + 1}`}
                                     triggerSource={triggerSource}
                                     value={target}
                                     onValueChange={(value: string) => {
@@ -135,7 +134,7 @@ export const TargetsList: FC<IProps> = ({
                                     <Button
                                         icon={<RemoveIcon />}
                                         onClick={() => handleRemoveTarget(i)}
-                                        data-tid={`Target remove ${i + 1}`}
+                                        data-tid="Target Remove"
                                     ></Button>
                                 </Fit>
                             )}

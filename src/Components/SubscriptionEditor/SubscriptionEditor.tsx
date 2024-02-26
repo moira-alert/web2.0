@@ -66,8 +66,6 @@ export default class SubscriptionEditor extends React.Component<Props> {
                             validationInfo={this.validateTags()}
                         >
                             <TagDropdownSelect
-                                data-tid="Tag dropdown select"
-                                width={470}
                                 value={subscription.tags}
                                 onChange={(nextTags: string[]) => {
                                     onChange({

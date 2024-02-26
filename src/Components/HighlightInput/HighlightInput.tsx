@@ -17,7 +17,6 @@ type HighlightInputProps = {
     onValueChange: (value: string) => void;
     triggerSource?: TriggerSource;
     validate?: ValidateTriggerTarget;
-    "data-tid"?: string;
 };
 
 export default function HighlightInput(props: HighlightInputProps): React.ReactElement {
@@ -76,7 +75,6 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
                         renderMessage={tooltip("right middle")}
                     >
                         <CodeEditor
-                            data-tid={props["data-tid"] ?? ""}
                             triggerSource={triggerSource}
                             onBlur={handleInputBlur}
                             problemTree={validate?.tree_of_problems}

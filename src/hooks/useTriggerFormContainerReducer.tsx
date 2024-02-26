@@ -1,11 +1,11 @@
 import { useReducer } from "react";
-import { ValidateTargetsResult } from "../Domain/Trigger";
+import { ValidateTriggerResult } from "../Domain/Trigger";
 
 export interface State {
     isLoading: boolean;
     isSaveModalVisible: boolean;
     isSaveButtonDisabled: boolean;
-    validationResult?: ValidateTargetsResult;
+    validationResult?: ValidateTriggerResult;
     error?: string | null;
 }
 
@@ -29,7 +29,7 @@ export const setIsSaveModalVisible = (payload: boolean): Action => ({
     type: ActionType.setIsSaveModalVisible,
     payload,
 });
-export const setValidationResult = (payload: ValidateTargetsResult): Action => ({
+export const setValidationResult = (payload: ValidateTriggerResult): Action => ({
     type: ActionType.setValidationResult,
     payload,
 });
@@ -53,7 +53,7 @@ export type Action =
       }
     | {
           type: ActionType.setValidationResult;
-          payload: ValidateTargetsResult;
+          payload: ValidateTriggerResult;
       }
     | {
           type: ActionType.setError;

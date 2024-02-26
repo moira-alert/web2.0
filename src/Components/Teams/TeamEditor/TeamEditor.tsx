@@ -78,19 +78,13 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                     <Grid columns="120px 400px" gap="16px">
                         Name:
                         <ValidationWrapper validationInfo={validateName()}>
-                            <Input
-                                data-tid="Team name"
-                                value={name}
-                                onValueChange={setName}
-                                width={"100%"}
-                            />
+                            <Input value={name} onValueChange={setName} width={"100%"} />
                         </ValidationWrapper>
                         <GridCell align={"flex-start"} margin="8px 0 0">
                             Description:
                         </GridCell>
                         {descriptionView === "edit" ? (
                             <Textarea
-                                data-tid="Team description"
                                 value={description}
                                 onValueChange={setDescription}
                                 width="100%"
@@ -107,21 +101,11 @@ export const TeamEditor: FC<ITeamEditorProps> = ({
                 <Modal.Footer>
                     <Gapped gap={8}>
                         {team ? (
-                            <Button
-                                data-tid="Save team"
-                                use={"primary"}
-                                onClick={handleSaveTeam}
-                                width={100}
-                            >
+                            <Button use={"primary"} onClick={handleSaveTeam} width={100}>
                                 Save
                             </Button>
                         ) : (
-                            <Button
-                                data-tid="Confirm add team"
-                                use={"primary"}
-                                onClick={handleAddTeam}
-                                width={100}
-                            >
+                            <Button use={"primary"} onClick={handleAddTeam} width={100}>
                                 Add
                             </Button>
                         )}

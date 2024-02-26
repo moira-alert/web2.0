@@ -37,11 +37,7 @@ export function Team({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement
                             message={`Do you really want to remove "${team.name}" team?`}
                             action={() => deleteTeam(team)}
                         >
-                            <Button
-                                data-tid={`Delete team ${team.name}`}
-                                use={"link"}
-                                icon={<DeleteIcon />}
-                            />
+                            <Button use={"link"} icon={<DeleteIcon />} />
                         </Confirm>
                     </HoveredShow>
                 </Gapped>

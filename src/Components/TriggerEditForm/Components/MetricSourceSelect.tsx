@@ -19,16 +19,12 @@ export const MetricSourceSelect: React.FC<Props> = ({ triggerSource, onSourceCha
             onValueChange={onSourceChange}
         >
             <Gapped vertical gap={10}>
-                <Radio data-tid="Graphite local" value={TriggerSource.GRAPHITE_LOCAL}>
-                    Local (default)
-                </Radio>
-                <Radio data-tid="Graphite remote" value={TriggerSource.GRAPHITE_REMOTE}>
+                <Radio value={TriggerSource.GRAPHITE_LOCAL}> Local (default)</Radio>
+                <Radio value={TriggerSource.GRAPHITE_REMOTE}>
                     Graphite Remote. Be careful, it may cause&nbsp;
                     <Link href={remoteTriggerLink}>extra load</Link>
                 </Radio>
-                <Radio data-tid="Prometheus remote" value={TriggerSource.PROMETHEUS_REMOTE}>
-                    Prometheus Remote
-                </Radio>
+                <Radio value={TriggerSource.PROMETHEUS_REMOTE}> Prometheus Remote </Radio>
             </Gapped>
         </RadioGroup>
     );

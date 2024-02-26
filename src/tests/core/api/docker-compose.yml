@@ -6,12 +6,6 @@ services:
     volumes:
       - data:/data
 
-  graphite:
-    image: graphiteapp/graphite-statsd
-
-  prometheus:
-    image: prom/prometheus
-
   filter:
     image: moira/filter-nightly:latest
     ports:
@@ -41,8 +35,6 @@ services:
 
   api:
     image: moira/api-nightly:latest
-    volumes:
-      - ./local/api.yml:/etc/moira/api.yml
     depends_on:
       - redis
       - checker
