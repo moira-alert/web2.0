@@ -17,7 +17,7 @@ import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";
-import { useValidateTrigger } from "../hooks/useValidateTrigger";
+import { useValidateTarget } from "../hooks/useValidateTarget";
 import {
     setError,
     setIsLoading,
@@ -68,17 +68,20 @@ const TriggerAddContainer = (props: Props) => {
     const [tags, setTags] = useState<string[] | undefined>(undefined);
     const [config, setConfig] = useState<Config | undefined>(undefined);
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTrigger = useValidateTrigger(
-        props.moiraApi,
-        dispatch,
-        validationContainer,
-        props.history
-    );
+    const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
-    const handleSubmit = async () =>
-        trigger?.trigger_source == TriggerSource.GRAPHITE_LOCAL
-            ? validateTrigger(trigger)
+
+    const handleSubmit = async () => {
+        const isFormValid = await validationContainer.current?.validate();
+        if (!isFormValid) {
+            return;
+        }
+
+        // Backend validation looks for errors in relation to the current version of Carbon, but for the remote target, the expression should be checked in relation to the remote source.
+        trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
+            ? validateTarget(trigger)
             : saveTrigger(trigger);
+    };
 
     const handleChange = (update: Partial<Trigger>) => {
         if (!trigger) {

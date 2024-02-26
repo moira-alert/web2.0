@@ -78,7 +78,7 @@ export const TriggerModeEditor: FC<IProps> = ({
         <>
             <div className={cn("tabs")}>
                 <Tabs value={mode} onValueChange={handleTabChange}>
-                    <Tabs.Tab id="simple" style={{ color: disableSimpleMode ? "#888888" : "" }}>
+                    <Tabs.Tab disabled={disableSimpleMode} id="simple">
                         Simple mode
                     </Tabs.Tab>
                     <Tabs.Tab id="advanced">Advanced mode</Tabs.Tab>

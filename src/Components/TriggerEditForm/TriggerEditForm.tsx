@@ -12,7 +12,7 @@ import {
     DEFAULT_TRIGGER_TYPE,
     Trigger,
     TriggerSource,
-    ValidateTriggerResult,
+    ValidateTargetsResult,
 } from "../../Domain/Trigger";
 import { TMetricSourceCluster } from "../../Domain/Metric";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
@@ -43,7 +43,7 @@ interface IProps {
     remoteAllowed?: boolean | null;
     metricSourceClusters?: TMetricSourceCluster[] | null;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
-    validationResult?: ValidateTriggerResult;
+    validationResult?: ValidateTargetsResult;
 }
 
 const TriggerEditForm: FC<IProps> = ({
@@ -101,6 +101,7 @@ const TriggerEditForm: FC<IProps> = ({
                         <Textarea
                             width="100%"
                             value={desc || ""}
+                            data-tid="Description"
                             onValueChange={(value) => onChange({ desc: value })}
                         />
                         <EditDescriptionHelp />
@@ -125,7 +126,11 @@ const TriggerEditForm: FC<IProps> = ({
             {metricSourceClusters && triggerSource && (
                 <FormRow label="Cluster">
                     <ValidationWrapperV1
-                        validationInfo={validateClusterID(cluster_id)}
+                        validationInfo={validateClusterID(
+                            cluster_id,
+                            triggerSource,
+                            metricSourceClusters
+                        )}
                         renderMessage={tooltip("right middle")}
                     >
                         <ClusterSelect

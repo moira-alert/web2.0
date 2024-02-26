@@ -1,9 +1,9 @@
-name: Test
+name: Unit and screenshot tests
 on:
   pull_request:
 jobs:
   test:
-    name: Test frontend
+    name: Unit and screenshot tests
     runs-on: ubuntu-22.04
 
     steps:
@@ -28,7 +28,7 @@ jobs:
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
-        if: ${{ always() }}
+        if: ${{ failure() }}
         with:
           name: screenshots-report
           path: test-results

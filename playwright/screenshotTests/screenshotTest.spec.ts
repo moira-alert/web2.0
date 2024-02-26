@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
-import componentList from "../resources/componentList.json";
-import { expectToMatchScreenshot } from "./helpers/expectToMatchScreenshot";
-import { getStoryURL } from "./helpers/getStoryURL";
+import componentList from "../../resources/componentList.json";
+import { expectToMatchScreenshot } from "../helpers/expectToMatchScreenshot";
+import { getStoryURL } from "../helpers/getStoryURL";
 
 Object.entries(componentList).forEach(([component, stories]) => {
     stories.forEach((story) => {

@@ -61,7 +61,11 @@ export function Users(props: UsersProps): ReactElement {
                                 message={getExcludeMessage(userName)}
                                 action={() => handleUserRemove(userName)}
                             >
-                                <Button use={"link"} icon={<DeleteIcon />} />
+                                <Button
+                                    data-tid={`Delete user ${userName}`}
+                                    use={"link"}
+                                    icon={<DeleteIcon />}
+                                />
                             </Confirm>
                             {userName || <span />}
                         </Fragment>
@@ -72,6 +76,7 @@ export function Users(props: UsersProps): ReactElement {
                         icon={<AddIcon />}
                         use={"link"}
                         width={0}
+                        data-tid="Add user"
                         onClick={() => setAddingUser(true)}
                     >
                         Add User
