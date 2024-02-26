@@ -60,6 +60,7 @@ export default class ContactSelect extends React.Component<Props> {
                     ))}
                 <div>
                     <ComboBox
+                        data-tid="Select delivery channel"
                         error={error}
                         warning={warning}
                         width="100%"
