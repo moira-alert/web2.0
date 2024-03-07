@@ -4,18 +4,10 @@ import { Meta } from "@storybook/react";
 import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
 import { useAppDispatch } from "../store/hooks";
 import { toggleModal, setModalData } from "../store/Reducers/UIReducer.slice";
-import { Providers } from "../Providers/Providers";
 
 const meta: Meta = {
     title: "TriggerDeleteModal",
     component: ConfirmModal,
-    decorators: [
-        (Story) => (
-            <Providers>
-                <Story />
-            </Providers>
-        ),
-    ],
 };
 
 const SetupModal = (triggerText: string) => {

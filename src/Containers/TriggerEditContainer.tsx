@@ -79,11 +79,9 @@ const TriggerEditContainer = (props: Props) => {
             const [trigger, { list }] = await Promise.all([
                 props.moiraApi.getTrigger(props.match.params.id),
                 props.moiraApi.getTagList(),
-                // props.moiraApi.getConfig(),
             ]);
 
             setTrigger(trigger);
-            // setConfig(config);
             setTags(list);
         } catch (error) {
             dispatch(setError(error.message));

@@ -9,7 +9,6 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { DEFAULT_TRIGGER_TTL, Trigger, TriggerSource } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
-import { Config } from "../Domain/Config";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { omitTrigger } from "../helpers/omitTypes";
 import RouterLink from "../Components/RouterLink/RouterLink";
@@ -27,6 +26,8 @@ import {
 } from "../hooks/useTriggerFormContainerReducer";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
+import { useAppSelector } from "../store/hooks";
+import { ConfigState } from "../store/selectors";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -63,10 +64,10 @@ const defaultTrigger: Partial<Trigger> = {
 type Props = RouteComponentProps & { moiraApi: MoiraApi };
 
 const TriggerAddContainer = (props: Props) => {
+    const { config } = useAppSelector(ConfigState);
     const [state, dispatch] = useTriggerFormContainerReducer();
     const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
-    const [config, setConfig] = useState<Config | undefined>(undefined);
     const validationContainer = useRef<ValidationContainer>(null);
     const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
     const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
@@ -125,11 +126,9 @@ const TriggerAddContainer = (props: Props) => {
 
         try {
             const { list } = await props.moiraApi.getTagList();
-            const config = await props.moiraApi.getConfig();
             setTrigger((prev) => {
                 return { ...prev, tags: localTags };
             });
-            setConfig(config);
             setTags(list);
         } catch (error) {
             dispatch(setError(error.message));
