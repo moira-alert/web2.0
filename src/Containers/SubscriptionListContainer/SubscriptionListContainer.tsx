@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Subscription } from "../../Domain/Subscription";
@@ -8,11 +8,12 @@ import SubscriptionEditModal from "../../Components/SubscriptionEditModal/Subscr
 import CreateSubscriptionModal from "../../Components/CreateSubscriptionModal/CreateSubscriptionModal";
 import type { SubscriptionInfo } from "../../Components/SubscriptionEditor/SubscriptionEditor";
 import TagDropdownSelect from "../../Components/TagDropdownSelect/TagDropdownSelect";
-import { ConfigContext } from "../../contexts/ConfigContext";
 import { SubscriptionList } from "../../Components/SubscriptionList/SubscriptionList";
 import { filterSubscriptions } from "../../Domain/FilterSubscriptions";
 import { AddSubscriptionMessage } from "../../Components/AddSubscribtionMessage/AddSubscribtionMessage";
 import { ModalType } from "../../Domain/Global";
+import { ConfigState } from "../../store/selectors";
+import { useAppSelector } from "../../store/hooks";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionListContainer.less";
@@ -67,9 +68,9 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const [filterTags, setFilterTags] = useState<string[]>([]);
     const { filteredSubscriptions, availableTags } = filterSubscriptions(subscriptions, filterTags);
-
-    const isPlottingDefaultOn =
-        useContext(ConfigContext)?.featureFlags?.isPlottingDefaultOn ?? true;
+    const { config } = useAppSelector(ConfigState);
+    const isPlottingDefaultOn = !!config?.featureFlags.isPlottingDefaultOn;
+    // useContext(ConfigContext)?.featureFlags?.isPlottingDefaultOn ?? true;
 
     const handleCloseModal = (modal: ModalType) => {
         closeModal(modal);

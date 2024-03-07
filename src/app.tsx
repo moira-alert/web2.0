@@ -8,13 +8,12 @@ import { ApiProvider } from "./Api/MoiraApiInjection";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import ErrorContainer from "./Containers/ErrorContainer";
-import { initSentry } from "./helpers/initSentry";
+import { Providers } from "./Providers/Providers";
+import SentryInitializer from "./Components/SentryInitializer/SentryInitializer";
 
 import "./style.less";
 
 const moiraApi = new MoiraApi("/api");
-
-initSentry(moiraApi);
 
 const root = document.getElementById("root");
 
@@ -29,7 +28,10 @@ const render = (Component: ComponentType) => {
                         )}
                     >
                         <ApiProvider value={moiraApi}>
-                            <Component />
+                            <Providers>
+                                <SentryInitializer />
+                                <Component />
+                            </Providers>
                         </ApiProvider>
                     </Sentry.ErrorBoundary>
                 </LocaleContext.Provider>

@@ -12,8 +12,9 @@ import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import { ConfirmDeleteModal } from "../ConfirmDeleteModal/ConfirmDeleteModal";
-import { useModal } from "../../hooks/useModal";
+import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
+import { useAppDispatch } from "../../store/hooks";
+import { toggleModal, setModalData } from "../../store/Reducers/UIReducer.slice";
 import classNames from "classnames/bind";
 
 import styles from "./NotificationList.less";
@@ -31,29 +32,32 @@ export default function NotificationList(props: Props): React.ReactElement {
     const { items, onRemove } = props;
 
     const [notificationId, setNotificationId] = React.useState("");
-    const { isModalOpen, closeModal, openModal } = useModal();
+    const dispatch = useAppDispatch();
 
     const handleDeleteNotification = async () => {
+        dispatch(toggleModal(false));
         await onRemove(notificationId);
-        closeModal();
     };
 
-    const handleClickRemoveBtn = (key: string) => {
+    const handleClickRemoveBtn = async (key: string) => {
         setNotificationId(key);
-        openModal();
+        dispatch(
+            setModalData({
+                header: "Are you sure with deleting notification?",
+                button: {
+                    text: "Delete",
+                    use: "danger",
+                },
+            })
+        );
+        dispatch(toggleModal(true));
     };
 
     return Object.keys(items).length === 0 ? (
         <div className={cn("no-result")}>Empty :-)</div>
     ) : (
         <>
-            {isModalOpen && (
-                <ConfirmDeleteModal
-                    message="Are you sure with deleting notification?"
-                    onClose={closeModal}
-                    onDelete={handleDeleteNotification}
-                />
-            )}
+            <ConfirmModal onConfirm={handleDeleteNotification} />
             <Gapped gap={30} vertical>
                 <div className={cn("row", "header")}>
                     <div className={cn("timestamp")}>Timestamp</div>

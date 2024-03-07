@@ -11,7 +11,7 @@ import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import { ConfigContext } from "../../contexts/ConfigContext";
+// import { ConfigContext } from "../../contexts/ConfigContext";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionEditor.less";
@@ -248,5 +248,5 @@ export default class SubscriptionEditor extends React.Component<Props> {
         return null;
     }
 
-    static contextType = ConfigContext;
+    // static contextType = ConfigContext;
 }

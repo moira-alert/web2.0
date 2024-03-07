@@ -109,6 +109,11 @@ module.exports = {
         static: {
             directory: path.join(__dirname, "./"),
         },
+        watchFiles: {
+            options: {
+                ignored: "**/db.json",
+            },
+        },
         port: 9000,
         historyApiFallback: true,
         proxy: {

@@ -32,8 +32,9 @@ import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
-import { ConfirmDeleteModal } from "../ConfirmDeleteModal/ConfirmDeleteModal";
-import { useModal } from "../../hooks/useModal";
+import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
+import { useAppDispatch } from "../../store/hooks";
+import { toggleModal, setModalData } from "../../store/Reducers/UIReducer.slice";
 import { LinkMenuItem } from "./Components/LinkMenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
 import classNames from "classnames/bind";
@@ -89,7 +90,7 @@ export default function TriggerInfo({
         trigger_source: triggerSource,
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
-    const { isModalOpen, openModal, closeModal } = useModal();
+    const dispatch = useAppDispatch();
 
     const isMetrics = metrics && Object.keys(metrics).length > 0;
     const hasExpression = expression != null && expression !== "";
@@ -97,8 +98,21 @@ export default function TriggerInfo({
     const delta = maintenanceDelta(maintenance);
 
     const onDeleteTrigger = () => {
-        closeModal();
+        dispatch(toggleModal(false));
         deleteTrigger(trigger.id);
+    };
+
+    const handleDeleteTrigger = () => {
+        dispatch(
+            setModalData({
+                header: "Delete Trigger?",
+                button: {
+                    text: "Delete",
+                    use: "danger",
+                },
+            })
+        );
+        dispatch(toggleModal(true));
     };
 
     return (
@@ -179,7 +193,7 @@ export default function TriggerInfo({
                             Duplicate
                         </LinkMenuItem>
                         <MenuSeparator />
-                        <LinkMenuItem icon={<TrashIcon />} onClick={openModal}>
+                        <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
                             Delete
                         </LinkMenuItem>
                     </DropdownMenu>
@@ -301,15 +315,9 @@ export default function TriggerInfo({
                     </div>
                 )}
             </div>
-            {isModalOpen && trigger && (
-                <ConfirmDeleteModal
-                    message={"Delete Trigger?"}
-                    onClose={closeModal}
-                    onDelete={onDeleteTrigger}
-                >
-                    Trigger <strong>{trigger.name}</strong> will be deleted.
-                </ConfirmDeleteModal>
-            )}
+            <ConfirmModal onConfirm={onDeleteTrigger}>
+                Trigger <strong>{trigger.name}</strong> will be deleted.
+            </ConfirmModal>
         </section>
     );
 }

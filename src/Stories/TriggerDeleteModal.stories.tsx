@@ -1,31 +1,48 @@
-import * as React from "react";
+import React from "react";
 import { action } from "@storybook/addon-actions";
-import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
+import { Meta } from "@storybook/react";
+import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
+import { useAppDispatch } from "../store/hooks";
+import { toggleModal, setModalData } from "../store/Reducers/UIReducer.slice";
+import { Providers } from "../Providers/Providers";
 
-export default {
+const meta: Meta = {
     title: "TriggerDeleteModal",
+    component: ConfirmModal,
+    decorators: [
+        (Story) => (
+            <Providers>
+                <Story />
+            </Providers>
+        ),
+    ],
 };
 
-export const Default = () => (
-    <ConfirmDeleteModal
-        message={"Delete Trigger?"}
-        onClose={action("onClose")}
-        onDelete={() => new Promise(action("onDelete"))}
-    >
-        Trigger <strong>test trigger</strong> will be deleted.
-    </ConfirmDeleteModal>
-);
+const SetupModal = (triggerText: string) => {
+    const dispatch = useAppDispatch();
 
-export const LongTriggerName = () => (
-    <ConfirmDeleteModal
-        message={"Delete Trigger?"}
-        onClose={action("onClose")}
-        onDelete={() => new Promise(action("onDelete"))}
-    >
-        Trigger&nbsp;
-        <strong>
-            ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok
-        </strong>
-        &nbsp; will be deleted.
-    </ConfirmDeleteModal>
-);
+    dispatch(toggleModal(true));
+    dispatch(
+        setModalData({
+            header: "Delete trigger?",
+            button: {
+                text: "Delete",
+                use: "danger",
+            },
+        })
+    );
+    return (
+        <ConfirmModal onConfirm={action("onConfirm")}>
+            Trigger <strong>{triggerText}</strong> will be deleted.
+        </ConfirmModal>
+    );
+};
+
+export const Default = () => SetupModal("test trigger");
+
+export const LongTriggerName = () =>
+    SetupModal(
+        "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok"
+    );
+
+export default meta;

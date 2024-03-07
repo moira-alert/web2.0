@@ -14,20 +14,15 @@ import { Gapped } from "@skbkontur/react-ui";
 import { RouteComponentProps } from "react-router";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
-import { ConfigContext } from "../contexts/ConfigContext";
-import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
+import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
 import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
 import { useLoadSettingsData } from "../hooks/useLoadSettingsData";
-import {
-    useSettingsContainerReducer,
-    setError,
-    setIsLoading,
-    setSettings,
-    setShowSubCrashModal,
-    setTeamsAndTags,
-    setDisruptedSubs,
-} from "../hooks/useSettingsContainerReducer";
+import { setSettings, setDisruptedSubs } from "../store/Reducers/SettingsContainerReducer.slice";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { ConfigState, SettingsState, UIState } from "../store/selectors";
+import { toggleModal, setModalData } from "../store/Reducers/UIReducer.slice";
+import { setError } from "../store/Reducers/UIReducer.slice";
 
 export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
@@ -35,14 +30,18 @@ export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: 
 
 const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, history }) => {
     const teamId = match.params.teamId;
-    const [state, dispatch] = useSettingsContainerReducer();
-    const { loadData, getTeamOrUserData } = useLoadSettingsData(moiraApi, dispatch, teamId);
-    const { login, teams, tags, config, team } = state.teamsAndTags ?? {};
-    const { settings, disruptedSubs } = state;
+    const dispatch = useAppDispatch();
+    const { loadData } = useLoadSettingsData(moiraApi, teamId);
+
+    const { config } = useAppSelector(ConfigState);
+    const { teamsAndTags, settings, disruptedSubs } = useAppSelector(SettingsState);
+    const { isLoading, error } = useAppSelector(UIState);
+
+    const { login, teams, tags, team } = teamsAndTags ?? {};
+
     const scrollRef = useRef<HTMLTableElement>(null);
 
-    const isConfirmDeleteModalVisible =
-        state.isShowSubCrashModal && disruptedSubs?.length && settings;
+    const isConfirmModalVisible = disruptedSubs?.length && settings;
 
     const user = { id: "", name: login ?? "Unknown" };
     const userWithTeams = teams ? [user, ...teams] : [];
@@ -71,7 +70,13 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
         );
 
         if (potentiallyDisruptedSubscriptions.length) {
-            dispatch(setShowSubCrashModal(true));
+            dispatch(
+                setModalData({
+                    header:
+                        "Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:",
+                })
+            );
+            dispatch(toggleModal(true));
             dispatch(setDisruptedSubs(potentiallyDisruptedSubscriptions));
             return;
         }
@@ -79,16 +84,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
     };
 
     const handleChangeTeam = async (userOrTeam: Team) => {
-        dispatch(setIsLoading(true));
-        try {
-            dispatch(setTeamsAndTags({ team: userOrTeam.id ? userOrTeam : undefined }));
-            await getTeamOrUserData(userOrTeam.id);
-            history.push(getPageLink("settings", userOrTeam.id ?? undefined));
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(setIsLoading(false));
-        }
+        history.push(getPageLink("settings", userOrTeam.id ?? undefined));
     };
 
     const handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
@@ -230,12 +226,12 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
         } catch (error) {
             dispatch(setError(error.message));
         } finally {
-            dispatch(setShowSubCrashModal(false));
+            dispatch(toggleModal(false));
         }
     };
 
     const scrollToElement = () => {
-        dispatch(setShowSubCrashModal(false));
+        dispatch(toggleModal(false));
         setTimeout(() => {
             const element = scrollRef.current as HTMLElement;
             const elementRect = element.getBoundingClientRect();
@@ -249,64 +245,59 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
     }, [teamId]);
 
     return (
-        <Layout loading={state.isLoading} error={state.error}>
+        <Layout loading={isLoading} error={error}>
             <LayoutContent>
-                <ConfigContext.Provider value={config || null}>
-                    {isConfirmDeleteModalVisible && (
-                        <ConfirmDeleteModal
-                            message={`Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:`}
-                            onClose={() => dispatch(setShowSubCrashModal(false))}
-                        >
-                            <SubscriptionList
-                                handleEditSubscription={scrollToElement}
-                                contacts={settings.contacts}
-                                subscriptions={disruptedSubs}
-                            />
-                        </ConfirmDeleteModal>
-                    )}
-                    <RowStack gap={1} block>
-                        <LayoutTitle>Notifications</LayoutTitle>
-                        <Fill />
-                        <Grid columns={"max-content"} gap="4px">
-                            Current User: {login}
-                            <Gapped gap={4}>
-                                <span>Show for {team ? "team" : "user"}</span>
-                                <Select<Team>
-                                    use={"link"}
-                                    value={team ?? user}
-                                    items={userWithTeams}
-                                    renderValue={(value) => value.name}
-                                    renderItem={(value) => value.name}
-                                    onValueChange={handleChangeTeam}
-                                />
-                            </Gapped>
-                        </Grid>
-                    </RowStack>
-                    {config !== undefined && settings?.contacts !== undefined && (
-                        <div style={{ marginBottom: 50 }}>
-                            <ContactList
-                                contactDescriptions={config.contacts}
-                                items={settings.contacts}
-                                onTestContact={handleTestContact}
-                                onAddContact={handleAddContact}
-                                onUpdateContact={handleUpdateContact}
-                                onRemoveContact={onRemoveContactBtnClick}
-                            />
-                        </div>
-                    )}
-                    {settings !== undefined && tags !== undefined && (
-                        <SubscriptionListContainer
-                            tableRef={scrollRef}
-                            tags={tags.list}
+                {isConfirmModalVisible && (
+                    <ConfirmModal>
+                        <SubscriptionList
+                            handleEditSubscription={scrollToElement}
                             contacts={settings.contacts}
-                            subscriptions={settings.subscriptions}
-                            onTestSubscription={handleTestSubscription}
-                            onAddSubscription={handleAddSubscription}
-                            onRemoveSubscription={handleRemoveSubscription}
-                            onUpdateSubscription={handleUpdateSubscription}
+                            subscriptions={disruptedSubs}
                         />
-                    )}
-                </ConfigContext.Provider>
+                    </ConfirmModal>
+                )}
+                <RowStack gap={1} block>
+                    <LayoutTitle>Notifications</LayoutTitle>
+                    <Fill />
+                    <Grid columns={"max-content"} gap="4px">
+                        Current User: {login}
+                        <Gapped gap={4}>
+                            <span>Show for {team ? "team" : "user"}</span>
+                            <Select<Team>
+                                use={"link"}
+                                value={team ?? user}
+                                items={userWithTeams}
+                                renderValue={(value) => value.name}
+                                renderItem={(value) => value.name}
+                                onValueChange={handleChangeTeam}
+                            />
+                        </Gapped>
+                    </Grid>
+                </RowStack>
+                {config && settings && (
+                    <div style={{ marginBottom: 50 }}>
+                        <ContactList
+                            contactDescriptions={config.contacts}
+                            items={settings.contacts}
+                            onTestContact={handleTestContact}
+                            onAddContact={handleAddContact}
+                            onUpdateContact={handleUpdateContact}
+                            onRemoveContact={onRemoveContactBtnClick}
+                        />
+                    </div>
+                )}
+                {settings && tags && (
+                    <SubscriptionListContainer
+                        tableRef={scrollRef}
+                        tags={tags.list}
+                        contacts={settings.contacts}
+                        subscriptions={settings.subscriptions}
+                        onTestSubscription={handleTestSubscription}
+                        onAddSubscription={handleAddSubscription}
+                        onRemoveSubscription={handleRemoveSubscription}
+                        onUpdateSubscription={handleUpdateSubscription}
+                    />
+                )}
             </LayoutContent>
         </Layout>
     );
