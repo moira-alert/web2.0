@@ -16,7 +16,7 @@ const SetupModal = (triggerText: string) => {
     dispatch(toggleModal(true));
     dispatch(
         setModalData({
-            header: "Delete trigger?",
+            header: "Delete Trigger?",
             button: {
                 text: "Delete",
                 use: "danger",
