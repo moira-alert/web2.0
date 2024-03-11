@@ -33,10 +33,11 @@ import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
 import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toggleModal, setModalData } from "../../store/Reducers/UIReducer.slice";
 import { LinkMenuItem } from "./Components/LinkMenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
+import { ConfigState } from "../../store/selectors";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -78,6 +79,7 @@ export default function TriggerInfo({
         id,
         name,
         desc,
+        cluster_id: clusterID,
         targets,
         expression,
         error_value: errorValue,
@@ -90,8 +92,17 @@ export default function TriggerInfo({
         trigger_source: triggerSource,
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
+    const { config } = useAppSelector(ConfigState);
     const dispatch = useAppDispatch();
 
+    const availableClusters = config?.metric_source_clusters.filter(
+        (cluster) => cluster.trigger_source === triggerSource
+    );
+
+    const clusterName = availableClusters?.find((cluster) => cluster.cluster_id === clusterID)
+        ?.cluster_name;
+
+    const isClusterName = clusterName && availableClusters.length !== 0;
     const isMetrics = metrics && Object.keys(metrics).length > 0;
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
@@ -236,6 +247,8 @@ export default function TriggerInfo({
                                 <Markdown markdown={desc} />
                             </dd>
                         )}
+                        {isClusterName && <dt>Cluster</dt>}
+                        {isClusterName && <dd>{clusterName}</dd>}
                         {!expression && <dt>Value</dt>}
                         {!expression && (
                             <dd>
