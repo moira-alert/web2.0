@@ -3,7 +3,7 @@ import NotificationListContainerReducer from "./Reducers/NotificationListContain
 import UIReducer from "./Reducers/UIReducer.slice";
 import SettingsContainerReducer from "./Reducers/SettingsContainerReducer.slice";
 import { configApi } from "../services/config";
-import ConfigReducer from "./Reducers/ConfigReducer.slice.";
+import ConfigReducer from "./Reducers/ConfigReducer.slice";
 
 export const store = configureStore({
     reducer: {

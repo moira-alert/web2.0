@@ -20,7 +20,7 @@ import {
     maintenanceDelta,
     triggerSourceDescription,
 } from "../../Domain/Trigger";
-import { getPageLink } from "../../Domain/Global";
+import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
 import { humanizeDuration } from "../../helpers/DateUtil";
 import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
@@ -116,7 +116,7 @@ export default function TriggerInfo({
     const handleDeleteTrigger = () => {
         dispatch(
             setModalData({
-                header: "Delete Trigger?",
+                header: ConfirmModalHeaderData.deleteTrigger,
                 button: {
                     text: "Delete",
                     use: "danger",

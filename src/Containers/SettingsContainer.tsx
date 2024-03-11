@@ -12,7 +12,7 @@ import { Team } from "../Domain/Team";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { Gapped } from "@skbkontur/react-ui";
 import { RouteComponentProps } from "react-router";
-import { getPageLink } from "../Domain/Global";
+import { ConfirmModalHeaderData, getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
 import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
@@ -72,8 +72,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
         if (potentiallyDisruptedSubscriptions.length) {
             dispatch(
                 setModalData({
-                    header:
-                        "Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:",
+                    header: ConfirmModalHeaderData.deleteDeliveryChannel,
                 })
             );
             dispatch(toggleModal(true));

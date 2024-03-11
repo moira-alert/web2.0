@@ -25,6 +25,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useLoadNotificationsData } from "../hooks/useLoadNotificationsData";
 import { composeNotifications } from "../helpers/composeNotifications";
+import { ConfirmModalHeaderData, ModalType } from "../Domain/Global";
 
 type TProps = { moiraApi: MoiraApi };
 
@@ -35,8 +36,11 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     const { loadNotificationsData } = useLoadNotificationsData(moiraApi);
 
     const [confirmModalAction, setConfirmModalAction] = useState<
-        "turnOff" | "removeAllNotifications" | null
+        ModalType.moiraTurnOff | ModalType.removeAllNotifications | null
     >(null);
+
+    const notificationAmount = notificationList.length;
+    const layoutTitle = `Notifications ${notificationAmount}`;
 
     const removeNotification = async (id: string) => {
         dispatch(toggleLoading(true));
@@ -79,10 +83,10 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     };
 
     const handleDisableNotifier = () => {
-        setConfirmModalAction("turnOff");
+        setConfirmModalAction(ModalType.moiraTurnOff);
         dispatch(
             setModalData({
-                header: "This action will turn off Moira notifications, are you sure?",
+                header: ConfirmModalHeaderData.moiraTurnOff,
                 button: {
                     text: "Turrn off",
                     use: "danger",
@@ -95,19 +99,16 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     const onRemoveAllNotificationsBtnClick = () => {
         dispatch(
             setModalData({
-                header: `Are you sure with deleting all ${notificationAmount} notifications?`,
+                header: ConfirmModalHeaderData.deleteAllNotifications(notificationAmount),
                 button: {
                     text: "Delete",
                     use: "danger",
                 },
             })
         );
-        setConfirmModalAction("removeAllNotifications");
+        setConfirmModalAction(ModalType.removeAllNotifications);
         dispatch(toggleModal(true));
     };
-
-    const notificationAmount = Array.isArray(notificationList) ? notificationList.length : "";
-    const layoutTitle = `Notifications ${notificationAmount}`;
 
     useEffect(() => {
         setDocumentTitle("Notifications");
@@ -120,7 +121,7 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
                 <LayoutTitle>{layoutTitle}</LayoutTitle>
                 <ConfirmModal
                     onConfirm={() =>
-                        confirmModalAction === "removeAllNotifications"
+                        confirmModalAction === ModalType.removeAllNotifications
                             ? removeAllNotifications()
                             : toggleNotifier(false)
                     }

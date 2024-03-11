@@ -8,7 +8,6 @@ interface TeamsAndTags {
     login: string;
     teams: Team[];
     tags: TagList;
-    // config: Config;
     team?: Team;
 }
 

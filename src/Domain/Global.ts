@@ -37,7 +37,19 @@ export function getPageLink(page: PageLink, id = ""): string {
     return PagesLinks[page].replace("%id%", id);
 }
 
+export const ConfirmModalHeaderData = {
+    deleteAllNotifications: (notificationAmount: number) =>
+        `Are you sure with deleting all ${notificationAmount} notifications?`,
+    deleteDeliveryChannel:
+        "Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:",
+    deleteNotification: "Are you sure with deleting notification?",
+    deleteTrigger: "Delete Trigger?",
+    moiraTurnOff: "This action will turn off Moira notifications, are you sure?",
+};
+
 export enum ModalType {
     subscriptionEditModal = "subscriptionEditModal",
     newSubscriptionModal = "newSubscriptionModal",
+    removeAllNotifications = "removeAllNotifications",
+    moiraTurnOff = "moiraTurnOff",
 }

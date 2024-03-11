@@ -1,10 +1,6 @@
 import React, { ComponentType } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { LangCodes } from "@skbkontur/react-ui/lib/locale";
-import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
-import MoiraApi from "./Api/MoiraApi";
-import { ApiProvider } from "./Api/MoiraApiInjection";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import ErrorContainer from "./Containers/ErrorContainer";
@@ -13,28 +9,22 @@ import SentryInitializer from "./Components/SentryInitializer/SentryInitializer"
 
 import "./style.less";
 
-const moiraApi = new MoiraApi("/api");
-
 const root = document.getElementById("root");
 
 const render = (Component: ComponentType) => {
     if (root !== null) {
         ReactDOM.render(
             <BrowserRouter>
-                <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-                    <Sentry.ErrorBoundary
-                        fallback={({ error, componentStack }) => (
-                            <ErrorContainer title={error.toString()} message={componentStack} />
-                        )}
-                    >
-                        <ApiProvider value={moiraApi}>
-                            <Providers>
-                                <SentryInitializer />
-                                <Component />
-                            </Providers>
-                        </ApiProvider>
-                    </Sentry.ErrorBoundary>
-                </LocaleContext.Provider>
+                <Sentry.ErrorBoundary
+                    fallback={({ error, componentStack }) => (
+                        <ErrorContainer title={error.toString()} message={componentStack} />
+                    )}
+                >
+                    <Providers>
+                        <SentryInitializer />
+                        <Component />
+                    </Providers>
+                </Sentry.ErrorBoundary>
             </BrowserRouter>,
             root
         );

@@ -4,6 +4,7 @@ import { Meta } from "@storybook/react";
 import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
 import { useAppDispatch } from "../store/hooks";
 import { toggleModal, setModalData } from "../store/Reducers/UIReducer.slice";
+import { ConfirmModalHeaderData } from "../Domain/Global";
 
 const meta: Meta = {
     title: "TriggerDeleteModal",
@@ -16,7 +17,7 @@ const SetupModal = (triggerText: string) => {
     dispatch(toggleModal(true));
     dispatch(
         setModalData({
-            header: "Delete Trigger?",
+            header: ConfirmModalHeaderData.deleteTrigger,
             button: {
                 text: "Delete",
                 use: "danger",

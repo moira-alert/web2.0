@@ -8,7 +8,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import uniq from "lodash/uniq";
 import { Notification } from "../../Domain/Notification";
-import { getPageLink } from "../../Domain/Global";
+import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
@@ -43,7 +43,7 @@ export default function NotificationList(props: Props): React.ReactElement {
         setNotificationId(key);
         dispatch(
             setModalData({
-                header: "Are you sure with deleting notification?",
+                header: ConfirmModalHeaderData.deleteNotification,
                 button: {
                     text: "Delete",
                     use: "danger",
