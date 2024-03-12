@@ -14,15 +14,14 @@ import { Gapped } from "@skbkontur/react-ui";
 import { RouteComponentProps } from "react-router";
 import { ConfirmModalHeaderData, getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
-import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
 import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
 import { useLoadSettingsData } from "../hooks/useLoadSettingsData";
-import { setSettings, setDisruptedSubs } from "../store/Reducers/SettingsContainerReducer.slice";
+import { setSettings } from "../store/Reducers/SettingsContainerReducer.slice";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { ConfigState, SettingsState, UIState } from "../store/selectors";
-import { toggleModal, setModalData } from "../store/Reducers/UIReducer.slice";
 import { setError } from "../store/Reducers/UIReducer.slice";
+import useConfirmModal from "../hooks/useConfirmModal";
 
 export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
@@ -32,16 +31,15 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
     const teamId = match.params.teamId;
     const dispatch = useAppDispatch();
     const { loadData } = useLoadSettingsData(moiraApi, teamId);
+    const [ConfirmModal, setModalData] = useConfirmModal();
 
     const { config } = useAppSelector(ConfigState);
-    const { teamsAndTags, settings, disruptedSubs } = useAppSelector(SettingsState);
+    const { teamsAndTags, settings } = useAppSelector(SettingsState);
     const { isLoading, error } = useAppSelector(UIState);
 
     const { login, teams, tags, team } = teamsAndTags ?? {};
 
     const scrollRef = useRef<HTMLTableElement>(null);
-
-    const isConfirmModalVisible = disruptedSubs?.length && settings;
 
     const user = { id: "", name: login ?? "Unknown" };
     const userWithTeams = teams ? [user, ...teams] : [];
@@ -70,13 +68,18 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
         );
 
         if (potentiallyDisruptedSubscriptions.length) {
-            dispatch(
-                setModalData({
-                    header: ConfirmModalHeaderData.deleteDeliveryChannel,
-                })
-            );
-            dispatch(toggleModal(true));
-            dispatch(setDisruptedSubs(potentiallyDisruptedSubscriptions));
+            setModalData({
+                isOpen: true,
+                header: ConfirmModalHeaderData.deleteDeliveryChannel,
+                body: (
+                    <SubscriptionList
+                        handleEditSubscription={scrollToElement}
+                        contacts={settings.contacts}
+                        subscriptions={potentiallyDisruptedSubscriptions}
+                    />
+                ),
+            });
+
             return;
         }
         handleRemoveContact(contact);
@@ -225,12 +228,12 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
         } catch (error) {
             dispatch(setError(error.message));
         } finally {
-            dispatch(toggleModal(false));
+            setModalData({ isOpen: false });
         }
     };
 
     const scrollToElement = () => {
-        dispatch(toggleModal(false));
+        setModalData({ isOpen: false });
         setTimeout(() => {
             const element = scrollRef.current as HTMLElement;
             const elementRect = element.getBoundingClientRect();
@@ -246,15 +249,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
     return (
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
-                {isConfirmModalVisible && (
-                    <ConfirmModal>
-                        <SubscriptionList
-                            handleEditSubscription={scrollToElement}
-                            contacts={settings.contacts}
-                            subscriptions={disruptedSubs}
-                        />
-                    </ConfirmModal>
-                )}
+                {ConfirmModal}
                 <RowStack gap={1} block>
                     <LayoutTitle>Notifications</LayoutTitle>
                     <Fill />

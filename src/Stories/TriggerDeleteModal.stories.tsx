@@ -1,34 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { action } from "@storybook/addon-actions";
 import { Meta } from "@storybook/react";
-import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
-import { useAppDispatch } from "../store/hooks";
-import { toggleModal, setModalData } from "../store/Reducers/UIReducer.slice";
 import { ConfirmModalHeaderData } from "../Domain/Global";
+import useConfirmModal from "../hooks/useConfirmModal";
 
 const meta: Meta = {
     title: "TriggerDeleteModal",
-    component: ConfirmModal,
 };
 
 const SetupModal = (triggerText: string) => {
-    const dispatch = useAppDispatch();
-
-    dispatch(toggleModal(true));
-    dispatch(
+    const [ConfirmModal, setModalData] = useConfirmModal();
+    useEffect(() => {
         setModalData({
+            isOpen: true,
             header: ConfirmModalHeaderData.deleteTrigger,
+            body: (
+                <>
+                    Trigger <strong>{triggerText}</strong> will be deleted.
+                </>
+            ),
             button: {
                 text: "Delete",
                 use: "danger",
+                onConfirm: () => new Promise(action("onDelete")),
             },
-        })
-    );
-    return (
-        <ConfirmModal onConfirm={action("onConfirm")}>
-            Trigger <strong>{triggerText}</strong> will be deleted.
-        </ConfirmModal>
-    );
+        });
+    }, []);
+
+    return <>{ConfirmModal}</>;
 };
 
 export const Default = () => SetupModal("test trigger");

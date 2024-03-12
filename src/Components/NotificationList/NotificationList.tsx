@@ -12,9 +12,7 @@ import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
-import { useAppDispatch } from "../../store/hooks";
-import { toggleModal, setModalData } from "../../store/Reducers/UIReducer.slice";
+import useConfirmModal from "../../hooks/useConfirmModal";
 import classNames from "classnames/bind";
 
 import styles from "./NotificationList.less";
@@ -32,32 +30,31 @@ export default function NotificationList(props: Props): React.ReactElement {
     const { items, onRemove } = props;
 
     const [notificationId, setNotificationId] = React.useState("");
-    const dispatch = useAppDispatch();
+    const [ConfirmModal, setModalData] = useConfirmModal();
 
     const handleDeleteNotification = async () => {
-        dispatch(toggleModal(false));
+        setModalData({ isOpen: false });
         await onRemove(notificationId);
     };
 
     const handleClickRemoveBtn = async (key: string) => {
         setNotificationId(key);
-        dispatch(
-            setModalData({
-                header: ConfirmModalHeaderData.deleteNotification,
-                button: {
-                    text: "Delete",
-                    use: "danger",
-                },
-            })
-        );
-        dispatch(toggleModal(true));
+        setModalData({
+            isOpen: true,
+            header: ConfirmModalHeaderData.deleteNotification,
+            button: {
+                text: "Delete",
+                use: "danger",
+                onConfirm: handleDeleteNotification,
+            },
+        });
     };
 
     return Object.keys(items).length === 0 ? (
         <div className={cn("no-result")}>Empty :-)</div>
     ) : (
         <>
-            <ConfirmModal onConfirm={handleDeleteNotification} />
+            {ConfirmModal}
             <Gapped gap={30} vertical>
                 <div className={cn("row", "header")}>
                     <div className={cn("timestamp")}>Timestamp</div>

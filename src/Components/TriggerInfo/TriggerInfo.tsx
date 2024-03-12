@@ -32,12 +32,11 @@ import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
-import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { toggleModal, setModalData } from "../../store/Reducers/UIReducer.slice";
+import { useAppSelector } from "../../store/hooks";
 import { LinkMenuItem } from "./Components/LinkMenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
+import useConfirmModal from "../../hooks/useConfirmModal";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -93,7 +92,7 @@ export default function TriggerInfo({
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
     const { config } = useAppSelector(ConfigState);
-    const dispatch = useAppDispatch();
+    const [ConfirmModal, setModalData] = useConfirmModal();
 
     const availableClusters = config?.metric_source_clusters.filter(
         (cluster) => cluster.trigger_source === triggerSource
@@ -109,21 +108,25 @@ export default function TriggerInfo({
     const delta = maintenanceDelta(maintenance);
 
     const onDeleteTrigger = () => {
-        dispatch(toggleModal(false));
+        setModalData({ isOpen: false });
         deleteTrigger(trigger.id);
     };
 
     const handleDeleteTrigger = () => {
-        dispatch(
-            setModalData({
-                header: ConfirmModalHeaderData.deleteTrigger,
-                button: {
-                    text: "Delete",
-                    use: "danger",
-                },
-            })
-        );
-        dispatch(toggleModal(true));
+        setModalData({
+            isOpen: true,
+            header: ConfirmModalHeaderData.deleteTrigger,
+            body: (
+                <>
+                    Trigger <strong>{trigger.name}</strong> will be deleted.
+                </>
+            ),
+            button: {
+                text: "Delete",
+                use: "danger",
+                onConfirm: onDeleteTrigger,
+            },
+        });
     };
 
     return (
@@ -328,9 +331,7 @@ export default function TriggerInfo({
                     </div>
                 )}
             </div>
-            <ConfirmModal onConfirm={onDeleteTrigger}>
-                Trigger <strong>{trigger.name}</strong> will be deleted.
-            </ConfirmModal>
+            {ConfirmModal}
         </section>
     );
 }

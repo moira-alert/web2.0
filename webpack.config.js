@@ -110,6 +110,7 @@ module.exports = {
             directory: path.join(__dirname, "./"),
         },
         watchFiles: {
+            // Prevents page reload when mutating json-server db.json
             options: {
                 ignored: "**/db.json",
             },

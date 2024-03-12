@@ -50,6 +50,4 @@ export const ConfirmModalHeaderData = {
 export enum ModalType {
     subscriptionEditModal = "subscriptionEditModal",
     newSubscriptionModal = "newSubscriptionModal",
-    removeAllNotifications = "removeAllNotifications",
-    moiraTurnOff = "moiraTurnOff",
 }

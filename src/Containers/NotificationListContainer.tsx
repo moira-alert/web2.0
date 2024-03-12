@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState } from "react";
+import React, { useEffect, FC } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
@@ -8,7 +8,6 @@ import { withMoiraApi } from "../Api/MoiraApiInjection";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
-import { ConfirmModal } from "../Components/ConfirmModal/ConfirmModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
 import { NotificationsState, UIState } from "../store/selectors";
 import {
@@ -16,16 +15,12 @@ import {
     setNotifierEnabled,
     deleteAllNotifications,
 } from "../store/Reducers/NotificationListContainerReducer.slice";
-import {
-    toggleLoading,
-    toggleModal,
-    setModalData,
-    setError,
-} from "../store/Reducers/UIReducer.slice";
+import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useLoadNotificationsData } from "../hooks/useLoadNotificationsData";
 import { composeNotifications } from "../helpers/composeNotifications";
-import { ConfirmModalHeaderData, ModalType } from "../Domain/Global";
+import { ConfirmModalHeaderData } from "../Domain/Global";
+import useConfirmModal from "../hooks/useConfirmModal";
 
 type TProps = { moiraApi: MoiraApi };
 
@@ -34,10 +29,7 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     const { notificationList, notifierEnabled } = useAppSelector(NotificationsState);
     const { isLoading, error } = useAppSelector(UIState);
     const { loadNotificationsData } = useLoadNotificationsData(moiraApi);
-
-    const [confirmModalAction, setConfirmModalAction] = useState<
-        ModalType.moiraTurnOff | ModalType.removeAllNotifications | null
-    >(null);
+    const [ConfirmModal, setModalData] = useConfirmModal();
 
     const notificationAmount = notificationList.length;
     const layoutTitle = `Notifications ${notificationAmount}`;
@@ -55,7 +47,7 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     };
 
     const removeAllNotifications = async () => {
-        dispatch(toggleModal(false));
+        setModalData({ isOpen: false });
         dispatch(toggleLoading(true));
         try {
             await moiraApi.delAllNotificationEvents();
@@ -69,7 +61,7 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     };
 
     const toggleNotifier = async (enable: boolean) => {
-        dispatch(toggleModal(false));
+        setModalData({ isOpen: false });
         dispatch(toggleLoading(true));
         try {
             const state = enable ? MoiraServiceStates.OK : MoiraServiceStates.ERROR;
@@ -83,31 +75,27 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     };
 
     const handleDisableNotifier = () => {
-        setConfirmModalAction(ModalType.moiraTurnOff);
-        dispatch(
-            setModalData({
-                header: ConfirmModalHeaderData.moiraTurnOff,
-                button: {
-                    text: "Turrn off",
-                    use: "danger",
-                },
-            })
-        );
-        dispatch(toggleModal(true));
+        setModalData({
+            isOpen: true,
+            header: ConfirmModalHeaderData.moiraTurnOff,
+            button: {
+                text: "Turrn off",
+                use: "danger",
+                onConfirm: () => toggleNotifier(false),
+            },
+        });
     };
 
     const onRemoveAllNotificationsBtnClick = () => {
-        dispatch(
-            setModalData({
-                header: ConfirmModalHeaderData.deleteAllNotifications(notificationAmount),
-                button: {
-                    text: "Delete",
-                    use: "danger",
-                },
-            })
-        );
-        setConfirmModalAction(ModalType.removeAllNotifications);
-        dispatch(toggleModal(true));
+        setModalData({
+            isOpen: true,
+            header: ConfirmModalHeaderData.deleteAllNotifications(notificationAmount),
+            button: {
+                text: "Delete",
+                use: "danger",
+                onConfirm: removeAllNotifications,
+            },
+        });
     };
 
     useEffect(() => {
@@ -119,13 +107,7 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <LayoutTitle>{layoutTitle}</LayoutTitle>
-                <ConfirmModal
-                    onConfirm={() =>
-                        confirmModalAction === ModalType.removeAllNotifications
-                            ? removeAllNotifications()
-                            : toggleNotifier(false)
-                    }
-                />
+                {ConfirmModal}
                 <Gapped gap={30}>
                     <Toggle
                         checked={notifierEnabled}
