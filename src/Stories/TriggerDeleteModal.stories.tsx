@@ -1,31 +1,40 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { action } from "@storybook/addon-actions";
-import { ConfirmDeleteModal } from "../Components/ConfirmDeleteModal/ConfirmDeleteModal";
+import { Meta } from "@storybook/react";
+import { ConfirmModalHeaderData } from "../Domain/Global";
+import useConfirmModal from "../hooks/useConfirmModal";
 
-export default {
+const meta: Meta = {
     title: "TriggerDeleteModal",
 };
 
-export const Default = () => (
-    <ConfirmDeleteModal
-        message={"Delete Trigger?"}
-        onClose={action("onClose")}
-        onDelete={() => new Promise(action("onDelete"))}
-    >
-        Trigger <strong>test trigger</strong> will be deleted.
-    </ConfirmDeleteModal>
-);
+const SetupModal = (triggerText: string) => {
+    const [ConfirmModal, setModalData] = useConfirmModal();
+    useEffect(() => {
+        setModalData({
+            isOpen: true,
+            header: ConfirmModalHeaderData.deleteTrigger,
+            body: (
+                <>
+                    Trigger <strong>{triggerText}</strong> will be deleted.
+                </>
+            ),
+            button: {
+                text: "Delete",
+                use: "danger",
+                onConfirm: () => new Promise(action("onDelete")),
+            },
+        });
+    }, []);
 
-export const LongTriggerName = () => (
-    <ConfirmDeleteModal
-        message={"Delete Trigger?"}
-        onClose={action("onClose")}
-        onDelete={() => new Promise(action("onDelete"))}
-    >
-        Trigger&nbsp;
-        <strong>
-            ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok
-        </strong>
-        &nbsp; will be deleted.
-    </ConfirmDeleteModal>
-);
+    return <>{ConfirmModal}</>;
+};
+
+export const Default = () => SetupModal("test trigger");
+
+export const LongTriggerName = () =>
+    SetupModal(
+        "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok"
+    );
+
+export default meta;

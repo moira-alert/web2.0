@@ -7,7 +7,6 @@ import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import TriggerSource, { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
-import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
@@ -22,15 +21,17 @@ import {
 import { useValidateTarget } from "../hooks/useValidateTarget";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
+import { useAppSelector } from "../store/hooks";
+import { ConfigState } from "../store/selectors";
 
 // TODO check id wasn't undefined
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
 const TriggerDuplicateContainer = (props: Props) => {
+    const { config } = useAppSelector(ConfigState);
     const [state, dispatch] = useTriggerFormContainerReducer();
     const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
-    const [config, setConfig] = useState<Config | undefined>(undefined);
 
     const validationContainer = useRef<ValidationContainer>(null);
     const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
@@ -96,15 +97,13 @@ const TriggerDuplicateContainer = (props: Props) => {
         }
 
         try {
-            const [sourceTrigger, { list }, config] = await Promise.all([
+            const [sourceTrigger, { list }] = await Promise.all([
                 props.moiraApi.getTrigger(id),
                 props.moiraApi.getTagList(),
-                props.moiraApi.getConfig(),
             ]);
 
             const trigger = cleanTrigger(sourceTrigger);
             setTrigger(trigger);
-            setConfig(config);
             setTags(list);
         } catch (error) {
             dispatch(setError(error.message));

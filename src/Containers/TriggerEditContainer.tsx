@@ -7,7 +7,6 @@ import MoiraApi from "../Api/MoiraApi";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
-import { Config } from "../Domain/Config";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
@@ -22,6 +21,8 @@ import {
 import { useValidateTarget } from "../hooks/useValidateTarget";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
+import { useAppSelector } from "../store/hooks";
+import { ConfigState } from "../store/selectors";
 
 type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
 
@@ -29,7 +30,7 @@ const TriggerEditContainer = (props: Props) => {
     const [state, dispatch] = useTriggerFormContainerReducer();
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
     const [tags, setTags] = useState<string[] | undefined>(undefined);
-    const [config, setConfig] = useState<Config | undefined>(undefined);
+    const { config } = useAppSelector(ConfigState);
 
     const validationContainer = useRef<ValidationContainer>(null);
     const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
@@ -75,14 +76,12 @@ const TriggerEditContainer = (props: Props) => {
         }
 
         try {
-            const [trigger, { list }, config] = await Promise.all([
+            const [trigger, { list }] = await Promise.all([
                 props.moiraApi.getTrigger(props.match.params.id),
                 props.moiraApi.getTagList(),
-                props.moiraApi.getConfig(),
             ]);
 
             setTrigger(trigger);
-            setConfig(config);
             setTags(list);
         } catch (error) {
             dispatch(setError(error.message));

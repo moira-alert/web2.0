@@ -92,10 +92,6 @@ export default class MoiraApi {
         return response.json();
     }
 
-    getConfig(): Promise<Config> {
-        return this.get<Config>("/config");
-    }
-
     async getUser(): Promise<{ login: string }> {
         return this.get<{ login: string }>("/user");
     }

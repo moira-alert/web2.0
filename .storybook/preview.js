@@ -2,11 +2,14 @@ import "reflect-metadata";
 import "../src/style.less";
 import { MemoryRouter } from "react-router";
 import React from "react";
+import { Providers } from "../src/Providers/Providers";
 
 export const decorators = [
     (Story) => (
         <MemoryRouter initialEntries={["/"]}>
-            <Story />
+            <Providers>
+                <Story />
+            </Providers>
         </MemoryRouter>
     ),
 ];

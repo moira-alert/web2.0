@@ -20,7 +20,7 @@ import {
     maintenanceDelta,
     triggerSourceDescription,
 } from "../../Domain/Trigger";
-import { getPageLink } from "../../Domain/Global";
+import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
 import { humanizeDuration } from "../../helpers/DateUtil";
 import { omitTrigger } from "../../helpers/omitTypes";
 import RouterLink from "../RouterLink/RouterLink";
@@ -32,10 +32,11 @@ import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
-import { ConfirmDeleteModal } from "../ConfirmDeleteModal/ConfirmDeleteModal";
-import { useModal } from "../../hooks/useModal";
+import { useAppSelector } from "../../store/hooks";
 import { LinkMenuItem } from "./Components/LinkMenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
+import { ConfigState } from "../../store/selectors";
+import useConfirmModal from "../../hooks/useConfirmModal";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -77,6 +78,7 @@ export default function TriggerInfo({
         id,
         name,
         desc,
+        cluster_id: clusterID,
         targets,
         expression,
         error_value: errorValue,
@@ -89,16 +91,42 @@ export default function TriggerInfo({
         trigger_source: triggerSource,
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
-    const { isModalOpen, openModal, closeModal } = useModal();
+    const { config } = useAppSelector(ConfigState);
+    const [ConfirmModal, setModalData] = useConfirmModal();
 
+    const availableClusters = config?.metric_source_clusters.filter(
+        (cluster) => cluster.trigger_source === triggerSource
+    );
+
+    const clusterName = availableClusters?.find((cluster) => cluster.cluster_id === clusterID)
+        ?.cluster_name;
+
+    const isClusterName = clusterName && availableClusters.length !== 0;
     const isMetrics = metrics && Object.keys(metrics).length > 0;
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
     const delta = maintenanceDelta(maintenance);
 
     const onDeleteTrigger = () => {
-        closeModal();
+        setModalData({ isOpen: false });
         deleteTrigger(trigger.id);
+    };
+
+    const handleDeleteTrigger = () => {
+        setModalData({
+            isOpen: true,
+            header: ConfirmModalHeaderData.deleteTrigger,
+            body: (
+                <>
+                    Trigger <strong>{trigger.name}</strong> will be deleted.
+                </>
+            ),
+            button: {
+                text: "Delete",
+                use: "danger",
+                onConfirm: onDeleteTrigger,
+            },
+        });
     };
 
     return (
@@ -179,7 +207,7 @@ export default function TriggerInfo({
                             Duplicate
                         </LinkMenuItem>
                         <MenuSeparator />
-                        <LinkMenuItem icon={<TrashIcon />} onClick={openModal}>
+                        <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
                             Delete
                         </LinkMenuItem>
                     </DropdownMenu>
@@ -222,6 +250,8 @@ export default function TriggerInfo({
                                 <Markdown markdown={desc} />
                             </dd>
                         )}
+                        {isClusterName && <dt>Cluster</dt>}
+                        {isClusterName && <dd>{clusterName}</dd>}
                         {!expression && <dt>Value</dt>}
                         {!expression && (
                             <dd>
@@ -301,15 +331,7 @@ export default function TriggerInfo({
                     </div>
                 )}
             </div>
-            {isModalOpen && trigger && (
-                <ConfirmDeleteModal
-                    message={"Delete Trigger?"}
-                    onClose={closeModal}
-                    onDelete={onDeleteTrigger}
-                >
-                    Trigger <strong>{trigger.name}</strong> will be deleted.
-                </ConfirmDeleteModal>
-            )}
+            {ConfirmModal}
         </section>
     );
 }
