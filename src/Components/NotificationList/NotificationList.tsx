@@ -29,23 +29,21 @@ type Props = {
 export default function NotificationList(props: Props): React.ReactElement {
     const { items, onRemove } = props;
 
-    const [notificationId, setNotificationId] = React.useState("");
     const [ConfirmModal, setModalData] = useConfirmModal();
 
-    const handleDeleteNotification = async () => {
+    const handleDeleteNotification = (notificationId: string) => {
         setModalData({ isOpen: false });
-        await onRemove(notificationId);
+        onRemove(notificationId);
     };
 
-    const handleClickRemoveBtn = async (key: string) => {
-        setNotificationId(key);
+    const handleClickRemoveBtn = async (notificationId: string) => {
         setModalData({
             isOpen: true,
             header: ConfirmModalHeaderData.deleteNotification,
             button: {
                 text: "Delete",
                 use: "danger",
-                onConfirm: handleDeleteNotification,
+                onConfirm: () => handleDeleteNotification(notificationId),
             },
         });
     };

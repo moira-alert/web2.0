@@ -1,125 +1,132 @@
-import * as React from "react";
-import flatten from "lodash/flatten";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import OkIcon from "@skbkontur/react-icons/Ok";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
-import TrashIcon from "@skbkontur/react-icons/Trash";
-import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+import React, { useEffect, useRef, FC } from "react";
 import { Contact } from "../../Domain/Contact";
-import { TagStat } from "../../Domain/Tag";
+import {
+    MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
+    TAGS_LIST_HEIGHT,
+    TAGS_LIST_ROW_HEIGHT,
+    TagStat,
+    getTotalSize,
+} from "../../Domain/Tag";
+import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
+import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
+import { useSortData } from "../../hooks/useSortData";
+import { Subscription } from "../../Domain/Subscription";
+import type { VariableSizeList } from "react-window";
+import { VariableSizeList as List } from "react-window";
+import { Input } from "@skbkontur/react-ui";
+import { TagListItem } from "../TagListItem/TagListItem";
 import classNames from "classnames/bind";
 
 import styles from "./TagList.less";
 
 const cn = classNames.bind(styles);
 
-type Props = {
+interface ITagListProps {
     items: Array<TagStat>;
     contacts: Array<Contact>;
-    onRemove: (tag: string) => void;
-    onRemoveContact: (subscriptionId: string) => void;
-};
-
-export default function TagList(props: Props): React.ReactElement {
-    const { items, contacts, onRemove, onRemoveContact } = props;
-    return (
-        <div>
-            <div className={cn("row", "header")}>
-                <div className={cn("name")}>Tag</div>
-                <div className={cn("trigger-counter")}>Triggers</div>
-                <div className={cn("subscription-counter")}>Subscriptions</div>
-                <div className={cn("control")} />
-            </div>
-            {items.map((item) => (
-                <TagListItem
-                    key={item.name}
-                    data={item}
-                    allContacts={contacts}
-                    onRemove={() => onRemove(item.name)}
-                    onRemoveContact={(id) => onRemoveContact(id)}
-                />
-            ))}
-        </div>
-    );
+    onRemoveTag: (tag: string) => void;
+    onRemoveSubscription: (subscription: Subscription) => Promise<void>;
+    onUpdateSubscription: (subscription: Subscription) => Promise<void>;
+    onTestSubscription: (subscription: Subscription) => Promise<void>;
 }
 
-type ItemProps = {
-    data: TagStat;
-    allContacts: Array<Contact>;
-    onRemove: () => void;
-    onRemoveContact: (subscriptionId: string) => void;
-};
-type ItemState = {
-    showInfo: boolean;
-};
+export const TagList: FC<ITagListProps> = (props) => {
+    const {
+        items,
+        contacts,
+        onRemoveTag,
+        onRemoveSubscription,
+        onTestSubscription,
+        onUpdateSubscription,
+    } = props;
 
-class TagListItem extends React.Component<ItemProps, ItemState> {
-    public state: ItemState = {
-        showInfo: false,
+    const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
+
+    const tags = items.map((item) => item.name);
+
+    const listRef = useRef<VariableSizeList>(null);
+
+    const sortingIcon =
+        sortConfig.direction === "descending" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+
+    const scrollToRow = (row: string) => {
+        if (Number.isNaN(Number(row))) return;
+        listRef.current?.scrollToItem(Number(row));
     };
 
-    render(): React.ReactNode {
-        const { data, allContacts, onRemove, onRemoveContact } = this.props;
-        const { showInfo } = this.state;
-        const { name, subscriptions, triggers } = data;
-        const isSubscriptions = subscriptions.length !== 0;
-        return (
-            <div className={cn("row", { active: showInfo, clicable: isSubscriptions })}>
-                {isSubscriptions ? (
+    useEffect(() => listRef.current?.resetAfterIndex(0), [sortConfig]);
+
+    return (
+        <div>
+            <Input placeholder="Scroll to row:" onValueChange={scrollToRow} />
+            <div
+                // Adjusting header width in dependance of list scroll bar
+                style={{
+                    width:
+                        tags.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
+                            ? "calc(100% - 16px)"
+                            : "100%",
+                    marginTop: "20px",
+                }}
+                className={cn("row", "header")}
+            >
+                <div className={cn("name")}>
                     <button
+                        onClick={() => handleSort("name")}
                         type="button"
-                        className={cn("name", "clicked")}
-                        onClick={() => this.setState({ showInfo: !showInfo })}
+                        className={cn("a11y-span")}
                     >
-                        {name}
+                        Tag {sortConfig.sortingColumn === "name" && sortingIcon}
                     </button>
-                ) : (
-                    <div className={cn("name")}>{name}</div>
-                )}
-                <div className={cn("trigger-counter")}>{triggers.length}</div>
-                <div className={cn("subscription-counter")}>{subscriptions.length}</div>
-                <div className={cn("control")}>
-                    <Button use="link" icon={<TrashIcon />} onClick={() => onRemove()}>
-                        Delete
-                    </Button>
                 </div>
-                {showInfo && (
-                    <div className={cn("info")}>
-                        {isSubscriptions && (
-                            <div className={cn("group")}>
-                                {subscriptions.map(({ id, enabled, user, contacts }) => (
-                                    <div key={id} className={cn("item")}>
-                                        <div className={cn("enabled")}>
-                                            {enabled ? <OkIcon /> : <DeleteIcon />}
-                                        </div>
-                                        <div className={cn("user")}>{user}</div>
-                                        <div className={cn("contacts")}>
-                                            {flatten(
-                                                contacts.map((x) =>
-                                                    allContacts.filter((y) => y.id === x)
-                                                )
-                                            ).map(({ id: contactId, type, value }) => (
-                                                <div key={contactId}>
-                                                    <ContactTypeIcon type={type} /> {value}
-                                                </div>
-                                            ))}
-                                        </div>
-                                        <div className={cn("sub-control")}>
-                                            <Button
-                                                use="link"
-                                                icon={<TrashIcon />}
-                                                onClick={() => onRemoveContact(id)}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                )}
+                <div className={cn("trigger-counter")}>
+                    <button
+                        onClick={() => handleSort("triggers")}
+                        type="button"
+                        className={cn("a11y-span")}
+                    >
+                        Triggers {sortConfig.sortingColumn === "triggers" && sortingIcon}
+                    </button>
+                </div>
+                <div className={cn("subscription-counter")}>
+                    <button
+                        onClick={() => handleSort("subscriptions")}
+                        type="button"
+                        className={cn("a11y-span")}
+                    >
+                        Subscriptions {sortConfig.sortingColumn === "subscriptions" && sortingIcon}
+                    </button>
+                </div>
+                <div className={cn("control")} />
             </div>
-        );
-    }
-}
+            <List
+                ref={listRef}
+                height={
+                    items.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
+                        ? TAGS_LIST_HEIGHT
+                        : getTotalSize(items)
+                }
+                width={"100%"}
+                itemSize={(_index) => TAGS_LIST_ROW_HEIGHT}
+                itemCount={sortedData.length}
+                itemData={sortedData}
+            >
+                {({ data, index, style }) => {
+                    const { name } = data[index];
+                    return (
+                        <TagListItem
+                            tagStat={data[index]}
+                            style={style}
+                            tags={tags}
+                            allContacts={contacts}
+                            onRemove={() => onRemoveTag(name)}
+                            onUpdateSubscription={onUpdateSubscription}
+                            onTestSubscription={onTestSubscription}
+                            onRemoveSubscription={onRemoveSubscription}
+                        />
+                    );
+                }}
+            </List>
+        </div>
+    );
+};

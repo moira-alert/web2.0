@@ -8,6 +8,7 @@ import { notUndefined } from "../../helpers/common";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+import { MenuFooter } from "@skbkontur/react-ui/components/MenuFooter";
 import classNames from "classnames/bind";
 
 import styles from "./ContactSelect.less";
@@ -91,11 +92,20 @@ export default class ContactSelect extends React.Component<Props> {
         onChange(difference(contactIds, [contact.id]));
     };
 
+    renderTotalCount = (foundCount: number, totalCount: number) =>
+        foundCount < totalCount && foundCount !== 0 ? (
+            <MenuFooter>
+                {foundCount} from {totalCount} contacts are shown.
+            </MenuFooter>
+        ) : (
+            []
+        );
+
     getContactsForComboBox = async (
         query: string
     ): Promise<Array<{ value: string; label: string; type: string }>> => {
         const { contactIds, availableContacts } = this.props;
-        return availableContacts
+        const foundContacts = availableContacts
             .filter((x) => !contactIds.includes(x.id) && ContactSelect.isContactMatch(x, query))
             .slice(0, 10)
             .map((x) => ({
@@ -103,5 +113,15 @@ export default class ContactSelect extends React.Component<Props> {
                 label: x.value,
                 type: x.type,
             }));
+        const totalCountContact = this.renderTotalCount(
+            foundContacts.length,
+            availableContacts.length
+        );
+
+        const contactsForComboBox = foundContacts.concat(
+            totalCountContact as Array<{ value: string; label: string; type: string }>
+        );
+
+        return contactsForComboBox;
     };
 }
