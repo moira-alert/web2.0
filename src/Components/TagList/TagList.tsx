@@ -71,7 +71,7 @@ export const TagList: FC<ITagListProps> = ({
                     <button
                         onClick={() => handleSort("name")}
                         type="button"
-                        className={cn("a11y-span")}
+                        className={cn("sorting-button")}
                     >
                         Tag {sortConfig.sortingColumn === "name" && sortingIcon}
                     </button>
@@ -80,7 +80,7 @@ export const TagList: FC<ITagListProps> = ({
                     <button
                         onClick={() => handleSort("triggers")}
                         type="button"
-                        className={cn("a11y-span")}
+                        className={cn("sorting-button")}
                     >
                         Triggers {sortConfig.sortingColumn === "triggers" && sortingIcon}
                     </button>
@@ -89,7 +89,7 @@ export const TagList: FC<ITagListProps> = ({
                     <button
                         onClick={() => handleSort("subscriptions")}
                         type="button"
-                        className={cn("a11y-span")}
+                        className={cn("sorting-button")}
                     >
                         Subscriptions {sortConfig.sortingColumn === "subscriptions" && sortingIcon}
                     </button>
