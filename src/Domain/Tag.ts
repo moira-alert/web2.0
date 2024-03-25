@@ -14,13 +14,11 @@ export const TAGS_LIST_HEIGHT = 1000;
 export const TAGS_LIST_ROW_HEIGHT = 25;
 export const SUBSCRIPTION_LIST_HEIGHT = 500;
 
-export const getTotalSize = (items: TagStat[] | string[]) =>
-    items.length * TAGS_LIST_ROW_HEIGHT + 1;
+export const getTotalItemSize = (length: number) => length * TAGS_LIST_ROW_HEIGHT + 1;
 
-export const getItemSize = (subscription: Subscription) => {
-    const { contacts } = subscription;
-    if (contacts.length > 1) {
-        return contacts.length * TAGS_LIST_ROW_HEIGHT;
+export const getSubscriptionRowHeight = (contactIDs: string[]) => {
+    if (contactIDs.length > 1) {
+        return getTotalItemSize(contactIDs.length);
     }
 
     return TAGS_LIST_ROW_HEIGHT;

@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, FC } from "react";
+import React, { useRef, FC } from "react";
 import { Contact } from "../../Domain/Contact";
 import {
     MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
     TAGS_LIST_HEIGHT,
     TAGS_LIST_ROW_HEIGHT,
     TagStat,
-    getTotalSize,
+    getTotalItemSize,
 } from "../../Domain/Tag";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import { useSortData } from "../../hooks/useSortData";
 import { Subscription } from "../../Domain/Subscription";
-import type { VariableSizeList } from "react-window";
-import { VariableSizeList as List } from "react-window";
+import type { FixedSizeList } from "react-window";
+import { FixedSizeList as List } from "react-window";
 import { Input } from "@skbkontur/react-ui";
 import { TagListItem } from "../TagListItem/TagListItem";
 import classNames from "classnames/bind";
@@ -30,21 +30,19 @@ interface ITagListProps {
     onTestSubscription: (subscription: Subscription) => Promise<void>;
 }
 
-export const TagList: FC<ITagListProps> = (props) => {
-    const {
-        items,
-        contacts,
-        onRemoveTag,
-        onRemoveSubscription,
-        onTestSubscription,
-        onUpdateSubscription,
-    } = props;
-
+export const TagList: FC<ITagListProps> = ({
+    items,
+    contacts,
+    onRemoveTag,
+    onRemoveSubscription,
+    onTestSubscription,
+    onUpdateSubscription,
+}) => {
     const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
 
     const tags = items.map((item) => item.name);
 
-    const listRef = useRef<VariableSizeList>(null);
+    const listRef = useRef<FixedSizeList>(null);
 
     const sortingIcon =
         sortConfig.direction === "descending" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
@@ -54,18 +52,17 @@ export const TagList: FC<ITagListProps> = (props) => {
         listRef.current?.scrollToItem(Number(row));
     };
 
-    useEffect(() => listRef.current?.resetAfterIndex(0), [sortConfig]);
+    const isListLongEnoughToScroll = items.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE;
 
     return (
         <div>
-            <Input placeholder="Scroll to row:" onValueChange={scrollToRow} />
+            {isListLongEnoughToScroll && (
+                <Input placeholder="Scroll to row:" onValueChange={scrollToRow} />
+            )}
             <div
                 // Adjusting header width in dependance of list scroll bar
                 style={{
-                    width:
-                        tags.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
-                            ? "calc(100% - 16px)"
-                            : "100%",
+                    width: isListLongEnoughToScroll ? "calc(100% - 16px)" : "100%",
                     marginTop: "20px",
                 }}
                 className={cn("row", "header")}
@@ -102,24 +99,21 @@ export const TagList: FC<ITagListProps> = (props) => {
             <List
                 ref={listRef}
                 height={
-                    items.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
-                        ? TAGS_LIST_HEIGHT
-                        : getTotalSize(items)
+                    isListLongEnoughToScroll ? TAGS_LIST_HEIGHT : getTotalItemSize(items.length)
                 }
                 width={"100%"}
-                itemSize={(_index) => TAGS_LIST_ROW_HEIGHT}
+                itemSize={TAGS_LIST_ROW_HEIGHT}
                 itemCount={sortedData.length}
                 itemData={sortedData}
             >
                 {({ data, index, style }) => {
-                    const { name } = data[index];
                     return (
                         <TagListItem
                             tagStat={data[index]}
                             style={style}
                             tags={tags}
                             allContacts={contacts}
-                            onRemove={() => onRemoveTag(name)}
+                            onRemoveTag={onRemoveTag}
                             onUpdateSubscription={onUpdateSubscription}
                             onTestSubscription={onTestSubscription}
                             onRemoveSubscription={onRemoveSubscription}

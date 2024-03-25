@@ -49,6 +49,7 @@ const TagListContainer: FC<TTagListContainerProps> = ({ moiraApi }) => {
         dispatch(toggleLoading(true));
         try {
             await moiraApi.updateSubscription(subscription);
+            getData(moiraApi);
         } catch (error) {
             dispatch(setError(error.message));
         } finally {

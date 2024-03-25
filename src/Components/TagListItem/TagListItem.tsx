@@ -10,8 +10,8 @@ import {
     SUBSCRIPTION_LIST_HEIGHT,
     MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
     TagStat,
-    getItemSize,
-    getTotalSize,
+    getSubscriptionRowHeight,
+    getTotalItemSize,
 } from "../../Domain/Tag";
 import { useModal } from "../../hooks/useModal";
 import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
@@ -23,23 +23,23 @@ import styles from "../TagList/TagList.less";
 
 const cn = classNames.bind(styles);
 
-type ItemProps = {
+interface ItemProps {
     tagStat: TagStat;
     allContacts: Array<Contact>;
     tags: Array<string>;
     style: React.CSSProperties;
-    onRemove: () => void;
+    onRemoveTag: (tag: string) => void;
     onRemoveSubscription: (subscription: Subscription) => Promise<void>;
     onUpdateSubscription: (subscription: Subscription) => Promise<void>;
     onTestSubscription: (subscription: Subscription) => Promise<void>;
-};
+}
 
 export const TagListItem: FC<ItemProps> = ({
     tagStat,
     allContacts,
     tags,
     style,
-    onRemove,
+    onRemoveTag,
     onRemoveSubscription,
     onTestSubscription,
     onUpdateSubscription,
@@ -56,7 +56,7 @@ export const TagListItem: FC<ItemProps> = ({
     };
 
     const handleSubscriptionClick = (
-        event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
         subscription: Subscription
     ) => {
         event.stopPropagation();
@@ -65,18 +65,21 @@ export const TagListItem: FC<ItemProps> = ({
     };
 
     const handleDeleteSubscription = (
-        event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
         subscription: Subscription
     ) => {
         event.stopPropagation();
         onRemoveSubscription(subscription);
     };
 
-    const getSubscriptionsRowHeight =
-        flatten(subscriptions.map((subscription) => subscription.contacts)).length >
-        MAX_LIST_LENGTH_BEFORE_SCROLLABLE
+    const subscriptionContactsCount = flatten(
+        subscriptions.map((subscription) => subscription.contacts)
+    ).length;
+
+    const getSubscriptionsTableHeight =
+        subscriptionContactsCount > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
             ? SUBSCRIPTION_LIST_HEIGHT
-            : getTotalSize(flatten(subscriptions.map((subscription) => subscription.contacts)));
+            : getTotalItemSize(subscriptionContactsCount);
 
     return (
         <div
@@ -88,7 +91,7 @@ export const TagListItem: FC<ItemProps> = ({
             <div className={cn("trigger-counter")}>{triggers.length}</div>
             <div className={cn("subscription-counter")}>{subscriptions.length}</div>
             <div className={cn("control")}>
-                <Button use="link" icon={<TrashIcon />} onClick={onRemove}>
+                <Button use="link" icon={<TrashIcon />} onClick={() => onRemoveTag(tagStat.name)}>
                     Delete
                 </Button>
             </div>
@@ -111,9 +114,11 @@ export const TagListItem: FC<ItemProps> = ({
                     {isSubscriptions && (
                         <div className={cn("group")}>
                             <List
-                                height={getSubscriptionsRowHeight}
+                                height={getSubscriptionsTableHeight}
                                 width={"100%"}
-                                itemSize={(index) => getItemSize(subscriptions[index])}
+                                itemSize={(index) =>
+                                    getSubscriptionRowHeight(subscriptions[index].contacts)
+                                }
                                 itemCount={subscriptions.length}
                                 itemData={subscriptions}
                             >
@@ -135,15 +140,23 @@ export const TagListItem: FC<ItemProps> = ({
                                                 {user !== "" ? user : `teamID: ${team_id}`}
                                             </div>
                                             <div className={cn("contacts")}>
-                                                {flatten(
-                                                    contacts.map((x) =>
-                                                        allContacts.filter((y) => y.id === x)
-                                                    )
-                                                ).map(({ id: contactId, type, value }) => (
-                                                    <div key={contactId}>
-                                                        <ContactTypeIcon type={type} /> {value}
-                                                    </div>
-                                                ))}
+                                                {contacts.map((contactId) => {
+                                                    const contact = allContacts.find(
+                                                        (contact) => contact.id === contactId
+                                                    );
+                                                    if (contact) {
+                                                        return (
+                                                            <div key={contact.id}>
+                                                                <ContactTypeIcon
+                                                                    type={contact.type}
+                                                                />
+                                                                &nbsp;
+                                                                {contact.value}
+                                                            </div>
+                                                        );
+                                                    }
+                                                    return null;
+                                                })}
                                             </div>
                                             <div className={cn("sub-control")}>
                                                 <Button
