@@ -1,12 +1,6 @@
 import React, { useRef, FC } from "react";
 import { Contact } from "../../Domain/Contact";
-import {
-    MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
-    TAGS_LIST_HEIGHT,
-    TAGS_LIST_ROW_HEIGHT,
-    TagStat,
-    getTotalItemSize,
-} from "../../Domain/Tag";
+import { TagStat } from "../../Domain/Tag";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import { useSortData } from "../../hooks/useSortData";
@@ -30,6 +24,13 @@ interface ITagListProps {
     onTestSubscription: (subscription: Subscription) => Promise<void>;
 }
 
+export const MAX_LIST_LENGTH_BEFORE_SCROLLABLE = 40;
+export const TAGS_LIST_HEIGHT = 1000;
+export const SUBSCRIPTION_LIST_HEIGHT = 500;
+export const TAGS_LIST_ROW_HEIGHT = 25;
+
+export const getTotalItemSize = (length: number) => length * TAGS_LIST_ROW_HEIGHT + 1;
+
 export const TagList: FC<ITagListProps> = ({
     items,
     contacts,
@@ -44,7 +45,7 @@ export const TagList: FC<ITagListProps> = ({
 
     const listRef = useRef<FixedSizeList>(null);
 
-    const sortingIcon =
+    const SortingIcon =
         sortConfig.direction === "descending" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
 
     const scrollToRow = (row: string) => {
@@ -73,7 +74,7 @@ export const TagList: FC<ITagListProps> = ({
                         type="button"
                         className={cn("sorting-button")}
                     >
-                        Tag {sortConfig.sortingColumn === "name" && sortingIcon}
+                        Tag {sortConfig.sortingColumn === "name" && SortingIcon}
                     </button>
                 </div>
                 <div className={cn("trigger-counter")}>
@@ -82,7 +83,7 @@ export const TagList: FC<ITagListProps> = ({
                         type="button"
                         className={cn("sorting-button")}
                     >
-                        Triggers {sortConfig.sortingColumn === "triggers" && sortingIcon}
+                        Triggers {sortConfig.sortingColumn === "triggers" && SortingIcon}
                     </button>
                 </div>
                 <div className={cn("subscription-counter")}>
@@ -91,7 +92,7 @@ export const TagList: FC<ITagListProps> = ({
                         type="button"
                         className={cn("sorting-button")}
                     >
-                        Subscriptions {sortConfig.sortingColumn === "subscriptions" && sortingIcon}
+                        Subscriptions {sortConfig.sortingColumn === "subscriptions" && SortingIcon}
                     </button>
                 </div>
                 <div className={cn("control")} />

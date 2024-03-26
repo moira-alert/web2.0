@@ -6,17 +6,17 @@ import DeleteIcon from "@skbkontur/react-icons/Delete";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Contact } from "../../Domain/Contact";
-import {
-    SUBSCRIPTION_LIST_HEIGHT,
-    MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
-    TagStat,
-    getSubscriptionRowHeight,
-    getTotalItemSize,
-} from "../../Domain/Tag";
+import { TagStat } from "../../Domain/Tag";
 import { useModal } from "../../hooks/useModal";
 import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
 import { Subscription } from "../../Domain/Subscription";
 import { VariableSizeList as List } from "react-window";
+import {
+    MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
+    SUBSCRIPTION_LIST_HEIGHT,
+    getTotalItemSize,
+    TAGS_LIST_ROW_HEIGHT,
+} from "../TagList/TagList";
 import classNames from "classnames/bind";
 
 import styles from "../TagList/TagList.less";
@@ -34,6 +34,14 @@ interface ItemProps {
     onTestSubscription: (subscription: Subscription) => Promise<void>;
 }
 
+export const getSubscriptionRowHeight = (contactIDs: string[]) => {
+    if (contactIDs.length > 1) {
+        return getTotalItemSize(contactIDs.length);
+    }
+
+    return TAGS_LIST_ROW_HEIGHT;
+};
+
 export const TagListItem: FC<ItemProps> = ({
     tagStat,
     allContacts,
@@ -44,15 +52,15 @@ export const TagListItem: FC<ItemProps> = ({
     onTestSubscription,
     onUpdateSubscription,
 }) => {
-    const [showInfo, setShowInfo] = useState(false);
+    const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const { isModalOpen, openModal, closeModal } = useModal();
     const { name, subscriptions, triggers } = tagStat;
 
-    const isSubscriptions = subscriptions.length !== 0;
+    const hasSubscriptions = subscriptions.length !== 0;
 
     const handleItemClick = () => {
-        setShowInfo(!showInfo);
+        setIsInfoVisible(!isInfoVisible);
     };
 
     const handleSubscriptionClick = (
@@ -84,7 +92,7 @@ export const TagListItem: FC<ItemProps> = ({
     return (
         <div
             style={style}
-            className={cn("row", { active: showInfo, clickable: isSubscriptions })}
+            className={cn("row", { active: isInfoVisible, clickable: hasSubscriptions })}
             onClick={handleItemClick}
         >
             <div className={cn("name")}>{name}</div>
@@ -103,15 +111,15 @@ export const TagListItem: FC<ItemProps> = ({
                     onChange={(update) =>
                         setSubscriptionToEdit({ ...subscriptionToEdit, ...update })
                     }
-                    onCancel={() => closeModal()}
+                    onCancel={closeModal}
                     onUpdateSubscription={onUpdateSubscription}
                     onUpdateAndTestSubscription={onTestSubscription}
                     onRemoveSubscription={onRemoveSubscription}
                 />
             )}
-            {showInfo && (
+            {isInfoVisible && (
                 <div className={cn("info")}>
-                    {isSubscriptions && (
+                    {hasSubscriptions && (
                         <div className={cn("group")}>
                             <List
                                 height={getSubscriptionsTableHeight}
