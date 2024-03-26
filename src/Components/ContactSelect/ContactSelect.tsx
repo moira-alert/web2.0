@@ -8,7 +8,6 @@ import { notUndefined } from "../../helpers/common";
 import A11yButtonWrapper from "../A11yButtonWrapper/A11yButtonWrapper";
 import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import { MenuFooter } from "@skbkontur/react-ui/components/MenuFooter";
 import classNames from "classnames/bind";
 
 import styles from "./ContactSelect.less";
@@ -71,11 +70,9 @@ export default class ContactSelect extends React.Component<Props> {
                         getItems={this.getContactsForComboBox}
                         totalCount={availableContacts.length}
                         renderTotalCount={(found, total) =>
-                            found < total && found !== 0 ? (
-                                <MenuFooter>
-                                    {found} from {total} contacts are shown.
-                                </MenuFooter>
-                            ) : null
+                            found < total && found !== 0
+                                ? `${found} from ${total} contacts are shown.`
+                                : null
                         }
                         placeholder="Select delivery channel"
                         renderNotFound={() => "No delivery channels found"}
@@ -99,15 +96,6 @@ export default class ContactSelect extends React.Component<Props> {
         const { onChange, contactIds } = this.props;
         onChange(difference(contactIds, [contact.id]));
     };
-
-    renderTotalCount = (foundCount: number, totalCount: number) =>
-        foundCount < totalCount && foundCount !== 0 ? (
-            <MenuFooter>
-                {foundCount} from {totalCount} contacts are shown.
-            </MenuFooter>
-        ) : (
-            []
-        );
 
     getContactsForComboBox = async (
         query: string
