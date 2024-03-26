@@ -2,13 +2,12 @@
 
 .item {
     cursor: pointer;
-
     &:hover, &.enabled-cell:hover{
         background-color: #f8f8f8;
     }
 
     td {
-        padding: 10px;
+        padding: 5px;
     }
 
     border-bottom: 1px solid #eeeeee;
@@ -48,10 +47,9 @@
 }
 
 .contacts-content {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    align-items: center;
+    width: 100%;
+    margin-right: -500px;
+    display: inline-block;
 }
 
 .tags-cell {
@@ -62,10 +60,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    display: inline-block;
+    margin-right: 5px;
 }
 
 .contacts-cell {
-    width: 80%;
+   width: 80%;
 }
 
 .enabled-cell {
@@ -94,7 +94,6 @@
         max-height: 20px;
         overflow: hidden;
         box-sizing: border-box;
-        max-width: 90px;
     }
 
     .contact > span:nth-child(2) {
@@ -104,7 +103,6 @@
     .triggers-cell {
         display: table-cell;
         white-space: nowrap;
-        max-width: 45px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -114,12 +112,13 @@
             max-height: 100%;
         }
 
-        .contacts-content {
-            max-width: 90px;
+       .contact {
+            margin: 0;
+            display: block;
         }
 
         .contact > span:nth-child(2) {
-            display: inline-block;
+            display: inline;
         }
     }
 }

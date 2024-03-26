@@ -69,6 +69,14 @@ export default class ContactSelect extends React.Component<Props> {
                         onBlur={onBlur}
                         onValueChange={this.handleChangeContactToAdd}
                         getItems={this.getContactsForComboBox}
+                        totalCount={availableContacts.length}
+                        renderTotalCount={(found, total) =>
+                            found < total && found !== 0 ? (
+                                <MenuFooter>
+                                    {found} from {total} contacts are shown.
+                                </MenuFooter>
+                            ) : null
+                        }
                         placeholder="Select delivery channel"
                         renderNotFound={() => "No delivery channels found"}
                         renderItem={(item) => (
@@ -113,15 +121,7 @@ export default class ContactSelect extends React.Component<Props> {
                 label: x.value,
                 type: x.type,
             }));
-        const totalCountContact = this.renderTotalCount(
-            foundContacts.length,
-            availableContacts.length
-        );
 
-        const contactsForComboBox = foundContacts.concat(
-            totalCountContact as Array<{ value: string; label: string; type: string }>
-        );
-
-        return contactsForComboBox;
+        return foundContacts;
     };
 }
