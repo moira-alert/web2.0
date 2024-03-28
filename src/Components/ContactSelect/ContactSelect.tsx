@@ -68,6 +68,12 @@ export default class ContactSelect extends React.Component<Props> {
                         onBlur={onBlur}
                         onValueChange={this.handleChangeContactToAdd}
                         getItems={this.getContactsForComboBox}
+                        totalCount={availableContacts.length}
+                        renderTotalCount={(found, total) =>
+                            found < total && found !== 0
+                                ? `${found} from ${total} contacts are shown.`
+                                : null
+                        }
                         placeholder="Select delivery channel"
                         renderNotFound={() => "No delivery channels found"}
                         renderItem={(item) => (
@@ -95,7 +101,7 @@ export default class ContactSelect extends React.Component<Props> {
         query: string
     ): Promise<Array<{ value: string; label: string; type: string }>> => {
         const { contactIds, availableContacts } = this.props;
-        return availableContacts
+        const foundContacts = availableContacts
             .filter((x) => !contactIds.includes(x.id) && ContactSelect.isContactMatch(x, query))
             .slice(0, 10)
             .map((x) => ({
@@ -103,5 +109,7 @@ export default class ContactSelect extends React.Component<Props> {
                 label: x.value,
                 type: x.type,
             }));
+
+        return foundContacts;
     };
 }

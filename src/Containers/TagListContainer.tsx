@@ -1,80 +1,103 @@
-import * as React from "react";
+import React, { useState, useEffect, FC } from "react";
 import type { TagStat } from "../Domain/Tag";
 import type { Contact } from "../Domain/Contact";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
-import TagList from "../Components/TagList/TagList";
+import { TagList } from "../Components/TagList/TagList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import MoiraApi from "../Api/MoiraApi";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
+import { Subscription } from "../Domain/Subscription";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { UIState } from "../store/selectors";
+import { setError, toggleLoading } from "../store/Reducers/UIReducer.slice";
 
-type Props = { moiraApi: MoiraApi };
-type State = {
-    loading: boolean;
-    error?: string;
-    tags?: Array<TagStat>;
-    contacts?: Array<Contact>;
-};
+type TTagListContainerProps = { moiraApi: MoiraApi };
 
-class TagListContainer extends React.Component<Props, State> {
-    public state: State = {
-        loading: true,
-    };
+const TagListContainer: FC<TTagListContainerProps> = ({ moiraApi }) => {
+    const [tagStats, setTagStats] = useState<Array<TagStat> | undefined>();
+    const [contacts, setContacts] = useState<Array<Contact> | undefined>();
 
-    public componentDidMount() {
-        setDocumentTitle("Tags");
-        this.getData(this.props);
-    }
+    const { error, isLoading } = useAppSelector(UIState);
+    const dispatch = useAppDispatch();
 
-    public render(): React.ReactElement {
-        const { loading, error, tags, contacts } = this.state;
-        return (
-            <Layout loading={loading} error={error}>
-                <LayoutContent>
-                    <LayoutTitle>Tags</LayoutTitle>
-                    {tags && contacts && (
-                        <TagList
-                            items={tags}
-                            contacts={contacts}
-                            onRemove={this.removeTag}
-                            onRemoveContact={this.removeContact}
-                        />
-                    )}
-                </LayoutContent>
-            </Layout>
-        );
-    }
-
-    private removeTag = async (tag: string) => {
-        this.setState({ loading: true });
+    const getData = async (moiraApi: MoiraApi) => {
+        dispatch(toggleLoading(true));
         try {
-            await this.props.moiraApi.delTag(tag);
-            this.getData(this.props);
+            const tagsResponse = await moiraApi.getTagStats();
+            const contactsResponse = await moiraApi.getContactList();
+            setTagStats(tagsResponse.list);
+            setContacts(contactsResponse.list);
         } catch (error) {
-            this.setState({ error: error.message, loading: false });
-        }
-    };
-
-    private removeContact = async (subscriptionId: string) => {
-        this.setState({ loading: true });
-        try {
-            await this.props.moiraApi.delSubscription(subscriptionId);
-            this.getData(this.props);
-        } catch (error) {
-            this.setState({ error: error.message, loading: false });
-        }
-    };
-
-    private async getData(props: Props) {
-        try {
-            const tags = await props.moiraApi.getTagStats();
-            const contacts = await props.moiraApi.getContactList();
-            this.setState({ tags: tags.list, contacts: contacts.list });
-        } catch (error) {
-            this.setState({ error: error.message });
+            dispatch(setError(error.message));
         } finally {
-            this.setState({ loading: false });
+            dispatch(toggleLoading(false));
         }
-    }
-}
+    };
+
+    const handleRemoveTag = async (tag: string) => {
+        dispatch(toggleLoading(true));
+        try {
+            await moiraApi.delTag(tag);
+            getData(moiraApi);
+        } catch (error) {
+            dispatch(setError(error.message));
+            dispatch(toggleLoading(false));
+        }
+    };
+
+    const handleUpdateSubscription = async (subscription: Subscription) => {
+        dispatch(toggleLoading(true));
+        try {
+            await moiraApi.updateSubscription(subscription);
+            getData(moiraApi);
+        } catch (error) {
+            dispatch(setError(error.message));
+        } finally {
+            dispatch(toggleLoading(false));
+        }
+    };
+
+    const handleRemoveSubscription = async (subscription: Subscription) => {
+        dispatch(toggleLoading(true));
+        try {
+            await moiraApi.delSubscription(subscription.id);
+            getData(moiraApi);
+        } catch (error) {
+            dispatch(setError(error.message));
+            dispatch(toggleLoading(false));
+        }
+    };
+
+    const handleTestSubscription = async (subscription: Subscription) => {
+        try {
+            await moiraApi.testSubscription(subscription.id);
+        } catch (error) {
+            dispatch(setError(error.message));
+        }
+    };
+
+    useEffect(() => {
+        setDocumentTitle("Tags");
+        getData(moiraApi);
+    }, []);
+
+    return (
+        <Layout loading={isLoading} error={error}>
+            <LayoutContent>
+                <LayoutTitle>Tags: {tagStats?.length}</LayoutTitle>
+                {tagStats && contacts && (
+                    <TagList
+                        items={tagStats}
+                        contacts={contacts}
+                        onRemoveTag={handleRemoveTag}
+                        onUpdateSubscription={handleUpdateSubscription}
+                        onTestSubscription={handleTestSubscription}
+                        onRemoveSubscription={handleRemoveSubscription}
+                    />
+                )}
+            </LayoutContent>
+        </Layout>
+    );
+};
 
 export default withMoiraApi(TagListContainer);

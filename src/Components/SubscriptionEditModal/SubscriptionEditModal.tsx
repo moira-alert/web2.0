@@ -48,55 +48,57 @@ export default class SubscriptionEditModal extends React.Component<Props, State>
         const isActionButtonsDisabled =
             updateInProcess || updateAndTestInProcess || deleteInProcess;
         return (
-            <Modal onClose={onCancel}>
-                <Modal.Header sticky={false}>Subscription editing</Modal.Header>
-                <Modal.Body>
-                    <ResourceIDBadge title={"Subscription id:"} id={subscription.id} />
-                    <ValidationContainer ref={this.validationContainer}>
-                        <SubscriptionEditor
-                            subscription={subscription}
-                            onChange={onChange}
-                            tags={tags}
-                            contacts={contacts}
-                        />
-                    </ValidationContainer>
-                </Modal.Body>
-                <Modal.Footer panel sticky>
-                    <RowStack gap={2} block baseline>
-                        <Button
-                            use="primary"
-                            disabled={isActionButtonsDisabled}
-                            loading={updateInProcess}
-                            onClick={this.handleUpdate}
-                        >
-                            Save
-                        </Button>
-                        <Button
-                            disabled={isActionButtonsDisabled}
-                            loading={updateAndTestInProcess}
-                            onClick={this.handleUpdateAndTest}
-                        >
-                            Save and test
-                        </Button>
-                        <FileExport
-                            isButton
-                            title={this.getFileName()}
-                            data={omitSubscription(subscription)}
-                        >
-                            Export
-                        </FileExport>
-                        <Fill />
-                        <Button
-                            use="danger"
-                            disabled={isActionButtonsDisabled}
-                            loading={deleteInProcess}
-                            onClick={this.handleDelete}
-                        >
-                            Delete
-                        </Button>
-                    </RowStack>
-                </Modal.Footer>
-            </Modal>
+            <div onClick={(e) => e.stopPropagation()}>
+                <Modal onClose={onCancel}>
+                    <Modal.Header sticky={false}>Subscription editing</Modal.Header>
+                    <Modal.Body>
+                        <ResourceIDBadge title={"Subscription id:"} id={subscription.id} />
+                        <ValidationContainer ref={this.validationContainer}>
+                            <SubscriptionEditor
+                                subscription={subscription}
+                                onChange={onChange}
+                                tags={tags}
+                                contacts={contacts}
+                            />
+                        </ValidationContainer>
+                    </Modal.Body>
+                    <Modal.Footer panel sticky>
+                        <RowStack gap={2} block baseline>
+                            <Button
+                                use="primary"
+                                disabled={isActionButtonsDisabled}
+                                loading={updateInProcess}
+                                onClick={this.handleUpdate}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                disabled={isActionButtonsDisabled}
+                                loading={updateAndTestInProcess}
+                                onClick={this.handleUpdateAndTest}
+                            >
+                                Save and test
+                            </Button>
+                            <FileExport
+                                isButton
+                                title={this.getFileName()}
+                                data={omitSubscription(subscription)}
+                            >
+                                Export
+                            </FileExport>
+                            <Fill />
+                            <Button
+                                use="danger"
+                                disabled={isActionButtonsDisabled}
+                                loading={deleteInProcess}
+                                onClick={this.handleDelete}
+                            >
+                                Delete
+                            </Button>
+                        </RowStack>
+                    </Modal.Footer>
+                </Modal>
+            </div>
         );
     }
 
