@@ -1,3 +1,5 @@
+@import '~styles/variables.less';
+
 .items-container {
     margin: 0 -10px;
 }
@@ -5,4 +7,31 @@
 .items {
     border-collapse: collapse;
     width: 100%;
+}
+
+.header {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #eee;
+
+    td {
+        padding: 5px;
+    }
+}
+
+.sorting-button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #666;
+    font: inherit;
+    cursor: pointer;
+}
+
+@media screen and (max-width: @breakpoint) {
+    .sort-tags {
+        margin-left: 26px;
+    }
 }

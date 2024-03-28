@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
+import { Filter } from "@skbkontur/react-icons";
 import { Subscription } from "../../Domain/Subscription";
 import { createSchedule, WholeWeek } from "../../Domain/Schedule";
 import { Contact } from "../../Domain/Contact";
@@ -14,6 +15,9 @@ import { AddSubscriptionMessage } from "../../Components/AddSubscribtionMessage/
 import { ModalType } from "../../Domain/Global";
 import { ConfigState } from "../../store/selectors";
 import { useAppSelector } from "../../store/hooks";
+import { Checkbox, DropdownMenu, MenuItem, ThemeContext, ThemeFactory } from "@skbkontur/react-ui";
+import ContactTypeIcon from "../../Components/ContactTypeIcon/ContactTypeIcon";
+import { ArrowChevronDown } from "@skbkontur/react-icons";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionListContainer.less";
@@ -67,8 +71,18 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
     const [newSubscription, setNewSubscription] = useState<SubscriptionInfo | null>(null);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const [filterTags, setFilterTags] = useState<string[]>([]);
-    const { filteredSubscriptions, availableTags } = filterSubscriptions(subscriptions, filterTags);
+    const [filterContactIDs, setFilterContactIDs] = useState<string[]>([]);
+
+    const { filteredSubscriptions, availableTags, availableContactIDs } = filterSubscriptions(
+        subscriptions,
+        filterTags,
+        filterContactIDs
+    );
     const { config } = useAppSelector(ConfigState);
+
+    const availableContacts = contacts.filter((contact) =>
+        availableContactIDs?.includes(contact.id)
+    );
     const isPlottingDefaultOn = !!config?.featureFlags.isPlottingDefaultOn;
 
     const handleCloseModal = (modal: ModalType) => {
@@ -166,6 +180,19 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
         }
     };
 
+    const renderFilterByContactCaption = ({ openMenu }: { openMenu: () => void }) => {
+        return (
+            <Button
+                width={180}
+                icon={filterContactIDs.length ? <Filter /> : <ArrowChevronDown />}
+                use="default"
+                onClick={openMenu}
+            >
+                Filter by contact
+            </Button>
+        );
+    };
+
     return (
         <>
             {subscriptions.length > 0 ? (
@@ -181,12 +208,55 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                             >
                                 Add subscription
                             </Button>
+                            <DropdownMenu
+                                menuMaxHeight={300}
+                                caption={renderFilterByContactCaption}
+                            >
+                                {availableContacts.map((contact) => (
+                                    <ThemeContext.Provider
+                                        key={contact.id}
+                                        value={ThemeFactory.create({
+                                            menuItemHoverBg: "initial",
+                                        })}
+                                    >
+                                        <MenuItem>
+                                            <Checkbox
+                                                checked={filterContactIDs.includes(contact.id)}
+                                                style={{
+                                                    alignItems: "center",
+                                                }}
+                                                onValueChange={() => {
+                                                    const contactIndex = filterContactIDs.indexOf(
+                                                        contact.id
+                                                    );
+                                                    if (contactIndex === -1) {
+                                                        setFilterContactIDs((prev) => [
+                                                            ...prev,
+                                                            contact.id,
+                                                        ]);
+                                                    } else {
+                                                        setFilterContactIDs((prev) =>
+                                                            prev.filter((id) => {
+                                                                return id !== contact.id;
+                                                            })
+                                                        );
+                                                    }
+                                                }}
+                                            >
+                                                <ContactTypeIcon type={contact.type} />
+                                                &nbsp;
+                                                {contact.value}
+                                            </Checkbox>
+                                        </MenuItem>
+                                    </ThemeContext.Provider>
+                                ))}
+                            </DropdownMenu>
                             <TagDropdownSelect
                                 width={180}
                                 value={filterTags}
                                 availableTags={availableTags}
                                 onChange={handleFilterTagsChange}
-                                placeholder="Filter subscriptions by Tag"
+                                placeholder="Filter by tag"
                             />
                         </div>
                     </div>
