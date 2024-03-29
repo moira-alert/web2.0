@@ -32,26 +32,28 @@ export const SubscriptionList: React.FC<Props> = ({
     return (
         <div className={cn("items-container")}>
             <table ref={tableRef} className={cn("items")}>
-                <tr className={cn("header")}>
-                    <td colSpan={2}>
-                        <button
-                            onClick={() => handleSort("tags")}
-                            type="button"
-                            className={cn("sorting-button", "sort-tags")}
-                        >
-                            Tags {sortConfig.sortingColumn === "tags" && SortingIcon}
-                        </button>
-                    </td>
-                    <td>
-                        <button
-                            onClick={() => handleSort("contacts")}
-                            type="button"
-                            className={cn("sorting-button")}
-                        >
-                            Contacts {sortConfig.sortingColumn === "contacts" && SortingIcon}
-                        </button>
-                    </td>
-                </tr>
+                <thead>
+                    <tr className={cn("header")}>
+                        <td colSpan={2}>
+                            <button
+                                onClick={() => handleSort("tags")}
+                                type="button"
+                                className={cn("sorting-button", "sort-tags")}
+                            >
+                                Tags {sortConfig.sortingColumn === "tags" && SortingIcon}
+                            </button>
+                        </td>
+                        <td>
+                            <button
+                                onClick={() => handleSort("contacts")}
+                                type="button"
+                                className={cn("sorting-button")}
+                            >
+                                Contacts {sortConfig.sortingColumn === "contacts" && SortingIcon}
+                            </button>
+                        </td>
+                    </tr>
+                </thead>
                 <tbody>
                     {sortedData.map((subscription) => (
                         <SubscriptionRow
