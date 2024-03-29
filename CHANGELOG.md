@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.10.0] - 2024-03-29
+
+### Added
+
+* Improved /tags page with react-window, an ability to change susbcription, sorting buttons (#491) (2024-03-28)
+* Turn off notifications modal (#488) (2024-03-13)
+* Notification settings mobile page (#484) (2024-02-26)
+* E2E playwright tests (#473) (2024-02-21)
+* Multi cluster select (#485) (2024-02-19)
+* Editable team name (#481) (2024-02-13)
+* Storybook update (#479) (2024-02-12)
+* Replaced encodeURI with encodeURIcomponent (#480) (2024-02-09)
+* Trigger operations btns redesign (#477) (2024-01-23)
+* Sentry (#476) (2024-01-22)
+* Removed metric value field (#475) (2024-01-22)
+* Metrics status indicator (#472) (2024-01-10)
+* Playwright screenshot tests (#466) (2023-12-18)
+* Source maps (#468) (2023-12-14)
+* Added sortings via name/value/event on triggers page, fixed metriclist layout, added initial render with "event" sorted state (#469) (2023-12-13)
+* Team description markdown support (#461) (2023-11-21)
+* Validate schedule abscence (#460) (2023-11-20)
+* Triggers list button (#455) (2023-11-07)
+* Copy target button (#446) (2023-10-30)
+
+### Fixes
+
+* Fixed browser back arrow behavior at settings page (#463) (2023-11-30)
+* Fix double error message (#454) (2023-11-01)
+
+
 ## [2.9.0] - 2023-10-25
 
 ### Added
