@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Contact } from "../../Domain/Contact";
 import { Subscription } from "../../Domain/Subscription";
 import { SubscriptionRow } from "./SubscriptionRow/SubscriptionRow";
@@ -24,23 +24,7 @@ export const SubscriptionList: React.FC<Props> = ({
     contacts,
     handleEditSubscription,
 }) => {
-    const [colspan, setColspan] = useState(2);
     const { sortedData, sortConfig, handleSort } = useSortData(subscriptions, "contacts");
-
-    // Adjust sort-tags button colspan in dependance of window size
-    useEffect(() => {
-        const resize = () => {
-            const newColspan = window.innerWidth < 600 ? 3 : 2;
-            setColspan(newColspan);
-        };
-
-        window.addEventListener("resize", resize);
-        resize();
-
-        return () => {
-            window.removeEventListener("resize", resize);
-        };
-    }, []);
 
     const SortingIcon =
         sortConfig.direction === "descending" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
@@ -49,7 +33,8 @@ export const SubscriptionList: React.FC<Props> = ({
             <table ref={tableRef} className={cn("items")}>
                 <thead>
                     <tr className={cn("header")}>
-                        <td colSpan={colspan}>
+                        <td className={cn("fold-button-gap")} />
+                        <td colSpan={2}>
                             <button
                                 onClick={() => handleSort("tags")}
                                 type="button"
