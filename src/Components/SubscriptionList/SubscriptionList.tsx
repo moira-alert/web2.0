@@ -38,7 +38,7 @@ export const SubscriptionList: React.FC<Props> = ({
                             <button
                                 onClick={() => handleSort("tags")}
                                 type="button"
-                                className={cn("sorting-button", "sort-tags")}
+                                className={cn("sorting-button")}
                             >
                                 Tags {sortConfig.sortingColumn === "tags" && SortingIcon}
                             </button>
