@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Contact } from "../../Domain/Contact";
 import { Subscription } from "../../Domain/Subscription";
 import { SubscriptionRow } from "./SubscriptionRow/SubscriptionRow";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
-
+import { useSortData } from "../../hooks/useSortData";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionList.less";
-import { useSortData } from "../../hooks/useSortData";
 
 const cn = classNames.bind(styles);
 
@@ -25,7 +24,23 @@ export const SubscriptionList: React.FC<Props> = ({
     contacts,
     handleEditSubscription,
 }) => {
+    const [colspan, setColspan] = useState(2);
     const { sortedData, sortConfig, handleSort } = useSortData(subscriptions, "contacts");
+
+    // Adjust sort-tags button colspan in dependance of window size
+    useEffect(() => {
+        const resize = () => {
+            const newColspan = window.innerWidth < 600 ? 3 : 2;
+            setColspan(newColspan);
+        };
+
+        window.addEventListener("resize", resize);
+        resize();
+
+        return () => {
+            window.removeEventListener("resize", resize);
+        };
+    }, []);
 
     const SortingIcon =
         sortConfig.direction === "descending" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
@@ -34,7 +49,7 @@ export const SubscriptionList: React.FC<Props> = ({
             <table ref={tableRef} className={cn("items")}>
                 <thead>
                     <tr className={cn("header")}>
-                        <td colSpan={2}>
+                        <td colSpan={colspan}>
                             <button
                                 onClick={() => handleSort("tags")}
                                 type="button"
