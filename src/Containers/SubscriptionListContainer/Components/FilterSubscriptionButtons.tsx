@@ -13,7 +13,7 @@ interface IFilterSubscriptionButtons {
     availableContactIDs: string[];
     filterTags: string[];
     availableTags: string[];
-    handleSetCheckbox: (contactID: string) => void;
+    handleFilterContactsChange: (contactID: string) => void;
     handleFilterTagsChange: (tags: string[]) => void;
 }
 
@@ -23,7 +23,7 @@ export const FilterSubscriptionButtons = ({
     availableContactIDs,
     filterTags,
     availableTags,
-    handleSetCheckbox,
+    handleFilterContactsChange,
     handleFilterTagsChange,
 }: IFilterSubscriptionButtons) => {
     const renderFilterByContactCaption = ({ openMenu }: { openMenu: () => void }) => {
@@ -60,7 +60,7 @@ export const FilterSubscriptionButtons = ({
                                     alignItems: "center",
                                     padding: "0",
                                 }}
-                                onValueChange={() => handleSetCheckbox(contact.id)}
+                                onValueChange={() => handleFilterContactsChange(contact.id)}
                             >
                                 <ContactTypeIcon type={contact.type} />
                                 &nbsp;

@@ -193,7 +193,7 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                                 availableContactIDs={availableContactIDs}
                                 filterTags={filterTags}
                                 availableTags={availableTags}
-                                handleSetCheckbox={handleSetFilterContactIDs}
+                                handleFilterContactsChange={handleSetFilterContactIDs}
                                 handleFilterTagsChange={handleSetFilterTags}
                             />
                         </div>
