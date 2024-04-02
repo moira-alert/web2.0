@@ -1,11 +1,11 @@
 import React from "react";
-import TelegramIcon from "@skbkontur/react-icons/Telegram2";
-import MailIcon from "@skbkontur/react-icons/Mail2";
-import FacebookIcon from "@skbkontur/react-icons/Facebook2";
-import TwitterIcon from "@skbkontur/react-icons/Twitter2";
-import PhoneIcon from "@skbkontur/react-icons/Phone2";
-import WhatsappIcon from "@skbkontur/react-icons/WhatsApp2";
-import ViberIcon from "@skbkontur/react-icons/Viber2";
+import TelegramLogo from "./telegram-logo.svg";
+import MailLogo from "./mail-logo.svg";
+import FacebookLogo from "./facebook-logo.svg";
+import TwitterLogo from "./twitter-logo.svg";
+import PhoneLogo from "./phone-logo.svg";
+import WhatsappLogo from "./whatsapp-logo.svg";
+import ViberLogo from "./viber-logo.svg";
 import SvgIcon from "../SvgIcon/SvgIcon";
 import PushoverLogo from "./pushover-logo.svg";
 import SlackLogo from "./slack-logo.svg";
@@ -18,16 +18,16 @@ import VictoropsLogo from "./victorops-logo.svg";
 import OpsgenieLogo from "./opsgenie-logo.svg";
 import MattermostLogo from "./mattermost-logo.svg";
 
-export const FallbackTypeToIcon: { [key: string]: React.ReactElement } = {
+export const DefaultTypeToIcon: { [key: string]: React.ReactElement } = {
     slack: <SvgIcon path={SlackLogo} size={15} offsetTop={2} />,
     msteams: <SvgIcon path={MsTeamsLogo} size={15} offsetTop={2} />,
-    telegram: <TelegramIcon />,
-    facebook: <FacebookIcon />,
-    viber: <ViberIcon />,
-    whatsapp: <WhatsappIcon />,
-    twitter: <TwitterIcon />,
-    mail: <MailIcon />,
-    email: <MailIcon />,
+    telegram: <SvgIcon path={TelegramLogo} size={15} offsetTop={2} />,
+    facebook: <SvgIcon path={FacebookLogo} size={15} offsetTop={2} />,
+    viber: <SvgIcon path={ViberLogo} size={15} offsetTop={2} />,
+    whatsapp: <SvgIcon path={WhatsappLogo} size={15} offsetTop={2} />,
+    twitter: <SvgIcon path={TwitterLogo} size={15} offsetTop={2} />,
+    mail: <SvgIcon path={MailLogo} size={15} offsetTop={2} />,
+    email: <SvgIcon path={MailLogo} size={15} offsetTop={2} />,
     pushover: <SvgIcon path={PushoverLogo} size={14} offsetTop={2} />,
     twilio: <SvgIcon path={TwilioLogo} size={14} offsetTop={2} />,
     webhook: <SvgIcon path={WebhookLogo} size={14} offsetTop={2} />,
@@ -36,7 +36,7 @@ export const FallbackTypeToIcon: { [key: string]: React.ReactElement } = {
     victorops: <SvgIcon path={VictoropsLogo} size={14} offsetTop={2} />,
     opsgenie: <SvgIcon path={OpsgenieLogo} size={14} offsetTop={2} />,
     mattermost: <SvgIcon path={MattermostLogo} size={14} offsetTop={2} />,
-    phone: <PhoneIcon />,
-    tel: <PhoneIcon />,
-    sms: <PhoneIcon />,
+    phone: <SvgIcon path={PhoneLogo} size={15} offsetTop={2} />,
+    tel: <SvgIcon path={PhoneLogo} size={15} offsetTop={2} />,
+    sms: <SvgIcon path={PhoneLogo} size={15} offsetTop={2} />,
 };

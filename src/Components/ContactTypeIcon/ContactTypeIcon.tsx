@@ -3,7 +3,7 @@ import SvgIcon from "../SvgIcon/SvgIcon";
 import MailLogo from "./mail-logo.svg";
 import { useAppSelector } from "../../store/hooks";
 import { ConfigState } from "../../store/selectors";
-import { FallbackTypeToIcon } from "./FallbackTypeToIcon";
+import { DefaultTypeToIcon } from "./DefaultTypeToIcon";
 
 type Props = {
     type: string;
@@ -27,14 +27,14 @@ export default function ContactTypeIcon({ type }: Props): React.ReactElement {
             });
     }, [contact?.logo_uri]);
 
-    const fallBack = () => {
-        const iconKey = Object.keys(FallbackTypeToIcon).find((key) => type.includes(key));
+    const getDefaultIcons = () => {
+        const iconKey = Object.keys(DefaultTypeToIcon).find((key) => type.includes(key));
         return iconKey ? (
-            FallbackTypeToIcon[iconKey]
+            DefaultTypeToIcon[iconKey]
         ) : (
             <SvgIcon path={MailLogo} size={16} offsetTop={3} />
         );
     };
 
-    return svgPath ? <SvgIcon path={svgPath} size={16} offsetTop={3} /> : fallBack();
+    return svgPath ? <SvgIcon path={svgPath} size={16} offsetTop={3} /> : getDefaultIcons();
 }
