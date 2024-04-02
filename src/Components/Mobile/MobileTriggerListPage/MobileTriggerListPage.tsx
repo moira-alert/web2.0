@@ -54,9 +54,7 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
                 </MobileHeader>
                 <div className={cn("content")}>
                     {triggers != null && triggers.length === 0 && (
-                        <div style={{ padding: 30, color: "#666", textAlign: "center" }}>
-                            No results :-(
-                        </div>
+                        <div className={cn("empty-triggers")}>No results :-(</div>
                     )}
                     {triggers != null &&
                         triggers.map((trigger) => (

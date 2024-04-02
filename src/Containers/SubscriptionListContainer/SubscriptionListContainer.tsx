@@ -13,6 +13,7 @@ import { ModalType } from "../../Domain/Global";
 import { ConfigState } from "../../store/selectors";
 import { useAppSelector } from "../../store/hooks";
 import { FilterSubscriptionButtons } from "./Components/FilterSubscriptionButtons";
+import { useFilterSubscriptions } from "../../hooks/useFilterSubscriptions";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionListContainer.less";
@@ -66,10 +67,15 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
     const [newSubscription, setNewSubscription] = useState<SubscriptionInfo | null>(null);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
 
-    const { FilterButtons, filteredSubscriptions } = FilterSubscriptionButtons({
-        contacts,
-        subscriptions,
-    });
+    const {
+        filteredSubscriptions,
+        availableTags,
+        availableContactIDs,
+        filterContactIDs,
+        filterTags,
+        handleSetFilterTags,
+        handleSetFilterContactIDs,
+    } = useFilterSubscriptions(subscriptions);
 
     const { config } = useAppSelector(ConfigState);
 
@@ -181,7 +187,15 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                             >
                                 Add subscription
                             </Button>
-                            {FilterButtons}
+                            <FilterSubscriptionButtons
+                                contacts={contacts}
+                                filterContactIDs={filterContactIDs}
+                                availableContactIDs={availableContactIDs}
+                                filterTags={filterTags}
+                                availableTags={availableTags}
+                                handleSetCheckbox={handleSetFilterContactIDs}
+                                handleFilterTagsChange={handleSetFilterTags}
+                            />
                         </div>
                     </div>
                     <SubscriptionList

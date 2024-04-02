@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Filter } from "@skbkontur/react-icons";
 import { Contact } from "../../../Domain/Contact";
@@ -6,27 +6,26 @@ import { Checkbox, DropdownMenu, MenuItem, ThemeContext, ThemeFactory } from "@s
 import ContactTypeIcon from "../../../Components/ContactTypeIcon/ContactTypeIcon";
 import { ArrowChevronDown } from "@skbkontur/react-icons";
 import TagDropdownSelect from "../../../Components/TagDropdownSelect/TagDropdownSelect";
-import { filterSubscriptions } from "../../../Domain/FilterSubscriptions";
-import { Subscription } from "../../../Domain/Subscription";
 
 interface IFilterSubscriptionButtons {
     contacts: Contact[];
-    subscriptions: Subscription[];
+    filterContactIDs: string[];
+    availableContactIDs: string[];
+    filterTags: string[];
+    availableTags: string[];
+    handleSetCheckbox: (contactID: string) => void;
+    handleFilterTagsChange: (tags: string[]) => void;
 }
 
 export const FilterSubscriptionButtons = ({
     contacts,
-    subscriptions,
+    filterContactIDs,
+    availableContactIDs,
+    filterTags,
+    availableTags,
+    handleSetCheckbox,
+    handleFilterTagsChange,
 }: IFilterSubscriptionButtons) => {
-    const [filterContactIDs, setFilterContactIDs] = useState<string[]>([]);
-    const [filterTags, setFilterTags] = useState<string[]>([]);
-
-    const { filteredSubscriptions, availableTags, availableContactIDs } = filterSubscriptions(
-        subscriptions,
-        filterTags,
-        filterContactIDs
-    );
-
     const renderFilterByContactCaption = ({ openMenu }: { openMenu: () => void }) => {
         return (
             <Button
@@ -44,24 +43,7 @@ export const FilterSubscriptionButtons = ({
         availableContactIDs?.includes(contact.id)
     );
 
-    const handleFilterTagsChange = (tags: string[]) => {
-        setFilterTags(tags);
-    };
-
-    const handleSetCheckbox = (contactID: string) => {
-        const contactIndex = filterContactIDs.indexOf(contactID);
-        if (contactIndex === -1) {
-            setFilterContactIDs((prev) => [...prev, contactID]);
-        } else {
-            setFilterContactIDs((prev) =>
-                prev.filter((id) => {
-                    return id !== contactID;
-                })
-            );
-        }
-    };
-
-    const FilterButtons = (
+    return (
         <>
             <DropdownMenu menuMaxHeight={300} caption={renderFilterByContactCaption}>
                 {availableContacts.map((contact) => (
@@ -97,6 +79,4 @@ export const FilterSubscriptionButtons = ({
             />
         </>
     );
-
-    return { FilterButtons, filteredSubscriptions };
 };
