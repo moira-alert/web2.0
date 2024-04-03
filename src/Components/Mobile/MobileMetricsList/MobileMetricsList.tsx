@@ -32,33 +32,35 @@ export default function MobileMetricsList(props: Props): React.ReactElement {
     return (
         <div className={cn("root")}>
             <AutoSizer disableWidth>
-                {({ height }: { height?: number }) => (
-                    <List
-                        height={height || 0}
-                        width="100%"
-                        itemSize={(index) => getItemSize(...entries[index])}
-                        itemCount={entries.length}
-                        itemData={entries}
-                    >
-                        {({ data, index, style }) => {
-                            const [metricName, metricData] = data[index];
+                {({ height }) => {
+                    return (
+                        <List
+                            height={height < 400 ? 400 : height}
+                            width="100%"
+                            itemSize={(index) => getItemSize(...entries[index])}
+                            itemCount={entries.length}
+                            itemData={entries}
+                        >
+                            {({ data, index, style }) => {
+                                const [metricName, metricData] = data[index];
 
-                            return (
-                                <MobileMetricsListItem
-                                    style={style}
-                                    key={metricName}
-                                    name={metricName}
-                                    value={metricData}
-                                    onRemove={() => onRemove(metricName)}
-                                    onSetMaintenance={(interval) =>
-                                        onSetMaintenance(metricName, interval)
-                                    }
-                                    withTargets={withTargets}
-                                />
-                            );
-                        }}
-                    </List>
-                )}
+                                return (
+                                    <MobileMetricsListItem
+                                        style={style}
+                                        key={metricName}
+                                        name={metricName}
+                                        value={metricData}
+                                        onRemove={() => onRemove(metricName)}
+                                        onSetMaintenance={(interval) =>
+                                            onSetMaintenance(metricName, interval)
+                                        }
+                                        withTargets={withTargets}
+                                    />
+                                );
+                            }}
+                        </List>
+                    );
+                }}
             </AutoSizer>
         </div>
     );
