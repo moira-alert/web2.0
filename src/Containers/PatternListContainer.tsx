@@ -1,111 +1,61 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import MoiraApi from "../Api/MoiraApi";
 import { Pattern } from "../Domain/Pattern";
-import { SortingColumn } from "../Components/PatternList/PatternList";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import PatternList from "../Components/PatternList/PatternList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
+import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { UIState } from "../store/selectors";
+import { useSortData } from "../hooks/useSortData";
 
 type Props = { moiraApi: MoiraApi };
-type State = {
-    loading: boolean;
-    error?: string;
-    list?: Array<Pattern>;
-    sortingColumn: SortingColumn;
-    sortingDown: boolean;
-};
 
-class PatternListContainer extends React.Component<Props, State> {
-    public state: State = {
-        sortingColumn: "trigger",
-        sortingDown: false,
-        loading: false,
-    };
+const PatternListContainer: React.FC<Props> = ({ moiraApi }) => {
+    const dispatch = useAppDispatch();
+    const { isLoading, error } = useAppSelector(UIState);
+    const [list, setList] = useState<Pattern[] | undefined>();
+    const { sortedData, sortConfig, handleSort } = useSortData(list ?? [], "triggers");
 
-    public componentDidMount() {
+    useEffect(() => {
         setDocumentTitle("Patterns");
-        this.getData(this.props);
-    }
+        getData();
+    }, []);
 
-    public UNSAFE_componentWillReceiveProps(nextProps: Props) {
-        this.getData(nextProps);
-    }
-
-    public render(): React.ReactElement {
-        const { loading, error, list, sortingColumn, sortingDown } = this.state;
-        return (
-            <Layout loading={loading} error={error}>
-                <LayoutContent>
-                    <LayoutTitle>Patterns</LayoutTitle>
-                    {list && (
-                        <PatternList
-                            items={this.sortPatterns(list)}
-                            onSort={(sorting) => {
-                                if (sorting === sortingColumn) {
-                                    this.setState({ sortingDown: !sortingDown });
-                                } else {
-                                    this.setState({
-                                        sortingColumn: sorting,
-                                        sortingDown: true,
-                                    });
-                                }
-                            }}
-                            sortingColumn={sortingColumn}
-                            sortingDown={sortingDown}
-                            onRemove={this.removePattern}
-                        />
-                    )}
-                </LayoutContent>
-            </Layout>
-        );
-    }
-
-    private async getData(props: Props) {
+    const getData = async () => {
+        dispatch(toggleLoading(true));
         try {
-            const { list } = await props.moiraApi.getPatternList();
-            this.setState({ list });
+            const { list } = await moiraApi.getPatternList();
+            setList(list);
         } catch (error) {
-            this.setState({ error: error.message });
+            setError(error.message);
         } finally {
-            this.setState({ loading: false });
+            dispatch(toggleLoading(false));
         }
-    }
-
-    private removePattern = async (pattern: string) => {
-        this.setState({ loading: true });
-        await this.props.moiraApi.delPattern(pattern);
-        this.getData(this.props);
     };
 
-    private sortPatterns(patterns: Array<Pattern>): Array<Pattern> {
-        const { sortingColumn, sortingDown } = this.state;
-        const sorting = {
-            trigger: (x: Pattern, y: Pattern) => {
-                const valA = x.triggers.length || 0;
-                const valB = y.triggers.length || 0;
-                if (valA < valB) {
-                    return sortingDown ? -1 : 1;
-                }
-                if (valA > valB) {
-                    return sortingDown ? 1 : -1;
-                }
-                return 0;
-            },
-            metric: (x: Pattern, y: Pattern) => {
-                const valA = x.metrics.length || 0;
-                const valB = y.metrics.length || 0;
-                if (valA < valB) {
-                    return sortingDown ? -1 : 1;
-                }
-                if (valA > valB) {
-                    return sortingDown ? 1 : -1;
-                }
-                return 0;
-            },
-        };
-        return patterns.slice(0).sort(sorting[sortingColumn]);
-    }
-}
+    const removePattern = async (pattern: string) => {
+        dispatch(toggleLoading(true));
+        await moiraApi.delPattern(pattern);
+        getData();
+    };
+
+    return (
+        <Layout loading={isLoading} error={error}>
+            <LayoutContent>
+                <LayoutTitle>Patterns</LayoutTitle>
+                {list && (
+                    <PatternList
+                        items={sortedData}
+                        onSort={handleSort}
+                        sortConfig={sortConfig}
+                        onRemove={removePattern}
+                    />
+                )}
+            </LayoutContent>
+        </Layout>
+    );
+};
 
 export default withMoiraApi(PatternListContainer);

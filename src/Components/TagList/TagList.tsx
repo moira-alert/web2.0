@@ -46,7 +46,7 @@ export const TagList: FC<ITagListProps> = ({
     const listRef = useRef<FixedSizeList>(null);
 
     const SortingIcon =
-        sortConfig.direction === "descending" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+        sortConfig.direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
 
     const scrollToRow = (row: string) => {
         if (Number.isNaN(Number(row))) return;

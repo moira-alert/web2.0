@@ -110,5 +110,9 @@ export default {
 };
 
 export const Default = () => (
-    <PatternList items={items} onRemove={action("onRemove")} sortingColumn="metric" />
+    <PatternList
+        items={items}
+        onRemove={action("onRemove")}
+        sortConfig={{ direction: "desc", sortingColumn: "triggers" }}
+    />
 );

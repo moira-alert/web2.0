@@ -1,34 +1,13 @@
 import { useCallback, useState, useMemo } from "react";
+import orderBy from "lodash/orderBy";
 
 type TSortingColumn = {
     sortingColumn: string;
 };
 
 export interface ISortConfig extends TSortingColumn {
-    direction: "ascending" | "descending";
+    direction: "asc" | "desc";
 }
-
-const compare = <T extends Record<string, unknown>>(
-    a: T,
-    b: T,
-    sortConfig: ISortConfig
-): number => {
-    const argA = a[sortConfig.sortingColumn];
-    const argB = b[sortConfig.sortingColumn];
-
-    const isArray = Array.isArray(argA);
-
-    if (isArray) {
-        return sortConfig.direction === "ascending"
-            ? (argA as T[]).length - (argB as T[]).length
-            : (argB as T[]).length - (argA as T[]).length;
-    }
-
-    const collator = new Intl.Collator();
-    return sortConfig.direction === "ascending"
-        ? collator.compare(argA as string, argB as string)
-        : collator.compare(argB as string, argA as string);
-};
 
 export const useSortData = <T extends Record<string, unknown>>(
     data: T[],
@@ -36,20 +15,32 @@ export const useSortData = <T extends Record<string, unknown>>(
 ) => {
     const [sortConfig, setSortConfig] = useState<ISortConfig>({
         sortingColumn,
-        direction: "ascending",
+        direction: "asc",
     });
 
     const sortedData = useMemo(() => {
-        const sortableData = [...data];
-        if (sortConfig !== null) {
-            sortableData.sort((a, b) => compare(a, b, sortConfig));
-        }
-        return sortableData;
+        const sorted = orderBy(
+            data,
+            [
+                (item) => {
+                    const value = item[sortConfig.sortingColumn];
+
+                    if (typeof value === "string") {
+                        return value.toLowerCase();
+                    } else if (Array.isArray(value)) {
+                        return value.length;
+                    }
+                    return value;
+                },
+            ],
+            [sortConfig.direction]
+        );
+        return sorted;
     }, [data, sortConfig]);
 
     const handleSort = useCallback(
         (sortingColumn: string) => {
-            const direction = sortConfig.direction === "ascending" ? "descending" : "ascending";
+            const direction = sortConfig.direction === "asc" ? "desc" : "asc";
             setSortConfig({ sortingColumn, direction } as ISortConfig);
         },
         [sortConfig]
