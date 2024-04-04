@@ -29,7 +29,7 @@ const PatternListContainer: React.FC<Props> = ({ moiraApi }) => {
             const { list } = await moiraApi.getPatternList();
             setList(list);
         } catch (error) {
-            setError(error.message);
+            dispatch(setError(error.message));
         } finally {
             dispatch(toggleLoading(false));
         }
