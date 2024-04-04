@@ -16,7 +16,7 @@ const PatternListContainer: React.FC<Props> = ({ moiraApi }) => {
     const dispatch = useAppDispatch();
     const { isLoading, error } = useAppSelector(UIState);
     const [list, setList] = useState<Pattern[] | undefined>();
-    const { sortedData, sortConfig, handleSort } = useSortData(list ?? [], "triggers");
+    const { sortedData, sortConfig, handleSort } = useSortData(list ?? [], "metrics");
 
     useEffect(() => {
         setDocumentTitle("Patterns");
