@@ -33,7 +33,7 @@ api:
   listen: ":8081"
   enable_cors: false
 web:
-  contacts_template:
+  contacts:
     - type: mail
       label: E-mail
     - type: pushover

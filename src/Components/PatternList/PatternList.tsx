@@ -27,7 +27,7 @@ export default function PatternList(props: Props): React.ReactElement {
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     return (
         <div>
-            <div className={cn("row", "header", "italic-font")}>
+            <div className={cn("row", "header")}>
                 <div className={cn("name")}>Pattern</div>
                 <button
                     type="button"

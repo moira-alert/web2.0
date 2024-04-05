@@ -4,7 +4,6 @@ import { TMetricSourceCluster } from "./Metric";
 export interface ContactConfig {
     type: ContactTypes;
     label: string;
-    logo_uri?: string;
     validation?: string;
     placeholder?: string;
     help?: string;

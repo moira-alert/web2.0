@@ -7,13 +7,13 @@ import { Contact } from "../../Domain/Contact";
 import SubscriptionEditModal from "../../Components/SubscriptionEditModal/SubscriptionEditModal";
 import CreateSubscriptionModal from "../../Components/CreateSubscriptionModal/CreateSubscriptionModal";
 import type { SubscriptionInfo } from "../../Components/SubscriptionEditor/SubscriptionEditor";
+import TagDropdownSelect from "../../Components/TagDropdownSelect/TagDropdownSelect";
 import { SubscriptionList } from "../../Components/SubscriptionList/SubscriptionList";
+import { filterSubscriptions } from "../../Domain/FilterSubscriptions";
 import { AddSubscriptionMessage } from "../../Components/AddSubscribtionMessage/AddSubscribtionMessage";
 import { ModalType } from "../../Domain/Global";
 import { ConfigState } from "../../store/selectors";
 import { useAppSelector } from "../../store/hooks";
-import { FilterSubscriptionButtons } from "./Components/FilterSubscriptionButtons";
-import { useFilterSubscriptions } from "../../hooks/useFilterSubscriptions";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionListContainer.less";
@@ -66,19 +66,9 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
 
     const [newSubscription, setNewSubscription] = useState<SubscriptionInfo | null>(null);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
-
-    const {
-        filteredSubscriptions,
-        availableTags,
-        availableContactIDs,
-        filterContactIDs,
-        filterTags,
-        handleSetFilterTags,
-        handleSetFilterContactIDs,
-    } = useFilterSubscriptions(subscriptions);
-
+    const [filterTags, setFilterTags] = useState<string[]>([]);
+    const { filteredSubscriptions, availableTags } = filterSubscriptions(subscriptions, filterTags);
     const { config } = useAppSelector(ConfigState);
-
     const isPlottingDefaultOn = !!config?.featureFlags.isPlottingDefaultOn;
 
     const handleCloseModal = (modal: ModalType) => {
@@ -91,6 +81,10 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                 setSubscriptionToEdit(null);
                 break;
         }
+    };
+
+    const handleFilterTagsChange = (tags: string[]): void => {
+        setFilterTags(tags);
     };
 
     const handleEditSubscription = (subscription: Subscription): void => {
@@ -187,14 +181,12 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                             >
                                 Add subscription
                             </Button>
-                            <FilterSubscriptionButtons
-                                contacts={contacts}
-                                filterContactIDs={filterContactIDs}
-                                availableContactIDs={availableContactIDs}
-                                filterTags={filterTags}
+                            <TagDropdownSelect
+                                width={180}
+                                value={filterTags}
                                 availableTags={availableTags}
-                                handleFilterContactsChange={handleSetFilterContactIDs}
-                                handleFilterTagsChange={handleSetFilterTags}
+                                onChange={handleFilterTagsChange}
+                                placeholder="Filter subscriptions by Tag"
                             />
                         </div>
                     </div>

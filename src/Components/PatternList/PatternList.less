@@ -23,12 +23,24 @@
     }
 }
 
+.header {
+    color: #666;
+    font-style: italic;
+}
+
 .name {
     width: calc(~'100% - 240px');
 
     &.clicked {
-        &:extend(.base-reset);
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: none;
+        color: inherit;
+        font: inherit;
         text-align: left;
+        -webkit-appearance: none;
+        appearance: none;
         cursor: pointer;
     }
 }
@@ -37,7 +49,15 @@
 .metric-counter,
 .control {
     width: 80px;
-    &:extend(.sorting-button);
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #666;
+    font: inherit;
+    font-style: italic;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .info {

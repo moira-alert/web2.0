@@ -40,10 +40,9 @@ const GraphiteHighlightStyle = syntaxHighlighting(
 );
 
 const GraphiteTheme = EditorView.theme({
-    ".cm-content": {
+    "& .cm-content": {
         whiteSpace: "break-spaces",
         wordBreak: "break-all",
-        flexShrink: "1",
     },
 });
 
@@ -51,12 +50,6 @@ const ShowModeTheme = EditorView.theme({
     ".cm-gutters": {
         borderRight: "none",
         backgroundColor: "transparent",
-    },
-
-    ".cm-content": {
-        whiteSpace: "break-spaces",
-        wordBreak: "break-all",
-        flexShrink: "1",
     },
 
     ".cm-lineNumbers ": {

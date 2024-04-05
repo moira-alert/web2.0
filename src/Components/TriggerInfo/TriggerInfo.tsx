@@ -94,7 +94,7 @@ export default function TriggerInfo({
     const { config } = useAppSelector(ConfigState);
     const [ConfirmModal, setModalData] = useConfirmModal();
 
-    const availableClusters = config?.metric_source_clusters?.filter(
+    const availableClusters = config?.metric_source_clusters.filter(
         (cluster) => cluster.trigger_source === triggerSource
     );
 
@@ -102,7 +102,7 @@ export default function TriggerInfo({
         ?.cluster_name;
 
     const isClusterName = clusterName && availableClusters.length !== 0;
-    const isMetrics = metrics && Object.keys(metrics).length > 1;
+    const isMetrics = metrics && Object.keys(metrics).length > 0;
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
     const delta = maintenanceDelta(maintenance);
