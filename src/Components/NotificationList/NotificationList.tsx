@@ -54,7 +54,7 @@ export default function NotificationList(props: Props): React.ReactElement {
         <>
             {ConfirmModal}
             <Gapped gap={30} vertical>
-                <div className={cn("row", "header")}>
+                <div className={cn("row", "italic-font")}>
                     <div className={cn("timestamp")}>Timestamp</div>
                     <div className={cn("state")}>State</div>
                     <div className={cn("trigger")}>Trigger</div>
