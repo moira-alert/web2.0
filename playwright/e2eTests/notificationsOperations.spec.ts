@@ -26,14 +26,17 @@ test.describe.configure({ mode: "serial" });
 
 test("Feature flag fileds render", async ({ notificationsPage, page }) => {
     await notificationsPage.gotoNotificationsPage();
-    const configResponse = await page.waitForResponse(/api\/config/);
-    const configBody = await configResponse.json();
+    const configResponsePromise = page.waitForResponse(/api\/config/);
+    const configBody = await configResponsePromise;
+    const configBodyJson = await configBody.json();
     const {
         isSubscriptionToAllTagsAvailable,
         isPlottingAvailable,
         isPlottingDefaultOn,
-    } = configBody.featureFlags;
+    } = configBodyJson.featureFlags;
+
     await notificationsPage.addSubscriptionButton.click();
+
     const addGraphCheckbox = page.locator('label:has-text("Add graph to notification")');
     const allTagsToggle = page.getByText("All tags");
 
