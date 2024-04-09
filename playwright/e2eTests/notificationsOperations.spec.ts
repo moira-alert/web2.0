@@ -24,7 +24,7 @@ const test = base.extend<{
 
 test.describe.configure({ mode: "serial" });
 
-test("Config crucial fileds render", async ({ notificationsPage, page }) => {
+test("Feature flag fileds render", async ({ notificationsPage, page }) => {
     await notificationsPage.gotoNotificationsPage();
     const configResponse = await page.waitForResponse(/api\/config/);
     const configBody = await configResponse.json();
