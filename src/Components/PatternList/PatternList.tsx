@@ -23,8 +23,12 @@ type Props = {
 };
 
 export default function PatternList(props: Props): React.ReactElement {
-    const { items, sortConfig, onRemove, onSort } = props;
-    const { sortingColumn, direction } = sortConfig;
+    const {
+        items,
+        sortConfig: { sortingColumn, direction },
+        onRemove,
+        onSort,
+    } = props;
     const sortingIcon = direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     return (
         <div>
