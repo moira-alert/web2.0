@@ -37,23 +37,15 @@ test("Feature flag fileds render", async ({ notificationsPage, page }) => {
     const addGraphCheckbox = page.locator('label:has-text("Add graph to notification")');
     const allTagsToggle = page.getByText("All tags");
 
-    if (isSubscriptionToAllTagsAvailable) {
-        await expect(allTagsToggle).toBeVisible();
-    } else {
-        await expect(allTagsToggle).not.toBeVisible();
-    }
-
-    if (isPlottingAvailable) {
-        await expect(addGraphCheckbox).toBeVisible();
-    } else {
-        await expect(addGraphCheckbox).not.toBeVisible();
-    }
-
-    if (isPlottingDefaultOn) {
-        await expect(addGraphCheckbox.locator("> input")).toBeChecked();
-    } else {
-        await expect(addGraphCheckbox.locator("> input")).not.toBeChecked();
-    }
+    await expect(allTagsToggle).toBeVisible({
+        visible: isSubscriptionToAllTagsAvailable,
+    });
+    await expect(addGraphCheckbox).toBeVisible({
+        visible: isPlottingAvailable,
+    });
+    await expect(addGraphCheckbox.locator("> input")).toBeChecked({
+        checked: isPlottingDefaultOn,
+    });
 });
 
 test("Add delivery channel", async ({
