@@ -24,6 +24,38 @@ const test = base.extend<{
 
 test.describe.configure({ mode: "serial" });
 
+test("Config crucial fileds render", async ({ notificationsPage, page }) => {
+    await notificationsPage.gotoNotificationsPage();
+    const configResponse = await page.waitForResponse(/api\/config/);
+    const configBody = await configResponse.json();
+    const {
+        isSubscriptionToAllTagsAvailable,
+        isPlottingAvailable,
+        isPlottingDefaultOn,
+    } = configBody.featureFlags;
+    await notificationsPage.addSubscriptionButton.click();
+    const addGraphCheckbox = page.locator('label:has-text("Add graph to notification")');
+    const allTagsToggle = page.getByText("All tags");
+
+    if (isSubscriptionToAllTagsAvailable) {
+        await expect(allTagsToggle).toBeVisible();
+    } else {
+        await expect(allTagsToggle).not.toBeVisible();
+    }
+
+    if (isPlottingAvailable) {
+        await expect(addGraphCheckbox).toBeVisible();
+    } else {
+        await expect(addGraphCheckbox).not.toBeVisible();
+    }
+
+    if (isPlottingDefaultOn) {
+        await expect(addGraphCheckbox.locator("> input")).toBeChecked();
+    } else {
+        await expect(addGraphCheckbox.locator("> input")).not.toBeChecked();
+    }
+});
+
 test("Add delivery channel", async ({
     channelType,
     channelAccountName,
