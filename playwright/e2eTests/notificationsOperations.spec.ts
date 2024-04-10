@@ -24,31 +24,44 @@ const test = base.extend<{
 
 test.describe.configure({ mode: "serial" });
 
-test("Feature flag fileds render", async ({ notificationsPage, page }) => {
-    await notificationsPage.gotoNotificationsPage();
-    const configResponsePromise = page.waitForResponse(/api\/config/);
-    const configBody = await configResponsePromise;
-    const configBodyJson = await configBody.json();
-    const {
-        isSubscriptionToAllTagsAvailable,
-        isPlottingAvailable,
-        isPlottingDefaultOn,
-    } = configBodyJson.featureFlags;
+test("With feature flags set to true", async ({ notificationsPage, page }) => {
+    await page.route("api/config", async (route) => {
+        const response = await route.fetch();
+        const json = await response.json();
+        json.featureFlags.isSubscriptionToAllTagsAvailable = true;
+        json.featureFlags.isPlottingAvailable = true;
+        json.featureFlags.isPlottingDefaultOn = true;
+        await route.fulfill({ json });
+    });
 
+    await notificationsPage.gotoNotificationsPage();
     await notificationsPage.addSubscriptionButton.click();
 
     const addGraphCheckbox = page.locator('label:has-text("Add graph to notification")');
-    const allTagsToggle = page.getByText("All tags");
+    const allTagsToggle = page.locator('text="All tags"');
 
-    await expect(allTagsToggle).toBeVisible({
-        visible: isSubscriptionToAllTagsAvailable,
+    await expect(allTagsToggle).toBeVisible();
+    await expect(addGraphCheckbox).toBeVisible();
+    await expect(addGraphCheckbox.locator("> input")).toBeChecked();
+});
+
+test("With feature flags set to false", async ({ notificationsPage, page }) => {
+    await page.route("api/config", async (route) => {
+        const response = await route.fetch();
+        const json = await response.json();
+        json.featureFlags.isSubscriptionToAllTagsAvailable = false;
+        json.featureFlags.isPlottingAvailable = false;
+        await route.fulfill({ json });
     });
-    await expect(addGraphCheckbox).toBeVisible({
-        visible: isPlottingAvailable,
-    });
-    await expect(addGraphCheckbox.locator("> input")).toBeChecked({
-        checked: isPlottingDefaultOn,
-    });
+
+    await notificationsPage.gotoNotificationsPage();
+    await notificationsPage.addSubscriptionButton.click();
+
+    const addGraphCheckbox = page.locator('label:has-text("Add graph to notification")');
+    const allTagsToggle = page.locator('text="All tags"');
+
+    await expect(allTagsToggle).not.toBeVisible();
+    await expect(addGraphCheckbox).not.toBeVisible();
 });
 
 test("Add delivery channel", async ({

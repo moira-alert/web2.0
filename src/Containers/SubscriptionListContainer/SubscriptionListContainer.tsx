@@ -79,7 +79,8 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
 
     const { config } = useAppSelector(ConfigState);
 
-    const isPlottingDefaultOn = !!config?.featureFlags.isPlottingDefaultOn;
+    const isPlottingDefaultOn =
+        !!config?.featureFlags.isPlottingDefaultOn && config.featureFlags.isPlottingAvailable;
 
     const handleCloseModal = (modal: ModalType) => {
         closeModal(modal);
