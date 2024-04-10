@@ -25,13 +25,16 @@ const test = base.extend<{
 test.describe.configure({ mode: "serial" });
 
 test("With feature flags set to true", async ({ notificationsPage, page }) => {
-    await page.route("api/config", async (route) => {
-        const response = await route.fetch();
-        const json = await response.json();
-        json.featureFlags.isSubscriptionToAllTagsAvailable = true;
-        json.featureFlags.isPlottingAvailable = true;
-        json.featureFlags.isPlottingDefaultOn = true;
-        await route.fulfill({ json });
+    await page.route("api/config", (route) => {
+        route.fulfill({
+            json: {
+                featureFlags: {
+                    isSubscriptionToAllTagsAvailable: true,
+                    isPlottingAvailable: true,
+                    isPlottingDefaultOn: true,
+                },
+            },
+        });
     });
 
     await notificationsPage.gotoNotificationsPage();
@@ -46,12 +49,16 @@ test("With feature flags set to true", async ({ notificationsPage, page }) => {
 });
 
 test("With feature flags set to false", async ({ notificationsPage, page }) => {
-    await page.route("api/config", async (route) => {
-        const response = await route.fetch();
-        const json = await response.json();
-        json.featureFlags.isSubscriptionToAllTagsAvailable = false;
-        json.featureFlags.isPlottingAvailable = false;
-        await route.fulfill({ json });
+    await page.route("api/config", (route) => {
+        route.fulfill({
+            json: {
+                featureFlags: {
+                    isSubscriptionToAllTagsAvailable: false,
+                    isPlottingAvailable: false,
+                    isPlottingDefaultOn: false,
+                },
+            },
+        });
     });
 
     await notificationsPage.gotoNotificationsPage();
