@@ -27,7 +27,7 @@ export const SubscriptionList: React.FC<Props> = ({
     const { sortedData, sortConfig, handleSort } = useSortData(subscriptions, "contacts");
 
     const SortingIcon =
-        sortConfig.direction === "descending" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+        sortConfig.direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     return (
         <div className={cn("items-container")}>
             <table ref={tableRef} className={cn("items")}>

@@ -6,25 +6,30 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
+import { ISortConfig } from "../../hooks/useSortData";
 import classNames from "classnames/bind";
 
 import styles from "./PatternList.less";
 
 const cn = classNames.bind(styles);
 
-export type SortingColumn = "metric" | "trigger";
+type SortingColumn = "metrics" | "triggers";
 
 type Props = {
     items: Array<Pattern>;
+    sortConfig: ISortConfig;
     onRemove: (pattern: string) => void;
-    sortingColumn: SortingColumn;
-    sortingDown?: boolean;
     onSort?: (sorting: SortingColumn) => void;
 };
 
 export default function PatternList(props: Props): React.ReactElement {
-    const { items, onRemove, sortingColumn, sortingDown, onSort } = props;
-    const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+    const {
+        items,
+        sortConfig: { sortingColumn, direction },
+        onRemove,
+        onSort,
+    } = props;
+    const sortingIcon = direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     return (
         <div>
             <div className={cn("row", "header", "italic-font")}>
@@ -32,20 +37,20 @@ export default function PatternList(props: Props): React.ReactElement {
                 <button
                     type="button"
                     className={cn("trigger-counter", { sorting: onSort })}
-                    onClick={onSort && (() => onSort("trigger"))}
+                    onClick={onSort && (() => onSort("triggers"))}
                 >
                     Triggers{" "}
-                    {sortingColumn === "trigger" && (
+                    {sortingColumn === "triggers" && (
                         <span className={cn("icon")}>{sortingIcon}</span>
                     )}
                 </button>
                 <button
                     type="button"
                     className={cn("metric-counter", { sorting: onSort })}
-                    onClick={onSort && (() => onSort("metric"))}
+                    onClick={onSort && (() => onSort("metrics"))}
                 >
                     Metric{" "}
-                    {sortingColumn === "metric" && (
+                    {sortingColumn === "metrics" && (
                         <span className={cn("icon")}>{sortingIcon}</span>
                     )}
                 </button>
