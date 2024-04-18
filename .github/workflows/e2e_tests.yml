@@ -1,31 +1,31 @@
 name: E2E tests
 on:
-  pull_request:
+    pull_request:
 jobs:
-  test:
-    name: E2E tests
-    runs-on: ubuntu-22.04
+    test:
+        name: E2E tests
+        runs-on: ubuntu-22.04
 
-    steps:
-      - uses: actions/checkout@v3
-          
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: "yarn"
-          
-      - name: Install dependencies
-        run: yarn install
-          
-      - name: Install Playwright
-        run: npx playwright install --with-deps
-          
-      - name: Run tests
-        run: yarn test:e2e
-          
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
-        with:
-          name: test-results
-          path: ./test-results
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "yarn"
+
+            - name: Install dependencies
+              run: yarn install
+
+            - name: Install Playwright
+              run: npx playwright install --with-deps
+
+            - name: Run tests
+              run: yarn test:e2e
+
+            - name: Archive artifacts
+              uses: actions/upload-artifact@v3
+              if: ${{ failure() }}
+              with:
+                  name: test-results
+                  path: ./test-results
