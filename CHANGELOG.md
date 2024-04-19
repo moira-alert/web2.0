@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.11.0] - 2024-04-19
+
+### Added
+
+* Subscription sortings and filters on settings page (#493)
+
+## [2.10.2] - 2024-04-12
+
+### Fixes
+
+* Fixed render targets with crypto Api ids in non-secure browser context (#504)
+
+## [2.10.1] - 2024-04-05
+
+### Fixes
+
+* Fixed allTagsSubscription toggle render (#500)
+
 ## [2.10.0] - 2024-03-29
 
 ### Added
