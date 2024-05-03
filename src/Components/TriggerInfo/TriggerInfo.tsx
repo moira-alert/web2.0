@@ -129,8 +129,6 @@ export default function TriggerInfo({
         });
     };
 
-    const url = config ? `https://${config.grafana}/api/datasources` : "";
-
     const options = {
         method: "GET",
         headers: {
@@ -138,11 +136,13 @@ export default function TriggerInfo({
         },
     };
 
-    config ??
+    React.useEffect(() => {
+        const url = `https://${config?.grafana?.url}/api/datasources`;
         fetch(url, options)
             .then((response) => response.json())
             .then((data) => console.log(data))
             .catch((error) => console.error("Error:", error));
+    }, [config]);
 
     return (
         <section>
