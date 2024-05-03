@@ -20,6 +20,7 @@ export interface Config {
         isSubscriptionToAllTagsAvailable: boolean;
     };
     metric_source_clusters: TMetricSourceCluster[];
+    grafana?: { url: string };
     sentry?: { dsn: string; platform: Platform };
 }
 

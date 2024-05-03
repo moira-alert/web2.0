@@ -129,6 +129,21 @@ export default function TriggerInfo({
         });
     };
 
+    const url = config ? `https://${config.grafana}/api/datasources` : "";
+
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    config ??
+        fetch(url, options)
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => console.error("Error:", error));
+
     return (
         <section>
             <header className={cn("header")}>
