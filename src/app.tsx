@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/react";
 import ErrorContainer from "./Containers/ErrorContainer";
 import { Providers } from "./Providers/Providers";
 import SentryInitializer from "./Components/SentryInitializer/SentryInitializer";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 import "./style.less";
 
@@ -40,5 +41,7 @@ const load = (): void => {
         import("./desktop.bundle").then((desktop) => render(desktop.default));
     }
 };
+
+serviceWorkerRegistration.register();
 
 export { load as default };
