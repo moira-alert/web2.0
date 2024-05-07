@@ -14,8 +14,8 @@ module.exports = {
         app: path.resolve(__dirname, "src/index.ts"),
     },
     output: {
-        filename: "app.[contenthash:10].js",
-        chunkFilename: "[name].[chunkhash:10].js",
+        filename: "app.[contenthash:6].js",
+        chunkFilename: "[name].[chunkhash:6].js",
         publicPath: "/",
         path: path.resolve(__dirname, "dist"),
         clean: true,
