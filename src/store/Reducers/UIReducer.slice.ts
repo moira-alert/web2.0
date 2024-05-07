@@ -3,11 +3,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface IUIState {
     isLoading: boolean;
     error: string;
+    serviceWorkerUpdated: boolean;
 }
 
 const initialState: IUIState = {
     isLoading: false,
     error: "",
+    serviceWorkerUpdated: false,
 };
 
 export const UISlice = createSlice({
@@ -20,9 +22,12 @@ export const UISlice = createSlice({
         setError: (state, action) => {
             state.error = action.payload;
         },
+        updateServiceWorker: (state) => {
+            state.serviceWorkerUpdated = true;
+        },
     },
 });
 
-export const { toggleLoading, setError } = UISlice.actions;
+export const { toggleLoading, setError, updateServiceWorker } = UISlice.actions;
 
 export default UISlice.reducer;

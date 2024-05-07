@@ -1,7 +1,29 @@
-export function register() {
+export function register(onUpdate: () => void) {
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-            navigator.serviceWorker.register("/service-worker.js").catch(console.error);
+            navigator.serviceWorker
+                .register("/service-worker.js")
+                .catch(console.error)
+                .then((registration) => {
+                    (registration as ServiceWorkerRegistration).onupdatefound = () => {
+                        const installingWorker = (registration as ServiceWorkerRegistration)
+                            .installing;
+                        if (installingWorker) {
+                            installingWorker.onstatechange = () => {
+                                if (
+                                    installingWorker.state === "installed" &&
+                                    navigator.serviceWorker.controller &&
+                                    onUpdate
+                                ) {
+                                    onUpdate();
+                                }
+                            };
+                        }
+                    };
+                })
+                .catch((error) => {
+                    console.error("Error during service worker registration:", error);
+                });
         });
     }
 }

@@ -7,10 +7,16 @@ import ErrorContainer from "./Containers/ErrorContainer";
 import { Providers } from "./Providers/Providers";
 import SentryInitializer from "./Components/SentryInitializer/SentryInitializer";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
+import { store } from "./store/store";
 
 import "./style.less";
 
 const root = document.getElementById("root");
+
+const onUpdate = () => {
+    store.dispatch(updateServiceWorker());
+};
 
 const render = (Component: ComponentType) => {
     if (root !== null) {
@@ -42,6 +48,6 @@ const load = (): void => {
     }
 };
 
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.register(onUpdate);
 
 export { load as default };
