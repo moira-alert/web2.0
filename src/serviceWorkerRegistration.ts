@@ -10,12 +10,11 @@ export function register(onUpdate: () => void) {
                             .installing;
                         if (installingWorker) {
                             installingWorker.onstatechange = () => {
-                                if (
-                                    installingWorker.state === "installed" &&
-                                    navigator.serviceWorker.controller &&
-                                    onUpdate
-                                ) {
-                                    onUpdate();
+                                if (installingWorker.state === "installed") {
+                                    if (navigator.serviceWorker.controller) {
+                                        console.log("updated");
+                                        if (onUpdate) onUpdate();
+                                    }
                                 }
                             };
                         }
