@@ -38,7 +38,7 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
                     label: "Cancel",
                     handler: () => Toast.push("Canceled"),
                 },
-                15000
+                1000 * 30
             );
     }, [serviceWorkerUpdated]);
 
