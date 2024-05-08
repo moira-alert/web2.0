@@ -35,7 +35,7 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
             Toast.push(
                 "New version available, please, reload the page.",
                 {
-                    label: "Cancel",
+                    label: "",
                     handler: () => Toast.push("Canceled"),
                 },
                 1000 * 30
