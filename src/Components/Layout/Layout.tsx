@@ -31,7 +31,15 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
     const { serviceWorkerUpdated } = useAppSelector(UIState);
 
     useEffect(() => {
-        serviceWorkerUpdated === true && Toast.push("New version available, reload the page");
+        serviceWorkerUpdated &&
+            Toast.push(
+                "New version available, please, reload the page.",
+                {
+                    label: "Cancel",
+                    handler: () => Toast.push("Canceled"),
+                },
+                15000
+            );
     }, [serviceWorkerUpdated]);
 
     useEffect(() => {
