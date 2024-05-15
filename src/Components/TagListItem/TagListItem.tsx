@@ -160,6 +160,9 @@ export const TagListItem: FC<ItemProps> = ({
                                                                 />
                                                                 &nbsp;
                                                                 {contact.value}
+                                                                &nbsp;
+                                                                {contact.name &&
+                                                                    `(${contact.name})`}
                                                             </div>
                                                         );
                                                     }

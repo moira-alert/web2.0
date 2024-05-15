@@ -12,7 +12,7 @@ export default function ContactInfo({ contact, className }: Props): React.ReactE
         <div className={className}>
             <ContactTypeIcon type={contact.type} />
             &nbsp;
-            <span>{contact.value}</span>
+            <span>{contact.name ?? contact.value}</span>
         </div>
     );
 }

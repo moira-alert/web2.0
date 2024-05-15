@@ -73,7 +73,7 @@ export default class ContactList extends React.Component<Props, State> {
                                                     <td className={cn("icon")}>
                                                         <ContactTypeIcon type={contact.type} />
                                                     </td>
-                                                    <td>{contact.value}</td>
+                                                    <td>{contact.name ?? contact.value}</td>
                                                 </tr>
                                             );
                                         }
@@ -84,7 +84,7 @@ export default class ContactList extends React.Component<Props, State> {
                                                     <WarningIcon />
                                                 </td>
                                                 <td>
-                                                    {contact.value}
+                                                    {contact.name ?? contact.value}
                                                     <span className={cn("error-message")}>
                                                         Contact type {contact.type} not more
                                                         support.{" "}
