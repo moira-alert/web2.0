@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const { mergeWithCustomize, customizeObject } = require("webpack-merge");
 const commonConfig = require("./webpack.config");
 
@@ -8,6 +10,9 @@ module.exports = mergeWithCustomize({
         proxy: {
             "/api": {
                 target: "http://localhost:9002",
+                onProxyReq: function (proxyReq) {
+                    proxyReq.setHeader("X-WebAuth-User", process.env.WEB_AUTH_USER_HEADER);
+                },
             },
         },
     },
