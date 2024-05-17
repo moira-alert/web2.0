@@ -9,6 +9,7 @@ import { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+import { isEmptyString } from "../../helpers/isEmptyString";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.less";
@@ -73,7 +74,11 @@ export default class ContactList extends React.Component<Props, State> {
                                                     <td className={cn("icon")}>
                                                         <ContactTypeIcon type={contact.type} />
                                                     </td>
-                                                    <td>{contact.name ?? contact.value}</td>
+                                                    <td>
+                                                        {isEmptyString(contact.name)
+                                                            ? contact.value
+                                                            : contact.name}
+                                                    </td>
                                                 </tr>
                                             );
                                         }
@@ -84,7 +89,9 @@ export default class ContactList extends React.Component<Props, State> {
                                                     <WarningIcon />
                                                 </td>
                                                 <td>
-                                                    {contact.name ?? contact.value}
+                                                    {isEmptyString(contact.name)
+                                                        ? contact.value
+                                                        : contact.name}
                                                     <span className={cn("error-message")}>
                                                         Contact type {contact.type} not more
                                                         support.{" "}
