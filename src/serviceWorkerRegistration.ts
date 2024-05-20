@@ -4,8 +4,12 @@ export function register(onUpdate: () => void) {
             try {
                 const registration = await navigator.serviceWorker.register("/service-worker.js");
 
-                setInterval(() => {
-                    registration.update();
+                setInterval(async () => {
+                    try {
+                        await registration.update();
+                    } catch (error) {
+                        console.error("Error updating service worker:", error);
+                    }
                 }, 1000 * 60);
 
                 registration.onupdatefound = () => {

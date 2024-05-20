@@ -1,10 +1,9 @@
 import React, { useRef, ReactNode, FC, useEffect } from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
-import { Toast } from "@skbkontur/react-ui/components/Toast";
+import { NewVersionAvailableHint } from "../NewVersionAvailableHint/NewVersionAvailableHint";
 import classNames from "classnames/bind";
-import { useAppSelector } from "../../store/hooks";
-import { UIState } from "../../store/selectors";
+
 import styles from "./Layout.less";
 
 const cn = classNames.bind(styles);
@@ -28,19 +27,6 @@ export const Block: FC<IBlockProps> = ({ children, className }) => (
 
 export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, children }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
-    const { serviceWorkerUpdated } = useAppSelector(UIState);
-
-    useEffect(() => {
-        serviceWorkerUpdated &&
-            Toast.push(
-                "New version available, please, reload the page.",
-                {
-                    label: "",
-                    handler: () => Toast.push("Canceled"),
-                },
-                1000 * 30
-            );
-    }, [serviceWorkerUpdated]);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -63,6 +49,7 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
             <Loader className={cn("loading")} active={loading} caption="Loading">
                 {children}
             </Loader>
+            <NewVersionAvailableHint />
         </main>
     );
 };

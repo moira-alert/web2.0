@@ -3,13 +3,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface IUIState {
     isLoading: boolean;
     error: string;
-    serviceWorkerUpdated: boolean;
+    isNewFrontendVersionAvailable: boolean;
 }
 
 const initialState: IUIState = {
     isLoading: false,
     error: "",
-    serviceWorkerUpdated: false,
+    isNewFrontendVersionAvailable: false,
 };
 
 export const UISlice = createSlice({
@@ -23,7 +23,7 @@ export const UISlice = createSlice({
             state.error = action.payload;
         },
         updateServiceWorker: (state) => {
-            state.serviceWorkerUpdated = true;
+            state.isNewFrontendVersionAvailable = true;
         },
     },
 });

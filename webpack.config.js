@@ -21,7 +21,10 @@ module.exports = {
         clean: true,
     },
     plugins: [
+        //https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin#type-GenerateSW
         new GenerateSW({
+            // default maximum size is 3mb while our main chunk is 4mb
+            // that's why size is sincreased to 6mb
             maximumFileSizeToCacheInBytes: 6291456,
             cleanupOutdatedCaches: true,
             clientsClaim: true,
