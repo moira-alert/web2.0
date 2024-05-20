@@ -3,6 +3,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
+import { ContactWithCustomName } from "./Components/ContactWithCustomName";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import { Contact } from "../../Domain/Contact";
 import { ContactConfig } from "../../Domain/Config";
@@ -63,6 +64,8 @@ export default class ContactList extends React.Component<Props, State> {
                                                 (description) => description.type === contact.type
                                             )
                                         ) {
+                                            console.log(contact.name);
+                                            const { name, value, type } = contact;
                                             return (
                                                 <tr
                                                     key={contact.id}
@@ -72,12 +75,17 @@ export default class ContactList extends React.Component<Props, State> {
                                                     }
                                                 >
                                                     <td className={cn("icon")}>
-                                                        <ContactTypeIcon type={contact.type} />
+                                                        <ContactTypeIcon type={type} />
                                                     </td>
                                                     <td>
-                                                        {isEmptyString(contact.name)
-                                                            ? contact.value
-                                                            : contact.name}
+                                                        {isEmptyString(name) ? (
+                                                            value
+                                                        ) : (
+                                                            <ContactWithCustomName
+                                                                contactValue={value}
+                                                                contactName={name}
+                                                            />
+                                                        )}
                                                     </td>
                                                 </tr>
                                             );
@@ -179,6 +187,7 @@ export default class ContactList extends React.Component<Props, State> {
     handleCreateNewContact = async (): Promise<void> => {
         const { onAddContact } = this.props;
         const { newContact } = this.state;
+        console.log(newContact);
         if (newContact == null) {
             throw new Error("InvalidProgramState");
         }

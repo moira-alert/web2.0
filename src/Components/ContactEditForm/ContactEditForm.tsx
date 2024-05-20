@@ -7,6 +7,7 @@ import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Markdown } from "../Markdown/Markdown";
 import { Gapped } from "@skbkontur/react-ui";
+import { Fill, Fixed, RowStack } from "@skbkontur/react-stack-layout";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEditForm.less";
@@ -51,29 +52,34 @@ export default class ContactEditForm extends React.Component<Props> {
                     items={contactItems}
                     data-tid="Select channel type"
                 />
-
-                <ValidationWrapperV1
-                    renderMessage={tooltip("top left")}
-                    validationInfo={this.validateValue()}
-                >
+                <RowStack block baseline>
+                    <Fixed width={100}>Contact value:</Fixed>
+                    <Fill>
+                        <ValidationWrapperV1
+                            renderMessage={tooltip("top left")}
+                            validationInfo={this.validateValue()}
+                        >
+                            <Input
+                                width="100%"
+                                disabled={type == null}
+                                placeholder={
+                                    (currentContactConfig && currentContactConfig.placeholder) || ""
+                                }
+                                value={value}
+                                onValueChange={(value) => onChange({ value })}
+                            />
+                        </ValidationWrapperV1>
+                    </Fill>
+                </RowStack>
+                <RowStack block baseline>
+                    <Fixed width={100}>Contact name:</Fixed>
                     <Input
                         width="100%"
-                        disabled={type == null}
-                        placeholder={
-                            (currentContactConfig && currentContactConfig.placeholder) || ""
-                        }
-                        value={value}
-                        onValueChange={(value) => onChange({ value })}
+                        placeholder="Type your custom contact name"
+                        value={name}
+                        onValueChange={(name) => onChange({ name })}
                     />
-                </ValidationWrapperV1>
-
-                <Input
-                    width="100%"
-                    placeholder="Type your custom contact name"
-                    value={name}
-                    onValueChange={(name) => onChange({ name })}
-                />
-
+                </RowStack>
                 {currentContactConfig?.help && (
                     <Markdown markdown={currentContactConfig.help} className={cn("comment")} />
                 )}
