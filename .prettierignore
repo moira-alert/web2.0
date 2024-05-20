@@ -1,3 +1,4 @@
 flow-typed/
 TriggerGrammar/parser.terms.ts
 TriggerGrammar/parser.ts
+workflows/
