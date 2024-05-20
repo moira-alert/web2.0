@@ -187,7 +187,6 @@ export default class ContactList extends React.Component<Props, State> {
     handleCreateNewContact = async (): Promise<void> => {
         const { onAddContact } = this.props;
         const { newContact } = this.state;
-        console.log(newContact);
         if (newContact == null) {
             throw new Error("InvalidProgramState");
         }

@@ -104,7 +104,15 @@ export default function NotificationList(props: Props): React.ReactElement {
                             </div>
                             <div className={cn("user")}>{user}</div>
                             <div className={cn("contact")}>
-                                <ContactTypeIcon type={type} /> {contactName ?? value}
+                                <ContactTypeIcon type={type} />
+                                {
+                                    <>
+                                        &nbsp;
+                                        {value}
+                                        &nbsp;
+                                        {contactName && `(${contactName})`}
+                                    </>
+                                }
                             </div>
                             <div
                                 className={cn("throttled", { true: throttled, false: !throttled })}
