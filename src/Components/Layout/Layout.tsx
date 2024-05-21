@@ -1,6 +1,7 @@
 import React, { useRef, ReactNode, FC, useEffect } from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
+import { NewVersionAvailableHint } from "../NewVersionAvailableHint/NewVersionAvailableHint";
 import classNames from "classnames/bind";
 
 import styles from "./Layout.less";
@@ -48,6 +49,7 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
             <Loader className={cn("loading")} active={loading} caption="Loading">
                 {children}
             </Loader>
+            <NewVersionAvailableHint />
         </main>
     );
 };

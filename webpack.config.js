@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
 const TerserPlugin = require("terser-webpack-plugin");
+const { GenerateSW } = require("workbox-webpack-plugin");
 const supportedLocales = ["en"];
 
 const isDev = process.argv.includes("--mode=development");
@@ -20,6 +21,16 @@ module.exports = {
         clean: true,
     },
     plugins: [
+        //https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin#type-GenerateSW
+        new GenerateSW({
+            // default maximum size is 3mb while our main chunk is 4mb
+            // that's why size is sincreased to 6mb
+            maximumFileSizeToCacheInBytes: 6291456,
+            cleanupOutdatedCaches: true,
+            clientsClaim: true,
+            sourcemap: false,
+            skipWaiting: true,
+        }),
         new ContextReplacementPlugin(
             /date-fns[\/\\]/,
             new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
@@ -84,7 +95,13 @@ module.exports = {
 
     optimization: {
         minimize: true,
-        minimizer: [new TerserPlugin({ parallel: true, terserOptions: { sourceMap: true } })],
+        minimizer: [
+            new TerserPlugin({
+                parallel: true,
+                extractComments: false,
+                terserOptions: { sourceMap: true },
+            }),
+        ],
         usedExports: true,
         splitChunks: {
             chunks: "all",
