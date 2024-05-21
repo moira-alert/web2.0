@@ -11,6 +11,7 @@ import { Fill, Fixed, RowStack } from "@skbkontur/react-stack-layout";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEditForm.less";
+import { isEmptyString } from "../../helpers/isEmptyString";
 
 const cn = classNames.bind(styles);
 
@@ -30,22 +31,20 @@ export default class ContactEditForm extends React.Component<Props> {
             contact.label,
         ]);
 
+        const renderItem = (v: string, item?: string) => (
+            <span>
+                {v && <ContactTypeIcon type={v} />} {item}
+            </span>
+        );
+
         return (
             <Gapped vertical gap={10}>
                 <Select<string, string>
                     placeholder="Select channel type"
                     width="100%"
                     value={type}
-                    renderItem={(v, item) => (
-                        <span>
-                            {v && <ContactTypeIcon type={v} />} {item}
-                        </span>
-                    )}
-                    renderValue={(v, item) => (
-                        <span>
-                            {v && <ContactTypeIcon type={v} />} {item}
-                        </span>
-                    )}
+                    renderItem={renderItem}
+                    renderValue={renderItem}
                     onValueChange={(v) => {
                         v && onChange({ type: v });
                     }}
@@ -61,7 +60,7 @@ export default class ContactEditForm extends React.Component<Props> {
                         >
                             <Input
                                 width="100%"
-                                disabled={type == null}
+                                disabled={isEmptyString(type)}
                                 placeholder={
                                     (currentContactConfig && currentContactConfig.placeholder) || ""
                                 }
