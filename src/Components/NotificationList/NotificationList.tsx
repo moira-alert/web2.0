@@ -68,8 +68,8 @@ export default function NotificationList(props: Props): React.ReactElement {
                     const { timestamp, trigger, contact, throttled, send_fail: fails } = items[
                         key
                     ][0];
-                    const { type, value, user } = contact;
-                    const { id, name } = trigger;
+                    const { type, value, name: contactName, user } = contact;
+                    const { id, name: triggerName } = trigger;
                     return (
                         <div key={key} className={cn("row")}>
                             <div className={cn("timestamp")}>
@@ -95,14 +95,24 @@ export default function NotificationList(props: Props): React.ReactElement {
                             </div>
                             <div className={cn("trigger")}>
                                 {id ? (
-                                    <RouterLink to={getPageLink("trigger", id)}>{name}</RouterLink>
+                                    <RouterLink to={getPageLink("trigger", id)}>
+                                        {triggerName}
+                                    </RouterLink>
                                 ) : (
                                     <span>&mdash;</span>
                                 )}
                             </div>
                             <div className={cn("user")}>{user}</div>
                             <div className={cn("contact")}>
-                                <ContactTypeIcon type={type} /> {value}
+                                <ContactTypeIcon type={type} />
+                                {
+                                    <>
+                                        &nbsp;
+                                        {value}
+                                        &nbsp;
+                                        {contactName && `(${contactName})`}
+                                    </>
+                                }
                             </div>
                             <div
                                 className={cn("throttled", { true: throttled, false: !throttled })}

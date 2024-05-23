@@ -106,7 +106,7 @@ export default class ContactSelect extends React.Component<Props> {
             .slice(0, 10)
             .map((x) => ({
                 value: x.id,
-                label: x.value,
+                label: x.name || x.value,
                 type: x.type,
             }));
 
