@@ -2,8 +2,8 @@ import React, { ReactElement } from "react";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 
 interface IErrorContainerProps {
-    message: string;
-    title: string;
+    message?: string;
+    title?: string;
 }
 
 export default function ErrorContainer({

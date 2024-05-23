@@ -1,5 +1,4 @@
 import * as queryString from "query-string";
-import { Config } from "../Domain/Config";
 import { EventList } from "../Domain/Event";
 import { Trigger, TriggerList, TriggerState, ValidateTargetsResult } from "../Domain/Trigger";
 import { Settings } from "../Domain/Settings";
@@ -56,8 +55,6 @@ export { statusCode };
 
 export default class MoiraApi {
     apiUrl: string;
-
-    config?: Config;
 
     triggerListPageSize = 20;
 

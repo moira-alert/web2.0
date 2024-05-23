@@ -45,7 +45,7 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
                     <WarningIcon /> {error}
                 </div>
             )}
-            <Loader className={cn("loading")} active={loading} caption="Loading">
+            <Loader className={cn("loader")} active={loading} caption="Loading">
                 {children}
             </Loader>
         </main>

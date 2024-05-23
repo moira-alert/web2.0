@@ -201,6 +201,7 @@ export default function TriggerInfo({
                             />
                         </LinkMenuItem>
                         <LinkMenuItem
+                            targetBlank
                             icon={<DocumentCopyIcon />}
                             link={getPageLink("triggerDuplicate", id)}
                         >

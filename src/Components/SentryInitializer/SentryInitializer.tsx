@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useGetConfigQuery } from "../../services/config";
+import { useGetConfigQuery } from "../../services/ReusableApi";
 import * as Sentry from "@sentry/react";
 
 const SentryInitializer = () => {
