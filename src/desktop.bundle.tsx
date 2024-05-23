@@ -93,6 +93,7 @@ function Desktop() {
                     view={TriggerDesktop}
                 />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
+                <Route exact path={getPagePath("teams")} component={TeamsContainer} />
                 <PrivateRoute>
                     <Route
                         exact
@@ -102,8 +103,6 @@ function Desktop() {
                     <Route exact path={getPagePath("tags")} component={TagListContainer} />
                     <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
                 </PrivateRoute>
-
-                <Route exact path={getPagePath("teams")} component={TeamsContainer} />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />
