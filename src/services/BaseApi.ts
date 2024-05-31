@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Config } from "../Domain/Config";
 
-export const ConfigApi = createApi({
-    reducerPath: "ConfigApi",
+export const BaseApi = createApi({
+    reducerPath: "BaseApi",
     baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
     endpoints: (builder) => ({
         getConfig: builder.query<Config, void>({
@@ -11,4 +11,4 @@ export const ConfigApi = createApi({
     }),
 });
 
-export const { useGetConfigQuery } = ConfigApi;
+export const { useGetConfigQuery } = BaseApi;

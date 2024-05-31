@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ConfigApi } from "../../services/ConfigApi";
+import { BaseApi } from "../../services/BaseApi";
 import { Config } from "../../Domain/Config";
 
 const configSlice = createSlice({
@@ -7,7 +7,7 @@ const configSlice = createSlice({
     initialState: { config: null as Config | null },
     reducers: {},
     extraReducers: (builder) => {
-        builder.addMatcher(ConfigApi.endpoints.getConfig.matchFulfilled, (state, { payload }) => {
+        builder.addMatcher(BaseApi.endpoints.getConfig.matchFulfilled, (state, { payload }) => {
             state.config = payload;
         });
     },
