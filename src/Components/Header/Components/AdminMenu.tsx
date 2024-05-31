@@ -4,7 +4,6 @@ import Crown from "@skbkontur/react-icons/Crown";
 import { LinkMenuItem } from "../../TriggerInfo/Components/LinkMenuItem";
 import { getPageLink } from "../../../Domain/Global";
 import { useGetUserQuery } from "../../../services/UserApi";
-
 import classNames from "classnames/bind";
 
 import styles from "./AdminMenu.less";
