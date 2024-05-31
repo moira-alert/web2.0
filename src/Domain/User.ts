@@ -1,5 +1,10 @@
 export interface User {
     login: string;
-    role?: string;
+    role?: UserRoles;
     auth_enabled?: boolean;
+}
+
+export enum UserRoles {
+    Admin = "admin",
+    User = "user",
 }

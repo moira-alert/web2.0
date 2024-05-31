@@ -4,17 +4,18 @@ import Crown from "@skbkontur/react-icons/Crown";
 import { LinkMenuItem } from "../../TriggerInfo/Components/LinkMenuItem";
 import { getPageLink } from "../../../Domain/Global";
 import { useGetUserQuery } from "../../../services/UserApi";
+import { Spinner } from "@skbkontur/react-ui/components/Spinner";
+import { UserRoles } from "../../../Domain/User";
 import classNames from "classnames/bind";
 
 import styles from "./AdminMenu.less";
-import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 
 const cn = classNames.bind(styles);
 
 export const AdminMenu: FC = () => {
     const { data: user, isLoading: isUserLoading } = useGetUserQuery();
 
-    const isAdminMenuEnabled = user?.auth_enabled && user.role === "admin";
+    const isAdminMenuEnabled = user?.auth_enabled && user.role === UserRoles.Admin;
 
     return (
         <>
