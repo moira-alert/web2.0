@@ -89,10 +89,6 @@ export default class MoiraApi {
         return response.json();
     }
 
-    async getUser(): Promise<{ login: string }> {
-        return this.get<{ login: string }>("/user");
-    }
-
     async getSettings(): Promise<Settings> {
         const result = await this.get<Settings>("/user/settings");
 

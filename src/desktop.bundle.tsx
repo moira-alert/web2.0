@@ -20,7 +20,7 @@ import TriggerListDesktop, {
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
 import TeamsContainer from "./Containers/TeamsContainer";
-import { useGetSettingsQuery } from "./services/ReusableApi";
+import { useGetUserQuery } from "./services/UserApi";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 
 import styles from "./desktop.less";
@@ -44,7 +44,7 @@ interface PrivateRouteProps {
     children: React.ReactNode;
 }
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, ...rest }) => {
-    const { data: auth, isLoading } = useGetSettingsQuery();
+    const { data: user, isLoading } = useGetUserQuery();
 
     if (isLoading) {
         return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
@@ -54,11 +54,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, ...rest }) => {
         <Route
             {...rest}
             render={({ location }) => {
-                if (!auth?.auth_enabled) {
+                if (!user?.auth_enabled) {
                     return children;
                 }
 
-                return auth.role === "admin" ? (
+                return user.role === "admin" ? (
                     children
                 ) : (
                     <Redirect to={{ pathname: getPagePath("index"), state: { from: location } }} />

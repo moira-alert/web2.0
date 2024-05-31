@@ -3,7 +3,8 @@ import { DropdownMenu } from "@skbkontur/react-ui";
 import Crown from "@skbkontur/react-icons/Crown";
 import { LinkMenuItem } from "../../TriggerInfo/Components/LinkMenuItem";
 import { getPageLink } from "../../../Domain/Global";
-import { useGetSettingsQuery } from "../../../services/ReusableApi";
+import { useGetUserQuery } from "../../../services/UserApi";
+
 import classNames from "classnames/bind";
 
 import styles from "./AdminMenu.less";
@@ -11,11 +12,11 @@ import styles from "./AdminMenu.less";
 const cn = classNames.bind(styles);
 
 export const AdminMenu: FC = () => {
-    const { data: auth } = useGetSettingsQuery();
+    const { data: user } = useGetUserQuery();
 
     return (
         <>
-            {auth?.auth_enabled && auth.role === "admin" && (
+            {user?.auth_enabled && user.role === "admin" && (
                 <DropdownMenu
                     caption={
                         <>
@@ -26,7 +27,7 @@ export const AdminMenu: FC = () => {
                     }
                 >
                     <LinkMenuItem link={getPageLink("patterns")}>Patterns</LinkMenuItem>
-                    <LinkMenuItem link={getPageLink("notifications")}>Notifications</LinkMenuItem>
+                    <LinkMenuItem link={getPageLink("notifications")}>Notifier</LinkMenuItem>
                     <LinkMenuItem link={getPageLink("tags")}>Tags</LinkMenuItem>
                 </DropdownMenu>
             )}

@@ -2,16 +2,13 @@ import MoiraApi from "../Api/MoiraApi";
 import { useAppDispatch } from "../store/hooks";
 import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
 import { setTeamsAndTags, setSettings } from "../store/Reducers/SettingsContainerReducer.slice";
+import { User } from "../Domain/User";
 
-export const useLoadSettingsData = (moiraApi: MoiraApi, teamId?: string) => {
+export const useLoadSettingsData = (moiraApi: MoiraApi, user?: User, teamId?: string) => {
     const dispatch = useAppDispatch();
 
     const getTeamsAndTags = async () => {
-        const [user, teams, tags] = await Promise.all([
-            moiraApi.getUser(),
-            moiraApi.getTeams(),
-            moiraApi.getTagList(),
-        ]);
+        const [teams, tags] = await Promise.all([moiraApi.getTeams(), moiraApi.getTagList()]);
 
         let team;
 
@@ -19,7 +16,7 @@ export const useLoadSettingsData = (moiraApi: MoiraApi, teamId?: string) => {
             team = teams.teams.find((teamOverview) => teamOverview.id === teamId);
         }
 
-        dispatch(setTeamsAndTags({ login: user.login, teams: teams.teams, tags, team }));
+        dispatch(setTeamsAndTags({ login: user?.login, teams: teams.teams, tags, team }));
     };
     const getTeamOrUserData = async (teamId?: string) => {
         const settings = teamId

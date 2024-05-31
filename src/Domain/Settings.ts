@@ -6,6 +6,4 @@ export interface Settings {
     team_id?: string;
     contacts: Array<Contact>;
     subscriptions: Array<Subscription>;
-    role?: string;
-    auth_enabled?: boolean;
 }

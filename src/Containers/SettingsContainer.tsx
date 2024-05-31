@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { ConfigState, SettingsState, UIState } from "../store/selectors";
 import { setError } from "../store/Reducers/UIReducer.slice";
 import useConfirmModal from "../hooks/useConfirmModal";
+import { useGetUserQuery } from "../services/UserApi";
 
 export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: string }> {
     moiraApi: MoiraApi;
@@ -30,7 +31,8 @@ export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: 
 const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, history }) => {
     const teamId = match.params.teamId;
     const dispatch = useAppDispatch();
-    const { loadData } = useLoadSettingsData(moiraApi, teamId);
+    const { data: user } = useGetUserQuery();
+    const { loadData } = useLoadSettingsData(moiraApi, user, teamId);
     const [ConfirmModal, setModalData] = useConfirmModal();
 
     const { config } = useAppSelector(ConfigState);
@@ -41,8 +43,8 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
 
     const scrollRef = useRef<HTMLTableElement>(null);
 
-    const user = { id: "", name: login ?? "Unknown" };
-    const userWithTeams = teams ? [user, ...teams] : [];
+    const userAsTeam = { id: "", name: login ?? "Unknown" };
+    const userWithTeams = teams ? [userAsTeam, ...teams] : [];
 
     const normalizeContactValueForApi = (contactType: string, value: string): string => {
         let result = value.trim();
@@ -242,9 +244,11 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
     };
 
     useEffect(() => {
-        loadData();
         setDocumentTitle("Settings");
-    }, [teamId]);
+        if (user) {
+            loadData();
+        }
+    }, [teamId, user]);
 
     return (
         <Layout loading={isLoading} error={error}>
@@ -259,7 +263,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
                             <span>Show for {team ? "team" : "user"}</span>
                             <Select<Team>
                                 use={"link"}
-                                value={team ?? user}
+                                value={team ?? userAsTeam}
                                 items={userWithTeams}
                                 renderValue={(value) => value.name}
                                 renderItem={(value) => value.name}
