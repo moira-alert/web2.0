@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
@@ -20,6 +20,9 @@ import TriggerListDesktop, {
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
 import TeamsContainer from "./Containers/TeamsContainer";
+import { useGetUserQuery } from "./services/UserApi";
+import { EUserRoles } from "./Domain/User";
+import { Loader } from "@skbkontur/react-ui/components/Loader";
 
 import styles from "./desktop.less";
 
@@ -38,6 +41,27 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
     // @ts-ignore problem with typing view
     return <Route {...rest} render={(props) => <Container {...props} view={View} />} />;
 }
+interface PrivateRouteProps {
+    children: React.ReactNode;
+}
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+    const { data: user, isLoading } = useGetUserQuery();
+
+    if (isLoading) {
+        return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
+    }
+
+    if (!user?.auth_enabled) {
+        return <>{children}</>;
+    }
+
+    return user.role === EUserRoles.Admin ? (
+        <>{children}</>
+    ) : (
+        <Redirect to={{ pathname: getPagePath("index") }} />
+    );
+};
 
 function Desktop() {
     return (
@@ -64,14 +88,16 @@ function Desktop() {
                     view={TriggerDesktop}
                 />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
-                <Route
-                    exact
-                    path={getPagePath("notifications")}
-                    component={NotificationListContainer}
-                />
-                <Route exact path={getPagePath("tags")} component={TagListContainer} />
-                <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
                 <Route exact path={getPagePath("teams")} component={TeamsContainer} />
+                <PrivateRoute>
+                    <Route
+                        exact
+                        path={getPagePath("notifications")}
+                        component={NotificationListContainer}
+                    />
+                    <Route exact path={getPagePath("tags")} component={TagListContainer} />
+                    <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
+                </PrivateRoute>
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

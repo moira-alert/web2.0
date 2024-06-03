@@ -2,19 +2,19 @@ import { configureStore } from "@reduxjs/toolkit";
 import NotificationListContainerReducer from "./Reducers/NotificationListContainerReducer.slice";
 import UIReducer from "./Reducers/UIReducer.slice";
 import SettingsContainerReducer from "./Reducers/SettingsContainerReducer.slice";
-import { configApi } from "../services/config";
+import { BaseApi } from "../services/BaseApi";
 import ConfigReducer from "./Reducers/ConfigReducer.slice";
 
 export const store = configureStore({
     reducer: {
-        [configApi.reducerPath]: configApi.reducer,
+        [BaseApi.reducerPath]: BaseApi.reducer,
         ConfigReducer,
         NotificationListContainerReducer,
         UIReducer,
         SettingsContainerReducer,
     },
 
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(configApi.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(BaseApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

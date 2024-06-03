@@ -7,9 +7,9 @@ import { Confirm } from "./Confirm";
 import { Team } from "../../Domain/Team";
 import { CollapseButton } from "../CollapseButton/CollapseButton";
 import { AddUserToTeam } from "./AddUserToTeam";
+import { useGetUserQuery } from "../../services/UserApi";
 
 interface UsersProps {
-    login?: string;
     team: Team;
     addUserToTeam: (team: Team, userName: string) => void;
     onRemoveUser: (userName: string) => void;
@@ -20,6 +20,8 @@ export function Users(props: UsersProps): ReactElement {
     const [users, setUsers] = useState<string[]>();
     const [addingUser, setAddingUser] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const { data: user } = useGetUserQuery();
 
     const handleCollapse = async () => {
         if (!loading && !users) {
@@ -45,7 +47,7 @@ export function Users(props: UsersProps): ReactElement {
     };
 
     const getExcludeMessage = (userName: string) => {
-        if (userName === props.login) {
+        if (userName === user?.login) {
             return `You are trying to exclude yourself from the "${props.team.name}". If you do this, you will no longer be able to see this team. Are you sure you want to exclude yourself?`;
         }
         return `Exclude "${userName}" from "${props.team.name}"?`;

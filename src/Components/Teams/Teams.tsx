@@ -7,7 +7,6 @@ import { TeamEditor } from "./TeamEditor/TeamEditor";
 import { Team as TeamComponent } from "./Team/Team";
 
 interface TeamsProps {
-    login?: string;
     teams: Team[];
     removeUser: (team: Team, userName: string) => void;
     addUserToTeam: (team: Team, userName: string) => void;
@@ -37,7 +36,6 @@ export function Teams(props: TeamsProps): ReactElement {
                         />
                         <Grid gap="4px" margin="8px 0 0">
                             <Users
-                                login={props.login}
                                 team={team}
                                 getUsers={props.getUsers}
                                 onRemoveUser={(userName: string) =>

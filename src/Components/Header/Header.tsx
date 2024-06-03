@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Link as LinkUI } from "@skbkontur/react-ui/components/Link";
 import SettingsIcon from "@skbkontur/react-icons/Settings";
@@ -7,6 +7,7 @@ import PeopleIcon from "@skbkontur/react-icons/People";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import svgLogo from "./moira-logo.svg";
+import { AdminMenu } from "./Components/AdminMenu";
 import classNames from "classnames/bind";
 
 import styles from "./Header.less";
@@ -21,6 +22,7 @@ export default function Header(): React.ReactElement {
                     <img className={cn("logo-img")} src={svgLogo} alt="Moira" />
                 </Link>
                 <nav className={cn("menu")}>
+                    <AdminMenu />
                     <RouterLink to={getPageLink("teams")} icon={<PeopleIcon />}>
                         Teams
                     </RouterLink>

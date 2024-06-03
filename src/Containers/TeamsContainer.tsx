@@ -13,7 +13,6 @@ interface Props extends RouteComponentProps {
 }
 
 const TeamsContainer = ({ moiraApi }: Props) => {
-    const [login, setLogin] = useState<string | undefined>();
     const [teams, setTeams] = useState<Team[] | undefined>();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | undefined>();
@@ -21,10 +20,8 @@ const TeamsContainer = ({ moiraApi }: Props) => {
     const getData = async () => {
         try {
             setLoading(true);
-            const { login } = await moiraApi.getUser();
             const teams = await moiraApi.getTeams();
             setTeams(teams.teams);
-            setLogin(login);
         } catch (error) {
             setErrorMessage(error);
         } finally {
@@ -118,7 +115,6 @@ const TeamsContainer = ({ moiraApi }: Props) => {
                 <LayoutContent>
                     {teams ? (
                         <Teams
-                            login={login}
                             teams={teams}
                             addUserToTeam={addUser}
                             removeUser={removeUser}
