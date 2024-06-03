@@ -6,7 +6,7 @@ interface ILinkMenuItemProps {
     link?: string;
     icon?: React.ReactElement;
     onClick?: () => void;
-    targetBlank?: boolean;
+    target?: string;
     children: React.ReactElement | string;
 }
 
@@ -15,7 +15,7 @@ export const LinkMenuItem = ({
     icon,
     onClick,
     children,
-    targetBlank,
+    target = "_self",
 }: ILinkMenuItemProps) => {
     return (
         <MenuItem
@@ -25,7 +25,7 @@ export const LinkMenuItem = ({
                     <Link
                         onClick={onClick}
                         icon={icon}
-                        target={targetBlank ? "_blank" : "_self"}
+                        target={target}
                         rel="noopener noreferrer"
                         href={href}
                         {...rest}

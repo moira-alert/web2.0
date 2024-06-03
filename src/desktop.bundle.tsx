@@ -21,6 +21,7 @@ import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
 import TeamsContainer from "./Containers/TeamsContainer";
 import { useGetUserQuery } from "./services/UserApi";
+import { UserRoles } from "./Domain/User";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 
 import styles from "./desktop.less";
@@ -43,28 +44,22 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
 interface PrivateRouteProps {
     children: React.ReactNode;
 }
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, ...rest }) => {
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     const { data: user, isLoading } = useGetUserQuery();
 
     if (isLoading) {
         return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
     }
 
-    return (
-        <Route
-            {...rest}
-            render={({ location }) => {
-                if (!user?.auth_enabled) {
-                    return children;
-                }
+    if (!user?.auth_enabled) {
+        return <>{children}</>;
+    }
 
-                return user.role === "admin" ? (
-                    children
-                ) : (
-                    <Redirect to={{ pathname: getPagePath("index"), state: { from: location } }} />
-                );
-            }}
-        />
+    return user.role === UserRoles.Admin ? (
+        <>{children}</>
+    ) : (
+        <Redirect to={{ pathname: getPagePath("index") }} />
     );
 };
 

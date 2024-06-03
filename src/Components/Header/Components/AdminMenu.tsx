@@ -17,27 +17,27 @@ export const AdminMenu: FC = () => {
 
     const isAdminMenuEnabled = user?.auth_enabled && user.role === UserRoles.Admin;
 
+    if (isUserLoading) {
+        return <Spinner type={"mini"} dimmed caption="" />;
+    }
+
+    if (!isAdminMenuEnabled) {
+        return null;
+    }
+
     return (
-        <>
-            {isUserLoading ? (
-                <Spinner type={"mini"} dimmed caption="" />
-            ) : (
-                isAdminMenuEnabled && (
-                    <DropdownMenu
-                        caption={
-                            <>
-                                <Crown />
-                                &nbsp;
-                                <button className={cn("admin-button")}>Admin</button>
-                            </>
-                        }
-                    >
-                        <LinkMenuItem link={getPageLink("patterns")}>Patterns</LinkMenuItem>
-                        <LinkMenuItem link={getPageLink("notifications")}>Notifier</LinkMenuItem>
-                        <LinkMenuItem link={getPageLink("tags")}>Tags</LinkMenuItem>
-                    </DropdownMenu>
-                )
-            )}
-        </>
+        <DropdownMenu
+            caption={
+                <>
+                    <Crown />
+                    &nbsp;
+                    <button className={cn("admin-button")}>Admin</button>
+                </>
+            }
+        >
+            <LinkMenuItem link={getPageLink("patterns")}>Patterns</LinkMenuItem>
+            <LinkMenuItem link={getPageLink("notifications")}>Notifier</LinkMenuItem>
+            <LinkMenuItem link={getPageLink("tags")}>Tags</LinkMenuItem>
+        </DropdownMenu>
     );
 };
