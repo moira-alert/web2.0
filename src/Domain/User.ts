@@ -1,10 +1,10 @@
-export interface User {
+export interface IUser {
     login: string;
-    role?: UserRoles;
+    role?: EUserRoles;
     auth_enabled?: boolean;
 }
 
-export enum UserRoles {
+export enum EUserRoles {
     Admin = "admin",
     User = "user",
 }

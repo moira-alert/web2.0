@@ -21,7 +21,7 @@ import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
 import TeamsContainer from "./Containers/TeamsContainer";
 import { useGetUserQuery } from "./services/UserApi";
-import { UserRoles } from "./Domain/User";
+import { EUserRoles } from "./Domain/User";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 
 import styles from "./desktop.less";
@@ -56,7 +56,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
         return <>{children}</>;
     }
 
-    return user.role === UserRoles.Admin ? (
+    return user.role === EUserRoles.Admin ? (
         <>{children}</>
     ) : (
         <Redirect to={{ pathname: getPagePath("index") }} />
