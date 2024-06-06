@@ -3,12 +3,14 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
+import { ContactWithCustomName } from "./Components/ContactWithCustomName";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import { Contact } from "../../Domain/Contact";
 import { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
+import { isEmptyString } from "../../helpers/isEmptyString";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.less";
@@ -62,6 +64,8 @@ export default class ContactList extends React.Component<Props, State> {
                                                 (description) => description.type === contact.type
                                             )
                                         ) {
+                                            console.log(contact.name);
+                                            const { name, value, type } = contact;
                                             return (
                                                 <tr
                                                     key={contact.id}
@@ -71,9 +75,18 @@ export default class ContactList extends React.Component<Props, State> {
                                                     }
                                                 >
                                                     <td className={cn("icon")}>
-                                                        <ContactTypeIcon type={contact.type} />
+                                                        <ContactTypeIcon type={type} />
                                                     </td>
-                                                    <td>{contact.value}</td>
+                                                    <td>
+                                                        {isEmptyString(name) ? (
+                                                            value
+                                                        ) : (
+                                                            <ContactWithCustomName
+                                                                contactValue={value}
+                                                                contactName={name}
+                                                            />
+                                                        )}
+                                                    </td>
                                                 </tr>
                                             );
                                         }
@@ -84,7 +97,9 @@ export default class ContactList extends React.Component<Props, State> {
                                                     <WarningIcon />
                                                 </td>
                                                 <td>
-                                                    {contact.value}
+                                                    {isEmptyString(contact.name)
+                                                        ? contact.value
+                                                        : contact.name}
                                                     <span className={cn("error-message")}>
                                                         Contact type {contact.type} not more
                                                         support.{" "}

@@ -58,7 +58,6 @@ export const useValidateTarget = (
             await saveTrigger(triggerPayload);
         } catch (error) {
             dispatch(setError(error.message));
-            throw error;
         } finally {
             dispatch(setIsLoading(false));
         }

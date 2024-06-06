@@ -3,7 +3,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Filter } from "@skbkontur/react-icons";
 import { Contact } from "../../../Domain/Contact";
 import { Checkbox, DropdownMenu, MenuItem, ThemeContext, ThemeFactory } from "@skbkontur/react-ui";
-import ContactTypeIcon from "../../../Components/ContactTypeIcon/ContactTypeIcon";
+import ContactInfo from "../../../Components/ContactInfo/ContactInfo";
 import { ArrowChevronDown } from "@skbkontur/react-icons";
 import TagDropdownSelect from "../../../Components/TagDropdownSelect/TagDropdownSelect";
 
@@ -62,9 +62,7 @@ export const FilterSubscriptionButtons = ({
                                 }}
                                 onValueChange={() => handleFilterContactsChange(contact.id)}
                             >
-                                <ContactTypeIcon type={contact.type} />
-                                &nbsp;
-                                {contact.value}
+                                <ContactInfo contact={contact} />
                             </Checkbox>
                         </MenuItem>
                     </ThemeContext.Provider>

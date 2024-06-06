@@ -94,7 +94,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
     };
 
     const handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
-        const contactType = contact.type;
+        const { type: contactType, name: contactName } = contact;
 
         if (settings === undefined || contactType === undefined || login === undefined) {
             throw new Error("InvalidProgramState");
@@ -105,6 +105,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
                 value: normalizeContactValueForApi(contactType, contact.value ?? ""),
                 type: contactType,
                 user: team ? undefined : login,
+                name: contactName,
             };
 
             const newContact = team
