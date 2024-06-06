@@ -2,13 +2,13 @@ import MoiraApi from "../Api/MoiraApi";
 import { useAppDispatch } from "../store/hooks";
 import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
 import { setTeamsAndTags, setSettings } from "../store/Reducers/SettingsContainerReducer.slice";
-import { User } from "../Domain/User";
+import { IUser } from "../Domain/User";
 import { Settings } from "../Domain/Settings";
 
 export const useLoadSettingsData = (
     moiraApi: MoiraApi,
     userSettings?: Settings,
-    user?: User,
+    user?: IUser,
     teamId?: string
 ) => {
     const dispatch = useAppDispatch();

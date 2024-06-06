@@ -1,10 +1,10 @@
 import { BaseApi } from "./BaseApi";
-import { User } from "../Domain/User";
+import { IUser } from "../Domain/User";
 import { Settings } from "../Domain/Settings";
 
 export const UserApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getUser: builder.query<User, void>({
+        getUser: builder.query<IUser, void>({
             query: () => ({ url: "user", method: "GET" }),
         }),
         getUserSettings: builder.query<Settings, void>({
