@@ -1,5 +1,5 @@
-@import '~styles/variables.less';
-@import '~styles/mixins.less';
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
 
 .row {
     display: flex;
@@ -12,12 +12,12 @@
     &.active {
         background-color: #f6f6f6;
     }
+}
 
-    &.clickable {
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-        }
+.clickable {
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
     }
 }
 
@@ -28,7 +28,7 @@
 }
 
 .name {
-    width: calc(~'100% - 305px');
+    width: calc(~"100% - 305px");
     padding-left: 5px;
 }
 
@@ -55,9 +55,9 @@
 .item {
     display: flex;
     &:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
+        background-color: rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
 }
 
 .enabled {
@@ -65,13 +65,25 @@
 }
 
 .user {
-    width: calc(~'40% - 30px');
+    width: calc(~"40% - 30px");
 }
 
 .contacts {
-    width: calc(~'60% - 150px');
+    width: calc(~"60% - 150px");
 }
 
 .sub-control {
     width: 100px;
+}
+
+.contact-filter {
+    width: 100%;
+}
+
+.empty-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: @colorGrey;
+    height: 100vh - 50px;
 }

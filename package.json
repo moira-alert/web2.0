@@ -32,6 +32,7 @@
         "@skbkontur/react-stack-layout": "1.0.3",
         "@skbkontur/react-ui": "4.16.0",
         "@skbkontur/react-ui-validations": "1.13.0",
+        "@tanstack/react-table": "8.17.3",
         "@types/codemirror": "5.60.1",
         "chart.js": "4.4.1",
         "codemirror": "6.0.1",

@@ -17,7 +17,7 @@ export interface Contact {
     type: string;
     user: string;
     value: string;
-    team_id?: string;
+    team?: string;
 }
 
 export interface ContactList {

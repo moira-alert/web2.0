@@ -1,137 +1,127 @@
-import * as React from "react";
+import React, { useRef, useState } from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
-import { ContactConfig } from "../../Domain/Config";
 import { Contact } from "../../Domain/Contact";
 import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileExport from "../FileExport/FileExport";
 import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
+import {
+    useDeleteContactMutation,
+    useTestContactMutation,
+    useUpdateContactMutation,
+} from "../../services/ContactApi";
+import ModalError from "../ModalError/ModalError";
 
 type Props = {
-    contactDescriptions: Array<ContactConfig>;
     contactInfo: Contact;
-    onChange: (contact: Partial<Contact>) => void;
+    onChange: (contact: Contact) => void;
     onCancel: () => void;
-    onUpdate: () => Promise<void>;
-    onUpdateAndTest: () => Promise<void>;
-    onDelete: () => Promise<void>;
 };
 
-type State = {
-    updateAndTestInProcess: boolean;
-    updateInProcess: boolean;
-    deleteInProcess: boolean;
-};
+const ContactEditModal: React.FC<Props> = ({ contactInfo, onChange, onCancel }) => {
+    const validationContainer = useRef<ValidationContainer>(null);
+    const [updateContact, { isLoading: isUpdating }] = useUpdateContactMutation();
+    const [testContact, { isLoading: isTesting }] = useTestContactMutation();
+    const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
+    const [error, setError] = useState<string>("");
+    const isActionButtonDisabled = isTesting || isUpdating || isDeleting;
 
-export default class ContactEditModal extends React.Component<Props, State> {
-    public state: State = {
-        updateAndTestInProcess: false,
-        updateInProcess: false,
-        deleteInProcess: false,
-    };
-
-    readonly validationContainer = React.createRef<ValidationContainer>();
-
-    render(): React.ReactNode {
-        const { onChange, onCancel, contactInfo, contactDescriptions } = this.props;
-        const { updateAndTestInProcess, updateInProcess, deleteInProcess } = this.state;
-        const isActionButtonDisabled = updateAndTestInProcess || updateInProcess || deleteInProcess;
-
-        return (
-            <Modal onClose={onCancel}>
-                <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
-                <Modal.Body>
-                    <ResourceIDBadge title="Channel id:" id={contactInfo.id} />
-                    <ValidationContainer ref={this.validationContainer}>
-                        <ContactEditForm
-                            contactDescriptions={contactDescriptions}
-                            contactInfo={contactInfo}
-                            onChange={(update) => onChange({ ...contactInfo, ...update })}
-                        />
-                    </ValidationContainer>
-                </Modal.Body>
-                <Modal.Footer panel sticky>
-                    <RowStack gap={2} block baseline>
-                        <Button
-                            use="primary"
-                            disabled={isActionButtonDisabled}
-                            loading={updateInProcess}
-                            onClick={this.handleUpdateContact}
-                        >
-                            Save
-                        </Button>
-                        <Button
-                            loading={updateAndTestInProcess}
-                            disabled={isActionButtonDisabled}
-                            onClick={this.handleUpdateAndTestContact}
-                        >
-                            Save and test
-                        </Button>
-                        <FileExport
-                            isButton
-                            title={`delivery channel ${contactInfo.type} ${contactInfo.value}`}
-                            data={omitContact(contactInfo)}
-                        >
-                            Export
-                        </FileExport>
-                        <Fill />
-                        <Button
-                            use="danger"
-                            loading={deleteInProcess}
-                            disabled={isActionButtonDisabled}
-                            onClick={this.handleDeleteContact}
-                        >
-                            Delete
-                        </Button>
-                    </RowStack>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-    handleUpdateAndTestContact = async (): Promise<void> => {
-        if (!(await this.validateForm())) {
+    const handleUpdateAndTestContact = async (): Promise<void> => {
+        if (!(await validateForm())) {
             return;
         }
-        const { onUpdateAndTest } = this.props;
-        this.setState({ updateAndTestInProcess: true });
         try {
-            await onUpdateAndTest();
-        } catch (error) {
-            this.setState({ updateAndTestInProcess: false });
+            await testContact(contactInfo.id).unwrap();
+            await updateContact(contactInfo).unwrap();
+            onCancel();
+        } catch ({ data: { error } }) {
+            setError(error);
         }
     };
 
-    handleUpdateContact = async (): Promise<void> => {
-        if (!(await this.validateForm())) {
+    const handleUpdateContact = async (): Promise<void> => {
+        if (!(await validateForm())) {
             return;
         }
-        const { onUpdate } = this.props;
-        this.setState({ updateInProcess: true });
         try {
-            await onUpdate();
-        } catch (error) {
-            this.setState({ updateInProcess: false });
+            await updateContact(contactInfo).unwrap();
+            onCancel();
+        } catch ({ data: { error } }) {
+            setError(error);
         }
     };
 
-    handleDeleteContact = async (): Promise<void> => {
-        const { onDelete } = this.props;
-        this.setState({ deleteInProcess: true });
+    const handleDeleteContact = async (): Promise<void> => {
         try {
-            await onDelete();
-        } catch (error) {
-            this.setState({ deleteInProcess: false });
+            await deleteContact(contactInfo.id).unwrap();
+            onCancel();
+        } catch ({ data: { error } }) {
+            setError(error);
         }
     };
 
-    async validateForm(): Promise<boolean> {
-        if (this.validationContainer.current == null) {
+    const validateForm = async (): Promise<boolean> => {
+        if (!validationContainer.current) {
             return true;
         }
-        return this.validationContainer.current.validate();
-    }
-}
+        return validationContainer.current.validate();
+    };
+
+    return (
+        <Modal onClose={onCancel}>
+            <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
+            <Modal.Body>
+                <ResourceIDBadge title="Channel id:" id={contactInfo.id} />
+                <ValidationContainer ref={validationContainer}>
+                    <ContactEditForm
+                        contactInfo={contactInfo}
+                        onChange={(update) => {
+                            onChange({ ...contactInfo, ...update });
+                        }}
+                    />
+                </ValidationContainer>
+            </Modal.Body>
+            <Modal.Footer panel sticky>
+                <ModalError message={error} maxWidth="450px" />
+                <RowStack gap={2} block baseline>
+                    <Button
+                        use="primary"
+                        disabled={isActionButtonDisabled}
+                        loading={isUpdating}
+                        onClick={handleUpdateContact}
+                    >
+                        Save
+                    </Button>
+                    <Button
+                        loading={isTesting}
+                        disabled={isActionButtonDisabled}
+                        onClick={handleUpdateAndTestContact}
+                    >
+                        Save and test
+                    </Button>
+                    <FileExport
+                        isButton
+                        title={`delivery channel ${contactInfo.type} ${contactInfo.value}`}
+                        data={omitContact(contactInfo)}
+                    >
+                        Export
+                    </FileExport>
+                    <Fill />
+                    <Button
+                        use="danger"
+                        loading={isDeleting}
+                        disabled={isActionButtonDisabled}
+                        onClick={handleDeleteContact}
+                    >
+                        Delete
+                    </Button>
+                </RowStack>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+export default ContactEditModal;

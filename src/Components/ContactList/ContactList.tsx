@@ -123,13 +123,9 @@ export default class ContactList extends React.Component<Props, State> {
                 )}
                 {editContactModalVisible && editableContact !== null && (
                     <ContactEditModal
-                        contactDescriptions={contactDescriptions}
                         contactInfo={editableContact}
                         onChange={this.handleChangeEditableContact}
                         onCancel={this.handleCancelEditContact}
-                        onUpdate={this.handleUpdateContact}
-                        onUpdateAndTest={this.handleUpdateAndTestContact}
-                        onDelete={this.handleDeleteContact}
                     />
                 )}
             </div>
@@ -167,6 +163,7 @@ export default class ContactList extends React.Component<Props, State> {
         this.setState({
             newContact: { ...newContact, ...newContactUpdate },
         });
+        console.log(newContact);
     };
 
     handleCreateNewContact = async (): Promise<void> => {

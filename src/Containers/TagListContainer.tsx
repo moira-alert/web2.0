@@ -1,6 +1,5 @@
 import React, { useState, useEffect, FC } from "react";
 import type { TagStat } from "../Domain/Tag";
-import type { Contact } from "../Domain/Contact";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { TagList } from "../Components/TagList/TagList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
@@ -15,8 +14,6 @@ type TTagListContainerProps = { moiraApi: MoiraApi };
 
 const TagListContainer: FC<TTagListContainerProps> = ({ moiraApi }) => {
     const [tagStats, setTagStats] = useState<Array<TagStat> | undefined>();
-    const [contacts, setContacts] = useState<Array<Contact> | undefined>();
-
     const { error, isLoading } = useAppSelector(UIState);
     const dispatch = useAppDispatch();
 
@@ -24,9 +21,7 @@ const TagListContainer: FC<TTagListContainerProps> = ({ moiraApi }) => {
         dispatch(toggleLoading(true));
         try {
             const tagsResponse = await moiraApi.getTagStats();
-            const contactsResponse = await moiraApi.getContactList();
             setTagStats(tagsResponse.list);
-            setContacts(contactsResponse.list);
         } catch (error) {
             dispatch(setError(error.message));
         } finally {
@@ -85,10 +80,9 @@ const TagListContainer: FC<TTagListContainerProps> = ({ moiraApi }) => {
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <LayoutTitle>Tags: {tagStats?.length}</LayoutTitle>
-                {tagStats && contacts && (
+                {tagStats && (
                     <TagList
                         items={tagStats}
-                        contacts={contacts}
                         onRemoveTag={handleRemoveTag}
                         onUpdateSubscription={handleUpdateSubscription}
                         onTestSubscription={handleTestSubscription}

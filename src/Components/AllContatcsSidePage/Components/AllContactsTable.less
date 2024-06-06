@@ -1,0 +1,63 @@
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
+
+.cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.header-cell {
+    position: relative;
+    cursor: pointer;
+}
+
+.resizer::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 5px;
+    background: @colorGrey;
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+}
+
+.resizer.isResizing::before {
+    background: @moira-brand-color;
+    opacity: 1;
+}
+
+.contacts-row,
+.contacts-header-row {
+    display: flex;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+.contacts-header-row {
+    &:extend(.italic-font);
+    margin-bottom: 10px;
+}
+
+.contacts-row {
+    border-top: 1px solid #eee;
+}
+
+.clickable {
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+    }
+}
+
+.contactIsUnused {
+    background-color: rgba(182, 0, 0, 0.05);
+}
+
+.active {
+    color: @moira-brand-color;
+}

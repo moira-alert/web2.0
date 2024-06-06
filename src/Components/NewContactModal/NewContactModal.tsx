@@ -33,7 +33,7 @@ export default class NewContactModal extends React.Component<Props, State> {
     readonly validationContainer = React.createRef<ValidationContainer>();
 
     render(): React.ReactNode {
-        const { onCancel, contactInfo, contactDescriptions } = this.props;
+        const { onCancel, contactInfo } = this.props;
         const { createInProcess, createAndTestInProcess, error } = this.state;
         const { value, type } = contactInfo || {};
         const idActionButtonsDisabled =
@@ -44,11 +44,7 @@ export default class NewContactModal extends React.Component<Props, State> {
                 <Modal.Header sticky={false}>Delivery channel adding</Modal.Header>
                 <Modal.Body>
                     <ValidationContainer ref={this.validationContainer}>
-                        <ContactEditForm
-                            contactDescriptions={contactDescriptions}
-                            contactInfo={contactInfo}
-                            onChange={this.handleChange}
-                        />
+                        <ContactEditForm contactInfo={contactInfo} onChange={this.handleChange} />
                     </ValidationContainer>
                 </Modal.Body>
                 <Modal.Footer panel sticky>

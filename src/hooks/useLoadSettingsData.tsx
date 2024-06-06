@@ -3,8 +3,14 @@ import { useAppDispatch } from "../store/hooks";
 import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
 import { setTeamsAndTags, setSettings } from "../store/Reducers/SettingsContainerReducer.slice";
 import { User } from "../Domain/User";
+import { Settings } from "../Domain/Settings";
 
-export const useLoadSettingsData = (moiraApi: MoiraApi, user?: User, teamId?: string) => {
+export const useLoadSettingsData = (
+    moiraApi: MoiraApi,
+    userSettings?: Settings,
+    user?: User,
+    teamId?: string
+) => {
     const dispatch = useAppDispatch();
 
     const getTeamsAndTags = async () => {
@@ -19,11 +25,9 @@ export const useLoadSettingsData = (moiraApi: MoiraApi, user?: User, teamId?: st
         dispatch(setTeamsAndTags({ login: user?.login, teams: teams.teams, tags, team }));
     };
     const getTeamOrUserData = async (teamId?: string) => {
-        const settings = teamId
-            ? await moiraApi.getSettingsByTeam(teamId)
-            : await moiraApi.getSettings();
+        const settings = teamId ? await moiraApi.getSettingsByTeam(teamId) : userSettings;
 
-        dispatch(setSettings(settings));
+        dispatch(setSettings(settings!));
     };
 
     const loadData = async () => {
