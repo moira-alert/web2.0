@@ -47,18 +47,19 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
             maxSize: 280,
             minSize: 55,
         },
+
         {
-            header: "User",
-            id: "user",
-            accessorFn: (contact) => contact.user,
-            maxSize: 200,
+            header: "Name",
+            id: "name",
+            accessorFn: (contact) => contact.name,
             minSize: 55,
+            maxSize: 200,
         },
         {
-            header: "TeamID",
-            id: "teamId",
-            accessorFn: (contact) => contact.team,
-            minSize: 55,
+            header: "User or TeamID",
+            id: "user",
+            accessorFn: (contact) => contact.user || contact.team,
+            minSize: 105,
         },
     ];
 

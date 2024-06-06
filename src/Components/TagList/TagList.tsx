@@ -81,8 +81,10 @@ export const TagList: FC<ITagListProps> = ({
         }
         return Promise.resolve(
             contacts
-                .filter((contact: Contact) =>
-                    contact.value.toLowerCase().includes(query.toLowerCase().trim())
+                .filter(
+                    (contact: Contact) =>
+                        contact.value.toLowerCase().includes(query.toLowerCase().trim()) ||
+                        contact.name?.toLowerCase().includes(query.toLowerCase().trim())
                 )
                 .slice(0, 10)
         );
@@ -110,8 +112,12 @@ export const TagList: FC<ITagListProps> = ({
                     type={TokenInputType.Combined}
                     getItems={getContatcs}
                     renderAddButton={() => null}
-                    renderItem={(item) => <>{item.value}</>}
-                    valueToString={(item) => item.value}
+                    renderItem={(contact) => (
+                        <>
+                            {contact.value} {contact.name && `(${contact.name})`}
+                        </>
+                    )}
+                    valueToString={(item) => item.name || item.value}
                     selectedItems={filterContacts}
                     totalCount={contacts?.length}
                     renderTotalCount={(found, total) =>
@@ -121,9 +127,11 @@ export const TagList: FC<ITagListProps> = ({
                     }
                     onValueChange={setfilterContacts}
                     renderNotFound={() => "No delivery channels found"}
-                    renderToken={(item, tokenProps) => (
-                        <Token key={item.value.toString()} {...tokenProps}>
-                            {item.value}
+                    renderToken={(contact, tokenProps) => (
+                        <Token key={contact.value.toString()} {...tokenProps}>
+                            <>
+                                {contact.value} {contact.name && `(${contact.name})`}
+                            </>
                         </Token>
                     )}
                 />

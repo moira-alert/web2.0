@@ -64,7 +64,6 @@ export default class ContactList extends React.Component<Props, State> {
                                                 (description) => description.type === contact.type
                                             )
                                         ) {
-                                            console.log(contact.name);
                                             const { name, value, type } = contact;
                                             return (
                                                 <tr
