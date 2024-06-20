@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
@@ -14,51 +14,54 @@ import {
     useUpdateContactMutation,
 } from "../../services/ContactApi";
 import ModalError from "../ModalError/ModalError";
+import { useParams } from "react-router";
 
-type Props = {
-    contactInfo: Contact;
+interface IContactEditModalProps {
+    contactInfo: Contact | null;
+    isDeleteContactButtonDisabled?: boolean;
     onChange: (contact: Contact) => void;
     onCancel: () => void;
-};
+}
 
-const ContactEditModal: React.FC<Props> = ({ contactInfo, onChange, onCancel }) => {
+const ContactEditModal: FC<IContactEditModalProps> = ({
+    contactInfo,
+    isDeleteContactButtonDisabled,
+    onChange,
+    onCancel,
+}) => {
     const validationContainer = useRef<ValidationContainer>(null);
+    const { teamId } = useParams<{ teamId: string }>();
     const [updateContact, { isLoading: isUpdating }] = useUpdateContactMutation();
     const [testContact, { isLoading: isTesting }] = useTestContactMutation();
     const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);
     const isActionButtonDisabled = isTesting || isUpdating || isDeleting;
 
-    const handleUpdateAndTestContact = async (): Promise<void> => {
-        if (!(await validateForm())) {
+    const handleUpdateContact = async (testAfterUpdate?: boolean): Promise<void> => {
+        if (!(await validateForm()) || !contactInfo) {
             return;
         }
-        try {
-            await testContact(contactInfo.id).unwrap();
-            await updateContact(contactInfo).unwrap();
-            onCancel();
-        } catch ({ data: { error } }) {
-            setError(error);
-        }
-    };
 
-    const handleUpdateContact = async (): Promise<void> => {
-        if (!(await validateForm())) {
-            return;
-        }
         try {
-            await updateContact(contactInfo).unwrap();
+            await updateContact({ ...contactInfo, isTeamContact: !!teamId }).unwrap();
+            if (testAfterUpdate) {
+                await testContact(contactInfo.id).unwrap();
+            }
             onCancel();
-        } catch ({ data: { error } }) {
+        } catch (error) {
             setError(error);
         }
     };
 
     const handleDeleteContact = async (): Promise<void> => {
+        if (!contactInfo) {
+            return;
+        }
+
         try {
-            await deleteContact(contactInfo.id).unwrap();
+            await deleteContact({ id: contactInfo.id, isTeamContact: !!teamId }).unwrap();
             onCancel();
-        } catch ({ data: { error } }) {
+        } catch (error) {
             setError(error);
         }
     };
@@ -71,56 +74,60 @@ const ContactEditModal: React.FC<Props> = ({ contactInfo, onChange, onCancel }) 
     };
 
     return (
-        <Modal onClose={onCancel}>
-            <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
-            <Modal.Body>
-                <ResourceIDBadge title="Channel id:" id={contactInfo.id} />
-                <ValidationContainer ref={validationContainer}>
-                    <ContactEditForm
-                        contactInfo={contactInfo}
-                        onChange={(update) => {
-                            onChange({ ...contactInfo, ...update });
-                        }}
-                    />
-                </ValidationContainer>
-            </Modal.Body>
-            <Modal.Footer panel sticky>
-                <ModalError message={error} maxWidth="450px" />
-                <RowStack gap={2} block baseline>
-                    <Button
-                        use="primary"
-                        disabled={isActionButtonDisabled}
-                        loading={isUpdating}
-                        onClick={handleUpdateContact}
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        loading={isTesting}
-                        disabled={isActionButtonDisabled}
-                        onClick={handleUpdateAndTestContact}
-                    >
-                        Save and test
-                    </Button>
-                    <FileExport
-                        isButton
-                        title={`delivery channel ${contactInfo.type} ${contactInfo.value}`}
-                        data={omitContact(contactInfo)}
-                    >
-                        Export
-                    </FileExport>
-                    <Fill />
-                    <Button
-                        use="danger"
-                        loading={isDeleting}
-                        disabled={isActionButtonDisabled}
-                        onClick={handleDeleteContact}
-                    >
-                        Delete
-                    </Button>
-                </RowStack>
-            </Modal.Footer>
-        </Modal>
+        contactInfo && (
+            <Modal onClose={onCancel}>
+                <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
+                <Modal.Body>
+                    <ResourceIDBadge title="Channel id:" id={contactInfo.id} />
+                    <ValidationContainer ref={validationContainer}>
+                        <ContactEditForm
+                            contactInfo={contactInfo}
+                            onChange={(update) => {
+                                onChange({ ...contactInfo, ...update });
+                                setError(null);
+                            }}
+                        />
+                    </ValidationContainer>
+                </Modal.Body>
+                <Modal.Footer panel sticky>
+                    <ModalError message={error} maxWidth="450px" />
+                    <RowStack gap={2} block baseline>
+                        <Button
+                            use="primary"
+                            disabled={isActionButtonDisabled}
+                            loading={isUpdating}
+                            onClick={() => handleUpdateContact()}
+                        >
+                            Save
+                        </Button>
+                        <Button
+                            loading={isTesting}
+                            disabled={isActionButtonDisabled}
+                            onClick={() => handleUpdateContact(true)}
+                        >
+                            Save and test
+                        </Button>
+                        <FileExport
+                            isButton
+                            title={`delivery channel ${contactInfo.type} ${contactInfo.value}`}
+                            data={omitContact(contactInfo)}
+                        >
+                            Export
+                        </FileExport>
+                        <Fill />
+
+                        <Button
+                            use="danger"
+                            loading={isDeleting}
+                            disabled={isActionButtonDisabled || isDeleteContactButtonDisabled}
+                            onClick={handleDeleteContact}
+                        >
+                            Delete
+                        </Button>
+                    </RowStack>
+                </Modal.Footer>
+            </Modal>
+        )
     );
 };
 

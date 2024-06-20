@@ -1,116 +1,74 @@
-import * as React from "react";
+import React, { FC, useState, useRef } from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
-import { ContactConfig } from "../../Domain/Config";
 import { Contact } from "../../Domain/Contact";
 import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileLoader from "../FileLoader/FileLoader";
 import ModalError from "../ModalError/ModalError";
+import { useAppSelector } from "../../store/hooks";
+import { ConfigState } from "../../store/selectors";
+import { useCreateUserContactMutation, useTestContactMutation } from "../../services/ContactApi";
+import { useCreateTeamContactMutation } from "../../services/TeamsApi";
+import { useParams } from "react-router";
+import { normalizeContactValueForApi } from "../../Domain/Contact";
 
-type Props = {
-    contactDescriptions: Array<ContactConfig>;
+interface INewContactModalProps {
     contactInfo: Partial<Contact> | null;
     onChange: (contact: Partial<Contact>) => void;
     onCancel: () => void;
-    onCreate: () => Promise<void>;
-    onCreateAndTest: () => Promise<void>;
-};
+}
 
-type State = {
-    createInProcess: boolean;
-    createAndTestInProcess: boolean;
-    error?: string;
-};
+const NewContactModal: FC<INewContactModalProps> = ({ contactInfo, onChange, onCancel }) => {
+    const { config } = useAppSelector(ConfigState);
+    const { teamId } = useParams<{ teamId: string }>();
+    const [
+        createUserContact,
+        { isLoading: isUserContactCreating },
+    ] = useCreateUserContactMutation();
+    const [
+        createTeamContact,
+        { isLoading: isTeamContactCreating },
+    ] = useCreateTeamContactMutation();
+    const [testContact, { isLoading: isTesting }] = useTestContactMutation();
+    const [error, setError] = useState<string | null>(null);
+    const validationContainerRef = useRef<ValidationContainer>(null);
 
-export default class NewContactModal extends React.Component<Props, State> {
-    public state: State = {
-        createInProcess: false,
-        createAndTestInProcess: false,
-    };
-    readonly validationContainer = React.createRef<ValidationContainer>();
-
-    render(): React.ReactNode {
-        const { onCancel, contactInfo } = this.props;
-        const { createInProcess, createAndTestInProcess, error } = this.state;
-        const { value, type } = contactInfo || {};
-        const idActionButtonsDisabled =
-            !value || !type || createInProcess || createAndTestInProcess;
-
-        return (
-            <Modal onClose={onCancel}>
-                <Modal.Header sticky={false}>Delivery channel adding</Modal.Header>
-                <Modal.Body>
-                    <ValidationContainer ref={this.validationContainer}>
-                        <ContactEditForm contactInfo={contactInfo} onChange={this.handleChange} />
-                    </ValidationContainer>
-                </Modal.Body>
-                <Modal.Footer panel sticky>
-                    <ModalError message={error} maxWidth="450px" />
-                    <RowStack gap={2} block baseline>
-                        <Button
-                            use="primary"
-                            loading={createInProcess}
-                            disabled={idActionButtonsDisabled}
-                            onClick={() => {
-                                this.handleCreateContact();
-                            }}
-                        >
-                            Add
-                        </Button>
-                        <Button
-                            disabled={idActionButtonsDisabled}
-                            loading={createAndTestInProcess}
-                            onClick={() => {
-                                this.handleCreateAndTestContact();
-                            }}
-                        >
-                            Add and test
-                        </Button>
-                        <Fill />
-                        <FileLoader onLoad={this.handleImport}>Import delivery channel</FileLoader>
-                    </RowStack>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-    handleChange = (contact: Partial<Contact>): void => {
-        const { contactInfo, onChange } = this.props;
+    const handleChange = (contact: Partial<Contact>): void => {
         onChange({ ...contactInfo, ...contact });
-        this.setState({ error: undefined });
+        setError(null);
     };
 
-    handleCreateContact = async (): Promise<void> => {
-        if (!(await this.validateForm())) {
+    const handleCreateContact = async (testAfterCreation?: boolean): Promise<void> => {
+        if (!(await validateForm()) || !contactInfo || !contactInfo.value || !contactInfo.type) {
             return;
         }
-        const { onCreate } = this.props;
-        this.setState({ createInProcess: true });
+
+        const { name, type, value } = contactInfo;
+
+        const requestContact = {
+            value: normalizeContactValueForApi(type, value),
+            type: type,
+            name: name,
+        };
+
         try {
-            await onCreate();
+            const createdContact = teamId
+                ? await createTeamContact({ teamId, ...requestContact }).unwrap()
+                : await createUserContact(requestContact).unwrap();
+
+            if (testAfterCreation) {
+                await testContact(createdContact.id).unwrap();
+            }
+            onCancel();
         } catch (error) {
-            this.setState({ createInProcess: false });
+            setError(error);
         }
     };
 
-    handleCreateAndTestContact = async (): Promise<void> => {
-        if (!(await this.validateForm())) {
-            return;
-        }
-        const { onCreateAndTest } = this.props;
-        this.setState({ createAndTestInProcess: true });
-        try {
-            await onCreateAndTest();
-        } catch (error) {
-            this.setState({ createAndTestInProcess: false });
-        }
-    };
-
-    handleImport = (fileData: string, fileName: string): void => {
-        const { contactDescriptions } = this.props;
+    const handleImport = (fileData: string, fileName: string): void => {
         try {
             const newContact = JSON.parse(fileData);
 
@@ -118,27 +76,67 @@ export default class NewContactModal extends React.Component<Props, State> {
                 throw new Error("Must be a delivery channel object");
             }
 
-            if (contactDescriptions.every(({ type }) => type !== newContact.type)) {
+            if (config?.contacts.every(({ type }) => type !== newContact.type)) {
                 throw new Error(
-                    `Type must be one of ${contactDescriptions.map(({ type }) => type).join(", ")}`
+                    `Type must be one of ${config?.contacts.map(({ type }) => type).join(", ")}`
                 );
             }
             if (typeof newContact.value !== "string") {
                 throw new Error("Value must be string");
             }
 
-            this.handleChange(omitContact(newContact));
+            handleChange(omitContact(newContact));
         } catch (e) {
-            this.setState({
-                error: `File ${fileName} cannot be converted to delivery channel. ${e.message}`,
-            });
+            setError(`File ${fileName} cannot be converted to delivery channel. ${e.message}`);
         }
     };
 
-    async validateForm(): Promise<boolean> {
-        if (this.validationContainer.current == null) {
+    const validateForm = async (): Promise<boolean> => {
+        if (!validationContainerRef.current) {
             return true;
         }
-        return this.validationContainer.current.validate();
-    }
-}
+        return validationContainerRef.current.validate();
+    };
+
+    const areAddButtonsDisabled =
+        !contactInfo?.value ||
+        !contactInfo?.type ||
+        isUserContactCreating ||
+        isTeamContactCreating ||
+        isTesting;
+
+    return (
+        <Modal onClose={onCancel}>
+            <Modal.Header sticky={false}>Delivery channel adding</Modal.Header>
+            <Modal.Body>
+                <ValidationContainer ref={validationContainerRef}>
+                    <ContactEditForm contactInfo={contactInfo} onChange={handleChange} />
+                </ValidationContainer>
+            </Modal.Body>
+            <Modal.Footer panel sticky>
+                <ModalError message={error} maxWidth="450px" />
+                <RowStack gap={2} block baseline>
+                    <Button
+                        use="primary"
+                        loading={isUserContactCreating || isTeamContactCreating}
+                        disabled={areAddButtonsDisabled}
+                        onClick={() => handleCreateContact()}
+                    >
+                        Add
+                    </Button>
+                    <Button
+                        disabled={areAddButtonsDisabled}
+                        loading={isTesting}
+                        onClick={() => handleCreateContact(true)}
+                    >
+                        Add and test
+                    </Button>
+                    <Fill />
+                    <FileLoader onLoad={handleImport}>Import delivery channel</FileLoader>
+                </RowStack>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+export default NewContactModal;

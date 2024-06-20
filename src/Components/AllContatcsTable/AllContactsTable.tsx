@@ -1,19 +1,21 @@
 import React, { FC } from "react";
-import { Contact } from "../../../Domain/Contact";
+import { Contact } from "../../Domain/Contact";
 import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
 import { getCoreRowModel, ColumnDef, flexRender, useReactTable } from "@tanstack/react-table";
-import { ExtendedContact } from "../AllContactsSidePage";
 import classNames from "classnames/bind";
 
 import styles from "./AllContactsTable.less";
-
-const CONTACTS_LIST_ROW_HEIGHT = 25;
+import {
+    LIST_HEIGHT,
+    MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
+    ROW_HEIGHT,
+    getTotalItemSize,
+} from "../TagList/TagList";
 
 const cn = classNames.bind(styles);
 
 interface IAllContactsTableProps {
-    contacts: ExtendedContact[];
+    contacts: Contact[];
     contactsColumn: keyof Contact | null;
     handleSetEditableContact: (contact: Contact) => void;
     handleSetFilterContactsColumn: (column: keyof Contact | null) => void;
@@ -25,41 +27,33 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
     handleSetEditableContact,
     handleSetFilterContactsColumn,
 }) => {
-    const columns: ColumnDef<ExtendedContact>[] = [
+    const columns: ColumnDef<Contact>[] = [
         {
             header: "Type",
             id: "type",
             accessorFn: (contact) => contact.type,
-            maxSize: 95,
-            minSize: 55,
+            minSize: 0,
         },
         {
             header: "Value",
             id: "value",
             accessorFn: (contact) => contact.value,
-            maxSize: 270,
-            minSize: 55,
         },
         {
             header: "ID",
             id: "id",
             accessorFn: (contact) => contact.id,
-            maxSize: 280,
-            minSize: 55,
         },
 
         {
             header: "Name",
             id: "name",
             accessorFn: (contact) => contact.name,
-            minSize: 55,
-            maxSize: 200,
         },
         {
             header: "User or TeamID",
             id: "user",
             accessorFn: (contact) => contact.user || contact.team,
-            minSize: 105,
         },
     ];
 
@@ -70,6 +64,8 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
         columnResizeMode: "onChange",
         getCoreRowModel: getCoreRowModel(),
     });
+
+    const isListLongEnoughToScroll = contacts.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE;
 
     return (
         <>
@@ -91,7 +87,7 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
                                 active: contactsColumn === header.column.columnDef.id,
                             })}
                             style={{
-                                width: header.getSize(),
+                                flex: `1 1 ${header.getSize()}px`,
                             }}
                         >
                             {header.isPlaceholder
@@ -115,48 +111,43 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
                 </div>
             ))}
 
-            <AutoSizer disableWidth>
-                {({ height }) => {
-                    return (
-                        <List
-                            height={height}
-                            itemCount={table.getRowModel().rows.length}
-                            itemSize={CONTACTS_LIST_ROW_HEIGHT}
-                            width="100%"
-                        >
-                            {({ index, style }) => {
-                                const row = table.getRowModel().rows[index];
-                                const contact = row.original;
-                                return (
+            {contacts.length ? (
+                <List
+                    height={
+                        isListLongEnoughToScroll ? LIST_HEIGHT : getTotalItemSize(contacts.length)
+                    }
+                    itemCount={table.getRowModel().rows.length}
+                    itemSize={ROW_HEIGHT}
+                    width="100%"
+                >
+                    {({ index, style }) => {
+                        const row = table.getRowModel().rows[index];
+                        const contact = row.original;
+                        return (
+                            <div
+                                key={row.id}
+                                className={cn("contacts-row", "clickable")}
+                                style={style}
+                                onClick={() => handleSetEditableContact(contact)}
+                            >
+                                {row.getVisibleCells().map((cell) => (
                                     <div
-                                        key={row.id}
-                                        className={cn("contacts-row", "clickable", {
-                                            contactIsUnused: contact.isUnused,
-                                        })}
-                                        style={style}
-                                        onClick={() => handleSetEditableContact(contact)}
+                                        key={cell.id}
+                                        className={cn("cell")}
+                                        style={{
+                                            flex: `1 1 ${cell.column.getSize()}px`,
+                                        }}
                                     >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <div
-                                                key={cell.id}
-                                                className={cn("cell")}
-                                                style={{
-                                                    width: cell.column.getSize(),
-                                                }}
-                                            >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </div>
-                                        ))}
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </div>
-                                );
-                            }}
-                        </List>
-                    );
-                }}
-            </AutoSizer>
+                                ))}
+                            </div>
+                        );
+                    }}
+                </List>
+            ) : (
+                <div className={cn("empty-result")}>No contacts found</div>
+            )}
         </>
     );
 };

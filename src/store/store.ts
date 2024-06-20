@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import NotificationListContainerReducer from "./Reducers/NotificationListContainerReducer.slice";
 import UIReducer from "./Reducers/UIReducer.slice";
-import SettingsContainerReducer from "./Reducers/SettingsContainerReducer.slice";
 import { BaseApi } from "../services/BaseApi";
 import ConfigReducer from "./Reducers/ConfigReducer.slice";
 
@@ -11,7 +10,6 @@ export const store = configureStore({
         ConfigReducer,
         NotificationListContainerReducer,
         UIReducer,
-        SettingsContainerReducer,
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(BaseApi.middleware),

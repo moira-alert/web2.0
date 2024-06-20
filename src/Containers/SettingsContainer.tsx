@@ -1,262 +1,40 @@
-import React, { FC, useRef, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import MoiraApi from "../Api/MoiraApi";
-import type { Contact } from "../Domain/Contact";
-import type { Subscription } from "../Domain/Subscription";
 import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import ContactList from "../Components/ContactList/ContactList";
 import { SubscriptionListContainer } from "./SubscriptionListContainer/SubscriptionListContainer";
-import { SubscriptionInfo } from "../Components/SubscriptionEditor/SubscriptionEditor";
 import { Team } from "../Domain/Team";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { Gapped } from "@skbkontur/react-ui";
-import { RouteComponentProps } from "react-router";
-import { ConfirmModalHeaderData, getPageLink } from "../Domain/Global";
+import { useHistory } from "react-router";
+import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
-import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
 import { useLoadSettingsData } from "../hooks/useLoadSettingsData";
-import { setSettings } from "../store/Reducers/SettingsContainerReducer.slice";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { ConfigState, SettingsState, UIState } from "../store/selectors";
-import { setError } from "../store/Reducers/UIReducer.slice";
-import useConfirmModal from "../hooks/useConfirmModal";
-import { useGetUserQuery, useGetUserSettingsQuery } from "../services/UserApi";
+import { useAppSelector } from "../store/hooks";
+import { ConfigState, UIState } from "../store/selectors";
 
-export interface ISettingsContainerProps extends RouteComponentProps<{ teamId?: string }> {
-    moiraApi: MoiraApi;
-}
-
-export const normalizeContactValueForApi = (contactType: string, value: string): string => {
-    let result = value.trim();
-    if (contactType === "twilio voice" || contactType === "twilio sms") {
-        if (result.length >= 11) {
-            result = result.replace(/^8/, "+7");
-            result = result.replace(/^7/, "+7");
-        } else if (result.length === 10) {
-            result = `+7${result}`;
-        }
-        return result;
-    }
-    return result;
-};
-
-const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, history }) => {
-    const teamId = match.params.teamId;
-    const dispatch = useAppDispatch();
-    const { data: user } = useGetUserQuery();
-    const { data: userSettings } = useGetUserSettingsQuery();
-
-    const { loadData } = useLoadSettingsData(moiraApi, userSettings, user, teamId);
-    const [ConfirmModal, setModalData] = useConfirmModal();
-
+const SettingsContainer: FC = () => {
+    const history = useHistory();
+    const { login, settings, tags, team, teams } = useLoadSettingsData();
     const { config } = useAppSelector(ConfigState);
-    const { teamsAndTags, settings } = useAppSelector(SettingsState);
     const { isLoading, error } = useAppSelector(UIState);
-
-    const { login, teams, tags, team } = teamsAndTags ?? {};
-
-    const scrollRef = useRef<HTMLTableElement>(null);
 
     const userAsTeam = { id: "", name: login ?? "Unknown" };
     const userWithTeams = teams ? [userAsTeam, ...teams] : [];
-
-    const onRemoveContactBtnClick = async (contact: Contact) => {
-        if (settings === undefined) {
-            throw new Error("InvalidProgramState");
-        }
-
-        const potentiallyDisruptedSubscriptions = settings.subscriptions.filter(
-            (sub) => sub.contacts.length === 1 && sub.contacts.includes(contact.id)
-        );
-
-        if (potentiallyDisruptedSubscriptions.length) {
-            setModalData({
-                isOpen: true,
-                header: ConfirmModalHeaderData.deleteDeliveryChannel,
-                body: (
-                    <SubscriptionList
-                        handleEditSubscription={scrollToElement}
-                        contacts={settings.contacts}
-                        subscriptions={potentiallyDisruptedSubscriptions}
-                    />
-                ),
-            });
-
-            return;
-        }
-        handleRemoveContact(contact);
-    };
 
     const handleChangeTeam = async (userOrTeam: Team) => {
         history.push(getPageLink("settings", userOrTeam.id ?? undefined));
     };
 
-    const handleAddContact = async (contact: Partial<Contact>): Promise<Contact | undefined> => {
-        const { type: contactType, name: contactName } = contact;
-
-        if (settings === undefined || contactType === undefined || login === undefined) {
-            throw new Error("InvalidProgramState");
-        }
-
-        try {
-            const requestContact = {
-                value: normalizeContactValueForApi(contactType, contact.value ?? ""),
-                type: contactType,
-                user: team ? undefined : login,
-                name: contactName,
-            };
-
-            const newContact = team
-                ? await moiraApi.addTeamContact(requestContact, team)
-                : await moiraApi.addContact(requestContact);
-            dispatch(setSettings({ contacts: [...settings.contacts, newContact] }));
-
-            return newContact;
-        } catch (error) {
-            dispatch(setError(error.message));
-            return undefined;
-        }
-    };
-
-    const handleUpdateContact = async (contact: Contact) => {
-        if (settings === undefined) {
-            throw new Error("InvalidProgramState");
-        }
-        const { contacts } = settings;
-        try {
-            await moiraApi.updateContact({
-                ...contact,
-                value: normalizeContactValueForApi(contact.type, contact.value),
-            });
-            const index = contacts.findIndex((x) => x.id === contact.id);
-            dispatch(
-                setSettings({
-                    contacts: [...contacts.slice(0, index), contact, ...contacts.slice(index + 1)],
-                })
-            );
-        } catch (error) {
-            dispatch(setError(error.message));
-        }
-    };
-
-    const handleAddSubscription = async (
-        subscription: SubscriptionInfo
-    ): Promise<Subscription | undefined> => {
-        if (settings === undefined) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            const requestSubscription = {
-                ...subscription,
-                user: team ? undefined : settings.login,
-            };
-
-            const newSubscriptions = team
-                ? await moiraApi.addTeamSubscription(requestSubscription, team)
-                : await moiraApi.addSubscription(requestSubscription);
-            dispatch(setSettings({ subscriptions: [...settings.subscriptions, newSubscriptions] }));
-
-            return newSubscriptions;
-        } catch (error) {
-            dispatch(setError(error.message));
-            return undefined;
-        }
-    };
-
-    const handleUpdateSubscription = async (subscription: Subscription) => {
-        if (settings === undefined) {
-            throw new Error("InvalidProgramState");
-        }
-        const { subscriptions } = settings;
-        try {
-            await moiraApi.updateSubscription(subscription);
-            const index = subscriptions.findIndex((x) => x.id === subscription.id);
-            dispatch(
-                setSettings({
-                    subscriptions: [
-                        ...subscriptions.slice(0, index),
-                        subscription,
-                        ...subscriptions.slice(index + 1),
-                    ],
-                })
-            );
-        } catch (error) {
-            dispatch(setError(error.message));
-        }
-    };
-
-    const handleRemoveSubscription = async (subscription: Subscription) => {
-        if (settings === undefined) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await moiraApi.delSubscription(subscription.id);
-            dispatch(
-                setSettings({
-                    subscriptions: settings.subscriptions.filter((x) => x.id !== subscription.id),
-                })
-            );
-        } catch (error) {
-            dispatch(setError(error.message));
-        }
-    };
-
-    const handleTestSubscription = async (subscription: Subscription) => {
-        try {
-            await moiraApi.testSubscription(subscription.id);
-        } catch (error) {
-            dispatch(setError(error.message));
-        }
-    };
-
-    const handleTestContact = async (contact: Contact) => {
-        try {
-            await moiraApi.testContact(contact.id);
-        } catch (error) {
-            dispatch(setError(error.message));
-        }
-    };
-
-    const handleRemoveContact = async (contact?: Contact) => {
-        if (settings === undefined || !contact) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await moiraApi.deleteContact(contact.id);
-            dispatch(
-                setSettings({
-                    contacts: settings.contacts.filter((x) => x.id !== contact.id),
-                })
-            );
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            setModalData({ isOpen: false });
-        }
-    };
-
-    const scrollToElement = () => {
-        setModalData({ isOpen: false });
-        setTimeout(() => {
-            const element = scrollRef.current as HTMLElement;
-            const elementRect = element.getBoundingClientRect();
-            window.scrollBy({ top: elementRect.bottom - window.innerHeight, behavior: "smooth" });
-        }, 0);
-    };
-
     useEffect(() => {
         setDocumentTitle("Settings");
-        if (user && userSettings !== undefined) {
-            loadData();
-        }
-    }, [teamId, user, userSettings]);
+    }, []);
 
     return (
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
-                {ConfirmModal}
                 <RowStack gap={1} block>
                     <LayoutTitle>Notifications</LayoutTitle>
                     <Fill />
@@ -278,25 +56,17 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ moiraApi, match, histo
                 {config && settings && (
                     <div style={{ marginBottom: 50 }}>
                         <ContactList
+                            settings={settings}
                             contactDescriptions={config.contacts}
                             items={settings.contacts}
-                            onTestContact={handleTestContact}
-                            onAddContact={handleAddContact}
-                            onUpdateContact={handleUpdateContact}
-                            onRemoveContact={onRemoveContactBtnClick}
                         />
                     </div>
                 )}
                 {settings && tags && (
                     <SubscriptionListContainer
-                        tableRef={scrollRef}
                         tags={tags.list}
                         contacts={settings.contacts}
                         subscriptions={settings.subscriptions}
-                        onTestSubscription={handleTestSubscription}
-                        onAddSubscription={handleAddSubscription}
-                        onRemoveSubscription={handleRemoveSubscription}
-                        onUpdateSubscription={handleUpdateSubscription}
                     />
                 )}
             </LayoutContent>

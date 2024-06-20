@@ -1,46 +1,71 @@
-import MoiraApi from "../Api/MoiraApi";
-import { useAppDispatch } from "../store/hooks";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useGetUserQuery, useGetUserSettingsQuery } from "../services/UserApi";
+import { useGetTeamSettingsQuery, useGetUserTeamsQuery } from "../services/TeamsApi";
+import { useGetTagsQuery } from "../services/TagsApi";
 import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
-import { setTeamsAndTags, setSettings } from "../store/Reducers/SettingsContainerReducer.slice";
-import { IUser } from "../Domain/User";
-import { Settings } from "../Domain/Settings";
+import { useParams } from "react-router";
 
-export const useLoadSettingsData = (
-    moiraApi: MoiraApi,
-    userSettings?: Settings,
-    user?: IUser,
-    teamId?: string
-) => {
-    const dispatch = useAppDispatch();
+export const useLoadSettingsData = () => {
+    const dispatch = useDispatch();
+    const { teamId } = useParams<{ teamId: string }>();
 
-    const getTeamsAndTags = async () => {
-        const [teams, tags] = await Promise.all([moiraApi.getTeams(), moiraApi.getTagList()]);
+    const { data: user, isLoading: isLoadingUser, error: errorUser } = useGetUserQuery();
+    const {
+        data: userSettings,
+        isLoading: isLoadingUserSettings,
+        error: errorUserSettings,
+    } = useGetUserSettingsQuery(undefined, {
+        skip: !!teamId,
+    });
+    const {
+        data: teamSettings,
+        isLoading: isLoadingTeamSettings,
+        error: errorTeamSettings,
+    } = useGetTeamSettingsQuery(teamId, {
+        skip: !teamId,
+    });
+    const { data: teams, isLoading: isLoadingTeams, error: errorTeams } = useGetUserTeamsQuery();
+    const { data: tags, isLoading: isLoadingTags, error: errorTags } = useGetTagsQuery();
 
-        let team;
+    useEffect(() => {
+        const isLoading =
+            isLoadingUser ||
+            isLoadingTags ||
+            isLoadingTeamSettings ||
+            isLoadingTeams ||
+            isLoadingUserSettings;
+        const error =
+            errorUser || errorTags || errorTeamSettings || errorTeams || errorUserSettings;
 
-        if (teamId) {
-            team = teams.teams.find((teamOverview) => teamOverview.id === teamId);
-        }
+        dispatch(toggleLoading(isLoading));
+        dispatch(setError(error));
+    }, [
+        isLoadingUser,
+        isLoadingUserSettings,
+        isLoadingTeamSettings,
+        isLoadingTeams,
+        isLoadingTags,
+        errorUser,
+        errorUserSettings,
+        errorTeamSettings,
+        errorTeams,
+        errorTags,
+        teamId,
+    ]);
 
-        dispatch(setTeamsAndTags({ login: user?.login, teams: teams.teams, tags, team }));
+    let team;
+    if (teamId && teams) {
+        team = teams.teams.find((teamOverview) => teamOverview.id === teamId);
+    }
+
+    const settings = teamId ? teamSettings : userSettings;
+
+    return {
+        login: user?.login,
+        settings,
+        tags,
+        team,
+        teams: teams?.teams,
     };
-    const getTeamOrUserData = async (teamId?: string) => {
-        const settings = teamId ? await moiraApi.getSettingsByTeam(teamId) : userSettings;
-
-        dispatch(setSettings(settings!));
-    };
-
-    const loadData = async () => {
-        dispatch(toggleLoading(true));
-        try {
-            await getTeamsAndTags();
-            await getTeamOrUserData(teamId);
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(toggleLoading(false));
-        }
-    };
-
-    return { loadData, getTeamOrUserData };
 };

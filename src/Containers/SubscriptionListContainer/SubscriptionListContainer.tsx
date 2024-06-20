@@ -23,27 +23,13 @@ const cn = classNames.bind(styles);
 export type { SubscriptionInfo };
 
 interface Props {
-    tableRef?: React.Ref<HTMLTableElement>;
     tags: string[];
     contacts: Contact[];
     subscriptions: Subscription[];
-    onAddSubscription: (subscriptionInfo: SubscriptionInfo) => Promise<Subscription | undefined>;
-    onRemoveSubscription: (subscription: Subscription) => Promise<void>;
-    onUpdateSubscription: (subscription: Subscription) => Promise<void>;
-    onTestSubscription: (subscription: Subscription) => Promise<void>;
 }
 
 export const SubscriptionListContainer: React.FC<Props> = (props) => {
-    const {
-        tableRef,
-        tags,
-        contacts,
-        subscriptions,
-        onAddSubscription,
-        onRemoveSubscription,
-        onUpdateSubscription,
-        onTestSubscription,
-    } = props;
+    const { tags, contacts, subscriptions } = props;
 
     const [modalVisibility, setModalVisibility] = useState({
         [ModalType.subscriptionEditModal]: false,
@@ -82,18 +68,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
     const isPlottingDefaultOn =
         !!config?.featureFlags.isPlottingDefaultOn && config.featureFlags.isPlottingAvailable;
 
-    const handleCloseModal = (modal: ModalType) => {
-        closeModal(modal);
-        switch (modal) {
-            case ModalType.newSubscriptionModal:
-                setNewSubscription(null);
-                break;
-            case ModalType.subscriptionEditModal:
-                setSubscriptionToEdit(null);
-                break;
-        }
-    };
-
     const handleEditSubscription = (subscription: Subscription): void => {
         openModal(ModalType.subscriptionEditModal);
         setSubscriptionToEdit(subscription);
@@ -115,62 +89,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                 theme: "light",
             },
         });
-    };
-
-    const handleCreateSubscription = async (): Promise<void> => {
-        if (newSubscription == null) {
-            throw new Error("InvalidProgramState");
-        }
-        await onAddSubscription(newSubscription);
-        handleCloseModal(ModalType.newSubscriptionModal);
-    };
-
-    const handleCreateAndTestSubscription = async (): Promise<void> => {
-        if (newSubscription == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            const subscription = await onAddSubscription(newSubscription);
-            if (subscription !== null && subscription !== undefined) {
-                await onTestSubscription(subscription);
-            }
-        } finally {
-            handleCloseModal(ModalType.newSubscriptionModal);
-        }
-    };
-
-    const handleUpdateSubscription = async (): Promise<void> => {
-        if (subscriptionToEdit == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await onUpdateSubscription(subscriptionToEdit);
-        } finally {
-            handleCloseModal(ModalType.subscriptionEditModal);
-        }
-    };
-
-    const handleUpdateAndTestSubscription = async (): Promise<void> => {
-        if (subscriptionToEdit == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await onUpdateSubscription(subscriptionToEdit);
-            await onTestSubscription(subscriptionToEdit);
-        } finally {
-            handleCloseModal(ModalType.subscriptionEditModal);
-        }
-    };
-
-    const handleRemoveSubscription = async (): Promise<void> => {
-        if (subscriptionToEdit == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await onRemoveSubscription(subscriptionToEdit);
-        } finally {
-            handleCloseModal(ModalType.subscriptionEditModal);
-        }
     };
 
     return (
@@ -200,7 +118,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                         </div>
                     </div>
                     <SubscriptionList
-                        tableRef={tableRef}
                         subscriptions={filteredSubscriptions}
                         contacts={contacts}
                         handleEditSubscription={handleEditSubscription}
@@ -216,8 +133,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                     contacts={contacts}
                     onChange={(update) => setNewSubscription({ ...newSubscription, ...update })}
                     onCancel={() => closeModal(ModalType.newSubscriptionModal)}
-                    onCreateSubscription={handleCreateSubscription}
-                    onCreateAndTestSubscription={handleCreateAndTestSubscription}
                 />
             )}
             {modalVisibility.subscriptionEditModal && subscriptionToEdit != null && (
@@ -229,9 +144,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                         setSubscriptionToEdit({ ...subscriptionToEdit, ...update })
                     }
                     onCancel={() => closeModal(ModalType.subscriptionEditModal)}
-                    onUpdateSubscription={handleUpdateSubscription}
-                    onUpdateAndTestSubscription={handleUpdateAndTestSubscription}
-                    onRemoveSubscription={handleRemoveSubscription}
                 />
             )}
         </>

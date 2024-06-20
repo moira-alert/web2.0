@@ -12,14 +12,12 @@ import styles from "./SubscriptionList.less";
 const cn = classNames.bind(styles);
 
 interface Props {
-    tableRef?: React.Ref<HTMLTableElement>;
     subscriptions: Subscription[];
     contacts: Contact[];
     handleEditSubscription: (subscription: Subscription) => void;
 }
 
 export const SubscriptionList: React.FC<Props> = ({
-    tableRef,
     subscriptions,
     contacts,
     handleEditSubscription,
@@ -30,7 +28,7 @@ export const SubscriptionList: React.FC<Props> = ({
         sortConfig.direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     return (
         <div className={cn("items-container")}>
-            <table ref={tableRef} className={cn("items")}>
+            <table className={cn("items")}>
                 <thead>
                     <tr className={cn("header")}>
                         <td className={cn("fold-button-gap")} />

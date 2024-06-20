@@ -8,6 +8,7 @@ import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
 import TriggerAddContainer from "./Containers/TriggerAddContainer";
 import SettingsContainer from "./Containers/SettingsContainer";
 import NotificationListContainer from "./Containers/NotificationListContainer";
+import ContactsContainer from "./Containers/ContactsContainer";
 import TagListContainer from "./Containers/TagListContainer";
 import PatternListContainer from "./Containers/PatternListContainer";
 import ErrorContainer from "./Containers/ErrorContainer";
@@ -97,6 +98,7 @@ function Desktop() {
                     />
                     <Route exact path={getPagePath("tags")} component={TagListContainer} />
                     <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
+                    <Route exact path={getPagePath("contacts")} component={ContactsContainer} />
                 </PrivateRoute>
                 <Route component={ErrorContainer} />
             </Switch>

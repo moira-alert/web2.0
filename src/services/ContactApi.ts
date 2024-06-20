@@ -9,21 +9,24 @@ export const ContactApi = BaseApi.injectEndpoints({
                 method: "GET",
             }),
             transformResponse: (response: ContactList) => response.list,
-            providesTags: (result) =>
-                result
-                    ? [
-                          ...result.map(({ id }) => ({ type: "Contact" as const, id })),
-                          { type: "Contact", id: "LIST" },
-                      ]
-                    : [{ type: "Contact", id: "LIST" }],
+            providesTags: ["Contacts"],
         }),
-        updateContact: builder.mutation<Contact, Partial<Contact> & Pick<Contact, "id">>({
+        updateContact: builder.mutation<
+            Contact,
+            Partial<Contact> & Pick<Contact, "id"> & { isTeamContact?: boolean }
+        >({
             query: ({ id, ...contact }) => ({
                 url: `contact/${id}`,
                 method: "PUT",
                 body: contact,
             }),
-            invalidatesTags: (_result, _error, { id }) => [{ type: "Contact", id }, "Settings"],
+            invalidatesTags: (_result, _error, { isTeamContact }) => {
+                if (isTeamContact) {
+                    return ["Contacts", "TeamSettings"];
+                } else {
+                    return ["Contacts", "UserSettings"];
+                }
+            },
         }),
         testContact: builder.mutation<void, string>({
             query: (id) => ({
@@ -31,20 +34,26 @@ export const ContactApi = BaseApi.injectEndpoints({
                 method: "POST",
             }),
         }),
-        deleteContact: builder.mutation<void, string>({
-            query: (id) => ({
+        deleteContact: builder.mutation<void, { id: string; isTeamContact?: boolean }>({
+            query: ({ id }) => ({
                 url: `contact/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: (_result, _error, id) => [{ type: "Contact", id }, "Settings"],
+            invalidatesTags: (_result, _error, { isTeamContact }) => {
+                if (isTeamContact) {
+                    return ["Contacts", "TeamSettings"];
+                } else {
+                    return ["Contacts", "UserSettings"];
+                }
+            },
         }),
-        createContact: builder.mutation<void, Contact>({
+        createUserContact: builder.mutation<Contact, Omit<Contact, "id">>({
             query: (contact) => ({
                 url: `contact`,
                 method: "PUT",
                 body: JSON.stringify(contact),
             }),
-            invalidatesTags: ["Settings"],
+            invalidatesTags: ["UserSettings"],
         }),
     }),
 });
@@ -54,5 +63,5 @@ export const {
     useGetAllContactsQuery,
     useTestContactMutation,
     useDeleteContactMutation,
-    useCreateContactMutation,
+    useCreateUserContactMutation,
 } = ContactApi;

@@ -15,7 +15,7 @@ import {
     MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
     SUBSCRIPTION_LIST_HEIGHT,
     getTotalItemSize,
-    TAGS_LIST_ROW_HEIGHT,
+    ROW_HEIGHT,
 } from "../TagList/TagList";
 import classNames from "classnames/bind";
 
@@ -30,8 +30,6 @@ interface ItemProps {
     style: React.CSSProperties;
     onRemoveTag: (tag: string) => void;
     onRemoveSubscription: (subscription: Subscription) => Promise<void>;
-    onUpdateSubscription: (subscription: Subscription) => Promise<void>;
-    onTestSubscription: (subscription: Subscription) => Promise<void>;
 }
 
 export const getSubscriptionRowHeight = (contactIDs: string[]) => {
@@ -39,7 +37,7 @@ export const getSubscriptionRowHeight = (contactIDs: string[]) => {
         return getTotalItemSize(contactIDs.length);
     }
 
-    return TAGS_LIST_ROW_HEIGHT;
+    return ROW_HEIGHT;
 };
 
 export const TagListItem: FC<ItemProps> = ({
@@ -49,8 +47,6 @@ export const TagListItem: FC<ItemProps> = ({
     style,
     onRemoveTag,
     onRemoveSubscription,
-    onTestSubscription,
-    onUpdateSubscription,
 }) => {
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
@@ -103,7 +99,7 @@ export const TagListItem: FC<ItemProps> = ({
                     Delete
                 </Button>
             </div>
-            {isModalOpen && subscriptionToEdit !== null && (
+            {isModalOpen && subscriptionToEdit != null && (
                 <SubscriptionEditModal
                     subscription={subscriptionToEdit}
                     tags={tags}
@@ -112,9 +108,6 @@ export const TagListItem: FC<ItemProps> = ({
                         setSubscriptionToEdit({ ...subscriptionToEdit, ...update })
                     }
                     onCancel={closeModal}
-                    onUpdateSubscription={onUpdateSubscription}
-                    onUpdateAndTestSubscription={onTestSubscription}
-                    onRemoveSubscription={onRemoveSubscription}
                 />
             )}
             {isInfoVisible && (

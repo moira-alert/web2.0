@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
@@ -8,6 +8,12 @@ import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor, { SubscriptionInfo } from "../SubscriptionEditor/SubscriptionEditor";
 import FileLoader from "../FileLoader/FileLoader";
 import ModalError from "../ModalError/ModalError";
+import { useParams } from "react-router";
+import {
+    useCreateUserSubscriptionMutation,
+    useTestSubscriptionMutation,
+} from "../../services/SubscriptionsApi";
+import { useCreateTeamSubscriptionMutation } from "../../services/TeamsApi";
 
 type Props = {
     subscription: SubscriptionInfo;
@@ -15,126 +21,113 @@ type Props = {
     contacts: Array<Contact>;
     onChange: (subscriptionInfo: Partial<SubscriptionInfo>) => void;
     onCancel: () => void;
-    onCreateSubscription: (subscriptionInfo: SubscriptionInfo) => Promise<void>;
-    onCreateAndTestSubscription: (subscriptionInfo: SubscriptionInfo) => Promise<void>;
 };
 
-type State = {
-    createInProcess: boolean;
-    createAndTestInProcess: boolean;
-    error?: string;
-};
+const CreateSubscriptionModal: React.FC<Props> = ({
+    subscription,
+    tags,
+    contacts,
+    onChange,
+    onCancel,
+}) => {
+    const [error, setError] = useState<string | null>(null);
+    const validationContainerRef = useRef<ValidationContainer>(null);
+    const { teamId } = useParams<{ teamId: string }>();
+    const [
+        createUserSubscription,
+        { isLoading: isCreatingUserSubscription },
+    ] = useCreateUserSubscriptionMutation();
+    const [
+        createTeamSubscription,
+        { isLoading: isCreatingTeamSubscription },
+    ] = useCreateTeamSubscriptionMutation();
+    const [testSubscription, { isLoading: isTestingSubscription }] = useTestSubscriptionMutation();
 
-export default class CreateSubscriptionModal extends React.Component<Props, State> {
-    state: State;
-
-    validationContainer: { current: ValidationContainer | null };
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            createInProcess: false,
-            createAndTestInProcess: false,
-        };
-        this.validationContainer = React.createRef<ValidationContainer>();
-    }
-
-    render(): React.ReactNode {
-        const { subscription, tags, contacts, onCancel } = this.props;
-        const { createInProcess, createAndTestInProcess, error } = this.state;
-        const isActionButtonsDisabled = createInProcess || createAndTestInProcess;
-
-        return (
-            <Modal onClose={onCancel}>
-                <Modal.Header sticky={false}>Subscription adding</Modal.Header>
-                <Modal.Body>
-                    <ValidationContainer ref={this.validationContainer}>
-                        <SubscriptionEditor
-                            subscription={subscription}
-                            onChange={this.handleChange}
-                            tags={tags}
-                            contacts={contacts}
-                        />
-                    </ValidationContainer>
-                </Modal.Body>
-                <Modal.Footer panel sticky>
-                    <ModalError message={error} maxWidth="450px" />
-                    <RowStack gap={2} block baseline>
-                        <Button
-                            use="primary"
-                            disabled={isActionButtonsDisabled}
-                            loading={createInProcess}
-                            onClick={this.handleCreate}
-                        >
-                            Add
-                        </Button>
-                        <Button
-                            disabled={isActionButtonsDisabled}
-                            loading={createAndTestInProcess}
-                            onClick={this.handleCreateAndTest}
-                        >
-                            Add and test
-                        </Button>
-                        <Fill />
-                        <FileLoader onLoad={this.handleImport}>Import subscription</FileLoader>
-                    </RowStack>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-    handleChange = (subscription: Partial<SubscriptionInfo>): void => {
-        const { onChange } = this.props;
+    const handleChange = (subscription: Partial<SubscriptionInfo>): void => {
         onChange(subscription);
-        this.setState({ error: undefined });
+        setError(null);
     };
 
-    handleCreate = async (): Promise<void> => {
-        if (!(await this.validateForm())) {
+    const validateForm = async (): Promise<boolean> => {
+        if (!validationContainerRef.current) {
+            return true;
+        }
+        return validationContainerRef.current.validate();
+    };
+
+    const handleCreate = async (testAfterCreation?: boolean): Promise<void> => {
+        if (!(await validateForm())) {
             return;
         }
-        const { subscription, onCreateSubscription } = this.props;
-        this.setState({ createInProcess: true });
         try {
-            await onCreateSubscription(subscription);
-        } finally {
-            this.setState({ createInProcess: false });
+            const createdSubscription = teamId
+                ? await createTeamSubscription({ ...subscription, teamId }).unwrap()
+                : await createUserSubscription(subscription).unwrap();
+            if (testAfterCreation) {
+                await testSubscription(createdSubscription.id).unwrap();
+            }
+            onCancel();
+        } catch (error) {
+            setError(error);
         }
     };
 
-    handleCreateAndTest = async (): Promise<void> => {
-        if (!(await this.validateForm())) {
-            return;
-        }
-        const { subscription, onCreateAndTestSubscription } = this.props;
-        this.setState({ createAndTestInProcess: true });
+    const handleImport = (fileData: string, fileName: string): void => {
         try {
-            await onCreateAndTestSubscription(subscription);
-        } finally {
-            this.setState({ createAndTestInProcess: false });
-        }
-    };
-
-    handleImport = (fileData: string, fileName: string): void => {
-        try {
-            const subscription = JSON.parse(fileData);
-
-            if (typeof subscription === "object" && subscription !== null) {
-                this.handleChange(omitSubscription(subscription));
+            const importedSubscription = JSON.parse(fileData);
+            if (typeof importedSubscription === "object" && importedSubscription !== null) {
+                handleChange(omitSubscription(importedSubscription));
             } else {
                 throw new Error("Must be a subscription object");
             }
         } catch (e) {
-            this.setState({
-                error: `File ${fileName} cannot be converted to subscription. ${e.message}`,
-            });
+            setError(`File ${fileName} cannot be converted to subscription. ${e.message}`);
         }
     };
 
-    async validateForm(): Promise<boolean> {
-        if (this.validationContainer.current == null) {
-            return true;
-        }
-        return this.validationContainer.current.validate();
-    }
-}
+    const isActionButtonsDisabled =
+        isCreatingTeamSubscription || isCreatingUserSubscription || isTestingSubscription;
+
+    return (
+        <Modal onClose={onCancel}>
+            <Modal.Header sticky={false}>Subscription adding</Modal.Header>
+            <Modal.Body>
+                <ValidationContainer ref={validationContainerRef}>
+                    <SubscriptionEditor
+                        subscription={subscription}
+                        onChange={handleChange}
+                        tags={tags}
+                        contacts={contacts}
+                    />
+                </ValidationContainer>
+            </Modal.Body>
+            <Modal.Footer panel sticky>
+                <ModalError message={error} maxWidth="450px" />
+                <RowStack gap={2} block baseline>
+                    <Button
+                        use="primary"
+                        disabled={isActionButtonsDisabled}
+                        loading={isCreatingTeamSubscription || isCreatingUserSubscription}
+                        onClick={() => handleCreate()}
+                    >
+                        Add
+                    </Button>
+                    <Button
+                        disabled={isActionButtonsDisabled}
+                        loading={
+                            isTestingSubscription &&
+                            (isCreatingTeamSubscription || isCreatingUserSubscription)
+                        }
+                        onClick={() => handleCreate(true)}
+                    >
+                        Add and test
+                    </Button>
+                    <Fill />
+                    <FileLoader onLoad={handleImport}>Import subscription</FileLoader>
+                </RowStack>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+export default CreateSubscriptionModal;

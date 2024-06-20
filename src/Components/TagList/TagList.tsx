@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useState } from "react";
 import { Contact } from "../../Domain/Contact";
 import { TagStat } from "../../Domain/Tag";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
@@ -10,10 +10,6 @@ import { TagListItem } from "../TagListItem/TagListItem";
 import { Input, Token } from "@skbkontur/react-ui";
 import { TokenInput, TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { RowStack } from "@skbkontur/react-stack-layout";
-import { useModal } from "../../hooks/useModal";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import { AllContactsSidePage } from "../AllContatcsSidePage/AllContactsSidePage";
-import { useGetAllContactsQuery } from "../../services/ContactApi";
 import classNames from "classnames/bind";
 
 import styles from "./TagList.less";
@@ -22,31 +18,27 @@ const cn = classNames.bind(styles);
 
 interface ITagListProps {
     items: Array<TagStat>;
+    contacts: Contact[];
     onRemoveTag: (tag: string) => void;
     onRemoveSubscription: (subscription: Subscription) => Promise<void>;
-    onUpdateSubscription: (subscription: Subscription) => Promise<void>;
-    onTestSubscription: (subscription: Subscription) => Promise<void>;
 }
 
 export const MAX_LIST_LENGTH_BEFORE_SCROLLABLE = 40;
-export const TAGS_LIST_HEIGHT = 1000;
+export const LIST_HEIGHT = 1000;
 export const SUBSCRIPTION_LIST_HEIGHT = 500;
-export const TAGS_LIST_ROW_HEIGHT = 25;
+export const ROW_HEIGHT = 25;
 
-export const getTotalItemSize = (length: number) => length * TAGS_LIST_ROW_HEIGHT + 1;
+export const getTotalItemSize = (length: number) => length * ROW_HEIGHT + 1;
 
 export const TagList: FC<ITagListProps> = ({
     items,
+    contacts,
     onRemoveTag,
     onRemoveSubscription,
-    onTestSubscription,
-    onUpdateSubscription,
 }) => {
     const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
-    const { data: contacts } = useGetAllContactsQuery();
     const [filterTagName, setfilterTagName] = useState<string>("");
     const [filterContacts, setfilterContacts] = useState<Contact[]>([]);
-    const { isModalOpen, openModal, closeModal } = useModal();
 
     const tags = items.map((item) => item.name);
 
@@ -67,12 +59,6 @@ export const TagList: FC<ITagListProps> = ({
         return tagNameMatches && contactsMatch;
     });
 
-    const isContactUnUsed = (contactId: string): boolean => {
-        return !items.some((item) =>
-            item.subscriptions.some((sub) => sub.contacts.includes(contactId))
-        );
-    };
-
     const isListLongEnoughToScroll = filteredTags.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE;
 
     const getContatcs = (query: string): Promise<Contact[]> => {
@@ -90,19 +76,8 @@ export const TagList: FC<ITagListProps> = ({
         );
     };
 
-    const contactsWithUnusedField = useMemo(
-        () => contacts?.map((contact) => ({ ...contact, isUnused: isContactUnUsed(contact.id) })),
-        [contacts]
-    );
-
     return (
         <>
-            {isModalOpen && (
-                <AllContactsSidePage
-                    contacts={contactsWithUnusedField ?? []}
-                    closeSidePage={closeModal}
-                />
-            )}
             <RowStack gap={2} block baseline>
                 <Input placeholder="Find tag" onValueChange={setfilterTagName} />
                 <TokenInput<Contact>
@@ -135,7 +110,6 @@ export const TagList: FC<ITagListProps> = ({
                         </Token>
                     )}
                 />
-                <Button onClick={openModal}>Find and edit contact</Button>
             </RowStack>
 
             {!filteredTags.length || !items.length ? (
@@ -181,12 +155,10 @@ export const TagList: FC<ITagListProps> = ({
                     </div>
                     <List
                         height={
-                            isListLongEnoughToScroll
-                                ? TAGS_LIST_HEIGHT
-                                : getTotalItemSize(items.length)
+                            isListLongEnoughToScroll ? LIST_HEIGHT : getTotalItemSize(items.length)
                         }
                         width="100%"
-                        itemSize={TAGS_LIST_ROW_HEIGHT}
+                        itemSize={ROW_HEIGHT}
                         itemCount={filteredTags.length}
                         itemData={filteredTags}
                     >
@@ -198,8 +170,6 @@ export const TagList: FC<ITagListProps> = ({
                                     tags={tags}
                                     allContacts={contacts ?? []}
                                     onRemoveTag={onRemoveTag}
-                                    onUpdateSubscription={onUpdateSubscription}
-                                    onTestSubscription={onTestSubscription}
                                     onRemoveSubscription={onRemoveSubscription}
                                 />
                             );

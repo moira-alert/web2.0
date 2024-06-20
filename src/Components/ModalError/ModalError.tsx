@@ -7,7 +7,7 @@ import styles from "./ModalError.less";
 const cn = classNames.bind(styles);
 
 type FooterErrorProps = {
-    message?: string;
+    message?: string | null;
     maxWidth?: string;
 };
 

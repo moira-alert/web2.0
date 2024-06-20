@@ -9,7 +9,7 @@ export const UserApi = BaseApi.injectEndpoints({
         }),
         getUserSettings: builder.query<Settings, void>({
             query: () => ({ url: "/user/settings", method: "GET" }),
-            providesTags: ["Settings"],
+            providesTags: ["UserSettings"],
         }),
     }),
 });
