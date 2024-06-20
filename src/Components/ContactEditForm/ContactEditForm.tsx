@@ -31,7 +31,7 @@ const ContactEditForm: React.FC<Props> = ({ contactInfo, onChange }) => {
     ]);
 
     const validateValue = useCallback((): ValidationInfo | null => {
-        if (!contactInfo?.value) {
+        if (!value) {
             return {
                 message: "Contact value can`t be empty",
                 type: "submit",
@@ -50,13 +50,15 @@ const ContactEditForm: React.FC<Props> = ({ contactInfo, onChange }) => {
                   message: "Invalid format",
                   type: "submit",
               };
-    }, [contactInfo?.value]);
+    }, [value]);
 
-    const renderItem = (v: string, item?: string) => (
-        <span>
-            {v && <ContactTypeIcon type={v} />} {item}
-        </span>
-    );
+    const renderItem = (v: string, item?: string) => {
+        return (
+            <span>
+                {v && <ContactTypeIcon type={v} />} {item}
+            </span>
+        );
+    };
 
     return (
         <Gapped vertical gap={10}>
