@@ -6,14 +6,20 @@ import { Input } from "@skbkontur/react-ui/components/Input";
 import { AllContactsTable } from "../Components/AllContatcsTable/AllContactsTable";
 import { Contact } from "../Domain/Contact";
 import { useGetAllContactsQuery } from "../services/ContactApi";
+import { useModal } from "../hooks/useModal";
+import { useAppSelector } from "../store/hooks";
+import { UIState } from "../store/selectors";
 
 const ContactsContainer: FC = () => {
-    const { data: contacts, error, isLoading } = useGetAllContactsQuery();
+    const { data: contacts } = useGetAllContactsQuery();
+    const { error, isLoading } = useAppSelector(UIState);
+    const { isModalOpen, closeModal, openModal } = useModal();
     const [findContact, setFindContact] = useState<string>("");
     const [editableContact, setEditableContact] = useState<Contact | null>(null);
     const [filterColumn, setfilterColumn] = useState<keyof Contact | null>(null);
 
     const handleEditContact = (update: Contact) => {
+        openModal();
         setEditableContact((prev) => ({ ...prev, ...update }));
     };
 
@@ -30,25 +36,17 @@ const ContactsContainer: FC = () => {
         );
     }, [findContact, contacts]);
 
-    const handleCloseModal = () => {
-        setEditableContact(null);
-    };
-
     useEffect(() => {
         setDocumentTitle("Contacts");
     }, []);
 
     return (
-        <Layout loading={isLoading} error={error as string}>
+        <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <LayoutTitle>Contacts: {filteredContacts?.length}</LayoutTitle>
 
-                {editableContact && (
-                    <ContactEditModal
-                        onChange={handleEditContact}
-                        onCancel={handleCloseModal}
-                        contactInfo={editableContact}
-                    />
+                {isModalOpen && (
+                    <ContactEditModal onCancel={closeModal} contactInfo={editableContact} />
                 )}
 
                 <Input

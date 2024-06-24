@@ -17,14 +17,14 @@ export default {
 };
 
 export const Empty = {
-    render: () => <ContactList {...commonProps} items={[]} />,
+    render: () => <ContactList {...commonProps} contacts={[]} />,
 };
 
 export const OneItem = {
     render: () => (
         <ContactList
             {...commonProps}
-            items={[
+            contacts={[
                 {
                     id: "1",
                     type: "email",
@@ -40,7 +40,7 @@ export const FewItems = {
     render: () => (
         <ContactList
             {...commonProps}
-            items={[
+            contacts={[
                 {
                     id: "1",
                     type: "phone",
@@ -62,7 +62,7 @@ export const InvalidItem = {
     render: () => (
         <ContactList
             {...commonProps}
-            items={[
+            contacts={[
                 {
                     id: "1",
                     type: "icq",

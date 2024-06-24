@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Subscription } from "../../Domain/Subscription";
-import { createSchedule, WholeWeek } from "../../Domain/Schedule";
 import { Contact } from "../../Domain/Contact";
 import SubscriptionEditModal from "../../Components/SubscriptionEditModal/SubscriptionEditModal";
 import CreateSubscriptionModal from "../../Components/CreateSubscriptionModal/CreateSubscriptionModal";
@@ -10,8 +9,6 @@ import type { SubscriptionInfo } from "../../Components/SubscriptionEditor/Subsc
 import { SubscriptionList } from "../../Components/SubscriptionList/SubscriptionList";
 import { AddSubscriptionMessage } from "../../Components/AddSubscribtionMessage/AddSubscribtionMessage";
 import { ModalType } from "../../Domain/Global";
-import { ConfigState } from "../../store/selectors";
-import { useAppSelector } from "../../store/hooks";
 import { FilterSubscriptionButtons } from "./Components/FilterSubscriptionButtons";
 import { useFilterSubscriptions } from "../../hooks/useFilterSubscriptions";
 import classNames from "classnames/bind";
@@ -28,8 +25,8 @@ interface Props {
     subscriptions: Subscription[];
 }
 
-export const SubscriptionListContainer: React.FC<Props> = (props) => {
-    const { tags, contacts, subscriptions } = props;
+export const SubscriptionListContainer: React.FC<Props> = ({ tags, contacts, subscriptions }) => {
+    const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
 
     const [modalVisibility, setModalVisibility] = useState({
         [ModalType.subscriptionEditModal]: false,
@@ -50,9 +47,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
         }));
     };
 
-    const [newSubscription, setNewSubscription] = useState<SubscriptionInfo | null>(null);
-    const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
-
     const {
         filteredSubscriptions,
         availableTags,
@@ -63,11 +57,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
         handleSetFilterContactIDs,
     } = useFilterSubscriptions(subscriptions);
 
-    const { config } = useAppSelector(ConfigState);
-
-    const isPlottingDefaultOn =
-        !!config?.featureFlags.isPlottingDefaultOn && config.featureFlags.isPlottingAvailable;
-
     const handleEditSubscription = (subscription: Subscription): void => {
         openModal(ModalType.subscriptionEditModal);
         setSubscriptionToEdit(subscription);
@@ -75,20 +64,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
 
     const handleAddSubscription = () => {
         openModal(ModalType.newSubscriptionModal);
-        setNewSubscription({
-            any_tags: false,
-            sched: createSchedule(WholeWeek),
-            tags: [],
-            throttling: false,
-            contacts: [],
-            enabled: true,
-            ignore_recoverings: false,
-            ignore_warnings: false,
-            plotting: {
-                enabled: isPlottingDefaultOn,
-                theme: "light",
-            },
-        });
     };
 
     return (
@@ -126,12 +101,10 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
             ) : (
                 <AddSubscriptionMessage onAddSubscription={handleAddSubscription} />
             )}
-            {modalVisibility.newSubscriptionModal && newSubscription != null && (
+            {modalVisibility.newSubscriptionModal && (
                 <CreateSubscriptionModal
-                    subscription={newSubscription}
                     tags={tags}
                     contacts={contacts}
-                    onChange={(update) => setNewSubscription({ ...newSubscription, ...update })}
                     onCancel={() => closeModal(ModalType.newSubscriptionModal)}
                 />
             )}
@@ -140,9 +113,6 @@ export const SubscriptionListContainer: React.FC<Props> = (props) => {
                     subscription={subscriptionToEdit}
                     tags={tags}
                     contacts={contacts}
-                    onChange={(update) =>
-                        setSubscriptionToEdit({ ...subscriptionToEdit, ...update })
-                    }
                     onCancel={() => closeModal(ModalType.subscriptionEditModal)}
                 />
             )}

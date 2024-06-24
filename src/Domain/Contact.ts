@@ -21,6 +21,13 @@ export interface Contact {
     name?: string;
 }
 
+export interface TeamContactCreateInfo {
+    value: string;
+    type: string;
+    name?: string;
+    teamId: string;
+}
+
 export interface ContactList {
     list: Array<Contact>;
 }

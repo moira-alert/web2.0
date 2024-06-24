@@ -21,19 +21,12 @@ type Props = {
     subscription: Subscription;
     tags: Array<string>;
     contacts: Array<Contact>;
-    onChange: (subscription: Partial<Subscription>) => void;
     onCancel: () => void;
 };
 
-const SubscriptionEditModal: React.FC<Props> = ({
-    subscription,
-    tags,
-    contacts,
-    onChange,
-    onCancel,
-}) => {
+const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, onCancel }) => {
     const validationContainerRef = useRef<ValidationContainer>(null);
-
+    const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription>(subscription);
     const [error, setError] = useState<string | null>(null);
     const { teamId } = useParams<{ teamId: string }>();
     const [
@@ -47,7 +40,7 @@ const SubscriptionEditModal: React.FC<Props> = ({
     ] = useDeleteSubscriptionMutation();
 
     const handleChange = (subscription: Partial<Subscription>): void => {
-        onChange(subscription);
+        setSubscriptionToEdit((prev) => ({ ...prev, ...subscription }));
     };
 
     const handleUpdateSubscription = async (testAfterUpdate?: boolean): Promise<void> => {
@@ -55,10 +48,20 @@ const SubscriptionEditModal: React.FC<Props> = ({
             return;
         }
         try {
-            await updateSubscription({ ...subscription, isTeamSubscription: !!teamId }).unwrap();
             if (testAfterUpdate) {
-                await testSubscription(subscription.id).unwrap();
+                await testSubscription({
+                    id: subscriptionToEdit.id,
+                    handleLoadingLocally: true,
+                    handleErrorLocally: true,
+                }).unwrap();
             }
+            await updateSubscription({
+                ...subscriptionToEdit,
+                isTeamSubscription: !!teamId,
+                handleLoadingLocally: true,
+                handleErrorLocally: true,
+            }).unwrap();
+
             onCancel();
         } catch (error) {
             setError(error);
@@ -68,8 +71,10 @@ const SubscriptionEditModal: React.FC<Props> = ({
     const handleDelete = async (): Promise<void> => {
         try {
             await deleteSubscription({
-                id: subscription.id,
+                id: subscriptionToEdit.id,
                 isTeamSubscription: !!teamId,
+                handleLoadingLocally: true,
+                handleErrorLocally: true,
             }).unwrap();
             onCancel();
         } catch (error) {
@@ -85,12 +90,12 @@ const SubscriptionEditModal: React.FC<Props> = ({
     };
 
     const getFileName = (): string => {
-        const contactValues = subscription.contacts.map((contactId) => {
+        const contactValues = subscriptionToEdit.contacts.map((contactId) => {
             const contact = contacts.find((c) => c.id === contactId);
             return contact ? contact.value : contactId;
         });
 
-        return `subscription ${contactValues.join(" ")} ${subscription.tags
+        return `subscription ${contactValues.join(" ")} ${subscriptionToEdit.tags
             .slice(0, 5)
             .map((t) => t.slice(0, 8))
             .join(" ")}`;
@@ -104,10 +109,10 @@ const SubscriptionEditModal: React.FC<Props> = ({
             <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Subscription editing</Modal.Header>
                 <Modal.Body>
-                    <ResourceIDBadge title={"Subscription id:"} id={subscription.id} />
+                    <ResourceIDBadge title={"Subscription id:"} id={subscriptionToEdit.id} />
                     <ValidationContainer ref={validationContainerRef}>
                         <SubscriptionEditor
-                            subscription={subscription}
+                            subscription={subscriptionToEdit}
                             onChange={handleChange}
                             tags={tags}
                             contacts={contacts}
@@ -127,7 +132,7 @@ const SubscriptionEditModal: React.FC<Props> = ({
                         </Button>
                         <Button
                             disabled={isActionButtonsDisabled}
-                            loading={isTestingSubscription && isUpdatingSubscription}
+                            loading={isTestingSubscription}
                             onClick={() => handleUpdateSubscription(true)}
                         >
                             Save and test
@@ -135,7 +140,7 @@ const SubscriptionEditModal: React.FC<Props> = ({
                         <FileExport
                             isButton
                             title={getFileName()}
-                            data={omitSubscription(subscription)}
+                            data={omitSubscription(subscriptionToEdit)}
                         >
                             Export
                         </FileExport>

@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
@@ -10,7 +10,9 @@ import SettingsContainer from "./Containers/SettingsContainer";
 import NotificationListContainer from "./Containers/NotificationListContainer";
 import ContactsContainer from "./Containers/ContactsContainer";
 import TagListContainer from "./Containers/TagListContainer";
-import PatternListContainer from "./Containers/PatternListContainer";
+import PatternListContainer, {
+    TPatternListContainerProps,
+} from "./Containers/PatternListContainer";
 import ErrorContainer from "./Containers/ErrorContainer";
 import { getPagePath } from "./Domain/Global";
 import classNames from "classnames/bind";
@@ -42,25 +44,32 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
     // @ts-ignore problem with typing view
     return <Route {...rest} render={(props) => <Container {...props} view={View} />} />;
 }
-interface PrivateRouteProps {
-    children: React.ReactNode;
-}
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+type PrivateRouteProps = RouteProps & {
+    component: ComponentType<TPatternListContainerProps | object>;
+    exact?: boolean;
+    path: string;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
     const { data: user, isLoading } = useGetUserQuery();
 
     if (isLoading) {
         return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
     }
 
-    if (!user?.auth_enabled) {
-        return <>{children}</>;
-    }
-
-    return user.role === EUserRoles.Admin ? (
-        <>{children}</>
-    ) : (
-        <Redirect to={{ pathname: getPagePath("index") }} />
+    return (
+        <Route
+            {...rest}
+            render={(props) =>
+                user && (!user.auth_enabled || user.role === EUserRoles.Admin) ? (
+                    // @ts-ignore problem with typing props
+                    <Component {...props} />
+                ) : (
+                    <Redirect to={{ pathname: getPagePath("index") }} />
+                )
+            }
+        />
     );
 };
 
@@ -90,16 +99,18 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
                 <Route exact path={getPagePath("teams")} component={TeamsContainer} />
-                <PrivateRoute>
-                    <Route
-                        exact
-                        path={getPagePath("notifications")}
-                        component={NotificationListContainer}
-                    />
-                    <Route exact path={getPagePath("tags")} component={TagListContainer} />
-                    <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
-                    <Route exact path={getPagePath("contacts")} component={ContactsContainer} />
-                </PrivateRoute>
+                <PrivateRoute
+                    exact
+                    path={getPagePath("notifications")}
+                    component={NotificationListContainer}
+                />
+                <PrivateRoute exact path={getPagePath("tags")} component={TagListContainer} />
+                <PrivateRoute
+                    exact
+                    path={getPagePath("patterns")}
+                    component={PatternListContainer}
+                />
+                <PrivateRoute exact path={getPagePath("contacts")} component={ContactsContainer} />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

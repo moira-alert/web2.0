@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { UIState } from "../store/selectors";
 import { useSortData } from "../hooks/useSortData";
 
-type Props = { moiraApi: MoiraApi };
+export type TPatternListContainerProps = { moiraApi: MoiraApi };
 
-const PatternListContainer: React.FC<Props> = ({ moiraApi }) => {
+const PatternListContainer: React.FC<TPatternListContainerProps> = ({ moiraApi }) => {
     const dispatch = useAppDispatch();
     const { isLoading, error } = useAppSelector(UIState);
     const [list, setList] = useState<Pattern[] | undefined>();

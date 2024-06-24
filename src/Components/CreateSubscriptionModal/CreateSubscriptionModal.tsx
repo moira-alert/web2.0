@@ -14,23 +14,37 @@ import {
     useTestSubscriptionMutation,
 } from "../../services/SubscriptionsApi";
 import { useCreateTeamSubscriptionMutation } from "../../services/TeamsApi";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { BaseApi } from "../../services/BaseApi";
+import { WholeWeek, createSchedule } from "../../Domain/Schedule";
+import { ConfigState } from "../../store/selectors";
 
 type Props = {
-    subscription: SubscriptionInfo;
     tags: Array<string>;
     contacts: Array<Contact>;
-    onChange: (subscriptionInfo: Partial<SubscriptionInfo>) => void;
     onCancel: () => void;
 };
 
-const CreateSubscriptionModal: React.FC<Props> = ({
-    subscription,
-    tags,
-    contacts,
-    onChange,
-    onCancel,
-}) => {
+const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) => {
     const [error, setError] = useState<string | null>(null);
+
+    const { config } = useAppSelector(ConfigState);
+    const isPlottingDefaultOn =
+        !!config?.featureFlags.isPlottingDefaultOn && config.featureFlags.isPlottingAvailable;
+    const [subscription, setSubscription] = useState<SubscriptionInfo>({
+        any_tags: false,
+        sched: createSchedule(WholeWeek),
+        tags: [],
+        throttling: false,
+        contacts: [],
+        enabled: true,
+        ignore_recoverings: false,
+        ignore_warnings: false,
+        plotting: {
+            enabled: isPlottingDefaultOn,
+            theme: "light",
+        },
+    });
     const validationContainerRef = useRef<ValidationContainer>(null);
     const { teamId } = useParams<{ teamId: string }>();
     const [
@@ -42,9 +56,10 @@ const CreateSubscriptionModal: React.FC<Props> = ({
         { isLoading: isCreatingTeamSubscription },
     ] = useCreateTeamSubscriptionMutation();
     const [testSubscription, { isLoading: isTestingSubscription }] = useTestSubscriptionMutation();
+    const dispatch = useAppDispatch();
 
     const handleChange = (subscription: Partial<SubscriptionInfo>): void => {
-        onChange(subscription);
+        setSubscription((prev) => ({ ...prev, ...subscription }));
         setError(null);
     };
 
@@ -56,16 +71,32 @@ const CreateSubscriptionModal: React.FC<Props> = ({
     };
 
     const handleCreate = async (testAfterCreation?: boolean): Promise<void> => {
-        if (!(await validateForm())) {
+        if (!(await validateForm()) || !subscription) {
             return;
         }
         try {
             const createdSubscription = teamId
-                ? await createTeamSubscription({ ...subscription, teamId }).unwrap()
-                : await createUserSubscription(subscription).unwrap();
+                ? await createTeamSubscription({
+                      ...subscription,
+                      teamId,
+                      handleErrorLocally: true,
+                      handleLoadingLocally: true,
+                  }).unwrap()
+                : await createUserSubscription({
+                      ...subscription,
+                      handleErrorLocally: true,
+                      handleLoadingLocally: true,
+                  }).unwrap();
             if (testAfterCreation) {
-                await testSubscription(createdSubscription.id).unwrap();
+                await testSubscription({
+                    id: createdSubscription.id,
+                    handleErrorLocally: true,
+                    handleLoadingLocally: true,
+                }).unwrap();
             }
+
+            dispatch(BaseApi.util.invalidateTags(teamId ? ["TeamSettings"] : ["UserSettings"]));
+
             onCancel();
         } catch (error) {
             setError(error);
@@ -92,6 +123,7 @@ const CreateSubscriptionModal: React.FC<Props> = ({
         <Modal onClose={onCancel}>
             <Modal.Header sticky={false}>Subscription adding</Modal.Header>
             <Modal.Body>
+                (
                 <ValidationContainer ref={validationContainerRef}>
                     <SubscriptionEditor
                         subscription={subscription}
@@ -100,6 +132,7 @@ const CreateSubscriptionModal: React.FC<Props> = ({
                         contacts={contacts}
                     />
                 </ValidationContainer>
+                )
             </Modal.Body>
             <Modal.Footer panel sticky>
                 <ModalError message={error} maxWidth="450px" />
@@ -114,10 +147,7 @@ const CreateSubscriptionModal: React.FC<Props> = ({
                     </Button>
                     <Button
                         disabled={isActionButtonsDisabled}
-                        loading={
-                            isTestingSubscription &&
-                            (isCreatingTeamSubscription || isCreatingUserSubscription)
-                        }
+                        loading={isTestingSubscription}
                         onClick={() => handleCreate(true)}
                     >
                         Add and test

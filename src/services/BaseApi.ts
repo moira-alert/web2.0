@@ -12,6 +12,11 @@ interface IApiError {
     status: string;
 }
 
+export type CustomBaseQueryArgs<T = object> = T & {
+    handleLoadingLocally?: boolean;
+    handleErrorLocally?: boolean;
+};
+
 const isErrorWithMessage = (error: unknown): error is { message: string } => {
     return (
         typeof error === "object" &&

@@ -9,21 +9,21 @@ import { useAppSelector } from "../../store/hooks";
 import { ConfigState } from "../../store/selectors";
 import { Gapped } from "@skbkontur/react-ui";
 import { Fill, Fixed, RowStack } from "@skbkontur/react-stack-layout";
+import { isEmptyString } from "../../helpers/isEmptyString";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEditForm.less";
-import { isEmptyString } from "../../helpers/isEmptyString";
 
 const cn = classNames.bind(styles);
 
-type Props = {
+interface IContactEditFormProps {
     contactInfo: Partial<Contact> | null;
     onChange: (contact: Partial<Contact>) => void;
-};
+}
 
-const ContactEditForm: React.FC<Props> = ({ contactInfo, onChange }) => {
+const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChange }) => {
     const { config } = useAppSelector(ConfigState);
-    const { value = "", type, name } = contactInfo || {};
+    const { value, type, name } = contactInfo || {};
     const currentContactConfig = config?.contacts.find((contact) => contact.type === type);
     const contactItems: Array<[ContactTypes, string]> = (config?.contacts ?? []).map((contact) => [
         contact.type,

@@ -1,30 +1,40 @@
 import { SubscriptionCreateInfo } from "../Api/MoiraApi";
 import { Subscription } from "../Domain/Subscription";
-import { BaseApi } from "./BaseApi";
+import { BaseApi, CustomBaseQueryArgs } from "./BaseApi";
 
 export const SubscriptionsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
-        createUserSubscription: builder.mutation<Subscription, SubscriptionCreateInfo>({
-            query: (subscription) => ({
+        createUserSubscription: builder.mutation<
+            Subscription,
+            CustomBaseQueryArgs<SubscriptionCreateInfo>
+        >({
+            query: ({ handleLoadingLocally, handleErrorLocally, ...subscription }) => ({
                 url: "subscription",
                 method: "PUT",
+                credentials: "same-origin",
                 body: JSON.stringify(subscription),
             }),
-            invalidatesTags: ["UserSettings"],
         }),
-        testSubscription: builder.mutation<void, string>({
-            query: (subscriptionId) => ({
-                url: `subscription/${encodeURIComponent(subscriptionId)}/test`,
+        testSubscription: builder.mutation<void, CustomBaseQueryArgs<{ id: string }>>({
+            query: ({ id }) => ({
+                url: `subscription/${encodeURIComponent(id)}/test`,
                 method: "PUT",
+                credentials: "same-origin",
             }),
         }),
         updateSubscription: builder.mutation<
             Subscription,
-            Subscription & { isTeamSubscription?: boolean }
+            CustomBaseQueryArgs<Subscription & { isTeamSubscription?: boolean }>
         >({
-            query: (subscription) => ({
+            query: ({
+                isTeamSubscription,
+                handleLoadingLocally,
+                handleErrorLocally,
+                ...subscription
+            }) => ({
                 url: `subscription/${encodeURIComponent(subscription.id)}`,
                 method: "PUT",
+                credentials: "same-origin",
                 body: JSON.stringify(subscription),
             }),
             invalidatesTags: (_result, error, { isTeamSubscription }) => {
@@ -40,11 +50,12 @@ export const SubscriptionsApi = BaseApi.injectEndpoints({
         }),
         deleteSubscription: builder.mutation<
             Subscription,
-            { id: string; isTeamSubscription?: boolean }
+            CustomBaseQueryArgs<{ id: string; isTeamSubscription?: boolean }>
         >({
             query: ({ id }) => ({
                 url: `subscription/${encodeURIComponent(id)}`,
                 method: "DELETE",
+                credentials: "same-origin",
             }),
             invalidatesTags: (_result, error, { isTeamSubscription }) => {
                 if (error) {

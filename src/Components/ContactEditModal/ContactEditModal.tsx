@@ -19,16 +19,15 @@ import { useParams } from "react-router";
 interface IContactEditModalProps {
     contactInfo: Contact | null;
     isDeleteContactButtonDisabled?: boolean;
-    onChange: (contact: Contact) => void;
     onCancel: () => void;
 }
 
 const ContactEditModal: FC<IContactEditModalProps> = ({
     contactInfo,
     isDeleteContactButtonDisabled,
-    onChange,
     onCancel,
 }) => {
+    const [contact, setContact] = useState<Contact | null>(contactInfo);
     const validationContainer = useRef<ValidationContainer>(null);
     const { teamId } = useParams<{ teamId: string }>();
     const [updateContact, { isLoading: isUpdating }] = useUpdateContactMutation();
@@ -38,15 +37,25 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
     const isActionButtonDisabled = isTesting || isUpdating || isDeleting;
 
     const handleUpdateContact = async (testAfterUpdate?: boolean): Promise<void> => {
-        if (!(await validateForm()) || !contactInfo) {
+        if (!(await validateForm()) || !contact) {
             return;
         }
 
         try {
-            await updateContact({ ...contactInfo, isTeamContact: !!teamId }).unwrap();
             if (testAfterUpdate) {
-                await testContact(contactInfo.id).unwrap();
+                await testContact({
+                    id: contact.id,
+                    handleLoadingLocally: true,
+                    handleErrorLocally: true,
+                }).unwrap();
             }
+            await updateContact({
+                ...contact,
+                isTeamContact: !!teamId,
+                handleLoadingLocally: true,
+                handleErrorLocally: true,
+            }).unwrap();
+
             onCancel();
         } catch (error) {
             setError(error);
@@ -54,12 +63,17 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
     };
 
     const handleDeleteContact = async (): Promise<void> => {
-        if (!contactInfo) {
+        if (!contact) {
             return;
         }
 
         try {
-            await deleteContact({ id: contactInfo.id, isTeamContact: !!teamId }).unwrap();
+            await deleteContact({
+                id: contact.id,
+                isTeamContact: !!teamId,
+                handleLoadingLocally: true,
+                handleErrorLocally: true,
+            }).unwrap();
             onCancel();
         } catch (error) {
             setError(error);
@@ -74,16 +88,16 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
     };
 
     return (
-        contactInfo && (
+        contact && (
             <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
                 <Modal.Body>
-                    <ResourceIDBadge title="Channel id:" id={contactInfo.id} />
+                    <ResourceIDBadge title="Channel id:" id={contact.id} />
                     <ValidationContainer ref={validationContainer}>
                         <ContactEditForm
-                            contactInfo={contactInfo}
+                            contactInfo={contact}
                             onChange={(update) => {
-                                onChange({ ...contactInfo, ...update });
+                                setContact((prev) => ({ ...prev, ...update } as Contact));
                                 setError(null);
                             }}
                         />
@@ -109,8 +123,8 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                         </Button>
                         <FileExport
                             isButton
-                            title={`delivery channel ${contactInfo.type} ${contactInfo.value}`}
-                            data={omitContact(contactInfo)}
+                            title={`delivery channel ${contact.type} ${contact.value}`}
+                            data={omitContact(contact)}
                         >
                             Export
                         </FileExport>

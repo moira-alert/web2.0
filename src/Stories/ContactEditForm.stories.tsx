@@ -59,6 +59,7 @@ const FilledContactEditForm: React.FC = () => {
             contactInfo={{
                 type: "email",
                 value: "test@email",
+                id: "",
             }}
         />
     );

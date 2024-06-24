@@ -2,15 +2,15 @@ import React, { FC } from "react";
 import { Contact } from "../../Domain/Contact";
 import { FixedSizeList as List } from "react-window";
 import { getCoreRowModel, ColumnDef, flexRender, useReactTable } from "@tanstack/react-table";
-import classNames from "classnames/bind";
-
-import styles from "./AllContactsTable.less";
 import {
     LIST_HEIGHT,
     MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
     ROW_HEIGHT,
     getTotalItemSize,
 } from "../TagList/TagList";
+import classNames from "classnames/bind";
+
+import styles from "./AllContactsTable.less";
 
 const cn = classNames.bind(styles);
 

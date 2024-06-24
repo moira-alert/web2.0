@@ -58,7 +58,7 @@ const SettingsContainer: FC = () => {
                         <ContactList
                             settings={settings}
                             contactDescriptions={config.contacts}
-                            items={settings.contacts}
+                            contacts={settings.contacts}
                         />
                     </div>
                 )}

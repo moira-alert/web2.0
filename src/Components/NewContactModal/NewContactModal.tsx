@@ -8,20 +8,20 @@ import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileLoader from "../FileLoader/FileLoader";
 import ModalError from "../ModalError/ModalError";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { ConfigState } from "../../store/selectors";
 import { useCreateUserContactMutation, useTestContactMutation } from "../../services/ContactApi";
 import { useCreateTeamContactMutation } from "../../services/TeamsApi";
 import { useParams } from "react-router";
 import { normalizeContactValueForApi } from "../../Domain/Contact";
+import { BaseApi } from "../../services/BaseApi";
 
 interface INewContactModalProps {
-    contactInfo: Partial<Contact> | null;
-    onChange: (contact: Partial<Contact>) => void;
     onCancel: () => void;
 }
 
-const NewContactModal: FC<INewContactModalProps> = ({ contactInfo, onChange, onCancel }) => {
+const NewContactModal: FC<INewContactModalProps> = ({ onCancel }) => {
+    const [contactInfo, setContactInfo] = useState<Partial<Contact> | null>(null);
     const { config } = useAppSelector(ConfigState);
     const { teamId } = useParams<{ teamId: string }>();
     const [
@@ -35,9 +35,13 @@ const NewContactModal: FC<INewContactModalProps> = ({ contactInfo, onChange, onC
     const [testContact, { isLoading: isTesting }] = useTestContactMutation();
     const [error, setError] = useState<string | null>(null);
     const validationContainerRef = useRef<ValidationContainer>(null);
+    const dispatch = useAppDispatch();
 
-    const handleChange = (contact: Partial<Contact>): void => {
-        onChange({ ...contactInfo, ...contact });
+    const handleChange = (contactUpdate: Partial<Contact>): void => {
+        setContactInfo((prevState) => ({
+            ...prevState,
+            ...contactUpdate,
+        }));
         setError(null);
     };
 
@@ -50,18 +54,33 @@ const NewContactModal: FC<INewContactModalProps> = ({ contactInfo, onChange, onC
 
         const requestContact = {
             value: normalizeContactValueForApi(type, value),
-            type: type,
-            name: name,
+            type,
+            name,
         };
 
         try {
             const createdContact = teamId
-                ? await createTeamContact({ teamId, ...requestContact }).unwrap()
-                : await createUserContact(requestContact).unwrap();
+                ? await createTeamContact({
+                      teamId,
+                      handleLoadingLocally: true,
+                      handleErrorLocally: true,
+                      ...requestContact,
+                  }).unwrap()
+                : await createUserContact({
+                      handleLoadingLocally: true,
+                      handleErrorLocally: true,
+                      ...requestContact,
+                  }).unwrap();
 
             if (testAfterCreation) {
-                await testContact(createdContact.id).unwrap();
+                await testContact({
+                    id: createdContact.id,
+                    handleLoadingLocally: true,
+                    handleErrorLocally: true,
+                }).unwrap();
             }
+            dispatch(BaseApi.util.invalidateTags(teamId ? ["TeamSettings"] : ["UserSettings"]));
+
             onCancel();
         } catch (error) {
             setError(error);

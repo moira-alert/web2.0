@@ -17,6 +17,8 @@ import {
     getTotalItemSize,
     ROW_HEIGHT,
 } from "../TagList/TagList";
+import { useDeleteSubscriptionMutation } from "../../services/SubscriptionsApi";
+import { useDeleteTagMutation } from "../../services/TagsApi";
 import classNames from "classnames/bind";
 
 import styles from "../TagList/TagList.less";
@@ -28,8 +30,6 @@ interface ItemProps {
     allContacts: Array<Contact>;
     tags: Array<string>;
     style: React.CSSProperties;
-    onRemoveTag: (tag: string) => void;
-    onRemoveSubscription: (subscription: Subscription) => Promise<void>;
 }
 
 export const getSubscriptionRowHeight = (contactIDs: string[]) => {
@@ -40,17 +40,12 @@ export const getSubscriptionRowHeight = (contactIDs: string[]) => {
     return ROW_HEIGHT;
 };
 
-export const TagListItem: FC<ItemProps> = ({
-    tagStat,
-    allContacts,
-    tags,
-    style,
-    onRemoveTag,
-    onRemoveSubscription,
-}) => {
+export const TagListItem: FC<ItemProps> = ({ tagStat, allContacts, tags, style }) => {
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const { isModalOpen, openModal, closeModal } = useModal();
+    const [deleteSubscription] = useDeleteSubscriptionMutation();
+    const [deleteTag] = useDeleteTagMutation();
     const { name, subscriptions, triggers } = tagStat;
 
     const hasSubscriptions = subscriptions.length !== 0;
@@ -68,12 +63,16 @@ export const TagListItem: FC<ItemProps> = ({
         openModal();
     };
 
-    const handleDeleteSubscription = (
+    const handleDeleteSubscription = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
         subscription: Subscription
     ) => {
         event.stopPropagation();
-        onRemoveSubscription(subscription);
+        await deleteSubscription({ id: subscription.id });
+    };
+
+    const handleDeleteTag = async (tag: string) => {
+        await deleteTag(tag);
     };
 
     const subscriptionContactsCount = flatten(
@@ -95,7 +94,11 @@ export const TagListItem: FC<ItemProps> = ({
             <div className={cn("trigger-counter")}>{triggers.length}</div>
             <div className={cn("subscription-counter")}>{subscriptions.length}</div>
             <div className={cn("control")}>
-                <Button use="link" icon={<TrashIcon />} onClick={() => onRemoveTag(tagStat.name)}>
+                <Button
+                    use="link"
+                    icon={<TrashIcon />}
+                    onClick={() => handleDeleteTag(tagStat.name)}
+                >
                     Delete
                 </Button>
             </div>
@@ -104,9 +107,6 @@ export const TagListItem: FC<ItemProps> = ({
                     subscription={subscriptionToEdit}
                     tags={tags}
                     contacts={allContacts}
-                    onChange={(update) =>
-                        setSubscriptionToEdit({ ...subscriptionToEdit, ...update })
-                    }
                     onCancel={closeModal}
                 />
             )}

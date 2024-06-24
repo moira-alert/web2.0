@@ -1,10 +1,9 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useMemo } from "react";
 import { Contact } from "../../Domain/Contact";
 import { TagStat } from "../../Domain/Tag";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import { useSortData } from "../../hooks/useSortData";
-import { Subscription } from "../../Domain/Subscription";
 import { FixedSizeList as List } from "react-window";
 import { TagListItem } from "../TagListItem/TagListItem";
 import { Input, Token } from "@skbkontur/react-ui";
@@ -19,8 +18,6 @@ const cn = classNames.bind(styles);
 interface ITagListProps {
     items: Array<TagStat>;
     contacts: Contact[];
-    onRemoveTag: (tag: string) => void;
-    onRemoveSubscription: (subscription: Subscription) => Promise<void>;
 }
 
 export const MAX_LIST_LENGTH_BEFORE_SCROLLABLE = 40;
@@ -30,12 +27,7 @@ export const ROW_HEIGHT = 25;
 
 export const getTotalItemSize = (length: number) => length * ROW_HEIGHT + 1;
 
-export const TagList: FC<ITagListProps> = ({
-    items,
-    contacts,
-    onRemoveTag,
-    onRemoveSubscription,
-}) => {
+export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
     const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
     const [filterTagName, setfilterTagName] = useState<string>("");
     const [filterContacts, setfilterContacts] = useState<Contact[]>([]);
@@ -45,19 +37,25 @@ export const TagList: FC<ITagListProps> = ({
     const SortingIcon =
         sortConfig.direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
 
-    const filteredTags = sortedData.filter((tag) => {
-        const tagNameMatches = filterTagName.length
-            ? tag.name.toLowerCase().includes(filterTagName.toLowerCase().trim())
-            : true;
+    const filteredTags = useMemo(
+        () =>
+            sortedData.filter((tag) => {
+                const tagNameMatches = filterTagName.length
+                    ? tag.name.toLowerCase().includes(filterTagName.toLowerCase().trim())
+                    : true;
 
-        const contactsMatch = filterContacts.length
-            ? filterContacts.every((filterContact) =>
-                  tag.subscriptions.flatMap((sub) => sub.contacts).includes(filterContact.id)
-              )
-            : true;
+                const contactsMatch = filterContacts.length
+                    ? filterContacts.every((filterContact) =>
+                          tag.subscriptions
+                              .flatMap((sub) => sub.contacts)
+                              .includes(filterContact.id)
+                      )
+                    : true;
 
-        return tagNameMatches && contactsMatch;
-    });
+                return tagNameMatches && contactsMatch;
+            }),
+        [sortedData, filterContacts, filterTagName]
+    );
 
     const isListLongEnoughToScroll = filteredTags.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE;
 
@@ -103,7 +101,7 @@ export const TagList: FC<ITagListProps> = ({
                     onValueChange={setfilterContacts}
                     renderNotFound={() => "No delivery channels found"}
                     renderToken={(contact, tokenProps) => (
-                        <Token key={contact.value.toString()} {...tokenProps}>
+                        <Token key={contact.value} {...tokenProps}>
                             <>
                                 {contact.value} {contact.name && `(${contact.name})`}
                             </>
@@ -169,8 +167,6 @@ export const TagList: FC<ITagListProps> = ({
                                     style={style}
                                     tags={tags}
                                     allContacts={contacts ?? []}
-                                    onRemoveTag={onRemoveTag}
-                                    onRemoveSubscription={onRemoveSubscription}
                                 />
                             );
                         }}

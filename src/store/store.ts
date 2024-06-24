@@ -3,6 +3,7 @@ import NotificationListContainerReducer from "./Reducers/NotificationListContain
 import UIReducer from "./Reducers/UIReducer.slice";
 import { BaseApi } from "../services/BaseApi";
 import ConfigReducer from "./Reducers/ConfigReducer.slice";
+import { rtkQueryErrorAndLoadingHandler } from "../services/rtkQueryErrorAndLoadingHandler";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         UIReducer,
     },
 
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(BaseApi.middleware),
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(BaseApi.middleware, rtkQueryErrorAndLoadingHandler),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
