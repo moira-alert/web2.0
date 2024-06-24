@@ -117,7 +117,7 @@ const NewContactModal: FC<INewContactModalProps> = ({ onCancel }) => {
         return validationContainerRef.current.validate();
     };
 
-    const areAddButtonsDisabled =
+    const areActionButtonsDisabled =
         !contactInfo?.value ||
         !contactInfo?.type ||
         isUserContactCreating ||
@@ -138,13 +138,13 @@ const NewContactModal: FC<INewContactModalProps> = ({ onCancel }) => {
                     <Button
                         use="primary"
                         loading={isUserContactCreating || isTeamContactCreating}
-                        disabled={areAddButtonsDisabled}
+                        disabled={areActionButtonsDisabled}
                         onClick={() => handleCreateContact()}
                     >
                         Add
                     </Button>
                     <Button
-                        disabled={areAddButtonsDisabled}
+                        disabled={areActionButtonsDisabled}
                         loading={isTesting}
                         onClick={() => handleCreateContact(true)}
                     >

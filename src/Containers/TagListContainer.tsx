@@ -3,16 +3,18 @@ import { TagList } from "../Components/TagList/TagList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
 import { UIState } from "../store/selectors";
-import { useLoadTagStatsData } from "../hooks/useLoadTagStatsData";
 import { useAppSelector } from "../store/hooks";
+import { useGetAllContactsQuery } from "../services/ContactApi";
+import { useGetTagStatsQuery } from "../services/TagsApi";
 
 const TagListContainer: FC = () => {
     const { error, isLoading } = useAppSelector(UIState);
-    const { contacts, tagStats } = useLoadTagStatsData();
+    const { data: contacts } = useGetAllContactsQuery();
+    const { data: tagStats } = useGetTagStatsQuery();
 
     useEffect(() => {
         setDocumentTitle("Tags");
-    }, [error, isLoading]);
+    }, []);
 
     return (
         <Layout loading={isLoading} error={error}>

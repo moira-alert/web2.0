@@ -18,9 +18,9 @@ const ContactsContainer: FC = () => {
     const [editableContact, setEditableContact] = useState<Contact | null>(null);
     const [filterColumn, setfilterColumn] = useState<keyof Contact | null>(null);
 
-    const handleEditContact = (update: Contact) => {
+    const handleEditContact = (contact: Contact) => {
         openModal();
-        setEditableContact((prev) => ({ ...prev, ...update }));
+        setEditableContact(contact);
     };
 
     const handleSetFilterColumn = (column: keyof Contact | null) => {

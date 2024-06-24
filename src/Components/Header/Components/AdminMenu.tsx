@@ -13,7 +13,9 @@ import styles from "./AdminMenu.less";
 const cn = classNames.bind(styles);
 
 export const AdminMenu: FC = () => {
-    const { data: user, isLoading: isUserLoading } = useGetUserQuery();
+    const { data: user, isLoading: isUserLoading } = useGetUserQuery({
+        handleLoadingLocally: true,
+    });
 
     const isAdminMenuEnabled = user?.auth_enabled && user.role === EUserRoles.Admin;
 
