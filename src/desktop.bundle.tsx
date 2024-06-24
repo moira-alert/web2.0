@@ -52,18 +52,21 @@ type PrivateRouteProps = RouteProps & {
 };
 
 const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
-    const { data: user, isLoading } = useGetUserQuery({ handleLoadingLocally: true });
+    const { data: user, isLoading } = useGetUserQuery();
 
     if (isLoading) {
         return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
+    }
+
+    if (!user?.auth_enabled) {
+        return <Route {...rest} render={(props) => <Component {...props} />} />;
     }
 
     return (
         <Route
             {...rest}
             render={(props) =>
-                user && (!user.auth_enabled || user.role === EUserRoles.Admin) ? (
-                    // @ts-ignore problem with typing props
+                user && user.role === EUserRoles.Admin ? (
                     <Component {...props} />
                 ) : (
                     <Redirect to={{ pathname: getPagePath("index") }} />
