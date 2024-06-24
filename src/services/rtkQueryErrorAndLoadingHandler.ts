@@ -26,11 +26,10 @@ export const rtkQueryErrorAndLoadingHandler: Middleware = (api: MiddlewareAPI) =
     action: unknown
 ) => {
     const typedAction = action as Action;
-
     if (
         isPending(typedAction) &&
         hasRequiredMeta(typedAction) &&
-        !typedAction.meta.arg.originalArgs.handleLoadingLocally
+        !typedAction.meta.arg.originalArgs?.handleLoadingLocally
     ) {
         api.dispatch(toggleLoading(true));
     }
@@ -38,7 +37,7 @@ export const rtkQueryErrorAndLoadingHandler: Middleware = (api: MiddlewareAPI) =
     if (
         (isFulfilled(typedAction) || isRejectedWithValue(typedAction)) &&
         hasRequiredMeta(typedAction) &&
-        !typedAction.meta.arg.originalArgs.handleLoadingLocally
+        !typedAction.meta.arg.originalArgs?.handleLoadingLocally
     ) {
         api.dispatch(toggleLoading(false));
     }
@@ -46,7 +45,7 @@ export const rtkQueryErrorAndLoadingHandler: Middleware = (api: MiddlewareAPI) =
     if (
         isRejectedWithValue(typedAction) &&
         hasRequiredMeta(typedAction) &&
-        !typedAction.meta.arg.originalArgs.handleErrorLocally
+        !typedAction.meta.arg.originalArgs?.handleErrorLocally
     ) {
         const errorMessage = typedAction.payload;
         api.dispatch(setError(errorMessage));

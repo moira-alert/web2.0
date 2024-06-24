@@ -52,7 +52,7 @@ type PrivateRouteProps = RouteProps & {
 };
 
 const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
-    const { data: user, isLoading } = useGetUserQuery();
+    const { data: user, isLoading } = useGetUserQuery({ handleLoadingLocally: true });
 
     if (isLoading) {
         return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
