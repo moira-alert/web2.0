@@ -22,33 +22,41 @@ function hasRequiredMeta(action: Action): action is Action {
     );
 }
 
+let pendingRequests = 0;
+
+const updateLoadingState = (api: MiddlewareAPI, increment: boolean) => {
+    pendingRequests += increment ? 1 : -1;
+    if (pendingRequests <= 0) {
+        api.dispatch(toggleLoading(false));
+        pendingRequests = 0;
+    } else {
+        api.dispatch(toggleLoading(true));
+    }
+};
+
 export const rtkQueryErrorAndLoadingHandler: Middleware = (api: MiddlewareAPI) => (next) => (
     action: unknown
 ) => {
     const typedAction = action as Action;
-    if (
-        isPending(typedAction) &&
-        hasRequiredMeta(typedAction) &&
-        !typedAction.meta.arg.originalArgs?.handleLoadingLocally
-    ) {
-        api.dispatch(toggleLoading(true));
-    }
+    if (hasRequiredMeta(typedAction)) {
+        if (isPending(typedAction) && !typedAction.meta.arg.originalArgs?.handleLoadingLocally) {
+            updateLoadingState(api, true);
+        }
 
-    if (
-        (isFulfilled(typedAction) || isRejectedWithValue(typedAction)) &&
-        hasRequiredMeta(typedAction) &&
-        !typedAction.meta.arg.originalArgs?.handleLoadingLocally
-    ) {
-        api.dispatch(toggleLoading(false));
-    }
+        if (
+            (isFulfilled(typedAction) || isRejectedWithValue(typedAction)) &&
+            !typedAction.meta.arg.originalArgs?.handleLoadingLocally
+        ) {
+            updateLoadingState(api, false);
+        }
 
-    if (
-        isRejectedWithValue(typedAction) &&
-        hasRequiredMeta(typedAction) &&
-        !typedAction.meta.arg.originalArgs?.handleErrorLocally
-    ) {
-        const errorMessage = typedAction.payload;
-        api.dispatch(setError(errorMessage));
+        if (
+            isRejectedWithValue(typedAction) &&
+            !typedAction.meta.arg.originalArgs?.handleErrorLocally
+        ) {
+            const errorMessage = typedAction.payload;
+            api.dispatch(setError(errorMessage));
+        }
     }
 
     return next(action);

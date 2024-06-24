@@ -123,7 +123,6 @@ const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) 
         <Modal onClose={onCancel}>
             <Modal.Header sticky={false}>Subscription adding</Modal.Header>
             <Modal.Body>
-                (
                 <ValidationContainer ref={validationContainerRef}>
                     <SubscriptionEditor
                         subscription={subscription}
@@ -132,7 +131,6 @@ const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) 
                         contacts={contacts}
                     />
                 </ValidationContainer>
-                )
             </Modal.Body>
             <Modal.Footer panel sticky>
                 <ModalError message={error} maxWidth="450px" />
