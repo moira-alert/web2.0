@@ -1,15 +1,20 @@
 import React, { useCallback } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
+import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
 import { Contact, ContactTypes } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Markdown } from "../Markdown/Markdown";
-import { useAppSelector } from "../../store/hooks";
-import { ConfigState } from "../../store/selectors";
 import { Gapped } from "@skbkontur/react-ui";
 import { Fill, Fixed, RowStack } from "@skbkontur/react-stack-layout";
 import { isEmptyString } from "../../helpers/isEmptyString";
+import { validateContactValueWithConfigRegExp } from "../TriggerEditForm/Validations/validations";
+import { useSelector } from "react-redux";
+import {
+    selectContactConfigByType,
+    selectContactConfigItems,
+} from "../../store/Reducers/ConfigReducer.slice";
+import { RootState } from "../../store/store";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEditForm.less";
@@ -22,43 +27,19 @@ interface IContactEditFormProps {
 }
 
 const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChange }) => {
-    const { config } = useAppSelector(ConfigState);
     const { value, type, name } = contactInfo || {};
-    const currentContactConfig = config?.contacts.find((contact) => contact.type === type);
-    const contactItems: Array<[ContactTypes, string]> = (config?.contacts ?? []).map((contact) => [
-        contact.type,
-        contact.label,
-    ]);
+    const contactItems = useSelector(selectContactConfigItems);
+    const currentContactConfig = useSelector((state: RootState) =>
+        type ? selectContactConfigByType(state, type as ContactTypes) : null
+    );
 
-    const validateValue = useCallback((): ValidationInfo | null => {
-        if (!value) {
-            return {
-                message: "Contact value can`t be empty",
-                type: "submit",
-            };
-        }
-
-        if (!currentContactConfig || !currentContactConfig.validation) {
-            return null;
-        }
-
-        const re = new RegExp(currentContactConfig.validation, "i");
-
-        return value.trim().match(re)
-            ? null
-            : {
-                  message: "Invalid format",
-                  type: "submit",
-              };
-    }, [value]);
-
-    const renderItem = (v: string, item?: string) => {
+    const renderItem = useCallback((v: string, item?: string) => {
         return (
             <span>
                 {v && <ContactTypeIcon type={v} />} {item}
             </span>
         );
-    };
+    }, []);
 
     return (
         <Gapped vertical gap={10}>
@@ -69,7 +50,7 @@ const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChang
                 renderItem={renderItem}
                 renderValue={renderItem}
                 onValueChange={(v) => {
-                    v && onChange({ type: v });
+                    v && onChange({ type: v as ContactTypes });
                 }}
                 items={contactItems}
                 data-tid="Select channel type"
@@ -79,7 +60,10 @@ const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChang
                 <Fill>
                     <ValidationWrapperV1
                         renderMessage={tooltip("top left")}
-                        validationInfo={validateValue()}
+                        validationInfo={validateContactValueWithConfigRegExp(
+                            value,
+                            currentContactConfig?.validation
+                        )}
                     >
                         <Input
                             width="100%"

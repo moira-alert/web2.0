@@ -9,15 +9,10 @@ import SubscriptionEditor, { SubscriptionInfo } from "../SubscriptionEditor/Subs
 import FileLoader from "../FileLoader/FileLoader";
 import ModalError from "../ModalError/ModalError";
 import { useParams } from "react-router";
-import {
-    useCreateUserSubscriptionMutation,
-    useTestSubscriptionMutation,
-} from "../../services/SubscriptionsApi";
-import { useCreateTeamSubscriptionMutation } from "../../services/TeamsApi";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { BaseApi } from "../../services/BaseApi";
 import { WholeWeek, createSchedule } from "../../Domain/Schedule";
-import { ConfigState } from "../../store/selectors";
+import { useSelector } from "react-redux";
+import { selectIsPlottingDefaultOn } from "../../store/Reducers/ConfigReducer.slice";
+import { useCreateSubscription } from "../../hooks/useCreateSubscription";
 
 type Props = {
     tags: Array<string>;
@@ -26,11 +21,8 @@ type Props = {
 };
 
 const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) => {
-    const [error, setError] = useState<string | null>(null);
+    const isPlottingDefaultOn = useSelector(selectIsPlottingDefaultOn);
 
-    const { config } = useAppSelector(ConfigState);
-    const isPlottingDefaultOn =
-        !!config?.featureFlags.isPlottingDefaultOn && config.featureFlags.isPlottingAvailable;
     const [subscription, setSubscription] = useState<SubscriptionInfo>({
         any_tags: false,
         sched: createSchedule(WholeWeek),
@@ -47,60 +39,17 @@ const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) 
     });
     const validationContainerRef = useRef<ValidationContainer>(null);
     const { teamId } = useParams<{ teamId: string }>();
-    const [
-        createUserSubscription,
-        { isLoading: isCreatingUserSubscription },
-    ] = useCreateUserSubscriptionMutation();
-    const [
-        createTeamSubscription,
-        { isLoading: isCreatingTeamSubscription },
-    ] = useCreateTeamSubscriptionMutation();
-    const [testSubscription, { isLoading: isTestingSubscription }] = useTestSubscriptionMutation();
-    const dispatch = useAppDispatch();
+    const [error, setError] = useState<string | null>(null);
+    const {
+        handleCreateSubscription,
+        isCreatingUserSubscription,
+        isCreatingTeamSubscription,
+        isTestingSubscription,
+    } = useCreateSubscription(validationContainerRef, subscription, onCancel, setError, teamId);
 
     const handleChange = (subscription: Partial<SubscriptionInfo>): void => {
         setSubscription((prev) => ({ ...prev, ...subscription }));
         setError(null);
-    };
-
-    const validateForm = async (): Promise<boolean> => {
-        if (!validationContainerRef.current) {
-            return true;
-        }
-        return validationContainerRef.current.validate();
-    };
-
-    const handleCreate = async (testAfterCreation?: boolean): Promise<void> => {
-        if (!(await validateForm()) || !subscription) {
-            return;
-        }
-        try {
-            const createdSubscription = teamId
-                ? await createTeamSubscription({
-                      ...subscription,
-                      teamId,
-                      handleErrorLocally: true,
-                      handleLoadingLocally: true,
-                  }).unwrap()
-                : await createUserSubscription({
-                      ...subscription,
-                      handleErrorLocally: true,
-                      handleLoadingLocally: true,
-                  }).unwrap();
-            if (testAfterCreation) {
-                await testSubscription({
-                    id: createdSubscription.id,
-                    handleErrorLocally: true,
-                    handleLoadingLocally: true,
-                }).unwrap();
-            }
-
-            dispatch(BaseApi.util.invalidateTags(teamId ? ["TeamSettings"] : ["UserSettings"]));
-
-            onCancel();
-        } catch (error) {
-            setError(error);
-        }
     };
 
     const handleImport = (fileData: string, fileName: string): void => {
@@ -139,14 +88,14 @@ const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) 
                         use="primary"
                         disabled={isActionButtonsDisabled}
                         loading={isCreatingTeamSubscription || isCreatingUserSubscription}
-                        onClick={() => handleCreate()}
+                        onClick={() => handleCreateSubscription()}
                     >
                         Add
                     </Button>
                     <Button
                         disabled={isActionButtonsDisabled}
                         loading={isTestingSubscription}
-                        onClick={() => handleCreate(true)}
+                        onClick={() => handleCreateSubscription(true)}
                     >
                         Add and test
                     </Button>

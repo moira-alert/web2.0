@@ -82,18 +82,24 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     <div className={cn("items-container")}>
                         <table className={cn("items")}>
                             <tbody>
-                                {contacts.map((contact) => {
+                                {contacts.map(({ name, value, type, id }) => {
                                     if (
                                         contactDescriptions.some(
-                                            (description) => description.type === contact.type
+                                            (description) => description.type === type
                                         )
                                     ) {
-                                        const { name, value, type } = contact;
                                         return (
                                             <tr
-                                                key={contact.id}
+                                                key={id}
                                                 className={cn("item")}
-                                                onClick={() => handleBeginEditContact(contact)}
+                                                onClick={() =>
+                                                    handleBeginEditContact({
+                                                        name,
+                                                        value,
+                                                        type,
+                                                        id,
+                                                    })
+                                                }
                                             >
                                                 <td className={cn("icon")}>
                                                     <ContactTypeIcon type={type} />
@@ -113,21 +119,19 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                                     }
 
                                     return (
-                                        <tr className={cn("item")} key={contact.id}>
+                                        <tr className={cn("item")} key={id}>
                                             <td className={cn("error-icon")}>
                                                 <WarningIcon />
                                             </td>
                                             <td>
-                                                {isEmptyString(contact.name)
-                                                    ? contact.value
-                                                    : contact.name}
+                                                {isEmptyString(name) ? value : name}
                                                 <span className={cn("error-message")}>
-                                                    Contact type {contact.type} not more support.{" "}
+                                                    Contact type {type} not more support.{" "}
                                                     <Button
                                                         use="link"
                                                         onClick={() =>
                                                             deleteContact({
-                                                                id: contact.id,
+                                                                id,
                                                                 isTeamContact: !!teamId,
                                                             })
                                                         }

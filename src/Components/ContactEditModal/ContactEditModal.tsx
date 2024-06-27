@@ -8,13 +8,10 @@ import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileExport from "../FileExport/FileExport";
 import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
-import {
-    useDeleteContactMutation,
-    useTestContactMutation,
-    useUpdateContactMutation,
-} from "../../services/ContactApi";
+import { useDeleteContactMutation } from "../../services/ContactApi";
 import ModalError from "../ModalError/ModalError";
 import { useParams } from "react-router";
+import { useUpdateContact } from "../../hooks/useUpdateContact";
 
 interface IContactEditModalProps {
     contactInfo: Contact | null;
@@ -30,43 +27,20 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
     const [contact, setContact] = useState<Contact | null>(contactInfo);
     const validationContainer = useRef<ValidationContainer>(null);
     const { teamId } = useParams<{ teamId: string }>();
-    const [updateContact, { isLoading: isUpdating }] = useUpdateContactMutation();
-    const [testContact, { isLoading: isTesting }] = useTestContactMutation();
-    const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
     const [error, setError] = useState<string | null>(null);
-    const isActionButtonDisabled = isTesting || isUpdating || isDeleting;
-
-    const handleUpdateContact = async (testAfterUpdate?: boolean): Promise<void> => {
-        if (!(await validateForm()) || !contact) {
-            return;
-        }
-
-        try {
-            if (testAfterUpdate) {
-                await testContact({
-                    id: contact.id,
-                    handleLoadingLocally: true,
-                    handleErrorLocally: true,
-                }).unwrap();
-            }
-            await updateContact({
-                ...contact,
-                isTeamContact: !!teamId,
-                handleLoadingLocally: true,
-                handleErrorLocally: true,
-            }).unwrap();
-
-            onCancel();
-        } catch (error) {
-            setError(error);
-        }
-    };
+    const { handleUpdateContact, isUpdating, isTesting } = useUpdateContact(
+        validationContainer,
+        contact,
+        onCancel,
+        setError,
+        teamId
+    );
+    const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
 
     const handleDeleteContact = async (): Promise<void> => {
         if (!contact) {
             return;
         }
-
         try {
             await deleteContact({
                 id: contact.id,
@@ -80,12 +54,7 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
         }
     };
 
-    const validateForm = async (): Promise<boolean> => {
-        if (!validationContainer.current) {
-            return true;
-        }
-        return validationContainer.current.validate();
-    };
+    const isActionButtonDisabled = isTesting || isUpdating || isDeleting;
 
     return (
         contact && (
@@ -98,13 +67,12 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                             contactInfo={contact}
                             onChange={(update) => {
                                 setContact((prev) => ({ ...prev, ...update } as Contact));
-                                setError(null);
                             }}
                         />
                     </ValidationContainer>
                 </Modal.Body>
                 <Modal.Footer panel sticky>
-                    <ModalError message={error} maxWidth="450px" />
+                    <ModalError message={error as string} maxWidth="450px" />
                     <RowStack gap={2} block baseline>
                         <Button
                             use="primary"

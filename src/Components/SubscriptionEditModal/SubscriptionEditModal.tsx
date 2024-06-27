@@ -9,13 +9,10 @@ import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
 import FileExport from "../FileExport/FileExport";
 import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
-import {
-    useDeleteSubscriptionMutation,
-    useTestSubscriptionMutation,
-    useUpdateSubscriptionMutation,
-} from "../../services/SubscriptionsApi";
+import { useDeleteSubscriptionMutation } from "../../services/SubscriptionsApi";
 import { useParams } from "react-router";
 import ModalError from "../ModalError/ModalError";
+import { useUpdateSubscription } from "../../hooks/useUpdateSubscription";
 
 type Props = {
     subscription: Subscription;
@@ -29,11 +26,11 @@ const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, 
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription>(subscription);
     const [error, setError] = useState<string | null>(null);
     const { teamId } = useParams<{ teamId: string }>();
-    const [
-        updateSubscription,
-        { isLoading: isUpdatingSubscription },
-    ] = useUpdateSubscriptionMutation();
-    const [testSubscription, { isLoading: isTestingSubscription }] = useTestSubscriptionMutation();
+    const {
+        handleUpdateSubscription,
+        isUpdatingSubscription,
+        isTestingSubscription,
+    } = useUpdateSubscription(validationContainerRef, subscription, onCancel, setError, teamId);
     const [
         deleteSubscription,
         { isLoading: isDeletingSubscription },
@@ -41,31 +38,6 @@ const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, 
 
     const handleChange = (subscription: Partial<Subscription>): void => {
         setSubscriptionToEdit((prev) => ({ ...prev, ...subscription }));
-    };
-
-    const handleUpdateSubscription = async (testAfterUpdate?: boolean): Promise<void> => {
-        if (!(await validateForm())) {
-            return;
-        }
-        try {
-            if (testAfterUpdate) {
-                await testSubscription({
-                    id: subscriptionToEdit.id,
-                    handleLoadingLocally: true,
-                    handleErrorLocally: true,
-                }).unwrap();
-            }
-            await updateSubscription({
-                ...subscriptionToEdit,
-                isTeamSubscription: !!teamId,
-                handleLoadingLocally: true,
-                handleErrorLocally: true,
-            }).unwrap();
-
-            onCancel();
-        } catch (error) {
-            setError(error);
-        }
     };
 
     const handleDelete = async (): Promise<void> => {
@@ -80,13 +52,6 @@ const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, 
         } catch (error) {
             setError(error);
         }
-    };
-
-    const validateForm = async (): Promise<boolean> => {
-        if (!validationContainerRef.current) {
-            return true;
-        }
-        return validationContainerRef.current.validate();
     };
 
     const getFileName = (): string => {

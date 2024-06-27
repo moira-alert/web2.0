@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
@@ -10,9 +10,7 @@ import SettingsContainer from "./Containers/SettingsContainer";
 import NotificationListContainer from "./Containers/NotificationListContainer";
 import ContactsContainer from "./Containers/ContactsContainer";
 import TagListContainer from "./Containers/TagListContainer";
-import PatternListContainer, {
-    TPatternListContainerProps,
-} from "./Containers/PatternListContainer";
+import PatternListContainer from "./Containers/PatternListContainer";
 import ErrorContainer from "./Containers/ErrorContainer";
 import { getPagePath } from "./Domain/Global";
 import classNames from "classnames/bind";
@@ -22,10 +20,8 @@ import TriggerListDesktop, {
 } from "./pages/trigger-list/trigger-list.desktop";
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
+import { AdminRoute } from "./PrivateRoutes/AdminRoute";
 import TeamsContainer from "./Containers/TeamsContainer";
-import { useGetUserQuery } from "./services/UserApi";
-import { EUserRoles } from "./Domain/User";
-import { Loader } from "@skbkontur/react-ui/components/Loader";
 
 import styles from "./desktop.less";
 
@@ -44,37 +40,6 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
     // @ts-ignore problem with typing view
     return <Route {...rest} render={(props) => <Container {...props} view={View} />} />;
 }
-
-type PrivateRouteProps = RouteProps & {
-    component: ComponentType<TPatternListContainerProps | object>;
-    exact?: boolean;
-    path: string;
-};
-
-const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
-    const { data: user, isLoading } = useGetUserQuery();
-
-    if (isLoading) {
-        return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
-    }
-
-    if (!user?.auth_enabled) {
-        return <Route {...rest} render={(props) => <Component {...props} />} />;
-    }
-
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                user && user.role === EUserRoles.Admin ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to={{ pathname: getPagePath("index") }} />
-                )
-            }
-        />
-    );
-};
 
 function Desktop() {
     return (
@@ -102,18 +67,14 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
                 <Route exact path={getPagePath("teams")} component={TeamsContainer} />
-                <PrivateRoute
+                <AdminRoute
                     exact
                     path={getPagePath("notifications")}
                     component={NotificationListContainer}
                 />
-                <PrivateRoute exact path={getPagePath("tags")} component={TagListContainer} />
-                <PrivateRoute
-                    exact
-                    path={getPagePath("patterns")}
-                    component={PatternListContainer}
-                />
-                <PrivateRoute exact path={getPagePath("contacts")} component={ContactsContainer} />
+                <AdminRoute exact path={getPagePath("tags")} component={TagListContainer} />
+                <AdminRoute exact path={getPagePath("patterns")} component={PatternListContainer} />
+                <AdminRoute exact path={getPagePath("contacts")} component={ContactsContainer} />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

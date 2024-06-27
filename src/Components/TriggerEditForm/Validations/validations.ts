@@ -1,4 +1,4 @@
-import { ValidationInfo } from "@skbkontur/react-ui-validations";
+import { ValidationContainer, ValidationInfo } from "@skbkontur/react-ui-validations";
 import TriggerSource, { LOW_TRIGGER_TTL } from "../../../Domain/Trigger";
 import { Schedule } from "../../../Domain/Schedule";
 import { TMetricSourceCluster } from "../../../Domain/Metric";
@@ -74,4 +74,38 @@ export const validateClusterID = (
               message: "Can't be empty",
           }
         : null;
+};
+
+export const validateContactValueWithConfigRegExp = (
+    value?: string,
+    regExp?: string
+): ValidationInfo | null => {
+    if (!value) {
+        return {
+            message: "Contact value can`t be empty",
+            type: "submit",
+        };
+    }
+
+    if (!regExp) {
+        return null;
+    }
+
+    const re = new RegExp(regExp, "i");
+
+    return value.trim().match(re)
+        ? null
+        : {
+              message: "Invalid format",
+              type: "submit",
+          };
+};
+
+export const validateForm = async (
+    validationContainer: React.RefObject<ValidationContainer>
+): Promise<boolean> => {
+    if (!validationContainer.current) {
+        return true;
+    }
+    return validationContainer.current.validate();
 };

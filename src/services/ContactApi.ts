@@ -35,11 +35,7 @@ export const ContactApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                if (isTeamContact) {
-                    return ["Contacts", "TeamSettings"];
-                } else {
-                    return ["Contacts", "UserSettings"];
-                }
+                return ["Contacts", isTeamContact ? "TeamSettings" : "UserSettings"];
             },
         }),
         testContact: builder.mutation<void, CustomBaseQueryArgs<{ id: string }>>({
@@ -62,11 +58,7 @@ export const ContactApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                if (isTeamContact) {
-                    return ["Contacts", "TeamSettings"];
-                } else {
-                    return ["Contacts", "UserSettings"];
-                }
+                return ["Contacts", isTeamContact ? "TeamSettings" : "UserSettings"];
             },
         }),
         createUserContact: builder.mutation<Contact, CustomBaseQueryArgs<Omit<Contact, "id">>>({

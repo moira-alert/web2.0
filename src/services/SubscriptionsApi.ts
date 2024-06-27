@@ -41,11 +41,7 @@ export const SubscriptionsApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                if (isTeamSubscription) {
-                    return ["TeamSettings", "TagStats"];
-                } else {
-                    return ["UserSettings", "TagStats"];
-                }
+                return ["TagStats", isTeamSubscription ? "TeamSettings" : "UserSettings"];
             },
         }),
         deleteSubscription: builder.mutation<
@@ -61,11 +57,7 @@ export const SubscriptionsApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                if (isTeamSubscription) {
-                    return ["TeamSettings", "TagStats"];
-                } else {
-                    return ["UserSettings", "TagStats"];
-                }
+                return ["TagStats", isTeamSubscription ? "TeamSettings" : "UserSettings"];
             },
         }),
     }),

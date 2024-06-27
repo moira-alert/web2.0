@@ -34,29 +34,36 @@ const updateLoadingState = (api: MiddlewareAPI, increment: boolean) => {
     }
 };
 
+// macrolevel error and loading handler, any request not containing {handleLoadingLocally, handleErrorLocally} these props will change this state, see ContactEditModal for example
+const shouldHandleLoadingGlobally = (action: Action) =>
+    hasRequiredMeta(action) && !action.meta!.arg.originalArgs?.handleLoadingLocally;
+
+const shouldHandleErrorGlobally = (action: Action) =>
+    hasRequiredMeta(action) && !action.meta!.arg.originalArgs?.handleErrorLocally;
+
 export const rtkQueryErrorAndLoadingHandler: Middleware = (api: MiddlewareAPI) => (next) => (
     action: unknown
 ) => {
     const typedAction = action as Action;
-    if (hasRequiredMeta(typedAction)) {
-        if (isPending(typedAction) && !typedAction.meta.arg.originalArgs?.handleLoadingLocally) {
+
+    const isActionPending = isPending(typedAction);
+    const isActionFulfilledOrRejected =
+        isFulfilled(typedAction) || isRejectedWithValue(typedAction);
+    const isActionRejectedWithError = isRejectedWithValue(typedAction);
+
+    if (shouldHandleLoadingGlobally(typedAction)) {
+        if (isActionPending) {
             updateLoadingState(api, true);
         }
 
-        if (
-            (isFulfilled(typedAction) || isRejectedWithValue(typedAction)) &&
-            !typedAction.meta.arg.originalArgs?.handleLoadingLocally
-        ) {
+        if (isActionFulfilledOrRejected) {
             updateLoadingState(api, false);
         }
+    }
 
-        if (
-            isRejectedWithValue(typedAction) &&
-            !typedAction.meta.arg.originalArgs?.handleErrorLocally
-        ) {
-            const errorMessage = typedAction.payload;
-            api.dispatch(setError(errorMessage));
-        }
+    if (shouldHandleErrorGlobally(typedAction) && isActionRejectedWithError) {
+        const errorMessage = typedAction.payload;
+        api.dispatch(setError(errorMessage));
     }
 
     return next(action);

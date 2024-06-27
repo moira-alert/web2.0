@@ -16,10 +16,7 @@ export const useLoadSettingsData = () => {
     const { data: teams } = useGetUserTeamsQuery();
     const { data: tags } = useGetTagsQuery();
 
-    let team;
-    if (teamId && teams) {
-        team = teams.teams.find((teamOverview) => teamOverview.id === teamId);
-    }
+    const team = teamId ? teams?.teams.find((teamOverview) => teamOverview.id === teamId) : null;
 
     const settings = teamId ? teamSettings : userSettings;
 
