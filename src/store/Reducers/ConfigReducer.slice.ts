@@ -18,6 +18,9 @@ const configSlice = createSlice({
         setConfig(state, action: PayloadAction<Config>) {
             state.config = action.payload;
         },
+        setContactItems(state, action: PayloadAction<ContactConfig[]>) {
+            contactsConfigAdapter.setAll(state, action.payload);
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(BaseApi.endpoints.getConfig.matchFulfilled, (state, { payload }) => {
@@ -28,7 +31,7 @@ const configSlice = createSlice({
 });
 
 export default configSlice.reducer;
-export const { setConfig } = configSlice.actions;
+export const { setConfig, setContactItems } = configSlice.actions;
 
 export const {
     selectById: selectContactConfigByType,

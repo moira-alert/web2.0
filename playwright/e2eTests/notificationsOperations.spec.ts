@@ -1,6 +1,34 @@
 import { expect, test as base } from "@playwright/test";
 import { NotificationsPage } from "../pages/notifications.page";
 
+const ConfigContacts = [
+    {
+        type: "mail",
+        label: "E-mail",
+    },
+    {
+        type: "pushover",
+        label: "Pushover",
+    },
+    {
+        type: "slack",
+        label: "Slack",
+    },
+    {
+        type: "telegram",
+        label: "Telegram",
+        help: "required to grant @MoiraBot admin privileges",
+    },
+    {
+        type: "twilio sms",
+        label: "Twilio SMS",
+    },
+    {
+        type: "twilio voice",
+        label: "Twilio voice",
+    },
+];
+
 const test = base.extend<{
     channelType: string;
     channelTypeEdited: string;
@@ -28,6 +56,8 @@ test("With feature flags set to true", async ({ notificationsPage, page }) => {
     await page.route("api/config", (route) => {
         route.fulfill({
             json: {
+                remoteAllowed: true,
+                contacts: ConfigContacts,
                 featureFlags: {
                     isSubscriptionToAllTagsAvailable: true,
                     isPlottingAvailable: true,
@@ -52,6 +82,8 @@ test("With feature flags set to false", async ({ notificationsPage, page }) => {
     await page.route("api/config", (route) => {
         route.fulfill({
             json: {
+                remoteAllowed: true,
+                contacts: ConfigContacts,
                 featureFlags: {
                     isSubscriptionToAllTagsAvailable: false,
                     isPlottingAvailable: false,
@@ -81,7 +113,7 @@ test("Add delivery channel", async ({
     await notificationsPage.addDeliveryChannelButton.click();
     await notificationsPage.modalSelectChannelTypeButton.click();
     await page.getByRole("button", { name: `${channelType}` }).click();
-    await page.locator(`input:below(:text('${channelType}'))`).fill(channelAccountName);
+    await page.locator(`input:below(:text('${channelType}'))`).first().fill(channelAccountName);
     await notificationsPage.modalActionDeliveryChannelButton("Add").click();
     await expect(page.getByText(channelAccountName)).toBeVisible();
 });
@@ -97,8 +129,11 @@ test("Edit existing delivery channel", async ({
     notificationsPage.deliveryChannelItem(channelAccountName).click();
     await notificationsPage.modalSelectChannelTypeButton.click();
     await page.getByRole("button", { name: `${channelTypeEdited}` }).click();
-    await page.locator(`input:below(:text('${channelTypeEdited}'))`).clear();
-    await page.locator(`input:below(:text('${channelTypeEdited}'))`).fill(channelAccountNameEdited);
+    await page.locator(`input:below(:text('${channelTypeEdited}'))`).nth(0).clear();
+    await page
+        .locator(`input:below(:text('${channelTypeEdited}'))`)
+        .first()
+        .fill(channelAccountNameEdited);
     await notificationsPage.modalActionDeliveryChannelButton("Save").click();
     await expect(page.getByText(channelAccountNameEdited)).toBeVisible();
 });
@@ -120,13 +155,10 @@ test("Can`t delete channel with active subscription", async ({
 }) => {
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).first().click();
-    await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
-    await expect(
-        page.getByText(
-            "Can't delete this delivery channel. This will disrupt the functioning of the following subscriptions:"
-        )
-    ).toBeVisible();
-    await page.getByRole("button", { name: "Cancel" }).click();
+    await expect(notificationsPage.modalActionDeliveryChannelButton("Delete")).toHaveAttribute(
+        "disabled"
+    );
+    await page.locator('button[aria-label="Close modal window"]').click();
 });
 
 test("Delete subscription", async ({ channelAccountNameEdited, page, notificationsPage }) => {
