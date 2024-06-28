@@ -8,10 +8,10 @@ import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileExport from "../FileExport/FileExport";
 import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
-import { useDeleteContactMutation } from "../../services/ContactApi";
 import ModalError from "../ModalError/ModalError";
 import { useParams } from "react-router";
 import { useUpdateContact } from "../../hooks/useUpdateContact";
+import { useDeleteContact } from "../../hooks/useDeleteContact";
 
 interface IContactEditModalProps {
     contactInfo: Contact | null;
@@ -35,24 +35,12 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
         setError,
         teamId
     );
-    const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
-
-    const handleDeleteContact = async (): Promise<void> => {
-        if (!contact) {
-            return;
-        }
-        try {
-            await deleteContact({
-                id: contact.id,
-                isTeamContact: !!teamId,
-                handleLoadingLocally: true,
-                handleErrorLocally: true,
-            }).unwrap();
-            onCancel();
-        } catch (error) {
-            setError(error);
-        }
-    };
+    const { handleDeleteContact, isDeleting } = useDeleteContact(
+        contact,
+        onCancel,
+        setError,
+        teamId
+    );
 
     const isActionButtonDisabled = isTesting || isUpdating || isDeleting;
 

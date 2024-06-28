@@ -9,10 +9,10 @@ import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
 import FileExport from "../FileExport/FileExport";
 import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
-import { useDeleteSubscriptionMutation } from "../../services/SubscriptionsApi";
 import { useParams } from "react-router";
 import ModalError from "../ModalError/ModalError";
 import { useUpdateSubscription } from "../../hooks/useUpdateSubscription";
+import { useDeleteSubscription } from "../../hooks/useDeleteSubscription";
 
 type Props = {
     subscription: Subscription;
@@ -30,28 +30,22 @@ const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, 
         handleUpdateSubscription,
         isUpdatingSubscription,
         isTestingSubscription,
-    } = useUpdateSubscription(validationContainerRef, subscription, onCancel, setError, teamId);
-    const [
-        deleteSubscription,
-        { isLoading: isDeletingSubscription },
-    ] = useDeleteSubscriptionMutation();
+    } = useUpdateSubscription(
+        validationContainerRef,
+        subscriptionToEdit,
+        onCancel,
+        setError,
+        teamId
+    );
+    const { handleDeleteSubscription, isDeletingSubscription } = useDeleteSubscription(
+        subscriptionToEdit,
+        onCancel,
+        setError,
+        teamId
+    );
 
     const handleChange = (subscription: Partial<Subscription>): void => {
         setSubscriptionToEdit((prev) => ({ ...prev, ...subscription }));
-    };
-
-    const handleDelete = async (): Promise<void> => {
-        try {
-            await deleteSubscription({
-                id: subscriptionToEdit.id,
-                isTeamSubscription: !!teamId,
-                handleLoadingLocally: true,
-                handleErrorLocally: true,
-            }).unwrap();
-            onCancel();
-        } catch (error) {
-            setError(error);
-        }
     };
 
     const getFileName = (): string => {
@@ -114,7 +108,7 @@ const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, 
                             use="danger"
                             disabled={isActionButtonsDisabled}
                             loading={isDeletingSubscription}
-                            onClick={handleDelete}
+                            onClick={handleDeleteSubscription}
                         >
                             Delete
                         </Button>
