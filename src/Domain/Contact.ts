@@ -15,10 +15,17 @@ export enum ContactTypes {
 export interface Contact {
     id: string;
     type: string;
-    user: string;
+    user?: string;
     value: string;
-    team_id?: string;
+    team?: string;
     name?: string;
+}
+
+export interface TeamContactCreateInfo {
+    value: string;
+    type: string;
+    name?: string;
+    teamId: string;
 }
 
 export interface ContactList {

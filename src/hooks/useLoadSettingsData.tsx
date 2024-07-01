@@ -1,42 +1,30 @@
-import MoiraApi from "../Api/MoiraApi";
-import { useAppDispatch } from "../store/hooks";
-import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
-import { setTeamsAndTags, setSettings } from "../store/Reducers/SettingsContainerReducer.slice";
-import { IUser } from "../Domain/User";
+import { useGetUserQuery, useGetUserSettingsQuery } from "../services/UserApi";
+import { useGetTeamSettingsQuery, useGetUserTeamsQuery } from "../services/TeamsApi";
+import { useGetTagsQuery } from "../services/TagsApi";
+import { useParams } from "react-router";
 
-export const useLoadSettingsData = (moiraApi: MoiraApi, user?: IUser, teamId?: string) => {
-    const dispatch = useAppDispatch();
+export const useLoadSettingsData = () => {
+    const { teamId } = useParams<{ teamId: string }>();
 
-    const getTeamsAndTags = async () => {
-        const [teams, tags] = await Promise.all([moiraApi.getTeams(), moiraApi.getTagList()]);
+    const { data: user } = useGetUserQuery();
+    const { data: userSettings } = useGetUserSettingsQuery(undefined, {
+        skip: !!teamId,
+    });
+    const { data: teamSettings } = useGetTeamSettingsQuery(teamId, {
+        skip: !teamId,
+    });
+    const { data: teams } = useGetUserTeamsQuery();
+    const { data: tags } = useGetTagsQuery();
 
-        let team;
+    const team = teamId ? teams?.teams.find((teamOverview) => teamOverview.id === teamId) : null;
 
-        if (teamId) {
-            team = teams.teams.find((teamOverview) => teamOverview.id === teamId);
-        }
+    const settings = teamId ? teamSettings : userSettings;
 
-        dispatch(setTeamsAndTags({ login: user?.login, teams: teams.teams, tags, team }));
+    return {
+        login: user?.login,
+        settings,
+        tags,
+        team,
+        teams: teams?.teams,
     };
-    const getTeamOrUserData = async (teamId?: string) => {
-        const settings = teamId
-            ? await moiraApi.getSettingsByTeam(teamId)
-            : await moiraApi.getSettings();
-
-        dispatch(setSettings(settings));
-    };
-
-    const loadData = async () => {
-        dispatch(toggleLoading(true));
-        try {
-            await getTeamsAndTags();
-            await getTeamOrUserData(teamId);
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(toggleLoading(false));
-        }
-    };
-
-    return { loadData, getTeamOrUserData };
 };

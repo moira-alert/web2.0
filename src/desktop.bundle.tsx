@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 import HeaderContainer from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
@@ -8,6 +8,7 @@ import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
 import TriggerAddContainer from "./Containers/TriggerAddContainer";
 import SettingsContainer from "./Containers/SettingsContainer";
 import NotificationListContainer from "./Containers/NotificationListContainer";
+import ContactsContainer from "./Containers/ContactsContainer";
 import TagListContainer from "./Containers/TagListContainer";
 import PatternListContainer from "./Containers/PatternListContainer";
 import ErrorContainer from "./Containers/ErrorContainer";
@@ -19,10 +20,8 @@ import TriggerListDesktop, {
 } from "./pages/trigger-list/trigger-list.desktop";
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
+import { AdminRoute } from "./PrivateRoutes/AdminRoute";
 import TeamsContainer from "./Containers/TeamsContainer";
-import { useGetUserQuery } from "./services/UserApi";
-import { EUserRoles } from "./Domain/User";
-import { Loader } from "@skbkontur/react-ui/components/Loader";
 
 import styles from "./desktop.less";
 
@@ -41,27 +40,6 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
     // @ts-ignore problem with typing view
     return <Route {...rest} render={(props) => <Container {...props} view={View} />} />;
 }
-interface PrivateRouteProps {
-    children: React.ReactNode;
-}
-
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-    const { data: user, isLoading } = useGetUserQuery();
-
-    if (isLoading) {
-        return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
-    }
-
-    if (!user?.auth_enabled) {
-        return <>{children}</>;
-    }
-
-    return user.role === EUserRoles.Admin ? (
-        <>{children}</>
-    ) : (
-        <Redirect to={{ pathname: getPagePath("index") }} />
-    );
-};
 
 function Desktop() {
     return (
@@ -89,15 +67,14 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
                 <Route exact path={getPagePath("teams")} component={TeamsContainer} />
-                <PrivateRoute>
-                    <Route
-                        exact
-                        path={getPagePath("notifications")}
-                        component={NotificationListContainer}
-                    />
-                    <Route exact path={getPagePath("tags")} component={TagListContainer} />
-                    <Route exact path={getPagePath("patterns")} component={PatternListContainer} />
-                </PrivateRoute>
+                <AdminRoute
+                    exact
+                    path={getPagePath("notifications")}
+                    component={NotificationListContainer}
+                />
+                <AdminRoute exact path={getPagePath("tags")} component={TagListContainer} />
+                <AdminRoute exact path={getPagePath("patterns")} component={PatternListContainer} />
+                <AdminRoute exact path={getPagePath("contacts")} component={ContactsContainer} />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

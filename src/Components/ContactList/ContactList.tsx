@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useCallback, useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import { Gapped } from "@skbkontur/react-ui/components/Gapped";
@@ -11,291 +11,160 @@ import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { isEmptyString } from "../../helpers/isEmptyString";
+import { Settings } from "../../Domain/Settings";
+import { useDeleteContactMutation } from "../../services/ContactApi";
+import { useParams } from "react-router";
+import { useModal } from "../../hooks/useModal";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.less";
 
 const cn = classNames.bind(styles);
 
-type Props = {
-    items: Array<Contact>;
+interface IContactListProps {
+    contacts: Array<Contact>;
     contactDescriptions: Array<ContactConfig>;
-    onTestContact: (contact: Contact) => Promise<void>;
-    onAddContact: (contact: Partial<Contact>) => Promise<Contact | undefined>;
-    onUpdateContact: (contact: Contact) => Promise<void>;
-    onRemoveContact: (contact: Contact) => Promise<void>;
-};
+    settings?: Settings;
+}
 
-type State = {
-    newContactModalVisible: boolean;
-    newContact: Partial<Contact> | null;
-    editContactModalVisible: boolean;
-    editableContact: Contact | null;
-};
+const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescriptions, settings }) => {
+    const { teamId } = useParams<{ teamId: string }>();
+    const {
+        isModalOpen: newContactModalVisible,
+        openModal: openNewContactModal,
+        closeModal: closeNewContactModal,
+    } = useModal();
+    const {
+        isModalOpen: editContactModalVisible,
+        openModal: openEditContactModal,
+        closeModal: closeEditContactModal,
+    } = useModal();
+    const [editableContact, setEditableContact] = useState<Contact | null>(null);
+    const [deleteContact] = useDeleteContactMutation();
 
-export default class ContactList extends React.Component<Props, State> {
-    public state: State = {
-        newContactModalVisible: false,
-        newContact: null,
-        editContactModalVisible: false,
-        editableContact: null,
+    const handleBeginEditContact = (contact: Contact): void => {
+        openEditContactModal();
+        setEditableContact(contact);
     };
 
-    render(): React.ReactNode {
-        const { items, contactDescriptions, onRemoveContact } = this.props;
-        const {
-            newContact,
-            newContactModalVisible,
-            editContactModalVisible,
-            editableContact,
-        } = this.state;
+    const isDeleteContactButtonDisabled = !!(
+        editableContact?.id &&
+        settings?.subscriptions.some((sub) => sub.contacts.includes(editableContact.id))
+    );
 
-        return (
-            <div>
-                {items.length > 0 ? (
-                    <div>
-                        <h3 className={cn("header")}>Delivery channels</h3>
-                        <div className={cn("items-cotnainer")}>
-                            <table className={cn("items")}>
-                                <tbody>
-                                    {items.map((contact) => {
-                                        if (
-                                            contactDescriptions.some(
-                                                (description) => description.type === contact.type
-                                            )
-                                        ) {
-                                            console.log(contact.name);
-                                            const { name, value, type } = contact;
-                                            return (
-                                                <tr
-                                                    key={contact.id}
-                                                    className={cn("item")}
-                                                    onClick={() =>
-                                                        this.handleBeginEditContact(contact)
-                                                    }
-                                                >
-                                                    <td className={cn("icon")}>
-                                                        <ContactTypeIcon type={type} />
-                                                    </td>
-                                                    <td>
-                                                        {isEmptyString(name) ? (
-                                                            value
-                                                        ) : (
-                                                            <ContactWithCustomName
-                                                                contactValue={value}
-                                                                contactName={name}
-                                                            />
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            );
-                                        }
-
-                                        return (
-                                            <tr className={cn("item")} key={contact.id}>
-                                                <td className={cn("error-icon")}>
-                                                    <WarningIcon />
-                                                </td>
-                                                <td>
-                                                    {isEmptyString(contact.name)
-                                                        ? contact.value
-                                                        : contact.name}
-                                                    <span className={cn("error-message")}>
-                                                        Contact type {contact.type} not more
-                                                        support.{" "}
-                                                        <Button
-                                                            use="link"
-                                                            onClick={() => onRemoveContact(contact)}
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className={cn("actions-block")}>
-                            <Button icon={<AddIcon />} onClick={this.handleAddContact}>
-                                Add delivery channel
-                            </Button>
-                        </div>
-                    </div>
-                ) : (
-                    this.renderEmptyListMessage()
-                )}
-                {newContactModalVisible && (
-                    <NewContactModal
-                        contactDescriptions={contactDescriptions}
-                        contactInfo={newContact}
-                        onChange={this.handleChangeNewContact}
-                        onCancel={this.handleCancelCreateNewContact}
-                        onCreate={this.handleCreateNewContact}
-                        onCreateAndTest={this.handleCreateAndTestContact}
-                    />
-                )}
-                {editContactModalVisible && editableContact !== null && (
-                    <ContactEditModal
-                        contactDescriptions={contactDescriptions}
-                        contactInfo={editableContact}
-                        onChange={this.handleChangeEditableContact}
-                        onCancel={this.handleCancelEditContact}
-                        onUpdate={this.handleUpdateContact}
-                        onUpdateAndTest={this.handleUpdateAndTestContact}
-                        onDelete={this.handleDeleteContact}
-                    />
-                )}
-            </div>
-        );
-    }
-
-    handleCreateAndTestContact = async (): Promise<void> => {
-        const { onAddContact, onTestContact } = this.props;
-        const { newContact } = this.state;
-        if (newContact === null || newContact === undefined) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            const contact = await onAddContact(newContact);
-            if (contact !== null && contact !== undefined) {
-                await onTestContact(contact);
-            }
-        } finally {
-            this.setState({
-                newContactModalVisible: false,
-                newContact: null,
-            });
-        }
-    };
-
-    handleCancelCreateNewContact = (): void => {
-        this.setState({
-            newContactModalVisible: false,
-            newContact: null,
-        });
-    };
-
-    handleChangeNewContact = (newContactUpdate: Partial<Contact>): void => {
-        const { newContact } = this.state;
-        this.setState({
-            newContact: { ...newContact, ...newContactUpdate },
-        });
-    };
-
-    handleCreateNewContact = async (): Promise<void> => {
-        const { onAddContact } = this.props;
-        const { newContact } = this.state;
-        if (newContact == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await onAddContact(newContact);
-        } finally {
-            this.setState({
-                newContactModalVisible: false,
-                newContact: null,
-            });
-        }
-    };
-
-    handleDeleteContact = async (): Promise<void> => {
-        const { onRemoveContact } = this.props;
-        const { editableContact } = this.state;
-        if (editableContact == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await onRemoveContact(editableContact);
-        } finally {
-            this.setState({
-                editContactModalVisible: false,
-                editableContact: null,
-            });
-        }
-    };
-
-    handleAddContact = (): void => {
-        this.setState({
-            newContactModalVisible: true,
-        });
-    };
-
-    handleBeginEditContact = (contact: Contact): void => {
-        this.setState({
-            editContactModalVisible: true,
-            editableContact: contact,
-        });
-    };
-
-    handleChangeEditableContact = (contactUpdate: Partial<Contact>): void => {
-        const { editableContact } = this.state;
-        if (editableContact) {
-            this.setState({
-                editableContact: { ...editableContact, ...contactUpdate },
-            });
-        }
-    };
-
-    handleCancelEditContact = (): void => {
-        this.setState({
-            editContactModalVisible: false,
-            editableContact: null,
-        });
-    };
-
-    handleUpdateContact = async (): Promise<void> => {
-        const { onUpdateContact } = this.props;
-        const { editableContact } = this.state;
-        if (editableContact == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await onUpdateContact(editableContact);
-        } finally {
-            this.setState({
-                editContactModalVisible: false,
-                editableContact: null,
-            });
-        }
-    };
-
-    handleUpdateAndTestContact = async (): Promise<void> => {
-        const { onUpdateContact, onTestContact } = this.props;
-        const { editableContact } = this.state;
-        if (editableContact == null) {
-            throw new Error("InvalidProgramState");
-        }
-        try {
-            await onUpdateContact(editableContact);
-            await onTestContact(editableContact);
-        } finally {
-            this.setState({
-                editContactModalVisible: false,
-                editableContact: null,
-            });
-        }
-    };
-
-    renderEmptyListMessage(): React.ReactNode {
-        return (
+    const renderEmptyListMessage = useCallback(
+        () => (
             <Center>
                 <Gapped vertical gap={20}>
                     <div style={{ textAlign: "center" }}>
                         To start receiving notifications you have to{" "}
-                        <Button use="link" onClick={this.handleAddContact}>
+                        <Button use="link" onClick={openNewContactModal}>
                             add delivery channel
                         </Button>{" "}
                         for notifications.
                     </div>
                     <Center>
-                        <Button use="primary" icon={<AddIcon />} onClick={this.handleAddContact}>
+                        <Button use="primary" icon={<AddIcon />} onClick={openNewContactModal}>
                             Add delivery channel
                         </Button>
                     </Center>
                 </Gapped>
             </Center>
-        );
-    }
-}
+        ),
+        []
+    );
+
+    return (
+        <div>
+            {contacts.length > 0 ? (
+                <div>
+                    <h3 className={cn("header")}>Delivery channels</h3>
+                    <div className={cn("items-container")}>
+                        <table className={cn("items")}>
+                            <tbody>
+                                {contacts.map(({ name, value, type, id }) => {
+                                    if (
+                                        contactDescriptions.some(
+                                            (description) => description.type === type
+                                        )
+                                    ) {
+                                        return (
+                                            <tr
+                                                key={id}
+                                                className={cn("item")}
+                                                onClick={() =>
+                                                    handleBeginEditContact({
+                                                        name,
+                                                        value,
+                                                        type,
+                                                        id,
+                                                    })
+                                                }
+                                            >
+                                                <td className={cn("icon")}>
+                                                    <ContactTypeIcon type={type} />
+                                                </td>
+                                                <td>
+                                                    {isEmptyString(name) ? (
+                                                        value
+                                                    ) : (
+                                                        <ContactWithCustomName
+                                                            contactValue={value}
+                                                            contactName={name}
+                                                        />
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+
+                                    return (
+                                        <tr className={cn("item")} key={id}>
+                                            <td className={cn("error-icon")}>
+                                                <WarningIcon />
+                                            </td>
+                                            <td>
+                                                {isEmptyString(name) ? value : name}
+                                                <span className={cn("error-message")}>
+                                                    Contact type {type} not more support.{" "}
+                                                    <Button
+                                                        use="link"
+                                                        onClick={() =>
+                                                            deleteContact({
+                                                                id,
+                                                                isTeamContact: !!teamId,
+                                                            })
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className={cn("actions-block")}>
+                        <Button icon={<AddIcon />} onClick={openNewContactModal}>
+                            Add delivery channel
+                        </Button>
+                    </div>
+                </div>
+            ) : (
+                renderEmptyListMessage()
+            )}
+            {newContactModalVisible && <NewContactModal onCancel={closeNewContactModal} />}
+            {editContactModalVisible && (
+                <ContactEditModal
+                    isDeleteContactButtonDisabled={isDeleteContactButtonDisabled}
+                    contactInfo={editableContact}
+                    onCancel={closeEditContactModal}
+                />
+            )}
+        </div>
+    );
+};
+
+export default ContactList;

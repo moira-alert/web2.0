@@ -36,6 +36,7 @@ export const AdminMenu: FC = () => {
             }
         >
             <LinkMenuItem link={getPageLink("patterns")}>Patterns</LinkMenuItem>
+            <LinkMenuItem link={getPageLink("contacts")}>Contacts</LinkMenuItem>
             <LinkMenuItem link={getPageLink("notifications")}>Notifier</LinkMenuItem>
             <LinkMenuItem link={getPageLink("tags")}>Tags</LinkMenuItem>
         </DropdownMenu>

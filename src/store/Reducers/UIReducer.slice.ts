@@ -2,13 +2,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface IUIState {
     isLoading: boolean;
-    error: string;
+    error: string | null;
     isNewFrontendVersionAvailable: boolean;
 }
 
 const initialState: IUIState = {
     isLoading: false,
-    error: "",
+    error: null,
     isNewFrontendVersionAvailable: false,
 };
 
