@@ -4,16 +4,17 @@ import { Grid } from "../Grid/Grid";
 
 interface ConfirmProps {
     message: string;
-    action: () => void;
+    action: () => Promise<void> | void;
     children: ReactNode;
+    loading?: boolean;
 }
 
-export function Confirm(props: ConfirmProps): ReactElement {
+export function Confirm({ message, action, children, loading }: ConfirmProps): ReactElement {
     const [opened, setOpened] = useState(false);
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
+        await action();
         setOpened(false);
-        props.action();
     };
 
     return (
@@ -25,9 +26,14 @@ export function Confirm(props: ConfirmProps): ReactElement {
             closeButton={false}
             render={() => (
                 <Grid columns={"320px"} gap="16px 8px">
-                    {props.message}
+                    {message}
                     <Gapped>
-                        <Button onClick={handleConfirm} use={"primary"} width={100}>
+                        <Button
+                            loading={loading}
+                            onClick={handleConfirm}
+                            use={"primary"}
+                            width={100}
+                        >
                             Confirm
                         </Button>
                         <Button onClick={() => setOpened(false)}>Cancel</Button>
@@ -35,7 +41,7 @@ export function Confirm(props: ConfirmProps): ReactElement {
                 </Grid>
             )}
         >
-            <span onClick={() => setOpened(true)}>{props.children}</span>
+            <span onClick={() => setOpened(true)}>{children}</span>
         </Tooltip>
     );
 }
