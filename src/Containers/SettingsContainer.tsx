@@ -1,23 +1,27 @@
 import React, { FC, useEffect } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import ContactList from "../Components/ContactList/ContactList";
 import { SubscriptionListContainer } from "./SubscriptionListContainer/SubscriptionListContainer";
 import { Team } from "../Domain/Team";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { Gapped } from "@skbkontur/react-ui";
-import { useHistory } from "react-router";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 import { useLoadSettingsData } from "../hooks/useLoadSettingsData";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
 import { useAppSelector } from "../store/hooks";
 import { ConfigState, UIState } from "../store/selectors";
+import RouterLink from "../Components/RouterLink/RouterLink";
+import { EUserRoles } from "../Domain/User";
+import { RouteComponentProps } from "react-router";
 
-const SettingsContainer: FC = () => {
-    const history = useHistory();
-    const { login, settings, tags, team, teams } = useLoadSettingsData();
+export interface ISettingsContainerProps extends RouteComponentProps {
+    isTeamMember?: boolean;
+}
+
+const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history }) => {
+    const { login, role, settings, tags, team, teams } = useLoadSettingsData(isTeamMember);
     const { config } = useAppSelector(ConfigState);
     const { isLoading, error } = useAppSelector(UIState);
 
@@ -25,7 +29,7 @@ const SettingsContainer: FC = () => {
     const userWithTeams = teams ? [userAsTeam, ...teams] : [];
 
     const handleChangeTeam = async (userOrTeam: Team) => {
-        history.push(getPageLink("settings", userOrTeam.id ?? undefined));
+        history.push(getPageLink("teamSettings", userOrTeam.id ?? undefined));
     };
 
     useEffect(() => {
@@ -41,15 +45,21 @@ const SettingsContainer: FC = () => {
                     <Grid columns={"max-content"} gap="4px">
                         Current User: {login}
                         <Gapped gap={4}>
-                            <span>Show for {team ? "team" : "user"}</span>
-                            <Select<Team>
-                                use={"link"}
-                                value={team ?? userAsTeam}
-                                items={userWithTeams}
-                                renderValue={(value) => value.name}
-                                renderItem={(value) => value.name}
-                                onValueChange={handleChangeTeam}
-                            />
+                            <span>Shown for {team ? "team" : "user"}</span>
+                            {!isTeamMember && role === EUserRoles.Admin && team ? (
+                                <RouterLink to={getPageLink("team", team.id)}>
+                                    {team?.name}
+                                </RouterLink>
+                            ) : (
+                                <Select<Team>
+                                    use={"link"}
+                                    value={team ?? userAsTeam}
+                                    items={userWithTeams}
+                                    renderValue={(value) => value.name}
+                                    renderItem={(value) => value.name}
+                                    onValueChange={handleChangeTeam}
+                                />
+                            )}
                         </Gapped>
                     </Grid>
                 </RowStack>
@@ -73,4 +83,4 @@ const SettingsContainer: FC = () => {
         </Layout>
     );
 };
-export default withMoiraApi(SettingsContainer);
+export default SettingsContainer;

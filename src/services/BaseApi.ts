@@ -62,7 +62,16 @@ const customFetchBaseQuery: BaseQueryFn<string | FetchArgs, unknown, unknown, ob
 
 export const BaseApi = createApi({
     reducerPath: "BaseApi",
-    tagTypes: ["Contacts", "UserSettings", "TeamSettings", "TagStats"],
+    tagTypes: [
+        "Contacts",
+        "UserSettings",
+        "TeamSettings",
+        "TagStats",
+        "UserTeam",
+        "TeamUsers",
+        "UserTeams",
+        "Team",
+    ],
     baseQuery: customFetchBaseQuery,
     endpoints: (builder) => ({
         getConfig: builder.query<Config, void>({
