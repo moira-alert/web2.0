@@ -31,11 +31,16 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
     const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
     const [filterTagName, setfilterTagName] = useState<string>("");
     const [filterContacts, setfilterContacts] = useState<Contact[]>([]);
+    const [clickedTag, setClickedTag] = useState<string | null>(null);
 
     const tags = items.map((item) => item.name);
 
     const SortingIcon =
         sortConfig.direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+
+    const handleTagClick = (tagName: string) => {
+        tagName === clickedTag ? setClickedTag(null) : setClickedTag(tagName);
+    };
 
     const filteredTags = useMemo(
         () =>
@@ -167,6 +172,8 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                                     style={style}
                                     tags={tags}
                                     allContacts={contacts ?? []}
+                                    handleTagClick={handleTagClick}
+                                    isActive={clickedTag === data[index].name}
                                 />
                             );
                         }}
