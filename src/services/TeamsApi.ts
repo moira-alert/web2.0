@@ -15,12 +15,14 @@ export const TeamsApi = BaseApi.injectEndpoints({
             }),
             providesTags: ["TeamSettings"],
         }),
-        getUserTeams: builder.query<{ teams: Team[] }, CustomBaseQueryArgs | void>({
+        getUserTeams: builder.query<Team[], CustomBaseQueryArgs | void>({
             query: () => ({
                 url: "teams",
                 method: "GET",
                 credentials: "same-origin",
             }),
+            transformResponse: (response: { teams: Team[] }) => response.teams,
+            providesTags: ["UserTeams"],
         }),
         createTeamContact: builder.mutation<Contact, CustomBaseQueryArgs<TeamContactCreateInfo>>({
             query: ({ teamId, handleErrorLocally, handleLoadingLocally, ...contact }) => ({
@@ -41,6 +43,102 @@ export const TeamsApi = BaseApi.injectEndpoints({
                 body: JSON.stringify(subscription),
             }),
         }),
+        getTeam: builder.query<Team, CustomBaseQueryArgs<string>>({
+            query: (teamId) => ({
+                url: `teams/${encodeURIComponent(teamId)}`,
+                method: "GET",
+                credentials: "same-origin",
+            }),
+            providesTags: (_result, error, teamId) => {
+                if (error) {
+                    return [];
+                }
+                return [{ type: "Team", id: teamId }];
+            },
+        }),
+        addTeam: builder.mutation<{ id: string }, CustomBaseQueryArgs<Partial<Team>>>({
+            query: ({ id, handleErrorLocally, handleLoadingLocally, ...team }) => ({
+                url: "teams",
+                method: "POST",
+                credentials: "same-origin",
+                body: JSON.stringify(team),
+            }),
+            invalidatesTags: (_result, error) => {
+                if (error) {
+                    return [];
+                }
+                return ["UserTeams"];
+            },
+        }),
+        updateTeam: builder.mutation<{ id: string }, CustomBaseQueryArgs<Team>>({
+            query: ({ id, handleErrorLocally, handleLoadingLocally, ...team }) => ({
+                url: `teams/${encodeURIComponent(id)}`,
+                method: "PATCH",
+                credentials: "same-origin",
+                body: JSON.stringify(team),
+            }),
+            invalidatesTags: (_result, error, { id }) => {
+                if (error) {
+                    return [];
+                }
+                return ["UserTeams", { type: "Team", id }];
+            },
+        }),
+        deleteTeam: builder.mutation<void, CustomBaseQueryArgs<{ teamId: string }>>({
+            query: ({ teamId }) => ({
+                url: `teams/${encodeURIComponent(teamId)}`,
+                method: "DELETE",
+                credentials: "same-origin",
+            }),
+            invalidatesTags: (_result, error) => {
+                if (error) {
+                    return [];
+                }
+                return ["UserTeams"];
+            },
+        }),
+        getTeamUsers: builder.query<string[], CustomBaseQueryArgs<{ teamId: string }>>({
+            query: ({ teamId }) => ({
+                url: `teams/${encodeURIComponent(teamId)}/users`,
+                method: "GET",
+                credentials: "same-origin",
+            }),
+            transformResponse: (response: { usernames: string[] }) => response.usernames,
+            providesTags: ["TeamUsers"],
+        }),
+        addUserToTeam: builder.mutation<
+            void,
+            CustomBaseQueryArgs<{ teamId: string; userName: string }>
+        >({
+            query: ({ teamId, userName }) => ({
+                url: `teams/${encodeURIComponent(teamId)}/users`,
+                method: "POST",
+                credentials: "same-origin",
+                body: JSON.stringify({ usernames: [userName] }),
+            }),
+            invalidatesTags: (_result, error) => {
+                if (error) {
+                    return [];
+                }
+                return ["TeamUsers"];
+            },
+        }),
+        deleteUserFromTeam: builder.mutation<
+            void,
+            CustomBaseQueryArgs<{ teamId: string; userName: string }>
+        >({
+            query: ({ teamId, userName }) => ({
+                url: `teams/${encodeURIComponent(teamId)}/users/${encodeURIComponent(userName)}`,
+                method: "DELETE",
+                credentials: "same-origin",
+            }),
+            invalidatesTags: (_result, error) => {
+                if (error) {
+                    return [];
+                }
+                return ["TeamUsers"];
+            },
+        }),
     }),
 });
 
@@ -49,4 +147,11 @@ export const {
     useGetUserTeamsQuery,
     useCreateTeamContactMutation,
     useCreateTeamSubscriptionMutation,
+    useGetTeamQuery,
+    useAddTeamMutation,
+    useUpdateTeamMutation,
+    useDeleteTeamMutation,
+    useGetTeamUsersQuery,
+    useAddUserToTeamMutation,
+    useDeleteUserFromTeamMutation,
 } = TeamsApi;

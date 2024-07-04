@@ -19,6 +19,8 @@ import {
 } from "../TagList/TagList";
 import { useDeleteSubscriptionMutation } from "../../services/SubscriptionsApi";
 import { useDeleteTagMutation } from "../../services/TagsApi";
+import RouterLink from "../RouterLink/RouterLink";
+import { getPageLink } from "../../Domain/Global";
 import classNames from "classnames/bind";
 
 import styles from "../TagList/TagList.less";
@@ -102,7 +104,7 @@ export const TagListItem: FC<ItemProps> = ({ tagStat, allContacts, tags, style }
                     Delete
                 </Button>
             </div>
-            {isModalOpen && subscriptionToEdit != null && (
+            {isModalOpen && subscriptionToEdit !== null && (
                 <SubscriptionEditModal
                     subscription={subscriptionToEdit}
                     tags={tags}
@@ -138,7 +140,23 @@ export const TagListItem: FC<ItemProps> = ({ tagStat, allContacts, tags, style }
                                                 {enabled ? <OkIcon /> : <DeleteIcon />}
                                             </div>
                                             <div className={cn("user")}>
-                                                {user !== "" ? user : `teamID: ${team_id}`}
+                                                {user ? (
+                                                    user
+                                                ) : (
+                                                    <span>
+                                                        teamID:&nbsp;
+                                                        <span onClick={(e) => e.stopPropagation()}>
+                                                            <RouterLink
+                                                                to={getPageLink(
+                                                                    "teamSettings",
+                                                                    team_id
+                                                                )}
+                                                            >
+                                                                {team_id}
+                                                            </RouterLink>
+                                                        </span>
+                                                    </span>
+                                                )}
                                             </div>
                                             <div className={cn("contacts")}>
                                                 {contacts.map((contactId) => {

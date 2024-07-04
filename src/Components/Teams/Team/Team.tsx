@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Button, Gapped } from "@skbkontur/react-ui";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
@@ -7,6 +7,8 @@ import { TeamEditor } from "../TeamEditor/TeamEditor";
 import { Markdown } from "../../Markdown/Markdown";
 import { Hovered, HoveredShow } from "../Hovered/Hovered";
 import { Confirm } from "../Confirm";
+import { useDeleteTeamMutation } from "../../../services/TeamsApi";
+import { useModal } from "../../../hooks/useModal";
 import classNames from "classnames/bind";
 
 import styles from "./Team.less";
@@ -15,16 +17,14 @@ const cn = classNames.bind(styles);
 
 interface ITeamProps {
     team: Team;
-    updateTeam: (team: Team) => void;
-    deleteTeam: (team: Team) => void;
 }
 
-export function Team({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement {
-    const [isEditing, setIsEditing] = useState(false);
+export function Team({ team }: ITeamProps): ReactElement {
+    const { isModalOpen, openModal, closeModal } = useModal();
+    const [deleteTeam, { isLoading: isDeleting }] = useDeleteTeamMutation();
 
-    const handleSave = (team: Team) => {
-        setIsEditing(false);
-        updateTeam(team);
+    const handleDeleteTeam = async () => {
+        await deleteTeam({ teamId: team.id, handleLoadingLocally: true });
     };
 
     return (
@@ -35,7 +35,8 @@ export function Team({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement
                     <HoveredShow>
                         <Confirm
                             message={`Do you really want to remove "${team.name}" team?`}
-                            action={() => deleteTeam(team)}
+                            action={handleDeleteTeam}
+                            loading={isDeleting}
                         >
                             <Button
                                 data-tid={`Delete team ${team.name}`}
@@ -57,18 +58,12 @@ export function Team({ team, updateTeam, deleteTeam }: ITeamProps): ReactElement
                 className={cn("editDescBtn")}
                 icon={<EditIcon />}
                 use={"link"}
-                onClick={() => setIsEditing(true)}
+                onClick={openModal}
             >
                 Edit Team
             </Button>
 
-            {isEditing ? (
-                <TeamEditor
-                    team={team}
-                    onSaveTeam={handleSave}
-                    onClose={() => setIsEditing(false)}
-                />
-            ) : null}
+            {isModalOpen ? <TeamEditor team={team} onClose={closeModal} /> : null}
         </>
     );
 }

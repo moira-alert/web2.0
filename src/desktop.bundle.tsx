@@ -22,6 +22,8 @@ import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
 import { AdminRoute } from "./PrivateRoutes/AdminRoute";
 import TeamsContainer from "./Containers/TeamsContainer";
+import { TeamContainer } from "./Containers/TeamContainer";
+import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 
 import styles from "./desktop.less";
 
@@ -65,8 +67,14 @@ function Desktop() {
                     container={Trigger}
                     view={TriggerDesktop}
                 />
+                <TeamSettingsPrivateRoute
+                    exact
+                    path={getPagePath("teamSettings")}
+                    component={SettingsContainer}
+                />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
                 <Route exact path={getPagePath("teams")} component={TeamsContainer} />
+                <AdminRoute exact path={getPagePath("team")} component={TeamContainer} />
                 <AdminRoute
                     exact
                     path={getPagePath("notifications")}
