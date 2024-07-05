@@ -15,6 +15,7 @@ import { ConfigState, UIState } from "../store/selectors";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import { EUserRoles } from "../Domain/User";
 import { RouteComponentProps } from "react-router";
+import { MessageWrapper } from "../Components/MessageWrapper/MesaageWrapper";
 
 export interface ISettingsContainerProps extends RouteComponentProps {
     isTeamMember?: boolean;
@@ -43,24 +44,30 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                     <LayoutTitle>Notifications</LayoutTitle>
                     <Fill />
                     <Grid columns={"max-content"} gap="4px">
-                        Current User: {login}
-                        <Gapped gap={4}>
-                            <span>Shown for {team ? "team" : "user"}</span>
-                            {!isTeamMember && role === EUserRoles.Admin && team ? (
-                                <RouterLink to={getPageLink("team", team.id)}>
-                                    {team?.name}
-                                </RouterLink>
-                            ) : (
-                                <Select<Team>
-                                    use={"link"}
-                                    value={team ?? userAsTeam}
-                                    items={userWithTeams}
-                                    renderValue={(value) => value.name}
-                                    renderItem={(value) => value.name}
-                                    onValueChange={handleChangeTeam}
-                                />
-                            )}
-                        </Gapped>
+                        <MessageWrapper
+                            width="140px"
+                            shouldApplyWrapper={isTeamMember === false}
+                            message="This is not your team, be careful with actions"
+                        >
+                            Current User: {login}
+                            <Gapped gap={4}>
+                                <span>Shown for {team ? "team" : "user"}</span>
+                                {!isTeamMember && role === EUserRoles.Admin && team ? (
+                                    <RouterLink to={getPageLink("team", team.id)}>
+                                        {team?.name}
+                                    </RouterLink>
+                                ) : (
+                                    <Select<Team>
+                                        use={"link"}
+                                        value={team ?? userAsTeam}
+                                        items={userWithTeams}
+                                        renderValue={(value) => value.name}
+                                        renderItem={(value) => value.name}
+                                        onValueChange={handleChangeTeam}
+                                    />
+                                )}
+                            </Gapped>
+                        </MessageWrapper>
                     </Grid>
                 </RowStack>
                 {config && settings && (
