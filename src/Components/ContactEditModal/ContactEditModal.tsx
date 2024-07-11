@@ -12,6 +12,7 @@ import ModalError from "../ModalError/ModalError";
 import { useParams } from "react-router";
 import { useUpdateContact } from "../../hooks/useUpdateContact";
 import { useDeleteContact } from "../../hooks/useDeleteContact";
+import { Hint } from "@skbkontur/react-ui";
 
 interface IContactEditModalProps {
     contactInfo: Contact | null;
@@ -85,15 +86,20 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                             Export
                         </FileExport>
                         <Fill />
-
-                        <Button
-                            use="danger"
-                            loading={isDeleting}
-                            disabled={isActionButtonDisabled || isDeleteContactButtonDisabled}
-                            onClick={handleDeleteContact}
-                        >
-                            Delete
-                        </Button>
+                        <div>
+                            <Hint text="This contact is being used in current subscriptions">
+                                <Button
+                                    use="danger"
+                                    loading={isDeleting}
+                                    disabled={
+                                        isActionButtonDisabled || isDeleteContactButtonDisabled
+                                    }
+                                    onClick={handleDeleteContact}
+                                >
+                                    Delete
+                                </Button>
+                            </Hint>
+                        </div>
                     </RowStack>
                 </Modal.Footer>
             </Modal>
