@@ -1,6 +1,6 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { useAddUserToTeamMutation } from "../services/TeamsApi";
-import { validateForm } from "../Components/TriggerEditForm/Validations/validations";
+import { validateForm } from "../helpers/validations";
 
 export const useAddUserToTeam = (
     validationContainer: React.RefObject<ValidationContainer>,
@@ -11,7 +11,8 @@ export const useAddUserToTeam = (
 ) => {
     const [addUserToTeam, { isLoading: isAddingUser }] = useAddUserToTeamMutation();
     const handleAddUserToTeam = async () => {
-        if (!(await validateForm(validationContainer))) {
+        const validationSuccess = await validateForm(validationContainer);
+        if (!validationSuccess) {
             return;
         }
         try {

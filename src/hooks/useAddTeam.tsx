@@ -1,5 +1,6 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { useAddTeamMutation } from "../services/TeamsApi";
+import { validateForm } from "../helpers/validations";
 
 export const useAddTeam = (
     validationRef: React.RefObject<ValidationContainer>,
@@ -11,10 +12,11 @@ export const useAddTeam = (
     const [addTeam, { isLoading: isAddingTeam }] = useAddTeamMutation();
 
     const handleAddTeam = async () => {
-        const isValid = await validationRef.current?.validate();
-        if (!isValid) {
+        const validationSuccess = await validateForm(validationRef);
+        if (!validationSuccess) {
             return;
         }
+
         try {
             await addTeam({
                 name: name,

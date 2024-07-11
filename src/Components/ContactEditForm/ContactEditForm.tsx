@@ -8,7 +8,7 @@ import { Markdown } from "../Markdown/Markdown";
 import { Gapped } from "@skbkontur/react-ui";
 import { Fill, Fixed, RowStack } from "@skbkontur/react-stack-layout";
 import { isEmptyString } from "../../helpers/isEmptyString";
-import { validateContactValueWithConfigRegExp } from "../TriggerEditForm/Validations/validations";
+import { validateContactValueWithConfigRegExp } from "../../helpers/validations";
 import { useSelector } from "react-redux";
 import {
     selectContactConfigByType,

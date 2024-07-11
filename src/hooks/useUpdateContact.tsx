@@ -1,7 +1,7 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Contact } from "../Domain/Contact";
 import { useTestContactMutation, useUpdateContactMutation } from "../services/ContactApi";
-import { validateForm } from "../Components/TriggerEditForm/Validations/validations";
+import { validateForm } from "../helpers/validations";
 
 export const useUpdateContact = (
     validationContainer: React.RefObject<ValidationContainer>,
@@ -14,7 +14,8 @@ export const useUpdateContact = (
     const [testContact, { isLoading: isTesting }] = useTestContactMutation();
 
     const handleUpdateContact = async (testAfterUpdate?: boolean) => {
-        if (!(await validateForm(validationContainer)) || !contact) {
+        const validationSuccess = await validateForm(validationContainer);
+        if (!validationSuccess || !contact) {
             return;
         }
 

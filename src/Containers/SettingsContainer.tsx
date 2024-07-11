@@ -33,6 +33,8 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
         history.push(getPageLink("teamSettings", userOrTeam.id ?? undefined));
     };
 
+    const isAdminLink = !isTeamMember && role === EUserRoles.Admin && team;
+
     useEffect(() => {
         setDocumentTitle("Settings");
     }, []);
@@ -52,9 +54,9 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                             Current User: {login}
                             <Gapped gap={4}>
                                 <span>Shown for {team ? "team" : "user"}</span>
-                                {!isTeamMember && role === EUserRoles.Admin && team ? (
+                                {isAdminLink ? (
                                     <RouterLink to={getPageLink("team", team.id)}>
-                                        {team?.name}
+                                        {team.name}
                                     </RouterLink>
                                 ) : (
                                     <Select<Team>

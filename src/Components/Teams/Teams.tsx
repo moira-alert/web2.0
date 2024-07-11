@@ -22,7 +22,7 @@ export function Teams(): ReactElement {
             <Grid columns="100px" margin="24px 0">
                 <Button onClick={openModal}>Add team</Button>
             </Grid>
-            {isModalOpen ? <TeamEditor onClose={closeModal} /> : null}
+            {isModalOpen && <TeamEditor onClose={closeModal} />}
         </>
     );
 }

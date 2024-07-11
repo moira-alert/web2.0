@@ -1,7 +1,7 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Contact } from "../Domain/Contact";
 import { useCreateUserContactMutation, useTestContactMutation } from "../services/ContactApi";
-import { validateForm } from "../Components/TriggerEditForm/Validations/validations";
+import { validateForm } from "../helpers/validations";
 import { useCreateTeamContactMutation } from "../services/TeamsApi";
 import { useAppDispatch } from "../store/hooks";
 import { BaseApi } from "../services/BaseApi";

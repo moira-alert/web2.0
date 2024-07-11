@@ -27,7 +27,7 @@ export function AddUserToTeam({ team, onClose }: AddUserProps): ReactElement {
 
     return (
         <ValidationContainer ref={validationContainerRef}>
-            <Modal noClose>
+            <Modal onClose={onClose}>
                 <Modal.Header>Add User to {team.name}</Modal.Header>
                 <Modal.Body>
                     <Grid columns="60px 300px" gap="16px">

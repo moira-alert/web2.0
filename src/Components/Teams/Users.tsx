@@ -87,7 +87,7 @@ export function Users({ team }: UsersProps): ReactElement {
                 </Grid>
             )}
 
-            {isModalOpen ? <AddUserToTeam team={team} onClose={closeModal} /> : null}
+            {isModalOpen && <AddUserToTeam team={team} onClose={closeModal} />}
         </CollapseButton>
     );
 }

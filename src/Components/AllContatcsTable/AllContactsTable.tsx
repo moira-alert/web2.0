@@ -56,15 +56,12 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
             header: "User or TeamID",
             id: "user",
             accessorFn: (contact) => contact.user || contact.team,
-            cell: ({ cell }) => {
-                return (
-                    cell.row.original.user || (
-                        <RouterLink to={getPageLink("teamSettings", cell.row.original.team)}>
-                            {cell.row.original.team}
-                        </RouterLink>
-                    )
-                );
-            },
+            cell: ({ cell }) =>
+                cell.row.original.user || (
+                    <RouterLink to={getPageLink("teamSettings", cell.row.original.team)}>
+                        {cell.row.original.team}
+                    </RouterLink>
+                ),
         },
     ];
 
