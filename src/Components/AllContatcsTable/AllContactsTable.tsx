@@ -8,6 +8,8 @@ import {
     ROW_HEIGHT,
     getTotalItemSize,
 } from "../TagList/TagList";
+import RouterLink from "../RouterLink/RouterLink";
+import { getPageLink } from "../../Domain/Global";
 import classNames from "classnames/bind";
 
 import styles from "./AllContactsTable.less";
@@ -54,6 +56,12 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
             header: "User or TeamID",
             id: "user",
             accessorFn: (contact) => contact.user || contact.team,
+            cell: ({ cell }) =>
+                cell.row.original.user || (
+                    <RouterLink to={getPageLink("teamSettings", cell.row.original.team)}>
+                        {cell.row.original.team}
+                    </RouterLink>
+                ),
         },
     ];
 

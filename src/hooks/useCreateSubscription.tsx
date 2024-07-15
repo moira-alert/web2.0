@@ -1,5 +1,5 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { validateForm } from "../Components/TriggerEditForm/Validations/validations";
+import { validateForm } from "../helpers/validations";
 import {
     useCreateUserSubscriptionMutation,
     useTestSubscriptionMutation,
@@ -28,7 +28,8 @@ export const useCreateSubscription = (
     const dispatch = useAppDispatch();
 
     const handleCreateSubscription = async (testAfterCreation?: boolean) => {
-        if (!(await validateForm(validationContainer)) || !subscription) {
+        const validationSuccess = await validateForm(validationContainer);
+        if (!validationSuccess || !subscription) {
             return;
         }
 

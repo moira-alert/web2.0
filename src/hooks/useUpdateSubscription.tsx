@@ -1,5 +1,5 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { validateForm } from "../Components/TriggerEditForm/Validations/validations";
+import { validateForm } from "../helpers/validations";
 import {
     useTestSubscriptionMutation,
     useUpdateSubscriptionMutation,

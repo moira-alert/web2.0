@@ -1,27 +1,25 @@
-import React, { useEffect } from "react";
-import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
-import { Teams } from "../Components/Teams/Teams";
+import React, { FC, useEffect } from "react";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
+import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
+import { TeamWithUsers } from "./TeamWithUsers";
 import { useAppSelector } from "../store/hooks";
 import { UIState } from "../store/selectors";
 
-const TeamsContainer = () => {
+export const TeamContainer: FC = () => {
     const { isLoading, error } = useAppSelector(UIState);
 
     useEffect(() => {
-        setDocumentTitle("Teams");
+        setDocumentTitle("Team");
     }, []);
 
     return (
-        <Layout loading={isLoading} error={error}>
+        <Layout loading={isLoading} error={error as string}>
             <LayoutContent>
-                <LayoutTitle>Teams</LayoutTitle>
+                <LayoutTitle>Team</LayoutTitle>
                 <LayoutContent>
-                    <Teams />
+                    <TeamWithUsers />
                 </LayoutContent>
             </LayoutContent>
         </Layout>
     );
 };
-
-export default TeamsContainer;

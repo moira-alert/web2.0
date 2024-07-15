@@ -8,60 +8,54 @@ import { Team } from "../../Domain/Team";
 import { CollapseButton } from "../CollapseButton/CollapseButton";
 import { AddUserToTeam } from "./AddUserToTeam";
 import { useGetUserQuery } from "../../services/UserApi";
+import { useDeleteUserFromTeamMutation, useGetTeamUsersQuery } from "../../services/TeamsApi";
+import { useModal } from "../../hooks/useModal";
+import { getExcludeYourselfFromTeamMessage } from "../../helpers/getExcludeYourselfFromTeamMessage";
 
 interface UsersProps {
     team: Team;
-    addUserToTeam: (team: Team, userName: string) => void;
-    onRemoveUser: (userName: string) => void;
-    getUsers: (team: Team) => Promise<string[]>;
 }
 
-export function Users(props: UsersProps): ReactElement {
-    const [users, setUsers] = useState<string[]>();
-    const [addingUser, setAddingUser] = useState(false);
-    const [loading, setLoading] = useState(false);
-
+export function Users({ team }: UsersProps): ReactElement {
+    const [isCollapsed, setIsCollapsed] = useState(true);
+    const { isModalOpen, closeModal, openModal } = useModal();
+    const [deleteUserFromTeam, { isLoading: isDeletingUser }] = useDeleteUserFromTeamMutation();
+    const {
+        data: users,
+        isLoading: isGettingUsers,
+        isFetching: isFetchingUsers,
+    } = useGetTeamUsersQuery(
+        { teamId: team.id, handleLoadingLocally: true },
+        { skip: isCollapsed }
+    );
     const { data: user } = useGetUserQuery();
 
-    const handleCollapse = async () => {
-        if (!loading && !users) {
-            setLoading(true);
-            try {
-                setUsers(await props.getUsers(props.team));
-            } finally {
-                setLoading(false);
-            }
-        }
-    };
-
-    const handleUserSave = async (userName: string) => {
-        setAddingUser(false);
-        await props.addUserToTeam(props.team, userName);
-        setUsers(await props.getUsers(props.team));
+    const handleCollapse = () => {
+        setIsCollapsed(!isCollapsed);
     };
 
     const handleUserRemove = async (userName: string) => {
-        setAddingUser(false);
-        await props.onRemoveUser(userName);
-        setUsers(await props.getUsers(props.team));
-    };
-
-    const getExcludeMessage = (userName: string) => {
-        if (userName === user?.login) {
-            return `You are trying to exclude yourself from the "${props.team.name}". If you do this, you will no longer be able to see this team. Are you sure you want to exclude yourself?`;
-        }
-        return `Exclude "${userName}" from "${props.team.name}"?`;
+        await deleteUserFromTeam({ teamId: team.id, userName, handleLoadingLocally: true });
     };
 
     return (
-        <CollapseButton title="Show Users" loading={loading} onCollapse={handleCollapse}>
+        <CollapseButton
+            title="Show Users"
+            loading={isGettingUsers || isFetchingUsers}
+            onCollapse={handleCollapse}
+        >
             {users?.length ? (
                 <Grid columns="20px 240px" gap="8px" margin="8px 0 0 8px">
                     {users.map((userName) => (
                         <Fragment key={userName}>
                             <Confirm
-                                message={getExcludeMessage(userName)}
+                                message={getExcludeYourselfFromTeamMessage(
+                                    userName,
+                                    team.name,
+                                    user?.login
+                                )}
                                 action={() => handleUserRemove(userName)}
+                                loading={isDeletingUser}
                             >
                                 <Button
                                     data-tid={`Delete user ${userName}`}
@@ -79,7 +73,7 @@ export function Users(props: UsersProps): ReactElement {
                         use={"link"}
                         width={0}
                         data-tid="Add user"
-                        onClick={() => setAddingUser(true)}
+                        onClick={openModal}
                     >
                         Add User
                     </Button>
@@ -87,19 +81,13 @@ export function Users(props: UsersProps): ReactElement {
             ) : (
                 <Grid columns={"max-content max-content"} gap="4px" margin="8px 0 0 8px">
                     <div>There are no users:</div>
-                    <Button icon={<AddIcon />} use={"link"} onClick={() => setAddingUser(true)}>
+                    <Button icon={<AddIcon />} use={"link"} onClick={openModal}>
                         Add User
                     </Button>
                 </Grid>
             )}
 
-            {addingUser ? (
-                <AddUserToTeam
-                    team={props.team}
-                    onSave={handleUserSave}
-                    onClose={() => setAddingUser(false)}
-                />
-            ) : null}
+            {isModalOpen && <AddUserToTeam team={team} onClose={closeModal} />}
         </CollapseButton>
     );
 }
