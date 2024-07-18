@@ -1,3 +1,4 @@
+import { format, fromUnixTime, startOfDay, startOfHour, startOfMinute } from "date-fns";
 import { Status } from "./Status";
 import { Subscription } from "./Subscription";
 
@@ -55,3 +56,35 @@ export const filterSubscriptionContacts = (contacts: Contact[], subscription: Su
     contacts.filter((contact) =>
         subscription.contacts.some((subscriptionContactId) => contact.id === subscriptionContactId)
     );
+
+type Formatter = (timestamp: number) => string;
+
+const formatString = "yyyy-MM-dd HH:mm";
+
+const intervalToStartOfMapping: Record<EContactEventsInterval, Formatter> = {
+    [EContactEventsInterval.day]: (timestamp) =>
+        format(startOfDay(fromUnixTime(timestamp)), formatString),
+    [EContactEventsInterval.minute]: (timestamp) =>
+        format(startOfMinute(fromUnixTime(timestamp)), formatString),
+    [EContactEventsInterval.hour]: (timestamp) =>
+        format(startOfHour(fromUnixTime(timestamp)), formatString),
+};
+
+export const groupEventsByInterval = (events: IContactEvent[], interval: EContactEventsInterval) =>
+    events
+        .map(({ timestamp, old_state, state }) => [
+            intervalToStartOfMapping[interval](timestamp),
+            `${old_state} to ${state}`,
+        ])
+        .reduce((acc, [formattedDate, transition]) => {
+            if (!acc[formattedDate]) {
+                acc[formattedDate] = { [transition]: 1 };
+            } else {
+                if (!acc[formattedDate][transition]) {
+                    acc[formattedDate][transition] = 0;
+                }
+                acc[formattedDate][transition] += 1;
+            }
+
+            return acc;
+        }, {} as Record<string, Record<string, number>>);

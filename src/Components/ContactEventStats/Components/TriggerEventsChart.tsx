@@ -1,10 +1,11 @@
 import "chartjs-adapter-date-fns";
-import React from "react";
+import React, { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ChartOptions, registerables } from "chart.js";
 import { IContactEvent } from "../../../Domain/Contact";
 import { getColor } from "../../Tag/Tag";
 import { createHtmlLegendPlugin } from "./htmlLegendPlugin";
+import { triggerEventsChartOptions } from "../../../helpers/getChartOptions";
 
 ChartJS.register(...registerables);
 
@@ -13,12 +14,18 @@ interface ITriggerEventsBarChartProps {
 }
 
 export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ events }) => {
-    const groupedEvents = events.reduce<Record<string, number>>((acc, event) => {
-        acc[event.trigger_id] = (acc[event.trigger_id] || 0) + 1;
-        return acc;
-    }, {});
+    const groupedEvents = useMemo(
+        () =>
+            events.reduce<Record<string, number>>((acc, event) => {
+                acc[event.trigger_id] = (acc[event.trigger_id] || 0) + 1;
+                return acc;
+            }, {}),
+        [events]
+    );
 
-    const sortedEvents = Object.entries(groupedEvents).sort(([, a], [, b]) => b - a);
+    const sortedEvents = useMemo(() => {
+        return Object.entries(groupedEvents).sort(([, a], [, b]) => b - a);
+    }, [events]);
 
     const datasets = sortedEvents.map(([triggerId, count]) => ({
         label: triggerId,
@@ -31,32 +38,6 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
         datasets,
     };
 
-    const options = {
-        animation: false,
-        maxBarThickness: 20,
-        plugins: {
-            legend: { display: false },
-            htmlLegend: {
-                containerID: "trigger-events-legend-container",
-            },
-        },
-        indexAxis: "y",
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: "Number of Events",
-                },
-            },
-            y: {
-                title: {
-                    display: true,
-                    text: "Triggers",
-                },
-            },
-        },
-    };
-
     return (
         <>
             <span style={{ fontSize: "18px", marginBottom: "10px", display: "inline-block" }}>
@@ -66,7 +47,7 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
             <Bar
                 data={data}
                 plugins={[createHtmlLegendPlugin(true)]}
-                options={options as ChartOptions<"bar">}
+                options={triggerEventsChartOptions as ChartOptions<"bar">}
             />
         </>
     );
