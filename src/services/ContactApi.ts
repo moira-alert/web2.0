@@ -1,4 +1,4 @@
-import { Contact, ContactList } from "../Domain/Contact";
+import { Contact, ContactList, IContactEvent, IContactEventsList } from "../Domain/Contact";
 import { BaseApi } from "./BaseApi";
 import type { CustomBaseQueryArgs } from "./BaseApi";
 
@@ -40,7 +40,7 @@ export const ContactApi = BaseApi.injectEndpoints({
         }),
         testContact: builder.mutation<void, CustomBaseQueryArgs<{ id: string }>>({
             query: ({ id }) => ({
-                url: `contact/${id}/test`,
+                url: `contact/${encodeURIComponent(id)}/test`,
                 credentials: "same-origin",
                 method: "POST",
             }),
@@ -69,6 +69,21 @@ export const ContactApi = BaseApi.injectEndpoints({
                 body: JSON.stringify(contact),
             }),
         }),
+        getContactEvents: builder.query<
+            Array<IContactEvent>,
+            CustomBaseQueryArgs<{
+                contactId: string;
+                from: number | string;
+                to: number | string;
+            }>
+        >({
+            query: ({ contactId, from, to }) => ({
+                url: `contact/${encodeURIComponent(contactId)}/events?from=${from}&to=${to}`,
+                method: "GET",
+                credentials: "same-origin",
+            }),
+            transformResponse: (response: IContactEventsList) => response.list,
+        }),
     }),
 });
 
@@ -78,4 +93,5 @@ export const {
     useTestContactMutation,
     useDeleteContactMutation,
     useCreateUserContactMutation,
+    useLazyGetContactEventsQuery,
 } = ContactApi;

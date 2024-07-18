@@ -20,7 +20,7 @@ export default {
 export const _CustomMaintenanceMenu = () => (
     <Wrapper>
         <CustomMaintenanceMenu
-            currentTime={new Date(2020, 5, 10, 6)}
+            currentDate={new Date(2020, 5, 10, 6)}
             setMaintenance={action("setMaintenance")}
         />
     </Wrapper>
@@ -30,7 +30,6 @@ export const CustomMaintenanceMenuWithInitialMaintenance = {
     render: () => (
         <Wrapper>
             <CustomMaintenanceMenu
-                currentTime={new Date(2020, 5, 9, 6)}
                 maintenance={getUnixTime(new Date(2020, 6, 3, 2))}
                 setMaintenance={action("setMaintenance")}
             />

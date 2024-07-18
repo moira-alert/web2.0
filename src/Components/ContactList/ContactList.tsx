@@ -15,6 +15,9 @@ import { Settings } from "../../Domain/Settings";
 import { useDeleteContactMutation } from "../../services/ContactApi";
 import { useParams } from "react-router";
 import { useModal } from "../../hooks/useModal";
+import { ContactEventStats } from "../ContactEventStats/ContactEventStats";
+import { useAppDispatch } from "../../store/hooks";
+import { setError } from "../../store/Reducers/UIReducer.slice";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.less";
@@ -30,6 +33,11 @@ interface IContactListProps {
 const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescriptions, settings }) => {
     const { teamId } = useParams<{ teamId: string }>();
     const {
+        isModalOpen: contactEventsVisible,
+        openModal: openContactEventsSidePage,
+        closeModal: closeContactEventsSidePage,
+    } = useModal();
+    const {
         isModalOpen: newContactModalVisible,
         openModal: openNewContactModal,
         closeModal: closeNewContactModal,
@@ -41,6 +49,7 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
     } = useModal();
     const [editableContact, setEditableContact] = useState<Contact | null>(null);
     const [deleteContact] = useDeleteContactMutation();
+    const dispatch = useAppDispatch();
 
     const handleBeginEditContact = (contact: Contact): void => {
         openEditContactModal();
@@ -51,6 +60,16 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
         editableContact?.id &&
         settings?.subscriptions.some((sub) => sub.contacts.includes(editableContact.id))
     );
+
+    const handleEventsButtonClick = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        contact: Contact
+    ) => {
+        event.stopPropagation();
+        openContactEventsSidePage();
+        setEditableContact(contact);
+        dispatch(setError(null));
+    };
 
     const renderEmptyListMessage = useCallback(
         () => (
@@ -73,7 +92,6 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
         ),
         []
     );
-
     return (
         <div>
             {contacts.length > 0 ? (
@@ -113,6 +131,20 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                                                             contactName={name}
                                                         />
                                                     )}
+                                                </td>
+                                                <td className={cn("events")}>
+                                                    <Button
+                                                        onClick={(event) =>
+                                                            handleEventsButtonClick(event, {
+                                                                type: "",
+                                                                name: "",
+                                                                value: "",
+                                                                id,
+                                                            })
+                                                        }
+                                                    >
+                                                        Events
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         );
@@ -161,6 +193,12 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     isDeleteContactButtonDisabled={isDeleteContactButtonDisabled}
                     contactInfo={editableContact}
                     onCancel={closeEditContactModal}
+                />
+            )}
+            {contactEventsVisible && editableContact?.id && (
+                <ContactEventStats
+                    contactId={editableContact?.id}
+                    onClose={closeContactEventsSidePage}
                 />
             )}
         </div>

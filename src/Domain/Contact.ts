@@ -1,3 +1,4 @@
+import { Status } from "./Status";
 import { Subscription } from "./Subscription";
 
 export enum ContactTypes {
@@ -26,6 +27,24 @@ export interface TeamContactCreateInfo {
     type: string;
     name?: string;
     teamId: string;
+}
+
+export interface IContactEvent {
+    timestamp: number;
+    metric: string;
+    state: Status;
+    old_state: Status;
+    trigger_id: string;
+}
+
+export enum EContactEventsInterval {
+    minute = "minute",
+    hour = "hour",
+    day = "day",
+}
+
+export interface IContactEventsList {
+    list: Array<IContactEvent>;
 }
 
 export interface ContactList {
