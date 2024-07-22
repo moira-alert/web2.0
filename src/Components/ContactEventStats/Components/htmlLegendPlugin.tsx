@@ -27,7 +27,7 @@ const LegendItemComponent: React.FC<{
     }
 
     const handleClick = () => {
-        const isVisible = item.datasetIndex && chart.isDatasetVisible(item.datasetIndex);
+        const isVisible = chart.isDatasetVisible(item.datasetIndex as number);
         if (lastClickedIndex === item.datasetIndex && isVisible) {
             chart.data.datasets.forEach((_, idx: number) => {
                 chart.setDatasetVisibility(idx, true);
