@@ -7,8 +7,8 @@ import {
     SidePageContainer,
     SidePageHeader,
 } from "@skbkontur/react-ui";
-import { TriggerEventsChart } from "../ContactList/Components/TriggerEventsChart";
-import { ContactEventsChart } from "../ContactList/Components/ContactEventsChart";
+import { TriggerEventsChart } from "./Components/TriggerEventsChart";
+import { ContactEventsChart } from "./Components/ContactEventsChart";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { DateAndTimeMenu } from "../DateAndTimeMenu/DateAndTimeMenu";
@@ -112,14 +112,14 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
                     </ValidationContainer>
 
                     {isLoading || isFetching ? (
-                        <Spinner className={cn("empty-result")} />
+                        <Spinner className={cn("empty-container")} />
                     ) : contactEvents?.length ? (
                         <Gapped vertical gap={50}>
                             <TriggerEventsChart events={contactEvents} />
                             <ContactEventsChart events={contactEvents} />
                         </Gapped>
                     ) : (
-                        <div className={cn("empty-result")}>No events found</div>
+                        <div className={cn("empty-container")}>No events found</div>
                     )}
                 </SidePageBody>
             </SidePageContainer>

@@ -22,8 +22,7 @@ function humanizeDuration(unixTimestamp: number): string {
 export { humanizeDuration, getUTCDate };
 
 export const dateStringToUnixTimestamp = (dateString: string): Date => {
-    const date = parse(dateString, "dd.MM.yyyy", new Date());
-    return date;
+    return parse(dateString, "dd.MM.yyyy", new Date());
 };
 
 export const timeList = Array(24)

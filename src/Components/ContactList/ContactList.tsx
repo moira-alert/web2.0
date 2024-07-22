@@ -1,7 +1,5 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { Center } from "@skbkontur/react-ui/components/Center";
-import { Gapped } from "@skbkontur/react-ui/components/Gapped";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { ContactWithCustomName } from "./Components/ContactWithCustomName";
 import WarningIcon from "@skbkontur/react-icons/Warning";
@@ -18,6 +16,7 @@ import { useModal } from "../../hooks/useModal";
 import { ContactEventStats } from "../ContactEventStats/ContactEventStats";
 import { useAppDispatch } from "../../store/hooks";
 import { setError } from "../../store/Reducers/UIReducer.slice";
+import { EmptyListMessage } from "./Components/EmptyListMessage";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.less";
@@ -71,27 +70,6 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
         dispatch(setError(null));
     };
 
-    const renderEmptyListMessage = useCallback(
-        () => (
-            <Center>
-                <Gapped vertical gap={20}>
-                    <div style={{ textAlign: "center" }}>
-                        To start receiving notifications you have to{" "}
-                        <Button use="link" onClick={openNewContactModal}>
-                            add delivery channel
-                        </Button>{" "}
-                        for notifications.
-                    </div>
-                    <Center>
-                        <Button use="primary" icon={<AddIcon />} onClick={openNewContactModal}>
-                            Add delivery channel
-                        </Button>
-                    </Center>
-                </Gapped>
-            </Center>
-        ),
-        []
-    );
     return (
         <div>
             {contacts.length > 0 ? (
@@ -185,7 +163,7 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     </div>
                 </div>
             ) : (
-                renderEmptyListMessage()
+                <EmptyListMessage onCLick={openNewContactModal} />
             )}
             {newContactModalVisible && <NewContactModal onCancel={closeNewContactModal} />}
             {editContactModalVisible && (
