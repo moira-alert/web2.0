@@ -11,6 +11,7 @@ import {
     MaintenanceList,
 } from "../../Domain/Maintenance";
 import CustomMaintenanceMenu from "./CustomMaintenanceMenu/CustomMaintenanceMenu";
+import { addMonths, lastDayOfMonth } from "date-fns";
 import classNames from "classnames/bind";
 
 import styles from "./MaintenanceSelect.less";
@@ -47,6 +48,8 @@ export default function MaintenanceSelect(props: MaintenanceSelectProps): React.
                     <DropdownContainer getParent={() => containerEl.current} align="right">
                         {customMenuShow ? (
                             <CustomMaintenanceMenu
+                                maxDate={lastDayOfMonth(addMonths(new Date(), 1))}
+                                minDate={new Date()}
                                 maintenance={maintenance}
                                 setMaintenance={handleSetMaintenance}
                             />

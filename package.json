@@ -35,6 +35,8 @@
         "@tanstack/react-table": "8.17.3",
         "@types/codemirror": "5.60.1",
         "chart.js": "4.4.1",
+        "chartjs-adapter-date-fns": "3.0.0",
+        "chartjs-plugin-zoom": "^2.0.1",
         "codemirror": "6.0.1",
         "color-hash": "1.0.3",
         "date-fns": "2.9.0",

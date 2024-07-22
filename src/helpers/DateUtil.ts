@@ -1,4 +1,5 @@
 import { formatDistance } from "date-fns";
+import { format, parse } from "date-fns";
 
 function getUTCDate(): Date {
     const date = new Date();
@@ -19,3 +20,13 @@ function humanizeDuration(unixTimestamp: number): string {
 }
 
 export { humanizeDuration, getUTCDate };
+
+export const dateStringToUnixTimestamp = (dateString: string): Date => {
+    return parse(dateString, "dd.MM.yyyy", new Date());
+};
+
+export const timeList = Array(24)
+    .fill(undefined)
+    .map((_, index) => `${index}:00`.padStart(5, "0"));
+
+export const formatDateToCalendarDate = (date: Date | number): string => format(date, "dd.MM.yyyy");

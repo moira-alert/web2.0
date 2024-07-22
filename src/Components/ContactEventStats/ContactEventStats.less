@@ -1,0 +1,30 @@
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
+
+.calendar-icon {
+    display: inline-block;
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    height: 32px;
+    padding: 4px;
+    margin-left: -0.5px;
+}
+
+.time-range-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.date-time-pickers {
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+}
+
+.empty-container {
+    &:extend(.empty-result);
+    height: calc(100vh - 127px);
+}

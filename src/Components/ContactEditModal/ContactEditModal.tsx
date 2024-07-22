@@ -87,7 +87,13 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                         </FileExport>
                         <Fill />
                         <div>
-                            <Hint text="This contact is being used in current subscriptions">
+                            <Hint
+                                text={
+                                    isDeleteContactButtonDisabled
+                                        ? "This contact is being used in current subscriptions"
+                                        : ""
+                                }
+                            >
                                 <Button
                                     use="danger"
                                     loading={isDeleting}

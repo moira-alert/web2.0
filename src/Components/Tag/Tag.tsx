@@ -20,7 +20,7 @@ type ColorTheme = {
     color: string;
 };
 
-function getColor(title: string): ColorTheme {
+export function getColor(title: string): ColorTheme {
     const getBgColor = new ColorHash({ lightness: 0.6, saturation: 0.25 });
     const getTextColor = new ColorHash({ lightness: 0.98, saturation: 0 });
     return {

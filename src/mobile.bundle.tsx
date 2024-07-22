@@ -10,6 +10,7 @@ import TriggerListMobile, {
 import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerMobile, { TriggerMobileProps } from "./pages/trigger/trigger.mobile";
 import { MobileSettingsPage } from "./Components/Mobile/MobileSettingsPage/MobileSettingsPage";
+import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 
 type ResponsiveRouteProps = {
     exact?: boolean;
@@ -41,6 +42,11 @@ function Mobile() {
                 view={TriggerMobile}
             />
             <Route exact path={getPagePath("settings")} component={MobileSettingsPage} />
+            <TeamSettingsPrivateRoute
+                exact
+                path={getPagePath("teamSettings")}
+                component={MobileSettingsPage}
+            />
             <Route component={MobileErrorContainer} />
         </Switch>
     );
