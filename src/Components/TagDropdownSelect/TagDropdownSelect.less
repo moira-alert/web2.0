@@ -1,5 +1,5 @@
-@import "~styles/variables.less";
-@import "~styles/mixins.less";
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
 
 .root {
     width: 100%;
@@ -9,16 +9,7 @@
 .wrapper {
     width: 100%;
     display: inline-block;
-    position: relative;
-}
-
-.scroll-container {
-    width: 100%;
-    > div:first-child {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-    }
+    position: relative
 }
 
 .input-area {
@@ -44,10 +35,10 @@
     }
 }
 
-.input-area-disabled {
+.input-area-disabled{
     .input-area;
-    background-color: #f2f2f2;
-    border: 1px solid #cecece;
+    background-color: #F2F2F2;
+    border: 1px solid #CECECE;
 }
 
 .tag-wrap {
@@ -63,7 +54,7 @@
 .input {
     padding: 0;
     min-width: 50px;
-    flex: 1 1 0%;
+    flex-grow: 1;
     border: none;
     outline: none;
     background-color: transparent;

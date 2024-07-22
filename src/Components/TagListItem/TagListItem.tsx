@@ -34,8 +34,6 @@ interface ItemProps {
     style: React.CSSProperties;
     handleTagClick: (tag: string) => void;
     isActive?: boolean;
-    filterTags?: string[];
-    filterContacts?: Contact[];
 }
 
 export const getSubscriptionRowHeight = (contactIDs: string[]) => {
@@ -53,8 +51,6 @@ export const TagListItem: FC<ItemProps> = ({
     style,
     handleTagClick,
     isActive,
-    filterTags,
-    filterContacts,
 }) => {
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const { isModalOpen, openModal, closeModal } = useModal();
@@ -141,16 +137,7 @@ export const TagListItem: FC<ItemProps> = ({
                                     <div
                                         style={style}
                                         key={id}
-                                        className={cn("item", {
-                                            isFound:
-                                                !filterTags?.includes(name) &&
-                                                filterTags?.every((tag) =>
-                                                    data[index].tags.includes(tag)
-                                                ) &&
-                                                filterContacts?.every(({ id }) =>
-                                                    data[index].contacts.includes(id)
-                                                ),
-                                        })}
+                                        className={cn("item")}
                                         onClick={(event) =>
                                             handleSubscriptionClick(event, data[index])
                                         }

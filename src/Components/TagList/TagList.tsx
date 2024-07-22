@@ -6,13 +6,12 @@ import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import { useSortData } from "../../hooks/useSortData";
 import { FixedSizeList as List } from "react-window";
 import { TagListItem } from "../TagListItem/TagListItem";
-import { Token } from "@skbkontur/react-ui";
+import { Input, Token } from "@skbkontur/react-ui";
 import { TokenInput, TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { RowStack } from "@skbkontur/react-stack-layout";
 import classNames from "classnames/bind";
 
 import styles from "./TagList.less";
-import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 
 const cn = classNames.bind(styles);
 
@@ -30,7 +29,7 @@ export const getTotalItemSize = (length: number) => length * ROW_HEIGHT + 1;
 
 export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
     const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
-    const [filterTags, setfilterTags] = useState<string[]>([]);
+    const [filterTagName, setfilterTagName] = useState<string>("");
     const [filterContacts, setfilterContacts] = useState<Contact[]>([]);
     const [clickedTag, setClickedTag] = useState<string | null>(null);
 
@@ -43,24 +42,25 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
         tagName === clickedTag ? setClickedTag(null) : setClickedTag(tagName);
     };
 
-    const filteredTags = useMemo(() => {
-        if (!filterTags.length && !filterContacts.length) {
-            return sortedData;
-        }
+    const filteredTags = useMemo(
+        () =>
+            sortedData.filter((tag) => {
+                const tagNameMatches = filterTagName.length
+                    ? tag.name.toLowerCase().includes(filterTagName.toLowerCase().trim())
+                    : true;
 
-        return sortedData.filter((tag) => {
-            const contactsMatch = filterContacts.length
-                ? filterContacts.every((filterContact) =>
-                      tag.subscriptions.flatMap((sub) => sub.contacts).includes(filterContact.id)
-                  )
-                : true;
-            const tagsMatch = filterTags.length
-                ? tag.subscriptions.some((sub) => filterTags.every((tag) => sub.tags.includes(tag)))
-                : true;
+                const contactsMatch = filterContacts.length
+                    ? filterContacts.every((filterContact) =>
+                          tag.subscriptions
+                              .flatMap((sub) => sub.contacts)
+                              .includes(filterContact.id)
+                      )
+                    : true;
 
-            return contactsMatch && tagsMatch;
-        });
-    }, [sortedData, filterContacts, filterTags]);
+                return tagNameMatches && contactsMatch;
+            }),
+        [sortedData, filterContacts, filterTagName]
+    );
 
     const isListLongEnoughToScroll = filteredTags.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE;
 
@@ -82,15 +82,7 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
     return (
         <>
             <RowStack gap={2} block baseline>
-                <TagDropdownSelect
-                    data-tid="Tag dropdown select"
-                    value={filterTags}
-                    onChange={(nextTags: string[]) => {
-                        setfilterTags(nextTags);
-                    }}
-                    placeholder="Choose several tags to find by subscription or choose one to find by name"
-                    availableTags={tags}
-                />
+                <Input placeholder="Find tag" onValueChange={setfilterTagName} />
                 <TokenInput<Contact>
                     width={"100%"}
                     className={cn("contact-filter")}
@@ -182,8 +174,6 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                                     allContacts={contacts ?? []}
                                     handleTagClick={handleTagClick}
                                     isActive={clickedTag === data[index].name}
-                                    filterContacts={filterContacts}
-                                    filterTags={filterTags}
                                 />
                             );
                         }}
