@@ -31,7 +31,11 @@ export default class ContactSelect extends React.Component<Props> {
         if (query == null || query.trim() === "") {
             return true;
         }
-        return contact.value.toLowerCase().includes(query.toLowerCase());
+        return (
+            contact.value.toLowerCase().includes(query.toLowerCase()) ||
+            contact.name?.toLowerCase().includes(query.toLowerCase()) ||
+            false
+        );
     }
 
     render(): React.ReactNode {

@@ -239,7 +239,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         : cn("input-area", { focused: isFocused, error })
                 }
             >
-                <ScrollContainer maxHeight={300}>
+                <ScrollContainer className={cn("scroll-container")} maxHeight={300}>
                     {value.length !== 0 &&
                         value.map((tag) => (
                             <div className={cn("tag-wrap")} key={tag}>
