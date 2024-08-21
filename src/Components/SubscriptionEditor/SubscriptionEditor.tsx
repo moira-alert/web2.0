@@ -19,11 +19,9 @@ import styles from "./SubscriptionEditor.less";
 
 const cn = classNames.bind(styles);
 
-export type SubscriptionInfo = Omit<SubscriptionCreateInfo, "user" | "id">;
-
 type TSubscriptionEditorProps = {
-    subscription: Subscription | SubscriptionInfo;
-    onChange: (subscriptionInfo: Partial<SubscriptionInfo>) => void;
+    subscription: Subscription | SubscriptionCreateInfo;
+    onChange: (subscriptionInfo: Partial<SubscriptionCreateInfo>) => void;
     tags: Array<string>;
     contacts: Array<Contact>;
 };

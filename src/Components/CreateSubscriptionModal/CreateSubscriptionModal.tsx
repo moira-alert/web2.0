@@ -5,7 +5,8 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { Contact } from "../../Domain/Contact";
 import { omitSubscription } from "../../helpers/omitTypes";
-import SubscriptionEditor, { SubscriptionInfo } from "../SubscriptionEditor/SubscriptionEditor";
+import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
+import { SubscriptionCreateInfo } from "../../Api/MoiraApi";
 import FileLoader from "../FileLoader/FileLoader";
 import ModalError from "../ModalError/ModalError";
 import { useParams } from "react-router";
@@ -23,7 +24,7 @@ type Props = {
 const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) => {
     const isPlottingDefaultOn = useSelector(selectIsPlottingDefaultOn);
 
-    const [subscription, setSubscription] = useState<SubscriptionInfo>({
+    const [subscription, setSubscription] = useState<SubscriptionCreateInfo>({
         any_tags: false,
         sched: createSchedule(WholeWeek),
         tags: [],
@@ -47,7 +48,7 @@ const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) 
         isTestingSubscription,
     } = useCreateSubscription(validationContainerRef, subscription, onCancel, setError, teamId);
 
-    const handleChange = (subscription: Partial<SubscriptionInfo>): void => {
+    const handleChange = (subscription: Partial<SubscriptionCreateInfo>): void => {
         setSubscription((prev) => ({ ...prev, ...subscription }));
         setError(null);
     };

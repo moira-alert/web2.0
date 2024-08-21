@@ -5,6 +5,8 @@ import {
     useUpdateSubscriptionMutation,
 } from "../services/SubscriptionsApi";
 import { Subscription } from "../Domain/Subscription";
+import { useAppDispatch } from "../store/hooks";
+import { BaseApi } from "../services/BaseApi";
 
 export const useUpdateSubscription = (
     validationContainer: React.RefObject<ValidationContainer>,
@@ -18,6 +20,7 @@ export const useUpdateSubscription = (
         { isLoading: isUpdatingSubscription },
     ] = useUpdateSubscriptionMutation();
     const [testSubscription, { isLoading: isTestingSubscription }] = useTestSubscriptionMutation();
+    const dispatch = useAppDispatch();
 
     const handleUpdateSubscription = async (testAfterUpdate?: boolean): Promise<void> => {
         if (!(await validateForm(validationContainer))) {
@@ -33,12 +36,12 @@ export const useUpdateSubscription = (
             }
             await updateSubscription({
                 ...subscription,
-                isTeamSubscription: !!teamId,
                 handleLoadingLocally: true,
                 handleErrorLocally: true,
             }).unwrap();
 
             onCancel();
+            dispatch(BaseApi.util.invalidateTags(teamId ? ["TeamSettings"] : ["UserSettings"]));
         } catch (error) {
             setError(error);
         }

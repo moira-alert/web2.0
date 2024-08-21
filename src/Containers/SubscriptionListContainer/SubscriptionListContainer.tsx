@@ -1,32 +1,54 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Subscription } from "../../Domain/Subscription";
 import { Contact } from "../../Domain/Contact";
 import SubscriptionEditModal from "../../Components/SubscriptionEditModal/SubscriptionEditModal";
 import CreateSubscriptionModal from "../../Components/CreateSubscriptionModal/CreateSubscriptionModal";
-import type { SubscriptionInfo } from "../../Components/SubscriptionEditor/SubscriptionEditor";
 import { SubscriptionList } from "../../Components/SubscriptionList/SubscriptionList";
 import { AddSubscriptionMessage } from "../../Components/AddSubscribtionMessage/AddSubscribtionMessage";
 import { ModalType } from "../../Domain/Global";
 import { FilterSubscriptionButtons } from "./Components/FilterSubscriptionButtons";
 import { useFilterSubscriptions } from "../../hooks/useFilterSubscriptions";
+import { Hint } from "@skbkontur/react-ui";
+import { Team } from "../../Domain/Team";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+    setIsTransferringSubscriptions,
+    setTransferingSubscriptions,
+} from "../../store/Reducers/UIReducer.slice";
+import { UIState } from "../../store/selectors";
+import { BaseApi } from "../../services/BaseApi";
+import { useTransferContactsToTeam } from "../../hooks/useTransferContactsToTeam";
+import { useTransferSubscriptionsToTeam } from "../../hooks/useTransferSubscriptionsToTeam";
+import { TransferSubscriptionsTeamSelect } from "../../Components/TransferSubscriptionsTeamSelect/TransferSubscriptionsTeamSelect";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionListContainer.less";
 
 const cn = classNames.bind(styles);
 
-export type { SubscriptionInfo };
-
 interface Props {
     tags: string[];
+    teams?: Team[];
     contacts: Contact[];
     subscriptions: Subscription[];
 }
 
-export const SubscriptionListContainer: React.FC<Props> = ({ tags, contacts, subscriptions }) => {
+export const SubscriptionListContainer: React.FC<Props> = ({
+    tags,
+    teams,
+    contacts,
+    subscriptions,
+}) => {
+    const dispatch = useAppDispatch();
+    const { isTransferringSubscriptions, transferingSubscriptions } = useAppSelector(UIState);
+
+    const { transferContactsToTeam } = useTransferContactsToTeam();
+    const { transferSubscriptionsToTeam } = useTransferSubscriptionsToTeam();
+
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
+    const [teamToTransfer, setTeamToTransfer] = useState<Team | null>(null);
 
     const [modalVisibility, setModalVisibility] = useState({
         [ModalType.subscriptionEditModal]: false,
@@ -66,6 +88,53 @@ export const SubscriptionListContainer: React.FC<Props> = ({ tags, contacts, sub
         openModal(ModalType.newSubscriptionModal);
     };
 
+    const handleSetTeamToTransfer = (team: Team) => {
+        if (team.id === teamToTransfer?.id) {
+            setTeamToTransfer(null);
+            dispatch(setIsTransferringSubscriptions(false));
+            return;
+        }
+        setTeamToTransfer(team);
+        dispatch(setIsTransferringSubscriptions(true));
+    };
+
+    const contactIDsToTransfer = new Set(
+        transferingSubscriptions.flatMap((subscription) => subscription.contacts)
+    );
+
+    const handleTransferContactsAndSubscriptions = async () => {
+        if (!teamToTransfer) {
+            return;
+        }
+
+        const contactsToTransfer = contacts.filter((contact) =>
+            contactIDsToTransfer.has(contact.id)
+        );
+
+        await transferContactsToTeam(contactsToTransfer, teamToTransfer?.id);
+        await transferSubscriptionsToTeam(transferingSubscriptions, teamToTransfer?.id);
+
+        dispatch(BaseApi.util.invalidateTags(["UserSettings", "TeamSettings"]));
+        dispatch(setIsTransferringSubscriptions(false));
+        dispatch(setTransferingSubscriptions([]));
+        setTeamToTransfer(null);
+    };
+
+    const hasRemainingSubscriptionsWithTransferredContacts = useMemo(
+        () =>
+            subscriptions.some((subscription) => {
+                if (transferingSubscriptions.includes(subscription)) {
+                    return false;
+                }
+
+                return subscription.contacts.some((contact) => contactIDsToTransfer.has(contact));
+            }),
+        [transferingSubscriptions]
+    );
+
+    const isApplyTransferButtonDisabled =
+        hasRemainingSubscriptionsWithTransferredContacts || !transferingSubscriptions.length;
+
     return (
         <>
             {subscriptions.length > 0 ? (
@@ -81,6 +150,13 @@ export const SubscriptionListContainer: React.FC<Props> = ({ tags, contacts, sub
                             >
                                 Add subscription
                             </Button>
+                            {teams && (
+                                <TransferSubscriptionsTeamSelect
+                                    teams={teams}
+                                    teamToTransfer={teamToTransfer}
+                                    handleSetTeamToTransfer={handleSetTeamToTransfer}
+                                />
+                            )}
                             <FilterSubscriptionButtons
                                 contacts={contacts}
                                 filterContactIDs={filterContactIDs}
@@ -97,6 +173,25 @@ export const SubscriptionListContainer: React.FC<Props> = ({ tags, contacts, sub
                         contacts={contacts}
                         handleEditSubscription={handleEditSubscription}
                     />
+                    {isTransferringSubscriptions && (
+                        <div className={cn("apply-transfer-btn")}>
+                            <Hint
+                                text={
+                                    isApplyTransferButtonDisabled
+                                        ? "There are should be no remaining subscriptions outside of the transfering subscriptions that still contain any of the contacts being transferred"
+                                        : ""
+                                }
+                            >
+                                <Button
+                                    disabled={isApplyTransferButtonDisabled}
+                                    onClick={handleTransferContactsAndSubscriptions}
+                                    use="primary"
+                                >
+                                    Apply transfer
+                                </Button>
+                            </Hint>
+                        </div>
+                    )}
                 </>
             ) : (
                 <AddSubscriptionMessage onAddSubscription={handleAddSubscription} />

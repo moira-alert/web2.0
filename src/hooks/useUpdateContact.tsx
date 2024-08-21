@@ -2,6 +2,8 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Contact } from "../Domain/Contact";
 import { useTestContactMutation, useUpdateContactMutation } from "../services/ContactApi";
 import { validateForm } from "../helpers/validations";
+import { useAppDispatch } from "../store/hooks";
+import { BaseApi } from "../services/BaseApi";
 
 export const useUpdateContact = (
     validationContainer: React.RefObject<ValidationContainer>,
@@ -12,6 +14,7 @@ export const useUpdateContact = (
 ) => {
     const [updateContact, { isLoading: isUpdating }] = useUpdateContactMutation();
     const [testContact, { isLoading: isTesting }] = useTestContactMutation();
+    const dispatch = useAppDispatch();
 
     const handleUpdateContact = async (testAfterUpdate?: boolean) => {
         const validationSuccess = await validateForm(validationContainer);
@@ -29,12 +32,12 @@ export const useUpdateContact = (
             }
             await updateContact({
                 ...contact,
-                isTeamContact: !!teamId,
                 handleLoadingLocally: true,
                 handleErrorLocally: true,
             }).unwrap();
 
             onCancel();
+            dispatch(BaseApi.util.invalidateTags(teamId ? ["TeamSettings"] : ["UserSettings"]));
         } catch (error) {
             setError(error);
         }

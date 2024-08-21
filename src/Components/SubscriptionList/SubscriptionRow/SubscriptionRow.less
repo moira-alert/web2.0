@@ -17,6 +17,10 @@
         border-bottom: 0;
     }
 
+    &:has(td.checkbox-cell:hover) {
+        background-color: transparent;
+    }
+
     position: relative;
 
     &::after {
@@ -32,6 +36,13 @@
     &:hover::after {
         opacity: 1;
     }
+}
+
+.checkbox-cell {
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .error {
@@ -56,6 +67,10 @@
 
 .tags-cell {
     max-width: 150px;
+}
+
+.hidden {
+    display: none;
 }
 
 .contact {
