@@ -23,7 +23,7 @@ export const TransferSubscriptionsTeamSelect: React.FC<ITransferSubscriptionsTea
     teamToTransfer,
     handleSetTeamToTransfer,
 }) => {
-    const { currentTeamId } = useParams<{ currentTeamId: string }>();
+    const { teamId: currentTeamId } = useParams<{ teamId: string }>();
 
     return (
         <DropdownMenu
