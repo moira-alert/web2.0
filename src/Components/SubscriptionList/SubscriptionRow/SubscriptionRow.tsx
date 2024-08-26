@@ -78,6 +78,10 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                     className={cn("checkbox-cell")}
                 >
                     <Checkbox
+                        className={cn({
+                            focused:
+                                isTransferringSubscriptions && !transferingSubscriptions.length,
+                        })}
                         checked={transferingSubscriptions.includes(subscription)}
                         onClick={() => {
                             dispatch(toggleSubscriptionTransfer(subscription));

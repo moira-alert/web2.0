@@ -150,7 +150,7 @@ export const SubscriptionListContainer: React.FC<Props> = ({
                             >
                                 Add subscription
                             </Button>
-                            {teams && (
+                            {teams && teams?.length !== 0 && (
                                 <TransferSubscriptionsTeamSelect
                                     teams={teams}
                                     teamToTransfer={teamToTransfer}
