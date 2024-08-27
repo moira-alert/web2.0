@@ -35,6 +35,9 @@ interface Props {
     subscriptions: Subscription[];
 }
 
+const applyTransferButtonHintText =
+    "There are should be no remaining subscriptions outside of the transfering subscriptions that still contain any of the contacts being transferred";
+
 export const SubscriptionListContainer: React.FC<Props> = ({
     tags,
     teams,
@@ -98,8 +101,9 @@ export const SubscriptionListContainer: React.FC<Props> = ({
         dispatch(setIsTransferringSubscriptions(true));
     };
 
-    const contactIDsToTransfer = new Set(
-        transferingSubscriptions.flatMap((subscription) => subscription.contacts)
+    const contactIDsToTransfer = useMemo(
+        () => new Set(transferingSubscriptions.flatMap((subscription) => subscription.contacts)),
+        [transferingSubscriptions]
     );
 
     const handleTransferContactsAndSubscriptions = async () => {
@@ -174,12 +178,10 @@ export const SubscriptionListContainer: React.FC<Props> = ({
                         handleEditSubscription={handleEditSubscription}
                     />
                     {isTransferringSubscriptions && (
-                        <div className={cn("apply-transfer-btn")}>
+                        <div className={cn("transfer-btns")}>
                             <Hint
                                 text={
-                                    isApplyTransferButtonDisabled
-                                        ? "There are should be no remaining subscriptions outside of the transfering subscriptions that still contain any of the contacts being transferred"
-                                        : ""
+                                    isApplyTransferButtonDisabled ? applyTransferButtonHintText : ""
                                 }
                             >
                                 <Button
@@ -190,6 +192,15 @@ export const SubscriptionListContainer: React.FC<Props> = ({
                                     Apply transfer
                                 </Button>
                             </Hint>
+                            <Button
+                                onClick={() => {
+                                    dispatch(setIsTransferringSubscriptions(false));
+                                    setTeamToTransfer(null);
+                                }}
+                                use="danger"
+                            >
+                                Cancel
+                            </Button>
                         </div>
                     )}
                 </>

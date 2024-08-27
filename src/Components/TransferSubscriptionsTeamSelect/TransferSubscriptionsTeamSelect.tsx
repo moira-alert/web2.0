@@ -6,6 +6,8 @@ import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { ThemeContext, ThemeFactory } from "@skbkontur/react-ui";
 import { useParams } from "react-router";
 import { Button } from "@skbkontur/react-ui/components/Button";
+import { useAppSelector } from "../../store/hooks";
+import { UIState } from "../../store/selectors";
 import classNames from "classnames/bind";
 
 import styles from "./TransferSubscriptionsTeamSelect.less";
@@ -24,12 +26,13 @@ export const TransferSubscriptionsTeamSelect: React.FC<ITransferSubscriptionsTea
     handleSetTeamToTransfer,
 }) => {
     const { teamId: currentTeamId } = useParams<{ teamId: string }>();
+    const { isTransferringSubscriptions } = useAppSelector(UIState);
 
     return (
         <DropdownMenu
             caption={({ openMenu }) => (
                 <Button width={180} className={cn("transfer-btn")} onClick={() => openMenu()}>
-                    {teamToTransfer
+                    {teamToTransfer && isTransferringSubscriptions
                         ? `Transfering to: ${teamToTransfer.name}`
                         : "Transfer subscriptions"}
                 </Button>
@@ -48,10 +51,7 @@ export const TransferSubscriptionsTeamSelect: React.FC<ITransferSubscriptionsTea
                         >
                             <MenuItem>
                                 <Checkbox
-                                    style={{
-                                        alignItems: "center",
-                                        padding: "0",
-                                    }}
+                                    className={cn("team-checkbox")}
                                     checked={teamToTransfer?.id === team.id}
                                     onValueChange={() => handleSetTeamToTransfer(team)}
                                 >
