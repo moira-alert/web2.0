@@ -36,7 +36,7 @@ interface Props {
 }
 
 const applyTransferButtonHintText =
-    "There are should be no remaining subscriptions outside of the transfering subscriptions that still contain any of the contacts being transferred";
+    "Remaining subscriptions and subscriptions to be transferred must not share contacts";
 
 export const SubscriptionListContainer: React.FC<Props> = ({
     tags,
