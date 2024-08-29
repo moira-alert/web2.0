@@ -22,26 +22,18 @@ export const SubscriptionsApi = BaseApi.injectEndpoints({
                 credentials: "same-origin",
             }),
         }),
-        updateSubscription: builder.mutation<
-            Subscription,
-            CustomBaseQueryArgs<Subscription & { isTeamSubscription?: boolean }>
-        >({
-            query: ({
-                isTeamSubscription,
-                handleLoadingLocally,
-                handleErrorLocally,
-                ...subscription
-            }) => ({
+        updateSubscription: builder.mutation<Subscription, CustomBaseQueryArgs<Subscription>>({
+            query: ({ handleLoadingLocally, handleErrorLocally, ...subscription }) => ({
                 url: `subscription/${encodeURIComponent(subscription.id)}`,
                 method: "PUT",
                 credentials: "same-origin",
                 body: JSON.stringify(subscription),
             }),
-            invalidatesTags: (_result, error, { isTeamSubscription }) => {
+            invalidatesTags: (_result, error) => {
                 if (error) {
                     return [];
                 }
-                return ["TagStats", isTeamSubscription ? "TeamSettings" : "UserSettings"];
+                return ["TagStats"];
             },
         }),
         deleteSubscription: builder.mutation<

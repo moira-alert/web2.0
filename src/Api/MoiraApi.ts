@@ -20,6 +20,7 @@ export type SubscriptionCreateInfo = {
     enabled: boolean;
     any_tags: boolean;
     user?: string;
+    team_id?: string;
     id?: string;
     ignore_recoverings: boolean;
     ignore_warnings: boolean;

@@ -17,6 +17,10 @@
         border-bottom: 0;
     }
 
+    &:has(td.checkbox-cell:hover) {
+        background-color: transparent;
+    }
+
     position: relative;
 
     &::after {
@@ -32,6 +36,13 @@
     &:hover::after {
         opacity: 1;
     }
+}
+
+.checkbox-cell {
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .error {
@@ -83,6 +94,14 @@
 
 .tooltip-cell {
     width: 10px;
+}
+
+.focused {
+    div {
+        div {
+            box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px #1f87ef;
+        }
+    }
 }
 
 @media screen and (min-width: @breakpoint) {

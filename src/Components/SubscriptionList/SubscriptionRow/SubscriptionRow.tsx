@@ -8,6 +8,10 @@ import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import queryString from "query-string";
 import ArrowChevronUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
 import ArrowChevronDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { UIState } from "../../../store/selectors";
+import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { toggleSubscriptionTransfer } from "../../../store/Reducers/UIReducer.slice";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
@@ -25,6 +29,8 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     contacts,
     onEditSubscription,
 }) => {
+    const { isTransferringSubscriptions, transferingSubscriptions } = useAppSelector(UIState);
+    const dispatch = useAppDispatch();
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleExpand = () => {
@@ -64,6 +70,25 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             className={cn(rowClassName)}
             onClick={() => onEditSubscription(subscription)}
         >
+            {isTransferringSubscriptions && (
+                <td
+                    onClick={(event) => {
+                        event.stopPropagation();
+                    }}
+                    className={cn("checkbox-cell")}
+                >
+                    <Checkbox
+                        className={cn({
+                            focused:
+                                isTransferringSubscriptions && !transferingSubscriptions.length,
+                        })}
+                        checked={transferingSubscriptions.includes(subscription)}
+                        onClick={() => {
+                            dispatch(toggleSubscriptionTransfer(subscription));
+                        }}
+                    />
+                </td>
+            )}
             <td className={cn("showMore-button-cell")}>
                 {isExpanded ? (
                     <ArrowChevronUpIcon onClick={(event) => handleCollapse(event)} />
@@ -97,12 +122,10 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             )}
             {areAnyDisruptedSubs && (
                 <td className={cn("tooltip-cell")}>
-                    (
                     <HelpTooltip trigger="hover">
                         It seems that this subscription is broken, please set up the delivery
                         channel.
                     </HelpTooltip>
-                    )
                 </td>
             )}
         </tr>

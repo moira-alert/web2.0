@@ -5,13 +5,13 @@ import {
     useTestSubscriptionMutation,
 } from "../services/SubscriptionsApi";
 import { useCreateTeamSubscriptionMutation } from "../services/TeamsApi";
-import { SubscriptionInfo } from "../Components/SubscriptionEditor/SubscriptionEditor";
+import type { SubscriptionCreateInfo } from "../Api/MoiraApi";
 import { useAppDispatch } from "../store/hooks";
 import { BaseApi } from "../services/BaseApi";
 
 export const useCreateSubscription = (
     validationContainer: React.RefObject<ValidationContainer>,
-    subscription: SubscriptionInfo | null,
+    subscription: SubscriptionCreateInfo | null,
     onCancel: () => void,
     setError: (error: string) => void,
     teamId?: string

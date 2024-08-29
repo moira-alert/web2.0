@@ -15,27 +15,19 @@ export const ContactApi = BaseApi.injectEndpoints({
         }),
         updateContact: builder.mutation<
             Contact,
-            CustomBaseQueryArgs<
-                Partial<Contact> & Pick<Contact, "id"> & { isTeamContact?: boolean }
-            >
+            CustomBaseQueryArgs<Partial<Contact> & Pick<Contact, "id">>
         >({
-            query: ({
-                id,
-                handleErrorLocally,
-                handleLoadingLocally,
-                isTeamContact,
-                ...contact
-            }) => ({
+            query: ({ id, handleErrorLocally, handleLoadingLocally, ...contact }) => ({
                 url: `contact/${id}`,
                 method: "PUT",
                 credentials: "same-origin",
                 body: JSON.stringify(contact),
             }),
-            invalidatesTags: (_result, error, { isTeamContact }) => {
+            invalidatesTags: (_result, error) => {
                 if (error) {
                     return [];
                 }
-                return ["Contacts", isTeamContact ? "TeamSettings" : "UserSettings"];
+                return ["Contacts"];
             },
         }),
         testContact: builder.mutation<void, CustomBaseQueryArgs<{ id: string }>>({
