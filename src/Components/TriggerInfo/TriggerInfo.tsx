@@ -1,5 +1,4 @@
 import * as React from "react";
-import { History } from "history";
 import { format, fromUnixTime } from "date-fns";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
@@ -37,6 +36,7 @@ import { LinkMenuItem } from "./Components/LinkMenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
 import useConfirmModal from "../../hooks/useConfirmModal";
+import { useHistory } from "react-router";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -48,10 +48,9 @@ interface IProps {
     triggerState: TriggerState;
     supportEmail?: string;
     metrics?: MetricItemList;
-    deleteTrigger: (id: string) => void;
-    onThrottlingRemove: (triggerId: string) => void;
+    deleteTrigger: () => void;
+    onThrottlingRemove: () => void;
     onSetMaintenance: (maintenance: number) => void;
-    history: History;
 }
 
 function maintenanceCaption(delta: number): React.ReactNode {
@@ -72,7 +71,6 @@ export default function TriggerInfo({
     deleteTrigger,
     onThrottlingRemove,
     onSetMaintenance,
-    history,
 }: IProps): React.ReactElement {
     const {
         id,
@@ -93,6 +91,7 @@ export default function TriggerInfo({
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
     const { config } = useAppSelector(ConfigState);
     const [ConfirmModal, setModalData] = useConfirmModal();
+    const history = useHistory();
 
     const availableClusters = config?.metric_source_clusters?.filter(
         (cluster) => cluster.trigger_source === triggerSource
@@ -109,7 +108,7 @@ export default function TriggerInfo({
 
     const onDeleteTrigger = () => {
         setModalData({ isOpen: false });
-        deleteTrigger(trigger.id);
+        deleteTrigger();
     };
 
     const handleDeleteTrigger = () => {
@@ -187,10 +186,7 @@ export default function TriggerInfo({
                         }
                     >
                         {throttling !== 0 && (
-                            <LinkMenuItem
-                                onClick={() => onThrottlingRemove(id)}
-                                icon={<ClearIcon />}
-                            >
+                            <LinkMenuItem onClick={onThrottlingRemove} icon={<ClearIcon />}>
                                 Disable throttling
                             </LinkMenuItem>
                         )}
@@ -225,7 +221,7 @@ export default function TriggerInfo({
                         <dd className={cn("codeEditor")}>
                             <Gapped vertical gap={10}>
                                 {targets.map((target, i) => (
-                                    <>
+                                    <div key={target}>
                                         <div className={cn("copyButtonWrapper")}>
                                             <Hint text="Copy without formatting">
                                                 <CopyButton
@@ -241,7 +237,7 @@ export default function TriggerInfo({
                                             key={i}
                                             value={target}
                                         />
-                                    </>
+                                    </div>
                                 ))}
                             </Gapped>
                         </dd>

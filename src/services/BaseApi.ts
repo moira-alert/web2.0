@@ -71,6 +71,8 @@ export const BaseApi = createApi({
         "TeamUsers",
         "UserTeams",
         "Team",
+        "TriggerState",
+        "Trigger",
     ],
     baseQuery: customFetchBaseQuery,
     endpoints: (builder) => ({

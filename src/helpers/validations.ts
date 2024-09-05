@@ -114,3 +114,16 @@ export const validateMaintenanceDate = (
     }
     return null;
 };
+
+export const validateTriggerEventsDateFilters = (
+    fromDate: Date,
+    untilDate: Date
+): Nullable<ValidationInfo> => {
+    if (isAfter(fromDate, untilDate)) {
+        return {
+            message: "From date should be before untill date",
+            type: "immediate",
+        };
+    }
+    return null;
+};

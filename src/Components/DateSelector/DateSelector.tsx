@@ -11,17 +11,12 @@ interface IDateSelectorProps {
     maxDate?: Date;
 }
 
-export const DateSelector: React.FC<IDateSelectorProps> = ({
-    date = new Date(),
-    setDate,
-    minDate,
-    maxDate,
-}) => {
+export const DateSelector: React.FC<IDateSelectorProps> = ({ date, setDate, minDate, maxDate }) => {
     return (
         <Calendar
-            value={formatDateToCalendarDate(date)}
-            initialMonth={(getMonth(date) + 1) as Range<1, 13>}
-            initialYear={getYear(date)}
+            value={date ? formatDateToCalendarDate(date) : null}
+            initialMonth={(getMonth(new Date()) + 1) as Range<1, 13>}
+            initialYear={getYear(new Date())}
             minDate={minDate && formatDateToCalendarDate(minDate)}
             maxDate={maxDate && formatDateToCalendarDate(maxDate)}
             onValueChange={(value) => setDate(dateStringToUnixTimestamp(value))}

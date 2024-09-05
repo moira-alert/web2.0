@@ -31,8 +31,8 @@ interface IContactEventStatsProps {
 export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onClose }) => {
     const maxDate = new Date();
     const minDate = subDays(new Date(), 2);
-    const [fromTime, setFromTime] = useState<Date>(minDate);
-    const [untilTime, setUntilTime] = useState<Date>(maxDate);
+    const [fromTime, setFromTime] = useState<Date | null>(minDate);
+    const [untilTime, setUntilTime] = useState<Date | null>(maxDate);
     const { error } = useAppSelector(UIState);
     const validationContainerRef = useRef(null);
 
@@ -43,8 +43,8 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
     const fetchEvents = () =>
         trigger({
             contactId,
-            from: getUnixTime(fromTime),
-            to: getUnixTime(untilTime),
+            from: fromTime && getUnixTime(fromTime),
+            to: untilTime && getUnixTime(untilTime),
             handleLoadingLocally: true,
         });
 
@@ -73,6 +73,8 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
                             <div className={cn("date-time-pickers")}>
                                 <DateAndTimeMenu
                                     validateDateAndTime={(inputValue) =>
+                                        fromTime &&
+                                        untilTime &&
                                         validateDateAndTime(
                                             fromTime,
                                             inputValue,
@@ -90,6 +92,8 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
                                 {"—"}
                                 <DateAndTimeMenu
                                     validateDateAndTime={(inputValue) =>
+                                        fromTime &&
+                                        untilTime &&
                                         validateDateAndTime(
                                             untilTime,
                                             inputValue,

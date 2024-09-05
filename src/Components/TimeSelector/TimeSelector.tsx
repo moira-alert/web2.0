@@ -9,7 +9,7 @@ import styles from "./TimeSelector.less";
 const cn = classNames.bind(styles);
 
 interface ITimeSelectorProps {
-    selectedTime: string;
+    selectedTime?: string;
     times: string[];
     setTime: (time: string) => void;
     isTimeDisabled?: (time: string, date?: CalendarDateShape) => boolean;
