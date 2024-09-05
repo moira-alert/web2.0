@@ -30,7 +30,7 @@ interface IContactEventStatsProps {
 
 export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onClose }) => {
     const maxDate = new Date();
-    const minDate = subDays(new Date(), 2);
+    const minDate = subDays(new Date(), 7);
     const [fromTime, setFromTime] = useState<Date>(minDate);
     const [untilTime, setUntilTime] = useState<Date>(maxDate);
     const { error } = useAppSelector(UIState);
