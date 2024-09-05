@@ -15,8 +15,8 @@ export const DateSelector: React.FC<IDateSelectorProps> = ({ date, setDate, minD
     return (
         <Calendar
             value={date ? formatDateToCalendarDate(date) : null}
-            initialMonth={(getMonth(new Date()) + 1) as Range<1, 13>}
-            initialYear={getYear(new Date())}
+            initialMonth={(getMonth(date ?? new Date()) + 1) as Range<1, 13>}
+            initialYear={getYear(date ?? new Date())}
             minDate={minDate && formatDateToCalendarDate(minDate)}
             maxDate={maxDate && formatDateToCalendarDate(maxDate)}
             onValueChange={(value) => setDate(dateStringToUnixTimestamp(value))}
