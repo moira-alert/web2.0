@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { TriggerDesktopProps } from "./trigger.desktop";
 import { TriggerMobileProps } from "./trigger.mobile";
@@ -41,34 +41,22 @@ const TriggerPage: React.FC<TriggerProps> = ({ view: TriggerView }) => {
     const [deleteTrigger] = useDeleteTriggerMutation();
     const { error, isLoading } = useAppSelector(UIState);
 
-    const handleDisableThrottling = useCallback(
-        async () => await deleteTriggerThrottling(triggerId),
-        []
-    );
+    const handleDisableThrottling = async () => await deleteTriggerThrottling(triggerId);
 
-    const handleSetTriggerMaintenance = useCallback(
-        async (maintenance: number) => await setTriggerMaintenance({ triggerId, maintenance }),
-        []
-    );
+    const handleSetTriggerMaintenance = async (maintenance: number) =>
+        await setTriggerMaintenance({ triggerId, maintenance });
 
-    const handleSetMetricMaintenance = useCallback(
-        async (metric: string, maintenance: number) =>
-            await setMetricMaintenance({ triggerId, metrics: { [metric]: maintenance } }),
-        []
-    );
+    const handleSetMetricMaintenance = async (metric: string, maintenance: number) =>
+        await setMetricMaintenance({ triggerId, metrics: { [metric]: maintenance } });
 
-    const handleRemoveMetric = useCallback(async (metric: string) => {
-        await deleteMetric({ triggerId, metric });
-    }, []);
+    const handleRemoveMetric = async (metric: string) => await deleteMetric({ triggerId, metric });
 
-    const handleRemoveNoDataMetric = useCallback(async () => {
-        await deleteNoDataMetrics(triggerId);
-    }, []);
+    const handleRemoveNoDataMetric = async () => await deleteNoDataMetrics(triggerId);
 
-    const handleDeleteTrigger = useCallback(async () => {
+    const handleDeleteTrigger = async () => {
         await deleteTrigger(triggerId);
         history.push(getPageLink("index"));
-    }, []);
+    };
 
     useEffect(() => {
         setDocumentTitle("Trigger");
