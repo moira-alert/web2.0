@@ -7,6 +7,7 @@ import { MetricItemList } from "../../../Domain/Metric";
 
 interface ITriggerInfoTabsProps {
     metrics: MetricItemList;
+    triggerName: string;
     setMetricMaintenance: (metric: string, maintenance: number) => void;
     removeMetric: (metric: string) => void;
     removeNoDataMetric: () => void;
@@ -16,6 +17,7 @@ export const TriggerInfoTabs: FC<ITriggerInfoTabsProps> = ({
     setMetricMaintenance,
     removeNoDataMetric,
     removeMetric,
+    triggerName,
     metrics,
 }) => {
     const history = useHistory();
@@ -48,7 +50,7 @@ export const TriggerInfoTabs: FC<ITriggerInfoTabsProps> = ({
                 />
             </Tab>
             <Tab id="events" label="Events history">
-                <EventListTab />
+                <EventListTab triggerName={triggerName} />
             </Tab>
         </Tabs>
     );

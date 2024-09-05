@@ -17,14 +17,19 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { validateTriggerEventsDateFilters } from "../../../../helpers/validations";
 import { composeEvents } from "../../../../helpers/composeTriggerEvents";
 import { useQueryState } from "../../../../hooks/useQueryState";
+import { useDateQueryState } from "../../../../hooks/useDateQueryState";
 import classNames from "classnames/bind";
 
 import styles from "./EventListTab.less";
-import { useDateQueryState } from "../../../../hooks/useDateQueryState";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { UIState } from "../../../../store/selectors";
+import { setError } from "../../../../store/Reducers/UIReducer.slice";
 
 const cn = classNames.bind(styles);
-
-export const EventListTab: FC = () => {
+interface IEventListTabProps {
+    triggerName: string;
+}
+export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
     const [selectedStatuses, setSelectedStatuses] = useQueryState<Status[]>("states", []);
     const [searchMetric, setSearchMetric] = useQueryState<string>("metric", "");
     const [fromTime, setFromTime] = useDateQueryState("from", null);
@@ -32,7 +37,16 @@ export const EventListTab: FC = () => {
     const [page, setPage] = useQueryState<number>("page", 1);
     const validationContainerRef = useRef(null);
     const { id: triggerId } = useParams<{ id: string }>();
+    const { error } = useAppSelector(UIState);
     const debouncedSearchMetric = useDebounce(searchMetric, 500);
+    const dispatch = useAppDispatch();
+
+    const handleInputValueChange = (value: string) => {
+        if (error) {
+            dispatch(setError(null));
+        }
+        setSearchMetric(value);
+    };
 
     const { data: events, isLoading, isFetching } = useGetTriggerEventsQuery(
         {
@@ -46,7 +60,7 @@ export const EventListTab: FC = () => {
         },
         { skip: Boolean(fromTime && untilTime && isAfter(fromTime, untilTime)) }
     );
-    const grouppedEvents = useMemo(() => composeEvents(events?.list || [], triggerId), [events]);
+    const grouppedEvents = useMemo(() => composeEvents(events?.list || [], triggerName), [events]);
     const pageCount = Math.ceil((events?.total ?? 0) / (events?.size ?? 1));
     return (
         <>
@@ -55,8 +69,8 @@ export const EventListTab: FC = () => {
                     width={340}
                     rightIcon={Search}
                     value={searchMetric}
-                    onValueChange={setSearchMetric}
-                    placeholder="Filter by metric name"
+                    onValueChange={handleInputValueChange}
+                    placeholder="Filter by metric name, regExp is supported"
                 />
                 <FilterStatusSelect
                     availableStatuses={StatusesList.filter((x) => x !== Status.DEL)}

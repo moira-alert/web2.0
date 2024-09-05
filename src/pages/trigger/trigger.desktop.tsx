@@ -47,6 +47,7 @@ const TriggerDesktop: React.FC<TriggerDesktopProps> = ({
                     </LayoutPlate>
                     <LayoutContent>
                         <TriggerInfoTabs
+                            triggerName={trigger.name}
                             metrics={metrics}
                             removeMetric={removeMetric}
                             setMetricMaintenance={setMetricMaintenance}
