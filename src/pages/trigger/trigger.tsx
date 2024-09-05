@@ -25,10 +25,13 @@ const TriggerPage: React.FC<TriggerProps> = ({ view: TriggerView }) => {
     const { id: triggerId } = useParams<{ id: string }>();
     const history = useHistory();
 
-    const { data: trigger } = useGetTriggerQuery({
-        triggerId,
-        populated: true,
-    });
+    const { data: trigger } = useGetTriggerQuery(
+        {
+            triggerId,
+            populated: true,
+        },
+        { refetchOnMountOrArgChange: true }
+    );
     const { data: triggerState } = useGetTriggerStateQuery(triggerId);
     const [deleteTriggerThrottling] = useDeleteTriggerThrottlingMutation();
     const [setTriggerMaintenance] = useSetTriggerMaintenanceMutation();
