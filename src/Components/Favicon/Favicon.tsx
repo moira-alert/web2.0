@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import FaviconComponent from "react-favicon";
 import { useSelector } from "react-redux";
 import { selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
-import { Platform } from "../../Domain/Config";
 
 const Favicon = () => {
     const platform = useSelector(selectPlatform);
@@ -10,10 +9,8 @@ const Favicon = () => {
     const [faviconUrl, setFaviconUrl] = useState<string>("../favicon.ico");
 
     useEffect(() => {
-        let url = "../favicon.ico";
-        if (platform === Platform.DEV) {
-            url = "../favicon-dev.ico";
-        }
+        const url = "../favicon-dev.ico";
+
         setFaviconUrl(url);
     }, [platform]);
 
