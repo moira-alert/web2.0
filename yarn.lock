@@ -10806,6 +10806,13 @@ react-element-to-jsx-string@^15.0.0:
     is-plain-object "5.0.0"
     react-is "18.1.0"
 
+react-favicon@2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/react-favicon/-/react-favicon-2.0.7.tgz#168a4ae58cd9eb73e2cdeb294abb21dd62d0845d"
+  integrity sha512-Vqjk8VHnOu7vl7JnP13nPJ05DyFGObF655xFkbTUIbF4vqLx1Slbc56Hrbzg1leROAKHzElm3u4KUzaXO46A6A==
+  dependencies:
+    prop-types "^15.8.1"
+
 react-foco@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-foco/-/react-foco-1.2.0.tgz"
@@ -11960,7 +11967,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -11977,15 +11984,6 @@ string-width@^3.0.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
 
 string-width@^5.0.1, string-width@^5.1.2:
   version "5.1.2"
@@ -13565,16 +13563,7 @@ workbox-window@7.1.0:
     "@types/trusted-types" "^2.0.2"
     workbox-core "7.1.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
