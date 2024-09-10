@@ -35,9 +35,12 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
 
     const handleValueChange = (value: string) => {
         setInputValue(value);
+
         if (!value) {
             setDate(null);
+            return;
         }
+
         const parsedDate = parse(value, "yyyy/MM/dd HH:mm:ss", new Date());
         if (!isNaN(parsedDate.getTime())) {
             setDate(parsedDate);
