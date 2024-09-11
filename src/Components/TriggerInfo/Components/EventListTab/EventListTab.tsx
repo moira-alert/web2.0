@@ -18,17 +18,17 @@ import { validateTriggerEventsDateFilters } from "../../../../helpers/validation
 import { composeEvents } from "../../../../helpers/composeTriggerEvents";
 import { useQueryState } from "../../../../hooks/useQueryState";
 import { useDateQueryState } from "../../../../hooks/useDateQueryState";
+import { useAppDispatch } from "../../../../store/hooks";
+import { setError } from "../../../../store/Reducers/UIReducer.slice";
 import classNames from "classnames/bind";
 
 import styles from "./EventListTab.less";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { UIState } from "../../../../store/selectors";
-import { setError } from "../../../../store/Reducers/UIReducer.slice";
 
 const cn = classNames.bind(styles);
 interface IEventListTabProps {
     triggerName: string;
 }
+
 export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
     const [selectedStatuses, setSelectedStatuses] = useQueryState<Status[]>("states", []);
     const [searchMetric, setSearchMetric] = useQueryState<string>("metric", "");
@@ -37,14 +37,11 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
     const [page, setPage] = useQueryState<number>("page", 1);
     const validationContainerRef = useRef(null);
     const { id: triggerId } = useParams<{ id: string }>();
-    const { error } = useAppSelector(UIState);
     const debouncedSearchMetric = useDebounce(searchMetric, 500);
     const dispatch = useAppDispatch();
 
     const handleInputValueChange = (value: string) => {
-        if (error) {
-            dispatch(setError(null));
-        }
+        dispatch(setError(null));
         setSearchMetric(value);
     };
 

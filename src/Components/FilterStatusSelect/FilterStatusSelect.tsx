@@ -30,44 +30,39 @@ export const FilterStatusSelect: FC<IFilterStatusSelectProps> = ({
     };
 
     return (
-        <>
-            <DropdownMenu
-                caption={({ openMenu }) => (
-                    <Button icon={<Filter />} onClick={() => openMenu()}>
-                        {selectedStatuses.length
-                            ? selectedStatuses.map((status) => (
-                                  <span key={status} className={cn("filter-status-icon")}>
-                                      <StatusIcon status={status} />
-                                  </span>
-                              ))
-                            : "Filter by state"}
-                    </Button>
-                )}
-            >
-                {availableStatuses.map((status) => (
-                    <ThemeContext.Provider
-                        key={status}
-                        value={ThemeFactory.create({
-                            menuItemHoverBg: "initial",
-                        })}
-                    >
-                        <MenuItem>
-                            <Checkbox
-                                style={{
-                                    alignItems: "center",
-                                    padding: "0",
-                                }}
-                                checked={selectedStatuses.includes(status)}
-                                onValueChange={(value) => handleSetSelectedStatuses(status, value)}
-                            >
-                                <StatusIcon status={status} />
-                                &nbsp;
-                                {getStatusCaption(status)}
-                            </Checkbox>
-                        </MenuItem>
-                    </ThemeContext.Provider>
-                ))}
-            </DropdownMenu>
-        </>
+        <DropdownMenu
+            caption={({ openMenu }) => (
+                <Button icon={<Filter />} onClick={() => openMenu()}>
+                    {selectedStatuses.length
+                        ? selectedStatuses.map((status) => (
+                              <span key={status} className={cn("filter-status-icon")}>
+                                  <StatusIcon status={status} />
+                              </span>
+                          ))
+                        : "Filter by state"}
+                </Button>
+            )}
+        >
+            {availableStatuses.map((status) => (
+                <ThemeContext.Provider
+                    key={status}
+                    value={ThemeFactory.create({
+                        menuItemHoverBg: "initial",
+                    })}
+                >
+                    <MenuItem>
+                        <Checkbox
+                            className={cn("filter-status-checkbox")}
+                            checked={selectedStatuses.includes(status)}
+                            onValueChange={(value) => handleSetSelectedStatuses(status, value)}
+                        >
+                            <StatusIcon status={status} />
+                            &nbsp;
+                            {getStatusCaption(status)}
+                        </Checkbox>
+                    </MenuItem>
+                </ThemeContext.Provider>
+            ))}
+        </DropdownMenu>
     );
 };
