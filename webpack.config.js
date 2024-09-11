@@ -37,7 +37,6 @@ module.exports = {
         ),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
-            // favicon: "./src/favicon.ico",
             inject: "body",
             minify: {
                 collapseWhitespace: true,
