@@ -7,17 +7,15 @@ interface IProps {
     className?: string;
 }
 
-const copy = (text: string) => {
-    if (navigator.clipboard) {
-        // If clipboard api is supported
-        navigator.clipboard
-            .writeText(text)
-            .then(() => {
-                console.log("Text copied to clipboard");
-            })
-            .catch((err) => {
-                console.error("Failed to copy text", err);
-            });
+const copy = async (text: string) => {
+    if (navigator?.clipboard) {
+        try {
+            await navigator.clipboard.writeText(text);
+            Toast.push("Text copied to clipboard");
+        } catch (error) {
+            console.error(error);
+            Toast.push("Failed to copy text");
+        }
     } else {
         // Fallback on execCommand
         const textarea = Object.assign(document.createElement("textarea"), {
@@ -27,21 +25,19 @@ const copy = (text: string) => {
         document.body.appendChild(textarea);
         textarea.select();
 
-        try {
-            document.execCommand("copy");
-            console.log("Text copied to clipboard");
-        } catch (err) {
-            console.error("Failed to copy text", err);
-        }
+        const isSuccessful = document.execCommand("copy");
+
+        isSuccessful
+            ? Toast.push("Text copied to clipboard")
+            : Toast.push("Failed to copy text, try to launch the app under https");
 
         document.body.removeChild(textarea);
     }
 };
 
 export const CopyButton: React.FC<IProps> = ({ value, className }) => {
-    const handleCopy = () => {
-        Toast.push("Target value copied");
-        copy(value.trim());
+    const handleCopy = async () => {
+        await copy(value.trim());
     };
 
     return <Button className={className} use="link" icon={<CopyIcon />} onClick={handleCopy} />;
