@@ -7,14 +7,34 @@ interface IProps {
     className?: string;
 }
 
-const copy = async (text: string) => {
-    if (!navigator?.clipboard) {
-        return;
-    }
-    try {
-        await navigator.clipboard.writeText(text);
-    } catch (error) {
-        console.log(error);
+const copy = (text: string) => {
+    if (navigator.clipboard) {
+        // If clipboard api is supported
+        navigator.clipboard
+            .writeText(text)
+            .then(() => {
+                console.log("Text copied to clipboard");
+            })
+            .catch((err) => {
+                console.error("Failed to copy text", err);
+            });
+    } else {
+        // Fallback on execCommand
+        const textarea = Object.assign(document.createElement("textarea"), {
+            value: text,
+            style: { position: "absolute", left: "-9999px" },
+        });
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        try {
+            document.execCommand("copy");
+            console.log("Text copied to clipboard");
+        } catch (err) {
+            console.error("Failed to copy text", err);
+        }
+
+        document.body.removeChild(textarea);
     }
 };
 
