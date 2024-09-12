@@ -10,9 +10,9 @@ import styles from "./DateAndTimeSelector.less";
 const cn = classNames.bind(styles);
 
 interface IDateAndTimeSelectorProps {
-    date?: Date;
-    minDate: Date;
-    maxDate: Date;
+    date?: Date | null;
+    minDate?: Date;
+    maxDate?: Date;
     setDate: (date: Date) => void;
 }
 
@@ -23,9 +23,9 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
     setDate,
 }) => {
     const initialDate = date ?? minDate;
-    const [time, setTime] = useState(format(initialDate, "HH:mm:ss"));
+    const [time, setTime] = useState(initialDate && format(initialDate, "HH:mm:ss"));
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(initialDate);
-    const timeZone = format(initialDate, "OOOO");
+    const timeZone = format(initialDate ?? new Date(), "OOOO");
 
     const handleDatePick = (dateValue: Date) => {
         setSelectedDate(dateValue);
@@ -36,7 +36,7 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
     };
 
     const isTimeDisabled = (preparedTime: string): boolean => {
-        if (!selectedDate) return true;
+        if (!selectedDate) return false;
         const [hours, minutes] = preparedTime.split(":").map(Number);
         const selectedDateTime = new Date(
             selectedDate.getFullYear(),
@@ -46,9 +46,16 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
             minutes
         );
 
-        return isBefore(selectedDateTime, minDate) || isAfter(selectedDateTime, maxDate);
-    };
+        if (minDate && isBefore(selectedDateTime, minDate)) {
+            return true;
+        }
 
+        if (maxDate && isAfter(selectedDateTime, maxDate)) {
+            return true;
+        }
+
+        return false;
+    };
     useEffect(() => {
         if (!time || !selectedDate) {
             return;
@@ -70,11 +77,11 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
             <TimeSelector
                 isTimeDisabled={isTimeDisabled}
                 setTime={handleSetTime}
-                selectedTime={time}
+                selectedTime={time?.slice(0, 5)}
                 times={timeList}
             />
             <DateSelector
-                date={date}
+                date={selectedDate}
                 maxDate={maxDate}
                 minDate={minDate}
                 setDate={handleDatePick}

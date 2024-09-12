@@ -9,6 +9,7 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import * as React from "react";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
+import { useHistory } from "react-router";
 import classNames from "classnames/bind";
 
 import styles from "../MetricList/MetricList.less";
@@ -52,8 +53,18 @@ export function MetricListItem({
         maintenance_info: maintenanceInfo,
     } = metricData;
     const delta = maintenanceDelta(maintenance);
+
+    const history = useHistory();
+
+    const handleMetricClick = () => {
+        const searchParams = new URLSearchParams();
+        searchParams.set("action", "events");
+        searchParams.set("metric", metricName);
+        history.push({ search: searchParams.toString() });
+    };
+
     return (
-        <div key={metricName} className={cn("row")} style={style}>
+        <div onClick={handleMetricClick} key={metricName} className={cn("row")} style={style}>
             {status && (
                 <div className={cn("state")}>
                     <StatusIndicator statuses={[state]} size={10} />
@@ -70,7 +81,7 @@ export function MetricListItem({
                     hideTargetsNames={hideTargetsNames(metricData.values)}
                 />
             </div>
-            <div className={cn("maintenance")}>
+            <div onClick={(e) => e.stopPropagation()} className={cn("maintenance")}>
                 <MaintenanceSelect
                     maintenance={maintenance}
                     caption={maintenanceCaption(delta)}
@@ -101,7 +112,7 @@ export function MetricListItem({
                         </Tooltip>
                     )}
             </div>
-            <div className={cn("delete")}>
+            <div onClick={(e) => e.stopPropagation()} className={cn("delete")}>
                 <Button use="link" icon={<TrashIcon />} onClick={() => onRemove(metricName)}>
                     Delete
                 </Button>
