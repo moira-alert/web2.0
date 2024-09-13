@@ -7,13 +7,13 @@ interface IProps {
     className?: string;
 }
 
-const pusfSuccessfulMessage = () => Toast.push("Text copied to clipboard");
+const pushSuccessfulMessage = () => Toast.push("Text copied to clipboard");
 
 const copy = async (text: string) => {
     if (navigator?.clipboard) {
         try {
             await navigator.clipboard.writeText(text);
-            pusfSuccessfulMessage();
+            pushSuccessfulMessage();
         } catch (error) {
             console.error(error);
             Toast.push("Failed to copy text");
@@ -30,7 +30,7 @@ const copy = async (text: string) => {
         const isSuccessful = document.execCommand("copy");
 
         isSuccessful
-            ? pusfSuccessfulMessage()
+            ? pushSuccessfulMessage()
             : Toast.push("Failed to copy text, try to launch the app under https");
 
         document.body.removeChild(textarea);
