@@ -71,7 +71,7 @@ const commonProps = {
     onThrottlingRemove: action("onThrottlingRemove"),
     onSetMaintenance: action("onSetMaintenance"),
     history,
-    deleteTrigger: (id: string) => action(`onTriggerDelete${id}`),
+    deleteTrigger: () => action("onTriggerDelete"),
 };
 
 export const Default = () => <TriggerInfo {...commonProps} />;
