@@ -34,7 +34,7 @@ const ContactsContainer: FC = () => {
         return contacts?.filter((contact) =>
             contact[filterColumn]?.toLowerCase().includes(findContact.toLowerCase().trim())
         );
-    }, [findContact, contacts]);
+    }, [findContact, contacts, filterColumn]);
 
     useEffect(() => {
         setDocumentTitle("Contacts");
