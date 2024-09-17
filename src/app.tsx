@@ -9,6 +9,7 @@ import SentryInitializer from "./Components/SentryInitializer/SentryInitializer"
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
 import { store } from "./store/store";
+import Favicon from "./Components/Favicon/Favicon";
 
 import "./style.less";
 
@@ -29,6 +30,7 @@ const render = (Component: ComponentType) => {
                 >
                     <Providers>
                         <SentryInitializer />
+                        <Favicon />
                         <Component />
                     </Providers>
                 </Sentry.ErrorBoundary>

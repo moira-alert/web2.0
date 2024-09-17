@@ -51,6 +51,7 @@
         "react-animate-height": "2.0.23",
         "react-chartjs-2": "5.2.0",
         "react-dom": "16.14.0",
+        "react-favicon": "2.0.7",
         "react-foco": "1.2.0",
         "react-hot-loader": "4.13.0",
         "react-markdown": "8.0.7",
