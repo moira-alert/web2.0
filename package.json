@@ -24,7 +24,7 @@
         "screenshots": "start-server-and-test storybook:ci http://localhost:9001 pw:screenshotTest"
     },
     "dependencies": {
-        "@clavinjune/codemirror-metricsql": "0.0.1-dev.1010230001",
+        "@skbkontur-moira/codemirror-metricsql": "0.0.1-dev.1809240003",
         "@lezer/highlight": "1.1.6",
         "@reduxjs/toolkit": "2.2.1",
         "@sentry/react": "7.81.1",

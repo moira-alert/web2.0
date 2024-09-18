@@ -9,7 +9,7 @@ import { invalidTokensHighlightExtension } from "./invalidTokensHighlightExtensi
 import TriggerSource, { TriggerTargetProblem } from "../../Domain/Trigger";
 import { formatQuery } from "./formatQuery";
 import { TargetQueryEntityColors } from "../../Domain/Target";
-import { PromQLExtension } from "@clavinjune/codemirror-metricsql";
+import { PromQLExtension } from "@skbkontur-moira/codemirror-metricsql";
 import { basicSetup, EditorView } from "codemirror";
 import { TransactionSpec, EditorSelection, EditorState } from "@codemirror/state";
 import classNames from "classnames/bind";
