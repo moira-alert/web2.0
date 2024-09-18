@@ -65,8 +65,8 @@ export const ContactApi = BaseApi.injectEndpoints({
             Array<IContactEvent>,
             CustomBaseQueryArgs<{
                 contactId: string;
-                from: number | string;
-                to: number | string;
+                from: number | string | null;
+                to: number | string | null;
             }>
         >({
             query: ({ contactId, from, to }) => ({

@@ -8,6 +8,8 @@ FROM nginx:alpine
 
 COPY --from=build-env /app/dist /usr/share/nginx/html
 COPY src/favicon.ico /usr/share/nginx/html
+COPY src/favicon-dev.ico /usr/share/nginx/html
+COPY src/favicon-staging.ico /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY pkg/nginx/locations /etc/nginx/conf.d/locations

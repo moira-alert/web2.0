@@ -8,6 +8,10 @@ import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import svgLogo from "./moira-logo.svg";
 import { AdminMenu } from "./Components/AdminMenu";
+import { useSelector } from "react-redux";
+import { selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
+import { useGetConfigQuery } from "../../services/BaseApi";
+import { Platform } from "../../Domain/Config";
 import classNames from "classnames/bind";
 
 import styles from "./Header.less";
@@ -15,8 +19,17 @@ import styles from "./Header.less";
 const cn = classNames.bind(styles);
 
 export default function Header(): React.ReactElement {
+    const platform = useSelector(selectPlatform);
+    const { isLoading } = useGetConfigQuery();
+
     return (
-        <header className={cn("header")}>
+        <header
+            className={cn("header", {
+                isLoading,
+                "dev-background": platform === Platform.DEV,
+                "staging-background": platform === Platform.STAGING,
+            })}
+        >
             <div className={cn("container")}>
                 <Link to={getPageLink("index")} className={cn("logo-link")}>
                     <img className={cn("logo-img")} src={svgLogo} alt="Moira" />

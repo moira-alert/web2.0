@@ -5,10 +5,10 @@ import MobileTriggerInfoPage from "../../Components/Mobile/MobileTriggerInfoPage
 export type TriggerMobileProps = {
     trigger?: Trigger;
     state?: TriggerState;
-    disableThrottling: (id: string) => void;
-    setTriggerMaintenance: (id: string, maintenance: number) => void;
-    setMetricMaintenance: (id: string, metric: string, maintenance: number) => void;
-    removeMetric: (id: string, metric: string) => void;
+    disableThrottling: () => void;
+    setTriggerMaintenance: (maintenance: number) => void;
+    setMetricMaintenance: (metric: string, maintenance: number) => void;
+    removeMetric: (metric: string) => void;
 };
 
 export default function TriggerMobile({
@@ -26,14 +26,10 @@ export default function TriggerMobile({
             data={trigger}
             triggerState={state}
             metrics={metrics}
-            onRemoveMetric={(metric) => removeMetric(trigger ? trigger.id : "", metric)}
-            onThrottlingRemove={() => disableThrottling(trigger ? trigger.id : "")}
-            onSetMetricMaintenance={(metric, maintenance) =>
-                setMetricMaintenance(trigger ? trigger.id : "", metric, maintenance)
-            }
-            onSetTriggerMaintenance={(maintenance) =>
-                setTriggerMaintenance(trigger ? trigger.id : "", maintenance)
-            }
+            onRemoveMetric={removeMetric}
+            onThrottlingRemove={disableThrottling}
+            onSetMetricMaintenance={setMetricMaintenance}
+            onSetTriggerMaintenance={setTriggerMaintenance}
         />
     );
 }

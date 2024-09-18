@@ -50,3 +50,8 @@ export const selectIsPlottingDefaultOn = createSelector(
     (config) =>
         !!config?.featureFlags.isPlottingDefaultOn && config.featureFlags.isPlottingAvailable
 );
+
+export const selectPlatform = createSelector(
+    (state: RootState) => state.ConfigReducer.config?.sentry?.platform,
+    (platform) => platform || null
+);
