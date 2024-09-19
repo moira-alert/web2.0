@@ -82,15 +82,6 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
                     {headerGroup.headers.map((header) => (
                         <div
                             key={header.id}
-                            onClick={() => {
-                                if (header.column.columnDef.id === contactsColumn) {
-                                    handleSetFilterContactsColumn(null);
-                                    return;
-                                }
-                                handleSetFilterContactsColumn(
-                                    header.column.columnDef.id as keyof Contact
-                                );
-                            }}
                             className={cn("header-cell", {
                                 active: contactsColumn === header.column.columnDef.id,
                             })}
@@ -98,9 +89,24 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
                                 flex: `1 1 ${header.getSize()}px`,
                             }}
                         >
-                            {header.isPlaceholder
-                                ? null
-                                : flexRender(header.column.columnDef.header, header.getContext())}
+                            <div
+                                onClick={() => {
+                                    if (header.column.columnDef.id === contactsColumn) {
+                                        handleSetFilterContactsColumn(null);
+                                        return;
+                                    }
+                                    handleSetFilterContactsColumn(
+                                        header.column.columnDef.id as keyof Contact
+                                    );
+                                }}
+                            >
+                                {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                          header.column.columnDef.header,
+                                          header.getContext()
+                                      )}
+                            </div>
 
                             {header.column.getCanResize() && (
                                 <div
