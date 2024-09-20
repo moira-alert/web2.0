@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.13.0] - 2024-09-20
+
+### Added
+
+* Increased contact events time range (7 days now instead of 2 before) (2024-09-17) (#533)
+* Trigger events filters (2024-09-12) (#532)
+* Subscription transfer (user->team) button (2024-08-29) (#528)
+
 ## [2.12.0] - 2024-07-26
 
 ### Added
