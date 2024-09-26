@@ -22,6 +22,8 @@ interface IDateAndTimeMenuProps {
     validateDateAndTime?: (inputValue: string) => Nullable<ValidationInfo>;
 }
 
+const dateInputMask = "9999/99/99 99:99:99";
+
 export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     date,
     setDate,
@@ -60,7 +62,7 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
                     >
                         <Input
                             width={160}
-                            mask={"9999/99/99 99:99:99"}
+                            mask={dateInputMask}
                             onFocus={closeMenu}
                             value={inputValue}
                             onValueChange={handleValueChange}

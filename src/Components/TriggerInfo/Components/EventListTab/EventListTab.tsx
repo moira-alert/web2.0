@@ -106,7 +106,7 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
                             <div style={{ paddingTop: 20 }}>
                                 <Paging
                                     caption="Next page"
-                                    activePage={page}
+                                    activePage={+page}
                                     pagesCount={pageCount}
                                     onPageChange={setPage}
                                     withoutNavigationHint

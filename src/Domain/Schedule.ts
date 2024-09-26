@@ -39,7 +39,7 @@ export function createSchedule(days: DaysOfWeek[]): Schedule {
     };
 }
 
-export const defaultSchedule = (schedule: Schedule | undefined): Schedule => {
+export const defaultSchedule = (schedule?: Schedule): Schedule => {
     const existingDays = schedule?.days?.map((day) => day.name) || [];
 
     return {
