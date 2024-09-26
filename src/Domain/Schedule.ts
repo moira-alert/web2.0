@@ -48,9 +48,9 @@ export const defaultSchedule = (schedule?: Schedule): Schedule => {
         tzOffset: schedule?.tzOffset || new Date().getTimezoneOffset(),
         days: WholeWeek.map((day) => ({
             name: day,
-            enabled: existingDays.includes(day)
-                ? schedule?.days.find((d) => d.name === day)?.enabled || false
-                : false,
+            enabled:
+                (schedule?.days.find((d) => d.name === day)?.enabled ?? false) &&
+                existingDays.includes(day),
         })),
     };
 };
