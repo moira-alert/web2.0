@@ -1890,19 +1890,6 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@clavinjune/codemirror-metricsql@0.0.1-dev.1010230001":
-  version "0.0.1-dev.1010230001"
-  resolved "https://registry.yarnpkg.com/@clavinjune/codemirror-metricsql/-/codemirror-metricsql-0.0.1-dev.1010230001.tgz#90cf8cbfbdbc483f4f6baebc613efba66f5dbde2"
-  integrity sha512-6T2lUwEWTzGS2M/OnVCFDI2gruKqLu0sUvIiJmuBslpFdN0EzoDQCfo89HLeWlSm9gV6xCYmjeC/QZI5dEOfPw==
-  dependencies:
-    "@clavinjune/lezer-metricsql" "0.0.1-dev.1010230001"
-    lru-cache "^7.18.3"
-
-"@clavinjune/lezer-metricsql@0.0.1-dev.1010230001":
-  version "0.0.1-dev.1010230001"
-  resolved "https://registry.yarnpkg.com/@clavinjune/lezer-metricsql/-/lezer-metricsql-0.0.1-dev.1010230001.tgz"
-  integrity sha512-AKjoo13dGao0gV/gBWiubICWHkT0JuRsFOcmkEdtK8IjaIICzOK50FOyQY2cmDPSa7WWhwUEKMErA+gNljL6qw==
-
 "@codemirror/autocomplete@^6.0.0":
   version "6.9.1"
   resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.9.1.tgz"
@@ -2770,6 +2757,19 @@
   integrity sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==
   dependencies:
     "@sinonjs/commons" "^3.0.0"
+
+"@skbkontur-moira/codemirror-metricsql@0.0.1-dev.1809240003":
+  version "0.0.1-dev.1809240003"
+  resolved "https://registry.yarnpkg.com/@skbkontur-moira/codemirror-metricsql/-/codemirror-metricsql-0.0.1-dev.1809240003.tgz#0dfb9bfb85a3f66c941b7562443dc3e59b54bbf8"
+  integrity sha512-z19Vx1pIoYjmkzvGs3E5FuxLTcl+8AKfF7Kff93qa8UWoMv65VSE36ZUQ8uwD0t/owhNwVQOVG893mVUZoQTwA==
+  dependencies:
+    "@skbkontur-moira/lezer-metricsql" "0.0.1-dev.1809240003"
+    lru-cache "^7.18.3"
+
+"@skbkontur-moira/lezer-metricsql@0.0.1-dev.1809240003":
+  version "0.0.1-dev.1809240003"
+  resolved "https://registry.yarnpkg.com/@skbkontur-moira/lezer-metricsql/-/lezer-metricsql-0.0.1-dev.1809240003.tgz#f5537ae75657621984d075b8b8f5e7eea07cc6d1"
+  integrity sha512-OKvGDY2VUGrSnxQlqvuOCrIxomviCDknLBSDnJOs4ej2SrSQXOFT0Y4bEJ7nmoOUMgCVPVCCpR47pXMJLHM3CQ==
 
 "@skbkontur/react-icons@5.2.9":
   version "5.2.9"
@@ -8978,7 +8978,7 @@ lru-cache@^6.0.0:
 
 lru-cache@^7.18.3:
   version "7.18.3"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.18.3.tgz"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.18.3.tgz#f793896e0fd0e954a59dfdd82f0773808df6aa89"
   integrity sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==
 
 "lru-cache@^9.1.1 || ^10.0.0":
@@ -11728,7 +11728,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -11745,15 +11745,6 @@ string-width@^3.0.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
 
 string-width@^5.0.1, string-width@^5.1.2:
   version "5.1.2"
@@ -13292,16 +13283,7 @@ workbox-window@7.1.0:
     "@types/trusted-types" "^2.0.2"
     workbox-core "7.1.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
