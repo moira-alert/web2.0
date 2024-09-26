@@ -34,6 +34,8 @@ const test = base.extend<{
     channelTypeEdited: string;
     channelAccountName: string;
     channelAccountNameEdited: string;
+    channelAccountNameWithAlias: string;
+    channelAlias: string;
     tag: string;
     triggerName: string;
     notificationsPage: NotificationsPage;
@@ -42,6 +44,8 @@ const test = base.extend<{
     channelTypeEdited: "Telegram",
     channelAccountName: "testmail@test.com",
     channelAccountNameEdited: "#testtelegramaccount",
+    channelAccountNameWithAlias: "channelNameWithAlias",
+    channelAlias: "channelAlias",
     triggerName: "notifications test trigger",
     tag: "testTag",
     notificationsPage: async ({ page }, use) => {
@@ -138,6 +142,43 @@ test("Edit existing delivery channel", async ({
     await expect(page.getByText(channelAccountNameEdited)).toBeVisible();
 });
 
+test("Add delivery channel with alias", async ({
+    channelType,
+    channelAccountNameWithAlias,
+    channelAlias,
+    page,
+    notificationsPage,
+}) => {
+    await notificationsPage.gotoNotificationsPage();
+    await notificationsPage.addDeliveryChannelButton.click();
+    await notificationsPage.modalSelectChannelTypeButton.click();
+    await page.getByRole("button", { name: `${channelType}` }).click();
+    await page
+        .locator("input:right-of(:text('Contact value:'))")
+        .first()
+        .fill(channelAccountNameWithAlias);
+    await page.locator("input:right-of(:text('Contact name:'))").first().fill(channelAlias);
+    await notificationsPage.modalActionDeliveryChannelButton("Add").click();
+    await expect(page.getByText(channelAlias)).toBeVisible();
+    await page.locator(`[data-tid='${channelAlias} alias icon']`).hover();
+    await expect(page.getByText(channelAccountNameWithAlias)).toBeVisible();
+});
+
+test("Add subscription with contact alias", async ({
+    channelAlias,
+    tag,
+    page,
+    notificationsPage,
+}) => {
+    await notificationsPage.gotoNotificationsPage();
+    await notificationsPage.addSubscriptionButton.click();
+    await notificationsPage.modalSelectDeliveryChannelButton.click();
+    await page.locator(`button:has-text("${channelAlias}")`).click();
+    await page.locator("[data-tid='Tag dropdown select']").click();
+    await page.locator(`[data-tid='Tag ${tag}']`).click();
+    await notificationsPage.modalActionDeliveryChannelButton("Add").click();
+});
+
 test("Add subscription", async ({ channelAccountNameEdited, tag, page, notificationsPage }) => {
     await notificationsPage.gotoNotificationsPage();
     await notificationsPage.addSubscriptionButton.click();
@@ -161,16 +202,34 @@ test("Can`t delete channel with active subscription", async ({
     await page.locator('button[aria-label="Close modal window"]').click();
 });
 
-test("Delete subscription", async ({ channelAccountNameEdited, page, notificationsPage }) => {
+test("Delete subscriptions", async ({
+    channelAlias,
+    channelAccountNameEdited,
+    page,
+    notificationsPage,
+}) => {
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).nth(1).click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
     await expect(page.getByText(channelAccountNameEdited).nth(1)).not.toBeVisible();
+
+    await page.getByText(channelAlias).nth(1).click();
+    await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
+    await expect(page.getByText(channelAlias).nth(1)).not.toBeVisible();
 });
 
-test("Delete delivery channel", async ({ channelAccountNameEdited, page, notificationsPage }) => {
+test("Delete delivery channels", async ({
+    channelAlias,
+    channelAccountNameEdited,
+    page,
+    notificationsPage,
+}) => {
     await notificationsPage.gotoNotificationsPage();
     await page.getByText(channelAccountNameEdited).first().click();
     await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
     await expect(page.getByText(channelAccountNameEdited)).not.toBeVisible();
+
+    await page.getByText(channelAlias).first().click();
+    await notificationsPage.modalActionDeliveryChannelButton("Delete").click();
+    await expect(page.getByText(channelAlias)).not.toBeVisible();
 });
