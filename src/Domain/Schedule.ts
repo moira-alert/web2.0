@@ -39,13 +39,18 @@ export function createSchedule(days: DaysOfWeek[]): Schedule {
     };
 }
 
-export const defaultSchedule = (schedule: Schedule | undefined) => {
+export const defaultSchedule = (schedule?: Schedule): Schedule => {
+    const existingDays = schedule?.days?.map((day) => day.name) || [];
+
     return {
         startOffset: schedule?.startOffset || 0,
         endOffset: schedule?.endOffset || 1439,
         tzOffset: schedule?.tzOffset || new Date().getTimezoneOffset(),
-        days:
-            schedule?.days ||
-            Object.values(DaysOfWeek).map((day) => ({ name: day, enabled: false })),
+        days: WholeWeek.map((day) => ({
+            name: day,
+            enabled:
+                (schedule?.days.find((d) => d.name === day)?.enabled ?? false) &&
+                existingDays.includes(day),
+        })),
     };
 };

@@ -22,6 +22,8 @@ interface IDateAndTimeMenuProps {
     validateDateAndTime?: (inputValue: string) => Nullable<ValidationInfo>;
 }
 
+const dateInputMask = "9999/99/99 99:99:99";
+
 export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     date,
     setDate,
@@ -54,18 +56,20 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     return (
         <RenderLayer onClickOutside={closeMenu} onFocusOutside={closeMenu} active={isMenuOpen}>
             <div ref={containerEl}>
-                <ValidationWrapperV1
-                    validationInfo={validateDateAndTime && validateDateAndTime(inputValue)}
-                >
-                    <Input
-                        width={160}
-                        mask={"9999/99/99 99:99:99"}
-                        onFocus={closeMenu}
-                        value={inputValue}
-                        onValueChange={handleValueChange}
-                    />
-                </ValidationWrapperV1>
-                <CalendarIcon className={cn("calendar-icon")} onClick={openMenu} />
+                <div className={cn("input-container")}>
+                    <ValidationWrapperV1
+                        validationInfo={validateDateAndTime && validateDateAndTime(inputValue)}
+                    >
+                        <Input
+                            width={160}
+                            mask={dateInputMask}
+                            onFocus={closeMenu}
+                            value={inputValue}
+                            onValueChange={handleValueChange}
+                        />
+                    </ValidationWrapperV1>
+                    <CalendarIcon className={cn("calendar-icon")} onClick={openMenu} />
+                </div>
                 {isMenuOpen && (
                     <DropdownContainer
                         offsetY={5}

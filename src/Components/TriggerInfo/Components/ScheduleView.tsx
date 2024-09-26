@@ -1,11 +1,12 @@
 import React from "react";
-import { Schedule } from "../../../Domain/Schedule";
+import { defaultSchedule, Schedule } from "../../../Domain/Schedule";
 import { format, addMinutes, startOfDay } from "date-fns";
 import { getUTCDate } from "../../../helpers/DateUtil";
 
 export function ScheduleView(props: { data: Schedule }): React.ReactElement {
     const { data } = props;
-    const { days, startOffset, endOffset, tzOffset } = data;
+    const { startOffset, endOffset, tzOffset } = data;
+    const { days } = defaultSchedule(data);
 
     const startTime = format(addMinutes(startOfDay(getUTCDate()), startOffset), "HH:mm");
 
