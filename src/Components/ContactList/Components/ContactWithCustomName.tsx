@@ -15,7 +15,10 @@ export const ContactWithCustomName: FC<IContactWithCustomNameProps> = ({
         <>
             {contactName}&nbsp;
             <Tooltip render={() => `Contact value: ${contactValue}`}>
-                <Info style={{ verticalAlign: "text-top" }} />
+                <Info
+                    data-tid={`${contactName} alias icon`}
+                    style={{ verticalAlign: "text-top" }}
+                />
             </Tooltip>
         </>
     );
