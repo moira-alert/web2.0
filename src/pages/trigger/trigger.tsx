@@ -54,8 +54,12 @@ const TriggerPage: React.FC<TriggerProps> = ({ view: TriggerView }) => {
     const handleRemoveNoDataMetric = async () => await deleteNoDataMetrics(triggerId);
 
     const handleDeleteTrigger = async () => {
-        await deleteTrigger(triggerId);
-        history.push(getPageLink("index"));
+        try {
+            await deleteTrigger(triggerId).unwrap();
+            history.push(getPageLink("index"));
+        } catch {
+            return;
+        }
     };
 
     useEffect(() => {
