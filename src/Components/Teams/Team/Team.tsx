@@ -31,7 +31,7 @@ export function Team({ team }: ITeamProps): ReactElement {
     return (
         <>
             <Hovered>
-                <Flexbox align="center" direction="row" gap={8}>
+                <Flexbox align="baseline" direction="row" gap={8}>
                     <h2>{team.name}</h2>
                     <HoveredShow>
                         <Confirm
