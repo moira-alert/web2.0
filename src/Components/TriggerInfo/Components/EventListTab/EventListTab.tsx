@@ -2,7 +2,7 @@ import React, { FC, useMemo, useRef } from "react";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import EventList from "../../../EventList/EventList";
 import { useDebounce } from "../../../../hooks/useDebounce";
-import { Input } from "@skbkontur/react-ui/components/Input";
+import { SearchInput } from "../SearchInput/SearchInput";
 import { FilterStatusSelect } from "../../../FilterStatusSelect/FilterStatusSelect";
 import { DateAndTimeMenu } from "../../../DateAndTimeMenu/DateAndTimeMenu";
 import { getUnixTime, isAfter } from "date-fns";
@@ -10,8 +10,6 @@ import { useGetTriggerEventsQuery } from "../../../../services/TriggerApi";
 import { Status, StatusesList } from "../../../../Domain/Status";
 import transformPageFromHumanToProgrammer from "../../../../logic/transformPageFromHumanToProgrammer";
 import { useParams } from "react-router";
-import { Center } from "@skbkontur/react-ui/components/Center";
-import { Search } from "@skbkontur/react-icons";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { validateTriggerEventsDateFilters } from "../../../../helpers/validations";
@@ -20,6 +18,8 @@ import { useQueryState } from "../../../../hooks/useQueryState";
 import { useDateQueryState } from "../../../../hooks/useDateQueryState";
 import { useAppDispatch } from "../../../../store/hooks";
 import { setError } from "../../../../store/Reducers/UIReducer.slice";
+import { Flexbox } from "../../../Flexbox/FlexBox";
+import { EmptyListText } from "../EmptyListMessage/EmptyListText";
 import classNames from "classnames/bind";
 
 import styles from "./EventListTab.less";
@@ -60,14 +60,14 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
     const grouppedEvents = useMemo(() => composeEvents(events?.list || [], triggerName), [events]);
     const pageCount = Math.ceil((events?.total ?? 0) / (events?.size ?? 1));
     return (
-        <>
-            <div className={cn("filter-buttons")}>
-                <Input
+        <Flexbox margin="28px 0 0 0" gap={28}>
+            <Flexbox direction="row" justify="space-between">
+                <SearchInput
+                    placeholder="Filter by metric name, regExp is supported"
                     width={340}
-                    rightIcon={Search}
                     value={searchMetric}
                     onValueChange={handleInputValueChange}
-                    placeholder="Filter by metric name, regExp is supported"
+                    onClear={() => setSearchMetric("")}
                 />
                 <FilterStatusSelect
                     availableStatuses={StatusesList.filter((x) => x !== Status.DEL)}
@@ -97,7 +97,7 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
                         />
                     </div>
                 </ValidationContainer>
-            </div>
+            </Flexbox>
             <Loader active={isLoading || isFetching}>
                 {events?.list.length !== 0 ? (
                     <>
@@ -115,13 +115,9 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
                         )}
                     </>
                 ) : (
-                    <Center>
-                        <span style={{ color: "#888888" }}>
-                            There is no events evaluated for this trigger.
-                        </span>
-                    </Center>
+                    <EmptyListText text={"There is no events evaluated for this trigger."} />
                 )}
             </Loader>
-        </>
+        </Flexbox>
     );
 };

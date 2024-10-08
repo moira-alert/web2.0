@@ -1,8 +1,9 @@
 import { Team } from "../../../Domain/Team";
 import React, { useState, useRef, FC } from "react";
 import { ValidationContainer, ValidationWrapper } from "@skbkontur/react-ui-validations";
-import { Button, Gapped, Input, Modal, Textarea } from "@skbkontur/react-ui";
+import { Button, Input, Modal, Textarea } from "@skbkontur/react-ui";
 import { Grid } from "../../Grid/Grid";
+import { Flexbox } from "../../Flexbox/FlexBox";
 import { GridCell } from "../../Grid/GridCell";
 import { Markdown } from "../../Markdown/Markdown";
 import { useEditPreviewTabs } from "../../../hooks/useEditPreviewTabs/useEditPreviewTabs";
@@ -80,7 +81,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
                 </Modal.Body>
                 <Modal.Footer>
                     <ModalError message={error} maxWidth="532px" />
-                    <Gapped gap={8}>
+                    <Flexbox direction="row" gap={8}>
                         {team ? (
                             <Button
                                 data-tid="Save team"
@@ -105,7 +106,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
                             </Button>
                         )}
                         <Button onClick={onClose}>Cancel</Button>
-                    </Gapped>
+                    </Flexbox>
                 </Modal.Footer>
             </Modal>
         </ValidationContainer>

@@ -26,7 +26,7 @@ import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
-import { Gapped, Hint, DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
+import { Hint, DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
@@ -37,6 +37,7 @@ import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
 import useConfirmModal from "../../hooks/useConfirmModal";
 import { useHistory } from "react-router";
+import { Flexbox } from "../Flexbox/FlexBox";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -219,7 +220,7 @@ export default function TriggerInfo({
                             {triggerSourceDescription(triggerSource)}
                         </dt>
                         <dd className={cn("codeEditor")}>
-                            <Gapped vertical gap={10}>
+                            <Flexbox gap={10}>
                                 {targets.map((target, i) => (
                                     <div key={target}>
                                         <div className={cn("copyButtonWrapper")}>
@@ -239,7 +240,7 @@ export default function TriggerInfo({
                                         />
                                     </div>
                                 ))}
-                            </Gapped>
+                            </Flexbox>
                         </dd>
                         {desc && <dt>Description</dt>}
                         {desc && (

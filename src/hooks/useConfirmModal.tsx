@@ -1,6 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { ButtonUse } from "@skbkontur/react-ui";
-import { Button, Gapped, Modal } from "@skbkontur/react-ui";
+import { Button, Modal } from "@skbkontur/react-ui";
+import { Flexbox } from "../Components/Flexbox/FlexBox";
 
 type TModalButton = {
     text: string;
@@ -28,7 +29,7 @@ const useConfirmModal = (): UseConfirmModalReturn => {
             <Modal.Header>{modalData.header}</Modal.Header>
             <Modal.Body>{modalData.body}</Modal.Body>
             <Modal.Footer>
-                <Gapped gap={8}>
+                <Flexbox direction="row" gap={8}>
                     <Button onClick={() => setModalData({ isOpen: false })} use="primary">
                         Cancel
                     </Button>
@@ -40,7 +41,7 @@ const useConfirmModal = (): UseConfirmModalReturn => {
                             {modalData.button.text}
                         </Button>
                     )}
-                </Gapped>
+                </Flexbox>
             </Modal.Footer>
         </Modal>
     ) : null;

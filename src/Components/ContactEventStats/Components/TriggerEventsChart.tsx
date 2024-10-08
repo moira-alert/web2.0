@@ -6,6 +6,7 @@ import { IContactEvent } from "../../../Domain/Contact";
 import { getColor } from "../../Tag/Tag";
 import { createHtmlLegendPlugin } from "./htmlLegendPlugin";
 import { triggerEventsChartOptions } from "../../../helpers/getChartOptions";
+import { Flexbox } from "../../Flexbox/FlexBox";
 
 ChartJS.register(...registerables);
 
@@ -39,16 +40,14 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
     };
 
     return (
-        <>
-            <span style={{ fontSize: "18px", marginBottom: "10px", display: "inline-block" }}>
-                Grouped by trigger
-            </span>
+        <Flexbox gap={10}>
+            <span style={{ fontSize: "18px", display: "inline-block" }}>Grouped by trigger</span>
             <div id="trigger-events-legend-container" />
             <Bar
                 data={data}
                 plugins={[createHtmlLegendPlugin(true)]}
                 options={triggerEventsChartOptions as ChartOptions<"bar">}
             />
-        </>
+        </Flexbox>
     );
 };

@@ -1,6 +1,7 @@
 import React, { ReactElement, ReactNode, useState } from "react";
-import { Button, Gapped, Tooltip } from "@skbkontur/react-ui";
+import { Button, Tooltip } from "@skbkontur/react-ui";
 import { Grid } from "../Grid/Grid";
+import { Flexbox } from "../Flexbox/FlexBox";
 
 interface ConfirmProps {
     message: string;
@@ -27,7 +28,7 @@ export function Confirm({ message, action, children, loading }: ConfirmProps): R
             render={() => (
                 <Grid columns={"320px"} gap="16px 8px">
                     {message}
-                    <Gapped>
+                    <Flexbox direction="row" gap={8}>
                         <Button
                             loading={loading}
                             onClick={handleConfirm}
@@ -37,7 +38,7 @@ export function Confirm({ message, action, children, loading }: ConfirmProps): R
                             Confirm
                         </Button>
                         <Button onClick={() => setOpened(false)}>Cancel</Button>
-                    </Gapped>
+                    </Flexbox>
                 </Grid>
             )}
         >

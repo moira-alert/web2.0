@@ -1,11 +1,12 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { Button, Gapped, Input, Modal } from "@skbkontur/react-ui";
+import { Button, Input, Modal } from "@skbkontur/react-ui";
 import { Grid } from "../Grid/Grid";
 import { ValidationContainer, ValidationWrapper } from "@skbkontur/react-ui-validations";
 import { Team } from "../../Domain/Team";
 import ModalError from "../ModalError/ModalError";
 import { useAddUserToTeam } from "../../hooks/useAddUserToTeam";
 import { validateRequiredString } from "../TriggerEditForm/Validations/validations";
+import { Flexbox } from "../Flexbox/FlexBox";
 
 interface AddUserProps {
     team: Team;
@@ -44,7 +45,7 @@ export function AddUserToTeam({ team, onClose }: AddUserProps): ReactElement {
                 </Modal.Body>
                 <Modal.Footer>
                     <ModalError message={error as string} maxWidth="376px" />
-                    <Gapped gap={8}>
+                    <Flexbox direction="row" gap={8}>
                         <Button
                             data-tid="Add user modal"
                             use={"primary"}
@@ -55,7 +56,7 @@ export function AddUserToTeam({ team, onClose }: AddUserProps): ReactElement {
                             Add User
                         </Button>
                         <Button onClick={onClose}>Cancel</Button>
-                    </Gapped>
+                    </Flexbox>
                 </Modal.Footer>
             </Modal>
         </ValidationContainer>

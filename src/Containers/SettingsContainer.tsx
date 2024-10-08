@@ -5,7 +5,6 @@ import ContactList from "../Components/ContactList/ContactList";
 import { SubscriptionListContainer } from "./SubscriptionListContainer/SubscriptionListContainer";
 import { Team } from "../Domain/Team";
 import { Fill, RowStack } from "@skbkontur/react-stack-layout";
-import { Gapped } from "@skbkontur/react-ui";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 import { useLoadSettingsData } from "../hooks/useLoadSettingsData";
@@ -16,6 +15,7 @@ import RouterLink from "../Components/RouterLink/RouterLink";
 import { EUserRoles } from "../Domain/User";
 import { RouteComponentProps } from "react-router";
 import { MessageWrapper } from "../Components/MessageWrapper/MesaageWrapper";
+import { Flexbox } from "../Components/Flexbox/FlexBox";
 
 export interface ISettingsContainerProps extends RouteComponentProps {
     isTeamMember?: boolean;
@@ -52,7 +52,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                             message="This is not your team, be careful with actions"
                         >
                             Current User: {login}
-                            <Gapped gap={4}>
+                            <Flexbox align="baseline" direction="row" gap={4}>
                                 <span>Shown for {team ? "team" : "user"}</span>
                                 {isAdminLink ? (
                                     <RouterLink to={getPageLink("team", team.id)}>
@@ -68,7 +68,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                                         onValueChange={handleChangeTeam}
                                     />
                                 )}
-                            </Gapped>
+                            </Flexbox>
                         </MessageWrapper>
                     </Grid>
                 </RowStack>

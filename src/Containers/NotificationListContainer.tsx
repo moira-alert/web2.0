@@ -1,6 +1,6 @@
 import React, { useEffect, FC } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { Gapped } from "@skbkontur/react-ui/components/Gapped";
+import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import MoiraApi from "../Api/MoiraApi";
@@ -108,7 +108,7 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
             <LayoutContent>
                 <LayoutTitle>{layoutTitle}</LayoutTitle>
                 {ConfirmModal}
-                <Gapped gap={30}>
+                <Flexbox align="baseline" direction="row" gap={30}>
                     <Toggle
                         checked={notifierEnabled}
                         onValueChange={(value) =>
@@ -124,7 +124,7 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
                     >
                         Remove all
                     </Button>
-                </Gapped>
+                </Flexbox>
                 <br />
                 {notificationList && (
                     <NotificationList
