@@ -12,8 +12,8 @@ export const formatQuery = (input: string | Iterable<string>) => {
         } else if (token.value === "|") {
             output += token.value + "\n";
         } else if (token.value === ")" || token.value === "}") {
-            output = output.trimEnd() + "\n" + "  ".repeat(indentLevel - 1) + token.value;
-            indentLevel--;
+            indentLevel = Math.max(indentLevel - 1, 0); // Prevent negative indentLevel
+            output = output.trimEnd() + "\n" + "  ".repeat(indentLevel) + token.value;
         } else if (token.value === ",") {
             output += token.value + "\n" + "  ".repeat(indentLevel);
         } else if (token.type === "empty") {
