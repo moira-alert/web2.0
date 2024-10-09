@@ -27,7 +27,7 @@ export const Flexbox = ({
     className,
     onClick,
 }: IProps) => {
-    const SpaceStyles: CSSProperties = {
+    const FlexboxStyles: CSSProperties = {
         display: "flex",
         gap,
         width: typeof width === "number" ? width + "px" : width,
@@ -39,7 +39,7 @@ export const Flexbox = ({
     };
 
     return (
-        <div style={{ ...SpaceStyles, ...style }} className={className} onClick={onClick}>
+        <div style={{ ...FlexboxStyles, ...style }} className={className} onClick={onClick}>
             {children}
         </div>
     );
