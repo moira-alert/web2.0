@@ -1,11 +1,3 @@
-import { registerRoute } from "workbox-routing";
-import { NetworkOnly } from "workbox-strategies";
-
-registerRoute(({ url }) => {
-    console.log(url.search.includes("oauth"));
-    return url.search.includes("oauth");
-}, new NetworkOnly());
-
 export function register(onUpdate: () => void) {
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {

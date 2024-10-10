@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
 const TerserPlugin = require("terser-webpack-plugin");
 const { GenerateSW } = require("workbox-webpack-plugin");
+
 const supportedLocales = ["en"];
 
 const isDev = process.argv.includes("--mode=development");
@@ -21,18 +22,31 @@ module.exports = {
         clean: true,
     },
     plugins: [
-        isDev
-            ? new GenerateSW({
-                  //https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin#type-GenerateSW
-                  // default maximum size is 3mb while our main chunk is 4mb
-                  // that's why size is sincreased to 6mb
-                  maximumFileSizeToCacheInBytes: 6291456,
-                  cleanupOutdatedCaches: true,
-                  clientsClaim: true,
-                  sourcemap: false,
-                  skipWaiting: true,
-              })
-            : [],
+        !isDev &&
+            new GenerateSW({
+                //https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin#type-GenerateSW
+                // default maximum size is 3mb while our main chunk is 4mb
+                // that's why size is sincreased to 6mb
+                maximumFileSizeToCacheInBytes: 6291456,
+                cleanupOutdatedCaches: true,
+                clientsClaim: true,
+                sourcemap: false,
+                skipWaiting: true,
+                exclude: [/index\.html$/, /.*oauth.*/, /\.map$/],
+                runtimeCaching: [
+                    {
+                        urlPattern: ({ request }) =>
+                            (request.mode === "navigate" ||
+                                request.headers.get("accept")?.includes("text/html")) &&
+                            !request.url.includes("oauth"),
+
+                        handler: "NetworkFirst",
+                        options: {
+                            cacheName: "html-pages",
+                        },
+                    },
+                ],
+            }),
         new ContextReplacementPlugin(
             /date-fns[\/\\]/,
             new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
