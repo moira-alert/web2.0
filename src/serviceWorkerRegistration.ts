@@ -1,5 +1,6 @@
 interface CustomFetchEvent extends Event {
     request: Request;
+    respondWith(response: Promise<Response> | Response): void;
 }
 
 export function register(onUpdate: () => void) {
@@ -9,8 +10,8 @@ export function register(onUpdate: () => void) {
             const fetchEvent = event as CustomFetchEvent;
             if (fetchEvent.request && fetchEvent.request.url) {
                 const url = fetchEvent.request.url;
-                if (url.includes("/oauth2") || url.includes("/auth")) {
-                    fetchEvent.stopImmediatePropagation();
+                if (url.includes("/oauth2") || url.includes("/api")) {
+                    fetchEvent.respondWith(fetch(fetchEvent.request));
                 }
             }
         });
