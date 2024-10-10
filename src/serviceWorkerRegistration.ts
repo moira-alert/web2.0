@@ -1,15 +1,23 @@
-import { registerRoute } from "workbox-routing";
-import { NetworkOnly } from "workbox-strategies";
-
-registerRoute(({ sameOrigin }) => {
-    return !sameOrigin;
-}, new NetworkOnly());
+interface CustomFetchEvent extends Event {
+    request: Request;
+}
 
 export function register(onUpdate: () => void) {
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {
             try {
                 const registration = await navigator.serviceWorker.register("/service-worker.js");
+
+                self.addEventListener("fetch", (event: Event) => {
+                    const fetchEvent = event as CustomFetchEvent;
+                    if (fetchEvent.request && fetchEvent.request.url) {
+                        const url = fetchEvent.request.url;
+                        if (url.includes("/oauth") || url.includes("/auth")) {
+                            fetchEvent.stopImmediatePropagation();
+                            return;
+                        }
+                    }
+                });
 
                 setInterval(async () => {
                     try {
