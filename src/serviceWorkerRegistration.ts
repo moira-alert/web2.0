@@ -8,13 +8,13 @@ export function register(onUpdate: () => void) {
             try {
                 const registration = await navigator.serviceWorker.register("/service-worker.js");
 
+                // excluding auth api calls from sw handling
                 self.addEventListener("fetch", (event: Event) => {
                     const fetchEvent = event as CustomFetchEvent;
                     if (fetchEvent.request && fetchEvent.request.url) {
                         const url = fetchEvent.request.url;
                         if (url.includes("/oauth") || url.includes("/auth")) {
                             fetchEvent.stopImmediatePropagation();
-                            return;
                         }
                     }
                 });
