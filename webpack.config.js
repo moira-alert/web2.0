@@ -32,7 +32,7 @@ module.exports = {
                   sourcemap: false,
                   skipWaiting: true,
               })
-            : [],
+            : null,
         new ContextReplacementPlugin(
             /date-fns[\/\\]/,
             new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]`)
