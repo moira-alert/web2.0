@@ -13,7 +13,7 @@ export function register(onUpdate: () => void) {
                     const fetchEvent = event as CustomFetchEvent;
                     if (fetchEvent.request && fetchEvent.request.url) {
                         const url = fetchEvent.request.url;
-                        if (url.includes("/oauth") || url.includes("/auth")) {
+                        if (url.includes("auth")) {
                             fetchEvent.stopImmediatePropagation();
                         }
                     }
