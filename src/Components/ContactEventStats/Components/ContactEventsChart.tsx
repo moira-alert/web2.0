@@ -11,6 +11,7 @@ import { createHtmlLegendPlugin } from "./htmlLegendPlugin";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { getContactEventsChartOptions } from "../../../helpers/getChartOptions";
+import { Flexbox } from "../../Flexbox/FlexBox";
 
 ChartJS.register(...registerables);
 
@@ -45,15 +46,8 @@ export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ even
     }, [events, interval]);
 
     return (
-        <div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "10px",
-                    alignItems: "baseline",
-                }}
-            >
+        <Flexbox gap={10}>
+            <Flexbox direction="row" justify="space-between" align="baseline">
                 <span style={{ fontSize: "18px" }}>Trigger transitions</span>
                 <span>
                     <label>Select Interval </label>
@@ -63,13 +57,13 @@ export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ even
                         items={Object.values(EContactEventsInterval)}
                     />
                 </span>
-            </div>
+            </Flexbox>
             <div id="contact-events-legend-container" />
             <Bar
                 plugins={[createHtmlLegendPlugin(false), zoomPlugin]}
                 data={{ labels, datasets }}
                 options={getContactEventsChartOptions(interval) as ChartOptions<"bar">}
             />
-        </div>
+        </Flexbox>
     );
 };

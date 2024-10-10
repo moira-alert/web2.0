@@ -3,7 +3,7 @@ import { format, fromUnixTime } from "date-fns";
 import OkIcon from "@skbkontur/react-icons/Ok";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import { Gapped } from "@skbkontur/react-ui/components/Gapped";
+import { Flexbox } from "../Flexbox/FlexBox";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import uniq from "lodash/uniq";
@@ -53,7 +53,7 @@ export default function NotificationList(props: Props): React.ReactElement {
     ) : (
         <>
             {ConfirmModal}
-            <Gapped gap={30} vertical>
+            <Flexbox gap={30}>
                 <div className={cn("row", "italic-font")}>
                     <div className={cn("timestamp")}>Timestamp</div>
                     <div className={cn("state")}>State</div>
@@ -132,7 +132,7 @@ export default function NotificationList(props: Props): React.ReactElement {
                         </div>
                     );
                 })}
-            </Gapped>
+            </Flexbox>
         </>
     );
 }

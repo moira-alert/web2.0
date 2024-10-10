@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { Button, Gapped } from "@skbkontur/react-ui";
+import { Button } from "@skbkontur/react-ui";
+import { Flexbox } from "../../Flexbox/FlexBox";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import { Team } from "../../../Domain/Team";
@@ -30,7 +31,7 @@ export function Team({ team }: ITeamProps): ReactElement {
     return (
         <>
             <Hovered>
-                <Gapped gap={8}>
+                <Flexbox align="baseline" direction="row" gap={8}>
                     <h2>{team.name}</h2>
                     <HoveredShow>
                         <Confirm
@@ -45,7 +46,7 @@ export function Team({ team }: ITeamProps): ReactElement {
                             />
                         </Confirm>
                     </HoveredShow>
-                </Gapped>
+                </Flexbox>
             </Hovered>
 
             {team.description && (

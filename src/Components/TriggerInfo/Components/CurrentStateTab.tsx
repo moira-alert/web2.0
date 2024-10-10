@@ -3,7 +3,9 @@ import MetricList, { SortingColumn } from "../../MetricList/MetricList";
 import { sortMetrics } from "../../../helpers/sort-metrics";
 import { MetricItemList } from "../../../Domain/Metric";
 import { Status } from "../../../Domain/Status";
-import { Center } from "@skbkontur/react-ui/components/Center";
+import { SearchInput } from "./SearchInput/SearchInput";
+import { Flexbox } from "../../Flexbox/FlexBox";
+import { EmptyListText } from "./EmptyListMessage/EmptyListText";
 
 interface ICurrentStateTabProps {
     metrics: MetricItemList;
@@ -20,8 +22,7 @@ export const CurrentStateTab: FC<ICurrentStateTabProps> = ({
 }) => {
     const [sortingColumn, setSortingColumn] = useState<SortingColumn>("event");
     const [sortingDown, setSortingDown] = useState(false);
-
-    const isMetrics = useMemo(() => metrics && Object.keys(metrics).length > 0, [metrics]);
+    const [searchValue, setSearchValue] = useState<string>("");
 
     const noDataMetricCount = useMemo(
         () => Object.keys(metrics).filter((key) => metrics[key].state === Status.NODATA).length,
@@ -40,25 +41,63 @@ export const CurrentStateTab: FC<ICurrentStateTabProps> = ({
         [sortingColumn, sortingDown]
     );
 
-    return isMetrics ? (
-        <MetricList
-            status
-            items={sortMetrics(metrics, sortingColumn, sortingDown)}
-            onSort={handleSort}
-            sortingColumn={sortingColumn}
-            sortingDown={sortingDown}
-            onChange={(metric, maintenance) => {
-                setMetricMaintenance(metric, maintenance);
-            }}
-            onRemove={(metric) => removeMetric(metric)}
-            noDataMetricCount={noDataMetricCount}
-            onNoDataRemove={removeNoDataMetric}
-        />
-    ) : (
-        <Center>
-            <span style={{ color: "#888888" }}>
-                There is no metrics evaluated for this trigger.
-            </span>
-        </Center>
+    const handleInputValueChange = (value: string) => {
+        setSearchValue(value);
+    };
+
+    const sortedMetrics = useMemo(() => sortMetrics(metrics, sortingColumn, sortingDown), [
+        metrics,
+        sortingColumn,
+        sortingDown,
+    ]);
+
+    const filteredMetrics = useMemo(() => {
+        if (!searchValue.trim()) {
+            return sortedMetrics;
+        }
+
+        const lowercasedSearchValue = searchValue.toLowerCase().trim();
+
+        const result: MetricItemList = {};
+
+        for (const metricName in sortedMetrics) {
+            if (metricName.toLowerCase().includes(lowercasedSearchValue)) {
+                result[metricName] = sortedMetrics[metricName];
+            }
+        }
+        return result;
+    }, [sortedMetrics, searchValue]);
+
+    const isMetrics = useMemo(() => filteredMetrics && Object.keys(filteredMetrics).length > 0, [
+        filteredMetrics,
+    ]);
+
+    return (
+        <Flexbox margin="28px 0 0 0" gap={28}>
+            <SearchInput
+                value={searchValue}
+                width={"100%"}
+                placeholder="Filter by metric name"
+                onValueChange={handleInputValueChange}
+                onClear={() => setSearchValue("")}
+            />
+            {isMetrics ? (
+                <MetricList
+                    status
+                    items={filteredMetrics}
+                    onSort={handleSort}
+                    sortingColumn={sortingColumn}
+                    sortingDown={sortingDown}
+                    onChange={(metric, maintenance) => {
+                        setMetricMaintenance(metric, maintenance);
+                    }}
+                    onRemove={(metric) => removeMetric(metric)}
+                    noDataMetricCount={noDataMetricCount}
+                    onNoDataRemove={removeNoDataMetric}
+                />
+            ) : (
+                <EmptyListText text={"There is no metrics evaluated for this trigger."} />
+            )}
+        </Flexbox>
     );
 };

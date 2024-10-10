@@ -5,7 +5,7 @@ import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
 import { Contact, ContactTypes } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Markdown } from "../Markdown/Markdown";
-import { Gapped } from "@skbkontur/react-ui";
+import { Flexbox } from "../Flexbox/FlexBox";
 import { Fill, Fixed, RowStack } from "@skbkontur/react-stack-layout";
 import { isEmptyString } from "../../helpers/isEmptyString";
 import { validateContactValueWithConfigRegExp } from "../../helpers/validations";
@@ -42,7 +42,7 @@ const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChang
     }, []);
 
     return (
-        <Gapped vertical gap={10}>
+        <Flexbox gap={10}>
             <Select<string, string>
                 placeholder="Select channel type"
                 width="100%"
@@ -89,7 +89,7 @@ const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChang
             {currentContactConfig?.help && (
                 <Markdown markdown={currentContactConfig.help} className={cn("row", "comment")} />
             )}
-        </Gapped>
+        </Flexbox>
     );
 };
 

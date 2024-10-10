@@ -1,5 +1,6 @@
-import { Button, Gapped, Modal } from "@skbkontur/react-ui";
 import React from "react";
+import { Flexbox } from "../Flexbox/FlexBox";
+import { Button, Modal } from "@skbkontur/react-ui";
 
 export function TriggerSaveWarningModal({
     isOpen,
@@ -19,12 +20,12 @@ export function TriggerSaveWarningModal({
                     unwanted side effects. Are you sure you want to save this trigger?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Gapped gap={8}>
+                    <Flexbox direction="row" gap={8}>
                         <Button onClick={onClose}>Cancel</Button>
                         <Button onClick={onSave} use="primary">
                             Save
                         </Button>
-                    </Gapped>
+                    </Flexbox>
                 </Modal.Footer>
             </Modal>
         )) ||

@@ -1,12 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useLazyGetContactEventsQuery } from "../../services/ContactApi";
-import {
-    Gapped,
-    SidePage,
-    SidePageBody,
-    SidePageContainer,
-    SidePageHeader,
-} from "@skbkontur/react-ui";
+import { SidePage, SidePageBody, SidePageContainer, SidePageHeader } from "@skbkontur/react-ui";
 import { TriggerEventsChart } from "./Components/TriggerEventsChart";
 import { ContactEventsChart } from "./Components/ContactEventsChart";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
@@ -17,6 +11,7 @@ import { UIState } from "../../store/selectors";
 import { getUnixTime, subDays } from "date-fns";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { validateDateAndTime, validateForm } from "../../helpers/validations";
+import { Flexbox } from "../Flexbox/FlexBox";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEventStats.less";
@@ -118,10 +113,10 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
                     {isLoading || isFetching ? (
                         <Spinner className={cn("empty-container")} />
                     ) : contactEvents?.length ? (
-                        <Gapped vertical gap={50}>
+                        <Flexbox gap={50}>
                             <TriggerEventsChart events={contactEvents} />
                             <ContactEventsChart events={contactEvents} />
-                        </Gapped>
+                        </Flexbox>
                     ) : (
                         <div className={cn("empty-container")}>No events found</div>
                     )}
