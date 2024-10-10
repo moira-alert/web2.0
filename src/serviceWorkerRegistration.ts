@@ -1,12 +1,21 @@
-import { registerRoute } from "workbox-routing";
-import { NetworkOnly } from "workbox-strategies";
-
-registerRoute(({ url }) => {
-    return url.pathname.includes("/oauth");
-}, new NetworkOnly());
+interface CustomFetchEvent extends Event {
+    request: Request;
+    respondWith(response: Promise<Response> | Response): void;
+}
 
 export function register(onUpdate: () => void) {
     if ("serviceWorker" in navigator) {
+        // excluding auth api calls from sw handling
+        self.addEventListener("fetch", (event: Event) => {
+            const fetchEvent = event as CustomFetchEvent;
+            if (fetchEvent.request && fetchEvent.request.url) {
+                const url = fetchEvent.request.url;
+                if (url.includes("/oauth2") || url.includes("/api")) {
+                    fetchEvent.respondWith(fetch(fetchEvent.request));
+                }
+            }
+        });
+
         window.addEventListener("load", async () => {
             try {
                 const registration = await navigator.serviceWorker.register("/service-worker.js");
