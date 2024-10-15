@@ -13,9 +13,12 @@ export const useLoadSettingsData = (isTeamMember?: boolean) => {
     const { data: userSettings } = useGetUserSettingsQuery(undefined, {
         skip: !!teamId,
     });
-    const { data: teamSettings } = useGetTeamSettingsQuery(teamId, {
-        skip: !teamId,
-    });
+    const { data: teamSettings } = useGetTeamSettingsQuery(
+        { teamId },
+        {
+            skip: !teamId,
+        }
+    );
     const { data: tags } = useGetTagsQuery();
     const { data: nonMemberTeam } = useGetTeamQuery(teamId, {
         skip: !teamId,

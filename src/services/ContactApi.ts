@@ -1,6 +1,6 @@
 import { Contact, ContactList, IContactEvent, IContactEventsList } from "../Domain/Contact";
 import { BaseApi } from "./BaseApi";
-import type { CustomBaseQueryArgs } from "./BaseApi";
+import type { CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
 
 export const ContactApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -39,18 +39,18 @@ export const ContactApi = BaseApi.injectEndpoints({
         }),
         deleteContact: builder.mutation<
             void,
-            CustomBaseQueryArgs<{ id: string; isTeamContact?: boolean }>
+            CustomBaseQueryArgs<{ id: string; tagsToInvalidate?: TApiInvalidateTags[] }>
         >({
             query: ({ id }) => ({
                 url: `contact/${id}`,
                 method: "DELETE",
                 credentials: "same-origin",
             }),
-            invalidatesTags: (_result, error, { isTeamContact }) => {
+            invalidatesTags: (_result, error, { tagsToInvalidate = [] }) => {
                 if (error) {
                     return [];
                 }
-                return ["Contacts", isTeamContact ? "TeamSettings" : "UserSettings"];
+                return tagsToInvalidate;
             },
         }),
         createUserContact: builder.mutation<Contact, CustomBaseQueryArgs<Omit<Contact, "id">>>({

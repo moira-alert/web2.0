@@ -74,7 +74,7 @@ export const TagListItem: FC<ItemProps> = ({
         subscription: Subscription
     ) => {
         event.stopPropagation();
-        await deleteSubscription({ id: subscription.id });
+        await deleteSubscription({ id: subscription.id, tagsToInvalidate: ["TagStats"] });
     };
 
     const handleDeleteTag = async (tag: string) => {

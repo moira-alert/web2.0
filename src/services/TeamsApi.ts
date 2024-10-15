@@ -3,12 +3,12 @@ import { Contact, TeamContactCreateInfo } from "../Domain/Contact";
 import { Settings } from "../Domain/Settings";
 import { Subscription } from "../Domain/Subscription";
 import { Team } from "../Domain/Team";
-import { BaseApi, CustomBaseQueryArgs } from "./BaseApi";
+import { BaseApi, CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
 
 export const TeamsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getTeamSettings: builder.query<Settings, CustomBaseQueryArgs<string>>({
-            query: (teamId) => ({
+        getTeamSettings: builder.query<Settings, CustomBaseQueryArgs<{ teamId: string }>>({
+            query: ({ teamId }) => ({
                 url: `teams/${encodeURIComponent(teamId)}/settings`,
                 method: "GET",
                 credentials: "same-origin",
@@ -125,18 +125,22 @@ export const TeamsApi = BaseApi.injectEndpoints({
         }),
         deleteUserFromTeam: builder.mutation<
             void,
-            CustomBaseQueryArgs<{ teamId: string; userName: string }>
+            CustomBaseQueryArgs<{
+                teamId: string;
+                userName: string;
+                tagsToInvalidate?: TApiInvalidateTags[];
+            }>
         >({
             query: ({ teamId, userName }) => ({
                 url: `teams/${encodeURIComponent(teamId)}/users/${encodeURIComponent(userName)}`,
                 method: "DELETE",
                 credentials: "same-origin",
             }),
-            invalidatesTags: (_result, error) => {
+            invalidatesTags: (_result, error, { tagsToInvalidate = [] }) => {
                 if (error) {
                     return [];
                 }
-                return ["TeamUsers"];
+                return tagsToInvalidate;
             },
         }),
     }),
@@ -144,6 +148,7 @@ export const TeamsApi = BaseApi.injectEndpoints({
 
 export const {
     useGetTeamSettingsQuery,
+    useLazyGetTeamSettingsQuery,
     useGetUserTeamsQuery,
     useCreateTeamContactMutation,
     useCreateTeamSubscriptionMutation,

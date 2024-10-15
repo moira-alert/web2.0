@@ -142,7 +142,11 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                                                         onClick={() =>
                                                             deleteContact({
                                                                 id,
-                                                                isTeamContact: !!teamId,
+                                                                tagsToInvalidate: [
+                                                                    teamId
+                                                                        ? "TeamSettings"
+                                                                        : "UserSettings",
+                                                                ],
                                                             })
                                                         }
                                                     >
