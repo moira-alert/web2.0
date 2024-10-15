@@ -2,6 +2,8 @@ import { useDeleteSubscriptionMutation } from "../services/SubscriptionsApi";
 import { useDeleteTeamMutation, useGetTeamSettingsQuery } from "../services/TeamsApi";
 import { useDeleteContactMutation } from "../services/ContactApi";
 import { useDeleteAllUsersFromTeam } from "./useDeleteAllUsersFromTeam";
+import { Subscription } from "../Domain/Subscription";
+import { Contact } from "../Domain/Contact";
 
 export const useFyllyDeleteTeam = (teamId: string, skip?: boolean) => {
     const { data: teamSettings, isLoading: isGettingSettings } = useGetTeamSettingsQuery(
@@ -21,29 +23,36 @@ export const useFyllyDeleteTeam = (teamId: string, skip?: boolean) => {
         deleteAllUsersFromTeam,
     } = useDeleteAllUsersFromTeam(teamId, skip);
 
+    const deleteSubscriptions = async (subscriptions: Subscription[]) => {
+        await Promise.all(
+            subscriptions.map((subscription) =>
+                deleteSubscription({
+                    id: subscription.id,
+                    handleLoadingLocally: true,
+                    handleErrorLocally: true,
+                }).unwrap()
+            )
+        );
+    };
+
+    const deleteContacts = async (contacts: Contact[]) => {
+        await Promise.all(
+            contacts.map((contact) =>
+                deleteContact({
+                    id: contact.id,
+                    handleLoadingLocally: true,
+                    handleErrorLocally: true,
+                }).unwrap()
+            )
+        );
+    };
+
     const handleFullyDeleteTeam = async () => {
         if (teamSettings) {
             const { subscriptions, contacts } = teamSettings;
 
-            await Promise.all(
-                subscriptions.map(async (subscription) => {
-                    await deleteSubscription({
-                        id: subscription.id,
-                        handleLoadingLocally: true,
-                        handleErrorLocally: true,
-                    }).unwrap();
-                })
-            );
-
-            await Promise.all(
-                contacts.map(async (contact) => {
-                    await deleteContact({
-                        id: contact.id,
-                        handleLoadingLocally: true,
-                        handleErrorLocally: true,
-                    }).unwrap();
-                })
-            );
+            await deleteSubscriptions(subscriptions);
+            await deleteContacts(contacts);
         }
 
         await deleteAllUsersFromTeam();
