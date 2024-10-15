@@ -16,9 +16,9 @@ export const useDeleteContact = (
         try {
             await deleteContact({
                 id: contact.id,
-                isTeamContact: !!teamId,
                 handleLoadingLocally: true,
                 handleErrorLocally: true,
+                tagsToInvalidate: [teamId ? "TeamSettings" : "UserSettings", "Contacts"],
             }).unwrap();
             onCancel();
         } catch (error) {

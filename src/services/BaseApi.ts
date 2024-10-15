@@ -60,6 +60,18 @@ const customFetchBaseQuery: BaseQueryFn<string | FetchArgs, unknown, unknown, ob
     return { error: JSON.stringify(result.error.data) };
 };
 
+export type TApiInvalidateTags =
+    | "Contacts"
+    | "UserSettings"
+    | "TeamSettings"
+    | "TagStats"
+    | "UserTeam"
+    | "TeamUsers"
+    | "UserTeams"
+    | "Team"
+    | "TriggerState"
+    | "Trigger";
+
 export const BaseApi = createApi({
     reducerPath: "BaseApi",
     tagTypes: [

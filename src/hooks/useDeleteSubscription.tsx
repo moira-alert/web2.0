@@ -16,9 +16,9 @@ export const useDeleteSubscription = (
         try {
             await deleteSubscription({
                 id: subscription.id,
-                isTeamSubscription: !!teamId,
                 handleLoadingLocally: true,
                 handleErrorLocally: true,
+                tagsToInvalidate: [teamId ? "TeamSettings" : "UserSettings", "TagStats"],
             }).unwrap();
             onCancel();
         } catch (error) {

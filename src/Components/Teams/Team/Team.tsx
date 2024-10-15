@@ -1,14 +1,10 @@
 import React, { ReactElement } from "react";
 import { Button } from "@skbkontur/react-ui";
-import { Flexbox } from "../../Flexbox/FlexBox";
 import EditIcon from "@skbkontur/react-icons/Edit";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
 import { Team } from "../../../Domain/Team";
 import { TeamEditor } from "../TeamEditor/TeamEditor";
 import { Markdown } from "../../Markdown/Markdown";
-import { Hovered, HoveredShow } from "../Hovered/Hovered";
-import { Confirm } from "../Confirm";
-import { useDeleteTeamMutation } from "../../../services/TeamsApi";
+import { ConfirmFullTeamDeleteion } from "../ConfirmFullTeamDeletion/ConfirmFullTeamDeletion";
 import { useModal } from "../../../hooks/useModal";
 import classNames from "classnames/bind";
 
@@ -22,32 +18,10 @@ interface ITeamProps {
 
 export function Team({ team }: ITeamProps): ReactElement {
     const { isModalOpen, openModal, closeModal } = useModal();
-    const [deleteTeam, { isLoading: isDeleting }] = useDeleteTeamMutation();
-
-    const handleDeleteTeam = async () => {
-        await deleteTeam({ teamId: team.id, handleLoadingLocally: true });
-    };
 
     return (
         <>
-            <Hovered>
-                <Flexbox align="baseline" direction="row" gap={8}>
-                    <h2>{team.name}</h2>
-                    <HoveredShow>
-                        <Confirm
-                            message={`Do you really want to remove "${team.name}" team?`}
-                            action={handleDeleteTeam}
-                            loading={isDeleting}
-                        >
-                            <Button
-                                data-tid={`Delete team ${team.name}`}
-                                use={"link"}
-                                icon={<DeleteIcon />}
-                            />
-                        </Confirm>
-                    </HoveredShow>
-                </Flexbox>
-            </Hovered>
+            <ConfirmFullTeamDeleteion team={team} />
 
             {team.description && (
                 <div className={cn("wysiwyg", "descriptionContainer")}>
