@@ -36,34 +36,33 @@ export const ConfirmFullTeamDeleteion: FC<IConfirmFullTeamDeleteionProps> = ({
         teamName
     );
 
+    const isLoading =
+        isFetchingData ||
+        isDeletingContacts ||
+        isDeletingSubscriptions ||
+        isDeletingUsers ||
+        isDeletingTeam;
+
     return (
-        <>
-            <Hovered>
-                <Flexbox align="baseline" direction="row" gap={8}>
-                    <h2>{teamName}</h2>
-                    <HoveredShow>
-                        <Confirm
-                            isLoading={
-                                isFetchingData ||
-                                isDeletingContacts ||
-                                isDeletingSubscriptions ||
-                                isDeletingUsers ||
-                                isDeletingTeam
-                            }
-                            message={confirmMessage}
-                            action={handleFullyDeleteTeam}
-                            errorMessage="An error occurred during full team deletion."
-                        >
-                            <Button
-                                data-tid={`Delete team ${teamName}`}
-                                use={"link"}
-                                icon={<DeleteIcon />}
-                                onClick={() => setIsConfirmOpened(true)}
-                            />
-                        </Confirm>
-                    </HoveredShow>
-                </Flexbox>
-            </Hovered>
-        </>
+        <Hovered>
+            <Flexbox align="baseline" direction="row" gap={8}>
+                <h2>{teamName}</h2>
+                <HoveredShow>
+                    <Confirm
+                        isLoading={isLoading}
+                        message={confirmMessage}
+                        action={handleFullyDeleteTeam}
+                        errorMessage="An error occurred during full team deletion."
+                    >
+                        <Button
+                            data-tid={`Delete team ${teamName}`}
+                            use={"link"}
+                            icon={<DeleteIcon />}
+                            onClick={() => setIsConfirmOpened(true)}
+                        />
+                    </Confirm>
+                </HoveredShow>
+            </Flexbox>
+        </Hovered>
     );
 };
