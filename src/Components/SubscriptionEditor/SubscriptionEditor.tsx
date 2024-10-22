@@ -13,10 +13,10 @@ import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import { ConfigState } from "../../store/selectors";
 import { useAppSelector } from "../../store/hooks";
+import { validateSched } from "../TriggerEditForm/Validations/validations";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionEditor.less";
-import { validateSched } from "../TriggerEditForm/Validations/validations";
 
 const cn = classNames.bind(styles);
 
