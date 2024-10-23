@@ -20,8 +20,6 @@ jobs:
         run: gem install fpm
 
       - name: Build packages
-        env:
-          NODE_OPTIONS: "--openssl-legacy-provider"
         run: make packages
 
       - name: Release
