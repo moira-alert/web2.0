@@ -13,6 +13,7 @@ import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import { ConfigState } from "../../store/selectors";
 import { useAppSelector } from "../../store/hooks";
+import { validateSched } from "../TriggerEditForm/Validations/validations";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionEditor.less";
@@ -165,10 +166,15 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
             <div className={cn("row")}>
                 <div className={cn("caption")}>Delivery schedule:</div>
                 <div className={cn("value")}>
-                    <ScheduleEdit
-                        schedule={subscription.sched}
-                        onChange={(value: Schedule) => onChange({ sched: value })}
-                    />
+                    <ValidationWrapperV1
+                        validationInfo={validateSched(subscription.sched)}
+                        renderMessage={tooltip("right top")}
+                    >
+                        <ScheduleEdit
+                            schedule={subscription.sched}
+                            onChange={(value: Schedule) => onChange({ sched: value })}
+                        />
+                    </ValidationWrapperV1>
                 </div>
             </div>
             <div className={cn("row")}>
