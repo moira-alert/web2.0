@@ -9,14 +9,16 @@ const cn = classNames.bind(styles);
 type FooterErrorProps = {
     message?: string | null;
     maxWidth?: string;
+    margin?: string | number;
 };
 
 export default function ModalError({
     message,
     maxWidth,
+    margin,
 }: FooterErrorProps): React.ReactElement | null {
     return message ? (
-        <div className={cn("root")}>
+        <div className={cn("root")} style={{ margin }}>
             <div style={{ maxWidth }}>
                 <ErrorIcon /> {message}
             </div>

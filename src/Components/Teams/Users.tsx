@@ -10,7 +10,7 @@ import { AddUserToTeam } from "./AddUserToTeam";
 import { useGetUserQuery } from "../../services/UserApi";
 import { useDeleteUserFromTeamMutation, useGetTeamUsersQuery } from "../../services/TeamsApi";
 import { useModal } from "../../hooks/useModal";
-import { getExcludeYourselfFromTeamMessage } from "../../helpers/getExcludeYourselfFromTeamMessage";
+import { getExcludeYourselfFromTeamMessage } from "../../helpers/teamOperationsConfirmMessages";
 
 interface UsersProps {
     team: Team;
@@ -35,7 +35,13 @@ export function Users({ team }: UsersProps): ReactElement {
     };
 
     const handleUserRemove = async (userName: string) => {
-        await deleteUserFromTeam({ teamId: team.id, userName, handleLoadingLocally: true });
+        await deleteUserFromTeam({
+            teamId: team.id,
+            userName,
+            handleLoadingLocally: true,
+            handleErrorLocally: true,
+            tagsToInvalidate: ["TeamUsers"],
+        }).unwrap();
     };
 
     return (
@@ -49,13 +55,14 @@ export function Users({ team }: UsersProps): ReactElement {
                     {users.map((userName) => (
                         <Fragment key={userName}>
                             <Confirm
+                                errorMessage="An error occured during user deletion."
                                 message={getExcludeYourselfFromTeamMessage(
                                     userName,
                                     team.name,
                                     user?.login
                                 )}
                                 action={() => handleUserRemove(userName)}
-                                loading={isDeletingUser}
+                                isLoading={isDeletingUser}
                             >
                                 <Button
                                     data-tid={`Delete user ${userName}`}

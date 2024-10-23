@@ -1,21 +1,33 @@
 import React, { ReactElement, ReactNode, useState } from "react";
 import { Button, Tooltip } from "@skbkontur/react-ui";
-import { Grid } from "../Grid/Grid";
 import { Flexbox } from "../Flexbox/FlexBox";
+import ModalError from "../ModalError/ModalError";
 
 interface ConfirmProps {
     message: string;
     action: () => Promise<void> | void;
     children: ReactNode;
-    loading?: boolean;
+    isLoading?: boolean;
+    errorMessage?: string;
 }
 
-export function Confirm({ message, action, children, loading }: ConfirmProps): ReactElement {
+export function Confirm({
+    message,
+    action,
+    children,
+    isLoading,
+    errorMessage = "An error occurred.",
+}: ConfirmProps): ReactElement {
     const [opened, setOpened] = useState(false);
+    const [error, setError] = useState<string>("");
 
     const handleConfirm = async () => {
-        await action();
-        setOpened(false);
+        try {
+            await action();
+            setOpened(false);
+        } catch (error) {
+            setError(error);
+        }
     };
 
     return (
@@ -26,20 +38,24 @@ export function Confirm({ message, action, children, loading }: ConfirmProps): R
             onCloseRequest={() => setOpened(false)}
             closeButton={false}
             render={() => (
-                <Grid columns={"320px"} gap="16px 8px">
-                    {message}
+                <Flexbox width={350} direction="column" gap={8}>
+                    {error ? errorMessage : message}
+                    <ModalError margin={"0 -35px 0 -30px"} maxWidth="300" message={error} />
+
                     <Flexbox direction="row" gap={8}>
                         <Button
-                            loading={loading}
+                            loading={isLoading}
                             onClick={handleConfirm}
                             use={"primary"}
                             width={100}
                         >
                             Confirm
                         </Button>
-                        <Button onClick={() => setOpened(false)}>Cancel</Button>
+                        <Button disabled={isLoading} onClick={() => setOpened(false)}>
+                            Cancel
+                        </Button>
                     </Flexbox>
-                </Grid>
+                </Flexbox>
             )}
         >
             <span onClick={() => setOpened(true)}>{children}</span>

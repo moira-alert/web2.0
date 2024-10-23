@@ -1,6 +1,6 @@
 import { SubscriptionCreateInfo } from "../Api/MoiraApi";
 import { Subscription } from "../Domain/Subscription";
-import { BaseApi, CustomBaseQueryArgs } from "./BaseApi";
+import { BaseApi, CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
 
 export const SubscriptionsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -38,18 +38,18 @@ export const SubscriptionsApi = BaseApi.injectEndpoints({
         }),
         deleteSubscription: builder.mutation<
             Subscription,
-            CustomBaseQueryArgs<{ id: string; isTeamSubscription?: boolean }>
+            CustomBaseQueryArgs<{ id: string; tagsToInvalidate?: TApiInvalidateTags[] }>
         >({
             query: ({ id }) => ({
                 url: `subscription/${encodeURIComponent(id)}`,
                 method: "DELETE",
                 credentials: "same-origin",
             }),
-            invalidatesTags: (_result, error, { isTeamSubscription }) => {
+            invalidatesTags: (_result, error, { tagsToInvalidate = [] }) => {
                 if (error) {
                     return [];
                 }
-                return ["TagStats", isTeamSubscription ? "TeamSettings" : "UserSettings"];
+                return tagsToInvalidate;
             },
         }),
     }),
