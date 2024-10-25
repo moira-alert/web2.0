@@ -4,11 +4,13 @@ import { Flexbox } from "../Flexbox/FlexBox";
 import ModalError from "../ModalError/ModalError";
 
 interface ConfirmProps {
-    message: string;
+    message: ReactNode;
     action: () => Promise<void> | void;
     children: ReactNode;
     isLoading?: boolean;
     errorMessage?: string;
+    width?: number;
+    active?: boolean;
 }
 
 export function Confirm({
@@ -17,6 +19,8 @@ export function Confirm({
     children,
     isLoading,
     errorMessage = "An error occurred.",
+    width,
+    active = true,
 }: ConfirmProps): ReactElement {
     const [opened, setOpened] = useState(false);
     const [error, setError] = useState<string>("");
@@ -38,7 +42,7 @@ export function Confirm({
             onCloseRequest={() => setOpened(false)}
             closeButton={false}
             render={() => (
-                <Flexbox width={350} direction="column" gap={8}>
+                <Flexbox width={width} direction="column" gap={8}>
                     {error ? errorMessage : message}
                     <ModalError margin={"0 -35px 0 -30px"} maxWidth="300" message={error} />
 
@@ -58,7 +62,7 @@ export function Confirm({
                 </Flexbox>
             )}
         >
-            <span onClick={() => setOpened(true)}>{children}</span>
+            <span onClick={() => (active ? setOpened(true) : handleConfirm())}>{children}</span>
         </Tooltip>
     );
 }
