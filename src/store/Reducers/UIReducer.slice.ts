@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Subscription } from "../../Domain/Subscription";
+import { TriggerApi } from "../../services/TriggerApi";
 
 interface IUIState {
     isLoading: boolean;
@@ -7,6 +8,7 @@ interface IUIState {
     isNewFrontendVersionAvailable: boolean;
     isTransferringSubscriptions: boolean;
     transferingSubscriptions: Subscription[];
+    isTransformNullApplied: boolean;
 }
 
 const initialState: IUIState = {
@@ -15,6 +17,7 @@ const initialState: IUIState = {
     isNewFrontendVersionAvailable: false,
     isTransferringSubscriptions: false,
     transferingSubscriptions: [],
+    isTransformNullApplied: false,
 };
 
 export const UISlice = createSlice({
@@ -59,6 +62,14 @@ export const UISlice = createSlice({
                 state.transferingSubscriptions.push(action.payload);
             }
         },
+    },
+    extraReducers: (builder) => {
+        builder.addMatcher(TriggerApi.endpoints.getTrigger.matchFulfilled, (state, { payload }) => {
+            const hasTransformNull = payload.targets.some((target) =>
+                target.includes("transformNull")
+            );
+            state.isTransformNullApplied = hasTransformNull;
+        });
     },
 });
 
