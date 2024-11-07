@@ -11,16 +11,16 @@ import { useModal } from "../../hooks/useModal";
 import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
 import { Subscription } from "../../Domain/Subscription";
 import { VariableSizeList as List } from "react-window";
-import {
-    MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
-    SUBSCRIPTION_LIST_HEIGHT,
-    getTotalItemSize,
-    ROW_HEIGHT,
-} from "../TagList/TagList";
 import { useDeleteSubscriptionMutation } from "../../services/SubscriptionsApi";
 import { useDeleteTagMutation } from "../../services/TagsApi";
 import RouterLink from "../RouterLink/RouterLink";
 import { getPageLink } from "../../Domain/Global";
+import {
+    MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE,
+    SUBSCRIPTION_LIST_HEIGHT,
+    TAG_ROW_HEIGHT,
+} from "../../helpers/constants";
+import { getTotalItemSize } from "../TagList/TagList";
 import classNames from "classnames/bind";
 
 import styles from "../TagList/TagList.less";
@@ -41,7 +41,7 @@ export const getSubscriptionRowHeight = (contactIDs: string[]) => {
         return getTotalItemSize(contactIDs.length);
     }
 
-    return ROW_HEIGHT;
+    return TAG_ROW_HEIGHT;
 };
 
 export const TagListItem: FC<ItemProps> = ({
@@ -86,7 +86,7 @@ export const TagListItem: FC<ItemProps> = ({
     ).length;
 
     const getSubscriptionsTableHeight =
-        subscriptionContactsCount > MAX_LIST_LENGTH_BEFORE_SCROLLABLE
+        subscriptionContactsCount > MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE
             ? SUBSCRIPTION_LIST_HEIGHT
             : getTotalItemSize(subscriptionContactsCount);
 

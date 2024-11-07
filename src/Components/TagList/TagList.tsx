@@ -9,6 +9,11 @@ import { TagListItem } from "../TagListItem/TagListItem";
 import { Input, Token } from "@skbkontur/react-ui";
 import { TokenInput, TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { RowStack } from "@skbkontur/react-stack-layout";
+import {
+    MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE,
+    TAG_LIST_HEIGHT,
+    TAG_ROW_HEIGHT,
+} from "../../helpers/constants";
 import classNames from "classnames/bind";
 
 import styles from "./TagList.less";
@@ -20,12 +25,7 @@ interface ITagListProps {
     contacts: Contact[];
 }
 
-export const MAX_LIST_LENGTH_BEFORE_SCROLLABLE = 40;
-export const LIST_HEIGHT = 1000;
-export const SUBSCRIPTION_LIST_HEIGHT = 500;
-export const ROW_HEIGHT = 25;
-
-export const getTotalItemSize = (length: number) => length * ROW_HEIGHT + 1;
+export const getTotalItemSize = (length: number) => length * TAG_ROW_HEIGHT + 1;
 
 export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
     const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
@@ -62,7 +62,7 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
         [sortedData, filterContacts, filterTagName]
     );
 
-    const isListLongEnoughToScroll = filteredTags.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE;
+    const isListLongEnoughToScroll = filteredTags.length > MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE;
 
     const getContatcs = (query: string): Promise<Contact[]> => {
         if (!contacts) {
@@ -158,10 +158,12 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                     </div>
                     <List
                         height={
-                            isListLongEnoughToScroll ? LIST_HEIGHT : getTotalItemSize(items.length)
+                            isListLongEnoughToScroll
+                                ? TAG_LIST_HEIGHT
+                                : getTotalItemSize(items.length)
                         }
                         width="100%"
-                        itemSize={ROW_HEIGHT}
+                        itemSize={TAG_ROW_HEIGHT}
                         itemCount={filteredTags.length}
                         itemData={filteredTags}
                     >

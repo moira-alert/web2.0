@@ -58,46 +58,57 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
         { skip: Boolean(fromTime && untilTime && isAfter(fromTime, untilTime)) }
     );
     const grouppedEvents = useMemo(() => composeEvents(events?.list || [], triggerName), [events]);
+
+    const areFiltersVisible = !!(
+        debouncedSearchMetric.length > 0 ||
+        selectedStatuses.length > 0 ||
+        fromTime ||
+        untilTime ||
+        (events && events?.list.length > 0)
+    );
+
     const pageCount = Math.ceil((events?.total ?? 0) / (events?.size ?? 1));
     return (
         <Flexbox margin="28px 0 0 0" gap={28}>
-            <Flexbox direction="row" justify="space-between">
-                <SearchInput
-                    placeholder="Filter by metric name, regExp is supported"
-                    width={340}
-                    value={searchMetric}
-                    onValueChange={handleInputValueChange}
-                    onClear={() => setSearchMetric("")}
-                />
-                <FilterStatusSelect
-                    availableStatuses={StatusesList.filter((x) => x !== Status.DEL)}
-                    selectedStatuses={selectedStatuses}
-                    onSelect={setSelectedStatuses}
-                />
-                <ValidationContainer ref={validationContainerRef}>
-                    <div className={cn("from-to-filter")}>
-                        <DateAndTimeMenu
-                            validateDateAndTime={() =>
-                                fromTime &&
-                                untilTime &&
-                                validateTriggerEventsDateFilters(fromTime, untilTime)
-                            }
-                            date={fromTime}
-                            setDate={setFromTime}
-                        />
-                        {"—"}
-                        <DateAndTimeMenu
-                            validateDateAndTime={() =>
-                                fromTime &&
-                                untilTime &&
-                                validateTriggerEventsDateFilters(fromTime, untilTime)
-                            }
-                            date={untilTime}
-                            setDate={setUntilTime}
-                        />
-                    </div>
-                </ValidationContainer>
-            </Flexbox>
+            {areFiltersVisible && (
+                <Flexbox direction="row" justify="space-between">
+                    <SearchInput
+                        placeholder="Filter by metric name, regExp is supported"
+                        width={340}
+                        value={searchMetric}
+                        onValueChange={handleInputValueChange}
+                        onClear={() => setSearchMetric("")}
+                    />
+                    <FilterStatusSelect
+                        availableStatuses={StatusesList.filter((x) => x !== Status.DEL)}
+                        selectedStatuses={selectedStatuses}
+                        onSelect={setSelectedStatuses}
+                    />
+                    <ValidationContainer ref={validationContainerRef}>
+                        <div className={cn("from-to-filter")}>
+                            <DateAndTimeMenu
+                                validateDateAndTime={() =>
+                                    fromTime &&
+                                    untilTime &&
+                                    validateTriggerEventsDateFilters(fromTime, untilTime)
+                                }
+                                date={fromTime}
+                                setDate={setFromTime}
+                            />
+                            {"—"}
+                            <DateAndTimeMenu
+                                validateDateAndTime={() =>
+                                    fromTime &&
+                                    untilTime &&
+                                    validateTriggerEventsDateFilters(fromTime, untilTime)
+                                }
+                                date={untilTime}
+                                setDate={setUntilTime}
+                            />
+                        </div>
+                    </ValidationContainer>
+                </Flexbox>
+            )}
             <Loader active={isLoading || isFetching}>
                 {events?.list.length !== 0 ? (
                     <>
