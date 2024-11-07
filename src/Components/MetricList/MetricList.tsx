@@ -1,8 +1,6 @@
 import * as React from "react";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
-import TrashIcon from "@skbkontur/react-icons/Trash";
-import { Button } from "@skbkontur/react-ui/components/Button";
 import { Metric, MetricItemList } from "../../Domain/Metric";
 import type { VariableSizeList } from "react-window";
 import { VariableSizeList as List } from "react-window";
@@ -14,6 +12,7 @@ import {
     METRIC_LIST_ROW_PADDING,
     MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE,
 } from "../../Constants/heights";
+import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
 import classNames from "classnames/bind";
 
 import styles from "./MetricList.less";
@@ -136,17 +135,12 @@ export default function MetricList(props: Props): React.ReactElement {
                 <div className={cn("maintenance")} />
                 <div className={cn("author")} />
                 <div className={cn("delete")}>
-                    {typeof noDataMetricCount === "number" &&
-                        noDataMetricCount > 1 &&
-                        onNoDataRemove && (
-                            <Button
-                                use="link"
-                                icon={<TrashIcon />}
-                                onClick={() => onNoDataRemove()}
-                            >
-                                Delete all NODATA
-                            </Button>
-                        )}
+                    {(noDataMetricCount ?? 0) > 1 && onNoDataRemove && (
+                        <ConfirmMetricDeletionWithTransformNull
+                            deleteButtonText="Delete all NODATA"
+                            action={onNoDataRemove}
+                        />
+                    )}
                 </div>
             </header>
             <div className={cn("items")}>

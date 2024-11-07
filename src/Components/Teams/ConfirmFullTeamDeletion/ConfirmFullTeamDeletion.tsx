@@ -49,6 +49,7 @@ export const ConfirmFullTeamDeleteion: FC<IConfirmFullTeamDeleteionProps> = ({
                 <h2>{teamName}</h2>
                 <HoveredShow>
                     <Confirm
+                        width={360}
                         isLoading={isLoading}
                         message={confirmMessage}
                         action={handleFullyDeleteTeam}

@@ -4,12 +4,11 @@ import MetricValues from "../MetricValues/MetricValues";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import UserIcon from "@skbkontur/react-icons/User";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import TrashIcon from "@skbkontur/react-icons/Trash";
 import * as React from "react";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
 import { useHistory } from "react-router";
+import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
 import classNames from "classnames/bind";
 
 import styles from "../MetricList/MetricList.less";
@@ -113,9 +112,10 @@ export function MetricListItem({
                     )}
             </div>
             <div onClick={(e) => e.stopPropagation()} className={cn("delete")}>
-                <Button use="link" icon={<TrashIcon />} onClick={() => onRemove(metricName)}>
-                    Delete
-                </Button>
+                <ConfirmMetricDeletionWithTransformNull
+                    deleteButtonText="Delete"
+                    action={() => onRemove(metricName)}
+                />
             </div>
         </div>
     );
