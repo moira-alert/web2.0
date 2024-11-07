@@ -13,7 +13,7 @@ import {
     MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE,
     TAG_LIST_HEIGHT,
     TAG_ROW_HEIGHT,
-} from "../../helpers/constants";
+} from "../../Constants/heights";
 import classNames from "classnames/bind";
 
 import styles from "./TagList.less";

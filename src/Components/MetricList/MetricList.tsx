@@ -13,7 +13,7 @@ import {
     METRIC_LIST_ROW_HEIGHT,
     METRIC_LIST_ROW_PADDING,
     MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE,
-} from "../../helpers/constants";
+} from "../../Constants/heights";
 import classNames from "classnames/bind";
 
 import styles from "./MetricList.less";

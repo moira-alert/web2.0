@@ -6,7 +6,7 @@ import { Status } from "../../../Domain/Status";
 import { SearchInput } from "./SearchInput/SearchInput";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { EmptyListText } from "./EmptyListMessage/EmptyListText";
-import { MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE } from "../../../helpers/constants";
+import { MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE } from "../../../Constants/heights";
 
 interface ICurrentStateTabProps {
     metrics: MetricItemList;
