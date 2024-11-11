@@ -59,7 +59,7 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
     );
     const grouppedEvents = useMemo(() => composeEvents(events?.list || [], triggerName), [events]);
 
-    const areFiltersVisible = !!(
+    const isFilterSectionVisible = !!(
         debouncedSearchMetric.length > 0 ||
         selectedStatuses.length > 0 ||
         fromTime ||
@@ -70,7 +70,7 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
     const pageCount = Math.ceil((events?.total ?? 0) / (events?.size ?? 1));
     return (
         <Flexbox margin="28px 0 0 0" gap={28}>
-            {areFiltersVisible && (
+            {isFilterSectionVisible && (
                 <Flexbox direction="row" justify="space-between">
                     <SearchInput
                         placeholder="Filter by metric name, regExp is supported"
