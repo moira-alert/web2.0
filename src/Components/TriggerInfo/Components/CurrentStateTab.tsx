@@ -6,6 +6,7 @@ import { Status } from "../../../Domain/Status";
 import { SearchInput } from "./SearchInput/SearchInput";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { EmptyListText } from "./EmptyListMessage/EmptyListText";
+import { MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE } from "../../../Constants/heights";
 
 interface ICurrentStateTabProps {
     metrics: MetricItemList;
@@ -68,20 +69,28 @@ export const CurrentStateTab: FC<ICurrentStateTabProps> = ({
         return result;
     }, [sortedMetrics, searchValue]);
 
-    const isMetrics = useMemo(() => filteredMetrics && Object.keys(filteredMetrics).length > 0, [
-        filteredMetrics,
-    ]);
+    const isFilteredMetrics = useMemo(
+        () => filteredMetrics && Object.keys(filteredMetrics).length > 0,
+        [filteredMetrics]
+    );
+
+    const isMetrics = useMemo(
+        () => Object.keys(metrics).length > MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE,
+        [metrics]
+    );
 
     return (
         <Flexbox margin="28px 0 0 0" gap={28}>
-            <SearchInput
-                value={searchValue}
-                width={"100%"}
-                placeholder="Filter by metric name"
-                onValueChange={handleInputValueChange}
-                onClear={() => setSearchValue("")}
-            />
-            {isMetrics ? (
+            {isMetrics && (
+                <SearchInput
+                    value={searchValue}
+                    width={"100%"}
+                    placeholder="Filter by metric name"
+                    onValueChange={handleInputValueChange}
+                    onClear={() => setSearchValue("")}
+                />
+            )}
+            {isFilteredMetrics ? (
                 <MetricList
                     status
                     items={filteredMetrics}

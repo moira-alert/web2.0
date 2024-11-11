@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import { Contact } from "../../Domain/Contact";
 import { FixedSizeList as List } from "react-window";
 import { getCoreRowModel, ColumnDef, flexRender, useReactTable } from "@tanstack/react-table";
-import {
-    LIST_HEIGHT,
-    MAX_LIST_LENGTH_BEFORE_SCROLLABLE,
-    ROW_HEIGHT,
-    getTotalItemSize,
-} from "../TagList/TagList";
 import RouterLink from "../RouterLink/RouterLink";
 import { getPageLink } from "../../Domain/Global";
+import {
+    MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE,
+    TAG_LIST_HEIGHT,
+    TAG_ROW_HEIGHT,
+} from "../../Constants/heights";
+import { getTotalItemSize } from "../TagList/TagList";
 import classNames from "classnames/bind";
 
 import styles from "./AllContactsTable.less";
@@ -73,7 +73,7 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
         getCoreRowModel: getCoreRowModel(),
     });
 
-    const isListLongEnoughToScroll = contacts.length > MAX_LIST_LENGTH_BEFORE_SCROLLABLE;
+    const isListLongEnoughToScroll = contacts.length > MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE;
 
     return (
         <>
@@ -128,10 +128,12 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
             {contacts.length ? (
                 <List
                     height={
-                        isListLongEnoughToScroll ? LIST_HEIGHT : getTotalItemSize(contacts.length)
+                        isListLongEnoughToScroll
+                            ? TAG_LIST_HEIGHT
+                            : getTotalItemSize(contacts.length)
                     }
                     itemCount={table.getRowModel().rows.length}
-                    itemSize={ROW_HEIGHT}
+                    itemSize={TAG_ROW_HEIGHT}
                     width="100%"
                 >
                     {({ index, style }) => {
