@@ -6,7 +6,7 @@ import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { Contact } from "../../Domain/Contact";
 import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
-import { SubscriptionCreateInfo } from "../../Api/MoiraApi";
+import { SubscriptionCreateInfo } from "../../Domain/Subscription";
 import FileLoader from "../FileLoader/FileLoader";
 import ModalError from "../ModalError/ModalError";
 import { useParams } from "react-router";

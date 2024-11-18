@@ -4,8 +4,6 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
-import MoiraApi from "../Api/MoiraApi";
-import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { DEFAULT_TRIGGER_TTL, Trigger, TriggerSource } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import { Status } from "../Domain/Status";
@@ -17,17 +15,14 @@ import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { RowStack, ColumnStack, Fit } from "../Components/ItemsStack/ItemsStack";
 import FileLoader from "../Components/FileLoader/FileLoader";
 import { useValidateTarget } from "../hooks/useValidateTarget";
-import {
-    setError,
-    setIsLoading,
-    setIsSaveButtonDisabled,
-    setIsSaveModalVisible,
-    useTriggerFormContainerReducer,
-} from "../hooks/useTriggerFormContainerReducer";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
-import { useAppSelector } from "../store/hooks";
-import { ConfigState } from "../store/selectors";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { ConfigState, TriggerFormState, UIState } from "../store/selectors";
+import { useGetTagsQuery } from "../services/TagsApi";
+import { setError } from "../store/Reducers/UIReducer.slice";
+import { setIsSaveModalVisible } from "../store/Reducers/TriggerFormReducer.slice";
+import { setIsSaveButtonDisabled } from "../hooks/useTriggerFormContainerReducer";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -61,16 +56,16 @@ const defaultTrigger: Partial<Trigger> = {
     alone_metrics: {},
 };
 
-type Props = RouteComponentProps & { moiraApi: MoiraApi };
-
-const TriggerAddContainer = (props: Props) => {
+const TriggerAddContainer = (props: RouteComponentProps) => {
     const { config } = useAppSelector(ConfigState);
-    const [state, dispatch] = useTriggerFormContainerReducer();
+    const { validationResult, isSaveModalVisible } = useAppSelector(TriggerFormState);
+    const { isLoading, error } = useAppSelector(UIState);
+    const dispatch = useAppDispatch();
     const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
-    const [tags, setTags] = useState<string[] | undefined>(undefined);
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
-    const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
+    const { data: tags } = useGetTagsQuery();
+    const validateTarget = useValidateTarget(dispatch, props.history);
+    const saveTrigger = useSaveTrigger(props.history);
 
     const handleSubmit = async () => {
         const isFormValid = await validationContainer.current?.validate();
@@ -120,33 +115,25 @@ const TriggerAddContainer = (props: Props) => {
         }
     };
 
-    const getData = async () => {
+    const setTriggerWithSearchTags = () => {
         const localDataString = localStorage.getItem("moiraSettings");
         const { tags: localTags } = localDataString ? JSON.parse(localDataString) : { tags: [] };
 
-        try {
-            const { list } = await props.moiraApi.getTagList();
-            setTrigger((prev) => {
-                return { ...prev, tags: localTags };
-            });
-            setTags(list);
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(setIsLoading(false));
-        }
+        setTrigger((prev) => {
+            return { ...prev, tags: localTags };
+        });
     };
 
     useEffect(() => {
         setDocumentTitle("Add trigger");
-        getData();
+        setTriggerWithSearchTags();
     }, []);
 
     return (
-        <Layout loading={state.isLoading} error={state.error}>
+        <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <TriggerSaveWarningModal
-                    isOpen={state.isSaveModalVisible}
+                    isOpen={isSaveModalVisible}
                     onClose={() => dispatch(setIsSaveModalVisible(false))}
                     onSave={() => saveTrigger(trigger)}
                 />
@@ -168,7 +155,7 @@ const TriggerAddContainer = (props: Props) => {
                                             metricSourceClusters={config.metric_source_clusters}
                                             tags={tags || []}
                                             onChange={handleChange}
-                                            validationResult={state.validationResult}
+                                            validationResult={validationResult}
                                         />
                                     )}
                                 </ValidationContainer>
@@ -198,4 +185,4 @@ const TriggerAddContainer = (props: Props) => {
     );
 };
 
-export default withMoiraApi(TriggerAddContainer);
+export default TriggerAddContainer;

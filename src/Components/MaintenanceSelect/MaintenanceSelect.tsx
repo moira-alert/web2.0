@@ -41,7 +41,11 @@ export default function MaintenanceSelect(props: MaintenanceSelectProps): React.
     return (
         <RenderLayer onClickOutside={handleClose} onFocusOutside={handleClose} active={opened}>
             <span ref={containerEl} className={cn("container")}>
-                <Button onClick={() => setOpened(true)} use="link">
+                <Button
+                    data-tid="TriggerMaintenanceButton"
+                    onClick={() => setOpened(true)}
+                    use="link"
+                >
                     {caption} <ArrowTriangleDownIcon color="#6b99d3" />
                 </Button>
                 {opened ? (

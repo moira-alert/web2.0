@@ -2,6 +2,14 @@ import { test as base, expect } from "@playwright/test";
 import { TriggerInfoPage } from "../pages/triggerInfo.page";
 import { TriggerForm } from "../pages/triggerForm";
 import { MainPage } from "../pages/main.page";
+import {
+    calculateMaintenanceTime,
+    getMaintenanceCaption,
+    Maintenance,
+    MaintenanceList,
+} from "../../src/Domain/Maintenance";
+import { humanizeDuration } from "../../src/helpers/DateUtil";
+import { maintenanceDelta } from "../../src/Domain/Trigger";
 
 const triggerName = "test trigger name";
 const testTriggerDescription = "test trigger description";
@@ -49,6 +57,41 @@ test("Add trigger", async ({ triggerName, triggerDescription, page }) => {
     await expect(page.getByText(triggerName)).toBeVisible();
     await expect(page.getByText(triggerDescription)).toBeVisible();
     await page.waitForTimeout(1000);
+});
+
+test("Set trigger maintenance for all intervals", async ({ triggerName, page }) => {
+    const mainPage = new MainPage(page);
+    await mainPage.gotoMainPage();
+    await page.getByText(triggerName).click();
+
+    const triggerInfoPage = new TriggerInfoPage(page);
+
+    let interceptedRequestBody: any = null;
+    await page.route("**/trigger/*/setMaintenance", (route) => {
+        interceptedRequestBody = JSON.parse(route.request().postData() || "{}");
+        route.continue();
+    });
+
+    for (const maintenance of MaintenanceList) {
+        await test.step(`Set maintenance to ${getMaintenanceCaption(maintenance)}`, async () => {
+            const expectedTriggerTime = calculateMaintenanceTime(maintenance);
+            await triggerInfoPage.triggerMaintenance.click();
+
+            await page.getByText(getMaintenanceCaption(maintenance)).click();
+
+            expect(interceptedRequestBody).not.toBeNull();
+            expect(
+                Math.abs(interceptedRequestBody.trigger - expectedTriggerTime)
+            ).toBeLessThanOrEqual(1);
+
+            if (maintenance === Maintenance.off) {
+                await expect(page.getByText("Maintenance")).toBeVisible();
+            } else
+                await expect(
+                    page.getByText(humanizeDuration(maintenanceDelta(expectedTriggerTime)))
+                ).toBeVisible();
+        });
+    }
 });
 
 test("Duplicate trigger", async ({

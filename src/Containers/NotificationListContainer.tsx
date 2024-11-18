@@ -3,75 +3,48 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import TrashIcon from "@skbkontur/react-icons/Trash";
-import MoiraApi from "../Api/MoiraApi";
-import { withMoiraApi } from "../Api/MoiraApiInjection";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
-import { NotificationsState, UIState } from "../store/selectors";
-import {
-    deleteNotification,
-    setNotifierEnabled,
-    deleteAllNotifications,
-} from "../store/Reducers/NotificationListContainerReducer.slice";
-import { toggleLoading, setError } from "../store/Reducers/UIReducer.slice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { UIState } from "../store/selectors";
+import { useAppSelector } from "../store/hooks";
 import { useLoadNotificationsData } from "../hooks/useLoadNotificationsData";
 import { composeNotifications } from "../helpers/composeNotifications";
 import { ConfirmModalHeaderData } from "../Domain/Global";
 import useConfirmModal from "../hooks/useConfirmModal";
+import {
+    useDeleteAllNotificationEventsMutation,
+    useDeleteAllNotificationsMutation,
+    useDeleteNotificationMutation,
+} from "../services/NotificationsApi";
+import { useSetNotifierStateMutation } from "../services/NotifierApi";
 
-type TProps = { moiraApi: MoiraApi };
-
-const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
-    const dispatch = useAppDispatch();
-    const { notificationList, notifierEnabled } = useAppSelector(NotificationsState);
+const NotificationListContainer: FC = () => {
     const { isLoading, error } = useAppSelector(UIState);
-    const { loadNotificationsData } = useLoadNotificationsData(moiraApi);
+    const { notifierEnabled, notificationList, notificationAmount } = useLoadNotificationsData();
+    const [deleteNotification] = useDeleteNotificationMutation();
+    const [deleteAllNotifications] = useDeleteAllNotificationsMutation();
+    const [deleleteAllNotificationEvents] = useDeleteAllNotificationEventsMutation();
+    const [setNotifierState] = useSetNotifierStateMutation();
     const [ConfirmModal, setModalData] = useConfirmModal();
 
-    const notificationAmount = notificationList.length;
     const layoutTitle = `Notifications ${notificationAmount}`;
 
     const removeNotification = async (id: string) => {
-        dispatch(toggleLoading(true));
-        try {
-            await moiraApi.delNotification(id);
-            dispatch(deleteNotification(id));
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(toggleLoading(false));
-        }
+        deleteNotification({ id });
     };
 
     const removeAllNotifications = async () => {
         setModalData({ isOpen: false });
-        dispatch(toggleLoading(true));
-        try {
-            await moiraApi.delAllNotificationEvents();
-            await moiraApi.delAllNotifications();
-            dispatch(deleteAllNotifications());
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(toggleLoading(false));
-        }
+        deleteAllNotifications();
+        deleleteAllNotificationEvents();
     };
 
     const toggleNotifier = async (enable: boolean) => {
         setModalData({ isOpen: false });
-        dispatch(toggleLoading(true));
-        try {
-            const state = enable ? MoiraServiceStates.OK : MoiraServiceStates.ERROR;
-            await moiraApi.setNotifierState({ state });
-            dispatch(setNotifierEnabled(enable));
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(toggleLoading(false));
-        }
+        const state = enable ? MoiraServiceStates.OK : MoiraServiceStates.ERROR;
+        setNotifierState({ state });
     };
 
     const handleDisableNotifier = () => {
@@ -87,20 +60,20 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     };
 
     const onRemoveAllNotificationsBtnClick = () => {
-        setModalData({
-            isOpen: true,
-            header: ConfirmModalHeaderData.deleteAllNotifications(notificationAmount),
-            button: {
-                text: "Delete",
-                use: "danger",
-                onConfirm: removeAllNotifications,
-            },
-        });
+        notificationAmount &&
+            setModalData({
+                isOpen: true,
+                header: ConfirmModalHeaderData.deleteAllNotifications(notificationAmount),
+                button: {
+                    text: "Delete",
+                    use: "danger",
+                    onConfirm: removeAllNotifications,
+                },
+            });
     };
 
     useEffect(() => {
         setDocumentTitle("Notifications");
-        loadNotificationsData();
     }, []);
 
     return (
@@ -137,4 +110,4 @@ const NotificationListContainer: FC<TProps> = ({ moiraApi }) => {
     );
 };
 
-export default withMoiraApi(NotificationListContainer);
+export default NotificationListContainer;

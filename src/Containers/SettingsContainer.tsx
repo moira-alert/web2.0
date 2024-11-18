@@ -84,7 +84,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                 {settings && tags && (
                     <SubscriptionListContainer
                         teams={teams}
-                        tags={tags.list}
+                        tags={tags}
                         contacts={settings.contacts}
                         subscriptions={settings.subscriptions}
                     />

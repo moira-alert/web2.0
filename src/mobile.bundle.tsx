@@ -15,9 +15,7 @@ import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRou
 type ResponsiveRouteProps = {
     exact?: boolean;
     path: string;
-    container:
-        | ComponentType<Omit<TriggerListProps, "moiraApi">>
-        | ComponentType<Omit<TriggerProps, "moiraApi">>;
+    container: ComponentType<TriggerListProps> | ComponentType<TriggerProps>;
     view: ComponentType<TriggerListMobileProps> | ComponentType<TriggerMobileProps>;
 };
 
