@@ -17,12 +17,12 @@ export const NotifierApi = BaseApi.injectEndpoints({
                 credentials: "same-origin",
                 body: JSON.stringify(state),
             }),
-            //    invalidatesTags: (_result, error) => {
-            //        if (error) {
-            //            return [];
-            //        }
-            //        return ["Contacts"];
-            //    },
+            invalidatesTags: (_result, error) => {
+                if (error) {
+                    return [];
+                }
+                return ["Notifications"];
+            },
         }),
     }),
 });
