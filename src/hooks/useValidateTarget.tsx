@@ -5,15 +5,15 @@ import {
     triggerClientToPayload,
     TriggerTargetProblemType,
 } from "../Domain/Trigger";
-import {
-    Action,
-    setIsSaveButtonDisabled,
-    setIsSaveModalVisible,
-    setValidationResult,
-} from "./useTriggerFormContainerReducer";
 import { useSaveTrigger } from "./useSaveTrigger";
 import { History } from "history";
 import { useValidateTargetMutation } from "../services/TriggerApi";
+import {
+    setIsSaveButtonDisabled,
+    setValidationResult,
+    setIsSaveModalVisible,
+} from "../store/Reducers/TriggerFormReducer.slice";
+import { Action } from "@reduxjs/toolkit";
 
 export const useValidateTarget = (dispatch: Dispatch<Action>, history: History<unknown>) => {
     const saveTrigger = useSaveTrigger(history);

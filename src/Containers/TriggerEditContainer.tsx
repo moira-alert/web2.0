@@ -17,8 +17,10 @@ import { ConfigState, TriggerFormState, UIState } from "../store/selectors";
 import { setError } from "../store/Reducers/UIReducer.slice";
 import { useGetTagsQuery } from "../services/TagsApi";
 import { useGetTriggerQuery } from "../services/TriggerApi";
-import { setIsSaveModalVisible } from "../hooks/useTriggerFormContainerReducer";
-import { setIsSaveButtonDisabled } from "../store/Reducers/TriggerFormReducer.slice";
+import {
+    setIsSaveButtonDisabled,
+    setIsSaveModalVisible,
+} from "../store/Reducers/TriggerFormReducer.slice";
 
 type Props = RouteComponentProps<{ id: string }>;
 

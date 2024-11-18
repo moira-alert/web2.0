@@ -21,8 +21,10 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { ConfigState, TriggerFormState, UIState } from "../store/selectors";
 import { useGetTagsQuery } from "../services/TagsApi";
 import { setError } from "../store/Reducers/UIReducer.slice";
-import { setIsSaveModalVisible } from "../store/Reducers/TriggerFormReducer.slice";
-import { setIsSaveButtonDisabled } from "../hooks/useTriggerFormContainerReducer";
+import {
+    setIsSaveModalVisible,
+    setIsSaveButtonDisabled,
+} from "../store/Reducers/TriggerFormReducer.slice";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
