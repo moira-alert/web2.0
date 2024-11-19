@@ -202,7 +202,7 @@ export const TriggerApi = BaseApi.injectEndpoints({
             CustomBaseQueryArgs<Partial<Trigger>>
         >({
             query: (data) => ({
-                url: `trigger`,
+                url: "trigger",
                 method: "PUT",
                 body: JSON.stringify(data),
                 credentials: "same-origin",

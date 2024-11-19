@@ -137,7 +137,10 @@ const TriggerAddContainer = (props: RouteComponentProps) => {
                 <TriggerSaveWarningModal
                     isOpen={isSaveModalVisible}
                     onClose={() => dispatch(setIsSaveModalVisible(false))}
-                    onSave={() => saveTrigger(trigger)}
+                    onSave={() => {
+                        saveTrigger(trigger);
+                        dispatch(setIsSaveModalVisible(false));
+                    }}
                 />
                 <LayoutRowStack baseline block gap={6} style={{ maxWidth: "800px" }}>
                     <Fill>

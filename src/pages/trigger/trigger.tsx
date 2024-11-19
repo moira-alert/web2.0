@@ -44,13 +44,17 @@ const TriggerPage: React.FC<TriggerProps> = ({ view: TriggerView }) => {
     const handleDisableThrottling = async () => await deleteTriggerThrottling(triggerId);
 
     const handleSetTriggerMaintenance = async (maintenance: number) =>
-        await setTriggerMaintenance({ triggerId, maintenance, tagsToInvalidate: ["TriggerState"] });
+        await setTriggerMaintenance({
+            triggerId,
+            maintenance,
+            tagsToInvalidate: ["TriggerState", "TriggerList"],
+        });
 
     const handleSetMetricMaintenance = async (metric: string, maintenance: number) =>
         await setMetricMaintenance({
             triggerId,
             metrics: { [metric]: maintenance },
-            tagsToInvalidate: ["TriggerState"],
+            tagsToInvalidate: ["TriggerState", "TriggerList"],
         });
 
     const handleRemoveMetric = async (metric: string) =>

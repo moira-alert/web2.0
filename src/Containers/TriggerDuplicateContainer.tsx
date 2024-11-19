@@ -106,7 +106,10 @@ const TriggerDuplicateContainer = (props: Props) => {
                 <TriggerSaveWarningModal
                     isOpen={isSaveModalVisible}
                     onClose={() => dispatch(setIsSaveModalVisible(false))}
-                    onSave={() => saveTrigger(trigger)}
+                    onSave={() => {
+                        saveTrigger(trigger);
+                        dispatch(setIsSaveModalVisible(false));
+                    }}
                 />
                 <LayoutTitle>Duplicate trigger</LayoutTitle>
                 {trigger && (

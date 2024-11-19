@@ -18,7 +18,13 @@ export const useSaveTrigger = (history: History<unknown>) => {
         const action = triggerID
             ? () => setTrigger({ id: triggerID, data: triggerPayload }).unwrap()
             : () => addTrigger(triggerPayload).unwrap();
-        const { id } = await action();
-        history.push(getPageLink("trigger", id));
+
+        try {
+            const result = await action();
+            const { id } = result;
+            history.push(getPageLink("trigger", id));
+        } catch {
+            return;
+        }
     };
 };

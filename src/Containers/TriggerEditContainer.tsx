@@ -89,7 +89,10 @@ const TriggerEditContainer = (props: Props) => {
                 <TriggerSaveWarningModal
                     isOpen={isSaveModalVisible}
                     onClose={() => dispatch(setIsSaveModalVisible(false))}
-                    onSave={() => saveTrigger(trigger)}
+                    onSave={() => {
+                        saveTrigger(trigger);
+                        dispatch(setIsSaveModalVisible(false));
+                    }}
                 />
                 <LayoutTitle>Edit trigger</LayoutTitle>
                 {trigger && (

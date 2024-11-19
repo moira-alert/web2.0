@@ -25,29 +25,34 @@ export const useValidateTarget = (dispatch: Dispatch<Action>, history: History<u
         }
 
         const triggerPayload = triggerClientToPayload(trigger);
-        const validationResult = await validateTarget(triggerPayload).unwrap();
 
-        const doAnyTargetsHaveError = validationResult.targets.some((target) =>
-            checkTriggerTarget(target, TriggerTargetProblemType.BAD)
-        );
-        const doAnyTargetsHaveWarning = validationResult.targets.some((target) =>
-            checkTriggerTarget(target, TriggerTargetProblemType.WARN)
-        );
+        try {
+            const validationResult = await validateTarget(triggerPayload).unwrap();
 
-        if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
-            dispatch(setValidationResult(validationResult));
-        }
+            const doAnyTargetsHaveError = validationResult.targets.some((target) =>
+                checkTriggerTarget(target, TriggerTargetProblemType.BAD)
+            );
+            const doAnyTargetsHaveWarning = validationResult.targets.some((target) =>
+                checkTriggerTarget(target, TriggerTargetProblemType.WARN)
+            );
 
-        if (doAnyTargetsHaveError) {
-            dispatch(setIsSaveButtonDisabled(true));
+            if (doAnyTargetsHaveError || doAnyTargetsHaveWarning) {
+                dispatch(setValidationResult(validationResult));
+            }
+
+            if (doAnyTargetsHaveError) {
+                dispatch(setIsSaveButtonDisabled(true));
+                return;
+            }
+
+            if (doAnyTargetsHaveWarning) {
+                dispatch(setIsSaveModalVisible(true));
+                return;
+            }
+
+            await saveTrigger(triggerPayload);
+        } catch {
             return;
         }
-
-        if (doAnyTargetsHaveWarning) {
-            dispatch(setIsSaveModalVisible(true));
-            return;
-        }
-
-        await saveTrigger(triggerPayload);
     };
 };
