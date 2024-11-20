@@ -1,7 +1,7 @@
 import React, { useEffect, FC, useState } from "react";
 import { Layout, LayoutContent, LayoutTitle } from "../../Components/Layout/Layout";
 import { setDocumentTitle } from "../../helpers/setDocumentTitle";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { useGetAllTeamsQuery } from "../../services/TeamsApi";
 import classNames from "classnames/bind";
@@ -16,6 +16,7 @@ import { EmptyListText } from "../../Components/TriggerInfo/Components/EmptyList
 import { TeamCard } from "../../Components/Teams/TeamCard/TeamCard";
 
 import styles from "./AllTeamsContainer.less";
+import { setError } from "../../store/Reducers/UIReducer.slice";
 
 const cn = classNames.bind(styles);
 
@@ -33,6 +34,7 @@ const AllTeamsContainer: FC = () => {
     const [activePage, setActivePage] = useState<number>(1);
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
     const debouncedSearchMetric = useDebounce(searchValue, 500);
+    const dispatch = useAppDispatch();
 
     const { data: teams } = useGetAllTeamsQuery({
         page: transformPageFromHumanToProgrammer(activePage),
@@ -41,6 +43,11 @@ const AllTeamsContainer: FC = () => {
     });
 
     const pageCount = Math.ceil((teams?.total ?? 0) / (teams?.size ?? 1));
+
+    const handleSetSearchValue = (value: string) => {
+        dispatch(setError(null));
+        setSearchValue(value);
+    };
 
     useEffect(() => {
         setDocumentTitle("All Teams");
@@ -56,7 +63,7 @@ const AllTeamsContainer: FC = () => {
                             value={searchValue}
                             width={"100%"}
                             placeholder="Filter by team name or team id, regExp is supported"
-                            onValueChange={setSearchValue}
+                            onValueChange={handleSetSearchValue}
                             onClear={() => setSearchValue("")}
                         />
                         <Select<SortDirection, string>
