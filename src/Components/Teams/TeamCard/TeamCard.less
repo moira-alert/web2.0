@@ -1,0 +1,42 @@
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
+
+.team-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: start;
+    color: #333;
+    position: relative;
+
+    .team-name {
+        overflow: hidden;
+        max-width: 100%;
+        font-size: 18px;
+        line-height: 24px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: calc(100% - 12px);
+    }
+
+    .team-description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 120px;
+    }
+
+    .team-id {
+        font-size: 14px;
+        color: #999;
+    }
+
+    .team-card-kebab {
+        position: absolute;
+        right: 4px;
+    }
+
+    .team-users {
+        margin-left: -4px;
+    }
+}

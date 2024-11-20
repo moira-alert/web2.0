@@ -61,7 +61,7 @@ export const useFyllyDeleteTeam = (teamId: string, skip?: boolean) => {
             teamId,
             handleLoadingLocally: true,
             handleErrorLocally: true,
-        });
+        }).unwrap();
     };
 
     const isFetchingData = isGettingTeamUsers || isGettingSettings;

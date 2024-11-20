@@ -2,8 +2,11 @@ import { SubscriptionCreateInfo } from "../Api/MoiraApi";
 import { Contact, TeamContactCreateInfo } from "../Domain/Contact";
 import { Settings } from "../Domain/Settings";
 import { Subscription } from "../Domain/Subscription";
-import { Team } from "../Domain/Team";
+import { ITeamList, Team } from "../Domain/Team";
 import { BaseApi, CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
+import qs from "qs";
+
+const ALL_TEAMS_LIST_SIZE = 9;
 
 export const TeamsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -81,7 +84,7 @@ export const TeamsApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                return ["UserTeams", { type: "Team", id }];
+                return ["UserTeams", { type: "Team", id }, "AllTeams"];
             },
         }),
         deleteTeam: builder.mutation<void, CustomBaseQueryArgs<{ teamId: string }>>({
@@ -94,7 +97,7 @@ export const TeamsApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                return ["UserTeams"];
+                return ["UserTeams", "AllTeams"];
             },
         }),
         getTeamUsers: builder.query<string[], CustomBaseQueryArgs<{ teamId: string }>>({
@@ -143,6 +146,37 @@ export const TeamsApi = BaseApi.injectEndpoints({
                 return tagsToInvalidate;
             },
         }),
+        getAllTeams: builder.query<
+            ITeamList,
+            CustomBaseQueryArgs<{
+                page: number;
+                searchText?: string | null;
+                sort?: "asc" | "desc" | null;
+            }>
+        >({
+            query: ({ page, searchText, sort }) => {
+                const params = qs.stringify(
+                    {
+                        p: page,
+                        size: ALL_TEAMS_LIST_SIZE,
+                        searchText,
+                        sort,
+                    },
+                    { arrayFormat: "comma", skipNulls: true }
+                );
+                return {
+                    url: `teams/all?${params}`,
+                    method: "GET",
+                    credentials: "same-origin",
+                };
+            },
+            providesTags: (_result, error) => {
+                if (error) {
+                    return [];
+                }
+                return ["AllTeams"];
+            },
+        }),
     }),
 });
 
@@ -159,4 +193,5 @@ export const {
     useGetTeamUsersQuery,
     useAddUserToTeamMutation,
     useDeleteUserFromTeamMutation,
+    useGetAllTeamsQuery,
 } = TeamsApi;
