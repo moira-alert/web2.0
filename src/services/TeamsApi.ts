@@ -6,7 +6,7 @@ import { ITeamList, Team } from "../Domain/Team";
 import { BaseApi, CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
 import qs from "qs";
 
-const ALL_TEAMS_LIST_SIZE = 9;
+const ALL_TEAMS_LIST_SIZE = 30;
 
 export const TeamsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
