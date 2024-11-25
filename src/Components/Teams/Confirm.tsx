@@ -23,7 +23,7 @@ export function Confirm({
     active = true,
 }: ConfirmProps): ReactElement {
     const [opened, setOpened] = useState(false);
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState("");
 
     const handleConfirm = async () => {
         try {

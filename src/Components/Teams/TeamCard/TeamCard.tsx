@@ -3,7 +3,7 @@ import TrashIcon from "@skbkontur/react-icons/Trash";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import { Button, Kebab } from "@skbkontur/react-ui";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
-import { useFyllyDeleteTeam } from "../../../hooks/useFullyDeleteTeam";
+import { useFullyDeleteTeam } from "../../../hooks/useFullyDeleteTeam";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import { fullyDeleteTeamConfirmText } from "../../../helpers/teamOperationsConfirmMessages";
 import ModalError from "../../../Components/ModalError/ModalError";
@@ -30,7 +30,7 @@ interface ITeamCardProps {
 
 export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, onCloseDelete }) => {
     const { name, description, id } = team;
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState("");
     const { isModalOpen, openModal, closeModal } = useModal();
 
     const handleConfirm = async () => {
@@ -49,7 +49,7 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
         isDeletingSubscriptions,
         isDeletingUsers,
         isDeletingTeam,
-    } = useFyllyDeleteTeam(id, !isDeleting);
+    } = useFullyDeleteTeam(id, !isDeleting);
 
     const confirmMessage = fullyDeleteTeamConfirmText(
         isFetchingData,
@@ -72,12 +72,7 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
             <div className={cn("team-card")}>
                 <Flexbox gap={5}>
                     <Kebab className={cn("team-card-kebab")} size="large">
-                        <MenuItem
-                            icon={<EditIcon />}
-                            onClick={() => {
-                                openModal();
-                            }}
-                        >
+                        <MenuItem icon={<EditIcon />} onClick={openModal}>
                             Edit
                         </MenuItem>
                         <MenuItem icon={<TrashIcon />} onClick={onOpenDelete}>

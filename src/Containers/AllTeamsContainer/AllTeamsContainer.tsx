@@ -30,8 +30,8 @@ const SORT_OPTIONS: Array<[SortDirection, string]> = [
 const AllTeamsContainer: FC = () => {
     const { error, isLoading } = useAppSelector(UIState);
     const [deletingTeam, setDeletingTeam] = useState<Team | null>(null);
-    const [searchValue, setSearchValue] = useState<string>("");
-    const [activePage, setActivePage] = useState<number>(1);
+    const [searchValue, setSearchValue] = useState("");
+    const [activePage, setActivePage] = useState(1);
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
     const debouncedSearchMetric = useDebounce(searchValue, 500);
     const dispatch = useAppDispatch();
@@ -75,7 +75,7 @@ const AllTeamsContainer: FC = () => {
                             items={SORT_OPTIONS}
                         />
                     </Flexbox>
-                    {teams?.list.length !== 0 ? (
+                    {teams?.list.length ? (
                         <div className={cn("teams-container")}>
                             {teams?.list.map((team) => (
                                 <TeamCard
@@ -90,15 +90,15 @@ const AllTeamsContainer: FC = () => {
                     ) : (
                         <EmptyListText text={"There are no teams"} />
                     )}
-                    {teams?.list.length !== 0 && (
-                        <Paging
-                            caption="Next page"
-                            activePage={activePage}
-                            pagesCount={pageCount}
-                            onPageChange={setActivePage}
-                            withoutNavigationHint
-                        />
-                    )}
+
+                    <Paging
+                        shouldBeVisibleWithLessThanTwoPages={false}
+                        caption="Next page"
+                        activePage={activePage}
+                        pagesCount={pageCount}
+                        onPageChange={setActivePage}
+                        withoutNavigationHint
+                    />
                 </Flexbox>
             </LayoutContent>
         </Layout>
