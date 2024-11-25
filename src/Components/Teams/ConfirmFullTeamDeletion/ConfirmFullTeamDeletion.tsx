@@ -5,7 +5,7 @@ import { Hovered, HoveredShow } from "../Hovered/Hovered";
 import { Team } from "../../../Domain/Team";
 import { Confirm } from "../Confirm";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
-import { useFyllyDeleteTeam } from "../../../hooks/useFullyDeleteTeam";
+import { useFullyDeleteTeam } from "../../../hooks/useFullyDeleteTeam";
 import { fullyDeleteTeamConfirmText } from "../../../helpers/teamOperationsConfirmMessages";
 
 interface IConfirmFullTeamDeleteionProps {
@@ -25,7 +25,7 @@ export const ConfirmFullTeamDeleteion: FC<IConfirmFullTeamDeleteionProps> = ({
         isDeletingSubscriptions,
         isDeletingUsers,
         isDeletingTeam,
-    } = useFyllyDeleteTeam(teamId, !isConfirmOpened);
+    } = useFullyDeleteTeam(teamId, !isConfirmOpened);
 
     const confirmMessage = fullyDeleteTeamConfirmText(
         isFetchingData,

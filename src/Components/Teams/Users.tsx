@@ -51,7 +51,7 @@ export function Users({ team }: UsersProps): ReactElement {
             onCollapse={handleCollapse}
         >
             {users?.length ? (
-                <Grid columns="20px 240px" gap="8px" margin="8px 0 0 8px">
+                <Grid columns="20px 110px" gap="8px" margin="8px 0 0 8px">
                     {users.map((userName) => (
                         <Fragment key={userName}>
                             <Confirm

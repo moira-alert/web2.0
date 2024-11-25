@@ -3,3 +3,10 @@ export interface Team {
     name: string;
     description?: string;
 }
+
+export interface ITeamList {
+    list: Team[];
+    page: number;
+    size: number;
+    total: number;
+}

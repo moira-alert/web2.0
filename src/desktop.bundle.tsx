@@ -24,6 +24,7 @@ import { AdminRoute } from "./PrivateRoutes/AdminRoute";
 import TeamsContainer from "./Containers/TeamsContainer";
 import { TeamContainer } from "./Containers/TeamContainer";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
+import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer";
 
 import styles from "./desktop.less";
 
@@ -74,6 +75,7 @@ function Desktop() {
                 />
                 <Route exact path={getPagePath("settings")} component={SettingsContainer} />
                 <Route exact path={getPagePath("teams")} component={TeamsContainer} />
+                <AdminRoute exact path={getPagePath("allTeams")} component={AllTeamsContainer} />
                 <AdminRoute exact path={getPagePath("team")} component={TeamContainer} />
                 <AdminRoute
                     exact

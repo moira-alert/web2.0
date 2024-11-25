@@ -5,7 +5,7 @@ import { useDeleteAllUsersFromTeam } from "./useDeleteAllUsersFromTeam";
 import { Subscription } from "../Domain/Subscription";
 import { Contact } from "../Domain/Contact";
 
-export const useFyllyDeleteTeam = (teamId: string, skip?: boolean) => {
+export const useFullyDeleteTeam = (teamId: string, skip?: boolean) => {
     const { data: teamSettings, isLoading: isGettingSettings } = useGetTeamSettingsQuery(
         { teamId, handleLoadingLocally: true },
         { skip }
@@ -61,7 +61,7 @@ export const useFyllyDeleteTeam = (teamId: string, skip?: boolean) => {
             teamId,
             handleLoadingLocally: true,
             handleErrorLocally: true,
-        });
+        }).unwrap();
     };
 
     const isFetchingData = isGettingTeamUsers || isGettingSettings;

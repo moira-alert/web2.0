@@ -18,7 +18,7 @@ import styles from "./TeamEditor.less";
 const cn = classNames.bind(styles);
 
 interface ITeamEditorProps {
-    team?: Team;
+    team?: Team | null;
     onClose: () => void;
 }
 
@@ -30,11 +30,11 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
     const [error, setError] = useState<string | null>(null);
     const { handleUpdateTeam, isUpdatingTeam } = useUpdateTeam(
         validationRef,
-        team,
         name,
         description,
         setError,
-        onClose
+        onClose,
+        team
     );
     const { handleAddTeam, isAddingTeam } = useAddTeam(
         validationRef,
