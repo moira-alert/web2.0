@@ -7,6 +7,7 @@ import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
 import Tag from "../Tag/Tag";
 import NewTagBadge from "../NewTagBadge/NewTagBadge";
+import { ThemeContext } from "@skbkontur/react-ui";
 import classNames from "classnames/bind";
 
 import styles from "./TagDropdownSelect.less";
@@ -42,7 +43,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     private containerRef = React.createRef<HTMLSpanElement>();
     private tagsRef = React.createRef<HTMLDivElement>();
     private focusAnchorRef = React.createRef<HTMLSpanElement>();
-
+    public contextType = ThemeContext;
     componentDidUpdate(): void {
         this.updateDropdownContainerMaxWidth();
         LayoutEvents.emit();
@@ -52,6 +53,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
         const { width, value, availableTags, allowCreateNewTags, onBlur } = this.props;
         const { inputValue, focusedIndex, isFocused: opened } = this.state;
         const filtredTags = this.filterTags(difference(availableTags, value));
+        const theme = this.context;
 
         return (
             <span className={cn("root")} style={{ width }} ref={this.containerRef}>
@@ -69,7 +71,15 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                 offsetY={1}
                                 hasFixedWidth
                             >
-                                <div className={cn("tags-menu")} ref={this.tagsRef} onBlur={onBlur}>
+                                <div
+                                    style={{
+                                        backgroundColor: theme.inputBg,
+                                        borderColor: theme.inputBorderColor,
+                                    }}
+                                    className={cn("tags-menu")}
+                                    ref={this.tagsRef}
+                                    onBlur={onBlur}
+                                >
                                     <ScrollContainer maxHeight={300}>
                                         {filtredTags.length > 0 || allowCreateNewTags ? (
                                             <div className={cn("tag-list")}>
@@ -231,12 +241,21 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     renderInput(): React.ReactNode {
         const { error, value, isDisabled, placeholder, "data-tid": dataTid } = this.props;
         const { isFocused, inputValue } = this.state;
+        const theme = this.context;
+
         return (
             <div
+                style={{
+                    backgroundColor: theme.inputBg,
+                    borderColor: theme.inputBorderColor,
+                }}
                 className={
                     isDisabled
                         ? cn("input-area-disabled")
-                        : cn("input-area", { focused: isFocused, error })
+                        : cn("input-area", {
+                              focused: isFocused,
+                              error,
+                          })
                 }
             >
                 <ScrollContainer maxHeight={300}>
@@ -247,6 +266,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                             </div>
                         ))}
                     <input
+                        style={{ color: theme.textColorDefault }}
                         className={cn("input")}
                         value={inputValue}
                         onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
@@ -256,7 +276,10 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         }
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                             event.target instanceof HTMLInputElement
-                                ? this.setState({ inputValue: event.target.value, focusedIndex: 0 })
+                                ? this.setState({
+                                      inputValue: event.target.value,
+                                      focusedIndex: 0,
+                                  })
                                 : null
                         }
                         onFocus={() => this.setState({ isFocused: true })}

@@ -2771,6 +2771,11 @@
   resolved "https://registry.yarnpkg.com/@skbkontur-moira/lezer-metricsql/-/lezer-metricsql-0.0.1-dev.1809240003.tgz#f5537ae75657621984d075b8b8f5e7eea07cc6d1"
   integrity sha512-OKvGDY2VUGrSnxQlqvuOCrIxomviCDknLBSDnJOs4ej2SrSQXOFT0Y4bEJ7nmoOUMgCVPVCCpR47pXMJLHM3CQ==
 
+"@skbkontur/colors@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@skbkontur/colors/-/colors-1.0.0.tgz#e95dd43cad760027b8619ad994b104038a64423f"
+  integrity sha512-Xtw8eZjp2P9btF0Aj2WRZafSnmEpN8QldVDwdVyaMkDjhyLUD/EXxBqGS8ciyDTobta5zsbl7T4m49kTj7MCUg==
+
 "@skbkontur/react-icons@5.2.9":
   version "5.2.9"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-5.2.9.tgz#2f15a0d7676d8479d9ac95eca018c3661f0b8bc6"
@@ -2782,6 +2787,16 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-stack-layout/-/react-stack-layout-1.0.3.tgz"
   integrity sha512-PrvGdQGE9ZTB+QBAKU5Jjr/gfpxBAVY0bK6sfeD+3mjqdmaKI6ocL/w4eEYL3M9RIgJfuavaaUlftftIncSRDg==
+
+"@skbkontur/react-ui-addons@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-addons/-/react-ui-addons-5.1.0.tgz#e724e4855086d01cfa0da0aa4b389648cb792b53"
+  integrity sha512-SC/UYg1UBx5w6lP0yeMds4ANHb82YgeEUw6a+58mOzd8aRJBYJhUIpNbdpHgeK+t7ZvzfYz8gAWYWoN2Ky0k5A==
+  dependencies:
+    classnames "2.3.1"
+    lodash.isequal "4.5.0"
+    tslib "^1"
+    warning "4.0.3"
 
 "@skbkontur/react-ui-validations@1.13.0":
   version "1.13.0"
@@ -5067,6 +5082,11 @@ classnames@2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
+
+classnames@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
 classnames@^2.2.5:
   version "2.3.2"
@@ -8884,7 +8904,7 @@ lodash.invokemap@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.invokemap/-/lodash.invokemap-4.6.0.tgz"
   integrity sha512-CfkycNtMqgUlfjfdh2BhKO/ZXrP8ePOX5lEU/g0R3ItJcnuxWDwokMGKx1hWcfOikmyOVx6X9IwWnDGlgKl61w==
 
-lodash.isequal@^4.5.0:
+lodash.isequal@4.5.0, lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
   integrity sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
@@ -11728,7 +11748,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -11745,15 +11765,6 @@ string-width@^3.0.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
 
 string-width@^5.0.1, string-width@^5.1.2:
   version "5.1.2"
@@ -12286,7 +12297,7 @@ tsconfig-paths@^3.9.0:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tslib@^1.13.0, tslib@^1.9.2:
+tslib@^1, tslib@^1.13.0, tslib@^1.9.2:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
@@ -12794,7 +12805,7 @@ walker@^1.0.8:
   dependencies:
     makeerror "1.0.12"
 
-warning@^4.0.2, warning@^4.0.3:
+warning@4.0.3, warning@^4.0.2, warning@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz"
   integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
@@ -13292,16 +13303,7 @@ workbox-window@7.1.0:
     "@types/trusted-types" "^2.0.2"
     workbox-core "7.1.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==

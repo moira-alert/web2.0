@@ -1,3 +1,5 @@
+@import "@skbkontur/colors/colors.less";
+
 @linkColor: #3072c4;
 @primaryBackground: #ffffff;
 @colorTransparent: transparent;
@@ -10,3 +12,25 @@
 @moira-brand-color: #00bfa5;
 @moira-color-dev: #9780b3;
 @moira-color-staging: #809cb3;
+
+body[data-theme="Light Theme"] {
+    --background-primary: @grayscale-16-white;
+    --background-secondary: @grayscale-light-background;
+    --background-inverted: #3d3d3d;
+
+    --text-primary: @grayscale-text;
+    --text-secondary: @colorGrey;
+    --text-inverted: @grayscale-white-fff;
+}
+
+body[data-theme="Dark Theme"] {
+    --background-primary: #151515;
+    --background-secondary: #232323;
+    --background-item-active: @grayscale-16-dark-background;
+    --background-inverted: @grayscale-white-fff;
+    --background-plate: #151515;
+
+    --text-primary: @grayscale-background;
+    --text-secondary: @colorGrey;
+    --text-inverted: @grayscale-text;
+}

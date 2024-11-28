@@ -1,40 +1,47 @@
-import React, { useState, useEffect } from "react";
-import SvgIcon from "../SvgIcon/SvgIcon";
-import MailLogo from "./mail-logo.svg";
+import React, { useState, useLayoutEffect } from "react";
 import { useAppSelector } from "../../store/hooks";
 import { ConfigState } from "../../store/selectors";
-import { DefaultTypeToIcon } from "./DefaultTypeToIcon";
+import { icons } from "./ContactIcons";
+import { useTheme } from "../../shared/themes";
 
 type Props = {
     type: string;
 };
 
-export default function ContactTypeIcon({ type }: Props): React.ReactElement {
+export default function ContactTypeIcon({ type }: Props): React.ReactElement | null {
     const { config } = useAppSelector(ConfigState);
 
     const contact = config?.contacts.find((contact) => type.includes(contact.type));
 
-    const [svgPath, setSvgPath] = useState<string | null>(null);
+    const [iconKey, setIconKey] = useState<string | null>(null);
+    const theme = useTheme();
 
-    useEffect(() => {
-        import(`./${contact?.logo_uri}`)
-            .then((module) => {
-                setSvgPath(module.default);
-            })
-            .catch((error) => {
-                console.error(`Failed to load SVG: ${error.message}`);
-                setSvgPath(null);
-            });
-    }, [contact?.logo_uri]);
+    useLayoutEffect(() => {
+        if (contact?.logo_uri) {
+            const keyword = contact.logo_uri.split("-")[0].toLowerCase();
+            const matchingIcon = Object.keys(icons).find((name) =>
+                name.toLowerCase().includes(keyword)
+            );
+            if (matchingIcon) {
+                setIconKey(matchingIcon);
+                return;
+            }
+        }
 
-    const getDefaultIcons = () => {
-        const iconKey = Object.keys(DefaultTypeToIcon).find((key) => type.includes(key));
-        return iconKey ? (
-            DefaultTypeToIcon[iconKey]
-        ) : (
-            <SvgIcon path={MailLogo} size={16} offsetTop={3} />
-        );
-    };
+        if (type in icons) {
+            setIconKey(type);
+        } else {
+            setIconKey("mail");
+        }
+    }, [contact?.logo_uri, type]);
 
-    return svgPath ? <SvgIcon path={svgPath} size={16} offsetTop={3} /> : getDefaultIcons();
+    if (!iconKey) return null;
+
+    const IconComponent = icons[iconKey];
+
+    return (
+        <div style={{ display: "inline-block", position: "relative", top: "2px" }}>
+            <IconComponent color={theme.textColorDefault} size={16} />
+        </div>
+    );
 }

@@ -1,14 +1,15 @@
+import React, { CSSProperties, useState } from "react";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { format, fromUnixTime, getUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import UserIcon from "@skbkontur/react-icons/User";
-import * as React from "react";
 import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
 import { useHistory } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
+import { useTheme } from "../../shared/themes";
 import classNames from "classnames/bind";
 
 import styles from "../MetricList/MetricList.less";
@@ -44,6 +45,8 @@ export function MetricListItem({
     onChange,
     onRemove,
 }: MetricListItemProps) {
+    const [hover, setHover] = useState(false);
+
     const {
         values,
         event_timestamp: eventTimestamp = 0,
@@ -54,6 +57,7 @@ export function MetricListItem({
     const delta = maintenanceDelta(maintenance);
 
     const history = useHistory();
+    const theme = useTheme();
 
     const handleMetricClick = () => {
         const searchParams = new URLSearchParams();
@@ -62,8 +66,20 @@ export function MetricListItem({
         history.push({ search: searchParams.toString() });
     };
 
+    const baseStyle: CSSProperties = {
+        backgroundColor: hover ? theme.appBgColorSecondary : theme.appBgColorPrimary,
+        ...style,
+    };
+
     return (
-        <div onClick={handleMetricClick} key={metricName} className={cn("row")} style={style}>
+        <div
+            onClick={handleMetricClick}
+            key={metricName}
+            className={cn("row")}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            style={baseStyle}
+        >
             {status && (
                 <div className={cn("state")}>
                     <StatusIndicator statuses={[state]} size={10} />

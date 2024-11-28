@@ -13,6 +13,7 @@ import {
     MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE,
 } from "../../Constants/heights";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
+import { useTheme } from "../../shared/themes";
 import classNames from "classnames/bind";
 
 import styles from "./MetricList.less";
@@ -60,6 +61,7 @@ export default function MetricList(props: Props): React.ReactElement {
         sortingColumn,
         sortingDown,
     } = props;
+    const theme = useTheme();
 
     const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
     const ref = useRef<VariableSizeList>(null);
@@ -79,6 +81,7 @@ export default function MetricList(props: Props): React.ReactElement {
                         entries.length > MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE
                             ? "stable"
                             : "auto",
+                    borderColor: theme.dividerColor,
                 }}
             >
                 {status && (

@@ -12,6 +12,7 @@ import {
 import { Doughnut } from "react-chartjs-2";
 import { Status, getStatusColor } from "../../Domain/Status";
 import { Metric } from "../../Domain/Metric";
+import { useTheme } from "../../shared/themes";
 
 export type MetricNameToStateMap = Record<string, Metric>;
 
@@ -47,6 +48,7 @@ export const MetricStateChart: FC<IProps> = ({
     displayLegend = false,
     enableTooltip = false,
 }) => {
+    const theme = useTheme();
     const metricsStatusToCountMap = countMetricsByStatus(metrics);
 
     const data: ChartData<"doughnut"> = {
@@ -85,6 +87,7 @@ export const MetricStateChart: FC<IProps> = ({
                                     return {
                                         text: `${label}: ${value}`,
                                         fillStyle,
+                                        fontColor: theme.textColorDefault,
                                         lineWidth: 0,
                                         metricAmount,
                                     };

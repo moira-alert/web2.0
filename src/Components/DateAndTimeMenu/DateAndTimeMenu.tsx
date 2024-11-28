@@ -8,6 +8,7 @@ import { format, parse } from "date-fns";
 import { ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
 import { useModal } from "../../hooks/useModal";
+import { useTheme } from "../../shared/themes";
 import classNames from "classnames/bind";
 
 import styles from "./DateAndTimeMenu.less";
@@ -23,6 +24,26 @@ interface IDateAndTimeMenuProps {
 }
 
 const dateInputMask = "9999/99/99 99:99:99";
+
+const CalendarIconWithHover = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => {
+    const [hover, setHover] = useState(false);
+    const theme = useTheme();
+
+    const style = {
+        color: hover ? theme.textColorDefault : theme.iconColor,
+    };
+
+    return (
+        <div
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            onClick={onClick}
+            style={style}
+        >
+            <CalendarIcon className={cn("calendar-icon")} />
+        </div>
+    );
+};
 
 export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     date,
@@ -56,20 +77,27 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     return (
         <RenderLayer onClickOutside={closeMenu} onFocusOutside={closeMenu} active={isMenuOpen}>
             <div ref={containerEl}>
-                <div className={cn("input-container")}>
-                    <ValidationWrapperV1
-                        validationInfo={validateDateAndTime && validateDateAndTime(inputValue)}
-                    >
-                        <Input
-                            width={160}
-                            mask={dateInputMask}
-                            onFocus={closeMenu}
-                            value={inputValue}
-                            onValueChange={handleValueChange}
-                        />
-                    </ValidationWrapperV1>
-                    <CalendarIcon className={cn("calendar-icon")} onClick={openMenu} />
-                </div>
+                <ValidationWrapperV1
+                    validationInfo={validateDateAndTime && validateDateAndTime(inputValue)}
+                >
+                    <Input
+                        width={165}
+                        mask={dateInputMask}
+                        onFocus={closeMenu}
+                        value={inputValue}
+                        onValueChange={handleValueChange}
+                        rightIcon={() => (
+                            <CalendarIconWithHover
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    openMenu();
+                                }}
+                            />
+                        )}
+                    />
+                </ValidationWrapperV1>
+
                 {isMenuOpen && (
                     <DropdownContainer
                         offsetY={5}

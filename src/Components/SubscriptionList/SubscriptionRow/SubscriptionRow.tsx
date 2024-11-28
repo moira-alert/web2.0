@@ -15,6 +15,7 @@ import { toggleSubscriptionTransfer } from "../../../store/Reducers/UIReducer.sl
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
+import { useTheme } from "../../../shared/themes";
 
 const cn = classNames.bind(styles);
 
@@ -32,6 +33,12 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     const { isTransferringSubscriptions, transferingSubscriptions } = useAppSelector(UIState);
     const dispatch = useAppDispatch();
     const [isExpanded, setIsExpanded] = useState(false);
+    const [hover, setHover] = useState(false);
+    const theme = useTheme();
+
+    const style = {
+        backgroundColor: hover ? theme.appBgColorSecondary : theme.appBgColorPrimary,
+    };
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -66,6 +73,9 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
 
     return (
         <tr
+            style={style}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
             key={subscription.id}
             className={cn(rowClassName)}
             onClick={() => onEditSubscription(subscription)}

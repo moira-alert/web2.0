@@ -1,45 +1,16 @@
-import * as React from "react";
+import React, { useState, useEffect, ReactElement } from "react";
 import Selector from "../Selector/Selector";
 import { Token } from "../Token/Token";
-import { TokenType } from "../../helpers/TokenType";
 import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import { clearInput } from "../../helpers/common";
+import { getTokenType, searchTokens } from "../../helpers/trigger-search";
+import { useTheme } from "../../shared/themes";
 import classNames from "classnames/bind";
 
 import styles from "./SearchSelector.less";
 
 const cn = classNames.bind(styles);
-
-// ToDo вынести в хелперы
-const searchTokens = (query: string, items: string[]): string[] => {
-    const topMatchItems: string[] = [];
-    const otherItems: string[] = [];
-    const sort = (a: string, b: string) => a.length - b.length;
-
-    const queryLowerCase = query.toLowerCase();
-
-    items.forEach((item) => {
-        const itemLowerCase = item.toLowerCase();
-        const index = itemLowerCase.indexOf(queryLowerCase);
-
-        if (index === -1) {
-            return;
-        }
-
-        if (index === 0) {
-            topMatchItems.push(item);
-        }
-
-        const prevChar = itemLowerCase[index - 1];
-
-        if (prevChar === " " || prevChar === "." || prevChar === "-") {
-            otherItems.push(item);
-        }
-    });
-
-    return [...topMatchItems.sort(sort), ...otherItems.sort(sort)];
-};
 
 type Props = {
     search: string;
@@ -52,96 +23,50 @@ type Props = {
     onSearch: (query: string) => void;
 };
 
-type State = {
-    searchText: string;
-    clearedSearchValue: string;
-};
+const renderToken = (
+    token: string,
+    allTags: string[],
+    loading: boolean,
+    handleTokenRemove: (token: string) => void
+): ReactElement => (
+    <Token type={getTokenType(token, allTags, loading)} onRemove={handleTokenRemove}>
+        {token}
+    </Token>
+);
 
-export class SearchSelector extends React.Component<Props, State> {
-    state: State;
+export const SearchSelector: React.FC<Props> = ({
+    search = "",
+    allTags,
+    loading,
+    selectedTokens,
+    subscribedTokens,
+    remainingTokens,
+    onChange,
+    onSearch,
+}) => {
+    const [searchText, setSearchText] = useState(search);
+    const [clearedSearchValue, setClearedSearchValue] = useState(clearInput(search));
+    const theme = useTheme();
 
-    constructor(props: Props) {
-        super(props);
+    useEffect(() => {
+        setClearedSearchValue(clearInput(searchText));
+    }, [searchText]);
 
-        const { search = "" } = props;
-
-        this.state = {
-            searchText: search,
-            clearedSearchValue: clearInput(search),
-        };
-    }
-
-    render(): React.ReactElement {
-        const { selectedTokens, subscribedTokens, remainingTokens } = this.props;
-        const { clearedSearchValue, searchText } = this.state;
-
-        const resultTokens = searchTokens(clearedSearchValue, remainingTokens);
-
-        return (
-            <Selector
-                search={searchText}
-                tokens={selectedTokens}
-                renderToken={this.renderToken}
-                onEnterKeyDown={this.handleEnterKeyDown}
-                onBackspaceKeyDown={this.onRemoveLastToken}
-                onInputChange={this.handleInputChange}
-            >
-                <div className={cn("container")}>
-                    {clearedSearchValue === "" ? (
-                        <SelectorInitialView
-                            tokens={subscribedTokens}
-                            onSelect={this.handleTokenSelect}
-                        />
-                    ) : (
-                        <SelectorResultsView
-                            tokens={resultTokens}
-                            onSelect={this.handleTokenSelect}
-                        />
-                    )}
-                </div>
-            </Selector>
-        );
-    }
-
-    onRemoveLastToken = (): void => {
-        const { selectedTokens, onChange } = this.props;
-        const { clearedSearchValue } = this.state;
-
-        if (!selectedTokens.length) return;
-        const index = selectedTokens.length - 1;
-
-        onChange(
-            [...selectedTokens.slice(0, index), ...selectedTokens.slice(index + 1)],
-            clearedSearchValue
-        );
+    const handleInputChange = (value: string): void => {
+        setSearchText(value);
     };
 
-    handleInputChange = (value: string): void => {
-        this.setState({ clearedSearchValue: clearInput(value), searchText: value });
-    };
-
-    handleEnterKeyDown = (): void => {
-        const { clearedSearchValue } = this.state;
-        const { onSearch } = this.props;
-
+    const handleEnterKeyDown = (): void => {
         onSearch(clearedSearchValue);
     };
 
-    handleTokenSelect = (token: string): void => {
-        const { selectedTokens, onChange } = this.props;
-
+    const handleTokenSelect = (token: string): void => {
         onChange([...selectedTokens, token], "");
-
-        this.setState({
-            searchText: "",
-            clearedSearchValue: "",
-        });
+        setSearchText("");
+        setClearedSearchValue("");
     };
 
-    handleTokenRemove = (token: string): void => {
-        const { selectedTokens, onChange } = this.props;
-        const { clearedSearchValue } = this.state;
-
+    const handleTokenRemove = (token: string): void => {
         const index = selectedTokens.indexOf(token);
         if (index === -1) return;
 
@@ -151,17 +76,40 @@ export class SearchSelector extends React.Component<Props, State> {
         );
     };
 
-    getTokenType = (token: string): TokenType => {
-        if (this.props.loading) {
-            return TokenType.REMOVABLE;
-        }
+    const onRemoveLastToken = (): void => {
+        if (!selectedTokens.length) return;
+        const index = selectedTokens.length - 1;
 
-        return this.props.allTags.includes(token) ? TokenType.REMOVABLE : TokenType.NONEXISTENT;
+        onChange(
+            [...selectedTokens.slice(0, index), ...selectedTokens.slice(index + 1)],
+            clearedSearchValue
+        );
     };
 
-    renderToken = (token: string): React.ReactElement => (
-        <Token type={this.getTokenType(token)} onRemove={this.handleTokenRemove}>
-            {token}
-        </Token>
+    const resultTokens = searchTokens(clearedSearchValue, remainingTokens);
+
+    return (
+        <Selector
+            search={searchText}
+            tokens={selectedTokens}
+            renderToken={(token) => renderToken(token, allTags, loading, handleTokenRemove)}
+            onEnterKeyDown={handleEnterKeyDown}
+            onBackspaceKeyDown={onRemoveLastToken}
+            onInputChange={handleInputChange}
+        >
+            <div
+                style={{
+                    color: theme.textColorDefault,
+                    backgroundColor: theme.appBgColorSecondary,
+                }}
+                className={cn("container")}
+            >
+                {clearedSearchValue === "" ? (
+                    <SelectorInitialView tokens={subscribedTokens} onSelect={handleTokenSelect} />
+                ) : (
+                    <SelectorResultsView tokens={resultTokens} onSelect={handleTokenSelect} />
+                )}
+            </div>
+        </Selector>
     );
-}
+};

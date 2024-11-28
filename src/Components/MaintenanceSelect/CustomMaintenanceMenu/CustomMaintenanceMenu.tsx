@@ -8,6 +8,7 @@ import { TimeSelector } from "../../TimeSelector/TimeSelector";
 import { DateSelector } from "../../DateSelector/DateSelector";
 import { formatDateToCalendarDate, timeList } from "../../../helpers/DateUtil";
 import { validateForm, validateMaintenanceDate } from "../../../helpers/validations";
+import { useTheme } from "../../../shared/themes";
 import classNames from "classnames/bind";
 
 import styles from "./CustomMaintenanceMenu.less";
@@ -33,6 +34,8 @@ export default function CustomMaintenanceMenu({
     const [time, setTime] = useState(format(initialDate, "HH:mm"));
     const timeZone = format(initialDate, "OOOO");
     const [date, setDate] = useState<Date | undefined>(initialDate);
+
+    const theme = useTheme();
 
     const validationContainerRef = useRef<ValidationContainer>(null);
 
@@ -68,7 +71,7 @@ export default function CustomMaintenanceMenu({
                 minDate={minDate}
                 setDate={handleDatePick}
             />
-            <footer className={cn("footer")}>
+            <footer style={{ backgroundColor: theme.appBgColorSecondary }} className={cn("footer")}>
                 <Input value={time} onValueChange={setTime} mask="99:99" width="55px" />
                 <ValidationContainer ref={validationContainerRef}>
                     <ValidationWrapperV1
@@ -84,7 +87,7 @@ export default function CustomMaintenanceMenu({
                         />
                     </ValidationWrapperV1>
                 </ValidationContainer>
-                {timeZone}
+                <span style={{ color: theme.textColorSecondary }}> {timeZone}</span>
                 <Button use="primary" onClick={handleSet}>
                     Set
                 </Button>

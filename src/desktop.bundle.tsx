@@ -26,6 +26,7 @@ import { TeamContainer } from "./Containers/TeamContainer";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 
 import styles from "./desktop.less";
+import { useTheme } from "./shared/themes";
 
 const cn = classNames.bind(styles);
 
@@ -44,8 +45,14 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
 }
 
 function Desktop() {
+    const theme = useTheme();
     return (
-        <div className={cn("layout")}>
+        <div
+            style={{
+                color: theme.textColorDefault,
+            }}
+            className={cn("layout")}
+        >
             <HeaderContainer className={cn("header")} />
             <Switch>
                 <ResponsiveRoute

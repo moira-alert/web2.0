@@ -1,6 +1,7 @@
-import * as React from "react";
+import React, { useRef, useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 import Foco from "react-foco";
+import { useTheme } from "../../shared/themes";
 import classNames from "classnames/bind";
 
 import styles from "./Selector.less";
@@ -13,10 +14,10 @@ const Portal = ({ children }: { children: React.ReactNode }) => {
     if (!container) {
         throw new Error("Container for portal is empty");
     }
+
     return ReactDOM.createPortal(children, container);
 };
 
-// ToDo изменять размеры при ресайзе
 const Dropdown = ({
     anchor,
     children,
@@ -38,12 +39,15 @@ const Dropdown = ({
     } = anchor.getBoundingClientRect();
 
     const top = anchorTop + anchorHeight + SELECTOR_OUTLINE_SIZE + window.pageYOffset;
-
     const left = anchorLeft + window.pageXOffset;
+    const theme = useTheme();
 
     return (
         <Portal>
-            <div className={cn("dropdown")} style={{ top, left, width }}>
+            <div
+                className={cn("dropdown")}
+                style={{ top, left, width, borderColor: theme.inputBorderColor }}
+            >
                 {children}
             </div>
         </Portal>
@@ -60,63 +64,41 @@ type Props = {
     onInputChange: (value: string) => void;
 };
 
-type State = {
-    focused: boolean;
-};
+const Selector: React.FC<Props> = ({
+    search,
+    tokens,
+    renderToken,
+    children,
+    onEnterKeyDown,
+    onBackspaceKeyDown,
+    onInputChange,
+}) => {
+    const [focused, setFocused] = useState(false);
+    const dropdownAnchorRef = useRef<HTMLLabelElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const theme = useTheme();
 
-// ToDo прокинуть плейсхолдер
-export default class Selector extends React.Component<Props, State> {
-    public state: State = {
-        focused: false,
+    const openDropdown = useCallback(() => {
+        if (!focused) {
+            setFocused(true);
+        }
+    }, [focused]);
+
+    const closeDropdown = useCallback(() => {
+        if (focused) {
+            searchInputRef.current?.blur();
+            setFocused(false);
+        }
+    }, [focused]);
+
+    const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        onInputChange(evt.currentTarget.value);
     };
 
-    private dropdownAnchorRef = React.createRef<HTMLLabelElement>();
-    private searchInputRef = React.createRef<HTMLInputElement>();
-
-    render(): React.ReactNode {
-        const { focused } = this.state;
-        const { search, tokens, renderToken, children } = this.props;
-
-        return (
-            <Foco className={cn("wrapper")} onClickOutside={this.closeDropdown}>
-                <label
-                    className={cn({ selector: true, focused })}
-                    htmlFor="selector"
-                    ref={this.dropdownAnchorRef}
-                >
-                    <React.Profiler id="tokens" onRender={() => console.log("tokens rerendered")}>
-                        {tokens.map((token) => (
-                            <span key={token} className={cn("token-container")}>
-                                {renderToken(token)}
-                            </span>
-                        ))}
-                    </React.Profiler>
-                    <input
-                        className={cn("input")}
-                        id="selector"
-                        type="text"
-                        value={search}
-                        autoComplete="off"
-                        ref={this.searchInputRef}
-                        onChange={this.handleInputChange}
-                        onKeyDown={this.handleInputKeyDown}
-                        onFocus={this.openDropdown}
-                    />
-                </label>
-                {focused && <Dropdown anchor={this.dropdownAnchorRef.current}>{children}</Dropdown>}
-            </Foco>
-        );
-    }
-
-    handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
-        this.props.onInputChange(evt.currentTarget.value);
-    };
-
-    handleInputKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>): void => {
-        const { tokens } = this.props;
+    const handleInputKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === "Enter") {
-            this.props.onEnterKeyDown();
-            this.closeDropdown();
+            onEnterKeyDown();
+            closeDropdown();
         }
 
         if (
@@ -124,24 +106,45 @@ export default class Selector extends React.Component<Props, State> {
             evt.currentTarget.selectionStart === 0 &&
             tokens.length !== 0
         ) {
-            this.props.onBackspaceKeyDown();
+            onBackspaceKeyDown();
         }
     };
 
-    openDropdown = (): void => {
-        const { focused } = this.state;
+    return (
+        <Foco className={cn("wrapper")} onClickOutside={closeDropdown}>
+            <label
+                className={cn({ selector: true, focused })}
+                htmlFor="selector"
+                ref={dropdownAnchorRef}
+                style={{ backgroundColor: theme.inputBg, borderColor: theme.inputBorderColor }}
+            >
+                <React.Profiler id="tokens" onRender={() => console.log("tokens rerendered")}>
+                    {tokens.map((token) => (
+                        <span key={token} className={cn("token-container")}>
+                            {renderToken(token)}
+                        </span>
+                    ))}
+                </React.Profiler>
+                <input
+                    style={{
+                        backgroundColor: theme.inputBg,
+                        color: theme.textColorDefault,
+                        borderColor: theme.inputBorderColor,
+                    }}
+                    className={cn("input")}
+                    id="selector"
+                    type="text"
+                    value={search}
+                    autoComplete="off"
+                    ref={searchInputRef}
+                    onChange={handleInputChange}
+                    onKeyDown={handleInputKeyDown}
+                    onFocus={openDropdown}
+                />
+            </label>
+            {focused && <Dropdown anchor={dropdownAnchorRef.current}>{children}</Dropdown>}
+        </Foco>
+    );
+};
 
-        if (!focused) {
-            this.setState({ focused: true });
-        }
-    };
-
-    closeDropdown = (): void => {
-        const { focused } = this.state;
-
-        if (focused) {
-            this.searchInputRef.current?.blur();
-            this.setState({ focused: false });
-        }
-    };
-}
+export default Selector;
