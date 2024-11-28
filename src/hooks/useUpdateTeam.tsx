@@ -5,11 +5,11 @@ import { validateForm } from "../helpers/validations";
 
 export const useUpdateTeam = (
     validationRef: React.RefObject<ValidationContainer>,
-    team: Team | undefined,
     name: string,
     description: string,
     setError: (error: string) => void,
-    onClose: () => void
+    onClose: () => void,
+    team?: Team | null
 ) => {
     const [updateTeam, { isLoading: isUpdatingTeam }] = useUpdateTeamMutation();
 
