@@ -40,17 +40,18 @@ const GraphiteHighlightStyle = syntaxHighlighting(
     ])
 );
 
-const GraphiteTheme = (theme: TTheme) =>
-    EditorView.theme({
+const GraphiteTheme = (theme: TTheme) => {
+    console.log(theme.cmGutterBorder);
+    return EditorView.theme({
         ".cm-content": {
             whiteSpace: "break-spaces",
             wordBreak: "break-all",
             flexShrink: "1",
         },
         ".cm-gutters": {
-            borderRight: "none",
-            backgroundColor: theme.cmGutterColor,
-            color: theme.cmLineNumberColor,
+            borderRight: `1px solid ${theme.cmGutterBorder}`,
+            backgroundColor: `${theme.cmGutterColor}`,
+            color: `${theme.cmLineNumberColor}`,
         },
         ".cm-cursor ": {
             borderLeft: `1px solid ${theme.textColorDefault}`,
@@ -71,6 +72,7 @@ const GraphiteTheme = (theme: TTheme) =>
             backgroundColor: `${theme.cmActiveLine}`,
         },
     });
+};
 
 const ShowModeTheme = (theme: TTheme) =>
     EditorView.theme({

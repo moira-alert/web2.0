@@ -15,6 +15,7 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
         headerMenuButtons: "var(--header-menu-buttons)",
         cmGutterColor: "var(--background-gutter)",
         cmLineNumberColor: "var(--line-number-gutter)",
+        cmGutterBorder: "var(--border-gutter)",
 
         itemHover: "var(--item-hover)",
     },

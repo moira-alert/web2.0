@@ -15,6 +15,7 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
         cmLineNumberColor: "var(--line-number-gutter)",
         cmActiveLineGutter: "var(--active-line-gutter)",
         cmActiveLine: "var(--active-line)",
+        cmGutterBorder: "var(--border-gutter)",
 
         headerMenuButtons: "var(--header-menu-buttons)",
         textColorDefault: "#e6e6e6",

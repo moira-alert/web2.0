@@ -31,11 +31,12 @@ export interface ApplicationTheme extends AddonsThemeIn {
 
     calendarFooterColor?: string;
 
-    cmGutterColor: string;
-    cmLineNumberColor: string;
+    cmGutterColor?: string;
+    cmLineNumberColor?: string;
     cmActiveLineGutter?: string;
     cmActiveLine?: string;
     chartGridLinesColor?: string;
+    cmGutterBorder?: string;
 }
 
 export type TTheme = Readonly<Readonly<typeof DefaultTheme> & ApplicationTheme>;
