@@ -2771,11 +2771,6 @@
   resolved "https://registry.yarnpkg.com/@skbkontur-moira/lezer-metricsql/-/lezer-metricsql-0.0.1-dev.1809240003.tgz#f5537ae75657621984d075b8b8f5e7eea07cc6d1"
   integrity sha512-OKvGDY2VUGrSnxQlqvuOCrIxomviCDknLBSDnJOs4ej2SrSQXOFT0Y4bEJ7nmoOUMgCVPVCCpR47pXMJLHM3CQ==
 
-"@skbkontur/colors@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@skbkontur/colors/-/colors-1.0.0.tgz#e95dd43cad760027b8619ad994b104038a64423f"
-  integrity sha512-Xtw8eZjp2P9btF0Aj2WRZafSnmEpN8QldVDwdVyaMkDjhyLUD/EXxBqGS8ciyDTobta5zsbl7T4m49kTj7MCUg==
-
 "@skbkontur/react-icons@5.2.9":
   version "5.2.9"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-5.2.9.tgz#2f15a0d7676d8479d9ac95eca018c3661f0b8bc6"
@@ -2788,7 +2783,7 @@
   resolved "https://registry.yarnpkg.com/@skbkontur/react-stack-layout/-/react-stack-layout-1.0.3.tgz"
   integrity sha512-PrvGdQGE9ZTB+QBAKU5Jjr/gfpxBAVY0bK6sfeD+3mjqdmaKI6ocL/w4eEYL3M9RIgJfuavaaUlftftIncSRDg==
 
-"@skbkontur/react-ui-addons@^5.1.0":
+"@skbkontur/react-ui-addons@5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-addons/-/react-ui-addons-5.1.0.tgz#e724e4855086d01cfa0da0aa4b389648cb792b53"
   integrity sha512-SC/UYg1UBx5w6lP0yeMds4ANHb82YgeEUw6a+58mOzd8aRJBYJhUIpNbdpHgeK+t7ZvzfYz8gAWYWoN2Ky0k5A==

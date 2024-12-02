@@ -18,7 +18,7 @@ export default function ContactTypeIcon({ type }: Props): React.ReactElement | n
 
     useLayoutEffect(() => {
         if (contact?.logo_uri) {
-            const keyword = contact.logo_uri.split("-")[0].toLowerCase();
+            const keyword = contact.logo_uri.toLowerCase();
             const matchingIcon = Object.keys(icons).find((name) =>
                 name.toLowerCase().includes(keyword)
             );
