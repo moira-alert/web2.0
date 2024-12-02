@@ -5,7 +5,14 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
     {
         name: "Light Theme",
         isDark: false,
+        cmGutterColor: "var(--background-gutter)",
+        cmLineNumberColor: "var(--line-number-gutter)",
+        cmActiveLineGutter: "var(--active-line-gutter)",
+        cmActiveLine: "var(--active-line)",
+        cmGutterBorder: "var(--border-gutter)",
+
         appBgColorPrimary: "var(--background-primary)",
+
         textColorSecondary: "var(--text-secondary)",
 
         iconCheckedColor: "var(--icon-checked-color)",
@@ -13,9 +20,6 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
         iconColor: "var(--icon-color)",
 
         headerMenuButtons: "var(--header-menu-buttons)",
-        cmGutterColor: "var(--background-gutter)",
-        cmLineNumberColor: "var(--line-number-gutter)",
-        cmGutterBorder: "var(--border-gutter)",
 
         itemHover: "var(--item-hover)",
     },

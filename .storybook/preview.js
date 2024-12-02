@@ -1,17 +1,23 @@
 import "reflect-metadata";
 import "../src/style.less";
 import { MemoryRouter } from "react-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Providers } from "../src/Providers/Providers";
+import { EThemesNames } from "../src/Themes/themesNames";
 
 export const decorators = [
-    (Story) => (
-        <MemoryRouter initialEntries={["/"]}>
-            <Providers>
-                <Story />
-            </Providers>
-        </MemoryRouter>
-    ),
+    (Story) => {
+        useEffect(() => {
+            document.body.setAttribute("data-theme", EThemesNames.Light);
+        }, []);
+        return (
+            <MemoryRouter initialEntries={["/"]}>
+                <Providers>
+                    <Story />
+                </Providers>
+            </MemoryRouter>
+        );
+    },
 ];
 
 export const parameters = {

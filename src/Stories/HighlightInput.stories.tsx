@@ -1,8 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import HighlightInput from "../Components/HighlightInput/HighlightInput";
-import { ThemeContext } from "@skbkontur/react-ui";
-import { defaultLight } from "../Themes";
 
 type ContainerProps = {
     defaultValue: string;
@@ -13,11 +11,9 @@ function Container({ defaultValue, children }: ContainerProps) {
     const [value, setValue] = useState(defaultValue);
 
     return (
-        <ThemeContext.Provider value={defaultLight}>
-            <div style={{ margin: "30px" }}>
-                <ValidationContainer>{children(value, setValue)}</ValidationContainer>
-            </div>
-        </ThemeContext.Provider>
+        <div style={{ margin: "30px" }}>
+            <ValidationContainer>{children(value, setValue)}</ValidationContainer>
+        </div>
     );
 }
 
