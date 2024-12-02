@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from "react";
+import React, { useState } from "react";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { format, fromUnixTime, getUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
@@ -9,7 +9,7 @@ import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
 import { useHistory } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "../MetricList/MetricList.less";
@@ -66,8 +66,8 @@ export function MetricListItem({
         history.push({ search: searchParams.toString() });
     };
 
-    const baseStyle: CSSProperties = {
-        backgroundColor: hover ? theme.appBgColorSecondary : theme.appBgColorPrimary,
+    const baseStyle = {
+        backgroundColor: hover ? theme.itemHover : theme.appBgColorPrimary,
         ...style,
     };
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { EThemesNames } from "../../shared/themes/themesNames";
+import { EThemesNames } from "../../Themes/themesNames";
 import { useAppSelector } from "../../store/hooks";
 import { useFeatureFlag } from "./useFeatureFlag";
 import { useIsBrowserPrefersDarkTheme } from "./useIsBrowserPrefersDarkTheme";

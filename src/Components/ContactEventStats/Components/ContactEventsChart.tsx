@@ -12,6 +12,7 @@ import { Select } from "@skbkontur/react-ui/components/Select";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { getContactEventsChartOptions } from "../../../helpers/getChartOptions";
 import { Flexbox } from "../../Flexbox/FlexBox";
+import { useTheme } from "../../../Themes";
 
 ChartJS.register(...registerables);
 
@@ -21,6 +22,7 @@ interface IContactEventsBarChartProps {
 
 export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ events }) => {
     const [interval, setInterval] = useState<EContactEventsInterval>(EContactEventsInterval.hour);
+    const theme = useTheme();
 
     const groupedTransitions = useMemo(() => groupEventsByInterval(events, interval), [
         events,
@@ -62,7 +64,12 @@ export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ even
             <Bar
                 plugins={[createHtmlLegendPlugin(false), zoomPlugin]}
                 data={{ labels, datasets }}
-                options={getContactEventsChartOptions(interval) as ChartOptions<"bar">}
+                options={
+                    getContactEventsChartOptions(
+                        interval,
+                        theme.chartGridLinesColor
+                    ) as ChartOptions<"bar">
+                }
             />
         </Flexbox>
     );

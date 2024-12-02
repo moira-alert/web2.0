@@ -12,10 +12,10 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { UIState } from "../../../store/selectors";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { toggleSubscriptionTransfer } from "../../../store/Reducers/UIReducer.slice";
+import { useTheme } from "../../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
-import { useTheme } from "../../../shared/themes";
 
 const cn = classNames.bind(styles);
 
@@ -36,8 +36,8 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     const [hover, setHover] = useState(false);
     const theme = useTheme();
 
-    const style = {
-        backgroundColor: hover ? theme.appBgColorSecondary : theme.appBgColorPrimary,
+    const hoverStyle = {
+        backgroundColor: hover ? theme.itemHover : theme.appBgColorPrimary,
     };
 
     const toggleExpand = () => {
@@ -73,7 +73,7 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
 
     return (
         <tr
-            style={style}
+            style={hoverStyle}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             key={subscription.id}
@@ -126,7 +126,7 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                 <div className={cn("contacts-content")}>{getSubscriptionContacts}</div>
             </td>
             {!subscription.enabled && (
-                <td className={cn("enabled-cell")}>
+                <td style={hoverStyle} className={cn("enabled-cell")}>
                     <span className={cn("disabled-label")}>Disabled</span>
                 </td>
             )}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./Footer.less";

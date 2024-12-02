@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Subscription } from "../../Domain/Subscription";
 import { TriggerApi } from "../../services/TriggerApi";
-import { EThemesNames } from "../../shared/themes/themesNames";
+import { EThemesNames } from "../../Themes/themesNames";
 
 interface IUIState {
     isLoading: boolean;

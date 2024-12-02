@@ -3,7 +3,7 @@ import { Sun } from "./Components/Sun";
 import { Desktop } from "./Components/Desktop";
 import { Crescent } from "./Components/Crescent";
 import { ThemeSwitchRadio } from "./Components/ThemeSwitchRadio/ThemeSwitchRadio";
-import { EThemesNames } from "../shared/themes/themesNames";
+import { EThemesNames } from "../../Themes/themesNames";
 import classNames from "classnames/bind";
 
 import styles from "./ThemeSwitch.less";

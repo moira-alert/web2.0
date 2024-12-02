@@ -2,7 +2,7 @@ import React, { useRef, ReactNode, FC, useEffect, CSSProperties } from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import { NewVersionAvailableHint } from "../NewVersionAvailableHint/NewVersionAvailableHint";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./Layout.less";

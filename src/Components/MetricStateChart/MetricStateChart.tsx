@@ -12,7 +12,7 @@ import {
 import { Doughnut } from "react-chartjs-2";
 import { Status, getStatusColor } from "../../Domain/Status";
 import { Metric } from "../../Domain/Metric";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 
 export type MetricNameToStateMap = Record<string, Metric>;
 

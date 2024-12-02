@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./AddingButton.less";

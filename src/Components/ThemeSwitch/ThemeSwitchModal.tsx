@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { Modal } from "@skbkontur/react-ui";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { useDispatch, useSelector } from "react-redux";
-import { useThemeFeature } from "../hooks/themes/useThemeFeature";
-import { setTheme } from "../store/Reducers/UIReducer.slice";
-import { UIState } from "../store/selectors";
-import { EThemesNames } from "../shared/themes/themesNames";
-import { useBrowserThemeDetector } from "../hooks/themes/useBrowserThemeDetector";
-import { useModal } from "../hooks/useModal";
+import { useThemeFeature } from "../../hooks/themes/useThemeFeature";
+import { setTheme } from "../../store/Reducers/UIReducer.slice";
+import { UIState } from "../../store/selectors";
+import { EThemesNames } from "../../Themes/themesNames";
+import { useBrowserThemeDetector } from "../../hooks/themes/useBrowserThemeDetector";
+import { useModal } from "../../hooks/useModal";
 import { ThemeSwitchIcon } from "./Components/ThemeSwitchIcon/ThemeSwitchIcon";
 
 export const ThemeSwitchModal: React.FC = () => {

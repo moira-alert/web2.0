@@ -8,7 +8,7 @@ import { TimeSelector } from "../../TimeSelector/TimeSelector";
 import { DateSelector } from "../../DateSelector/DateSelector";
 import { formatDateToCalendarDate, timeList } from "../../../helpers/DateUtil";
 import { validateForm, validateMaintenanceDate } from "../../../helpers/validations";
-import { useTheme } from "../../../shared/themes";
+import { useTheme } from "../../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./CustomMaintenanceMenu.less";

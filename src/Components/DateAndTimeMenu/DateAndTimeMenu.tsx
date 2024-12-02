@@ -8,7 +8,7 @@ import { format, parse } from "date-fns";
 import { ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
 import { useModal } from "../../hooks/useModal";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./DateAndTimeMenu.less";

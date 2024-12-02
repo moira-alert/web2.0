@@ -43,7 +43,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     private containerRef = React.createRef<HTMLSpanElement>();
     private tagsRef = React.createRef<HTMLDivElement>();
     private focusAnchorRef = React.createRef<HTMLSpanElement>();
-    public contextType = ThemeContext;
+
     componentDidUpdate(): void {
         this.updateDropdownContainerMaxWidth();
         LayoutEvents.emit();
@@ -205,6 +205,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
             }
         }
     }
+
+    public static contextType = ThemeContext;
 
     updateDropdownContainerMaxWidth(): void {
         const node = this.tagsRef?.current;

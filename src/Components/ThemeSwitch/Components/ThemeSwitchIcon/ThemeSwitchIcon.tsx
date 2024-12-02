@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { EThemesNames } from "../../../shared/themes/themesNames";
-import { useTheme } from "../../../shared/themes";
+import { EThemesNames } from "../../../../Themes/themesNames";
+import { useTheme } from "../../../../Themes";
 import { Sun } from "../Sun";
 import { Crescent } from "../Crescent";
 import { Desktop } from "../Desktop";
@@ -29,7 +29,7 @@ export const ThemeSwitchIcon: FC<IThemeSwitchIconProps> = ({
                         <span className={cn("icon")} style={{ color: theme.textColorDefault }}>
                             <Sun size={20} color={theme.headerMenuButtons} />
                         </span>
-                        Light
+                        Light Theme
                     </>
                 );
             case EThemesNames.Dark:
@@ -38,7 +38,7 @@ export const ThemeSwitchIcon: FC<IThemeSwitchIconProps> = ({
                         <span className={cn("icon")} style={{ color: theme.textColorDefault }}>
                             <Crescent size={20} color={theme.headerMenuButtons} />
                         </span>
-                        Dark
+                        Dark Theme
                     </>
                 );
             case EThemesNames.System:
@@ -47,7 +47,7 @@ export const ThemeSwitchIcon: FC<IThemeSwitchIconProps> = ({
                         <span className={cn("icon")} style={{ color: theme.textColorDefault }}>
                             <Desktop size={20} color={theme.headerMenuButtons} />
                         </span>
-                        System
+                        System Theme
                     </>
                 );
             default:

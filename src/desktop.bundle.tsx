@@ -25,9 +25,9 @@ import TeamsContainer from "./Containers/TeamsContainer";
 import { TeamContainer } from "./Containers/TeamContainer";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer";
+import { useTheme } from "./Themes";
 
 import styles from "./desktop.less";
-import { useTheme } from "./shared/themes";
 
 const cn = classNames.bind(styles);
 

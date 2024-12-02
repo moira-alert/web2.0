@@ -1,5 +1,5 @@
-import { defaultDark, defaultLight } from "../../shared/themes";
-import { EThemesNames } from "../../shared/themes/themesNames";
+import { defaultDark, defaultLight } from "../../Themes";
+import { EThemesNames } from "../../Themes/themesNames";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { useIsBrowserPrefersDarkTheme } from "./useIsBrowserPrefersDarkTheme";

@@ -12,8 +12,8 @@ import { useSelector } from "react-redux";
 import { selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
 import { useGetConfigQuery } from "../../services/BaseApi";
 import { Platform } from "../../Domain/Config";
-import { ThemeSwitchModal } from "../../ThemeSwitch/ThemeSwitchModal";
-import { useTheme } from "../../shared/themes";
+import { ThemeSwitchModal } from "../ThemeSwitch/ThemeSwitchModal";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./Header.less";

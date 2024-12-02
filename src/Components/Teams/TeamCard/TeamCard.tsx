@@ -10,11 +10,12 @@ import ModalError from "../../../Components/ModalError/ModalError";
 import { Users } from "../../../Components/Teams/Users";
 import { useModal } from "../../../hooks/useModal";
 import { TeamEditor } from "../../../Components/Teams/TeamEditor/TeamEditor";
-import RouterLink from "../../../Components/RouterLink/RouterLink";
 import { getPageLink } from "../../../Domain/Global";
 import { Markdown } from "../../../Components/Markdown/Markdown";
 import { Team } from "../../../Domain/Team";
 import { Flexbox } from "../../Flexbox/FlexBox";
+import { useTheme } from "../../../Themes";
+import { Link } from "@skbkontur/react-ui/components/Link";
 import classNames from "classnames/bind";
 
 import styles from "./TeamCard.less";
@@ -32,6 +33,7 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
     const { name, description, id } = team;
     const [error, setError] = useState("");
     const { isModalOpen, openModal, closeModal } = useModal();
+    const theme = useTheme();
 
     const handleConfirm = async () => {
         try {
@@ -69,7 +71,13 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
 
     return (
         <>
-            <div className={cn("team-card")}>
+            <div
+                style={{
+                    backgroundColor: theme.appBgColorSecondary,
+                    borderColor: theme.inputBorderColor,
+                }}
+                className={cn("team-card")}
+            >
                 <Flexbox gap={5}>
                     <Kebab className={cn("team-card-kebab")} size="large">
                         <MenuItem icon={<EditIcon />} onClick={openModal}>
@@ -112,9 +120,9 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
                                 <div className={cn("team-users")}>
                                     <Users team={team} />
                                 </div>
-                                <RouterLink to={getPageLink("teamSettings", team.id)}>
+                                <Link href={getPageLink("teamSettings", team.id)}>
                                     Team settings
-                                </RouterLink>
+                                </Link>
                             </Flexbox>
                         </>
                     )}

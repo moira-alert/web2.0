@@ -5,7 +5,7 @@ import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import { clearInput } from "../../helpers/common";
 import { getTokenType, searchTokens } from "../../helpers/trigger-search";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./SearchSelector.less";

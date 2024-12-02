@@ -1,5 +1,5 @@
-@import '~styles/variables.less';
-@import '~styles/mixins.less';
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
 
 .row {
     display: flex;
@@ -16,15 +16,11 @@
 
     &.clicable {
         cursor: pointer;
-
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
     }
 }
 
 .name {
-    width: calc(~'100% - 240px');
+    width: calc(~"100% - 240px");
 
     &.clicked {
         &:extend(.base-reset);

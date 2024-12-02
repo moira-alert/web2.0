@@ -1,7 +1,7 @@
 import React, { useRef, useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 import Foco from "react-foco";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./Selector.less";

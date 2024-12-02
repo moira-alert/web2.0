@@ -3,7 +3,7 @@ import { TimeSelector } from "../TimeSelector/TimeSelector";
 import { format, isAfter, isBefore } from "date-fns";
 import { DateSelector } from "../DateSelector/DateSelector";
 import { timeList } from "../../helpers/DateUtil";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./DateAndTimeSelector.less";
@@ -91,7 +91,6 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
             />
             <footer
                 style={{
-                    color: theme.textColorSecondary,
                     backgroundColor: theme.appBgColorSecondary,
                 }}
                 className={cn("footer")}

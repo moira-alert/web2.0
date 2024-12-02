@@ -10,7 +10,7 @@ import { SearchSelector } from "../../Components/SearchSelector/SearchSelector";
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
 import { TriggerListUpdate } from "./trigger-list";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import { useHistory } from "react-router";
 
 export type TriggerListDesktopProps = {

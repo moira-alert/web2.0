@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, FC } from "react";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import { Button } from "@skbkontur/react-ui/components/Button";
@@ -7,6 +7,7 @@ import { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import { ISortConfig } from "../../hooks/useSortData";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./PatternList.less";
@@ -71,68 +72,69 @@ type ItemProps = {
     data: Pattern;
     onRemove: () => void;
 };
-type ItemState = {
-    showInfo: boolean;
-};
 
-class PatternListItem extends React.Component<ItemProps, ItemState> {
-    state: ItemState = {
-        showInfo: false,
+const PatternListItem: FC<ItemProps> = ({ data, onRemove }) => {
+    const { pattern, triggers, metrics } = data;
+    const [showInfo, setShowInfo] = useState(false);
+    const [hover, setHover] = useState(false);
+    const theme = useTheme();
+
+    const isTriggers = triggers.length !== 0;
+    const isMetrics = metrics.length !== 0;
+
+    const hoverStyle = {
+        backgroundColor: hover ? theme.itemHover : theme.appBgColorPrimary,
     };
-
-    render(): React.ReactNode {
-        const { data, onRemove } = this.props;
-        const { pattern, triggers, metrics } = data;
-        const { showInfo } = this.state;
-        const isTriggers = triggers.length !== 0;
-        const isMetrics = metrics.length !== 0;
-        return (
-            <div className={cn("row", { active: showInfo, clicable: isTriggers || isMetrics })}>
-                {isTriggers || isMetrics ? (
-                    <button
-                        type="button"
-                        className={cn("name", "clicked")}
-                        onClick={() => this.setState({ showInfo: !showInfo })}
-                    >
-                        {pattern}
-                    </button>
-                ) : (
-                    <div className={cn("name")}>{pattern}</div>
-                )}
-                <div className={cn("trigger-counter")}>{triggers.length}</div>
-                <div className={cn("metric-counter")}>{metrics.length}</div>
-                <div className={cn("control")}>
-                    <Button use="link" icon={<TrashIcon />} onClick={() => onRemove()}>
-                        Delete
-                    </Button>
-                </div>
-                {showInfo && (
-                    <div className={cn("info")}>
-                        {isTriggers && (
-                            <div className={cn("group")}>
-                                <b>Triggers</b>
-                                {triggers.map(({ id, name }) => (
-                                    <div key={id} className={cn("item")}>
-                                        <RouterLink to={getPageLink("trigger", id)}>
-                                            {name}
-                                        </RouterLink>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        {isMetrics && (
-                            <div className={cn("group")}>
-                                <b>Metrics</b>
-                                {metrics.map((metric) => (
-                                    <div key={metric} className={cn("item")}>
-                                        {metric}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                )}
+    return (
+        <div
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            style={hoverStyle}
+            className={cn("row", { active: showInfo, clicable: isTriggers || isMetrics })}
+        >
+            {isTriggers || isMetrics ? (
+                <button
+                    style={{ color: theme.textColorDefault }}
+                    type="button"
+                    className={cn("name", "clicked")}
+                    onClick={() => setShowInfo(!showInfo)}
+                >
+                    {pattern}
+                </button>
+            ) : (
+                <div className={cn("name")}>{pattern}</div>
+            )}
+            <div className={cn("trigger-counter")}>{triggers.length}</div>
+            <div className={cn("metric-counter")}>{metrics.length}</div>
+            <div className={cn("control")}>
+                <Button use="link" icon={<TrashIcon />} onClick={onRemove}>
+                    Delete
+                </Button>
             </div>
-        );
-    }
-}
+            {showInfo && (
+                <div className={cn("info")}>
+                    {isTriggers && (
+                        <div className={cn("group")}>
+                            <b>Triggers</b>
+                            {triggers.map(({ id, name }) => (
+                                <div key={id} className={cn("item")}>
+                                    <RouterLink to={getPageLink("trigger", id)}>{name}</RouterLink>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {isMetrics && (
+                        <div className={cn("group")}>
+                            <b>Metrics</b>
+                            {metrics.map((metric) => (
+                                <div key={metric} className={cn("item")}>
+                                    {metric}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};

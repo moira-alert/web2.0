@@ -4,7 +4,7 @@ import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./EventList.less";

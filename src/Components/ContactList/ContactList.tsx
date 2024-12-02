@@ -17,7 +17,7 @@ import { ContactEventStats } from "../ContactEventStats/ContactEventStats";
 import { useAppDispatch } from "../../store/hooks";
 import { setError } from "../../store/Reducers/UIReducer.slice";
 import { EmptyListMessage } from "./Components/EmptyListMessage";
-import { useTheme } from "../../shared/themes";
+import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.less";
@@ -46,8 +46,8 @@ const ContactItem: React.FC<IContactItemProps> = ({
     const [hover, setHover] = useState(false);
     const theme = useTheme();
 
-    const style = {
-        backgroundColor: hover ? theme.appBgColorSecondary : theme.appBgColorPrimary,
+    const hoverStyle = {
+        backgroundColor: hover ? theme.itemHover : theme.appBgColorPrimary,
     };
 
     const isContactTypeSupported = contactDescriptions.some(
@@ -58,7 +58,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
         <>
             {isContactTypeSupported ? (
                 <tr
-                    style={style}
+                    style={hoverStyle}
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}
                     className={cn("item")}
@@ -100,7 +100,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                 <tr
                     onMouseEnter={() => setHover(true)}
                     onMouseLeave={() => setHover(false)}
-                    style={style}
+                    style={hoverStyle}
                     className={cn("item")}
                     key={id}
                 >

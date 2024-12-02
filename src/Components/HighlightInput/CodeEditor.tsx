@@ -12,6 +12,7 @@ import { TargetQueryEntityColors } from "../../Domain/Target";
 import { PromQLExtension } from "@skbkontur-moira/codemirror-metricsql";
 import { basicSetup, EditorView } from "codemirror";
 import { TransactionSpec, EditorSelection, EditorState } from "@codemirror/state";
+import { useTheme, TTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./HighlightInput.less";
@@ -39,38 +40,66 @@ const GraphiteHighlightStyle = syntaxHighlighting(
     ])
 );
 
-const GraphiteTheme = EditorView.theme({
-    ".cm-content": {
-        whiteSpace: "break-spaces",
-        wordBreak: "break-all",
-        flexShrink: "1",
-    },
-});
+const GraphiteTheme = (theme: TTheme) =>
+    EditorView.theme({
+        ".cm-content": {
+            whiteSpace: "break-spaces",
+            wordBreak: "break-all",
+            flexShrink: "1",
+        },
+        ".cm-gutters": {
+            borderRight: "none",
+            backgroundColor: theme.cmGutterColor,
+            color: theme.cmLineNumberColor,
+        },
+        ".cm-cursor ": {
+            borderLeft: `1px solid ${theme.textColorDefault}`,
+        },
+        ".cm-tooltip": {
+            backgroundColor: `${theme.appBgColorSecondary}`,
+        },
+        "&.cm-focused": {
+            outline: `1px dotted ${theme.appBgColorTertiary}`,
+        },
+        ".cm-activeLineGutter": {
+            backgroundColor: `${theme.cmActiveLineGutter}`,
+        },
+        ".cm-activeLine": {
+            backgroundColor: `${theme.cmActiveLine}`,
+        },
+        "&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground": {
+            backgroundColor: `${theme.cmActiveLine}`,
+        },
+    });
 
-const ShowModeTheme = EditorView.theme({
-    ".cm-gutters": {
-        borderRight: "none",
-        backgroundColor: "transparent",
-    },
+const ShowModeTheme = (theme: TTheme) =>
+    EditorView.theme({
+        ".cm-gutters": {
+            borderRight: "none",
+            backgroundColor: "transparent",
+        },
 
-    ".cm-content": {
-        whiteSpace: "break-spaces",
-        wordBreak: "break-all",
-        flexShrink: "1",
-    },
+        ".cm-content": {
+            whiteSpace: "break-spaces",
+            wordBreak: "break-all",
+            flexShrink: "1",
+        },
 
-    ".cm-lineNumbers ": {
-        display: "none !important",
-    },
+        ".cm-lineNumbers ": {
+            display: "none !important",
+        },
 
-    ".cm-activeLineGutter": {
-        backgroundColor: "transparent",
-    },
+        ".cm-activeLineGutter": {
+            backgroundColor: "transparent",
+        },
 
-    ".cm-activeLine": {
-        backgroundColor: "transparent",
-    },
-});
+        ".cm-activeLine": {
+            backgroundColor: "transparent",
+        },
+        ".cm-selectionBackground": {
+            backgroundColor: `${theme.cmActiveLine}`,
+        },
+    });
 
 const quadrupleClickCopy = EditorView.mouseSelectionStyle.of((view, event) => {
     if (event.detail !== 4 || event.button !== 0) return null;
@@ -120,6 +149,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     },
     validationRef
 ) {
+    const theme = useTheme();
     const editorRef = useRef<HTMLDivElement | null>(null);
 
     const isPromQl = triggerSource === TriggerSource.PROMETHEUS_REMOTE;
@@ -129,7 +159,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     const languageToUse = isPromQl ? promQL.asExtension() : graphiteLanguage();
 
     const GraphiteExtensions = [
-        GraphiteTheme,
+        GraphiteTheme(theme),
         basicSetup,
         keymap.of([...defaultKeymap]),
         indentOnInput(),
@@ -149,7 +179,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         basicSetup,
         languageToUse,
         EditorView.editable.of(!disabled),
-        ShowModeTheme,
+        ShowModeTheme(theme),
         quadrupleClickCopy,
     ];
 
@@ -158,6 +188,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
     }
 
     const PrometeusExtensions = [
+        GraphiteTheme(theme),
         basicSetup,
         keymap.of([...defaultKeymap]),
         EditorView.updateListener.of((update) => {
