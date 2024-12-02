@@ -1,6 +1,5 @@
 import { DARK_THEME, ThemeFactory } from "@skbkontur/react-ui";
 import { ApplicationTheme } from "../hooks/themes/useTheme";
-import "@skbkontur/colors/colors.less";
 
 export const defaultDark = ThemeFactory.create<ApplicationTheme>(
     {
