@@ -71,7 +71,13 @@ export default function CustomMaintenanceMenu({
                 minDate={minDate}
                 setDate={handleDatePick}
             />
-            <footer style={{ backgroundColor: theme.appBgColorSecondary }} className={cn("footer")}>
+            <footer
+                style={{
+                    backgroundColor: theme.appBgColorSecondary,
+                    color: theme.textColorSecondary,
+                }}
+                className={cn("footer")}
+            >
                 <Input value={time} onValueChange={setTime} mask="99:99" width="55px" />
                 <ValidationContainer ref={validationContainerRef}>
                     <ValidationWrapperV1
