@@ -39,8 +39,6 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
 
         modalBackBg: "rgb(0, 0, 0)",
 
-        calendarFooterColor: "var(--background-secondary)",
-
         chartGridLinesColor: "#505050",
     },
     DARK_THEME

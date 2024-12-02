@@ -40,9 +40,8 @@ const GraphiteHighlightStyle = syntaxHighlighting(
     ])
 );
 
-const GraphiteTheme = (theme: TTheme) => {
-    console.log(theme.cmGutterBorder);
-    return EditorView.theme({
+const GraphiteTheme = (theme: TTheme) =>
+    EditorView.theme({
         ".cm-content": {
             whiteSpace: "break-spaces",
             wordBreak: "break-all",
@@ -72,7 +71,6 @@ const GraphiteTheme = (theme: TTheme) => {
             backgroundColor: `${theme.cmActiveLine}`,
         },
     });
-};
 
 const ShowModeTheme = (theme: TTheme) =>
     EditorView.theme({

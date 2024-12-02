@@ -29,8 +29,6 @@ export interface ApplicationTheme extends AddonsThemeIn {
 
     dividerColor?: string;
 
-    calendarFooterColor?: string;
-
     cmGutterColor?: string;
     cmLineNumberColor?: string;
     cmActiveLineGutter?: string;

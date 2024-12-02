@@ -92,6 +92,7 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
             <footer
                 style={{
                     backgroundColor: theme.appBgColorSecondary,
+                    color: theme.appBgColorTertiary,
                 }}
                 className={cn("footer")}
             >

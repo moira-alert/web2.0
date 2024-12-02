@@ -58,7 +58,12 @@ export const Token = (props: Props): React.ReactElement => {
         };
 
         return (
-            <button type="button" className={cn("token", "selectable")} onClick={handleClick}>
+            <button
+                style={{ backgroundColor: theme.appBgColorTertiary, color: theme.textColorDefault }}
+                type="button"
+                className={cn("token", "selectable")}
+                onClick={handleClick}
+            >
                 {children}
             </button>
         );
