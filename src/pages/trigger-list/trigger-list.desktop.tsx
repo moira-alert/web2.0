@@ -90,7 +90,7 @@ const TriggerListDesktop: React.FC<TriggerListDesktopProps> = ({
                 <ColumnStack block gap={6} horizontalAlign="stretch">
                     <AddingButton to={getPageLink("triggerAdd")} />
                     <TriggerList
-                        searchMode={searchText !== ""}
+                        searchMode={!!searchText}
                         items={triggers}
                         onChange={onSetMetricMaintenance}
                         onRemove={onRemoveMetric}

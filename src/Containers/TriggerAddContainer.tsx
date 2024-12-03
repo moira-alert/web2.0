@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Fill, RowStack as LayoutRowStack } from "@skbkontur/react-stack-layout";
@@ -25,6 +24,7 @@ import {
     setIsSaveModalVisible,
     setIsSaveButtonDisabled,
 } from "../store/Reducers/TriggerFormReducer.slice";
+import { useHistory } from "react-router";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -58,7 +58,8 @@ const defaultTrigger: Partial<Trigger> = {
     alone_metrics: {},
 };
 
-const TriggerAddContainer = (props: RouteComponentProps) => {
+const TriggerAddContainer = () => {
+    const history = useHistory();
     const { config } = useAppSelector(ConfigState);
     const { validationResult, isSaveModalVisible } = useAppSelector(TriggerFormState);
     const { isLoading, error } = useAppSelector(UIState);
@@ -66,8 +67,8 @@ const TriggerAddContainer = (props: RouteComponentProps) => {
     const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
     const validationContainer = useRef<ValidationContainer>(null);
     const { data: tags } = useGetTagsQuery();
-    const validateTarget = useValidateTarget(dispatch, props.history);
-    const saveTrigger = useSaveTrigger(props.history);
+    const validateTarget = useValidateTarget(dispatch, history);
+    const saveTrigger = useSaveTrigger(history);
 
     const handleSubmit = async () => {
         const isFormValid = await validationContainer.current?.validate();

@@ -94,7 +94,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
     };
 
     const renderExceptionHelpMessage = (): React.ReactElement => {
-        const hasExpression = data.expression != null && data.expression !== "";
+        const hasExpression = !!data.expression;
         const hasMultipleTargets = data.targets.length > 1;
         return (
             <div className={cn("exception-message")}>
