@@ -71,7 +71,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                         })
                     }
                 >
-                    <td style={{ color: theme.textColorDefault }} className={cn("icon")}>
+                    <td className={cn("icon")}>
                         <ContactTypeIcon type={type} />
                     </td>
                     <td>
