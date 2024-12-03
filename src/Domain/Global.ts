@@ -12,6 +12,7 @@ export const PagesPaths = {
     teams: "/teams",
     team: "/teams/:teamId?",
     contacts: "/contacts",
+    allTeams: "/teams/all",
 };
 
 export const PagesLinks = {
@@ -29,6 +30,7 @@ export const PagesLinks = {
     team: "/teams/%id%",
     docs: "//moira.readthedocs.org/",
     contacts: "/contacts",
+    allTeams: "/teams/all",
 };
 
 export type PagePath = keyof typeof PagesPaths;
