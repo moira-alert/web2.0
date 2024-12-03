@@ -56,7 +56,6 @@ test("Add trigger", async ({ triggerName, triggerDescription, page }) => {
     await expect(page).toHaveURL(`/trigger/${responseJson.id}`);
     await expect(page.getByText(triggerName)).toBeVisible();
     await expect(page.getByText(triggerDescription)).toBeVisible();
-    await page.waitForTimeout(1000);
 });
 
 test("Set trigger maintenance for all intervals", async ({ triggerName, page }) => {
@@ -66,23 +65,21 @@ test("Set trigger maintenance for all intervals", async ({ triggerName, page }) 
 
     const triggerInfoPage = new TriggerInfoPage(page);
 
-    let interceptedRequestBody: any = null;
-    await page.route("**/trigger/*/setMaintenance", (route) => {
-        interceptedRequestBody = JSON.parse(route.request().postData() || "{}");
-        route.continue();
-    });
-
     for (const maintenance of MaintenanceList) {
         await test.step(`Set maintenance to ${getMaintenanceCaption(maintenance)}`, async () => {
+            const setMaintenanceRequestPromise = page.waitForRequest("**/trigger/*/setMaintenance");
+
             const expectedTriggerTime = calculateMaintenanceTime(maintenance);
+
             await triggerInfoPage.triggerMaintenance.click();
 
             await page.getByText(getMaintenanceCaption(maintenance)).click();
 
-            expect(interceptedRequestBody).not.toBeNull();
-            expect(
-                Math.abs(interceptedRequestBody.trigger - expectedTriggerTime)
-            ).toBeLessThanOrEqual(1);
+            const setMaintenanceRequest = await setMaintenanceRequestPromise;
+
+            const requestBody = JSON.parse(setMaintenanceRequest.postData() || "{}");
+            expect(requestBody).not.toBeNull();
+            expect(requestBody.trigger).toEqual(expectedTriggerTime);
 
             if (maintenance === Maintenance.off) {
                 await expect(page.getByText("Maintenance")).toBeVisible();

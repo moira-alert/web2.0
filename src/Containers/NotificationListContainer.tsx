@@ -31,10 +31,6 @@ const NotificationListContainer: FC = () => {
 
     const layoutTitle = `Notifications ${notificationAmount}`;
 
-    const removeNotification = async (id: string) => {
-        deleteNotification({ id });
-    };
-
     const removeAllNotifications = async () => {
         setModalData({ isOpen: false });
         deleteAllNotifications();
@@ -102,7 +98,7 @@ const NotificationListContainer: FC = () => {
                 {notificationList && (
                     <NotificationList
                         items={composeNotifications(notificationList)}
-                        onRemove={removeNotification}
+                        onRemove={(id) => deleteNotification({ id })}
                     />
                 )}
             </LayoutContent>

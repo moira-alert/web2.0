@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { History } from "history";
 import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -39,26 +39,22 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
 
     const metrics = data.last_check?.metrics;
 
-    const handleToggleMetrics = useCallback(() => {
-        setShowMetrics((prev) => !prev);
-    }, []);
+    const handleSort = (column: SortingColumn) => {
+        if (column === sortingColumn) {
+            setSortingDown((prev) => !prev);
+        } else {
+            setSortingColumn(column);
+            setSortingDown(true);
+        }
+    };
 
-    const handleSort = useCallback(
-        (column: SortingColumn) => {
-            if (column === sortingColumn) {
-                setSortingDown((prev) => !prev);
-            } else {
-                setSortingColumn(column);
-                setSortingDown(true);
-            }
-        },
-        [sortingColumn]
+    const hasExceptionState = data.last_check?.state === Status.EXCEPTION;
+
+    const filterMetricsByStatus = useMemo(
+        () => (status: Status): MetricItemList =>
+            _.pickBy(metrics, (metric) => metric.state === status),
+        [metrics]
     );
-
-    const getHasExceptionState = () => data.last_check?.state === Status.EXCEPTION;
-
-    const filterMetricsByStatus = (status: Status): MetricItemList =>
-        _.pickBy(metrics, (metric) => metric.state === status);
 
     const renderCounters = (): React.ReactElement => {
         const counters = StatusesInOrder.map((status) => ({
@@ -122,7 +118,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
 
         return (
             <div className={cn("metrics")}>
-                {getHasExceptionState() && renderExceptionHelpMessage()}
+                {hasExceptionState && renderExceptionHelpMessage()}
                 <Tabs value={statuses[0]}>
                     {statuses.map((status) => (
                         <Tab key={status} id={status} label={getStatusCaption(status)}>
@@ -153,7 +149,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
         <div className={cn("row", { active: showMetrics })}>
             <div
                 className={cn("state", { active: metrics })}
-                onClick={() => metrics && handleToggleMetrics()}
+                onClick={() => metrics && setShowMetrics((prev) => !prev)}
                 data-tid="TriggerListItem_status"
             >
                 {renderStatus()}

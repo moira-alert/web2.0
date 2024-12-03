@@ -14,10 +14,6 @@ const PatternListContainer: React.FC = () => {
 
     const { sortedData, sortConfig, handleSort } = useSortData(patterns ?? [], "metrics");
 
-    const removePattern = async (pattern: string) => {
-        deletePattern(pattern);
-    };
-
     useEffect(() => {
         setDocumentTitle("Patterns");
     }, []);
@@ -31,7 +27,7 @@ const PatternListContainer: React.FC = () => {
                         items={sortedData}
                         onSort={handleSort}
                         sortConfig={sortConfig}
-                        onRemove={removePattern}
+                        onRemove={deletePattern}
                     />
                 }
             </LayoutContent>
