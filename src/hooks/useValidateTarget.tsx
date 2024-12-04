@@ -1,38 +1,33 @@
 import { Dispatch } from "react";
-import MoiraApi from "../Api/MoiraApi";
 import type { Trigger } from "../Domain/Trigger";
 import {
     checkTriggerTarget,
     triggerClientToPayload,
     TriggerTargetProblemType,
 } from "../Domain/Trigger";
-import {
-    Action,
-    setError,
-    setIsLoading,
-    setIsSaveButtonDisabled,
-    setIsSaveModalVisible,
-    setValidationResult,
-} from "./useTriggerFormContainerReducer";
 import { useSaveTrigger } from "./useSaveTrigger";
 import { History } from "history";
+import { useValidateTargetMutation } from "../services/TriggerApi";
+import {
+    setIsSaveButtonDisabled,
+    setValidationResult,
+    setIsSaveModalVisible,
+} from "../store/Reducers/TriggerFormReducer.slice";
+import { Action } from "@reduxjs/toolkit";
 
-export const useValidateTarget = (
-    moiraApi: MoiraApi,
-    dispatch: Dispatch<Action>,
-    history: History<unknown>
-) => {
-    const saveTrigger = useSaveTrigger(moiraApi, dispatch, history);
+export const useValidateTarget = (dispatch: Dispatch<Action>, history: History<unknown>) => {
+    const saveTrigger = useSaveTrigger(history);
+    const [validateTarget] = useValidateTargetMutation();
 
     return async (trigger?: Trigger | Partial<Trigger>) => {
         if (!trigger) {
             return;
         }
 
-        dispatch(setIsLoading(true));
+        const triggerPayload = triggerClientToPayload(trigger);
+
         try {
-            const triggerPayload = triggerClientToPayload(trigger);
-            const validationResult = await moiraApi.validateTarget(triggerPayload);
+            const validationResult = await validateTarget(triggerPayload).unwrap();
 
             const doAnyTargetsHaveError = validationResult.targets.some((target) =>
                 checkTriggerTarget(target, TriggerTargetProblemType.BAD)
@@ -56,10 +51,8 @@ export const useValidateTarget = (
             }
 
             await saveTrigger(triggerPayload);
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(setIsLoading(false));
+        } catch {
+            return;
         }
     };
 };

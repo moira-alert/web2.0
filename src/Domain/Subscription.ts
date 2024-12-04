@@ -17,3 +17,9 @@ export type Subscription = {
         theme: "light" | "dark";
     };
 };
+
+export type SubscriptionCreateInfo = Omit<Subscription, "id" | "user" | "any_tags"> & {
+    id?: string;
+    user?: string;
+    any_tags: boolean;
+};

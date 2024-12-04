@@ -1,6 +1,5 @@
 import { getUnixTime, addMinutes } from "date-fns";
 import { getUTCDate } from "../helpers/DateUtil";
-import MoiraApi from "../Api/MoiraApi";
 
 export enum Maintenance {
     off = "off",
@@ -15,7 +14,6 @@ export enum Maintenance {
 }
 
 export const MaintenanceList = [
-    Maintenance.off,
     Maintenance.quarterHour,
     Maintenance.oneHour,
     Maintenance.threeHours,
@@ -24,6 +22,7 @@ export const MaintenanceList = [
     Maintenance.oneWeek,
     Maintenance.twoWeeks,
     Maintenance.oneMonth,
+    Maintenance.off,
 ];
 
 const MaintenanceTimes = {
@@ -63,23 +62,4 @@ export function calculateMaintenanceTime(maintenance: Maintenance): number {
     return maintenanceTime > 0
         ? getUnixTime(addMinutes(getUTCDate(), maintenanceTime))
         : maintenanceTime;
-}
-
-export async function setMetricMaintenance(
-    moiraApi: MoiraApi,
-    triggerId: string,
-    metric: string,
-    maintenance: number
-): Promise<void> {
-    await moiraApi.setMaintenance(triggerId, {
-        metrics: { [metric]: maintenance },
-    });
-}
-
-export async function setTriggerMaintenance(
-    moiraApi: MoiraApi,
-    triggerId: string,
-    maintenance: number
-): Promise<void> {
-    await moiraApi.setMaintenance(triggerId, { trigger: maintenance });
 }

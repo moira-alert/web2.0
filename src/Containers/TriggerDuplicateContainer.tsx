@@ -3,55 +3,58 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
-import MoiraApi from "../Api/MoiraApi";
-import { withMoiraApi } from "../Api/MoiraApiInjection";
 import TriggerSource, { Trigger } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
-import {
-    setError,
-    setIsLoading,
-    setIsSaveButtonDisabled,
-    setIsSaveModalVisible,
-    useTriggerFormContainerReducer,
-} from "../hooks/useTriggerFormContainerReducer";
+import { setError } from "../store/Reducers/UIReducer.slice";
 import { useValidateTarget } from "../hooks/useValidateTarget";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
-import { useAppSelector } from "../store/hooks";
-import { ConfigState } from "../store/selectors";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { ConfigState, TriggerFormState, UIState } from "../store/selectors";
+import { useGetTriggerQuery } from "../services/TriggerApi";
+import { useGetTagsQuery } from "../services/TagsApi";
+import {
+    setIsSaveModalVisible,
+    setIsSaveButtonDisabled,
+} from "../store/Reducers/TriggerFormReducer.slice";
 
-// TODO check id wasn't undefined
-type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
+type Props = RouteComponentProps<{ id: string }>;
+
+const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
+    const trigger: Partial<Trigger> = { ...sourceTrigger };
+
+    delete trigger.id;
+    delete trigger.last_check;
+    delete trigger.throttling;
+
+    return {
+        ...trigger,
+        name: `${trigger.name} (copy)`,
+        sched: trigger.sched
+            ? { ...trigger.sched, tzOffset: new Date().getTimezoneOffset() }
+            : undefined,
+    };
+};
 
 const TriggerDuplicateContainer = (props: Props) => {
     const { config } = useAppSelector(ConfigState);
-    const [state, dispatch] = useTriggerFormContainerReducer();
+    const { isSaveModalVisible, validationResult } = useAppSelector(TriggerFormState);
+    const { isLoading, error } = useAppSelector(UIState);
+    const dispatch = useAppDispatch();
+    const { id } = props.match.params;
+    const { data: sourceTrigger } = useGetTriggerQuery({
+        triggerId: id,
+    });
+    const { data: tags } = useGetTagsQuery();
     const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
-    const [tags, setTags] = useState<string[] | undefined>(undefined);
 
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
-    const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
-
-    const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
-        const trigger: Partial<Trigger> = { ...sourceTrigger };
-
-        delete trigger.id;
-        delete trigger.last_check;
-        delete trigger.throttling;
-
-        return {
-            ...trigger,
-            name: `${trigger.name} (copy)`,
-            sched: trigger.sched
-                ? { ...trigger.sched, tzOffset: new Date().getTimezoneOffset() }
-                : undefined,
-        };
-    };
+    const validateTarget = useValidateTarget(dispatch, props.history);
+    const saveTrigger = useSaveTrigger(props.history);
 
     const handleSubmit = async () => {
         const isFormValid = await validationContainer.current?.validate();
@@ -82,49 +85,31 @@ const TriggerDuplicateContainer = (props: Props) => {
             return { ...prev, ...update };
         });
         dispatch(setError(null));
-
         if (update.targets) {
             dispatch(setIsSaveButtonDisabled(false));
         }
     };
 
-    const getData = async () => {
-        const { id } = props.match.params;
-        if (typeof id !== "string") {
-            dispatch(setError("Wrong trigger id"));
-            dispatch(setIsLoading(false));
-            return;
-        }
-
-        try {
-            const [sourceTrigger, { list }] = await Promise.all([
-                props.moiraApi.getTrigger(id),
-                props.moiraApi.getTagList(),
-            ]);
-
-            const trigger = cleanTrigger(sourceTrigger);
-            setTrigger(trigger);
-            setTags(list);
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(setIsLoading(false));
-        }
-    };
-
     useEffect(() => {
         setDocumentTitle("Duplicate trigger");
-        dispatch(setIsLoading(true));
-        getData();
-    }, []);
+
+        if (sourceTrigger) {
+            setTrigger(cleanTrigger(sourceTrigger));
+        } else {
+            setTrigger(undefined);
+        }
+    }, [sourceTrigger]);
 
     return (
-        <Layout loading={state.isLoading} error={state.error}>
+        <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <TriggerSaveWarningModal
-                    isOpen={state.isSaveModalVisible}
+                    isOpen={isSaveModalVisible}
                     onClose={() => dispatch(setIsSaveModalVisible(false))}
-                    onSave={() => saveTrigger(trigger)}
+                    onSave={() => {
+                        saveTrigger(trigger);
+                        dispatch(setIsSaveModalVisible(false));
+                    }}
                 />
                 <LayoutTitle>Duplicate trigger</LayoutTitle>
                 {trigger && (
@@ -139,7 +124,7 @@ const TriggerDuplicateContainer = (props: Props) => {
                                             remoteAllowed={config.remoteAllowed}
                                             metricSourceClusters={config.metric_source_clusters}
                                             onChange={handleChange}
-                                            validationResult={state.validationResult}
+                                            validationResult={validationResult}
                                         />
                                     )}
                                 </ValidationContainer>
@@ -175,4 +160,4 @@ const TriggerDuplicateContainer = (props: Props) => {
     );
 };
 
-export default withMoiraApi(TriggerDuplicateContainer);
+export default TriggerDuplicateContainer;

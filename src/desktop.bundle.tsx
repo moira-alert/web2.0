@@ -1,7 +1,7 @@
 import React, { ComponentType } from "react";
 import { Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
-import HeaderContainer from "./Containers/HeaderContainer";
+import { HeaderContainer } from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
 import TriggerEditContainer from "./Containers/TriggerEditContainer";
 import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
@@ -33,9 +33,7 @@ const cn = classNames.bind(styles);
 type ResponsiveRouteProps = {
     exact?: boolean;
     path: string;
-    container:
-        | ComponentType<Omit<TriggerListProps, "moiraApi">>
-        | ComponentType<Omit<TriggerProps, "moiraApi">>;
+    container: ComponentType<TriggerListProps> | ComponentType<TriggerProps>;
     view: ComponentType<TriggerListDesktopProps> | ComponentType<TriggerDesktopProps>;
 };
 

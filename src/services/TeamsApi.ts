@@ -1,4 +1,4 @@
-import { SubscriptionCreateInfo } from "../Api/MoiraApi";
+import { SubscriptionCreateInfo } from "../Domain/Subscription";
 import { Contact, TeamContactCreateInfo } from "../Domain/Contact";
 import { Settings } from "../Domain/Settings";
 import { Subscription } from "../Domain/Subscription";

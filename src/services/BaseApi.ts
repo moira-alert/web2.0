@@ -71,6 +71,9 @@ export type TApiInvalidateTags =
     | "Team"
     | "TriggerState"
     | "Trigger"
+    | "Notifications"
+    | "Patterns"
+    | "TriggerList"
     | "AllTeams";
 
 export const BaseApi = createApi({
@@ -86,6 +89,9 @@ export const BaseApi = createApi({
         "Team",
         "TriggerState",
         "Trigger",
+        "Notifications",
+        "Patterns",
+        "TriggerList",
         "AllTeams",
     ],
     baseQuery: customFetchBaseQuery,
