@@ -18,7 +18,7 @@ export const SnowfallBackground = ({ topOffset = 0 }: { topOffset?: number }) =>
         const snowflakes = Array.from({ length: 100 }, () => ({
             x: randomNumberBetween(0, width),
             y: randomNumberBetween(-height, height),
-            size: randomNumberBetween(2, 7),
+            size: randomNumberBetween(2, 9),
             speed: randomNumberBetween(1, 1.5),
             horizontalSpeed: randomNumberBetween(-1, 1),
         }));
