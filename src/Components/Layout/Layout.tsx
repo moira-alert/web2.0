@@ -2,6 +2,9 @@ import React, { useRef, ReactNode, FC, useEffect } from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import { NewVersionAvailableHint } from "../NewVersionAvailableHint/NewVersionAvailableHint";
+import { SnowfallBackground } from "../SnowFall/SnowFall";
+import { useAppSelector } from "../../store/hooks";
+import { UIState } from "../../store/selectors";
 import classNames from "classnames/bind";
 
 import styles from "./Layout.less";
@@ -27,6 +30,7 @@ export const Block: FC<IBlockProps> = ({ children, className }) => (
 
 export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, children }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const { isChristmasMood } = useAppSelector(UIState);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -46,7 +50,9 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
                     <WarningIcon /> {error}
                 </div>
             )}
+
             <Loader className={cn("loader")} active={loading} caption="Loading">
+                {isChristmasMood && <SnowfallBackground topOffset={60} />}
                 {children}
             </Loader>
             <NewVersionAvailableHint />

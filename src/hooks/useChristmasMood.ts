@@ -9,7 +9,7 @@ import { selectIsChristmasMood } from "../store/Reducers/ConfigReducer.slice";
 export const christmasMoodFlag: TFeatureFlag<boolean> = {
     id: "christmas_mood",
     label: "Christmas Mood",
-    defaultValue: false,
+    defaultValue: true,
 };
 
 export const useChristmasMood = () => {
