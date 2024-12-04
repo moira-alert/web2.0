@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { randomNumberBetween } from "../ChristmasLights/ChristmasLights";
 
 interface ISnowFlake {
     x: number;
@@ -15,11 +16,11 @@ export const SnowfallBackground = ({ topOffset = 0 }: { topOffset?: number }) =>
 
     const createSnowflakes = (width: number, height: number) => {
         const snowflakes = Array.from({ length: 100 }, () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * 7 + 2,
-            speed: Math.random() * 2 + 1,
-            horizontalSpeed: Math.random() * 1.5 - 0.75,
+            x: randomNumberBetween(0, width),
+            y: randomNumberBetween(-height, height),
+            size: randomNumberBetween(2, 7),
+            speed: randomNumberBetween(1, 3),
+            horizontalSpeed: randomNumberBetween(-1, 1),
         }));
         snowflakesRef.current = snowflakes;
     };

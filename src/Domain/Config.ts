@@ -11,7 +11,7 @@ export interface ContactConfig {
 }
 
 export enum ECelebrationMode {
-    newEear = "new_year",
+    newYear = "new_year",
 }
 
 export interface Config {

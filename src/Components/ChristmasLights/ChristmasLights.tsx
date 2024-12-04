@@ -26,7 +26,7 @@ export function ChristmasLights() {
     );
 }
 
-const randomNumberBetween = (min: number, max: number): number => {
+export const randomNumberBetween = (min: number, max: number): number => {
     if (min > max) {
         throw new Error("Minimum value should be smaller than maximum value.");
     }

@@ -58,5 +58,5 @@ export const selectPlatform = createSelector(
 
 export const selectIsChristmasMood = createSelector(
     (state: RootState) => state.ConfigReducer.config,
-    (config) => config?.featureFlags.celebrationMode === ECelebrationMode.newEear
+    (config) => config?.featureFlags.celebrationMode === ECelebrationMode.newYear
 );
