@@ -1,0 +1,139 @@
+@bulb-size: 8px;
+@lines-color: #000000;
+
+.ChristmasLightsWrapper {
+    height: 0;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    position: sticky;
+    z-index: 16;
+    overflow-x: clip;
+    pointer-events: none;
+}
+
+.Bulb {
+    display: flex;
+    margin-left: 8px;
+    margin-right: 24px;
+    border-radius: 50%;
+    height: @bulb-size;
+    width: @bulb-size;
+    position: relative;
+    transition: 1s all ease;
+
+    &:before {
+        position: absolute;
+        content: "";
+        height: 2px;
+        width: 3px;
+        left: 2.5px;
+        top: -3px;
+        background: @lines-color;
+        border-radius: 2px;
+        border-bottom: 2px solid @lines-color;
+    }
+
+    &:after {
+        position: absolute;
+        content: "";
+        top: -11px;
+        left: 4px;
+        width: 40px;
+        height: 12px;
+        border-bottom: solid @lines-color 1.5px;
+        border-radius: 50%;
+    }
+
+    &:last-child::after {
+        content: "";
+        position: absolute;
+        border: none;
+    }
+}
+
+@keyframes glow-red {
+    0%,
+    100% {
+        box-shadow: none;
+        background-color: rgba(192, 57, 43, 0.25);
+        border: 0.5px solid rgba(192, 57, 43, 0.33);
+    }
+    33% {
+        background-color: rgb(192, 57, 43);
+    }
+    50% {
+        box-shadow: 0 0 15px 2px rgb(192, 57, 43);
+        background-color: rgb(192, 57, 43);
+    }
+}
+
+@keyframes glow-green {
+    0%,
+    100% {
+        box-shadow: none;
+        background-color: rgba(46, 204, 113, 0.25);
+        border: 0.5px solid rgba(46, 204, 113, 0.33);
+    }
+    33% {
+        background-color: rgb(46, 204, 113);
+    }
+    50% {
+        box-shadow: 0 0 15px 2px rgb(46, 204, 113);
+        background-color: rgb(46, 204, 113);
+    }
+}
+
+@keyframes glow-blue {
+    0%,
+    100% {
+        box-shadow: none;
+        background-color: rgba(116, 247, 225, 0.25);
+        border: 0.5px solid rgba(116, 247, 225, 0.33);
+    }
+    33% {
+        background-color: rgb(116, 247, 225);
+    }
+    50% {
+        box-shadow: 0 0 15px 2px rgb(116, 247, 225);
+        background-color: rgb(116, 247, 225);
+    }
+}
+
+@keyframes glow-yellow {
+    0%,
+    100% {
+        box-shadow: none;
+        background-color: rgba(241, 196, 15, 0.25);
+        border: 0.5px solid rgba(241, 196, 15, 0.33);
+    }
+    33% {
+        background-color: rgb(241, 196, 15);
+    }
+    50% {
+        box-shadow: 0 0 15px 2px rgb(241, 196, 15);
+        background-color: rgb(241, 196, 15);
+    }
+}
+
+.RedBulb {
+    border-color: rgb(192, 57, 43);
+    animation: glow-red infinite;
+}
+
+.GreenBulb {
+    background-color: rgb(46, 204, 113);
+    animation: glow-green infinite;
+}
+
+.BlueBulb {
+    background-color: rgb(116, 247, 225);
+    animation: glow-blue infinite;
+}
+
+.YellowBulb {
+    background-color: rgb(241, 196, 15);
+    animation: glow-yellow infinite;
+}

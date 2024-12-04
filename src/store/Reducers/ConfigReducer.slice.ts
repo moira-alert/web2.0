@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BaseApi } from "../../services/BaseApi";
-import { Config, ContactConfig } from "../../Domain/Config";
+import { Config, ContactConfig, ECelebrationMode } from "../../Domain/Config";
 import { RootState } from "../store";
 
 const contactsConfigAdapter = createEntityAdapter({
@@ -54,4 +54,9 @@ export const selectIsPlottingDefaultOn = createSelector(
 export const selectPlatform = createSelector(
     (state: RootState) => state.ConfigReducer.config?.sentry?.platform,
     (platform) => platform || null
+);
+
+export const selectIsChristmasMood = createSelector(
+    (state: RootState) => state.ConfigReducer.config,
+    (config) => config?.featureFlags.celebrationMode === ECelebrationMode.newEear
 );

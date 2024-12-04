@@ -10,6 +10,10 @@ export interface ContactConfig {
     help?: string;
 }
 
+export enum ECelebrationMode {
+    newEear = "new_year",
+}
+
 export interface Config {
     supportEmail: string;
     contacts: Array<ContactConfig>;
@@ -18,6 +22,7 @@ export interface Config {
         isPlottingDefaultOn: boolean;
         isPlottingAvailable: boolean;
         isSubscriptionToAllTagsAvailable: boolean;
+        celebrationMode?: ECelebrationMode;
     };
     metric_source_clusters: TMetricSourceCluster[];
     sentry?: { dsn: string; platform: Platform };

@@ -25,6 +25,9 @@ import TeamsContainer from "./Containers/TeamsContainer";
 import { TeamContainer } from "./Containers/TeamContainer";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer";
+import { ChristmasLights } from "./Components/ChristmasLights/ChristmasLights";
+import { useAppSelector } from "./store/hooks";
+import { UIState } from "./store/selectors";
 
 import styles from "./desktop.less";
 
@@ -43,9 +46,12 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
 }
 
 function Desktop() {
+    const { isChristmasMood } = useAppSelector(UIState);
+
     return (
         <div className={cn("layout")}>
             <HeaderContainer className={cn("header")} />
+            {isChristmasMood && <ChristmasLights />}
             <Switch>
                 <ResponsiveRoute
                     exact
