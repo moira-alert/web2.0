@@ -19,7 +19,7 @@ export const SnowfallBackground = ({ topOffset = 0 }: { topOffset?: number }) =>
             x: randomNumberBetween(0, width),
             y: randomNumberBetween(-height, height),
             size: randomNumberBetween(2, 7),
-            speed: randomNumberBetween(1, 3),
+            speed: randomNumberBetween(1, 1.5),
             horizontalSpeed: randomNumberBetween(-1, 1),
         }));
         snowflakesRef.current = snowflakes;
