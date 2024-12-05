@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Subscription } from "../../Domain/Subscription";
 import { TriggerApi } from "../../services/TriggerApi";
+import { christmasMoodFlag } from "../../hooks/useChristmasMood";
 
 interface IUIState {
     isLoading: boolean;
@@ -9,6 +10,7 @@ interface IUIState {
     isTransferringSubscriptions: boolean;
     transferingSubscriptions: Subscription[];
     isTransformNullApplied: boolean;
+    isChristmasMood: boolean;
 }
 
 const initialState: IUIState = {
@@ -18,6 +20,9 @@ const initialState: IUIState = {
     isTransferringSubscriptions: false,
     transferingSubscriptions: [],
     isTransformNullApplied: false,
+    isChristmasMood: JSON.parse(
+        window.localStorage.getItem(`ff_${christmasMoodFlag.id}`) || "false"
+    ),
 };
 
 export const UISlice = createSlice({
@@ -62,6 +67,9 @@ export const UISlice = createSlice({
                 state.transferingSubscriptions.push(action.payload);
             }
         },
+        toggleChristmasMood(state, action: PayloadAction<boolean>) {
+            state.isChristmasMood = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(TriggerApi.endpoints.getTrigger.matchFulfilled, (state, { payload }) => {
@@ -82,6 +90,7 @@ export const {
     addSubscriptionToTransfer,
     removeSubscriptionFromTransfer,
     toggleSubscriptionTransfer,
+    toggleChristmasMood,
 } = UISlice.actions;
 
 export default UISlice.reducer;
