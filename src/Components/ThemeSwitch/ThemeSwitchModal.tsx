@@ -6,16 +6,16 @@ import { useThemeFeature } from "../../hooks/themes/useThemeFeature";
 import { setTheme } from "../../store/Reducers/UIReducer.slice";
 import { UIState } from "../../store/selectors";
 import { EThemesNames } from "../../Themes/themesNames";
-import { useBrowserThemeDetector } from "../../hooks/themes/useBrowserThemeDetector";
 import { useModal } from "../../hooks/useModal";
 import { ThemeSwitchIcon } from "./Components/ThemeSwitchIcon/ThemeSwitchIcon";
+import { useIsBrowserPrefersDarkTheme } from "../../hooks/themes/useIsBrowserPrefersDarkTheme";
 
 export const ThemeSwitchModal: React.FC = () => {
     const { theme: themeName } = useSelector(UIState);
     const dispatch = useDispatch();
 
     const [localThemeName, setLocalTheme] = useThemeFeature();
-    const [isBrowserDarkThemeEnabled] = useBrowserThemeDetector();
+    const isBrowserDarkThemeEnabled = useIsBrowserPrefersDarkTheme();
     const { isModalOpen, closeModal, openModal } = useModal();
 
     const toggleModal = () => (isModalOpen ? closeModal() : openModal());

@@ -21,7 +21,6 @@ import {
     TAG_ROW_HEIGHT,
 } from "../../Constants/heights";
 import { getTotalItemSize } from "../TagList/TagList";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "../TagList/TagList.less";
@@ -66,20 +65,9 @@ const SubscriptionItem: FC<SubscriptionItemProps> = ({
     onDelete,
 }) => {
     const { enabled, user, team_id, contacts } = subscription;
-    const [hover, setHover] = useState(false);
-    const theme = useTheme();
-    const hoverStyle = {
-        backgroundColor: hover ? theme.appBgColorTertiary : theme.appBgColorSecondary,
-    };
 
     return (
-        <div
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            style={{ ...style, ...hoverStyle }}
-            className={cn("item")}
-            onClick={onClick}
-        >
+        <div style={style} className={cn("item")} onClick={onClick}>
             <div className={cn("enabled")}>{enabled ? <OkIcon /> : <DeleteIcon />}</div>
             <div className={cn("user")}>
                 {user ? (
@@ -133,8 +121,6 @@ export const TagListItem: FC<ItemProps> = ({
     const { isModalOpen, openModal, closeModal } = useModal();
     const [deleteSubscription] = useDeleteSubscriptionMutation();
     const [deleteTag] = useDeleteTagMutation();
-    const [hover, setHover] = useState(false);
-    const theme = useTheme();
     const { name, subscriptions, triggers } = tagStat;
 
     const hasSubscriptions = subscriptions.length !== 0;
@@ -169,15 +155,9 @@ export const TagListItem: FC<ItemProps> = ({
             ? SUBSCRIPTION_LIST_HEIGHT
             : getTotalItemSize(subscriptionContactsCount);
 
-    const hoverStyle = {
-        backgroundColor: hover || isActive ? theme.appBgColorSecondary : theme.appBgColorPrimary,
-    };
-
     return (
         <div
-            onMouseEnter={() => hasSubscriptions && setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            style={{ ...style, ...hoverStyle }}
+            style={style}
             className={cn("row", {
                 active: isActive && hasSubscriptions,
                 clickable: hasSubscriptions,
@@ -205,7 +185,7 @@ export const TagListItem: FC<ItemProps> = ({
                 />
             )}
             {isActive && hasSubscriptions && (
-                <div style={{ backgroundColor: theme.appBgColorSecondary }} className={cn("info")}>
+                <div className={cn("info")}>
                     <div className={cn("group")}>
                         <List
                             height={getSubscriptionsTableHeight}

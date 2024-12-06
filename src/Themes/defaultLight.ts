@@ -11,9 +11,7 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
         cmActiveLine: "var(--active-line)",
         cmGutterBorder: "var(--border-gutter)",
 
-        appBgColorPrimary: "var(--background-primary)",
-
-        textColorSecondary: "var(--text-secondary)",
+        textColorDefault: "#151515",
 
         iconCheckedColor: "var(--icon-checked-color)",
         iconHoverColor: "var(--icon-hover-color)",
@@ -21,7 +19,7 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
 
         headerMenuButtons: "var(--header-menu-buttons)",
 
-        itemHover: "var(--item-hover)",
+        teamCardBackgroundColor: "var(--background-primary)",
     },
     DEFAULT_THEME
 );

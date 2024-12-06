@@ -5,7 +5,6 @@ import SelectorInitialView from "./SelectorInitialView";
 import SelectorResultsView from "./SelectorResultsView";
 import { clearInput } from "../../helpers/common";
 import { getTokenType, searchTokens } from "../../helpers/trigger-search";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./SearchSelector.less";
@@ -46,7 +45,6 @@ export const SearchSelector: React.FC<Props> = ({
 }) => {
     const [searchText, setSearchText] = useState(search);
     const [clearedSearchValue, setClearedSearchValue] = useState(clearInput(search));
-    const theme = useTheme();
 
     useEffect(() => {
         setClearedSearchValue(clearInput(searchText));
@@ -97,13 +95,7 @@ export const SearchSelector: React.FC<Props> = ({
             onBackspaceKeyDown={onRemoveLastToken}
             onInputChange={handleInputChange}
         >
-            <div
-                style={{
-                    color: theme.textColorDefault,
-                    backgroundColor: theme.appBgColorSecondary,
-                }}
-                className={cn("container")}
-            >
+            <div className={cn("container")}>
                 {clearedSearchValue === "" ? (
                     <SelectorInitialView tokens={subscribedTokens} onSelect={handleTokenSelect} />
                 ) : (

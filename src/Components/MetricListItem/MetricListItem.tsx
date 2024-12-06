@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { format, fromUnixTime, getUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
@@ -9,7 +9,6 @@ import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
 import { useHistory } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "../MetricList/MetricList.less";
@@ -45,8 +44,6 @@ export function MetricListItem({
     onChange,
     onRemove,
 }: MetricListItemProps) {
-    const [hover, setHover] = useState(false);
-
     const {
         values,
         event_timestamp: eventTimestamp = 0,
@@ -57,7 +54,6 @@ export function MetricListItem({
     const delta = maintenanceDelta(maintenance);
 
     const history = useHistory();
-    const theme = useTheme();
 
     const handleMetricClick = () => {
         const searchParams = new URLSearchParams();
@@ -66,20 +62,8 @@ export function MetricListItem({
         history.push({ search: searchParams.toString() });
     };
 
-    const baseStyle = {
-        backgroundColor: hover ? theme.itemHover : theme.appBgColorPrimary,
-        ...style,
-    };
-
     return (
-        <div
-            onClick={handleMetricClick}
-            key={metricName}
-            className={cn("row")}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            style={baseStyle}
-        >
+        <div onClick={handleMetricClick} key={metricName} className={cn("row")} style={style}>
             {status && (
                 <div className={cn("state")}>
                     <StatusIndicator statuses={[state]} size={10} />

@@ -25,7 +25,6 @@ import TeamsContainer from "./Containers/TeamsContainer";
 import { TeamContainer } from "./Containers/TeamContainer";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer";
-import { useTheme } from "./Themes";
 
 import styles from "./desktop.less";
 
@@ -46,14 +45,8 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
 }
 
 function Desktop() {
-    const theme = useTheme();
     return (
-        <div
-            style={{
-                color: theme.textColorDefault,
-            }}
-            className={cn("layout")}
-        >
+        <div className={cn("layout")}>
             <HeaderContainer className={cn("header")} />
             <Switch>
                 <ResponsiveRoute

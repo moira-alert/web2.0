@@ -1,33 +1,25 @@
 import { ThemeContext } from "@skbkontur/react-ui";
-import { AddonsThemeIn } from "@skbkontur/react-ui-addons";
 import { DefaultTheme } from "@skbkontur/react-ui/internal/themes/DefaultTheme";
 import { useContext } from "react";
-
-export interface ApplicationTheme extends AddonsThemeIn {
+import { ThemeIn } from "@skbkontur/react-ui/lib/theming/Theme";
+export interface ApplicationTheme extends ThemeIn {
     name: string;
     isDark: boolean;
 
-    appBgColorPrimary: string;
     appBgColorSecondary?: string;
     appBgColorTertiary?: string;
 
-    textColorSecondary?: string;
     textColorDefault?: string;
 
     itemHover?: string;
+
+    teamCardBackgroundColor: string;
 
     iconCheckedColor: string;
     iconHoverColor: string;
     iconColor: string;
 
-    modalBackground?: string;
-
-    headerBgColor?: string;
     headerMenuButtons: string;
-
-    backgroundPlate?: string;
-
-    dividerColor?: string;
 
     cmGutterColor?: string;
     cmLineNumberColor?: string;

@@ -8,12 +8,6 @@ import { format, parse } from "date-fns";
 import { ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
 import { useModal } from "../../hooks/useModal";
-import { useTheme } from "../../Themes";
-import classNames from "classnames/bind";
-
-import styles from "./DateAndTimeMenu.less";
-
-const cn = classNames.bind(styles);
 
 interface IDateAndTimeMenuProps {
     date?: Date | null;
@@ -24,26 +18,6 @@ interface IDateAndTimeMenuProps {
 }
 
 const dateInputMask = "9999/99/99 99:99:99";
-
-const CalendarIconWithHover = ({ onClick }: { onClick: (e: React.MouseEvent) => void }) => {
-    const [hover, setHover] = useState(false);
-    const theme = useTheme();
-
-    const style = {
-        color: hover ? theme.textColorDefault : theme.iconColor,
-    };
-
-    return (
-        <div
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            onClick={onClick}
-            style={style}
-        >
-            <CalendarIcon className={cn("calendar-icon")} />
-        </div>
-    );
-};
 
 export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     date,
@@ -86,15 +60,8 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
                         onFocus={closeMenu}
                         value={inputValue}
                         onValueChange={handleValueChange}
-                        rightIcon={() => (
-                            <CalendarIconWithHover
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    openMenu();
-                                }}
-                            />
-                        )}
+                        rightIcon={<CalendarIcon />}
+                        onClick={openMenu}
                     />
                 </ValidationWrapperV1>
 

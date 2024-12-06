@@ -1,5 +1,4 @@
 import React, { ReactNode, FC } from "react";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./MessageWrapper.less";
@@ -19,13 +18,8 @@ export const MessageWrapper: FC<IMessageWrapperProps> = ({
     width,
     shouldApplyWrapper,
 }) => {
-    const theme = useTheme();
-
     return shouldApplyWrapper ? (
-        <div
-            style={{ width, backgroundColor: theme.appBgColorSecondary }}
-            className={cn("wrapper")}
-        >
+        <div style={{ width }} className={cn("wrapper")}>
             {children}
             {shouldApplyWrapper && <p>{message}</p>}
         </div>

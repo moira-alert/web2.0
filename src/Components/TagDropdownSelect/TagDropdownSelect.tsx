@@ -268,7 +268,6 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                             </div>
                         ))}
                     <input
-                        style={{ color: theme.textColorDefault }}
                         className={cn("input")}
                         value={inputValue}
                         onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>

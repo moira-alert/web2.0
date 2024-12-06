@@ -6,12 +6,16 @@
     flex-wrap: wrap;
     padding: 5px;
 
+    &:hover {
+        background-color: var(--item-hover);
+    }
+
     &:not(.header) {
-        border-top: 1px solid #eee;
+        border-top: 1px solid var(--divider);
     }
 
     &.active {
-        background-color: #f6f6f6;
+        background-color: var(--item-hover);
     }
 
     &.clicable {
@@ -20,6 +24,7 @@
 }
 
 .name {
+    color: var(--text-primary);
     width: calc(~"100% - 240px");
 
     &.clicked {

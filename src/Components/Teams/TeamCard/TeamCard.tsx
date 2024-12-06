@@ -73,7 +73,7 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
         <>
             <div
                 style={{
-                    backgroundColor: theme.appBgColorSecondary,
+                    backgroundColor: theme.teamCardBackgroundColor,
                     borderColor: theme.inputBorderColor,
                 }}
                 className={cn("team-card")}

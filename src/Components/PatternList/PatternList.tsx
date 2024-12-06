@@ -7,7 +7,6 @@ import { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import { ISortConfig } from "../../hooks/useSortData";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./PatternList.less";
@@ -76,25 +75,14 @@ type ItemProps = {
 const PatternListItem: FC<ItemProps> = ({ data, onRemove }) => {
     const { pattern, triggers, metrics } = data;
     const [showInfo, setShowInfo] = useState(false);
-    const [hover, setHover] = useState(false);
-    const theme = useTheme();
 
     const isTriggers = triggers.length !== 0;
     const isMetrics = metrics.length !== 0;
 
-    const hoverStyle = {
-        backgroundColor: hover ? theme.itemHover : theme.appBgColorPrimary,
-    };
     return (
-        <div
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            style={hoverStyle}
-            className={cn("row", { active: showInfo, clicable: isTriggers || isMetrics })}
-        >
+        <div className={cn("row", { active: showInfo, clicable: isTriggers || isMetrics })}>
             {isTriggers || isMetrics ? (
                 <button
-                    style={{ color: theme.textColorDefault }}
                     type="button"
                     className={cn("name", "clicked")}
                     onClick={() => setShowInfo(!showInfo)}

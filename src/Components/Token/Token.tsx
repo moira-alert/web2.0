@@ -33,7 +33,6 @@ export const Token = (props: Props): React.ReactElement => {
             >
                 <span
                     style={{
-                        backgroundColor: theme.appBgColorTertiary,
                         color: type !== TokenType.NONEXISTENT ? theme.textColorDefault : "",
                     }}
                     className={cn("token", "removable", {
@@ -58,12 +57,7 @@ export const Token = (props: Props): React.ReactElement => {
         };
 
         return (
-            <button
-                style={{ backgroundColor: theme.appBgColorTertiary, color: theme.textColorDefault }}
-                type="button"
-                className={cn("token", "selectable")}
-                onClick={handleClick}
-            >
+            <button type="button" className={cn("token", "selectable")} onClick={handleClick}>
                 {children}
             </button>
         );

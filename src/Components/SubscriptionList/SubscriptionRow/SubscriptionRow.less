@@ -29,8 +29,12 @@
         opacity: 0;
     }
 
-    &:hover::after {
-        opacity: 1;
+    &:hover {
+        background-color: var(--item-hover);
+
+        &::after {
+            opacity: 1;
+        }
     }
 }
 
@@ -80,6 +84,9 @@
 .enabled-cell {
     width: 80px;
     text-align: end;
+    &:hover {
+        background-color: var(--item-hover);
+    }
 }
 
 .disabled-label {

@@ -2,7 +2,6 @@ import React, { useRef, ReactNode, FC, useEffect, CSSProperties } from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import { NewVersionAvailableHint } from "../NewVersionAvailableHint/NewVersionAvailableHint";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./Layout.less";
@@ -29,7 +28,6 @@ export const Block: FC<IBlockProps> = ({ children, className, style }) => (
 
 export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, children }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
-    const theme = useTheme();
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -43,12 +41,7 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
     }, [error]);
 
     return (
-        <main
-            style={{
-                backgroundColor: theme.appBgColorPrimary,
-            }}
-            className={cn("layout")}
-        >
+        <main className={cn("layout")}>
             {error && (
                 <div ref={scrollRef} className={cn("error")}>
                     <WarningIcon /> {error}
@@ -67,18 +60,7 @@ export const LayoutTitle: FC<IBlockProps> = ({ children, className }) => (
 );
 
 export const LayoutPlate: FC<IBlockProps> = ({ children, className }) => {
-    const theme = useTheme();
-
-    return (
-        <Block
-            style={{
-                backgroundColor: theme.backgroundPlate,
-            }}
-            className={cn("grey-plate", className)}
-        >
-            {children}
-        </Block>
-    );
+    return <Block className={cn("grey-plate", className)}>{children}</Block>;
 };
 
 export const LayoutContent: FC<IBlockProps> = ({ children, className }) => (

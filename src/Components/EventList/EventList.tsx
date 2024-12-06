@@ -4,7 +4,6 @@ import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./EventList.less";
@@ -20,12 +19,6 @@ type Props = {
 export default function EventList(props: Props): React.ReactElement {
     const { items } = props;
 
-    const theme = useTheme();
-
-    const getRowStyle = (index: number): React.CSSProperties => ({
-        backgroundColor: index % 2 === 0 ? theme.appBgColorPrimary : theme.appBgColorSecondary,
-    });
-
     return (
         <section>
             <div className={cn("row", "header")}>
@@ -33,8 +26,8 @@ export default function EventList(props: Props): React.ReactElement {
                 <div className={cn("state-change")}>State change</div>
                 <div className={cn("date")}>Event time</div>
             </div>
-            {Object.keys(items).map((key, index) => (
-                <div key={key} className={cn("group")} style={getRowStyle(index)}>
+            {Object.keys(items).map((key) => (
+                <div key={key} className={cn("group")}>
                     {items[key].map(({ old_state: oldState, state, timestamp, values }, i) => {
                         const oldValues = items[key][i + 1] && items[key][i + 1].values;
                         return (

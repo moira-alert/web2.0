@@ -26,7 +26,7 @@ export const ThemeSwitchIcon: FC<IThemeSwitchIconProps> = ({
             case EThemesNames.Light:
                 return (
                     <>
-                        <span className={cn("icon")} style={{ color: theme.textColorDefault }}>
+                        <span className={cn("icon")}>
                             <Sun size={20} color={theme.headerMenuButtons} />
                         </span>
                         Light Theme
@@ -35,7 +35,7 @@ export const ThemeSwitchIcon: FC<IThemeSwitchIconProps> = ({
             case EThemesNames.Dark:
                 return (
                     <>
-                        <span className={cn("icon")} style={{ color: theme.textColorDefault }}>
+                        <span className={cn("icon")}>
                             <Crescent size={20} color={theme.headerMenuButtons} />
                         </span>
                         Dark Theme
@@ -44,7 +44,7 @@ export const ThemeSwitchIcon: FC<IThemeSwitchIconProps> = ({
             case EThemesNames.System:
                 return (
                     <>
-                        <span className={cn("icon")} style={{ color: theme.textColorDefault }}>
+                        <span className={cn("icon")}>
                             <Desktop size={20} color={theme.headerMenuButtons} />
                         </span>
                         System Theme

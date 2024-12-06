@@ -3,7 +3,6 @@ import { TimeSelector } from "../TimeSelector/TimeSelector";
 import { format, isAfter, isBefore } from "date-fns";
 import { DateSelector } from "../DateSelector/DateSelector";
 import { timeList } from "../../helpers/DateUtil";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./DateAndTimeSelector.less";
@@ -27,8 +26,6 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
     const [time, setTime] = useState(initialDate && format(initialDate, "HH:mm:ss"));
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(initialDate);
     const timeZone = format(initialDate ?? new Date(), "OOOO");
-
-    const theme = useTheme();
 
     const handleDatePick = (dateValue: Date) => {
         setSelectedDate(dateValue);
@@ -89,15 +86,7 @@ export const DateAndTimeSelector: FC<IDateAndTimeSelectorProps> = ({
                 minDate={minDate}
                 setDate={handleDatePick}
             />
-            <footer
-                style={{
-                    backgroundColor: theme.appBgColorSecondary,
-                    color: theme.textColorSecondary,
-                }}
-                className={cn("footer")}
-            >
-                {timeZone}
-            </footer>
+            <footer className={cn("footer")}>{timeZone}</footer>
         </div>
     );
 };

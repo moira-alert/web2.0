@@ -3,6 +3,11 @@ module.exports = {
     framework: {
         name: "@storybook/react-webpack5",
     },
+    previewBody: (body) => `
+    ${body}
+    <script>
+      document.body.setAttribute('data-theme', 'Light Theme');
+    </script>`,
     babel: { presets: ["@babel/preset-react"] },
     webpackFinal: async (config, { configType }) => {
         config.module.rules = config.module.rules.filter(

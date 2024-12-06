@@ -128,7 +128,6 @@ const Selector: React.FC<Props> = ({
                 <input
                     style={{
                         backgroundColor: theme.inputBg,
-                        color: theme.textColorDefault,
                         borderColor: theme.inputBorderColor,
                     }}
                     className={cn("input")}

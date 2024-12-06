@@ -17,7 +17,6 @@ import { ContactEventStats } from "../ContactEventStats/ContactEventStats";
 import { useAppDispatch } from "../../store/hooks";
 import { setError } from "../../store/Reducers/UIReducer.slice";
 import { EmptyListMessage } from "./Components/EmptyListMessage";
-import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.less";
@@ -43,12 +42,6 @@ const ContactItem: React.FC<IContactItemProps> = ({
     onDeleteContact,
 }) => {
     const { id, name, value, type } = contact;
-    const [hover, setHover] = useState(false);
-    const theme = useTheme();
-
-    const hoverStyle = {
-        backgroundColor: hover ? theme.itemHover : theme.appBgColorPrimary,
-    };
 
     const isContactTypeSupported = contactDescriptions.some(
         (description) => description.type === type
@@ -58,9 +51,6 @@ const ContactItem: React.FC<IContactItemProps> = ({
         <>
             {isContactTypeSupported ? (
                 <tr
-                    style={hoverStyle}
-                    onMouseEnter={() => setHover(true)}
-                    onMouseLeave={() => setHover(false)}
                     className={cn("item")}
                     onClick={() =>
                         onEdit({
@@ -97,13 +87,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                     </td>
                 </tr>
             ) : (
-                <tr
-                    onMouseEnter={() => setHover(true)}
-                    onMouseLeave={() => setHover(false)}
-                    style={hoverStyle}
-                    className={cn("item")}
-                    key={id}
-                >
+                <tr className={cn("item")} key={id}>
                     <td className={cn("error-icon")}>
                         <WarningIcon />
                     </td>

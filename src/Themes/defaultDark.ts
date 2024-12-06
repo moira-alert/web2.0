@@ -5,10 +5,9 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
     {
         name: "Dark Theme",
         isDark: true,
-        appBgColorPrimary: "var(--background-primary)",
+
         appBgColorSecondary: "var(--background-secondary)",
         appBgColorTertiary: "var(--background-tertiary)",
-        kebabBackgroundHover: "var(--background-tertiary)",
 
         cmGutterColor: "var(--background-gutter)",
         cmLineNumberColor: "var(--line-number-gutter)",
@@ -17,8 +16,8 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
         cmGutterBorder: "var(--border-gutter)",
 
         headerMenuButtons: "var(--header-menu-buttons)",
+
         textColorDefault: "#e6e6e6",
-        textColorSecondary: "var(--text-secondary)",
 
         iconCheckedColor: "var(--icon-checked-color)",
         iconHoverColor: "var(--icon-hover-color)",
@@ -27,19 +26,16 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
         inputBg: "var(--background-secondary)",
         textareaBg: "var(--background-secondary)",
 
-        tabColorFocus: "#e6e6e6",
+        tabColorFocus: "var(--text-primary)",
         tabColorHover: "var(--text-secondary)",
-
-        backgroundPlate: "var(--background-plate)",
-        dividerColor: "#eee",
-
-        itemHover: "var(--item-hover)",
 
         sidePageBgDefault: "var(--background-secondary)",
 
         modalBackBg: "rgb(0, 0, 0)",
 
         chartGridLinesColor: "#505050",
+
+        teamCardBackgroundColor: "var(--background-secondary)",
     },
     DARK_THEME
 );

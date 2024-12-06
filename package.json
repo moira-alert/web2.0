@@ -71,7 +71,6 @@
         "@hot-loader/react-dom": "16.13.0",
         "@lezer/generator": "1.0.0",
         "@playwright/test": "1.40.1",
-        "@skbkontur/react-ui-addons": "5.1.0",
         "@storybook/addon-actions": "7.6.17",
         "@storybook/addons": "7.6.17",
         "@storybook/react": "7.6.17",

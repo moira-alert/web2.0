@@ -2783,16 +2783,6 @@
   resolved "https://registry.yarnpkg.com/@skbkontur/react-stack-layout/-/react-stack-layout-1.0.3.tgz"
   integrity sha512-PrvGdQGE9ZTB+QBAKU5Jjr/gfpxBAVY0bK6sfeD+3mjqdmaKI6ocL/w4eEYL3M9RIgJfuavaaUlftftIncSRDg==
 
-"@skbkontur/react-ui-addons@5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-addons/-/react-ui-addons-5.1.0.tgz#e724e4855086d01cfa0da0aa4b389648cb792b53"
-  integrity sha512-SC/UYg1UBx5w6lP0yeMds4ANHb82YgeEUw6a+58mOzd8aRJBYJhUIpNbdpHgeK+t7ZvzfYz8gAWYWoN2Ky0k5A==
-  dependencies:
-    classnames "2.3.1"
-    lodash.isequal "4.5.0"
-    tslib "^1"
-    warning "4.0.3"
-
 "@skbkontur/react-ui-validations@1.13.0":
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-validations/-/react-ui-validations-1.13.0.tgz#5ebee695a7c5a92a9c3bab33a990492327a71d7b"

@@ -17,7 +17,6 @@ import MetricListView, { SortingColumn } from "../MetricList/MetricList";
 import { sanitize } from "dompurify";
 import { sortMetrics } from "../../helpers/sort-metrics";
 import _ from "lodash";
-import { ThemeContext } from "@skbkontur/react-ui";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerListItem.less";
@@ -58,14 +57,9 @@ export default class TriggerListItem extends React.Component<Props, State> {
         const { showMetrics } = this.state;
         const metrics = this.renderMetrics();
         const searchModeName = highlights && highlights.name;
-        const theme = this.context;
-
-        const activeStyle = {
-            backgroundColor: showMetrics ? theme.itemHover : theme.appBgColorPrimary,
-        };
 
         return (
-            <div style={activeStyle} className={cn("row")}>
+            <div className={cn("row")}>
                 <div
                     className={cn("state", { active: metrics })}
                     onClick={() => {
@@ -152,8 +146,6 @@ export default class TriggerListItem extends React.Component<Props, State> {
             });
         }
     }
-
-    public static contextType = ThemeContext;
 
     getHasExceptionState(): boolean {
         const { data } = this.props;
