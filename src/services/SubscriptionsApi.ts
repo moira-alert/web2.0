@@ -1,4 +1,4 @@
-import { SubscriptionCreateInfo } from "../Api/MoiraApi";
+import { SubscriptionCreateInfo } from "../Domain/Subscription";
 import { Subscription } from "../Domain/Subscription";
 import { BaseApi, CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
 

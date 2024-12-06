@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
-import { SubscriptionCreateInfo } from "../../Api/MoiraApi";
+import { SubscriptionCreateInfo } from "../../Domain/Subscription";
 import { Contact } from "../../Domain/Contact";
 import { Schedule } from "../../Domain/Schedule";
 import { Subscription } from "../../Domain/Subscription";

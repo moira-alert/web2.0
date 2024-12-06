@@ -24,7 +24,7 @@ export type TriggerListDesktopProps = {
     onChange: (update: TriggerListUpdate) => void;
     searchText: string;
     loading: boolean;
-    error?: string;
+    error?: string | null;
     onSetMetricMaintenance: (triggerId: string, metric: string, maintenance: number) => void;
     onRemoveMetric: (triggerId: string, metric: string) => void;
 };

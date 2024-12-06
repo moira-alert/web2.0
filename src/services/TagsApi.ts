@@ -1,11 +1,11 @@
 import { BaseApi, CustomBaseQueryArgs } from "./BaseApi";
-import { TagList, TagStatList } from "../Api/MoiraApi";
-import { TagStat } from "../Domain/Tag";
+import { TagList, TagStatList, TagStat } from "../Domain/Tag";
 
 export const TagsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getTags: builder.query<TagList, CustomBaseQueryArgs | void>({
+        getTags: builder.query<string[], CustomBaseQueryArgs | void>({
             query: () => ({ url: "tag", method: "GET", credentials: "same-origin" }),
+            transformResponse: (response: TagList) => response.list,
         }),
         getTagStats: builder.query<Array<TagStat>, CustomBaseQueryArgs | void>({
             query: () => ({ url: "tag/stats", method: "GET", credentials: "same-origin" }),

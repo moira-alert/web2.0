@@ -1,14 +1,15 @@
 import React from "react";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import { format, fromUnixTime, getUnixTime } from "date-fns";
+import { format, fromUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import UserIcon from "@skbkontur/react-icons/User";
-import { getUTCDate, humanizeDuration } from "../../helpers/DateUtil";
+import { humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
 import { useHistory } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
+import { maintenanceDelta } from "../../Domain/Trigger";
 import classNames from "classnames/bind";
 
 import styles from "../MetricList/MetricList.less";
@@ -17,10 +18,6 @@ const cn = classNames.bind(styles);
 
 function maintenanceCaption(delta: number): React.ReactNode {
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
-}
-
-function maintenanceDelta(maintenance?: number | null): number {
-    return (maintenance || 0) - getUnixTime(getUTCDate());
 }
 
 const hideTargetsNames = (values: { [metric: string]: number } | undefined) => {

@@ -5,7 +5,7 @@ import {
     useTestSubscriptionMutation,
 } from "../services/SubscriptionsApi";
 import { useCreateTeamSubscriptionMutation } from "../services/TeamsApi";
-import type { SubscriptionCreateInfo } from "../Api/MoiraApi";
+import type { SubscriptionCreateInfo } from "../Domain/Subscription";
 import { useAppDispatch } from "../store/hooks";
 import { BaseApi } from "../services/BaseApi";
 

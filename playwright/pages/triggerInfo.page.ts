@@ -8,6 +8,7 @@ export class TriggerInfoPage {
     readonly menuListButton: Locator;
     readonly duplicateButton: Locator;
     readonly deleteButton: Locator;
+    readonly triggerMaintenance: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -16,5 +17,6 @@ export class TriggerInfoPage {
         this.menuListButton = page.getByText("Other");
         this.duplicateButton = page.getByText("Duplicate");
         this.deleteButton = page.getByText("Delete");
+        this.triggerMaintenance = page.locator("[data-tid='TriggerMaintenanceButton']");
     }
 }

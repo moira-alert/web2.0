@@ -3,38 +3,43 @@ import { RouteComponentProps } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
-import MoiraApi from "../Api/MoiraApi";
-import { withMoiraApi } from "../Api/MoiraApiInjection";
 import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { getPageLink } from "../Domain/Global";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { ColumnStack, RowStack, Fit } from "../Components/ItemsStack/ItemsStack";
-import {
-    setError,
-    setIsLoading,
-    setIsSaveButtonDisabled,
-    setIsSaveModalVisible,
-    useTriggerFormContainerReducer,
-} from "../hooks/useTriggerFormContainerReducer";
 import { useValidateTarget } from "../hooks/useValidateTarget";
 import { TriggerSaveWarningModal } from "../Components/TriggerSaveWarningModal/TriggerSaveWarningModal";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
-import { useAppSelector } from "../store/hooks";
-import { ConfigState } from "../store/selectors";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { ConfigState, TriggerFormState, UIState } from "../store/selectors";
+import { setError } from "../store/Reducers/UIReducer.slice";
+import { useGetTagsQuery } from "../services/TagsApi";
+import { useGetTriggerQuery } from "../services/TriggerApi";
+import {
+    setIsSaveButtonDisabled,
+    setIsSaveModalVisible,
+} from "../store/Reducers/TriggerFormReducer.slice";
 
-type Props = RouteComponentProps<{ id?: string }> & { moiraApi: MoiraApi };
+type Props = RouteComponentProps<{ id: string }>;
 
 const TriggerEditContainer = (props: Props) => {
-    const [state, dispatch] = useTriggerFormContainerReducer();
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
-    const [tags, setTags] = useState<string[] | undefined>(undefined);
     const { config } = useAppSelector(ConfigState);
+    const { validationResult, isSaveModalVisible } = useAppSelector(TriggerFormState);
+    const { isLoading, error } = useAppSelector(UIState);
+    const dispatch = useAppDispatch();
+
+    const { id } = props.match.params;
+    const { data: sourceTrigger } = useGetTriggerQuery({
+        triggerId: id,
+    });
+    const { data: tags } = useGetTagsQuery();
 
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTarget = useValidateTarget(props.moiraApi, dispatch, props.history);
-    const saveTrigger = useSaveTrigger(props.moiraApi, dispatch, props.history);
+    const validateTarget = useValidateTarget(dispatch, props.history);
+    const saveTrigger = useSaveTrigger(props.history);
 
     const handleSubmit = async () => {
         const isFormValid = await validationContainer.current?.validate();
@@ -68,41 +73,26 @@ const TriggerEditContainer = (props: Props) => {
         }
     };
 
-    const getData = async () => {
-        if (typeof props.match.params.id !== "string") {
-            dispatch(setError("Wrong trigger id"));
-            dispatch(setIsLoading(false));
-            return;
-        }
-
-        try {
-            const [trigger, { list }] = await Promise.all([
-                props.moiraApi.getTrigger(props.match.params.id),
-                props.moiraApi.getTagList(),
-            ]);
-
-            setTrigger(trigger);
-            setTags(list);
-        } catch (error) {
-            dispatch(setError(error.message));
-        } finally {
-            dispatch(setIsLoading(false));
-        }
-    };
-
     useEffect(() => {
         setDocumentTitle("Edit trigger");
-        dispatch(setIsLoading(true));
-        getData();
-    }, []);
+
+        if (sourceTrigger) {
+            setTrigger(sourceTrigger);
+        } else {
+            setTrigger(undefined);
+        }
+    }, [sourceTrigger]);
 
     return (
-        <Layout loading={state.isLoading} error={state.error}>
+        <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <TriggerSaveWarningModal
-                    isOpen={state.isSaveModalVisible}
+                    isOpen={isSaveModalVisible}
                     onClose={() => dispatch(setIsSaveModalVisible(false))}
-                    onSave={() => saveTrigger(trigger)}
+                    onSave={() => {
+                        saveTrigger(trigger);
+                        dispatch(setIsSaveModalVisible(false));
+                    }}
                 />
                 <LayoutTitle>Edit trigger</LayoutTitle>
                 {trigger && (
@@ -117,7 +107,7 @@ const TriggerEditContainer = (props: Props) => {
                                             remoteAllowed={config.remoteAllowed}
                                             metricSourceClusters={config.metric_source_clusters}
                                             onChange={handleChange}
-                                            validationResult={state.validationResult}
+                                            validationResult={validationResult}
                                         />
                                     )}
                                 </ValidationContainer>
@@ -129,7 +119,6 @@ const TriggerEditContainer = (props: Props) => {
                                             use="primary"
                                             onClick={handleSubmit}
                                             data-tid="Save Trigger"
-                                            disabled={state.isSaveButtonDisabled}
                                         >
                                             Save trigger
                                         </Button>
@@ -149,4 +138,4 @@ const TriggerEditContainer = (props: Props) => {
     );
 };
 
-export default withMoiraApi(TriggerEditContainer);
+export default TriggerEditContainer;

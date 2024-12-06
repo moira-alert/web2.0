@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Subscription } from "../../Domain/Subscription";
 import { TriggerApi } from "../../services/TriggerApi";
+import { christmasMoodFlag } from "../../hooks/useChristmasMood";
 import { EThemesNames } from "../../Themes/themesNames";
 
 interface IUIState {
@@ -10,6 +11,7 @@ interface IUIState {
     isTransferringSubscriptions: boolean;
     transferingSubscriptions: Subscription[];
     isTransformNullApplied: boolean;
+    isChristmasMood: boolean;
     theme: EThemesNames;
 }
 
@@ -20,6 +22,9 @@ const initialState: IUIState = {
     isTransferringSubscriptions: false,
     transferingSubscriptions: [],
     isTransformNullApplied: false,
+    isChristmasMood: JSON.parse(
+        window.localStorage.getItem(`ff_${christmasMoodFlag.id}`) || "false"
+    ),
     theme: EThemesNames.System,
 };
 
@@ -65,6 +70,9 @@ export const UISlice = createSlice({
                 state.transferingSubscriptions.push(action.payload);
             }
         },
+        toggleChristmasMood(state, action: PayloadAction<boolean>) {
+            state.isChristmasMood = action.payload;
+        },
         setTheme: (state, { payload }: { payload: EThemesNames }) => {
             state.theme = payload;
         },
@@ -88,6 +96,7 @@ export const {
     addSubscriptionToTransfer,
     removeSubscriptionFromTransfer,
     toggleSubscriptionTransfer,
+    toggleChristmasMood,
     setTheme,
 } = UISlice.actions;
 
