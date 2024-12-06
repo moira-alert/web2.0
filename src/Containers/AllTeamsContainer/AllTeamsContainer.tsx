@@ -14,9 +14,9 @@ import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHum
 import { Select } from "@skbkontur/react-ui/components/Select";
 import { EmptyListText } from "../../Components/TriggerInfo/Components/EmptyListMessage/EmptyListText";
 import { TeamCard } from "../../Components/Teams/TeamCard/TeamCard";
+import { setError } from "../../store/Reducers/UIReducer.slice";
 
 import styles from "./AllTeamsContainer.less";
-import { setError } from "../../store/Reducers/UIReducer.slice";
 
 const cn = classNames.bind(styles);
 

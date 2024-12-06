@@ -17,12 +17,12 @@ import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView, { SortingColumn } from "../MetricList/MetricList";
 import { sanitize } from "dompurify";
 import { sortMetrics } from "../../helpers/sort-metrics";
+import _ from "lodash";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerListItem.less";
 
 const cn = classNames.bind(styles);
-import _ from "lodash";
 
 type Props = {
     data: Trigger;

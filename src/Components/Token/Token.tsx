@@ -1,6 +1,7 @@
 import React from "react";
 import { Tooltip } from "@skbkontur/react-ui";
 import { TokenType } from "../../helpers/TokenType";
+import { useTheme } from "../../Themes";
 
 import classNames from "classnames/bind";
 
@@ -17,6 +18,7 @@ type Props = {
 
 export const Token = (props: Props): React.ReactElement => {
     const { children, type, onRemove, onClick } = props;
+    const theme = useTheme();
 
     if (type === TokenType.REMOVABLE || type === TokenType.NONEXISTENT) {
         const handleRemove = () => {
@@ -30,6 +32,9 @@ export const Token = (props: Props): React.ReactElement => {
                 pos="bottom center"
             >
                 <span
+                    style={{
+                        color: type !== TokenType.NONEXISTENT ? theme.textColorDefault : "",
+                    }}
                     className={cn("token", "removable", {
                         nonexistent: type === TokenType.NONEXISTENT,
                     })}

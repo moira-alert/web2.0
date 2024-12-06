@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useRef } from "react";
 import { format, fromUnixTime } from "date-fns";
 import OkIcon from "@skbkontur/react-icons/Ok";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
@@ -9,15 +9,54 @@ import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import uniq from "lodash/uniq";
 import { Notification } from "../../Domain/Notification";
 import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
-import RouterLink from "../RouterLink/RouterLink";
+import { Link } from "@skbkontur/react-ui/components/Link";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import useConfirmModal from "../../hooks/useConfirmModal";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import classNames from "classnames/bind";
 
 import styles from "./NotificationList.less";
 
 const cn = classNames.bind(styles);
+
+interface ContactNameWithTooltipProps {
+    type: string;
+    value: string;
+    name?: string;
+}
+
+const ContactNameWithTooltip: React.FC<ContactNameWithTooltipProps> = ({ type, value, name }) => {
+    const contactNameRef = useRef<HTMLDivElement | null>(null);
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    const handleMouseEnter = () => {
+        if (contactNameRef.current) {
+            const isOverflowing =
+                contactNameRef.current.scrollWidth > contactNameRef.current.offsetWidth;
+            setShowTooltip(isOverflowing);
+        }
+    };
+
+    return (
+        <>
+            <ContactTypeIcon type={type} />
+            <Tooltip render={() => (showTooltip ? `${value}${name ? ` (${name})` : ""}` : null)}>
+                <div
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={() => setShowTooltip(false)}
+                    ref={contactNameRef}
+                    className={cn("contact-name")}
+                >
+                    &nbsp;
+                    {value}
+                    &nbsp;
+                    {name && `(${name})`}
+                </div>
+            </Tooltip>
+        </>
+    );
+};
 
 type Props = {
     items: {
@@ -95,24 +134,18 @@ export default function NotificationList(props: Props): React.ReactElement {
                             </div>
                             <div className={cn("trigger")}>
                                 {id ? (
-                                    <RouterLink to={getPageLink("trigger", id)}>
-                                        {triggerName}
-                                    </RouterLink>
+                                    <Link href={getPageLink("trigger", id)}>{triggerName}</Link>
                                 ) : (
                                     <span>&mdash;</span>
                                 )}
                             </div>
                             <div className={cn("user")}>{user}</div>
                             <div className={cn("contact")}>
-                                <ContactTypeIcon type={type} />
-                                {
-                                    <>
-                                        &nbsp;
-                                        {value}
-                                        &nbsp;
-                                        {contactName && `(${contactName})`}
-                                    </>
-                                }
+                                <ContactNameWithTooltip
+                                    type={type}
+                                    value={value}
+                                    name={contactName}
+                                />
                             </div>
                             <div
                                 className={cn("throttled", { true: throttled, false: !throttled })}

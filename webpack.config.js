@@ -32,7 +32,7 @@ module.exports = {
                 clientsClaim: true,
                 sourcemap: false,
                 skipWaiting: true,
-                exclude: [/index\.html$/, /.*oauth.*/, /\.map$/],
+                exclude: [/\*\.html$/, /.*oauth.*/, /\.map$/],
                 runtimeCaching: [
                     {
                         urlPattern: ({ request }) =>
@@ -43,6 +43,10 @@ module.exports = {
                         handler: "NetworkFirst",
                         options: {
                             cacheName: "html-pages",
+                            expiration: {
+                                maxEntries: 8,
+                                maxAgeSeconds: 5 * 24 * 60 * 60,
+                            },
                         },
                     },
                 ],

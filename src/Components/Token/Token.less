@@ -1,3 +1,5 @@
+@import "~styles/variables.less";
+
 // ToDo: добавить ограничение ширины
 .token {
     display: inline-flex;
@@ -5,14 +7,13 @@
     height: 28px;
     border-radius: 2px;
     box-sizing: border-box;
-    background-color: #e5e5e5;
-    color: #333;
+    background-color: var(--background-tertiary);
+    color: var(--text-primary);
     font-size: 16px;
 
     &.removable {
         position: relative;
         padding-right: 22px;
-
     }
 
     &.nonexistent {
@@ -20,7 +21,6 @@
         background-color: pink;
         border: 1px dashed red;
     }
-
 
     &.selectable {
         margin: 0;
@@ -50,7 +50,7 @@
 
     &::before,
     &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 14px;
         right: 4px;

@@ -2,8 +2,6 @@ import React from "react";
 import { DropdownMenu, MenuHeader, MenuSeparator } from "@skbkontur/react-ui";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { Team } from "../../Domain/Team";
-import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
-import { ThemeContext, ThemeFactory } from "@skbkontur/react-ui";
 import { useParams } from "react-router";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { useAppSelector } from "../../store/hooks";
@@ -43,22 +41,15 @@ export const TransferSubscriptionsTeamSelect: React.FC<ITransferSubscriptionsTea
             {teams.map((team) => {
                 return (
                     team.id !== currentTeamId && (
-                        <ThemeContext.Provider
-                            key={team.id}
-                            value={ThemeFactory.create({
-                                menuItemHoverBg: "initial",
-                            })}
-                        >
-                            <MenuItem>
-                                <Checkbox
-                                    className={cn("team-checkbox")}
-                                    checked={teamToTransfer?.id === team.id}
-                                    onValueChange={() => handleSetTeamToTransfer(team)}
-                                >
-                                    {team.name}
-                                </Checkbox>
-                            </MenuItem>
-                        </ThemeContext.Provider>
+                        <div className={cn("dropdown-checkbox-item")}>
+                            <Checkbox
+                                className={cn("dropdown-checkbox")}
+                                checked={teamToTransfer?.id === team.id}
+                                onValueChange={() => handleSetTeamToTransfer(team)}
+                            >
+                                {team.name}
+                            </Checkbox>
+                        </div>
                     )
                 );
             })}

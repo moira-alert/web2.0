@@ -136,15 +136,9 @@ export default function TriggerInfo({
                     {name != null && name !== "" ? name : "[No name]"}
                 </h1>
                 <div className={cn("controls")}>
-                    <span className={cn("control")}>
-                        <RouterLink
-                            data-tid="Edit"
-                            to={getPageLink("triggerEdit", id)}
-                            icon={<EditIcon />}
-                        >
-                            Edit
-                        </RouterLink>
-                    </span>
+                    <Link data-tid="Edit" href={getPageLink("triggerEdit", id)} icon={<EditIcon />}>
+                        Edit
+                    </Link>
                     <span className={cn("control")}>
                         <Tooltip
                             render={() => {

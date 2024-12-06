@@ -5,13 +5,15 @@ import React from "react";
 import { Providers } from "../src/Providers/Providers";
 
 export const decorators = [
-    (Story) => (
-        <MemoryRouter initialEntries={["/"]}>
-            <Providers>
-                <Story />
-            </Providers>
-        </MemoryRouter>
-    ),
+    (Story) => {
+        return (
+            <MemoryRouter initialEntries={["/"]}>
+                <Providers>
+                    <Story />
+                </Providers>
+            </MemoryRouter>
+        );
+    },
 ];
 
 export const parameters = {

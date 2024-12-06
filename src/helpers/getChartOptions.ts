@@ -1,6 +1,9 @@
 import { EContactEventsInterval } from "../Domain/Contact";
 
-export const getContactEventsChartOptions = (interval: EContactEventsInterval) => ({
+export const getContactEventsChartOptions = (
+    interval: EContactEventsInterval,
+    gridLinesColor?: string
+) => ({
     animation: false,
     maxBarThickness: 20,
     plugins: {
@@ -23,6 +26,7 @@ export const getContactEventsChartOptions = (interval: EContactEventsInterval) =
 
     scales: {
         x: {
+            grid: { color: gridLinesColor },
             type: "timeseries",
             time: {
                 tooltipFormat:
@@ -42,6 +46,7 @@ export const getContactEventsChartOptions = (interval: EContactEventsInterval) =
             },
         },
         y: {
+            grid: { color: gridLinesColor },
             min: 0,
             ticks: {
                 beginAtZero: true,
@@ -54,7 +59,7 @@ export const getContactEventsChartOptions = (interval: EContactEventsInterval) =
     },
 });
 
-export const triggerEventsChartOptions = {
+export const triggerEventsChartOptions = (gridLinesColor?: string) => ({
     animation: false,
     maxBarThickness: 20,
     plugins: {
@@ -66,16 +71,18 @@ export const triggerEventsChartOptions = {
     indexAxis: "y",
     scales: {
         x: {
+            grid: { color: gridLinesColor },
             title: {
                 display: true,
                 text: "Number of Events",
             },
         },
         y: {
+            grid: { color: gridLinesColor },
             title: {
                 display: true,
                 text: "Triggers",
             },
         },
     },
-};
+});

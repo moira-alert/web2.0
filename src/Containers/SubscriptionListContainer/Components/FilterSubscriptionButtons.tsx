@@ -2,10 +2,15 @@ import React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Filter } from "@skbkontur/react-icons";
 import { Contact } from "../../../Domain/Contact";
-import { Checkbox, DropdownMenu, MenuItem, ThemeContext, ThemeFactory } from "@skbkontur/react-ui";
+import { Checkbox, DropdownMenu } from "@skbkontur/react-ui";
 import ContactInfo from "../../../Components/ContactInfo/ContactInfo";
 import { ArrowChevronDown } from "@skbkontur/react-icons";
 import TagDropdownSelect from "../../../Components/TagDropdownSelect/TagDropdownSelect";
+import classNames from "classnames/bind";
+
+import styles from "../../../../local_modules/styles/mixins.less";
+
+const cn = classNames.bind(styles);
 
 interface IFilterSubscriptionButtons {
     contacts: Contact[];
@@ -47,25 +52,19 @@ export const FilterSubscriptionButtons = ({
         <>
             <DropdownMenu menuMaxHeight={300} caption={renderFilterByContactCaption}>
                 {availableContacts.map((contact) => (
-                    <ThemeContext.Provider
-                        key={contact.id}
-                        value={ThemeFactory.create({
-                            menuItemHoverBg: "initial",
-                        })}
-                    >
-                        <MenuItem>
-                            <Checkbox
-                                checked={filterContactIDs.includes(contact.id)}
-                                style={{
-                                    alignItems: "center",
-                                    padding: "0",
-                                }}
-                                onValueChange={() => handleFilterContactsChange(contact.id)}
-                            >
-                                <ContactInfo contact={contact} />
-                            </Checkbox>
-                        </MenuItem>
-                    </ThemeContext.Provider>
+                    <div key={contact.id} className={cn("dropdown-checkbox-item")}>
+                        <Checkbox
+                            className={cn("dropdown-checkbox")}
+                            checked={filterContactIDs.includes(contact.id)}
+                            style={{
+                                alignItems: "center",
+                                padding: "0",
+                            }}
+                            onValueChange={() => handleFilterContactsChange(contact.id)}
+                        >
+                            <ContactInfo contact={contact} />
+                        </Checkbox>
+                    </div>
                 ))}
             </DropdownMenu>
             <TagDropdownSelect

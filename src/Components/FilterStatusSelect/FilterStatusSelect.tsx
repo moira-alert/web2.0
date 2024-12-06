@@ -1,11 +1,10 @@
 import React, { FC } from "react";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { getStatusCaption, Status } from "../../Domain/Status";
-import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
-import { DropdownMenu, ThemeContext, ThemeFactory } from "@skbkontur/react-ui";
-import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
+import { DropdownMenu } from "@skbkontur/react-ui";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import Filter from "@skbkontur/react-icons/Filter";
+import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import classNames from "classnames/bind";
 
 import styles from "./FilterStatusSelect.less";
@@ -44,24 +43,17 @@ export const FilterStatusSelect: FC<IFilterStatusSelectProps> = ({
             )}
         >
             {availableStatuses.map((status) => (
-                <ThemeContext.Provider
-                    key={status}
-                    value={ThemeFactory.create({
-                        menuItemHoverBg: "initial",
-                    })}
-                >
-                    <MenuItem>
-                        <Checkbox
-                            className={cn("filter-status-checkbox")}
-                            checked={selectedStatuses.includes(status)}
-                            onValueChange={(value) => handleSetSelectedStatuses(status, value)}
-                        >
-                            <StatusIcon status={status} />
-                            &nbsp;
-                            {getStatusCaption(status)}
-                        </Checkbox>
-                    </MenuItem>
-                </ThemeContext.Provider>
+                <div key={status} className={cn("dropdown-checkbox-item")}>
+                    <Checkbox
+                        className={cn("dropdown-checkbox")}
+                        checked={selectedStatuses.includes(status)}
+                        onValueChange={(value) => handleSetSelectedStatuses(status, value)}
+                    >
+                        <StatusIcon status={status} />
+                        &nbsp;
+                        {getStatusCaption(status)}
+                    </Checkbox>
+                </div>
             ))}
         </DropdownMenu>
     );

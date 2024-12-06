@@ -44,6 +44,71 @@ export const getSubscriptionRowHeight = (contactIDs: string[]) => {
     return TAG_ROW_HEIGHT;
 };
 
+interface SubscriptionItemProps {
+    subscription: {
+        enabled: boolean;
+        user: string;
+        team_id?: string;
+        contacts: string[];
+    };
+    allContacts: Contact[];
+    style: React.CSSProperties;
+    onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onDelete: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+const SubscriptionItem: FC<SubscriptionItemProps> = ({
+    subscription,
+    allContacts,
+    style,
+    onClick,
+    onDelete,
+}) => {
+    const { enabled, user, team_id, contacts } = subscription;
+
+    return (
+        <div style={style} className={cn("item")} onClick={onClick}>
+            <div className={cn("enabled")}>{enabled ? <OkIcon /> : <DeleteIcon />}</div>
+            <div className={cn("user")}>
+                {user ? (
+                    user
+                ) : (
+                    <span>
+                        teamID:&nbsp;
+                        <span onClick={(e) => e.stopPropagation()}>
+                            <RouterLink to={getPageLink("teamSettings", team_id!)}>
+                                {team_id}
+                            </RouterLink>
+                        </span>
+                    </span>
+                )}
+            </div>
+            <div className={cn("contacts")}>
+                {contacts.map((contactId) => {
+                    const contact = allContacts.find((contact) => contact.id === contactId);
+                    if (contact) {
+                        return (
+                            <div key={contact.id}>
+                                <ContactTypeIcon type={contact.type} />
+                                &nbsp;
+                                {contact.value}
+                                &nbsp;
+                                {contact.name && `(${contact.name})`}
+                            </div>
+                        );
+                    }
+                    return null;
+                })}
+            </div>
+            <div className={cn("sub-control")}>
+                <Button use="link" icon={<TrashIcon />} onClick={onDelete}>
+                    Delete
+                </Button>
+            </div>
+        </div>
+    );
+};
+
 export const TagListItem: FC<ItemProps> = ({
     tagStat,
     allContacts,
@@ -134,67 +199,18 @@ export const TagListItem: FC<ItemProps> = ({
                             {({ data, index, style }) => {
                                 const { id, enabled, user, team_id, contacts } = data[index];
                                 return (
-                                    <div
-                                        style={style}
+                                    <SubscriptionItem
                                         key={id}
-                                        className={cn("item")}
+                                        style={style}
+                                        subscription={{ enabled, user, team_id, contacts }}
+                                        allContacts={allContacts}
                                         onClick={(event) =>
                                             handleSubscriptionClick(event, data[index])
                                         }
-                                    >
-                                        <div className={cn("enabled")}>
-                                            {enabled ? <OkIcon /> : <DeleteIcon />}
-                                        </div>
-                                        <div className={cn("user")}>
-                                            {user ? (
-                                                user
-                                            ) : (
-                                                <span>
-                                                    teamID:&nbsp;
-                                                    <span onClick={(e) => e.stopPropagation()}>
-                                                        <RouterLink
-                                                            to={getPageLink(
-                                                                "teamSettings",
-                                                                team_id
-                                                            )}
-                                                        >
-                                                            {team_id}
-                                                        </RouterLink>
-                                                    </span>
-                                                </span>
-                                            )}
-                                        </div>
-                                        <div className={cn("contacts")}>
-                                            {contacts.map((contactId) => {
-                                                const contact = allContacts.find(
-                                                    (contact) => contact.id === contactId
-                                                );
-                                                if (contact) {
-                                                    return (
-                                                        <div key={contact.id}>
-                                                            <ContactTypeIcon type={contact.type} />
-                                                            &nbsp;
-                                                            {contact.value}
-                                                            &nbsp;
-                                                            {contact.name && `(${contact.name})`}
-                                                        </div>
-                                                    );
-                                                }
-                                                return null;
-                                            })}
-                                        </div>
-                                        <div className={cn("sub-control")}>
-                                            <Button
-                                                use="link"
-                                                icon={<TrashIcon />}
-                                                onClick={(event) =>
-                                                    handleDeleteSubscription(event, data[index])
-                                                }
-                                            >
-                                                Delete
-                                            </Button>
-                                        </div>
-                                    </div>
+                                        onDelete={(event) =>
+                                            handleDeleteSubscription(event, data[index])
+                                        }
+                                    />
                                 );
                             }}
                         </List>

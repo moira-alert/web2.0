@@ -1,10 +1,10 @@
+import React from "react";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { format, fromUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import UserIcon from "@skbkontur/react-icons/User";
-import * as React from "react";
 import { humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
 import { useHistory } from "react-router";

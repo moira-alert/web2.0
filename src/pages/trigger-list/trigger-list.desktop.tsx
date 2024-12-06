@@ -1,5 +1,4 @@
-import React from "react";
-import { History } from "history";
+import React, { FC } from "react";
 import difference from "lodash/difference";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
@@ -11,6 +10,8 @@ import { SearchSelector } from "../../Components/SearchSelector/SearchSelector";
 import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
 import { TriggerListUpdate } from "./trigger-list";
+import { useTheme } from "../../Themes";
+import { useHistory } from "react-router";
 
 export type TriggerListDesktopProps = {
     selectedTags: string[];
@@ -26,10 +27,9 @@ export type TriggerListDesktopProps = {
     error?: string | null;
     onSetMetricMaintenance: (triggerId: string, metric: string, maintenance: number) => void;
     onRemoveMetric: (triggerId: string, metric: string) => void;
-    history: History;
 };
 
-const TriggerListDesktop: React.FC<TriggerListDesktopProps> = ({
+const TriggerListDesktop: FC<TriggerListDesktopProps> = ({
     selectedTags,
     subscribedTags,
     allTags,
@@ -43,9 +43,11 @@ const TriggerListDesktop: React.FC<TriggerListDesktopProps> = ({
     error,
     onSetMetricMaintenance,
     onRemoveMetric,
-    history,
 }) => {
-    const handlePageChange = (page: number) => {
+    const theme = useTheme();
+    const history = useHistory();
+
+    const handlePageChange = (page: number): void => {
         onChange({ page });
         window.scrollTo({
             top: 0,
@@ -53,11 +55,11 @@ const TriggerListDesktop: React.FC<TriggerListDesktopProps> = ({
         });
     };
 
-    const handleChange = (tags: string[], searchText: string) => {
+    const handleChange = (tags: string[], searchText: string): void => {
         onChange({ tags, searchText });
     };
 
-    const handleSearch = (searchText: string) => {
+    const handleSearch = (searchText: string): void => {
         onChange({ searchText });
     };
 
@@ -77,7 +79,7 @@ const TriggerListDesktop: React.FC<TriggerListDesktopProps> = ({
                             onSearch={handleSearch}
                         />
                     </Fill>
-                    <Fit>
+                    <Fit style={{ color: theme.textColorDefault }}>
                         <Toggle
                             checked={onlyProblems}
                             onValueChange={(value: boolean) => onChange({ onlyProblems: value })}
@@ -90,7 +92,7 @@ const TriggerListDesktop: React.FC<TriggerListDesktopProps> = ({
                 <ColumnStack block gap={6} horizontalAlign="stretch">
                     <AddingButton to={getPageLink("triggerAdd")} />
                     <TriggerList
-                        searchMode={!!searchText}
+                        searchMode={searchText !== ""}
                         items={triggers}
                         onChange={onSetMetricMaintenance}
                         onRemove={onRemoveMetric}

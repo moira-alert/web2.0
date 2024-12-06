@@ -1,5 +1,5 @@
-@import '~styles/variables.less';
-@import '~styles/mixins.less';
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
 
 .row {
     display: flex;
@@ -32,7 +32,16 @@
 }
 
 .contact {
+    display: flex;
+    align-items: center;
+    text-overflow: ellipsis;
     width: 16%;
+
+    .contact-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }
 
 .throttled {

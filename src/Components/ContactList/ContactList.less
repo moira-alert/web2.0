@@ -27,9 +27,6 @@
 
 .item {
     cursor: pointer;
-    &:hover {
-        background-color: #f8f8f8;
-    }
 
     td {
         padding: 10px;
@@ -45,6 +42,7 @@
     }
 
     &:hover {
+        background-color: var(--item-hover);
         .actions {
             display: inline;
         }

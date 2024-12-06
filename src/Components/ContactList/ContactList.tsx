@@ -23,6 +23,90 @@ import styles from "./ContactList.less";
 
 const cn = classNames.bind(styles);
 
+interface IContactItemProps {
+    contact: Omit<Contact, "user" | "team">;
+    contactDescriptions: ContactConfig[];
+    onEdit: (contact: Omit<Contact, "user" | "team">) => void;
+    onEventsClick: (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        contact: Omit<Contact, "user" | "team">
+    ) => void;
+    onDeleteContact: () => void;
+}
+
+const ContactItem: React.FC<IContactItemProps> = ({
+    contact,
+    contactDescriptions,
+    onEdit,
+    onEventsClick,
+    onDeleteContact,
+}) => {
+    const { id, name, value, type } = contact;
+
+    const isContactTypeSupported = contactDescriptions.some(
+        (description) => description.type === type
+    );
+
+    return (
+        <>
+            {isContactTypeSupported ? (
+                <tr
+                    className={cn("item")}
+                    onClick={() =>
+                        onEdit({
+                            name,
+                            value,
+                            type,
+                            id,
+                        })
+                    }
+                >
+                    <td className={cn("icon")}>
+                        <ContactTypeIcon type={type} />
+                    </td>
+                    <td>
+                        {isEmptyString(name) ? (
+                            value
+                        ) : (
+                            <ContactWithCustomName contactValue={value} contactName={name} />
+                        )}
+                    </td>
+                    <td className={cn("events")}>
+                        <Button
+                            onClick={(event) =>
+                                onEventsClick(event, {
+                                    type: "",
+                                    name: "",
+                                    value: "",
+                                    id,
+                                })
+                            }
+                        >
+                            Events
+                        </Button>
+                    </td>
+                </tr>
+            ) : (
+                <tr className={cn("item")} key={id}>
+                    <td className={cn("error-icon")}>
+                        <WarningIcon />
+                    </td>
+                    <td>
+                        {isEmptyString(name) ? value : name}
+                        <span className={cn("error-message")}>
+                            Contact type {type} not more support.{" "}
+                            <Button use="link" onClick={onDeleteContact}>
+                                Delete
+                            </Button>
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+            )}
+        </>
+    );
+};
+
 interface IContactListProps {
     contacts: Array<Contact>;
     contactDescriptions: Array<ContactConfig>;
@@ -31,6 +115,7 @@ interface IContactListProps {
 
 const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescriptions, settings }) => {
     const { teamId } = useParams<{ teamId: string }>();
+
     const {
         isModalOpen: contactEventsVisible,
         openModal: openContactEventsSidePage,
@@ -78,85 +163,23 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     <div className={cn("items-container")}>
                         <table className={cn("items")}>
                             <tbody>
-                                {contacts.map(({ name, value, type, id }) => {
-                                    if (
-                                        contactDescriptions.some(
-                                            (description) => description.type === type
-                                        )
-                                    ) {
-                                        return (
-                                            <tr
-                                                key={id}
-                                                className={cn("item")}
-                                                onClick={() =>
-                                                    handleBeginEditContact({
-                                                        name,
-                                                        value,
-                                                        type,
-                                                        id,
-                                                    })
-                                                }
-                                            >
-                                                <td className={cn("icon")}>
-                                                    <ContactTypeIcon type={type} />
-                                                </td>
-                                                <td>
-                                                    {isEmptyString(name) ? (
-                                                        value
-                                                    ) : (
-                                                        <ContactWithCustomName
-                                                            contactValue={value}
-                                                            contactName={name}
-                                                        />
-                                                    )}
-                                                </td>
-                                                <td className={cn("events")}>
-                                                    <Button
-                                                        onClick={(event) =>
-                                                            handleEventsButtonClick(event, {
-                                                                type: "",
-                                                                name: "",
-                                                                value: "",
-                                                                id,
-                                                            })
-                                                        }
-                                                    >
-                                                        Events
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-
-                                    return (
-                                        <tr className={cn("item")} key={id}>
-                                            <td className={cn("error-icon")}>
-                                                <WarningIcon />
-                                            </td>
-                                            <td>
-                                                {isEmptyString(name) ? value : name}
-                                                <span className={cn("error-message")}>
-                                                    Contact type {type} not more support.{" "}
-                                                    <Button
-                                                        use="link"
-                                                        onClick={() =>
-                                                            deleteContact({
-                                                                id,
-                                                                tagsToInvalidate: [
-                                                                    teamId
-                                                                        ? "TeamSettings"
-                                                                        : "UserSettings",
-                                                                ],
-                                                            })
-                                                        }
-                                                    >
-                                                        Delete
-                                                    </Button>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                {contacts.map(({ name, value, type, id }) => (
+                                    <ContactItem
+                                        key={id}
+                                        contactDescriptions={contactDescriptions}
+                                        contact={{ name, value, type, id }}
+                                        onEdit={handleBeginEditContact}
+                                        onEventsClick={handleEventsButtonClick}
+                                        onDeleteContact={() =>
+                                            deleteContact({
+                                                id,
+                                                tagsToInvalidate: [
+                                                    teamId ? "TeamSettings" : "UserSettings",
+                                                ],
+                                            })
+                                        }
+                                    />
+                                ))}
                             </tbody>
                         </table>
                     </div>
