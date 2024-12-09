@@ -55,7 +55,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                             <Flexbox align="baseline" direction="row" gap={4}>
                                 <span>Shown for {team ? "team" : "user"}</span>
                                 {isAdminLink ? (
-                                    <RouterLink to={getPageLink("team", team.id)}>
+                                    <RouterLink to={`${getPageLink("allTeams")}?team=${team.id}`}>
                                         {team.name}
                                     </RouterLink>
                                 ) : (

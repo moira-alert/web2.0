@@ -12,6 +12,7 @@ import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHum
 import { Select } from "@skbkontur/react-ui/components/Select";
 import { setError } from "../../store/Reducers/UIReducer.slice";
 import { TeamsList } from "../../Components/TeamsList/TeamsList";
+import { useQueryState } from "../../hooks/useQueryState";
 
 type SortDirection = "asc" | "desc";
 
@@ -22,7 +23,7 @@ const SORT_OPTIONS: Array<[SortDirection, string]> = [
 
 const AllTeamsContainer: FC = () => {
     const { error, isLoading } = useAppSelector(UIState);
-    const [searchValue, setSearchValue] = useState("");
+    const [searchValue, setSearchValue] = useQueryState<string>("team", "");
     const [activePage, setActivePage] = useState(1);
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
     const debouncedSearchMetric = useDebounce(searchValue, 500);
