@@ -6,9 +6,11 @@
     flex-direction: column;
     flex-grow: 1;
     height: 100%;
+    background-color: var(--background-primary);
 }
 
 .container {
+    position: relative;
     .container();
 }
 
@@ -30,7 +32,9 @@
 .grey-plate {
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: #f3f3f3;
+    background-color: var(--background-plate);
+    position: relative;
+    z-index: 1;
 }
 
 .content {

@@ -1,7 +1,7 @@
 import React, { ComponentType } from "react";
 import { Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
-import HeaderContainer from "./Containers/HeaderContainer";
+import { HeaderContainer } from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
 import TriggerEditContainer from "./Containers/TriggerEditContainer";
 import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
@@ -24,6 +24,9 @@ import { AdminRoute } from "./PrivateRoutes/AdminRoute";
 import TeamsContainer from "./Containers/TeamsContainer";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer";
+import { ChristmasLights } from "./Components/ChristmasLights/ChristmasLights";
+import { useAppSelector } from "./store/hooks";
+import { UIState } from "./store/selectors";
 
 import styles from "./desktop.less";
 
@@ -32,9 +35,7 @@ const cn = classNames.bind(styles);
 type ResponsiveRouteProps = {
     exact?: boolean;
     path: string;
-    container:
-        | ComponentType<Omit<TriggerListProps, "moiraApi">>
-        | ComponentType<Omit<TriggerProps, "moiraApi">>;
+    container: ComponentType<TriggerListProps> | ComponentType<TriggerProps>;
     view: ComponentType<TriggerListDesktopProps> | ComponentType<TriggerDesktopProps>;
 };
 
@@ -44,9 +45,12 @@ function ResponsiveRoute({ container: Container, view: View, ...rest }: Responsi
 }
 
 function Desktop() {
+    const { isChristmasMood } = useAppSelector(UIState);
+
     return (
         <div className={cn("layout")}>
             <HeaderContainer className={cn("header")} />
+            {isChristmasMood && <ChristmasLights />}
             <Switch>
                 <ResponsiveRoute
                     exact

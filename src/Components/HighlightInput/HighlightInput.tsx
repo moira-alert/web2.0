@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ThemeContext, ThemeFactory, DEFAULT_THEME } from "@skbkontur/react-ui";
 import TriggerSource, { ValidateTriggerTarget } from "../../Domain/Trigger";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { CodeEditor } from "./CodeEditor";
@@ -62,29 +61,19 @@ export default function HighlightInput(props: HighlightInputProps): React.ReactE
     return (
         <>
             <div className={cn("messageContainer")}>
-                <ThemeContext.Provider
-                    value={ThemeFactory.create(
-                        {
-                            inputBg: "rgba(0, 0, 0, 0)",
-                            inputTextColor: "rgba(0, 0, 0, 0)",
-                        },
-                        DEFAULT_THEME
-                    )}
+                <ValidationWrapperV1
+                    validationInfo={validateQuery(value, warning, error)}
+                    renderMessage={tooltip("right middle")}
                 >
-                    <ValidationWrapperV1
-                        validationInfo={validateQuery(value, warning, error)}
-                        renderMessage={tooltip("right middle")}
-                    >
-                        <CodeEditor
-                            data-tid={props["data-tid"] ?? ""}
-                            triggerSource={triggerSource}
-                            onBlur={handleInputBlur}
-                            problemTree={validate?.tree_of_problems}
-                            value={value}
-                            onValueChange={handleValueChange}
-                        />
-                    </ValidationWrapperV1>
-                </ThemeContext.Provider>
+                    <CodeEditor
+                        data-tid={props["data-tid"] ?? ""}
+                        triggerSource={triggerSource}
+                        onBlur={handleInputBlur}
+                        problemTree={validate?.tree_of_problems}
+                        value={value}
+                        onValueChange={handleValueChange}
+                    />
+                </ValidationWrapperV1>
             </div>
             <ErrorMessage error={error} warning={warning} view={!changed} />
         </>

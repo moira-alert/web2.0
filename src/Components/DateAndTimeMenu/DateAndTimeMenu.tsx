@@ -8,11 +8,6 @@ import { format, parse } from "date-fns";
 import { ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
 import { useModal } from "../../hooks/useModal";
-import classNames from "classnames/bind";
-
-import styles from "./DateAndTimeMenu.less";
-
-const cn = classNames.bind(styles);
 
 interface IDateAndTimeMenuProps {
     date?: Date | null;
@@ -56,20 +51,20 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     return (
         <RenderLayer onClickOutside={closeMenu} onFocusOutside={closeMenu} active={isMenuOpen}>
             <div ref={containerEl}>
-                <div className={cn("input-container")}>
-                    <ValidationWrapperV1
-                        validationInfo={validateDateAndTime && validateDateAndTime(inputValue)}
-                    >
-                        <Input
-                            width={160}
-                            mask={dateInputMask}
-                            onFocus={closeMenu}
-                            value={inputValue}
-                            onValueChange={handleValueChange}
-                        />
-                    </ValidationWrapperV1>
-                    <CalendarIcon className={cn("calendar-icon")} onClick={openMenu} />
-                </div>
+                <ValidationWrapperV1
+                    validationInfo={validateDateAndTime && validateDateAndTime(inputValue)}
+                >
+                    <Input
+                        width={165}
+                        mask={dateInputMask}
+                        onFocus={closeMenu}
+                        value={inputValue}
+                        onValueChange={handleValueChange}
+                        rightIcon={<CalendarIcon />}
+                        onClick={openMenu}
+                    />
+                </ValidationWrapperV1>
+
                 {isMenuOpen && (
                     <DropdownContainer
                         offsetY={5}

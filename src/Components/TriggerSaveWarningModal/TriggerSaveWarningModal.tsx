@@ -9,7 +9,7 @@ export function TriggerSaveWarningModal({
 }: {
     isOpen: boolean;
     onClose: () => void;
-    onSave: () => Promise<void>;
+    onSave: () => void;
 }) {
     return (
         (isOpen && (

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useMemo } from "react";
 import { History } from "history";
 import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -16,13 +17,12 @@ import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView, { SortingColumn } from "../MetricList/MetricList";
 import { sanitize } from "dompurify";
 import { sortMetrics } from "../../helpers/sort-metrics";
+import _ from "lodash";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerListItem.less";
 
 const cn = classNames.bind(styles);
-
-import _ from "lodash";
 
 type Props = {
     data: Trigger;
@@ -32,142 +32,34 @@ type Props = {
     history: History;
 };
 
-type State = {
-    showMetrics: boolean;
-    metrics: MetricItemList;
-    sortingColumn: SortingColumn;
-    sortingDown: boolean;
-};
+const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove, history }) => {
+    const [showMetrics, setShowMetrics] = useState(false);
+    const [sortingColumn, setSortingColumn] = useState<SortingColumn>("event");
+    const [sortingDown, setSortingDown] = useState(false);
 
-export default class TriggerListItem extends React.Component<Props, State> {
-    public state: State;
+    const metrics = data.last_check?.metrics;
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            showMetrics: false,
-            metrics: props.data.last_check?.metrics || {},
-            sortingColumn: "event",
-            sortingDown: false,
-        };
-    }
-
-    render(): React.ReactNode {
-        const { searchMode, data } = this.props;
-        const { id, name, targets, tags, throttling, highlights } = data;
-        const { showMetrics } = this.state;
-        const metrics = this.renderMetrics();
-        const searchModeName = highlights && highlights.name;
-
-        return (
-            <div className={cn("row", { active: showMetrics })}>
-                <div
-                    className={cn("state", { active: metrics })}
-                    onClick={() => {
-                        if (metrics) {
-                            this.toggleMetrics();
-                        }
-                    }}
-                    data-tid="TriggerListItem_status"
-                >
-                    {this.renderStatus()}
-                    {this.renderCounters()}
-                </div>
-                <div className={cn("data")}>
-                    <ReactRouterLink
-                        className={cn("header")}
-                        to={getPageLink("trigger", id)}
-                        data-tid="TriggerListItem_header"
-                    >
-                        <div className={cn("link")}>
-                            <div className={cn("title")}>
-                                {searchMode ? (
-                                    <div
-                                        className={cn("name")}
-                                        dangerouslySetInnerHTML={{
-                                            __html: sanitize(searchModeName || name),
-                                        }}
-                                    />
-                                ) : (
-                                    <div className={cn("name")}>{name}</div>
-                                )}
-                                {throttling !== 0 && (
-                                    <div
-                                        className={cn("flag")}
-                                        title={`Throttling until
-                                            ${format(
-                                                fromUnixTime(throttling),
-                                                "MMMM d, HH:mm:ss"
-                                            )}`}
-                                    >
-                                        <FlagSolidIcon />
-                                    </div>
-                                )}
-                            </div>
-                            <div className={cn({ targets: true })}>
-                                {targets.map((target) => (
-                                    <div key={target} className={cn("target")}>
-                                        {target}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </ReactRouterLink>
-                    <div className={cn("tags")}>
-                        <TagGroup
-                            onClick={(tag) => {
-                                this.props.history?.push(
-                                    `/?${queryString.stringify(
-                                        { tags: [tag] },
-                                        {
-                                            arrayFormat: "index",
-                                            encode: true,
-                                        }
-                                    )}`
-                                );
-                            }}
-                            tags={tags}
-                        />
-                    </div>
-                    {showMetrics && <div className={cn("metrics")}>{metrics}</div>}
-                </div>
-            </div>
-        );
-    }
-
-    handleSort(column: SortingColumn) {
-        const { sortingColumn, sortingDown } = this.state;
-
+    const handleSort = (column: SortingColumn) => {
         if (column === sortingColumn) {
-            this.setState({ sortingDown: !sortingDown });
+            setSortingDown((prev) => !prev);
         } else {
-            this.setState({
-                sortingColumn: column,
-                sortingDown: true,
-            });
+            setSortingColumn(column);
+            setSortingDown(true);
         }
-    }
+    };
 
-    getHasExceptionState(): boolean {
-        const { data } = this.props;
-        const { state: triggerStatus } = data.last_check || {};
-        return triggerStatus === Status.EXCEPTION;
-    }
+    const hasExceptionState = data.last_check?.state === Status.EXCEPTION;
 
-    toggleMetrics(): void {
-        const { showMetrics } = this.state;
-        this.setState({ showMetrics: !showMetrics });
-    }
+    const filterMetricsByStatus = useMemo(
+        () => (status: Status): MetricItemList =>
+            _.pickBy(metrics, (metric) => metric.state === status),
+        [metrics]
+    );
 
-    filterMetricsByStatus(status: Status): MetricItemList {
-        const { metrics } = this.state;
-        return _.pickBy(metrics, (metric) => metric.state === status);
-    }
-
-    renderCounters(): React.ReactElement {
+    const renderCounters = (): React.ReactElement => {
         const counters = StatusesInOrder.map((status) => ({
             status,
-            count: Object.keys(this.filterMetricsByStatus(status)).length,
+            count: Object.keys(filterMetricsByStatus(status)).length,
         }))
             .filter(({ count }) => count !== 0)
             .map(({ status, count }) => (
@@ -180,33 +72,29 @@ export default class TriggerListItem extends React.Component<Props, State> {
                 {counters.length !== 0 ? counters : <span className={cn("NA")}>N/A</span>}
             </div>
         );
-    }
+    };
 
-    renderStatus(): React.ReactElement {
-        const { data } = this.props;
-        const { state: triggerStatus } = data.last_check || {};
+    const renderStatus = (): React.ReactElement => {
+        const triggerStatus = data.last_check?.state;
         const metricStatuses = StatusesInOrder.filter(
-            (x) => Object.keys(this.filterMetricsByStatus(x)).length !== 0
+            (x) => Object.keys(filterMetricsByStatus(x)).length !== 0
         );
         const notOkStatuses = metricStatuses.filter((x) => x !== Status.OK);
-        let statuses: Status[];
-        if (triggerStatus && (triggerStatus !== Status.OK || metricStatuses.length === 0)) {
-            statuses = [triggerStatus];
-        } else if (notOkStatuses.length !== 0) {
-            statuses = notOkStatuses;
-        } else {
-            statuses = [Status.OK];
-        }
+        const statuses =
+            triggerStatus && (triggerStatus !== Status.OK || metricStatuses.length === 0)
+                ? [triggerStatus]
+                : notOkStatuses.length !== 0
+                ? notOkStatuses
+                : [Status.OK];
         return (
             <div className={cn("indicator")}>
                 <StatusIndicator statuses={statuses} />
             </div>
         );
-    }
+    };
 
-    renderExceptionHelpMessage(): React.ReactElement {
-        const { data } = this.props;
-        const hasExpression = data.expression != null && data.expression !== "";
+    const renderExceptionHelpMessage = (): React.ReactElement => {
+        const hasExpression = !!data.expression;
         const hasMultipleTargets = data.targets.length > 1;
         return (
             <div className={cn("exception-message")}>
@@ -219,43 +107,110 @@ export default class TriggerListItem extends React.Component<Props, State> {
                 page.
             </div>
         );
-    }
+    };
 
-    renderMetrics(): React.ReactNode {
-        const { onChange, onRemove, data } = this.props;
-        const { sortingColumn, sortingDown } = this.state;
-        if (!onChange || !onRemove) {
-            return null;
-        }
+    const renderMetrics = (): React.ReactNode => {
+        if (!onChange || !onRemove) return null;
         const statuses = StatusesInOrder.filter(
-            (x) => Object.keys(this.filterMetricsByStatus(x)).length !== 0
+            (x) => Object.keys(filterMetricsByStatus(x)).length !== 0
         );
-        if (statuses.length === 0) {
-            return null;
-        }
-        const metrics: Array<React.ReactElement> = statuses.map((status: Status) => (
-            <Tab key={status} id={status} label={getStatusCaption(status)}>
-                <MetricListView
-                    items={sortMetrics(
-                        this.filterMetricsByStatus(status),
-                        sortingColumn,
-                        sortingDown
-                    )}
-                    sortingColumn={sortingColumn}
-                    onSort={(column) => this.handleSort(column)}
-                    sortingDown={sortingDown}
-                    onChange={(metric: string, maintenance: number) =>
-                        onChange?.(data.id, metric, maintenance)
-                    }
-                    onRemove={(metric: string) => onRemove(metric)}
-                />
-            </Tab>
-        ));
+        if (statuses.length === 0) return null;
+
         return (
             <div className={cn("metrics")}>
-                {this.getHasExceptionState() && this.renderExceptionHelpMessage()}
-                <Tabs value={statuses[0]}>{metrics}</Tabs>
+                {hasExceptionState && renderExceptionHelpMessage()}
+                <Tabs value={statuses[0]}>
+                    {statuses.map((status) => (
+                        <Tab key={status} id={status} label={getStatusCaption(status)}>
+                            <MetricListView
+                                items={sortMetrics(
+                                    filterMetricsByStatus(status),
+                                    sortingColumn,
+                                    sortingDown
+                                )}
+                                sortingColumn={sortingColumn}
+                                onSort={handleSort}
+                                sortingDown={sortingDown}
+                                onChange={(metric, maintenance) =>
+                                    onChange?.(data.id, metric, maintenance)
+                                }
+                                onRemove={onRemove}
+                            />
+                        </Tab>
+                    ))}
+                </Tabs>
             </div>
         );
-    }
-}
+    };
+
+    const searchModeName = data.highlights?.name;
+
+    return (
+        <div className={cn("row", { active: showMetrics })}>
+            <div
+                className={cn("state", { active: metrics })}
+                onClick={() => metrics && setShowMetrics((prev) => !prev)}
+                data-tid="TriggerListItem_status"
+            >
+                {renderStatus()}
+                {renderCounters()}
+            </div>
+            <div className={cn("data")}>
+                <ReactRouterLink
+                    className={cn("header")}
+                    to={getPageLink("trigger", data.id)}
+                    data-tid="TriggerListItem_header"
+                >
+                    <div className={cn("link")}>
+                        <div className={cn("title")}>
+                            {searchMode ? (
+                                <div
+                                    className={cn("name")}
+                                    dangerouslySetInnerHTML={{
+                                        __html: sanitize(searchModeName || data.name),
+                                    }}
+                                />
+                            ) : (
+                                <div className={cn("name")}>{data.name}</div>
+                            )}
+                            {data.throttling !== 0 && (
+                                <div
+                                    className={cn("flag")}
+                                    title={`Throttling until ${format(
+                                        fromUnixTime(data.throttling),
+                                        "MMMM d, HH:mm:ss"
+                                    )}`}
+                                >
+                                    <FlagSolidIcon />
+                                </div>
+                            )}
+                        </div>
+                        <div className={cn("targets")}>
+                            {data.targets.map((target) => (
+                                <div key={target} className={cn("target")}>
+                                    {target}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </ReactRouterLink>
+                <div className={cn("tags")}>
+                    <TagGroup
+                        onClick={(tag) =>
+                            history.push(
+                                `/?${queryString.stringify(
+                                    { tags: [tag] },
+                                    { arrayFormat: "index", encode: true }
+                                )}`
+                            )
+                        }
+                        tags={data.tags}
+                    />
+                </div>
+                {showMetrics && <div className={cn("metrics")}>{renderMetrics()}</div>}
+            </div>
+        </div>
+    );
+};
+
+export default TriggerListItem;

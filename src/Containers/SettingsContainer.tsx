@@ -47,7 +47,6 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                     <Fill />
                     <Grid columns={"max-content"} gap="4px">
                         <MessageWrapper
-                            width="140px"
                             shouldApplyWrapper={isTeamMember === false}
                             message="This is not your team, be careful with actions"
                         >
@@ -84,7 +83,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
                 {settings && tags && (
                     <SubscriptionListContainer
                         teams={teams}
-                        tags={tags.list}
+                        tags={tags}
                         contacts={settings.contacts}
                         subscriptions={settings.subscriptions}
                     />

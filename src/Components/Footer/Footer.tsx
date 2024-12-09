@@ -11,6 +11,7 @@ type Props = {
 
 export default function Footer(props: Props): React.ReactElement {
     const { className } = props;
+
     return (
         <footer className={cn("footer", className)}>
             <div className={cn("container")}>© SKB Kontur</div>
