@@ -18,9 +18,9 @@ export const SnowfallBackground = ({ topOffset = 0 }: { topOffset?: number }) =>
         const snowflakes = Array.from({ length: 100 }, () => ({
             x: randomNumberBetween(0, width),
             y: randomNumberBetween(-height, 60),
-            size: randomNumberBetween(2, 10),
-            speed: randomNumberBetween(1, 1.5),
-            horizontalSpeed: randomNumberBetween(-1, 1),
+            size: randomNumberBetween(2, 7),
+            speed: randomNumberBetween(1, 1.3),
+            horizontalSpeed: randomNumberBetween(-0.2, 1.5),
         }));
         snowflakesRef.current = snowflakes;
     };
@@ -107,7 +107,8 @@ export const SnowfallBackground = ({ topOffset = 0 }: { topOffset?: number }) =>
                 position: "fixed",
                 top: `${topOffset}px`,
                 left: 0,
-                zIndex: -1,
+                pointerEvents: "none",
+                zIndex: 0,
             }}
         />
     );

@@ -18,6 +18,7 @@ type Props = {
 
 export default function EventList(props: Props): React.ReactElement {
     const { items } = props;
+
     return (
         <section>
             <div className={cn("row", "header")}>

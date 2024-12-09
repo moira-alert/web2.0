@@ -1,12 +1,8 @@
-@import '~styles/variables.less';
-@import '~styles/mixins.less';
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
 
 .row {
     display: flex;
-
-    &.active {
-        background-color: #f6f6f6;
-    }
 }
 
 .state {
@@ -21,7 +17,7 @@
     }
 
     &.active:hover {
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: var(--item-hover);
     }
 }
 
@@ -46,7 +42,7 @@
 .data {
     display: flex;
     flex-wrap: wrap;
-    width: calc(~'100% - 90px');
+    width: calc(~"100% - 90px");
     padding-right: 10px;
     box-sizing: border-box;
 }
@@ -54,12 +50,12 @@
 .header {
     padding-left: 13px;
     padding-right: 20px;
-    width: calc(~'100% - 240px');
+    width: calc(~"100% - 240px");
     box-sizing: border-box;
     text-decoration: none;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: var(--item-hover);
     }
 }
 
@@ -100,20 +96,12 @@
     overflow: hidden;
     max-height: 60px;
     color: #999;
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        black 60%,
-        transparent
-    );
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 100% 80px;
     -webkit-mask-position: 0px -15px;
 
-    mask-image: linear-gradient(
-        to bottom,
-        black 60%,
-        transparent
-    );
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
     mask-repeat: no-repeat;
     mask-size: 100% 80px;
     mask-position: 0px -15px;

@@ -7,6 +7,7 @@ import { getColor } from "../../Tag/Tag";
 import { createHtmlLegendPlugin } from "./htmlLegendPlugin";
 import { triggerEventsChartOptions } from "../../../helpers/getChartOptions";
 import { Flexbox } from "../../Flexbox/FlexBox";
+import { useTheme } from "../../../Themes";
 
 ChartJS.register(...registerables);
 
@@ -23,6 +24,8 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
             }, {}),
         [events]
     );
+
+    const theme = useTheme();
 
     const sortedEvents = useMemo(() => {
         return Object.entries(groupedEvents).sort(([, a], [, b]) => b - a);
@@ -46,7 +49,9 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
             <Bar
                 data={data}
                 plugins={[createHtmlLegendPlugin(true)]}
-                options={triggerEventsChartOptions as ChartOptions<"bar">}
+                options={
+                    triggerEventsChartOptions(theme.chartGridLinesColor) as ChartOptions<"bar">
+                }
             />
         </Flexbox>
     );

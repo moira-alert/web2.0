@@ -8,7 +8,7 @@ const cn = classNames.bind(styles);
 interface IMessageWrapperProps {
     children: ReactNode;
     message: string;
-    width: string;
+    width?: string;
     shouldApplyWrapper?: boolean;
 }
 
