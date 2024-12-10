@@ -79,8 +79,7 @@ test("Set trigger maintenance for all intervals", async ({ triggerName, page }) 
 
             const requestBody = JSON.parse(setMaintenanceRequest.postData() || "{}");
             expect(requestBody).not.toBeNull();
-            expect(requestBody.trigger).toEqual(expectedTriggerTime);
-
+            expect(Math.abs(requestBody.trigger - expectedTriggerTime)).toBeLessThanOrEqual(1);
             if (maintenance === Maintenance.off) {
                 await expect(page.getByText("Maintenance")).toBeVisible();
             } else

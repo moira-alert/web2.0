@@ -30,7 +30,7 @@ export const useFeatureFlag = <T>(
             return;
         }
         window.localStorage.setItem(key, JSON.stringify(value));
-    }, [value]);
+    }, [value, shouldPersist]);
 
     return [value, setValue];
 };

@@ -23,10 +23,10 @@ export const useChristmasMood = () => {
     );
 
     useEffect(() => {
-        if (localChristmasMood !== moodFromStore) {
+        if (localChristmasMood !== moodFromStore && isChristmasMoodApiff) {
             dispatch(toggleChristmasMood(localChristmasMood));
         }
-    }, [localChristmasMood, moodFromStore]);
+    }, [localChristmasMood, moodFromStore, isChristmasMoodApiff]);
 
     return [localChristmasMood, setLocalChristmasMood] as const;
 };

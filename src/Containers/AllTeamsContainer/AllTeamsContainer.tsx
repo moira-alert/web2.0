@@ -4,21 +4,15 @@ import { setDocumentTitle } from "../../helpers/setDocumentTitle";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { useGetAllTeamsQuery } from "../../services/TeamsApi";
-import classNames from "classnames/bind";
-import { Team } from "../../Domain/Team";
 import { Flexbox } from "../../Components/Flexbox/FlexBox";
 import { SearchInput } from "../../Components/TriggerInfo/Components/SearchInput/SearchInput";
 import { useDebounce } from "../../hooks/useDebounce";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import { EmptyListText } from "../../Components/TriggerInfo/Components/EmptyListMessage/EmptyListText";
-import { TeamCard } from "../../Components/Teams/TeamCard/TeamCard";
 import { setError } from "../../store/Reducers/UIReducer.slice";
-
-import styles from "./AllTeamsContainer.less";
-
-const cn = classNames.bind(styles);
+import { TeamsList } from "../../Components/TeamsList/TeamsList";
+import { useQueryState } from "../../hooks/useQueryState";
 
 type SortDirection = "asc" | "desc";
 
@@ -29,8 +23,7 @@ const SORT_OPTIONS: Array<[SortDirection, string]> = [
 
 const AllTeamsContainer: FC = () => {
     const { error, isLoading } = useAppSelector(UIState);
-    const [deletingTeam, setDeletingTeam] = useState<Team | null>(null);
-    const [searchValue, setSearchValue] = useState("");
+    const [searchValue, setSearchValue] = useQueryState<string>("team", "");
     const [activePage, setActivePage] = useState(1);
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
     const debouncedSearchMetric = useDebounce(searchValue, 500);
@@ -75,21 +68,8 @@ const AllTeamsContainer: FC = () => {
                             items={SORT_OPTIONS}
                         />
                     </Flexbox>
-                    {teams?.list.length ? (
-                        <div className={cn("teams-container")}>
-                            {teams?.list.map((team) => (
-                                <TeamCard
-                                    key={team.id}
-                                    team={team}
-                                    isDeleting={deletingTeam?.id === team.id}
-                                    onOpenDelete={() => setDeletingTeam(team)}
-                                    onCloseDelete={() => setDeletingTeam(null)}
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <EmptyListText text={"There are no teams"} />
-                    )}
+
+                    <TeamsList teams={teams?.list} />
 
                     <Paging
                         shouldBeVisibleWithLessThanTwoPages={false}

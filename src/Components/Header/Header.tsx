@@ -9,7 +9,7 @@ import RouterLink from "../RouterLink/RouterLink";
 import svgLogo from "./moira-logo.svg";
 import { AdminMenu } from "./Components/AdminMenu";
 import { useSelector } from "react-redux";
-import { selectIsChristmasMood, selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
+import { selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
 import { useGetConfigQuery } from "../../services/BaseApi";
 import { Platform } from "../../Domain/Config";
 import { ChristmasHatSVG } from "./Components/ChristmasHat";
@@ -29,7 +29,6 @@ export default function Header(): React.ReactElement {
     const { isLoading } = useGetConfigQuery();
     const theme = useTheme();
     const { isChristmasMood } = useAppSelector(UIState);
-    const isChristmasMoodEnabled = useSelector(selectIsChristmasMood);
 
     return (
         <header
@@ -46,7 +45,7 @@ export default function Header(): React.ReactElement {
                     <img className={cn("logo-img")} src={svgLogo} alt="Moira" />
                 </Link>
                 <nav className={cn("menu")}>
-                    {isChristmasMoodEnabled && <ChristmasMoodToggle />}
+                    <ChristmasMoodToggle />
                     <ThemeSwitchModal />
                     <AdminMenu />
                     <RouterLink to={getPageLink("teams")} icon={<PeopleIcon />}>
