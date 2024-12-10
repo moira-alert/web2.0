@@ -29,7 +29,7 @@ export const useThemeFeature = () => {
         const resultTheme = isSystemTheme ? browserTheme : localValue;
 
         document.body.dataset.theme = resultTheme;
-    }, [localValue]);
+    }, [localValue, isBrowserDarkThemeEnabled]);
 
     return useFeatureFlag<EThemesNames>({ ...ThemeFlag, defaultValue: localValue });
 };
