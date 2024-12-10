@@ -35,6 +35,7 @@ test("Add team", async ({ page, teamName, teamDescription, teamsPage }) => {
 });
 
 test("Edit team description", async ({ page, teamDescription, teamsPage, teamName }) => {
+    await teamsPage.teamCardKebab.click();
     await teamsPage.editTeamButton.click();
     await expect(teamsPage.nameInput("Team name")).toHaveValue(teamName);
     await expect(teamsPage.teamDescription).toContainText(teamDescription);
@@ -64,7 +65,8 @@ test("Delete user", async ({ page, userName, teamsPage }) => {
 });
 
 test("Delete team", async ({ page, teamName, teamsPage }) => {
-    await teamsPage.deleteTeamButton(teamName + " changed").click();
+    await teamsPage.teamCardKebab.click();
+    await teamsPage.deleteTeamButton.click();
     await page.getByRole("button", { name: "Confirm" }).click();
     await expect(
         page.locator(`:text("${teamName}"):right-of(span[data-tid='Delete team ${teamName}'])`)

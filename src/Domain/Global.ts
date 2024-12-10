@@ -10,7 +10,6 @@ export const PagesPaths = {
     tags: "/tags",
     patterns: "/patterns",
     teams: "/teams",
-    team: "/teams/:teamId?",
     contacts: "/contacts",
     allTeams: "/teams/all",
 };
@@ -27,7 +26,6 @@ export const PagesLinks = {
     tags: "/tags",
     patterns: "/patterns",
     teams: "/teams",
-    team: "/teams/%id%",
     docs: "//moira.readthedocs.org/",
     contacts: "/contacts",
     allTeams: "/teams/all",

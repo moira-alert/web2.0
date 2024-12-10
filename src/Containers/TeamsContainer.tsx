@@ -16,9 +16,7 @@ const TeamsContainer = () => {
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <LayoutTitle>Teams</LayoutTitle>
-                <LayoutContent>
-                    <Teams />
-                </LayoutContent>
+                <Teams />
             </LayoutContent>
         </Layout>
     );

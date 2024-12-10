@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Subscription } from "../../Domain/Subscription";
 import { TriggerApi } from "../../services/TriggerApi";
-import { christmasMoodFlag } from "../../hooks/useChristmasMood";
 import { EThemesNames } from "../../Themes/themesNames";
 
 interface IUIState {
@@ -22,9 +21,7 @@ const initialState: IUIState = {
     isTransferringSubscriptions: false,
     transferingSubscriptions: [],
     isTransformNullApplied: false,
-    isChristmasMood: JSON.parse(
-        window.localStorage.getItem(`ff_${christmasMoodFlag.id}`) || "false"
-    ),
+    isChristmasMood: false,
     theme: EThemesNames.System,
 };
 

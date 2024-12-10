@@ -79,7 +79,11 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
                 className={cn("team-card")}
             >
                 <Flexbox gap={5}>
-                    <Kebab className={cn("team-card-kebab")} size="large">
+                    <Kebab
+                        data-tid="Team card kebab"
+                        className={cn("team-card-kebab")}
+                        size="large"
+                    >
                         <MenuItem icon={<EditIcon />} onClick={openModal}>
                             Edit
                         </MenuItem>
@@ -100,6 +104,7 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
                                         onClick={handleConfirm}
                                         use={"primary"}
                                         width={100}
+                                        data-tid={`Delete team ${name}`}
                                     >
                                         Confirm
                                     </Button>
