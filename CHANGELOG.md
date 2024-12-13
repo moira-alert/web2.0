@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Contact search via contact.name in sub add modal (#547)
 * Handle full team deletion (#553)
 * All teams page (#561)
 * Christmas mood (#564)
