@@ -25,8 +25,12 @@ const render = (Component: ComponentType) => {
             <BrowserRouter>
                 <Providers>
                     <Sentry.ErrorBoundary
-                        onError={(error) => Toast.push(error.message)}
-                        fallback={() => <Component />}
+                        fallback={(error) => {
+                            {
+                                Toast.push(error.error.toString());
+                            }
+                            return <Component />;
+                        }}
                     >
                         <SentryInitializer />
                         <Favicon />
