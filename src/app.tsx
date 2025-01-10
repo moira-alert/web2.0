@@ -19,24 +19,14 @@ const onUpdate = () => {
     store.dispatch(updateServiceWorker());
 };
 
-window.onerror = (message) => {
-    Toast.push(message.toString());
-};
-
 const render = (Component: ComponentType) => {
     if (root !== null) {
         ReactDOM.render(
             <BrowserRouter>
                 <Providers>
                     <Sentry.ErrorBoundary
-                        onError={(error) => {
-                            // Toast.push(error.toString());
-                            console.log("in onerror", error);
-                        }}
-                        fallback={(error) => {
-                            console.log("in fallback", error);
-                            return <Component />;
-                        }}
+                        onError={(error) => Toast.push(error.toString())}
+                        fallback={() => <Component />}
                     >
                         <SentryInitializer />
                         <Favicon />
