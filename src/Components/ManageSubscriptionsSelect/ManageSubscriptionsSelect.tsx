@@ -44,7 +44,6 @@ export const ManageSubscriptionsSelect: React.FC<IManageSubscriptionsSelectProps
             {isTransferAvailable && (
                 <MenuItem
                     icon={isTeamSelectionOpen ? <ArrowChevronUp /> : <ArrowChevronDown />}
-                    className={cn("transfer-btn")}
                     onClick={(e) => {
                         setTeamSelectionOpen((prev) => !prev);
                         e.preventDefault();
