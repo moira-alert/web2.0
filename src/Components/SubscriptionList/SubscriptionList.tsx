@@ -24,7 +24,7 @@ export const SubscriptionList: React.FC<Props> = ({
     contacts,
     handleEditSubscription,
 }) => {
-    const { isTransferringSubscriptions } = useAppSelector(UIState);
+    const { isTransferringSubscriptions, isEnablingSubscriptions } = useAppSelector(UIState);
 
     const { sortedData, sortConfig, handleSort } = useSortData(subscriptions, "contacts");
 
@@ -35,7 +35,9 @@ export const SubscriptionList: React.FC<Props> = ({
             <table className={cn("items")}>
                 <thead>
                     <tr className={cn("header")}>
-                        {isTransferringSubscriptions && <td style={{ position: "absolute" }}></td>}
+                        {(isTransferringSubscriptions || isEnablingSubscriptions) && (
+                            <td style={{ position: "absolute" }}></td>
+                        )}
                         <td className={cn("fold-button-gap")} />
                         <td colSpan={2}>
                             <button
