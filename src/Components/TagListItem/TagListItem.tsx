@@ -159,6 +159,7 @@ export const TagListItem: FC<ItemProps> = ({
             ? SUBSCRIPTION_LIST_HEIGHT
             : getTotalItemSize(subscriptionContactsCount);
 
+    // if last tag in the list has subs, open the subs list and scroll to the center, cause on Mac OS there is now visual difference and scroll bar only shows up when explicitly move mouse on the list
     useEffect(() => {
         if (isActive && isLastTag && hasSubscriptions && itemRef.current) {
             itemRef.current.scrollIntoView({
