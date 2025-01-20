@@ -8,7 +8,8 @@ interface IUIState {
     error: string | null;
     isNewFrontendVersionAvailable: boolean;
     isTransferringSubscriptions: boolean;
-    transferingSubscriptions: Subscription[];
+    isEnablingSubscriptions: boolean;
+    managingSubscriptions: Subscription[];
     isTransformNullApplied: boolean;
     isChristmasMood: boolean;
     theme: EThemesNames;
@@ -19,7 +20,8 @@ const initialState: IUIState = {
     error: null,
     isNewFrontendVersionAvailable: false,
     isTransferringSubscriptions: false,
-    transferingSubscriptions: [],
+    isEnablingSubscriptions: false,
+    managingSubscriptions: [],
     isTransformNullApplied: false,
     isChristmasMood: false,
     theme: EThemesNames.System,
@@ -38,33 +40,25 @@ export const UISlice = createSlice({
         updateServiceWorker: (state) => {
             state.isNewFrontendVersionAvailable = true;
         },
-        setIsTransferringSubscriptions: (state, action: PayloadAction<boolean>) => {
+        setIsTransferingSubscriptions: (state, action: PayloadAction<boolean>) => {
             state.isTransferringSubscriptions = action.payload;
+            state.isEnablingSubscriptions = false;
         },
-        setTransferingSubscriptions: (state, action: PayloadAction<Subscription[]>) => {
-            state.transferingSubscriptions = action.payload;
+        setManagingSubscriptions: (state, action: PayloadAction<Subscription[]>) => {
+            state.managingSubscriptions = action.payload;
         },
-        addSubscriptionToTransfer: (state, action: PayloadAction<Subscription>) => {
-            if (!state.transferingSubscriptions.includes(action.payload)) {
-                state.transferingSubscriptions.push(action.payload);
-            }
+        setIsEnablingSubscriptions: (state, action: PayloadAction<boolean>) => {
+            state.isEnablingSubscriptions = action.payload;
+            state.isTransferringSubscriptions = false;
         },
-        removeSubscriptionFromTransfer: (state, action: PayloadAction<string>) => {
-            const index = state.transferingSubscriptions.findIndex(
-                (subscription) => subscription.id === action.payload
-            );
-            if (index !== -1) {
-                state.transferingSubscriptions.splice(index, 1);
-            }
-        },
-        toggleSubscriptionTransfer: (state, action: PayloadAction<Subscription>) => {
-            const existingIndex = state.transferingSubscriptions.findIndex(
+        toggleManagingSubscriptions: (state, action: PayloadAction<Subscription>) => {
+            const existingIndex = state.managingSubscriptions.findIndex(
                 (subscription) => subscription.id === action.payload.id
             );
             if (existingIndex !== -1) {
-                state.transferingSubscriptions.splice(existingIndex, 1);
+                state.managingSubscriptions.splice(existingIndex, 1);
             } else {
-                state.transferingSubscriptions.push(action.payload);
+                state.managingSubscriptions.push(action.payload);
             }
         },
         toggleChristmasMood(state, action: PayloadAction<boolean>) {
@@ -88,11 +82,10 @@ export const {
     toggleLoading,
     setError,
     updateServiceWorker,
-    setIsTransferringSubscriptions,
-    setTransferingSubscriptions,
-    addSubscriptionToTransfer,
-    removeSubscriptionFromTransfer,
-    toggleSubscriptionTransfer,
+    setManagingSubscriptions,
+    setIsTransferingSubscriptions,
+    setIsEnablingSubscriptions,
+    toggleManagingSubscriptions,
     toggleChristmasMood,
     setTheme,
 } = UISlice.actions;

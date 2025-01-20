@@ -11,7 +11,7 @@ import ArrowChevronDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { UIState } from "../../../store/selectors";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
-import { toggleSubscriptionTransfer } from "../../../store/Reducers/UIReducer.slice";
+import { toggleManagingSubscriptions } from "../../../store/Reducers/UIReducer.slice";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
@@ -29,7 +29,11 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     contacts,
     onEditSubscription,
 }) => {
-    const { isTransferringSubscriptions, transferingSubscriptions } = useAppSelector(UIState);
+    const {
+        isTransferringSubscriptions,
+        managingSubscriptions,
+        isEnablingSubscriptions,
+    } = useAppSelector(UIState);
     const dispatch = useAppDispatch();
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -70,7 +74,7 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             className={cn(rowClassName)}
             onClick={() => onEditSubscription(subscription)}
         >
-            {isTransferringSubscriptions && (
+            {(isTransferringSubscriptions || isEnablingSubscriptions) && (
                 <td
                     onClick={(event) => {
                         event.stopPropagation();
@@ -80,11 +84,12 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                     <Checkbox
                         className={cn({
                             focused:
-                                isTransferringSubscriptions && !transferingSubscriptions.length,
+                                (isTransferringSubscriptions || isEnablingSubscriptions) &&
+                                !managingSubscriptions.length,
                         })}
-                        checked={transferingSubscriptions.includes(subscription)}
+                        checked={managingSubscriptions.includes(subscription)}
                         onClick={() => {
-                            dispatch(toggleSubscriptionTransfer(subscription));
+                            dispatch(toggleManagingSubscriptions(subscription));
                         }}
                     />
                 </td>

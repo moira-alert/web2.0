@@ -14,14 +14,16 @@ import { Hint } from "@skbkontur/react-ui";
 import { Team } from "../../Domain/Team";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
-    setIsTransferringSubscriptions,
-    setTransferingSubscriptions,
+    setIsEnablingSubscriptions,
+    setIsTransferingSubscriptions,
+    setManagingSubscriptions,
 } from "../../store/Reducers/UIReducer.slice";
 import { UIState } from "../../store/selectors";
 import { BaseApi } from "../../services/BaseApi";
 import { useTransferContactsToTeam } from "../../hooks/useTransferContactsToTeam";
 import { useTransferSubscriptionsToTeam } from "../../hooks/useTransferSubscriptionsToTeam";
-import { TransferSubscriptionsTeamSelect } from "../../Components/TransferSubscriptionsTeamSelect/TransferSubscriptionsTeamSelect";
+import { ManageSubscriptionsSelect } from "../../Components/ManageSubscriptionsSelect/ManageSubscriptionsSelect";
+import { useEnableSubscriptionsBatch } from "../../hooks/useEnableSubscriptionsBatch";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionListContainer.less";
@@ -38,6 +40,21 @@ interface Props {
 const applyTransferButtonHintText =
     "Remaining subscriptions and subscriptions to be transferred must not share contacts";
 
+const applyEnablingButtonHintText =
+    "All subscriptions must be in particular Enabled or Disabled state";
+
+const getEnableButtonName = (subscriptions: Subscription[]) => {
+    if (!subscriptions.length) return "Enable/Disable";
+
+    const allEnabled = subscriptions.every((s) => s.enabled);
+    const allDisabled = subscriptions.every((s) => !s.enabled);
+
+    if (allEnabled) return "Disable";
+    if (allDisabled) return "Enable";
+
+    return "Enable/Disable";
+};
+
 export const SubscriptionListContainer: React.FC<Props> = ({
     tags,
     teams,
@@ -45,10 +62,15 @@ export const SubscriptionListContainer: React.FC<Props> = ({
     subscriptions,
 }) => {
     const dispatch = useAppDispatch();
-    const { isTransferringSubscriptions, transferingSubscriptions } = useAppSelector(UIState);
+    const {
+        isTransferringSubscriptions,
+        managingSubscriptions,
+        isEnablingSubscriptions,
+    } = useAppSelector(UIState);
 
     const { transferContactsToTeam } = useTransferContactsToTeam();
     const { transferSubscriptionsToTeam } = useTransferSubscriptionsToTeam();
+    const { enableSubscriptions } = useEnableSubscriptionsBatch();
 
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const [teamToTransfer, setTeamToTransfer] = useState<Team | null>(null);
@@ -94,16 +116,16 @@ export const SubscriptionListContainer: React.FC<Props> = ({
     const handleSetTeamToTransfer = (team: Team) => {
         if (team.id === teamToTransfer?.id) {
             setTeamToTransfer(null);
-            dispatch(setIsTransferringSubscriptions(false));
+            dispatch(setIsTransferingSubscriptions(false));
             return;
         }
         setTeamToTransfer(team);
-        dispatch(setIsTransferringSubscriptions(true));
+        dispatch(setIsTransferingSubscriptions(true));
     };
 
     const contactIDsToTransfer = useMemo(
-        () => new Set(transferingSubscriptions.flatMap((subscription) => subscription.contacts)),
-        [transferingSubscriptions]
+        () => new Set(managingSubscriptions.flatMap((subscription) => subscription.contacts)),
+        [managingSubscriptions]
     );
 
     const handleTransferContactsAndSubscriptions = async () => {
@@ -116,28 +138,44 @@ export const SubscriptionListContainer: React.FC<Props> = ({
         );
 
         await transferContactsToTeam(contactsToTransfer, teamToTransfer?.id);
-        await transferSubscriptionsToTeam(transferingSubscriptions, teamToTransfer?.id);
+        await transferSubscriptionsToTeam(managingSubscriptions, teamToTransfer?.id);
 
         dispatch(BaseApi.util.invalidateTags(["UserSettings", "TeamSettings"]));
-        dispatch(setIsTransferringSubscriptions(false));
-        dispatch(setTransferingSubscriptions([]));
+        dispatch(setIsTransferingSubscriptions(false));
+        dispatch(setManagingSubscriptions([]));
         setTeamToTransfer(null);
+    };
+
+    const handleEnableSubscriptionBatch = async () => {
+        await enableSubscriptions(managingSubscriptions);
+
+        dispatch(setIsEnablingSubscriptions(false));
+        dispatch(BaseApi.util.invalidateTags(["UserSettings", "TeamSettings"]));
+        dispatch(setManagingSubscriptions([]));
     };
 
     const hasRemainingSubscriptionsWithTransferredContacts = useMemo(
         () =>
             subscriptions.some((subscription) => {
-                if (transferingSubscriptions.includes(subscription)) {
+                if (managingSubscriptions.includes(subscription)) {
                     return false;
                 }
 
                 return subscription.contacts.some((contact) => contactIDsToTransfer.has(contact));
             }),
-        [transferingSubscriptions]
+        [managingSubscriptions]
     );
 
     const isApplyTransferButtonDisabled =
-        hasRemainingSubscriptionsWithTransferredContacts || !transferingSubscriptions.length;
+        hasRemainingSubscriptionsWithTransferredContacts ||
+        !managingSubscriptions.length ||
+        isEnablingSubscriptions;
+
+    const isEnableSubscriptionsButtonDisabled =
+        managingSubscriptions.length === 0 ||
+        new Set(managingSubscriptions.map((s) => s.enabled)).size > 1;
+
+    const enableButtonName = getEnableButtonName(managingSubscriptions);
 
     return (
         <>
@@ -154,13 +192,11 @@ export const SubscriptionListContainer: React.FC<Props> = ({
                             >
                                 Add subscription
                             </Button>
-                            {teams && teams?.length !== 0 && (
-                                <TransferSubscriptionsTeamSelect
-                                    teams={teams}
-                                    teamToTransfer={teamToTransfer}
-                                    handleSetTeamToTransfer={handleSetTeamToTransfer}
-                                />
-                            )}
+                            <ManageSubscriptionsSelect
+                                teams={teams}
+                                teamToTransfer={teamToTransfer}
+                                handleSetTeamToTransfer={handleSetTeamToTransfer}
+                            />
                             <FilterSubscriptionButtons
                                 contacts={contacts}
                                 filterContactIDs={filterContactIDs}
@@ -194,8 +230,35 @@ export const SubscriptionListContainer: React.FC<Props> = ({
                             </Hint>
                             <Button
                                 onClick={() => {
-                                    dispatch(setIsTransferringSubscriptions(false));
+                                    dispatch(setIsTransferingSubscriptions(false));
                                     setTeamToTransfer(null);
+                                }}
+                                use="danger"
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    )}
+                    {isEnablingSubscriptions && (
+                        <div className={cn("transfer-btns")}>
+                            <Hint
+                                text={
+                                    isEnableSubscriptionsButtonDisabled
+                                        ? applyEnablingButtonHintText
+                                        : ""
+                                }
+                            >
+                                <Button
+                                    disabled={isEnableSubscriptionsButtonDisabled}
+                                    use="primary"
+                                    onClick={handleEnableSubscriptionBatch}
+                                >
+                                    {enableButtonName}
+                                </Button>
+                            </Hint>
+                            <Button
+                                onClick={() => {
+                                    dispatch(setIsEnablingSubscriptions(false));
                                 }}
                                 use="danger"
                             >
