@@ -41,7 +41,7 @@ const applyTransferButtonHintText =
     "Remaining subscriptions and subscriptions to be transferred must not share contacts";
 
 const applyEnablingButtonHintText =
-    "All of subscriptions must be in particular Enabled or Disabled state ";
+    "All subscriptions must be in particular Enabled or Disabled state";
 
 const getEnableButtonName = (subscriptions: Subscription[]) => {
     if (!subscriptions.length) return "Enable/Disable";
