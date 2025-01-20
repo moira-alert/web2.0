@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect, useRef } from "react";
 import flatten from "lodash/flatten";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import OkIcon from "@skbkontur/react-icons/Ok";
@@ -123,6 +123,10 @@ export const TagListItem: FC<ItemProps> = ({
     const [deleteTag] = useDeleteTagMutation();
     const { name, subscriptions, triggers } = tagStat;
 
+    const itemRef = useRef<HTMLDivElement | null>(null);
+
+    const isLastTag = tags[tags.length - 1] === name;
+
     const hasSubscriptions = subscriptions.length !== 0;
 
     const handleSubscriptionClick = (
@@ -155,8 +159,19 @@ export const TagListItem: FC<ItemProps> = ({
             ? SUBSCRIPTION_LIST_HEIGHT
             : getTotalItemSize(subscriptionContactsCount);
 
+    // if last tag in the list has subs, open the subs list and scroll to the center, cause on Mac OS there is now visual difference and scroll bar only shows up when explicitly move mouse on the list
+    useEffect(() => {
+        if (isActive && isLastTag && hasSubscriptions && itemRef.current) {
+            itemRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }
+    }, [isActive]);
+
     return (
         <div
+            ref={itemRef}
             style={style}
             className={cn("row", {
                 active: isActive && hasSubscriptions,
