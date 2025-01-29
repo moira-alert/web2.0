@@ -38,13 +38,12 @@ export const TargetsList: FC<IProps> = ({
     const handleUpdateAloneMetrics = (targetIndex: number, value: boolean): void => {
         const target = `t${targetIndex + 1}`;
 
-        if (aloneMetrics === null) {
-            aloneMetrics = {};
-        }
+        const updatedAloneMetrics = { ...aloneMetrics };
 
-        aloneMetrics[target] = value;
+        updatedAloneMetrics[target] = value;
+
         onChange({
-            alone_metrics: aloneMetrics,
+            alone_metrics: updatedAloneMetrics,
         });
     };
 
