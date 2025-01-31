@@ -68,7 +68,12 @@ export function MetricListItem({
     };
 
     return (
-        <div onClick={(event) => handleMetricClick(event)} key={metricName} className={cn("row")} style={style}>
+        <div
+            onClick={(event) => handleMetricClick(event)}
+            key={metricName}
+            className={cn("row")}
+            style={style}
+        >
             {status && (
                 <div className={cn("state")}>
                     <StatusIndicator statuses={[state]} size={10} />
