@@ -52,15 +52,23 @@ export function MetricListItem({
 
     const history = useHistory();
 
-    const handleMetricClick = () => {
+    const handleMetricClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const searchParams = new URLSearchParams();
+        const selection = window.getSelection();
+        const selectedText = selection?.toString() || "";
+
+        if (selectedText.length > 0) {
+            event.preventDefault();
+            return;
+        }
+
         searchParams.set("action", "events");
         searchParams.set("metric", metricName);
         history.push({ search: searchParams.toString() });
     };
 
     return (
-        <div onClick={handleMetricClick} key={metricName} className={cn("row")} style={style}>
+        <div onClick={(event) => handleMetricClick(event)} key={metricName} className={cn("row")} style={style}>
             {status && (
                 <div className={cn("state")}>
                     <StatusIndicator statuses={[state]} size={10} />
