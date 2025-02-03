@@ -52,8 +52,16 @@ export function MetricListItem({
 
     const history = useHistory();
 
-    const handleMetricClick = () => {
+    const handleMetricClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const searchParams = new URLSearchParams();
+        const selection = window.getSelection();
+        const selectedText = selection?.toString() || "";
+
+        if (selectedText.length > 0) {
+            event.preventDefault();
+            return;
+        }
+
         searchParams.set("action", "events");
         searchParams.set("metric", metricName);
         history.push({ search: searchParams.toString() });
