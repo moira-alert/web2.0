@@ -45,7 +45,7 @@ export const useCreateContact = (
         try {
             const createdContact = teamId
                 ? await createTeamContact({
-                      teamId,
+                      team_id: teamId,
                       handleLoadingLocally: true,
                       handleErrorLocally: true,
                       ...requestContact,
