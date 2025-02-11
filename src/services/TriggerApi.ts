@@ -1,11 +1,18 @@
 import { EventList } from "../Domain/Event";
 import { Status } from "../Domain/Status";
-import { Trigger, TriggerList, TriggerState, ValidateTargetsResult } from "../Domain/Trigger";
+import {
+    Trigger,
+    TriggerList,
+    TriggerNoisiness,
+    TriggerState,
+    ValidateTargetsResult,
+} from "../Domain/Trigger";
 import { BaseApi, CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
 import qs from "qs";
 
 const eventHistoryPageSize = 100;
 const triggerListPageSize = 20;
+const triggerNoisinessSize = 7;
 
 export const TriggerApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -237,6 +244,32 @@ export const TriggerApi = BaseApi.injectEndpoints({
             },
             providesTags: ["TriggerList"],
         }),
+        getTriggerNoisiness: builder.query<
+            TriggerNoisiness,
+            CustomBaseQueryArgs<{
+                page?: number | null;
+                from?: number | string | null;
+                to?: number | string | null;
+            }>
+        >({
+            query: ({ page = 0, from, to }) => {
+                const params = qs.stringify(
+                    {
+                        p: page,
+                        size: triggerNoisinessSize,
+                        from,
+                        to,
+                    },
+                    { arrayFormat: "indices", skipNulls: true, encode: true }
+                );
+
+                return {
+                    url: `/trigger/noisiness?${params}`,
+                    method: "GET",
+                    credentials: "same-origin",
+                };
+            },
+        }),
     }),
 });
 
@@ -254,4 +287,5 @@ export const {
     useSetTriggerMutation,
     useAddTriggerMutation,
     useGetTriggerListQuery,
+    useLazyGetTriggerNoisinessQuery,
 } = TriggerApi;

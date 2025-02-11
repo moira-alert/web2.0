@@ -47,11 +47,17 @@ export type Trigger = {
     is_remote?: boolean;
 };
 
-export type TriggerList = {
-    list?: Array<Trigger> | null;
+export type TriggerList<T = Trigger> = {
+    list?: Array<T> | null;
     page: number;
     size: number;
     total: number;
+};
+
+export type TriggerWithEvents = Trigger & { events_count: number };
+
+export type TriggerNoisiness = TriggerList<TriggerWithEvents> & {
+    list: Array<TriggerWithEvents>;
 };
 
 export type TriggerState = {
