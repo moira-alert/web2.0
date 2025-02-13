@@ -26,6 +26,7 @@ import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRou
 import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer";
 import { ChristmasLights } from "./Components/ChristmasLights/ChristmasLights";
 import { useAppSelector } from "./store/hooks";
+import { NoisinessContainer } from "./Containers/NoisinessContainer/NosinessContainer";
 import { UIState } from "./store/selectors";
 
 import styles from "./desktop.less";
@@ -87,6 +88,7 @@ function Desktop() {
                 <AdminRoute exact path={getPagePath("tags")} component={TagListContainer} />
                 <AdminRoute exact path={getPagePath("patterns")} component={PatternListContainer} />
                 <AdminRoute exact path={getPagePath("contacts")} component={ContactsContainer} />
+                <AdminRoute exact path={getPagePath("noisiness")} component={NoisinessContainer} />
                 <Route component={ErrorContainer} />
             </Switch>
             <Footer className={cn("footer")} />

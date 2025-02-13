@@ -21,7 +21,8 @@ const LegendItemComponent: React.FC<{
     chart: Chart;
     showLinks: boolean;
     updateLegendStyles: () => void;
-}> = ({ item, index, chart, showLinks, updateLegendStyles }) => {
+    getLink?: (label: string) => string;
+}> = ({ item, index, chart, showLinks, updateLegendStyles, getLink }) => {
     if (!item.text || item.text.trim() === "") {
         return null;
     }
@@ -63,9 +64,9 @@ const LegendItemComponent: React.FC<{
             <span className={cn("legend-text")} style={{ color: item.fontColor as string }}>
                 {item.text}
             </span>
-            {showLinks && (
+            {showLinks && getLink && (
                 <Link
-                    href={`/trigger/${item.text}`}
+                    href={getLink(item.text)}
                     target="_blank"
                     className={cn("legend-link")}
                     onClick={(e) => e.stopPropagation()}
@@ -81,7 +82,8 @@ const Legend: React.FC<{
     items: LegendItem[];
     showLinks: boolean;
     updateLegendStyles: () => void;
-}> = ({ chart, items, showLinks, updateLegendStyles }) => {
+    getLink?: (label: string) => string;
+}> = ({ chart, items, showLinks, updateLegendStyles, getLink }) => {
     const IconComponent = isExpanded ? ArrowUpIcon : ArrowDownIcon;
 
     const toggleExpand = () => {
@@ -99,6 +101,7 @@ const Legend: React.FC<{
                     chart={chart}
                     showLinks={showLinks}
                     updateLegendStyles={updateLegendStyles}
+                    getLink={getLink}
                 />
             ))}
             {items.length > maxVisibleItems && (
@@ -108,7 +111,10 @@ const Legend: React.FC<{
     );
 };
 
-export const createHtmlLegendPlugin = (showLinks: boolean): Plugin<"bar"> => ({
+export const createHtmlLegendPlugin = (
+    showLinks: boolean,
+    getLink?: (label: string) => string
+): Plugin<"bar"> => ({
     id: "htmlLegend",
     afterUpdate(chart) {
         const containerID = chart.options.plugins?.htmlLegend?.containerID || "";
@@ -142,6 +148,7 @@ export const createHtmlLegendPlugin = (showLinks: boolean): Plugin<"bar"> => ({
 
             ReactDOM.render(
                 <Legend
+                    getLink={getLink}
                     chart={chart}
                     items={items}
                     showLinks={showLinks}
