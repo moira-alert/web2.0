@@ -19,16 +19,13 @@ export interface Contact {
     type: string;
     user?: string;
     value: string;
-    team?: string;
+    team_id?: string;
     name?: string;
 }
 
-export interface TeamContactCreateInfo {
-    value: string;
-    type: string;
-    name?: string;
-    teamId: string;
-}
+export type TeamContactCreateInfo = Omit<Contact, "id" | "user"> & {
+    team_id: string;
+};
 
 export interface IContactEvent {
     timestamp: number;

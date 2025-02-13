@@ -28,8 +28,8 @@ export const TeamsApi = BaseApi.injectEndpoints({
             providesTags: ["UserTeams"],
         }),
         createTeamContact: builder.mutation<Contact, CustomBaseQueryArgs<TeamContactCreateInfo>>({
-            query: ({ teamId, handleErrorLocally, handleLoadingLocally, ...contact }) => ({
-                url: `teams/${encodeURIComponent(teamId)}/contacts`,
+            query: ({ team_id, handleErrorLocally, handleLoadingLocally, ...contact }) => ({
+                url: `teams/${encodeURIComponent(team_id)}/contacts`,
                 method: "POST",
                 credentials: "same-origin",
                 body: JSON.stringify(contact),
