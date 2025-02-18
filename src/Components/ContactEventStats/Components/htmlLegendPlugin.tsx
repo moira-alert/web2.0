@@ -21,8 +21,19 @@ const LegendItemComponent: React.FC<{
     chart: Chart;
     showLinks: boolean;
     updateLegendStyles: () => void;
-    getLink?: (label: string) => string;
-}> = ({ item, index, chart, showLinks, updateLegendStyles, getLink }) => {
+    getLink?: ((label: string) => string) | null;
+    propsLinkIcon?: React.ElementType;
+    onLinkClick?: (label: string) => void;
+}> = ({
+    item,
+    index,
+    chart,
+    showLinks,
+    updateLegendStyles,
+    getLink,
+    propsLinkIcon,
+    onLinkClick,
+}) => {
     if (!item.text || item.text.trim() === "") {
         return null;
     }
@@ -64,13 +75,16 @@ const LegendItemComponent: React.FC<{
             <span className={cn("legend-text")} style={{ color: item.fontColor as string }}>
                 {item.text}
             </span>
-            {showLinks && getLink && (
+            {showLinks && (
                 <Link
-                    href={getLink(item.text)}
+                    href={getLink ? getLink(item.text) : ""}
                     target="_blank"
                     className={cn("legend-link")}
-                    onClick={(e) => e.stopPropagation()}
-                    icon={<LinkIcon />}
+                    onClick={(e) => {
+                        onLinkClick && onLinkClick(item.text);
+                        e.stopPropagation();
+                    }}
+                    icon={propsLinkIcon ? React.createElement(propsLinkIcon) : <LinkIcon />}
                 />
             )}
         </li>
@@ -82,8 +96,10 @@ const Legend: React.FC<{
     items: LegendItem[];
     showLinks: boolean;
     updateLegendStyles: () => void;
-    getLink?: (label: string) => string;
-}> = ({ chart, items, showLinks, updateLegendStyles, getLink }) => {
+    getLink?: ((label: string) => string) | null;
+    propsLinkIcon?: React.ElementType;
+    onLinkClick?: (label: string) => void;
+}> = ({ chart, items, showLinks, updateLegendStyles, getLink, propsLinkIcon, onLinkClick }) => {
     const IconComponent = isExpanded ? ArrowUpIcon : ArrowDownIcon;
 
     const toggleExpand = () => {
@@ -102,6 +118,8 @@ const Legend: React.FC<{
                     showLinks={showLinks}
                     updateLegendStyles={updateLegendStyles}
                     getLink={getLink}
+                    propsLinkIcon={propsLinkIcon}
+                    onLinkClick={onLinkClick}
                 />
             ))}
             {items.length > maxVisibleItems && (
@@ -113,7 +131,9 @@ const Legend: React.FC<{
 
 export const createHtmlLegendPlugin = (
     showLinks: boolean,
-    getLink?: (label: string) => string
+    getLink?: ((label: string) => string) | null,
+    propsLinkIcon?: React.ElementType,
+    onLinkClick?: (label: string) => void
 ): Plugin<"bar"> => ({
     id: "htmlLegend",
     afterUpdate(chart) {
@@ -153,6 +173,8 @@ export const createHtmlLegendPlugin = (
                     items={items}
                     showLinks={showLinks}
                     updateLegendStyles={updateLegendStyles}
+                    propsLinkIcon={propsLinkIcon}
+                    onLinkClick={onLinkClick}
                 />,
                 legendContainer
             );
