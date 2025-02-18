@@ -17,7 +17,7 @@ export const NoisinessContainer: FC = () => {
 
     return (
         <Layout error={error}>
-            <LayoutContent style={{ display: "flex", minHeight: "100vh" }}>
+            <LayoutContent>
                 <LayoutTitle>Noisiness</LayoutTitle>
 
                 <Tabs value={currentTab} onValueChange={setCurrentTab}>
