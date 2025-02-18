@@ -7,7 +7,7 @@ import { Contact } from "../../Domain/Contact";
 import { omitContact } from "../../helpers/omitTypes";
 import ContactEditForm from "../ContactEditForm/ContactEditForm";
 import FileExport from "../FileExport/FileExport";
-import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
+import { ResourceBadge } from "../ResourceBadge/ResourceBadge";
 import ModalError from "../ModalError/ModalError";
 import { useParams } from "react-router";
 import { useUpdateContact } from "../../hooks/useUpdateContact";
@@ -17,12 +17,14 @@ import { Hint } from "@skbkontur/react-ui";
 interface IContactEditModalProps {
     contactInfo: Contact | null;
     isDeleteContactButtonDisabled?: boolean;
+    showOwner?: boolean;
     onCancel: () => void;
 }
 
 const ContactEditModal: FC<IContactEditModalProps> = ({
     contactInfo,
     isDeleteContactButtonDisabled,
+    showOwner,
     onCancel,
 }) => {
     const [contact, setContact] = useState<Contact | null>(contactInfo);
@@ -50,7 +52,10 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
             <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
                 <Modal.Body>
-                    <ResourceIDBadge title="Channel id:" id={contact.id} />
+                    <ResourceBadge title="Channel id:" id={contact.id} />
+                    {showOwner && (contact.user || contact.team_id) && (
+                        <ResourceBadge title="Owner:" id={contact.user ?? contact.team_id ?? ""} />
+                    )}
                     <ValidationContainer ref={validationContainer}>
                         <ContactEditForm
                             contactInfo={contact}

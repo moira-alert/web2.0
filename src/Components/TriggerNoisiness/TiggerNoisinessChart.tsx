@@ -4,10 +4,15 @@ import { getColor } from "../../Components/Tag/Tag";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { getUnixTime, subDays, subHours } from "date-fns";
-import { EmptyListText } from "../../Components/TriggerInfo/Components/EmptyListMessage/EmptyListText";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { TriggerNoisinessChartView } from "./Components/TriggerNoisinessChartView";
 import { TimeRangeSelector } from "./Components/TimeRangeSelector";
+import { Spinner } from "@skbkontur/react-ui/components/Spinner";
+import classNames from "classnames/bind";
+
+import styles from "../../../local_modules/styles/mixins.less";
+
+const cn = classNames.bind(styles);
 
 export type NoisinessDataset = {
     label: string;
@@ -23,7 +28,7 @@ export const TriggerNoisinessChart: FC = () => {
     const [untilTime, setUntilTime] = useState<Date | null>(maxDate);
 
     const [trigger, result] = useLazyGetTriggerNoisinessQuery();
-    const { data: triggers } = result;
+    const { data: triggers, isLoading, isFetching } = result;
 
     const [datasets, setDatasets] = useState<NoisinessDataset[]>([]);
     const pageCount = Math.ceil((triggers?.total ?? 0) / (triggers?.size ?? 1));
@@ -53,30 +58,34 @@ export const TriggerNoisinessChart: FC = () => {
 
     return (
         <>
-            {triggers?.total ? (
-                <Flexbox direction="column" gap={24}>
-                    <div id="trigger-events-legend-container" />
-                    <TriggerNoisinessChartView datasets={datasets} triggers={triggers} />
-                    <Flexbox direction="row" justify="space-between">
-                        <TimeRangeSelector
-                            fromTime={fromTime}
-                            untilTime={untilTime}
-                            setFromTime={setFromTime}
-                            setUntilTime={setUntilTime}
-                            minDate={minDate}
-                            maxDate={maxDate}
-                            onApply={fetchEvents}
-                        />
-                        <Paging
-                            activePage={page}
-                            pagesCount={pageCount}
-                            onPageChange={setPage}
-                            withoutNavigationHint
-                        />
-                    </Flexbox>
-                </Flexbox>
+            {isLoading || isFetching ? (
+                <Spinner className={cn("noisinessSpinner")} />
             ) : (
-                <EmptyListText text="No triggers found" />
+                <>
+                    {triggers?.total && (
+                        <Flexbox direction="column" gap={18}>
+                            <div id="trigger-events-legend-container" />
+                            <TriggerNoisinessChartView datasets={datasets} triggers={triggers} />
+                            <Flexbox direction="row" justify="space-between">
+                                <TimeRangeSelector
+                                    fromTime={fromTime}
+                                    untilTime={untilTime}
+                                    setFromTime={setFromTime}
+                                    setUntilTime={setUntilTime}
+                                    minDate={minDate}
+                                    maxDate={maxDate}
+                                    onApply={fetchEvents}
+                                />
+                                <Paging
+                                    activePage={page}
+                                    pagesCount={pageCount}
+                                    onPageChange={setPage}
+                                    withoutNavigationHint
+                                />
+                            </Flexbox>
+                        </Flexbox>
+                    )}
+                </>
             )}
         </>
     );

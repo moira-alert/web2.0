@@ -59,7 +59,11 @@ export const getContactEventsChartOptions = (
     },
 });
 
-export const triggerEventsChartOptions = (gridLinesColor?: string) => ({
+export const triggerEventsChartOptions = (
+    verticalAxisText: string,
+    horizontalAxisText: string,
+    gridLinesColor?: string
+) => ({
     animation: false,
     maxBarThickness: 20,
     plugins: {
@@ -74,14 +78,14 @@ export const triggerEventsChartOptions = (gridLinesColor?: string) => ({
             grid: { color: gridLinesColor },
             title: {
                 display: true,
-                text: "Number of Events",
+                text: horizontalAxisText,
             },
         },
         y: {
             grid: { color: gridLinesColor },
             title: {
                 display: true,
-                text: "Triggers",
+                text: verticalAxisText,
             },
         },
     },

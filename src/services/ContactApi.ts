@@ -1,6 +1,15 @@
-import { Contact, ContactList, IContactEvent, IContactEventsList } from "../Domain/Contact";
+import {
+    Contact,
+    ContactList,
+    ContactNoisinessResponse,
+    IContactEvent,
+    IContactEventsList,
+} from "../Domain/Contact";
 import { BaseApi } from "./BaseApi";
 import type { CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
+import qs from "qs";
+
+const contactNoisinessSize = 7;
 
 export const ContactApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -76,6 +85,32 @@ export const ContactApi = BaseApi.injectEndpoints({
             }),
             transformResponse: (response: IContactEventsList) => response.list,
         }),
+        getContactNoisiness: builder.query<
+            ContactNoisinessResponse,
+            CustomBaseQueryArgs<{
+                page?: number | null;
+                from?: number | string | null;
+                to?: number | string | null;
+            }>
+        >({
+            query: ({ page, from, to }) => {
+                const params = qs.stringify(
+                    {
+                        p: page,
+                        size: contactNoisinessSize,
+                        from,
+                        to,
+                    },
+                    { arrayFormat: "indices", skipNulls: true, encode: true }
+                );
+
+                return {
+                    url: `/contact/noisiness?${params}`,
+                    method: "GET",
+                    credentials: "same-origin",
+                };
+            },
+        }),
     }),
 });
 
@@ -86,4 +121,5 @@ export const {
     useDeleteContactMutation,
     useCreateUserContactMutation,
     useLazyGetContactEventsQuery,
+    useLazyGetContactNoisinessQuery,
 } = ContactApi;

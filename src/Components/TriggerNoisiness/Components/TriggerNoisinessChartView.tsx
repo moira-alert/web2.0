@@ -30,8 +30,14 @@ export const TriggerNoisinessChartView: React.FC<{
         <Bar
             data={data}
             plugins={[htmlLegendPlugin]}
-            options={triggerEventsChartOptions(theme.chartGridLinesColor) as ChartOptions<"bar">}
-            style={{ maxHeight: "350px" }}
+            options={
+                triggerEventsChartOptions(
+                    "Triggers",
+                    "Number of Events",
+                    theme.chartGridLinesColor
+                ) as ChartOptions<"bar">
+            }
+            style={{ maxHeight: "305px" }}
         />
     );
 };

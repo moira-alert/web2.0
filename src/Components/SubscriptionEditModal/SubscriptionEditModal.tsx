@@ -8,7 +8,7 @@ import { Contact } from "../../Domain/Contact";
 import { omitSubscription } from "../../helpers/omitTypes";
 import SubscriptionEditor from "../SubscriptionEditor/SubscriptionEditor";
 import FileExport from "../FileExport/FileExport";
-import { ResourceIDBadge } from "../ResourceIDBadge/ResourceIDBadge";
+import { ResourceBadge } from "../ResourceBadge/ResourceBadge";
 import { useParams } from "react-router";
 import ModalError from "../ModalError/ModalError";
 import { useUpdateSubscription } from "../../hooks/useUpdateSubscription";
@@ -68,7 +68,7 @@ const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, 
             <Modal onClose={onCancel}>
                 <Modal.Header sticky={false}>Subscription editing</Modal.Header>
                 <Modal.Body>
-                    <ResourceIDBadge title={"Subscription id:"} id={subscriptionToEdit.id} />
+                    <ResourceBadge title={"Subscription id:"} id={subscriptionToEdit.id} />
                     <ValidationContainer ref={validationContainerRef}>
                         <SubscriptionEditor
                             subscription={subscriptionToEdit}

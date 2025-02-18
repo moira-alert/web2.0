@@ -23,6 +23,17 @@ export interface Contact {
     name?: string;
 }
 
+export interface ContactWithEvents extends Contact {
+    events_count: number;
+}
+
+export interface ContactNoisinessResponse {
+    list: Array<ContactWithEvents>;
+    page: number;
+    size: number;
+    total: number;
+}
+
 export type TeamContactCreateInfo = Omit<Contact, "id" | "user"> & {
     team_id: string;
 };
