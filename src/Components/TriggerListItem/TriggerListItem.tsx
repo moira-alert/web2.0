@@ -15,7 +15,7 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
 import Tabs, { Tab } from "../Tabs/Tabs";
 import MetricListView, { SortingColumn } from "../MetricList/MetricList";
-import { sanitize } from "dompurify";
+import DOMPurify from "dompurify";
 import { sortMetrics } from "../../helpers/sort-metrics";
 import _ from "lodash";
 import classNames from "classnames/bind";
@@ -167,7 +167,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
                                 <div
                                     className={cn("name")}
                                     dangerouslySetInnerHTML={{
-                                        __html: sanitize(searchModeName || data.name),
+                                        __html: DOMPurify.sanitize(searchModeName || data.name),
                                     }}
                                 />
                             ) : (
