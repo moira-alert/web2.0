@@ -50,7 +50,11 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
                 data={data}
                 plugins={[createHtmlLegendPlugin(true, (triggerId) => `/trigger/${triggerId}`)]}
                 options={
-                    triggerEventsChartOptions(theme.chartGridLinesColor) as ChartOptions<"bar">
+                    triggerEventsChartOptions(
+                        "Triggers",
+                        "Number of Events",
+                        theme.chartGridLinesColor
+                    ) as ChartOptions<"bar">
                 }
             />
         </Flexbox>
