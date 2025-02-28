@@ -18,6 +18,8 @@ import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { ThemeSwitchModal } from "../ThemeSwitch/ThemeSwitchModal";
 import { useTheme } from "../../Themes";
+import { useGetUserTeamsQuery } from "../../services/TeamsApi";
+import { getSettingsLink } from "../../helpers/getSettingsLink";
 import classNames from "classnames/bind";
 
 import styles from "./Header.less";
@@ -29,6 +31,7 @@ export default function Header(): React.ReactElement {
     const { isLoading } = useGetConfigQuery();
     const theme = useTheme();
     const { isChristmasMood } = useAppSelector(UIState);
+    const { data: teams } = useGetUserTeamsQuery();
 
     return (
         <header
@@ -51,7 +54,7 @@ export default function Header(): React.ReactElement {
                     <RouterLink to={getPageLink("teams")} icon={<PeopleIcon />}>
                         Teams
                     </RouterLink>
-                    <RouterLink to={getPageLink("settings")} icon={<SettingsIcon />}>
+                    <RouterLink to={getSettingsLink(teams)} icon={<SettingsIcon />}>
                         Notifications
                     </RouterLink>
                     <LinkUI href={getPageLink("docs")} icon={<HelpBookIcon />}>
