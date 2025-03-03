@@ -11,6 +11,12 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
         cmActiveLine: "var(--active-line)",
         cmGutterBorder: "var(--border-gutter)",
 
+        promQLLabelName: "var(--promQLLabelName)",
+        promQLString: "var(--promQLString)",
+        promQLOperatorKeyword: "var(--promQLOperatorKeyword)",
+        promQLNumber: "var(--promQLNumber)",
+        promQLModifier: "var(--promQLModifier)",
+
         textColorDefault: "#151515",
 
         iconCheckedColor: "var(--icon-checked-color)",
