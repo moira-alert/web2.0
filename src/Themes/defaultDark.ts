@@ -1,5 +1,6 @@
 import { DARK_THEME, ThemeFactory } from "@skbkontur/react-ui";
 import { ApplicationTheme } from "../hooks/themes/useTheme";
+import { promQLHighlight } from "./promQLHighlight";
 
 export const defaultDark = ThemeFactory.create<ApplicationTheme>(
     {
@@ -15,11 +16,7 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
         cmActiveLine: "var(--active-line)",
         cmGutterBorder: "var(--border-gutter)",
 
-        promQLLabelName: "var(--promQLLabelName)",
-        promQLString: "var(--promQLString)",
-        promQLOperatorKeyword: "var(--promQLOperatorKeyword)",
-        promQLNumber: "var(--promQLNumber)",
-        promQLModifier: "var(--promQLModifier)",
+        ...promQLHighlight,
 
         headerMenuButtons: "var(--header-menu-buttons)",
 
