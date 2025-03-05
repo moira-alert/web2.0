@@ -31,6 +31,17 @@ interface Props {
     onValueChange?: (value: string) => void;
 }
 
+const PromQLHighlightStyle = (theme: TTheme) =>
+    syntaxHighlighting(
+        HighlightStyle.define([
+            { tag: t.labelName, color: theme.promQLLabelName },
+            { tag: t.string, color: theme.promQLString },
+            { tag: t.modifier, color: theme.promQLModifier },
+            { tag: t.operatorKeyword, color: theme.promQLOperatorKeyword },
+            { tag: t.number, color: theme.promQLNumber },
+        ])
+    );
+
 const GraphiteHighlightStyle = syntaxHighlighting(
     HighlightStyle.define([
         { tag: t.function(t.variableName), color: TargetQueryEntityColors.functionName },
@@ -183,10 +194,6 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         quadrupleClickCopy,
     ];
 
-    if (!isPromQl) {
-        ShowModeExtensions.push(GraphiteHighlightStyle);
-    }
-
     const PrometeusExtensions = [
         GraphiteTheme(theme),
         basicSetup,
@@ -198,7 +205,10 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         }),
         languageToUse,
         EditorView.lineWrapping,
+        PromQLHighlightStyle(theme),
     ];
+
+    ShowModeExtensions.push(isPromQl ? PrometeusExtensions : GraphiteHighlightStyle);
 
     const extensionsToUse = () => {
         if (disabled) {

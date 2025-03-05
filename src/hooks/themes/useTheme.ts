@@ -27,6 +27,12 @@ export interface ApplicationTheme extends ThemeIn {
     cmActiveLine?: string;
     chartGridLinesColor?: string;
     cmGutterBorder?: string;
+
+    promQLLabelName: string;
+    promQLString: string;
+    promQLOperatorKeyword: string;
+    promQLNumber: string;
+    promQLModifier: string;
 }
 
 export type TTheme = Readonly<Readonly<typeof DefaultTheme> & ApplicationTheme>;

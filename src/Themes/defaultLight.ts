@@ -1,5 +1,6 @@
 import { DEFAULT_THEME, ThemeFactory } from "@skbkontur/react-ui";
 import { ApplicationTheme } from "../hooks/themes/useTheme";
+import { promQLHighlight } from "./promQLHighlight";
 
 export const defaultLight = ThemeFactory.create<ApplicationTheme>(
     {
@@ -10,6 +11,8 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
         cmActiveLineGutter: "var(--active-line-gutter)",
         cmActiveLine: "var(--active-line)",
         cmGutterBorder: "var(--border-gutter)",
+
+        ...promQLHighlight,
 
         textColorDefault: "#151515",
 
