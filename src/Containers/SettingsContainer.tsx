@@ -16,6 +16,7 @@ import { EUserRoles } from "../Domain/User";
 import { RouteComponentProps } from "react-router";
 import { MessageWrapper } from "../Components/MessageWrapper/MesaageWrapper";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
+import { LOCAL_STORAGE_TEAM_KEY } from "../helpers/getSettingsLink";
 
 export interface ISettingsContainerProps extends RouteComponentProps {
     isTeamMember?: boolean;
@@ -30,6 +31,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
     const userWithTeams = teams ? [userAsTeam, ...teams] : [];
 
     const handleChangeTeam = async (userOrTeam: Team) => {
+        localStorage.setItem(LOCAL_STORAGE_TEAM_KEY, userOrTeam.id ?? "");
         history.push(getPageLink("teamSettings", userOrTeam.id ?? undefined));
     };
 
