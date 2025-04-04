@@ -1,5 +1,11 @@
 @import "~styles/variables.less";
 
+.input-container-style() {
+    max-width: 440px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
 .form {
     .row {
         margin-bottom: 15px;
@@ -16,9 +22,7 @@
 
         .value {
             &.with-input {
-                max-width: 440px;
-                margin-left: -8px;
-                margin-right: -8px;
+                .input-container-style();
             }
         }
     }
@@ -35,7 +39,5 @@
 }
 
 .note-container {
-    max-width: 440px;
-    margin-left: -8px;
-    margin-right: -8px;
+    .input-container-style();
 }
