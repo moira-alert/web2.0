@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { UIState } from "../../../store/selectors";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { toggleManagingSubscriptions } from "../../../store/Reducers/UIReducer.slice";
+import { useHasSystemTags } from "../../../hooks/useSystemTags";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
@@ -36,6 +37,7 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     } = useAppSelector(UIState);
     const dispatch = useAppDispatch();
     const [isExpanded, setIsExpanded] = useState(false);
+    const { hasSystemTags } = useHasSystemTags(subscription.tags);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -107,15 +109,17 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                 </div>
             </td>
             <td className={cn("triggers-cell")}>
-                <Hint text="Show all associated triggers">
-                    <Link
-                        target="_blank"
-                        href={triggersPageParams}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        Show triggers
-                    </Link>
-                </Hint>
+                {!hasSystemTags && (
+                    <Hint text="Show all associated triggers">
+                        <Link
+                            target="_blank"
+                            href={triggersPageParams}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            Show triggers
+                        </Link>
+                    </Hint>
+                )}
             </td>
             <td className={cn("contacts-cell")}>
                 <div className={cn("contacts-content")}>{getSubscriptionContacts}</div>

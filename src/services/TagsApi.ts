@@ -7,6 +7,10 @@ export const TagsApi = BaseApi.injectEndpoints({
             query: () => ({ url: "tag", method: "GET", credentials: "same-origin" }),
             transformResponse: (response: TagList) => response.list,
         }),
+        getSystemTags: builder.query<string[], CustomBaseQueryArgs | void>({
+            query: () => ({ url: "system-tag", method: "GET", credentials: "same-origin" }),
+            transformResponse: (response: TagList) => response.list,
+        }),
         getTagStats: builder.query<Array<TagStat>, CustomBaseQueryArgs | void>({
             query: () => ({ url: "tag/stats", method: "GET", credentials: "same-origin" }),
             providesTags: ["TagStats"],
@@ -23,4 +27,9 @@ export const TagsApi = BaseApi.injectEndpoints({
     }),
 });
 
-export const { useGetTagsQuery, useGetTagStatsQuery, useDeleteTagMutation } = TagsApi;
+export const {
+    useGetTagsQuery,
+    useGetSystemTagsQuery,
+    useGetTagStatsQuery,
+    useDeleteTagMutation,
+} = TagsApi;

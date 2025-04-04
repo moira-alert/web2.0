@@ -1,0 +1,17 @@
+@import "~styles/variables.less";
+
+.note {
+    padding: 8px 12px;
+    border-left: 4px solid;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    color: var(--text-primary);
+
+    &--info {
+        border-color: @noteInfoColor;
+        background-color: var(--note-info-bg);
+    }
+}

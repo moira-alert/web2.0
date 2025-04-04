@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
@@ -14,11 +14,20 @@ import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import { ConfigState } from "../../store/selectors";
 import { useAppSelector } from "../../store/hooks";
 import { validateSched } from "../TriggerEditForm/Validations/validations";
+import { Switcher } from "@skbkontur/react-ui";
+import { Flexbox } from "../Flexbox/FlexBox";
+import { Note } from "../Note/Note";
+import { useHasSystemTags } from "../../hooks/useSystemTags";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionEditor.less";
 
 const cn = classNames.bind(styles);
+
+enum TagsType {
+    Tags = "Tags",
+    SystemTags = "System tags",
+}
 
 type TSubscriptionEditorProps = {
     subscription: Subscription | SubscriptionCreateInfo;
@@ -34,7 +43,16 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
     tags,
 }) => {
     const { config } = useAppSelector(ConfigState);
+    const { systemTags, hasSystemTags } = useHasSystemTags(subscription.tags);
+    const [tagsType, setTagsType] = useState<TagsType>(() =>
+        hasSystemTags ? TagsType.SystemTags : TagsType.Tags
+    );
 
+    const currentTags = useMemo(() => (tagsType === TagsType.Tags ? tags : systemTags), [
+        tagsType,
+        tags,
+        systemTags,
+    ]);
     const { plotting = { enabled: true, theme: "light" } } = subscription;
 
     const isAllTagsToggleVisible: boolean =
@@ -98,6 +116,11 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
         return null;
     };
 
+    const handleTagsTypeChange = (key: string) => {
+        setTagsType(key as TagsType);
+        onChange({ tags: [] });
+    };
+
     return (
         <div className={cn("form")}>
             <div className={cn("row")}>
@@ -115,13 +138,29 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
                     </ValidationWrapperV1>
                 </div>
             </div>
+
             <div className={cn("row")}>
                 <div className={cn("caption")}>
-                    Tags:{" "}
-                    <HelpTooltip closeButton={false}>
-                        Notification will be sent if trigger contains <strong>ALL</strong> of
-                        selected tags.
-                    </HelpTooltip>
+                    <Flexbox align="center" justify="space-between" direction="row">
+                        <span>Tags:</span>
+                        <Switcher
+                            value={tagsType}
+                            onValueChange={handleTagsTypeChange}
+                            items={Object.values(TagsType)}
+                        />
+                    </Flexbox>
+                    <div className={cn("note-container")}>
+                        <Note type="info">
+                            {tagsType === TagsType.Tags ? (
+                                <>
+                                    Notification will be sent if trigger contains{" "}
+                                    <strong>ALL</strong> of selected tags.
+                                </>
+                            ) : (
+                                <>This tags are used to notify about Moira selfstate.</>
+                            )}
+                        </Note>
+                    </div>
                 </div>
                 <div className={cn("value", "with-input")}>
                     <ValidationWrapperV1
@@ -136,7 +175,7 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
                                     tags: nextTags,
                                 });
                             }}
-                            availableTags={tags}
+                            availableTags={currentTags}
                             isDisabled={subscription.any_tags}
                         />
                     </ValidationWrapperV1>

@@ -71,6 +71,8 @@
     padding: 8px;
     border: 1px solid #d5d5d5;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    // DropdownContainer forces child component width with this rule: maxWidth: this.props.hasFixedWidth ? this.state.minWidth : undefined
+    max-width: inherit !important;
 }
 
 .group {
