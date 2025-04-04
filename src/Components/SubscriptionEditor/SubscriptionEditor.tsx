@@ -17,10 +17,10 @@ import { validateSched } from "../TriggerEditForm/Validations/validations";
 import { Switcher } from "@skbkontur/react-ui";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { Note } from "../Note/Note";
+import { useHasSystemTags } from "../../hooks/useSystemTags";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionEditor.less";
-import { useHasSystemTags } from "../../hooks/useSystemTags";
 
 const cn = classNames.bind(styles);
 
@@ -162,14 +162,12 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
                         </Note>
                     </div>
                 </div>
-
                 <div className={cn("value", "with-input")}>
                     <ValidationWrapperV1
                         renderMessage={tooltip("right middle")}
                         validationInfo={validateTags()}
                     >
                         <TagDropdownSelect
-                            width={440}
                             data-tid="Tag dropdown select"
                             value={subscription.tags}
                             onChange={(nextTags: string[]) => {
