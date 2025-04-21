@@ -9,10 +9,11 @@ export const NotifierApi = BaseApi.injectEndpoints({
                 method: "GET",
                 credentials: "same-origin",
             }),
+            providesTags: ["NotifierState"],
         }),
         setNotifierState: builder.mutation<NotifierState, CustomBaseQueryArgs<NotifierState>>({
             query: (state) => ({
-                url: `/health/notifier`,
+                url: "health/notifier",
                 method: "PUT",
                 credentials: "same-origin",
                 body: JSON.stringify(state),
@@ -21,7 +22,7 @@ export const NotifierApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                return ["Notifications"];
+                return ["NotifierState", "Notifications"];
             },
         }),
     }),
