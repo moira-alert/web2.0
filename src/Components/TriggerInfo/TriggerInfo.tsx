@@ -37,6 +37,7 @@ import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
 import useConfirmModal from "../../hooks/useConfirmModal";
 import { useHistory } from "react-router";
+import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
 import { Flexbox } from "../Flexbox/FlexBox";
 import classNames from "classnames/bind";
 
@@ -98,10 +99,12 @@ export default function TriggerInfo({
         (cluster) => cluster.trigger_source === triggerSource
     );
 
-    const clusterName = availableClusters?.find((cluster) => cluster.cluster_id === clusterID)
-        ?.cluster_name;
+    const cluster = availableClusters?.find((cluster) => cluster.cluster_id === clusterID);
 
-    const isClusterName = clusterName && availableClusters.length !== 0;
+    const clusterName = cluster?.cluster_name;
+    const metricsTtl = cluster?.metrics_ttl;
+
+    const isClusterName = clusterName && availableClusters?.length !== 0;
     const isMetrics = metrics && Object.keys(metrics).length > 1;
     const hasExpression = expression != null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
@@ -198,6 +201,11 @@ export default function TriggerInfo({
                         >
                             Duplicate
                         </LinkMenuItem>
+                        <MetricsPlotModal
+                            metricsTtl={metricsTtl}
+                            targets={targets}
+                            triggerId={id}
+                        />
                         <MenuSeparator />
                         <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
                             Delete

@@ -4,6 +4,7 @@ interface IProps extends HTMLProps<HTMLDivElement> {
     children: ReactNode;
     gap?: number;
     width?: number | string;
+    height?: number | string;
     direction?: "row" | "row-reverse" | "column" | "column-reverse";
     align?: string;
     wrap?: "nowrap" | "wrap" | "wrap-reverse";
@@ -21,6 +22,7 @@ export const Flexbox = ({
     justify = "flex-start",
     children,
     width = "auto",
+    height,
     wrap = "nowrap",
     margin = "0 0 0 0",
     style,
@@ -36,6 +38,7 @@ export const Flexbox = ({
         flexWrap: wrap,
         justifyContent: justify,
         margin,
+        height,
     };
 
     return (

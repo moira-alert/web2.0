@@ -30,3 +30,7 @@ export const timeList = Array(24)
     .map((_, index) => `${index}:00`.padStart(5, "0"));
 
 export const formatDateToCalendarDate = (date: Date | number): string => format(date, "dd.MM.yyyy");
+
+export const pluralizeHours = (hours: number): string => {
+    return `${hours} hour${hours !== 1 ? "s" : ""}`;
+};
