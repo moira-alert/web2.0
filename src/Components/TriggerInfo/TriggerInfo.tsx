@@ -106,7 +106,7 @@ export default function TriggerInfo({
 
     const isClusterName = clusterName && availableClusters?.length !== 0;
     const isMetrics = metrics && Object.keys(metrics).length > 1;
-    const hasExpression = expression != null && expression !== "";
+    const hasExpression = expression !== null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
     const delta = maintenanceDelta(maintenance);
 
@@ -201,11 +201,13 @@ export default function TriggerInfo({
                         >
                             Duplicate
                         </LinkMenuItem>
-                        <MetricsPlotModal
-                            metricsTtl={metricsTtl}
-                            targets={targets}
-                            triggerId={id}
-                        />
+                        {metricsTtl && (
+                            <MetricsPlotModal
+                                metricsTtl={metricsTtl}
+                                targets={targets}
+                                triggerId={id}
+                            />
+                        )}
                         <MenuSeparator />
                         <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
                             Delete

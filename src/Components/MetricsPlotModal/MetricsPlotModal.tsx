@@ -18,20 +18,24 @@ import { pluralizeHours } from "../../helpers/DateUtil";
 interface IMetricsPlotModalProps {
     triggerId: string;
     targets: string[];
-    metricsTtl?: number;
+    metricsTtl: number;
 }
 
 export const MetricsPlotModal: FC<IMetricsPlotModalProps> = ({
     triggerId,
     targets,
-    metricsTtl = 3900,
+    metricsTtl,
 }) => {
     const { isModalOpen, openModal, closeModal } = useModal();
     const { theme } = useAppSelector(UIState);
+
     const maxDate = new Date();
     const minDate = new Date(Date.now() - metricsTtl * 1000);
+    const ttlHours = differenceInHours(maxDate, minDate);
+
     const [fromTime, setFromTime] = useState<Date | null>(subHours(maxDate, 1));
     const [untilTime, setUntilTime] = useState<Date | null>(maxDate);
+
     const [selectedTargetIndex, setSelectedTargetIndex] = useState(0);
 
     const [trigger, result] = useLazyGetTriggerPlotQuery();
@@ -46,8 +50,6 @@ export const MetricsPlotModal: FC<IMetricsPlotModalProps> = ({
             handleLoadingLocally: true,
             target: `t${selectedTargetIndex + 1}`,
         });
-
-    const ttlHours = differenceInHours(new Date(), new Date(Date.now() - metricsTtl * 1000));
 
     useEffect(() => {
         isModalOpen && fetchPlot();
@@ -69,7 +71,7 @@ export const MetricsPlotModal: FC<IMetricsPlotModalProps> = ({
                             <Flexbox width={800} gap={18}>
                                 <img src={imageUrl} alt="Trigger Plot" />
                                 <Note>
-                                    The data retention period for this metrics source is limited to{" "}
+                                    The data retention period for this metric source is limited to{" "}
                                     {pluralizeHours(ttlHours)}.
                                 </Note>
                                 <Flexbox direction="row" justify="space-between">
