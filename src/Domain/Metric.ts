@@ -24,4 +24,5 @@ export type TMetricSourceCluster = {
     trigger_source: TriggerSource;
     cluster_id: string;
     cluster_name: string;
+    metrics_ttl: number;
 };
