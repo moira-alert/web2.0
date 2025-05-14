@@ -201,7 +201,7 @@ const TriggerEditForm: FC<IProps> = ({
                     </div>
                 </HelpTooltip>
             </FormRow>
-            <FormRow label="Watch time">
+            <FormRow label="Schedule">
                 <ValidationWrapperV1
                     validationInfo={validateSched(sched)}
                     renderMessage={tooltip("top left")}
