@@ -1,10 +1,11 @@
 import { DARK_THEME, ThemeFactory } from "@skbkontur/react-ui";
 import { ApplicationTheme } from "../hooks/themes/useTheme";
 import { promQLHighlight } from "./promQLHighlight";
+import { EThemesNames } from "./themesNames";
 
 export const defaultDark = ThemeFactory.create<ApplicationTheme>(
     {
-        name: "Dark Theme",
+        name: EThemesNames.Dark,
         isDark: true,
 
         appBgColorSecondary: "var(--background-secondary)",
