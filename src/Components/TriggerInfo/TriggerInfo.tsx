@@ -38,7 +38,9 @@ import { ConfigState } from "../../store/selectors";
 import useConfirmModal from "../../hooks/useConfirmModal";
 import { useHistory } from "react-router";
 import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
+import Statistic from "@skbkontur/react-icons/Statistic";
 import { Flexbox } from "../Flexbox/FlexBox";
+import { useModal } from "../../hooks/useModal";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -94,6 +96,7 @@ export default function TriggerInfo({
     const { config } = useAppSelector(ConfigState);
     const [ConfirmModal, setModalData] = useConfirmModal();
     const history = useHistory();
+    const { isModalOpen, openModal, closeModal } = useModal();
 
     const availableClusters = config?.metric_source_clusters?.filter(
         (cluster) => cluster.trigger_source === triggerSource
@@ -201,13 +204,9 @@ export default function TriggerInfo({
                         >
                             Duplicate
                         </LinkMenuItem>
-                        {metricsTtl && (
-                            <MetricsPlotModal
-                                metricsTtl={metricsTtl}
-                                targets={targets}
-                                triggerId={id}
-                            />
-                        )}
+                        <LinkMenuItem onClick={openModal} icon={<Statistic />}>
+                            Metrics graph
+                        </LinkMenuItem>
                         <MenuSeparator />
                         <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
                             Delete
@@ -333,6 +332,14 @@ export default function TriggerInfo({
                     </div>
                 )}
             </div>
+            {metricsTtl && isModalOpen && (
+                <MetricsPlotModal
+                    closeModal={closeModal}
+                    metricsTtl={metricsTtl}
+                    targets={targets}
+                    triggerId={id}
+                />
+            )}
             {ConfirmModal}
         </section>
     );

@@ -1,9 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { useLazyGetTriggerPlotQuery } from "../../services/TriggerApi";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
-import { useModal } from "../../hooks/useModal";
-import { LinkMenuItem } from "../TriggerInfo/Components/LinkMenuItem";
-import Statistic from "@skbkontur/react-icons/Statistic";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { EThemesNames } from "../../Themes/themesNames";
@@ -19,14 +16,15 @@ interface IMetricsPlotModalProps {
     triggerId: string;
     targets: string[];
     metricsTtl: number;
+    closeModal: () => void;
 }
 
 export const MetricsPlotModal: FC<IMetricsPlotModalProps> = ({
     triggerId,
     targets,
     metricsTtl,
+    closeModal,
 }) => {
-    const { isModalOpen, openModal, closeModal } = useModal();
     const { theme } = useAppSelector(UIState);
 
     const maxDate = new Date();
@@ -52,15 +50,12 @@ export const MetricsPlotModal: FC<IMetricsPlotModalProps> = ({
         });
 
     useEffect(() => {
-        isModalOpen && fetchPlot();
-    }, [isModalOpen, selectedTargetIndex]);
+        fetchPlot();
+    }, [selectedTargetIndex]);
 
     return (
         <>
-            <LinkMenuItem onClick={openModal} icon={<Statistic />}>
-                Metrics graph
-            </LinkMenuItem>
-            {isModalOpen && !isError && (
+            {!isError && (
                 <Modal onClose={closeModal}>
                     <Modal.Body>
                         {isLoading || isFetching ? (
