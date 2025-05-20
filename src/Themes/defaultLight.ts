@@ -1,10 +1,11 @@
 import { DEFAULT_THEME, ThemeFactory } from "@skbkontur/react-ui";
 import { ApplicationTheme } from "../hooks/themes/useTheme";
 import { promQLHighlight } from "./promQLHighlight";
+import { EThemesNames } from "./themesNames";
 
 export const defaultLight = ThemeFactory.create<ApplicationTheme>(
     {
-        name: "Light Theme",
+        name: EThemesNames.Light,
         isDark: false,
         cmGutterColor: "var(--background-gutter)",
         cmLineNumberColor: "var(--line-number-gutter)",

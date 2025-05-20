@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Status, getStatusColor } from "../../Domain/Status";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import classNames from "classnames/bind";
 
 import styles from "./StatusIndicator.less";
@@ -77,8 +78,10 @@ function renderPath(statuses: Array<Status>): React.ReactElement {
 export default function StatusIndicator(props: Props): React.ReactElement {
     const { statuses, disabled, size = 20 } = props;
     return (
-        <svg viewBox="-1 -1 2 2" width={size} height={size} className={cn("svg", { disabled })}>
-            {renderPath(statuses)}
-        </svg>
+        <Tooltip render={() => statuses.join(", ")}>
+            <svg viewBox="-1 -1 2 2" width={size} height={size} className={cn("svg", { disabled })}>
+                {renderPath(statuses)}
+            </svg>
+        </Tooltip>
     );
 }
