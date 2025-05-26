@@ -1,5 +1,6 @@
 import { NotificationList } from "../Domain/Notification";
 import { BaseApi, CustomBaseQueryArgs } from "./BaseApi";
+import qs from "qs";
 
 export const NotificationsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -38,6 +39,37 @@ export const NotificationsApi = BaseApi.injectEndpoints({
                 return ["Notifications"];
             },
         }),
+        deleteFilteredNotifications: builder.mutation<
+            void,
+            CustomBaseQueryArgs<{
+                start: number;
+                end: number;
+                tags: Array<string>;
+            }>
+        >({
+            query: ({ start, end, tags }) => {
+                const params = qs.stringify(
+                    {
+                        start,
+                        end,
+                        tags,
+                    },
+                    { arrayFormat: "indices", skipNulls: true, encode: true }
+                );
+
+                return {
+                    url: `notification/filtered?${params}`,
+                    credentials: "same-origin",
+                    method: "DELETE",
+                };
+            },
+            invalidatesTags: (_result, error) => {
+                if (error) {
+                    return [];
+                }
+                return ["Notifications"];
+            },
+        }),
         deleteAllNotificationEvents: builder.mutation<void, CustomBaseQueryArgs | void>({
             query: () => ({
                 url: "event/all",
@@ -53,4 +85,5 @@ export const {
     useDeleteNotificationMutation,
     useDeleteAllNotificationsMutation,
     useDeleteAllNotificationEventsMutation,
+    useDeleteFilteredNotificationsMutation,
 } = NotificationsApi;

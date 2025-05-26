@@ -10,10 +10,20 @@ export const TimeRangeSelector: React.FC<{
     untilTime: Date | null;
     setFromTime: (date: Date | null) => void;
     setUntilTime: (date: Date | null) => void;
-    minDate: Date;
-    maxDate: Date;
+    minDate?: Date;
+    maxDate?: Date;
     onApply: () => void;
-}> = ({ fromTime, untilTime, setFromTime, setUntilTime, minDate, maxDate, onApply }) => {
+    buttonText?: string;
+}> = ({
+    fromTime,
+    untilTime,
+    setFromTime,
+    setUntilTime,
+    minDate,
+    maxDate,
+    onApply,
+    buttonText = "Apply time range",
+}) => {
     const validationContainerRef = React.useRef(null);
 
     const handleApply = async () => {
@@ -32,10 +42,10 @@ export const TimeRangeSelector: React.FC<{
                         validateDateAndTime(
                             fromTime,
                             inputValue,
-                            maxDate,
-                            minDate,
                             fromTime,
-                            untilTime
+                            untilTime,
+                            maxDate,
+                            minDate
                         )
                     }
                     minDate={minDate}
@@ -51,10 +61,10 @@ export const TimeRangeSelector: React.FC<{
                         validateDateAndTime(
                             untilTime,
                             inputValue,
-                            maxDate,
-                            minDate,
                             fromTime,
-                            untilTime
+                            untilTime,
+                            maxDate,
+                            minDate
                         )
                     }
                     minDate={minDate}
@@ -63,7 +73,7 @@ export const TimeRangeSelector: React.FC<{
                     setDate={setUntilTime}
                 />
                 <Button onClick={handleApply} use="primary">
-                    Apply time range
+                    {buttonText}
                 </Button>
             </Flexbox>
         </ValidationContainer>
