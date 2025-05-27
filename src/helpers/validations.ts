@@ -44,14 +44,14 @@ const validateDateAndTimeString = (date: string): boolean => {
 export const validateDateAndTime = (
     date: Date,
     inputValue: string,
-    maxDate: Date,
-    minDate: Date,
     fromTime: Date,
-    untillTime: Date
+    untillTime: Date,
+    maxDate?: Date,
+    minDate?: Date
 ): Nullable<ValidationInfo> => {
     const dateMinute = startOfMinute(date);
-    const minMinute = startOfMinute(minDate);
-    const maxMinute = startOfMinute(maxDate);
+    const minMinute = minDate ? startOfMinute(minDate) : null;
+    const maxMinute = maxDate ? startOfMinute(maxDate) : null;
     const fromMinute = startOfMinute(fromTime);
     const untillMinute = startOfMinute(untillTime);
 
@@ -62,14 +62,14 @@ export const validateDateAndTime = (
         };
     }
 
-    if (isBefore(dateMinute, minMinute)) {
+    if (minMinute && isBefore(dateMinute, minMinute)) {
         return {
             message: `Date should not be before ${format(minMinute, "yyyy/MM/dd HH:mm")}`,
             type: "immediate",
         };
     }
 
-    if (isAfter(dateMinute, maxMinute)) {
+    if (maxMinute && isAfter(dateMinute, maxMinute)) {
         return {
             message: `Date should not be after ${format(maxMinute, "yyyy/MM/dd HH:mm")}`,
             type: "immediate",
