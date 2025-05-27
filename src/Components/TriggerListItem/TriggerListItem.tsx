@@ -8,7 +8,7 @@ import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
 import { Trigger } from "../../Domain/Trigger";
-import { MetricItemList } from "../../Domain/Metric";
+import { MetricItemList, withMuted, withoutMuted } from "../../Domain/Metric";
 import { Status, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
@@ -18,6 +18,7 @@ import MetricListView, { SortingColumn } from "../MetricList/MetricList";
 import DOMPurify from "dompurify";
 import { sortMetrics } from "../../helpers/sort-metrics";
 import _ from "lodash";
+import NotificationBellOff from "@skbkontur/react-icons/NotificationBellOff";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerListItem.less";
@@ -50,6 +51,8 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
 
     const hasExceptionState = data.last_check?.state === Status.EXCEPTION;
 
+    const mutedMetrics = useMemo(() => withMuted(metrics), [metrics]);
+
     const filterMetricsByStatus = useMemo(
         () => (status: Status): MetricItemList =>
             _.pickBy(metrics, (metric) => metric.state === status),
@@ -57,35 +60,56 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
     );
 
     const renderCounters = (): React.ReactElement => {
-        const counters = StatusesInOrder.map((status) => ({
-            status,
-            count: Object.keys(filterMetricsByStatus(status)).length,
-        }))
+        const mutedMetricsCount = Object.keys(mutedMetrics).length;
+
+        const activeMetricsCounters = StatusesInOrder.map((status) => {
+            const count = Object.values(withoutMuted(metrics)).filter(
+                (metric) => metric.state === status
+            ).length;
+            return { status, count };
+        })
             .filter(({ count }) => count !== 0)
             .map(({ status, count }) => (
                 <span key={status} style={{ color: getStatusColor(status) }}>
                     {count}
                 </span>
             ));
+
         return (
             <div className={cn("counters")}>
-                {counters.length !== 0 ? counters : <span className={cn("NA")}>N/A</span>}
+                {activeMetricsCounters.length !== 0 ? (
+                    activeMetricsCounters
+                ) : (
+                    <span className={cn("NA")}>N/A</span>
+                )}
+                {mutedMetricsCount > 0 && (
+                    <span className={cn("mutedMetricsCount")}>
+                        {mutedMetricsCount}{" "}
+                        <span className={cn("notificationsOffIcon")}>
+                            <NotificationBellOff />
+                        </span>
+                    </span>
+                )}
             </div>
         );
     };
 
     const renderStatus = (): React.ReactElement => {
         const triggerStatus = data.last_check?.state;
-        const metricStatuses = StatusesInOrder.filter(
-            (x) => Object.keys(filterMetricsByStatus(x)).length !== 0
+
+        const metricStatuses = StatusesInOrder.filter((status) =>
+            Object.values(withoutMuted(metrics)).some((metric) => metric.state === status)
         );
+
         const notOkStatuses = metricStatuses.filter((x) => x !== Status.OK);
+
         const statuses =
             triggerStatus && (triggerStatus !== Status.OK || metricStatuses.length === 0)
                 ? [triggerStatus]
                 : notOkStatuses.length !== 0
                 ? notOkStatuses
                 : [Status.OK];
+
         return (
             <div className={cn("indicator")}>
                 <StatusIndicator statuses={statuses} />
