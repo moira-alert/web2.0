@@ -84,10 +84,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
                 )}
                 {mutedMetricsCount > 0 && (
                     <span className={cn("mutedMetricsCount")}>
-                        {mutedMetricsCount}{" "}
-                        <span className={cn("notificationsOffIcon")}>
-                            <NotificationBellOff />
-                        </span>
+                        {mutedMetricsCount} <NotificationBellOff />
                     </span>
                 )}
             </div>
