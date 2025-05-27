@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import {
     ArcElement,
     Chart,
@@ -41,6 +41,21 @@ export const countMetricsByStatus = (metrics: MetricNameToStateMap) =>
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const splitByMuted = (metrics: MetricNameToStateMap) => {
+    const mutedMetrics: MetricNameToStateMap = {};
+    const activeMetrics: MetricNameToStateMap = {};
+
+    for (const [key, metric] of Object.entries(metrics)) {
+        if (isMuted(metric)) {
+            mutedMetrics[key] = metric;
+        } else {
+            activeMetrics[key] = metric;
+        }
+    }
+
+    return { mutedMetrics, activeMetrics };
+};
+
 export const MetricStateChart: FC<IProps> = ({
     metrics,
     width,
@@ -50,12 +65,10 @@ export const MetricStateChart: FC<IProps> = ({
 }) => {
     const theme = useTheme();
 
-    const mutedMetrics = Object.entries(metrics).filter(([_, metric]) => isMuted(metric));
-    const activeMetrics = Object.entries(metrics).filter(([_, metric]) => !isMuted(metric));
+    const { mutedMetrics, activeMetrics } = useMemo(() => splitByMuted(metrics), [metrics]);
+    const mutedMetricsCount = Object.keys(mutedMetrics).length;
 
-    const metricsStatusToCountMap = countMetricsByStatus(Object.fromEntries(activeMetrics));
-
-    const mutedMetricsCount = mutedMetrics.length;
+    const metricsStatusToCountMap = countMetricsByStatus(activeMetrics);
 
     const data: ChartData<"doughnut"> = {
         labels: Array.from(metricsStatusToCountMap.keys()),
@@ -67,6 +80,8 @@ export const MetricStateChart: FC<IProps> = ({
             },
         ],
     };
+
+    const defaultLabelStyles = { fontColor: theme.textColorDefault, lineWidth: 0 };
 
     const options = {
         maintainAspectRatio: false,
@@ -90,9 +105,8 @@ export const MetricStateChart: FC<IProps> = ({
                                 return {
                                     text: `${label}: ${value}`,
                                     fillStyle,
-                                    fontColor: theme.textColorDefault,
-                                    lineWidth: 0,
                                     metricAmount,
+                                    ...defaultLabelStyles,
                                 };
                             }) ?? [];
 
@@ -100,9 +114,8 @@ export const MetricStateChart: FC<IProps> = ({
                             chartLabels.push({
                                 text: `MUTED: ${mutedMetricsCount}`,
                                 fillStyle: "transparent",
-                                fontColor: theme.textColorDefault,
-                                lineWidth: 0,
                                 metricAmount: mutedMetricsCount,
+                                ...defaultLabelStyles,
                             });
                         }
 
