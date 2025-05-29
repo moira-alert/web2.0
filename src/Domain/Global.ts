@@ -13,6 +13,7 @@ export const PagesPaths = {
     contacts: "/contacts",
     allTeams: "/teams/all",
     noisiness: "/noisiness",
+    systemSubscriptions: "/system-subscriptions",
 };
 
 export const PagesLinks = {
@@ -31,6 +32,7 @@ export const PagesLinks = {
     contacts: "/contacts",
     allTeams: "/teams/all",
     noisiness: "/noisiness",
+    systemSubscriptions: "/system-subscriptions",
 };
 
 export type PagePath = keyof typeof PagesPaths;
