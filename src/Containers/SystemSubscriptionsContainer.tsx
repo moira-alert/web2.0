@@ -18,7 +18,7 @@ export const SystemSubscriptionsContainer: FC = () => {
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
                 <LayoutTitle>System subscriptions: {systemSubscriptions?.length}</LayoutTitle>
-                {systemSubscriptions && (
+                {systemSubscriptions?.length > 0 && (
                     <SystemSubscriptionsList systemSubscriptions={systemSubscriptions} />
                 )}
             </LayoutContent>

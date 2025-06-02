@@ -16,7 +16,7 @@ export const SystemSubscriptionsList: FC<SystemSubscriptionsListProps> = ({
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const { isModalOpen, openModal, closeModal } = useModal();
 
-    const { data: contacts } = useGetAllContactsQuery();
+    const { data: contacts = [] } = useGetAllContactsQuery();
     const { data: systemTags = [] } = useGetSystemTagsQuery();
 
     const handleEditSubscription = (subscription: Subscription): void => {
@@ -24,9 +24,11 @@ export const SystemSubscriptionsList: FC<SystemSubscriptionsListProps> = ({
         openModal();
     };
 
+    const canRender = contacts.length > 0 && systemSubscriptions.length > 0;
+
     return (
         <>
-            {contacts && systemSubscriptions && (
+            {canRender && (
                 <SubscriptionList
                     showOwnerColumn
                     handleEditSubscription={handleEditSubscription}
@@ -34,7 +36,7 @@ export const SystemSubscriptionsList: FC<SystemSubscriptionsListProps> = ({
                     subscriptions={systemSubscriptions}
                 />
             )}
-            {isModalOpen && subscriptionToEdit && contacts && (
+            {isModalOpen && subscriptionToEdit && (
                 <SubscriptionEditModal
                     subscription={subscriptionToEdit}
                     tags={systemTags}

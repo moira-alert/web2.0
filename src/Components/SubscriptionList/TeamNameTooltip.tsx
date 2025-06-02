@@ -10,11 +10,11 @@ interface TeamNameTooltipProps {
 }
 
 export const TeamNameTooltip: React.FC<TeamNameTooltipProps> = ({ teamId }) => {
-    const [opened, setOpened] = useState(false);
+    const [isOpened, setOpened] = useState(false);
 
     const { data, isLoading, isError, error } = useGetTeamQuery(
         { teamId, handleLoadingLocally: true, handleErrorLocally: true },
-        { skip: !opened }
+        { skip: !isOpened }
     );
 
     let tooltipContent: React.ReactNode = "Can't get team";
