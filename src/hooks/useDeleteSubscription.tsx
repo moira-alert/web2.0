@@ -18,7 +18,11 @@ export const useDeleteSubscription = (
                 id: subscription.id,
                 handleLoadingLocally: true,
                 handleErrorLocally: true,
-                tagsToInvalidate: [teamId ? "TeamSettings" : "UserSettings", "TagStats"],
+                tagsToInvalidate: [
+                    teamId ? "TeamSettings" : "UserSettings",
+                    "TagStats",
+                    "SystemSubscriptions",
+                ],
             }).unwrap();
             onCancel();
         } catch (error) {

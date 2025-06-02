@@ -20,9 +20,12 @@ export const useLoadSettingsData = (isTeamMember?: boolean) => {
         }
     );
     const { data: tags } = useGetTagsQuery();
-    const { data: nonMemberTeam } = useGetTeamQuery(teamId, {
-        skip: !teamId,
-    });
+    const { data: nonMemberTeam } = useGetTeamQuery(
+        { teamId },
+        {
+            skip: !teamId,
+        }
+    );
     const { data: teams } = useGetUserTeamsQuery();
 
     const team = isTeamMember

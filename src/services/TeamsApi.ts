@@ -46,13 +46,13 @@ export const TeamsApi = BaseApi.injectEndpoints({
                 body: JSON.stringify(subscription),
             }),
         }),
-        getTeam: builder.query<Team, CustomBaseQueryArgs<string>>({
-            query: (teamId) => ({
+        getTeam: builder.query<Team, CustomBaseQueryArgs<{ teamId: string }>>({
+            query: ({ teamId }) => ({
                 url: `teams/${encodeURIComponent(teamId)}`,
                 method: "GET",
                 credentials: "same-origin",
             }),
-            providesTags: (_result, error, teamId) => {
+            providesTags: (_result, error, { teamId }) => {
                 if (error) {
                     return [];
                 }

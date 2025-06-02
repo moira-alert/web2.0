@@ -35,6 +35,9 @@ export const AdminMenu: FC = () => {
                 </>
             }
         >
+            <LinkMenuItem link={getPageLink("systemSubscriptions")}>
+                System Subscriptions
+            </LinkMenuItem>
             <LinkMenuItem link={getPageLink("allTeams")}>All Teams</LinkMenuItem>
             <LinkMenuItem link={getPageLink("noisiness")}>Noisiness</LinkMenuItem>
             <LinkMenuItem link={getPageLink("contacts")}>Contacts</LinkMenuItem>
