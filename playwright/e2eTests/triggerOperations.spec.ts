@@ -181,7 +181,7 @@ test("Delete trigger", async ({ triggerNameChanged, triggerNameDuplicate, page }
     await triggerInfoPage.menuListButton.click();
     await triggerInfoPage.deleteButton.click();
 
-    await page.getByRole("button", { name: "Delete" }).click();
+    await page.getByRole("dialog").getByRole("button", { name: "Delete" }).click();
     await expect(page.getByText(triggerNameChanged)).not.toBeVisible();
 
     await mainPage.gotoMainPage();
@@ -189,6 +189,6 @@ test("Delete trigger", async ({ triggerNameChanged, triggerNameDuplicate, page }
     await triggerInfoPage.menuListButton.click();
     await triggerInfoPage.deleteButton.click();
 
-    await page.getByRole("button", { name: "Delete" }).click();
+    await page.getByRole("dialog").getByRole("button", { name: "Delete" }).click();
     await expect(page.getByText(triggerNameDuplicate)).not.toBeVisible();
 });
