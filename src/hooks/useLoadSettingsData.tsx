@@ -8,7 +8,7 @@ import { useGetTagsQuery } from "../services/TagsApi";
 import { useParams } from "react-router";
 
 export const useLoadSettingsData = (isTeamMember?: boolean) => {
-    const { teamId } = useParams<{ teamId: string }>();
+    const { teamId = "" } = useParams<{ teamId: string }>();
     const { data: user } = useGetUserQuery();
     const { data: userSettings } = useGetUserSettingsQuery(undefined, {
         skip: !!teamId,

@@ -66,7 +66,7 @@ export default function MetricList(props: Props): React.ReactElement {
     const entries = Object.entries(items);
 
     // When the sorting state is changed, call resetAfterIndex to recache row offsets and measurements
-    useEffect(() => ref.current?.resetAfterIndex(0), [sortingColumn, sortingDown]);
+    useEffect(() => ref.current?.resetAfterIndex(0, true), [sortingColumn, sortingDown]);
 
     return (
         <section className={cn("table")}>

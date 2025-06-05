@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, FC } from "react";
+import { Popup } from "@skbkontur/react-ui/internal/Popup";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
-import { DropdownContainer } from "@skbkontur/react-ui/internal/DropdownContainer";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import CalendarIcon from "@skbkontur/react-icons/Calendar";
 import { DateAndTimeSelector } from "../DateAndTimeSelector/DateAndTimeSelector";
@@ -66,18 +66,14 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
                 </ValidationWrapperV1>
 
                 {isMenuOpen && (
-                    <DropdownContainer
-                        offsetY={5}
-                        getParent={() => containerEl.current}
-                        align="right"
-                    >
+                    <Popup opened={true} hasShadow anchorElement={containerEl.current}>
                         <DateAndTimeSelector
                             date={date}
                             setDate={setDate}
                             minDate={minDate}
                             maxDate={maxDate}
                         />
-                    </DropdownContainer>
+                    </Popup>
                 )}
             </div>
         </RenderLayer>

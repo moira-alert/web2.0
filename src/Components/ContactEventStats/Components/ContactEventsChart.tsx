@@ -10,9 +10,8 @@ import { getStatusColor, Status } from "../../../Domain/Status";
 import { createHtmlLegendPlugin } from "./htmlLegendPlugin";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import zoomPlugin from "chartjs-plugin-zoom";
-import { getContactEventsChartOptions } from "../../../helpers/getChartOptions";
+import { ContactEventsChartOptions } from "../../../helpers/getChartOptions";
 import { Flexbox } from "../../Flexbox/FlexBox";
-import { useTheme } from "../../../Themes";
 
 ChartJS.register(...registerables);
 
@@ -22,7 +21,6 @@ interface IContactEventsBarChartProps {
 
 export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ events }) => {
     const [interval, setInterval] = useState<EContactEventsInterval>(EContactEventsInterval.hour);
-    const theme = useTheme();
 
     const groupedTransitions = useMemo(() => groupEventsByInterval(events, interval), [
         events,
@@ -47,6 +45,8 @@ export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ even
         }));
     }, [events, interval]);
 
+    const htmlLegendPlugin = useMemo(() => createHtmlLegendPlugin(), []);
+
     return (
         <Flexbox gap={10}>
             <Flexbox direction="row" justify="space-between" align="baseline">
@@ -62,14 +62,9 @@ export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ even
             </Flexbox>
             <div id="contact-events-legend-container" />
             <Bar
-                plugins={[createHtmlLegendPlugin(false), zoomPlugin]}
+                plugins={[htmlLegendPlugin, zoomPlugin]}
                 data={{ labels, datasets }}
-                options={
-                    getContactEventsChartOptions(
-                        interval,
-                        theme.chartGridLinesColor
-                    ) as ChartOptions<"bar">
-                }
+                options={ContactEventsChartOptions(interval) as ChartOptions<"bar">}
             />
         </Flexbox>
     );

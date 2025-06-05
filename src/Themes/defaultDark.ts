@@ -36,9 +36,13 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
 
         modalBackBg: "rgb(0, 0, 0)",
 
+        chartTextItemsColor: "rgb(167 167 167)",
         chartGridLinesColor: "#505050",
 
         teamCardBackgroundColor: "var(--background-secondary)",
+
+        btnLinkTextDecorationColor: "transparent",
+        linkTextDecorationColor: "transparent",
     },
     DARK_THEME
 );

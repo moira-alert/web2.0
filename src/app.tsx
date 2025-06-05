@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
@@ -13,15 +13,18 @@ import Favicon from "./Components/Favicon/Favicon";
 
 import "./style.less";
 
-const root = document.getElementById("root");
+const rootElement = document.getElementById("root");
+const root = rootElement ? createRoot(rootElement) : null;
 
 const onUpdate = () => {
     store.dispatch(updateServiceWorker());
 };
 
 const render = (Component: ComponentType) => {
-    if (root !== null) {
-        ReactDOM.render(
+    if (!root) return;
+
+    root.render(
+        <React.StrictMode>
             <BrowserRouter>
                 <Providers>
                     <Sentry.ErrorBoundary
@@ -33,10 +36,9 @@ const render = (Component: ComponentType) => {
                         <Component />
                     </Sentry.ErrorBoundary>
                 </Providers>
-            </BrowserRouter>,
-            root
-        );
-    }
+            </BrowserRouter>
+        </React.StrictMode>
+    );
 };
 
 const isMobile = checkMobile(window.navigator.userAgent);

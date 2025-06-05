@@ -1,9 +1,8 @@
 import { useCallback } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
 
 type QueryValue = string | number | (string | number)[] | undefined;
-
 type ParsedQueryValue = string | string[] | undefined;
 
 export const useQueryState = <T extends QueryValue>(
@@ -11,7 +10,7 @@ export const useQueryState = <T extends QueryValue>(
     defaultValue: T
 ): [T, (value: T | null) => void] => {
     const location = useLocation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const parseValue = (value: ParsedQueryValue): T => {
         if (value == null || value === undefined) {
@@ -51,9 +50,9 @@ export const useQueryState = <T extends QueryValue>(
                 { skipNulls: true }
             );
 
-            history.push({ search: queryString });
+            navigate({ search: `?${queryString}` });
         },
-        [location.search, query, history]
+        [location.search, query]
     );
 
     return [stateValue, setQuery];

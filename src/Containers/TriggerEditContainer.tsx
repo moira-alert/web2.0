@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { RouteComponentProps } from "react-router";
+import { useParams } from "react-router-dom";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
@@ -22,24 +22,23 @@ import {
     setIsSaveModalVisible,
 } from "../store/Reducers/TriggerFormReducer.slice";
 
-type Props = RouteComponentProps<{ id: string }>;
-
-const TriggerEditContainer = (props: Props) => {
+const TriggerEditContainer = () => {
     const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
     const { config } = useAppSelector(ConfigState);
     const { validationResult, isSaveModalVisible } = useAppSelector(TriggerFormState);
     const { isLoading, error } = useAppSelector(UIState);
     const dispatch = useAppDispatch();
 
-    const { id } = props.match.params;
+    const { id } = useParams<{ id: string }>();
+
     const { data: sourceTrigger } = useGetTriggerQuery({
-        triggerId: id,
+        triggerId: id!,
     });
     const { data: tags } = useGetTagsQuery();
 
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTarget = useValidateTarget(dispatch, props.history);
-    const saveTrigger = useSaveTrigger(props.history);
+    const validateTarget = useValidateTarget(dispatch);
+    const saveTrigger = useSaveTrigger();
 
     const handleSubmit = async () => {
         const isFormValid = await validationContainer.current?.validate();
@@ -47,7 +46,6 @@ const TriggerEditContainer = (props: Props) => {
             return;
         }
 
-        // Backend validation looks for errors in relation to the current version of Carbon, but for the remote target, the expression should be checked in relation to the remote source.
         trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
             ? validateTarget(trigger)
             : saveTrigger(trigger);
@@ -125,7 +123,7 @@ const TriggerEditContainer = (props: Props) => {
                                     </Fit>
                                     <Fit>
                                         <RouterLink to={getPageLink("trigger", trigger.id)}>
-                                            Cancel
+                                            <Button component="a">Cancel</Button>
                                         </RouterLink>
                                     </Fit>
                                 </RowStack>

@@ -108,7 +108,6 @@ module.exports = {
     resolve: {
         modules: ["node_modules", "local_modules"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
-        alias: isDev ? { "react-dom": "@hot-loader/react-dom" } : undefined,
     },
     devtool: "source-map",
 

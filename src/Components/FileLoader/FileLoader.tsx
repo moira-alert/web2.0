@@ -37,7 +37,7 @@ export default function FileLoader({
     };
 
     return (
-        <Button use="link">
+        <Button use="text">
             <label className={cn("label")}>
                 <input
                     type="file"

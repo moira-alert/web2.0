@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { TriggerDesktopProps } from "./trigger.desktop";
 import { TriggerMobileProps } from "./trigger.mobile";
 import { getPageLink } from "../../Domain/Global";
@@ -22,8 +22,8 @@ export type TriggerProps = {
 };
 
 const TriggerPage: React.FC<TriggerProps> = ({ view: TriggerView }) => {
-    const { id: triggerId } = useParams<{ id: string }>();
-    const history = useHistory();
+    const { id: triggerId = "" } = useParams<{ id: string }>();
+    const navigate = useNavigate();
 
     const { data: trigger } = useGetTriggerQuery(
         {
@@ -65,7 +65,7 @@ const TriggerPage: React.FC<TriggerProps> = ({ view: TriggerView }) => {
     const handleDeleteTrigger = async () => {
         try {
             await deleteTrigger(triggerId).unwrap();
-            history.push(getPageLink("index"));
+            navigate(getPageLink("index"));
         } catch {
             return;
         }

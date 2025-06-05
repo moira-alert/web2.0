@@ -1,4 +1,4 @@
-import { DEFAULT_THEME, ThemeFactory } from "@skbkontur/react-ui";
+import { LIGHT_THEME, ThemeFactory } from "@skbkontur/react-ui";
 import { ApplicationTheme } from "../hooks/themes/useTheme";
 import { promQLHighlight } from "./promQLHighlight";
 
@@ -23,6 +23,12 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
         headerMenuButtons: "var(--header-menu-buttons)",
 
         teamCardBackgroundColor: "var(--background-primary)",
+
+        chartTextItemsColor: "rgb(102, 102, 102)",
+        chartGridLinesColor: "#E5E5E5",
+
+        btnLinkTextDecorationColor: "transparent",
+        linkTextDecorationColor: "transparent",
     },
-    DEFAULT_THEME
+    LIGHT_THEME
 );

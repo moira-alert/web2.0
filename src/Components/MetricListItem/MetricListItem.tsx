@@ -7,7 +7,7 @@ import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import UserIcon from "@skbkontur/react-icons/User";
 import { humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
 import { maintenanceDelta } from "../../Domain/Trigger";
 import classNames from "classnames/bind";
@@ -50,7 +50,7 @@ export function MetricListItem({
     } = metricData;
     const delta = maintenanceDelta(maintenance);
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleMetricClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const searchParams = new URLSearchParams();
@@ -64,7 +64,7 @@ export function MetricListItem({
 
         searchParams.set("action", "events");
         searchParams.set("metric", metricName);
-        history.push({ search: searchParams.toString() });
+        navigate({ search: searchParams.toString() });
     };
 
     return (

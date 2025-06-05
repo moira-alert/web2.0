@@ -11,7 +11,6 @@ import AddingButton from "../../Components/AddingButton/AddingButton";
 import TriggerList from "../../Components/TriggerList/TriggerList";
 import { TriggerListUpdate } from "./trigger-list";
 import { useTheme } from "../../Themes";
-import { useHistory } from "react-router";
 
 export type TriggerListDesktopProps = {
     selectedTags: string[];
@@ -45,7 +44,6 @@ const TriggerListDesktop: FC<TriggerListDesktopProps> = ({
     onRemoveMetric,
 }) => {
     const theme = useTheme();
-    const history = useHistory();
 
     const handlePageChange = (page: number): void => {
         onChange({ page });
@@ -96,7 +94,6 @@ const TriggerListDesktop: FC<TriggerListDesktopProps> = ({
                         items={triggers}
                         onChange={onSetMetricMaintenance}
                         onRemove={onRemoveMetric}
-                        history={history}
                     />
                 </ColumnStack>
             </LayoutContent>

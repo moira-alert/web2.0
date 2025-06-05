@@ -27,6 +27,8 @@ import styles from "../TagList/TagList.less";
 
 const cn = classNames.bind(styles);
 
+// const List = (_List as unknown) as ComponentType<VariableSizeListProps>;
+
 interface ItemProps {
     tagStat: TagStat;
     allContacts: Array<Contact>;

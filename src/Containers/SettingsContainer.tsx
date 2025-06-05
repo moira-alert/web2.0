@@ -13,16 +13,16 @@ import { useAppSelector } from "../store/hooks";
 import { ConfigState, UIState } from "../store/selectors";
 import RouterLink from "../Components/RouterLink/RouterLink";
 import { EUserRoles } from "../Domain/User";
-import { RouteComponentProps } from "react-router";
 import { MessageWrapper } from "../Components/MessageWrapper/MesaageWrapper";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { LOCAL_STORAGE_TEAM_KEY } from "../helpers/getSettingsLink";
+import { useNavigate } from "react-router-dom";
 
-export interface ISettingsContainerProps extends RouteComponentProps {
+export interface ISettingsContainerProps {
     isTeamMember?: boolean;
 }
 
-const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history }) => {
+const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember }) => {
     const { login, role, settings, tags, team, teams } = useLoadSettingsData(isTeamMember);
     const { config } = useAppSelector(ConfigState);
     const { isLoading, error } = useAppSelector(UIState);
@@ -30,9 +30,11 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember, history 
     const userAsTeam = { id: "", name: login ?? "Unknown" };
     const userWithTeams = teams ? [userAsTeam, ...teams] : [];
 
+    const navigate = useNavigate();
+
     const handleChangeTeam = async (userOrTeam: Team) => {
         localStorage.setItem(LOCAL_STORAGE_TEAM_KEY, userOrTeam.id ?? "");
-        history.push(getPageLink("teamSettings", userOrTeam.id ?? undefined));
+        navigate(getPageLink("teamSettings", userOrTeam.id ?? undefined));
     };
 
     const isAdminLink = !isTeamMember && role === EUserRoles.Admin && team;

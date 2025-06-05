@@ -1,5 +1,5 @@
-import React, { ComponentType } from "react";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import React from "react";
+import { Navigate } from "react-router-dom";
 import { getPagePath } from "../Domain/Global";
 import { useGetUserQuery } from "../services/UserApi";
 import { EUserRoles } from "../Domain/User";
@@ -10,33 +10,20 @@ import styles from "../../local_modules/styles/mixins.less";
 
 const cn = classNames.bind(styles);
 
-type PrivateRouteProps = RouteProps & {
-    component: ComponentType<object>;
-    exact?: boolean;
-    path: string;
+type AdminRouteProps = {
+    children: React.ReactNode;
 };
 
-export const AdminRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
+export const AdminRoute = ({ children }: AdminRouteProps) => {
     const { data: user, isLoading } = useGetUserQuery();
 
     if (isLoading) {
-        return <Loader className={cn("loader")} active={isLoading} caption="Authorization" />;
+        return <Loader className={cn("loader")} active caption="Authorization" />;
     }
 
-    if (!user?.auth_enabled) {
-        return <Route {...rest} render={(props) => <Component {...props} />} />;
+    if (!user?.auth_enabled || user.role === EUserRoles.Admin) {
+        return <>{children}</>;
     }
 
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                user && user.role === EUserRoles.Admin ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to={{ pathname: getPagePath("index") }} />
-                )
-            }
-        />
-    );
+    return <Navigate to={getPagePath("index")} replace />;
 };
