@@ -29,10 +29,10 @@ const TriggerEditContainer = () => {
     const { isLoading, error } = useAppSelector(UIState);
     const dispatch = useAppDispatch();
 
-    const { id } = useParams<{ id: string }>();
+    const { id = "" } = useParams<{ id: string }>();
 
     const { data: sourceTrigger } = useGetTriggerQuery({
-        triggerId: id!,
+        triggerId: id,
     });
     const { data: tags } = useGetTagsQuery();
 

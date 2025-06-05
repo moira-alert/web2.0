@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // изменено здесь
+import { useNavigate, useLocation } from "react-router-dom";
 import Tabs, { Tab } from "../../Tabs/Tabs";
 import { EventListTab } from "./EventListTab/EventListTab";
 import { CurrentStateTab } from "./CurrentStateTab";

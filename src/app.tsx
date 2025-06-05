@@ -24,20 +24,18 @@ const render = (Component: ComponentType) => {
     if (!root) return;
 
     root.render(
-        <React.StrictMode>
-            <BrowserRouter>
-                <Providers>
-                    <Sentry.ErrorBoundary
-                        onError={(error) => Toast.push(error.toString())}
-                        fallback={() => <Component />}
-                    >
-                        <SentryInitializer />
-                        <Favicon />
-                        <Component />
-                    </Sentry.ErrorBoundary>
-                </Providers>
-            </BrowserRouter>
-        </React.StrictMode>
+        <BrowserRouter>
+            <Providers>
+                <Sentry.ErrorBoundary
+                    onError={(error) => Toast.push(error.toString())}
+                    fallback={() => <Component />}
+                >
+                    <SentryInitializer />
+                    <Favicon />
+                    <Component />
+                </Sentry.ErrorBoundary>
+            </Providers>
+        </BrowserRouter>
     );
 };
 
