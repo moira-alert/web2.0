@@ -270,6 +270,46 @@ export const TriggerApi = BaseApi.injectEndpoints({
                 };
             },
         }),
+        getTriggerPlot: builder.query<
+            string,
+            CustomBaseQueryArgs<{
+                from?: number | string | null;
+                to?: number | string | null;
+                theme?: "light" | "dark";
+                target?: string;
+                triggerId: string;
+            }>
+        >({
+            query: ({ from, to, triggerId, theme = "light", target }) => {
+                const params = qs.stringify(
+                    {
+                        from,
+                        to,
+                        theme,
+                        target,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    },
+                    { arrayFormat: "indices", skipNulls: true, encode: true }
+                );
+
+                return {
+                    url: `/trigger/${triggerId}/render?${params}`,
+                    method: "GET",
+                    credentials: "same-origin",
+                    responseHandler: async (response) => {
+                        if (response.ok) {
+                            return URL.createObjectURL(await response.blob());
+                        } else {
+                            const contentType = response.headers.get("Content-Type") || "";
+                            if (contentType.includes("application/json")) {
+                                const error = await response.json();
+                                return error;
+                            }
+                        }
+                    },
+                };
+            },
+        }),
     }),
 });
 
@@ -288,4 +328,5 @@ export const {
     useAddTriggerMutation,
     useGetTriggerListQuery,
     useLazyGetTriggerNoisinessQuery,
+    useLazyGetTriggerPlotQuery,
 } = TriggerApi;

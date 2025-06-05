@@ -13,6 +13,7 @@ import { UIState } from "../../../store/selectors";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { toggleManagingSubscriptions } from "../../../store/Reducers/UIReducer.slice";
 import { useHasSystemTags } from "../../../hooks/useSystemTags";
+import { TeamNameTooltip } from "../TeamNameTooltip";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionRow.less";
@@ -23,12 +24,14 @@ interface SubscriptionRowProps {
     subscription: Subscription;
     contacts: Contact[];
     onEditSubscription: (subscription: Subscription) => void;
+    showOwnerColumn?: boolean;
 }
 
 export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     subscription,
     contacts,
     onEditSubscription,
+    showOwnerColumn,
 }) => {
     const {
         isTransferringSubscriptions,
@@ -124,6 +127,15 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             <td className={cn("contacts-cell")}>
                 <div className={cn("contacts-content")}>{getSubscriptionContacts}</div>
             </td>
+            {showOwnerColumn && (
+                <td>
+                    {subscription.team_id ? (
+                        <TeamNameTooltip teamId={subscription.team_id} />
+                    ) : (
+                        subscription.user
+                    )}
+                </td>
+            )}
             {!subscription.enabled && (
                 <td className={cn("enabled-cell")}>
                     <span className={cn("disabled-label")}>Disabled</span>

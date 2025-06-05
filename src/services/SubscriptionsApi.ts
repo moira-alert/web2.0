@@ -33,7 +33,7 @@ export const SubscriptionsApi = BaseApi.injectEndpoints({
                 if (error) {
                     return [];
                 }
-                return ["TagStats"];
+                return ["TagStats", "SystemSubscriptions"];
             },
         }),
         deleteSubscription: builder.mutation<
@@ -52,6 +52,15 @@ export const SubscriptionsApi = BaseApi.injectEndpoints({
                 return tagsToInvalidate;
             },
         }),
+        getSystemSubscriptions: builder.query<Array<Subscription>, CustomBaseQueryArgs | void>({
+            query: () => ({
+                url: "health/system-subscriptions",
+                method: "GET",
+                credentials: "same-origin",
+            }),
+            providesTags: ["SystemSubscriptions"],
+            transformResponse: (response: { list: Array<Subscription> }) => response.list,
+        }),
     }),
 });
 
@@ -60,4 +69,5 @@ export const {
     useTestSubscriptionMutation,
     useUpdateSubscriptionMutation,
     useDeleteSubscriptionMutation,
+    useGetSystemSubscriptionsQuery,
 } = SubscriptionsApi;

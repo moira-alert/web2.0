@@ -16,12 +16,14 @@ const cn = classNames.bind(styles);
 interface Props {
     subscriptions: Subscription[];
     contacts: Contact[];
+    showOwnerColumn?: boolean;
     handleEditSubscription: (subscription: Subscription) => void;
 }
 
 export const SubscriptionList: React.FC<Props> = ({
     subscriptions,
     contacts,
+    showOwnerColumn,
     handleEditSubscription,
 }) => {
     const { isTransferringSubscriptions, isEnablingSubscriptions } = useAppSelector(UIState);
@@ -57,6 +59,7 @@ export const SubscriptionList: React.FC<Props> = ({
                                 Contacts {sortConfig.sortingColumn === "contacts" && SortingIcon}
                             </button>
                         </td>
+                        {showOwnerColumn && <td>Owner</td>}
                     </tr>
                 </thead>
                 <tbody>
@@ -66,6 +69,7 @@ export const SubscriptionList: React.FC<Props> = ({
                             subscription={subscription}
                             contacts={contacts}
                             onEditSubscription={handleEditSubscription}
+                            showOwnerColumn={showOwnerColumn}
                         />
                     ))}
                 </tbody>

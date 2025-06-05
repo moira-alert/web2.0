@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import {
     ArcElement,
     Chart,
@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { Status, getStatusColor } from "../../Domain/Status";
-import { Metric } from "../../Domain/Metric";
+import { isMuted, Metric } from "../../Domain/Metric";
 import { useTheme } from "../../Themes";
 
 export type MetricNameToStateMap = Record<string, Metric>;
@@ -41,6 +41,21 @@ export const countMetricsByStatus = (metrics: MetricNameToStateMap) =>
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const splitByMuted = (metrics: MetricNameToStateMap) => {
+    const mutedMetrics: MetricNameToStateMap = {};
+    const activeMetrics: MetricNameToStateMap = {};
+
+    for (const [key, metric] of Object.entries(metrics)) {
+        if (isMuted(metric)) {
+            mutedMetrics[key] = metric;
+        } else {
+            activeMetrics[key] = metric;
+        }
+    }
+
+    return { mutedMetrics, activeMetrics };
+};
+
 export const MetricStateChart: FC<IProps> = ({
     metrics,
     width,
@@ -49,7 +64,11 @@ export const MetricStateChart: FC<IProps> = ({
     enableTooltip = false,
 }) => {
     const theme = useTheme();
-    const metricsStatusToCountMap = countMetricsByStatus(metrics);
+
+    const { mutedMetrics, activeMetrics } = useMemo(() => splitByMuted(metrics), [metrics]);
+    const mutedMetricsCount = Object.keys(mutedMetrics).length;
+
+    const metricsStatusToCountMap = countMetricsByStatus(activeMetrics);
 
     const data: ChartData<"doughnut"> = {
         labels: Array.from(metricsStatusToCountMap.keys()),
@@ -57,12 +76,12 @@ export const MetricStateChart: FC<IProps> = ({
             {
                 data: Array.from(metricsStatusToCountMap.values()),
                 borderWidth: 0,
-                backgroundColor: Array.from(metricsStatusToCountMap.keys()).map((status) =>
-                    getStatusColor(status)
-                ),
+                backgroundColor: Array.from(metricsStatusToCountMap.keys()).map(getStatusColor),
             },
         ],
     };
+
+    const defaultLabelStyles = { fontColor: theme.textColorDefault, lineWidth: 0 };
 
     const options = {
         maintainAspectRatio: false,
@@ -76,25 +95,33 @@ export const MetricStateChart: FC<IProps> = ({
                         const { labels, datasets } = chart.data;
                         const { data, backgroundColor } = datasets[0];
 
-                        return (
-                            labels
-                                ?.map((label, index) => {
-                                    const value = data[index];
-                                    const metricAmount = Number(value);
-                                    const fillStyle = Array.isArray(backgroundColor)
-                                        ? backgroundColor[index]
-                                        : backgroundColor;
-                                    return {
-                                        text: `${label}: ${value}`,
-                                        fillStyle,
-                                        fontColor: theme.textColorDefault,
-                                        lineWidth: 0,
-                                        metricAmount,
-                                    };
-                                })
-                                .filter((item) => item.metricAmount !== 0)
-                                .sort((a, b) => b.metricAmount - a.metricAmount) ?? []
-                        );
+                        const chartLabels =
+                            labels?.map((label, index) => {
+                                const value = data[index];
+                                const metricAmount = Number(value);
+                                const fillStyle = Array.isArray(backgroundColor)
+                                    ? backgroundColor[index]
+                                    : backgroundColor;
+                                return {
+                                    text: `${label}: ${value}`,
+                                    fillStyle,
+                                    metricAmount,
+                                    ...defaultLabelStyles,
+                                };
+                            }) ?? [];
+
+                        if (mutedMetricsCount > 0) {
+                            chartLabels.push({
+                                text: `MUTED: ${mutedMetricsCount}`,
+                                fillStyle: "transparent",
+                                metricAmount: mutedMetricsCount,
+                                ...defaultLabelStyles,
+                            });
+                        }
+
+                        return chartLabels
+                            .filter((item) => item.metricAmount !== 0)
+                            .sort((a, b) => b.metricAmount - a.metricAmount);
                     },
                 },
             },

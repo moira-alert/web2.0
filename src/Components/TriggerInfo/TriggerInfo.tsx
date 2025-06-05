@@ -37,7 +37,10 @@ import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
 import useConfirmModal from "../../hooks/useConfirmModal";
 import { useNavigate } from "react-router";
+import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
+import Statistic from "@skbkontur/react-icons/Statistic";
 import { Flexbox } from "../Flexbox/FlexBox";
+import { useModal } from "../../hooks/useModal";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.less";
@@ -87,17 +90,20 @@ export default function TriggerInfo({
     const { config } = useAppSelector(ConfigState);
     const [ConfirmModal, setModalData] = useConfirmModal();
     const navigate = useNavigate();
+    const { isModalOpen, openModal, closeModal } = useModal();
 
     const availableClusters = config?.metric_source_clusters?.filter(
         (cluster) => cluster.trigger_source === triggerSource
     );
 
-    const clusterName = availableClusters?.find((cluster) => cluster.cluster_id === clusterID)
-        ?.cluster_name;
+    const cluster = availableClusters?.find((cluster) => cluster.cluster_id === clusterID);
 
-    const isClusterName = clusterName && availableClusters.length !== 0;
+    const clusterName = cluster?.cluster_name;
+    const metricsTtl = cluster?.metrics_ttl;
+
+    const isClusterName = clusterName && availableClusters?.length !== 0;
     const isMetrics = metrics && Object.keys(metrics).length > 1;
-    const hasExpression = expression != null && expression !== "";
+    const hasExpression = expression !== null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
     const delta = maintenanceDelta(maintenance);
 
@@ -196,6 +202,9 @@ export default function TriggerInfo({
                             link={getPageLink("triggerDuplicate", id)}
                         >
                             Duplicate
+                        </LinkMenuItem>
+                        <LinkMenuItem onClick={openModal} icon={<Statistic />}>
+                            Metrics graph
                         </LinkMenuItem>
                         <MenuSeparator />
                         <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
@@ -322,6 +331,14 @@ export default function TriggerInfo({
                     </div>
                 )}
             </div>
+            {metricsTtl && isModalOpen && (
+                <MetricsPlotModal
+                    closeModal={closeModal}
+                    metricsTtl={metricsTtl}
+                    targets={targets}
+                    triggerId={id}
+                />
+            )}
             {ConfirmModal}
         </section>
     );

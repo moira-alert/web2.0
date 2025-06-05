@@ -6,7 +6,7 @@
     flex-wrap: wrap;
     padding: 5px;
 
-    &:hover {
+    &:not(.header):hover {
         background-color: var(--item-hover);
     }
 
@@ -26,6 +26,7 @@
 .name {
     color: var(--text-primary);
     width: calc(~"100% - 240px");
+    word-wrap: break-word;
 
     &.clicked {
         &:extend(.base-reset);
@@ -37,6 +38,7 @@
 .trigger-counter,
 .metric-counter,
 .control {
+    text-align: left;
     width: 80px;
     &:extend(.sorting-button);
 }
@@ -52,9 +54,12 @@
 .title {
     margin: 0;
 }
+
 .item {
     margin-top: 5px;
+    word-wrap: break-word;
 }
+
 .sorting {
     cursor: pointer;
 }

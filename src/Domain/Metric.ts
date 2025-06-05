@@ -1,5 +1,6 @@
 import { Status } from "./Status";
-import TriggerSource from "./Trigger";
+import TriggerSource, { maintenanceDelta } from "./Trigger";
+import _ from "lodash";
 
 export type Metric = {
     state: Status;
@@ -24,4 +25,14 @@ export type TMetricSourceCluster = {
     trigger_source: TriggerSource;
     cluster_id: string;
     cluster_name: string;
+    metrics_ttl: number;
 };
+
+export const isMuted = (metric: { maintenance?: number | null }): boolean =>
+    metric.maintenance != null && maintenanceDelta(metric.maintenance) > 0;
+
+export const withoutMuted = (metrics?: MetricItemList): MetricItemList =>
+    _.pickBy(metrics, (metric) => !isMuted(metric));
+
+export const withMuted = (metrics?: MetricItemList): MetricItemList =>
+    _.pickBy(metrics, (metric) => isMuted(metric));

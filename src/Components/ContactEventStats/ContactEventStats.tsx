@@ -73,10 +73,10 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
                                         validateDateAndTime(
                                             fromTime,
                                             inputValue,
-                                            maxDate,
-                                            minDate,
                                             fromTime,
-                                            untilTime
+                                            untilTime,
+                                            maxDate,
+                                            minDate
                                         )
                                     }
                                     minDate={minDate}
@@ -92,10 +92,10 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
                                         validateDateAndTime(
                                             untilTime,
                                             inputValue,
-                                            maxDate,
-                                            minDate,
                                             fromTime,
-                                            untilTime
+                                            untilTime,
+                                            maxDate,
+                                            minDate
                                         )
                                     }
                                     minDate={minDate}

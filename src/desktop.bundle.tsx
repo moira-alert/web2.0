@@ -26,6 +26,7 @@ import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer"
 import { ChristmasLights } from "./Components/ChristmasLights/ChristmasLights";
 import { useAppSelector } from "./store/hooks";
 import { NoisinessContainer } from "./Containers/NoisinessContainer/NosinessContainer";
+import { SystemSubscriptionsContainer } from "./Containers/SystemSubscriptionsContainer";
 import { UIState } from "./store/selectors";
 
 import styles from "./desktop.less";
@@ -123,6 +124,14 @@ function Desktop() {
             element: (
                 <AdminRoute>
                     <NoisinessContainer />
+                </AdminRoute>
+            ),
+        },
+        {
+            path: getPagePath("systemSubscriptions"),
+            element: (
+                <AdminRoute>
+                    <SystemSubscriptionsContainer />
                 </AdminRoute>
             ),
         },

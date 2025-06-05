@@ -19,6 +19,7 @@ import {
     useDeleteNotificationMutation,
 } from "../services/NotificationsApi";
 import { useSetNotifierStateMutation } from "../services/NotifierApi";
+import { DeleteFilteredNotifications } from "../Components/DeleteFilteredNotifications";
 
 const NotificationListContainer: FC = () => {
     const { isLoading, error } = useAppSelector(UIState);
@@ -77,30 +78,32 @@ const NotificationListContainer: FC = () => {
             <LayoutContent>
                 <LayoutTitle>{layoutTitle}</LayoutTitle>
                 {ConfirmModal}
-                <Flexbox align="baseline" direction="row" gap={30}>
-                    <Toggle
-                        checked={notifierEnabled}
-                        onValueChange={(value) =>
-                            value ? toggleNotifier(value) : handleDisableNotifier()
-                        }
-                    >
-                        Notifications
-                    </Toggle>
-                    <Button
-                        use={"link"}
-                        icon={<TrashIcon />}
-                        onClick={onRemoveAllNotificationsBtnClick}
-                    >
-                        Remove all
-                    </Button>
+                <Flexbox gap={32}>
+                    <Flexbox align="baseline" direction="row" gap={30}>
+                        <Toggle
+                            checked={notifierEnabled}
+                            onValueChange={(value) =>
+                                value ? toggleNotifier(value) : handleDisableNotifier()
+                            }
+                        >
+                            Notifications
+                        </Toggle>
+                        <Button
+                            use={"link"}
+                            icon={<TrashIcon />}
+                            onClick={onRemoveAllNotificationsBtnClick}
+                        >
+                            Remove all
+                        </Button>
+                    </Flexbox>
+                    <DeleteFilteredNotifications />
+                    {notificationList && (
+                        <NotificationList
+                            items={composeNotifications(notificationList)}
+                            onRemove={(id) => deleteNotification({ id })}
+                        />
+                    )}
                 </Flexbox>
-                <br />
-                {notificationList && (
-                    <NotificationList
-                        items={composeNotifications(notificationList)}
-                        onRemove={(id) => deleteNotification({ id })}
-                    />
-                )}
             </LayoutContent>
         </Layout>
     );

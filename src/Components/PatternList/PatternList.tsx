@@ -7,6 +7,7 @@ import { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import { ISortConfig } from "../../hooks/useSortData";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import classNames from "classnames/bind";
 
 import styles from "./PatternList.less";
@@ -22,6 +23,8 @@ type Props = {
     onSort?: (sorting: SortingColumn) => void;
 };
 
+const BATCH_SIZE = 40;
+
 export default function PatternList(props: Props): React.ReactElement {
     const {
         items,
@@ -29,7 +32,11 @@ export default function PatternList(props: Props): React.ReactElement {
         onRemove,
         onSort,
     } = props;
+
+    const { visibleItems, observerTargetRef, visibleCount } = useInfiniteScroll(items, BATCH_SIZE);
+
     const sortingIcon = direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+
     return (
         <div>
             <div className={cn("row", "header", "italic-font")}>
@@ -56,13 +63,16 @@ export default function PatternList(props: Props): React.ReactElement {
                 </button>
                 <div className={cn("control")} />
             </div>
-            {items.map((item) => (
+
+            {visibleItems.map((item) => (
                 <PatternListItem
                     key={item.pattern}
                     data={item}
                     onRemove={() => onRemove(item.pattern)}
                 />
             ))}
+
+            {visibleCount < items.length && <div ref={observerTargetRef} />}
         </div>
     );
 }
