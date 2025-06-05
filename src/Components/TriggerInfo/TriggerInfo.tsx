@@ -32,7 +32,7 @@ import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
 import { useAppSelector } from "../../store/hooks";
-import { LinkMenuItem } from "./Components/LinkMenuItem";
+import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
 import useConfirmModal from "../../hooks/useConfirmModal";
@@ -186,30 +186,30 @@ export default function TriggerInfo({
                         }
                     >
                         {throttling !== 0 && (
-                            <LinkMenuItem onClick={onThrottlingRemove} icon={<ClearIcon />}>
+                            <MenuItem onClick={onThrottlingRemove} icon={<ClearIcon />}>
                                 Disable throttling
-                            </LinkMenuItem>
+                            </MenuItem>
                         )}
-                        <LinkMenuItem icon={<ExportIcon />}>
+                        <MenuItem icon={<ExportIcon />}>
                             <FileExport
                                 data={omitTrigger(trigger)}
                                 title={`trigger ${name || id}`}
                             />
-                        </LinkMenuItem>
-                        <LinkMenuItem
+                        </MenuItem>
+                        <MenuItem
                             target={"_blank"}
                             icon={<DocumentCopyIcon />}
-                            link={getPageLink("triggerDuplicate", id)}
+                            href={getPageLink("triggerDuplicate", id)}
                         >
                             Duplicate
-                        </LinkMenuItem>
-                        <LinkMenuItem onClick={openModal} icon={<Statistic />}>
+                        </MenuItem>
+                        <MenuItem onClick={openModal} icon={<Statistic />}>
                             Metrics graph
-                        </LinkMenuItem>
+                        </MenuItem>
                         <MenuSeparator />
-                        <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
+                        <MenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
                             Delete
-                        </LinkMenuItem>
+                        </MenuItem>
                     </DropdownMenu>
                 </div>
             </header>
