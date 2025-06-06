@@ -153,11 +153,8 @@ module.exports = {
         },
         port: 9000,
         historyApiFallback: true,
-        proxy: {
-            "/api": {
-                target: "http://localhost:9002",
-                pathRewrite: { "^/api": "" },
-            },
-        },
+        proxy: [
+            { context: ["/api"], target: "http://localhost:9002", pathRewrite: { "^/api": "" } },
+        ],
     },
 };
