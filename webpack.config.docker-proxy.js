@@ -5,8 +5,6 @@ module.exports = mergeWithCustomize({
     customizeObject: customizeObject({ "devServer.proxy": "replace" }),
 })(commonConfig, {
     devServer: {
-        proxy: {
-            "/api": { target: "http://localhost:8080", secure: false },
-        },
+        proxy: [{ context: ["/api"], target: "http://localhost:8080", secure: false }],
     },
 });
