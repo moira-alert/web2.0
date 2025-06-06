@@ -24,7 +24,6 @@ import {
     setIsSaveModalVisible,
     setIsSaveButtonDisabled,
 } from "../store/Reducers/TriggerFormReducer.slice";
-import { useHistory } from "react-router";
 
 const defaultTrigger: Partial<Trigger> = {
     name: "",
@@ -59,7 +58,6 @@ const defaultTrigger: Partial<Trigger> = {
 };
 
 const TriggerAddContainer = () => {
-    const history = useHistory();
     const { config } = useAppSelector(ConfigState);
     const { validationResult, isSaveModalVisible } = useAppSelector(TriggerFormState);
     const { isLoading, error } = useAppSelector(UIState);
@@ -67,8 +65,8 @@ const TriggerAddContainer = () => {
     const [trigger, setTrigger] = useState<Partial<Trigger>>(defaultTrigger);
     const validationContainer = useRef<ValidationContainer>(null);
     const { data: tags } = useGetTagsQuery();
-    const validateTarget = useValidateTarget(dispatch, history);
-    const saveTrigger = useSaveTrigger(history);
+    const validateTarget = useValidateTarget(dispatch);
+    const saveTrigger = useSaveTrigger();
 
     const handleSubmit = async () => {
         const isFormValid = await validationContainer.current?.validate();
@@ -178,7 +176,9 @@ const TriggerAddContainer = () => {
                                         </Button>
                                     </Fit>
                                     <Fit>
-                                        <RouterLink to={getPageLink("index")}>Cancel</RouterLink>
+                                        <RouterLink to={getPageLink("index")}>
+                                            <Button component="a">Cancel</Button>
+                                        </RouterLink>
                                     </Fit>
                                 </RowStack>
                             </Fit>

@@ -1,11 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Chart, LegendItem, Plugin } from "chart.js";
-import LinkIcon from "@skbkontur/react-icons/Link";
-import { Link } from "@skbkontur/react-ui/components/Link";
 import ArrowUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
 import ArrowDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
 import classNames from "classnames/bind";
+import { createRoot } from "react-dom/client";
+import { useTheme } from "../../../Themes";
+import { Providers } from "../../../Providers/Providers";
 
 import styles from "./Legend.less";
 
@@ -15,29 +15,21 @@ let lastClickedIndex: number | null | undefined = null;
 let isExpanded = false;
 const maxVisibleItems = 7;
 
+interface LegendContainerWithRoot extends HTMLElement {
+    _root?: ReturnType<typeof createRoot>;
+}
+
 const LegendItemComponent: React.FC<{
     item: LegendItem;
     index: number;
     chart: Chart;
-    showLinks: boolean;
     updateLegendStyles: () => void;
-    getLink?: ((label: string) => string) | null;
-    propsLinkIcon?: React.ElementType;
-    onLinkClick?: (label: string) => void;
-}> = ({
-    item,
-    index,
-    chart,
-    showLinks,
-    updateLegendStyles,
-    getLink,
-    propsLinkIcon,
-    onLinkClick,
-}) => {
+    renderLegendItemAddon?: (label: string) => React.ReactNode;
+}> = ({ item, index, chart, updateLegendStyles, renderLegendItemAddon }) => {
+    const theme = useTheme();
     if (!item.text || item.text.trim() === "") {
         return null;
     }
-
     const handleClick = () => {
         const isVisible = chart.isDatasetVisible(item.datasetIndex as number);
         if (lastClickedIndex === item.datasetIndex && isVisible) {
@@ -72,21 +64,12 @@ const LegendItemComponent: React.FC<{
                     borderWidth: item.lineWidth + "px",
                 }}
             />
-            <span className={cn("legend-text")} style={{ color: item.fontColor as string }}>
+            <span className={cn("legend-text")} style={{ color: theme.chartTextItemsColor }}>
                 {item.text}
             </span>
-            {showLinks && (
-                <Link
-                    href={getLink ? getLink(item.text) : ""}
-                    target="_blank"
-                    className={cn("legend-link")}
-                    onClick={(e) => {
-                        onLinkClick && onLinkClick(item.text);
-                        e.stopPropagation();
-                    }}
-                    icon={propsLinkIcon ? React.createElement(propsLinkIcon) : <LinkIcon />}
-                />
-            )}
+            <span className={cn("legend-item-addon")}>
+                {renderLegendItemAddon && renderLegendItemAddon(item.text)}
+            </span>
         </li>
     );
 };
@@ -94,12 +77,9 @@ const LegendItemComponent: React.FC<{
 const Legend: React.FC<{
     chart: Chart;
     items: LegendItem[];
-    showLinks: boolean;
     updateLegendStyles: () => void;
-    getLink?: ((label: string) => string) | null;
-    propsLinkIcon?: React.ElementType;
-    onLinkClick?: (label: string) => void;
-}> = ({ chart, items, showLinks, updateLegendStyles, getLink, propsLinkIcon, onLinkClick }) => {
+    renderLegendItemAddon?: (label: string) => React.ReactNode;
+}> = ({ chart, items, updateLegendStyles, renderLegendItemAddon }) => {
     const IconComponent = isExpanded ? ArrowUpIcon : ArrowDownIcon;
 
     const toggleExpand = () => {
@@ -115,11 +95,8 @@ const Legend: React.FC<{
                     item={item}
                     index={index}
                     chart={chart}
-                    showLinks={showLinks}
                     updateLegendStyles={updateLegendStyles}
-                    getLink={getLink}
-                    propsLinkIcon={propsLinkIcon}
-                    onLinkClick={onLinkClick}
+                    renderLegendItemAddon={renderLegendItemAddon}
                 />
             ))}
             {items.length > maxVisibleItems && (
@@ -130,15 +107,12 @@ const Legend: React.FC<{
 };
 
 export const createHtmlLegendPlugin = (
-    showLinks: boolean,
-    getLink?: ((label: string) => string) | null,
-    propsLinkIcon?: React.ElementType,
-    onLinkClick?: (label: string) => void
+    renderLegendItemAddon?: (label: string) => React.ReactNode
 ): Plugin<"bar"> => ({
     id: "htmlLegend",
     afterUpdate(chart) {
         const containerID = chart.options.plugins?.htmlLegend?.containerID || "";
-        const legendContainer = document.getElementById(containerID);
+        const legendContainer = document.getElementById(containerID) as LegendContainerWithRoot;
 
         if (legendContainer) {
             const items = chart.options.plugins?.legend?.labels?.generateLabels?.(
@@ -166,17 +140,19 @@ export const createHtmlLegendPlugin = (
                 }
             };
 
-            ReactDOM.render(
-                <Legend
-                    getLink={getLink}
-                    chart={chart}
-                    items={items}
-                    showLinks={showLinks}
-                    updateLegendStyles={updateLegendStyles}
-                    propsLinkIcon={propsLinkIcon}
-                    onLinkClick={onLinkClick}
-                />,
-                legendContainer
+            if (!legendContainer._root) {
+                legendContainer._root = createRoot(legendContainer);
+            }
+
+            legendContainer._root.render(
+                <Providers>
+                    <Legend
+                        chart={chart}
+                        items={items}
+                        updateLegendStyles={updateLegendStyles}
+                        renderLegendItemAddon={renderLegendItemAddon}
+                    />
+                </Providers>
             );
         }
     },

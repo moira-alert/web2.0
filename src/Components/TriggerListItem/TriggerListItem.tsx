@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useState, useMemo } from "react";
-import { History } from "history";
 import { format, fromUnixTime } from "date-fns";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
@@ -30,13 +29,13 @@ type Props = {
     searchMode: boolean;
     onChange?: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove?: (metric: string) => void;
-    history: History;
 };
 
-const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove, history }) => {
+const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove }) => {
     const [showMetrics, setShowMetrics] = useState(false);
     const [sortingColumn, setSortingColumn] = useState<SortingColumn>("event");
     const [sortingDown, setSortingDown] = useState(false);
+    const navigate = useNavigate();
 
     const metrics = data.last_check?.metrics;
 
@@ -218,7 +217,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
                 <div className={cn("tags")}>
                     <TagGroup
                         onClick={(tag) =>
-                            history.push(
+                            navigate(
                                 `/?${queryString.stringify(
                                     { tags: [tag] },
                                     { arrayFormat: "index", encode: true }

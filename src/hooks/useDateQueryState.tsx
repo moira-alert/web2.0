@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
 import { getUnixTime, fromUnixTime } from "date-fns";
 
@@ -8,7 +8,7 @@ export const useDateQueryState = (
     defaultValue: Date | null
 ): [Date | null, (value: Date | null) => void] => {
     const location = useLocation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const parseDateValue = (value: string): Date => {
         if (defaultValue) return defaultValue;
@@ -33,7 +33,7 @@ export const useDateQueryState = (
                 { skipNulls: true }
             );
 
-            history.push({ search: queryString });
+            navigate({ search: `?${queryString}` }, { replace: false });
         },
         [location.search]
     );

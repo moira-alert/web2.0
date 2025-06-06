@@ -1,10 +1,13 @@
 import { ThemeContext } from "@skbkontur/react-ui";
-import { DefaultTheme } from "@skbkontur/react-ui/internal/themes/DefaultTheme";
+import { LIGHT_THEME } from "@skbkontur/react-ui";
 import { useContext } from "react";
 import { ThemeIn } from "@skbkontur/react-ui/lib/theming/Theme";
 export interface ApplicationTheme extends ThemeIn {
     name: string;
     isDark: boolean;
+
+    chartTextItemsColor: string;
+    chartGridLinesColor: string;
 
     appBgColorSecondary?: string;
     appBgColorTertiary?: string;
@@ -25,7 +28,6 @@ export interface ApplicationTheme extends ThemeIn {
     cmLineNumberColor?: string;
     cmActiveLineGutter?: string;
     cmActiveLine?: string;
-    chartGridLinesColor?: string;
     cmGutterBorder?: string;
 
     promQLLabelName: string;
@@ -35,7 +37,7 @@ export interface ApplicationTheme extends ThemeIn {
     promQLModifier: string;
 }
 
-export type TTheme = Readonly<Readonly<typeof DefaultTheme> & ApplicationTheme>;
+export type TTheme = Readonly<Readonly<typeof LIGHT_THEME> & ApplicationTheme>;
 
 export const useTheme = (): TTheme => {
     return useContext(ThemeContext) as TTheme;

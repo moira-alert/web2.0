@@ -5,6 +5,7 @@ import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
 import styles from "./Selector.less";
+import { withThemeVars } from "../../Themes/withThemeVars";
 
 const cn = classNames.bind(styles);
 
@@ -116,7 +117,15 @@ const Selector: React.FC<Props> = ({
                 className={cn({ selector: true, focused })}
                 htmlFor="selector"
                 ref={dropdownAnchorRef}
-                style={{ backgroundColor: theme.inputBg, borderColor: theme.inputBorderColor }}
+                style={withThemeVars(theme, [
+                    "inputBorderColor",
+                    "inputBorderColorHover",
+                    "inputBorderColorFocus",
+                    "inputBg",
+                    "inputBorderWidth",
+                    "inputBorderRadiusMedium",
+                    "inputOutlineWidth",
+                ])}
             >
                 <React.Profiler id="tokens" onRender={() => console.log("tokens rerendered")}>
                     {tokens.map((token) => (
@@ -126,10 +135,6 @@ const Selector: React.FC<Props> = ({
                     ))}
                 </React.Profiler>
                 <input
-                    style={{
-                        backgroundColor: theme.inputBg,
-                        borderColor: theme.inputBorderColor,
-                    }}
                     className={cn("input")}
                     id="selector"
                     type="text"

@@ -36,7 +36,7 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
     const [untilTime, setUntilTime] = useDateQueryState("to", null);
     const [page, setPage] = useQueryState<number>("page", 1);
     const validationContainerRef = useRef(null);
-    const { id: triggerId } = useParams<{ id: string }>();
+    const { id: triggerId = "" } = useParams<{ id: string }>();
     const debouncedSearchMetric = useDebounce(searchMetric, 500);
     const dispatch = useAppDispatch();
 
@@ -47,7 +47,7 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
 
     const { data: events, isLoading, isFetching } = useGetTriggerEventsQuery(
         {
-            triggerId,
+            triggerId: triggerId,
             page: transformPageFromHumanToProgrammer(page),
             states: selectedStatuses,
             metric: debouncedSearchMetric,

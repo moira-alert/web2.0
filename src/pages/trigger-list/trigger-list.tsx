@@ -1,5 +1,5 @@
-import React, { useEffect, useState, ComponentType } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 import qs from "qs";
@@ -27,9 +27,13 @@ export type TriggerListUpdate = {
     onlyProblems?: boolean;
 };
 
-export type TriggerListProps = RouteComponentProps & {
-    view: ComponentType<TriggerListDesktopProps | TriggerListMobileProps>;
-};
+export type TriggerListProps =
+    | {
+          view: React.ComponentType<TriggerListDesktopProps>;
+      }
+    | {
+          view: React.ComponentType<TriggerListMobileProps>;
+      };
 
 const parseLocationSearch = (search: string): MoiraUrlParams => {
     const START_PAGE = 1;
@@ -49,17 +53,19 @@ const parseLocationSearch = (search: string): MoiraUrlParams => {
 };
 
 const changeLocationSearch = (
-    history: RouteComponentProps["history"],
+    navigate: ReturnType<typeof useNavigate>,
     locationSearch: MoiraUrlParams,
     update: TriggerListUpdate
 ) => {
     const settings = { ...locationSearch, ...update };
     localStorage.setItem("moiraSettings", JSON.stringify({ ...settings, searchText: "" }));
-    history.push(`?${qs.stringify(settings, { arrayFormat: "indices", encode: true })}`);
+    navigate(`?${qs.stringify(settings, { arrayFormat: "indices", encode: true })}`, {
+        replace: true,
+    });
 };
 
 const loadLocalSettingsAndRedirectIfNeed = (
-    history: RouteComponentProps["history"],
+    navigate: ReturnType<typeof useNavigate>,
     locationSearch: MoiraUrlParams,
     tags: Array<string>,
     onlyProblems: boolean
@@ -72,14 +78,11 @@ const loadLocalSettingsAndRedirectIfNeed = (
     const isTagParamEnabled = tags.length === 0 && localTags?.length;
     const isOnlyProblemsParamEnabled = !onlyProblems && localOnlyProblems;
 
-    if (isTagParamEnabled) {
-        searchToUpdate.tags = localTags;
-    }
-    if (isOnlyProblemsParamEnabled) {
-        searchToUpdate.onlyProblems = localOnlyProblems;
-    }
+    if (isTagParamEnabled) searchToUpdate.tags = localTags;
+    if (isOnlyProblemsParamEnabled) searchToUpdate.onlyProblems = localOnlyProblems;
+
     if (isTagParamEnabled || isOnlyProblemsParamEnabled) {
-        changeLocationSearch(history, locationSearch, searchToUpdate);
+        changeLocationSearch(navigate, locationSearch, searchToUpdate);
         return true;
     }
     return false;
@@ -88,29 +91,26 @@ const loadLocalSettingsAndRedirectIfNeed = (
 const checkPageAndRedirectIfNeeded = (
     triggerList: TriggerList,
     page: number,
-    changeLocationSearch: (update: TriggerListUpdate) => void
+    onChange: (update: TriggerListUpdate) => void
 ) => {
     const pages = Math.ceil(triggerList.total / triggerList.size);
     if (page > pages && triggerList.total !== 0) {
-        changeLocationSearch({ page: pages || 1 });
+        onChange({ page: pages || 1 });
         return true;
     }
     return false;
 };
 
-const TriggerListPage: React.FC<TriggerListProps> = ({
-    view: TriggerListView,
-    location,
-    history,
-}) => {
+const TriggerListPage: React.FC<TriggerListProps> = ({ view: TriggerListView }) => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const { isLoading, error } = useAppSelector(UIState);
     const [activePage, setActivePage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
+    const locationSearch = parseLocationSearch(location.search);
 
     const { data: settings } = useGetUserSettingsQuery();
     const { data: tags } = useGetTagsQuery();
-    const locationSearch = parseLocationSearch(location.search);
-
     const [setMetricMaintenance] = useSetMetricsMaintenanceMutation();
     const [deleteMetric] = useDeleteMetricMutation();
 
@@ -123,10 +123,14 @@ const TriggerListPage: React.FC<TriggerListProps> = ({
 
     const subscribedTags = uniq(flattenDeep(settings?.subscriptions.map((item) => item.tags)));
 
+    const handleChange = (update: TriggerListUpdate) =>
+        changeLocationSearch(navigate, locationSearch, update);
+
     useEffect(() => {
         setDocumentTitle("Triggers");
+
         const redirected = loadLocalSettingsAndRedirectIfNeed(
-            history,
+            navigate,
             locationSearch,
             locationSearch.tags,
             locationSearch.onlyProblems
@@ -134,12 +138,7 @@ const TriggerListPage: React.FC<TriggerListProps> = ({
 
         if (redirected || !triggerList) return;
 
-        if (
-            checkPageAndRedirectIfNeeded(triggerList, locationSearch.page, (update) =>
-                changeLocationSearch(history, locationSearch, update)
-            )
-        )
-            return;
+        if (checkPageAndRedirectIfNeeded(triggerList, locationSearch.page, handleChange)) return;
 
         setActivePage(locationSearch.page);
         setPageCount(Math.ceil(triggerList.total / triggerList.size));
@@ -157,8 +156,8 @@ const TriggerListPage: React.FC<TriggerListProps> = ({
             pageCount={pageCount}
             loading={isLoading}
             error={error}
-            onChange={(update) => changeLocationSearch(history, locationSearch, update)}
-            onSetMetricMaintenance={(triggerId: string, metric: string, maintenance: number) =>
+            onChange={handleChange}
+            onSetMetricMaintenance={(triggerId, metric, maintenance) =>
                 setMetricMaintenance({
                     triggerId,
                     metrics: { [metric]: maintenance },
@@ -168,7 +167,6 @@ const TriggerListPage: React.FC<TriggerListProps> = ({
             onRemoveMetric={(triggerId, metric) =>
                 deleteMetric({ triggerId, metric, tagsToInvalidate: ["TriggerList"] })
             }
-            history={history}
         />
     );
 };

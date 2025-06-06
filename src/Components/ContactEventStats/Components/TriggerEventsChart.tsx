@@ -5,9 +5,10 @@ import { Chart as ChartJS, ChartOptions, registerables } from "chart.js";
 import { IContactEvent } from "../../../Domain/Contact";
 import { getColor } from "../../Tag/Tag";
 import { createHtmlLegendPlugin } from "./htmlLegendPlugin";
-import { triggerEventsChartOptions } from "../../../helpers/getChartOptions";
+import { TriggerEventsChartOptions } from "../../../helpers/getChartOptions";
 import { Flexbox } from "../../Flexbox/FlexBox";
-import { useTheme } from "../../../Themes";
+import { Link } from "@skbkontur/react-ui/components/Link";
+import LinkIcon from "@skbkontur/react-icons/Link";
 
 ChartJS.register(...registerables);
 
@@ -25,8 +26,6 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
         [events]
     );
 
-    const theme = useTheme();
-
     const sortedEvents = useMemo(() => {
         return Object.entries(groupedEvents).sort(([, a], [, b]) => b - a);
     }, [events]);
@@ -42,19 +41,28 @@ export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ even
         datasets,
     };
 
+    const renderLegendItemAddon = (label: string) => (
+        <Link
+            href={`/trigger/${label}`}
+            target="_blank"
+            onClick={(e) => e.stopPropagation()}
+            icon={<LinkIcon />}
+        />
+    );
+
+    const htmlLegendPlugin = useMemo(() => createHtmlLegendPlugin(renderLegendItemAddon), [
+        renderLegendItemAddon,
+    ]);
+
     return (
         <Flexbox gap={10}>
             <span style={{ fontSize: "18px", display: "inline-block" }}>Grouped by trigger</span>
             <div id="trigger-events-legend-container" />
             <Bar
                 data={data}
-                plugins={[createHtmlLegendPlugin(true, (triggerId) => `/trigger/${triggerId}`)]}
+                plugins={[htmlLegendPlugin]}
                 options={
-                    triggerEventsChartOptions(
-                        "Triggers",
-                        "Number of Events",
-                        theme.chartGridLinesColor
-                    ) as ChartOptions<"bar">
+                    TriggerEventsChartOptions("Triggers", "Number of Events") as ChartOptions<"bar">
                 }
             />
         </Flexbox>

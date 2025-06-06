@@ -32,11 +32,11 @@ import { Markdown } from "../Markdown/Markdown";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
 import { useAppSelector } from "../../store/hooks";
-import { LinkMenuItem } from "./Components/LinkMenuItem";
+import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
 import useConfirmModal from "../../hooks/useConfirmModal";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
 import Statistic from "@skbkontur/react-icons/Statistic";
 import { Flexbox } from "../Flexbox/FlexBox";
@@ -58,13 +58,7 @@ interface IProps {
 }
 
 function maintenanceCaption(delta: number): React.ReactNode {
-    return (
-        <span>
-            <ClockIcon />
-            &nbsp;
-            {delta <= 0 ? "Maintenance" : humanizeDuration(delta)}
-        </span>
-    );
+    return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
 export default function TriggerInfo({
@@ -95,7 +89,7 @@ export default function TriggerInfo({
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
     const { config } = useAppSelector(ConfigState);
     const [ConfirmModal, setModalData] = useConfirmModal();
-    const history = useHistory();
+    const navigate = useNavigate();
     const { isModalOpen, openModal, closeModal } = useModal();
 
     const availableClusters = config?.metric_source_clusters?.filter(
@@ -142,9 +136,13 @@ export default function TriggerInfo({
                     {name != null && name !== "" ? name : "[No name]"}
                 </h1>
                 <div className={cn("controls")}>
-                    <Link data-tid="Edit" href={getPageLink("triggerEdit", id)} icon={<EditIcon />}>
+                    <RouterLink
+                        data-tid="Edit"
+                        to={getPageLink("triggerEdit", id)}
+                        icon={<EditIcon />}
+                    >
                         Edit
-                    </Link>
+                    </RouterLink>
                     <span className={cn("control")}>
                         <Tooltip
                             render={() => {
@@ -173,6 +171,7 @@ export default function TriggerInfo({
                             }}
                         >
                             <MaintenanceSelect
+                                icon={<ClockIcon />}
                                 maintenance={maintenance}
                                 caption={maintenanceCaption(delta)}
                                 onSetMaintenance={onSetMaintenance}
@@ -181,36 +180,36 @@ export default function TriggerInfo({
                     </span>
                     <DropdownMenu
                         caption={
-                            <Button use="link">
-                                Other <ArrowTriangleDownIcon color="#6b99d3" />
+                            <Button rightIcon={<ArrowTriangleDownIcon />} use="link">
+                                Other
                             </Button>
                         }
                     >
                         {throttling !== 0 && (
-                            <LinkMenuItem onClick={onThrottlingRemove} icon={<ClearIcon />}>
+                            <MenuItem onClick={onThrottlingRemove} icon={<ClearIcon />}>
                                 Disable throttling
-                            </LinkMenuItem>
+                            </MenuItem>
                         )}
-                        <LinkMenuItem icon={<ExportIcon />}>
+                        <MenuItem icon={<ExportIcon />}>
                             <FileExport
                                 data={omitTrigger(trigger)}
                                 title={`trigger ${name || id}`}
                             />
-                        </LinkMenuItem>
-                        <LinkMenuItem
+                        </MenuItem>
+                        <MenuItem
                             target={"_blank"}
                             icon={<DocumentCopyIcon />}
-                            link={getPageLink("triggerDuplicate", id)}
+                            href={getPageLink("triggerDuplicate", id)}
                         >
                             Duplicate
-                        </LinkMenuItem>
-                        <LinkMenuItem onClick={openModal} icon={<Statistic />}>
+                        </MenuItem>
+                        <MenuItem onClick={openModal} icon={<Statistic />}>
                             Metrics graph
-                        </LinkMenuItem>
+                        </MenuItem>
                         <MenuSeparator />
-                        <LinkMenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
+                        <MenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
                             Delete
-                        </LinkMenuItem>
+                        </MenuItem>
                     </DropdownMenu>
                 </div>
             </header>
@@ -278,7 +277,7 @@ export default function TriggerInfo({
                         <dd>
                             <TagGroup
                                 onClick={(tag) => {
-                                    history?.push(
+                                    navigate(
                                         `/?${queryString.stringify(
                                             { tags: [tag] },
                                             {

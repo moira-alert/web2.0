@@ -7,8 +7,8 @@ import { Trigger } from "../../../Domain/Trigger";
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import { getPageLink } from "../../../Domain/Global";
-import { History } from "history";
 import classNames from "classnames/bind";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./MobileTriggerListPage.less";
 
@@ -20,73 +20,26 @@ type MobileTriggerListPageProps = {
     selectedTags?: Array<string> | null;
     activePage: number;
     pageCount: number;
-    history: History;
     onChange: (pageObject: { page: number }) => void;
     onOpenTagSelector: () => void;
 };
 
-export default class MobileTriggerListPage extends React.Component<MobileTriggerListPageProps> {
-    render(): React.ReactNode {
-        const {
-            loading,
-            triggers,
-            onOpenTagSelector,
-            activePage,
-            pageCount,
-            history,
-            onChange,
-        } = this.props;
+export default function MobileTriggerListPage(
+    props: MobileTriggerListPageProps
+): React.ReactElement {
+    const {
+        loading,
+        triggers,
+        selectedTags,
+        activePage,
+        pageCount,
+        onChange,
+        onOpenTagSelector,
+    } = props;
 
-        return (
-            <div>
-                <MobileHeader>
-                    <MobileHeader.HeaderBlock>
-                        <MobileHeader.Title>Moira: {this.renderTitle()}</MobileHeader.Title>
-                        <MobileHeader.RightButton
-                            icon={<FilterIcon />}
-                            onClick={onOpenTagSelector}
-                        />
-                        <MobileHeader.RightButton
-                            onClick={() => history.push(getPageLink("settings"))}
-                            icon={<SettingsIcon />}
-                        />
-                    </MobileHeader.HeaderBlock>
-                </MobileHeader>
-                <div className={cn("content")}>
-                    {triggers != null && triggers.length === 0 && (
-                        <div className={cn("empty-triggers")}>No results :-(</div>
-                    )}
-                    {triggers != null &&
-                        triggers.map((trigger) => (
-                            <MobileTriggerListItem key={trigger.id} data={trigger} />
-                        ))}
-                    {triggers != null && loading && (
-                        <div>
-                            <Spinner type="mini" caption="Loading..." />
-                        </div>
-                    )}
-                </div>
-                {pageCount > 1 && (
-                    <div style={{ padding: "25px 15px 50px" }}>
-                        <Paging
-                            caption="Next page"
-                            activePage={activePage}
-                            pagesCount={pageCount}
-                            onPageChange={(page) => {
-                                if (onChange) {
-                                    onChange({ page });
-                                }
-                            }}
-                            withoutNavigationHint
-                        />
-                    </div>
-                )}
-            </div>
-        );
-    }
+    const navigate = useNavigate();
 
-    renderTitle(): string {
-        const { triggers, loading, selectedTags } = this.props;
+    const renderTitle = (): string => {
         if (triggers == null && loading) {
             return "Loading...";
         }
@@ -97,5 +50,49 @@ export default class MobileTriggerListPage extends React.Component<MobileTrigger
             return `#${selectedTags[0]}`;
         }
         return `${selectedTags.length} tags`;
-    }
+    };
+
+    return (
+        <div>
+            <MobileHeader>
+                <MobileHeader.HeaderBlock>
+                    <MobileHeader.Title>Moira: {renderTitle()}</MobileHeader.Title>
+                    <MobileHeader.RightButton icon={<FilterIcon />} onClick={onOpenTagSelector} />
+                    <MobileHeader.RightButton
+                        onClick={() => navigate(getPageLink("settings"))}
+                        icon={<SettingsIcon />}
+                    />
+                </MobileHeader.HeaderBlock>
+            </MobileHeader>
+            <div className={cn("content")}>
+                {triggers != null && triggers.length === 0 && (
+                    <div className={cn("empty-triggers")}>No results :-(</div>
+                )}
+                {triggers != null &&
+                    triggers.map((trigger) => (
+                        <MobileTriggerListItem key={trigger.id} data={trigger} />
+                    ))}
+                {triggers != null && loading && (
+                    <div>
+                        <Spinner type="mini" caption="Loading..." />
+                    </div>
+                )}
+            </div>
+            {pageCount > 1 && (
+                <div style={{ padding: "25px 15px 50px" }}>
+                    <Paging
+                        caption="Next page"
+                        activePage={activePage}
+                        pagesCount={pageCount}
+                        onPageChange={(page) => {
+                            if (onChange) {
+                                onChange({ page });
+                            }
+                        }}
+                        withoutNavigationHint
+                    />
+                </div>
+            )}
+        </div>
+    );
 }

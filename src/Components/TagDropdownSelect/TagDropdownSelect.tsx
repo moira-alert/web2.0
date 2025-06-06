@@ -2,12 +2,14 @@ import * as React from "react";
 import union from "lodash/union";
 import difference from "lodash/difference";
 import { ScrollContainer } from "@skbkontur/react-ui/components/ScrollContainer";
-import { DropdownContainer } from "@skbkontur/react-ui/internal/DropdownContainer";
+import { Popup } from "@skbkontur/react-ui/internal/Popup";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
 import Tag from "../Tag/Tag";
 import NewTagBadge from "../NewTagBadge/NewTagBadge";
 import { ThemeContext } from "@skbkontur/react-ui";
+import { Theme } from "@skbkontur/react-ui/lib/theming/Theme";
+import { withThemeVars } from "../../Themes/withThemeVars";
 import classNames from "classnames/bind";
 
 import styles from "./TagDropdownSelect.less";
@@ -44,6 +46,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     private tagsRef = React.createRef<HTMLDivElement>();
     private focusAnchorRef = React.createRef<HTMLSpanElement>();
 
+    declare context: Theme;
+
     componentDidUpdate(): void {
         this.updateDropdownContainerMaxWidth();
         LayoutEvents.emit();
@@ -52,7 +56,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     render(): React.ReactElement {
         const { width, value, availableTags, allowCreateNewTags, onBlur } = this.props;
         const { inputValue, focusedIndex, isFocused: opened } = this.state;
-        const filtredTags = this.filterTags(difference(availableTags, value));
+        const filteredTags = this.filterTags(difference(availableTags, value));
         const theme = this.context;
 
         return (
@@ -65,11 +69,16 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     <div className={cn("wrapper")}>
                         {this.renderInput()}
                         {opened && (
-                            <DropdownContainer
-                                align="left"
-                                getParent={() => this.containerRef.current}
-                                offsetY={1}
-                                hasFixedWidth
+                            <Popup
+                                margin={2}
+                                hasShadow
+                                anchorElement={this.containerRef.current}
+                                opened={true}
+                                pos={"bottom left"}
+                                positions={["bottom left"]}
+                                style={{
+                                    width: this.containerRef.current?.offsetWidth,
+                                }}
                             >
                                 <div
                                     style={{
@@ -81,9 +90,9 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                     onBlur={onBlur}
                                 >
                                     <ScrollContainer maxHeight={300}>
-                                        {filtredTags.length > 0 || allowCreateNewTags ? (
+                                        {filteredTags.length > 0 || allowCreateNewTags ? (
                                             <div className={cn("tag-list")}>
-                                                {filtredTags.map((tag, i) => (
+                                                {filteredTags.map((tag, i) => (
                                                     <Tag
                                                         key={tag}
                                                         focus={i === focusedIndex - 1}
@@ -99,7 +108,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                                             title={inputValue.trim()}
                                                             focus={
                                                                 focusedIndex ===
-                                                                filtredTags.length + 1
+                                                                filteredTags.length + 1
                                                             }
                                                             onClick={() =>
                                                                 this.selectTag(inputValue.trim())
@@ -114,7 +123,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                                         )}
                                     </ScrollContainer>
                                 </div>
-                            </DropdownContainer>
+                            </Popup>
                         )}
                     </div>
                 </RenderLayer>
@@ -138,7 +147,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
     handleKeyDown(key: string, caretPosition: number): void {
         const { focusedIndex, isFocused, inputValue } = this.state;
         const { allowCreateNewTags, value, availableTags } = this.props;
-        const filtredTags = this.filterTags(difference(availableTags, value));
+        const filteredTags = this.filterTags(difference(availableTags, value));
 
         if (isFocused) {
             switch (key) {
@@ -152,10 +161,10 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                     break;
                 case "ArrowUp": {
                     if (allowCreateNewTags) {
-                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
+                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filteredTags.length;
                         this.setState({ focusedIndex: newIndex });
                     } else {
-                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filtredTags.length;
+                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filteredTags.length;
                         this.setState({ focusedIndex: newIndex });
                     }
                     break;
@@ -163,10 +172,10 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                 case "ArrowDown": {
                     if (allowCreateNewTags && !this.tagExists(inputValue)) {
                         const newIndex =
-                            focusedIndex < filtredTags.length + 1 ? focusedIndex + 1 : 0;
+                            focusedIndex < filteredTags.length + 1 ? focusedIndex + 1 : 0;
                         this.setState({ focusedIndex: newIndex });
                     } else {
-                        const newIndex = focusedIndex < filtredTags.length ? focusedIndex + 1 : 0;
+                        const newIndex = focusedIndex < filteredTags.length ? focusedIndex + 1 : 0;
                         this.setState({ focusedIndex: newIndex });
                     }
                     break;
@@ -178,11 +187,11 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         } else if (
                             allowCreateNewTags &&
                             !this.tagExists(inputValue) &&
-                            focusedIndex === filtredTags.length + 1
+                            focusedIndex === filteredTags.length + 1
                         ) {
                             this.selectTag(inputValue);
                         } else {
-                            this.selectTag(filtredTags[focusedIndex - 1]);
+                            this.selectTag(filteredTags[focusedIndex - 1]);
                         }
                     }
 
@@ -191,8 +200,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                             break;
                         } else if (allowCreateNewTags && !this.tagExists(inputValue)) {
                             this.selectTag(inputValue);
-                        } else if (filtredTags.length > 0) {
-                            this.selectTag(filtredTags[filtredTags.length - 1]);
+                        } else if (filteredTags.length > 0) {
+                            this.selectTag(filteredTags[filteredTags.length - 1]);
                         } else {
                             break;
                         }
@@ -210,6 +219,7 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
 
     updateDropdownContainerMaxWidth(): void {
         const node = this.tagsRef?.current;
+
         if (node !== null) {
             node.style.maxWidth = `${node.getBoundingClientRect().width + 40}px`;
         }
@@ -247,10 +257,18 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
 
         return (
             <div
-                style={{
-                    backgroundColor: theme.inputBg,
-                    borderColor: theme.inputBorderColor,
-                }}
+                style={withThemeVars(theme, [
+                    "inputBorderColor",
+                    "inputBorderColorHover",
+                    "inputBorderColorFocus",
+                    "inputBorderColorError",
+                    "inputBg",
+                    "inputDisabledBg",
+                    "inputDisabledBorderColor",
+                    "inputBorderWidth",
+                    "inputBorderRadiusMedium",
+                    "inputOutlineWidth",
+                ])}
                 className={
                     isDisabled
                         ? cn("input-area-disabled")
@@ -271,7 +289,8 @@ export default class TagDropdownSelect extends React.Component<Props, State> {
                         className={cn("input")}
                         value={inputValue}
                         onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
-                            event.target instanceof HTMLInputElement && event.target.selectionStart
+                            event.target instanceof HTMLInputElement &&
+                            event.target.selectionStart !== null
                                 ? this.handleKeyDown(event.key, event.target.selectionStart)
                                 : null
                         }

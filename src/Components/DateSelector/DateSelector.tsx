@@ -14,6 +14,7 @@ interface IDateSelectorProps {
 export const DateSelector: React.FC<IDateSelectorProps> = ({ date, setDate, minDate, maxDate }) => {
     return (
         <Calendar
+            style={{ borderRadius: 0, borderTopRightRadius: "8px" }}
             value={date ? formatDateToCalendarDate(date) : null}
             initialMonth={(getMonth(date ?? new Date()) + 1) as Range<1, 13>}
             initialYear={getYear(date ?? new Date())}

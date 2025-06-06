@@ -6,7 +6,6 @@ import {
     TriggerTargetProblemType,
 } from "../Domain/Trigger";
 import { useSaveTrigger } from "./useSaveTrigger";
-import { History } from "history";
 import { useValidateTargetMutation } from "../services/TriggerApi";
 import {
     setIsSaveButtonDisabled,
@@ -15,8 +14,8 @@ import {
 } from "../store/Reducers/TriggerFormReducer.slice";
 import { Action } from "@reduxjs/toolkit";
 
-export const useValidateTarget = (dispatch: Dispatch<Action>, history: History<unknown>) => {
-    const saveTrigger = useSaveTrigger(history);
+export const useValidateTarget = (dispatch: Dispatch<Action>) => {
+    const saveTrigger = useSaveTrigger();
     const [validateTarget] = useValidateTargetMutation();
 
     return async (trigger?: Trigger | Partial<Trigger>) => {

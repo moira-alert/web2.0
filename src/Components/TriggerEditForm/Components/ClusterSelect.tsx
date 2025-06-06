@@ -11,34 +11,37 @@ interface IClusterSelectProps {
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
 }
 
-export const ClusterSelect = React.forwardRef<Select<string | null>, IClusterSelectProps>(
-    function ClusterSelect(
-        { clusterID, metricSourceClusters, triggerSource, error, onChange },
-        validationRef
-    ) {
-        const clusterEntities = metricSourceClusters?.reduce((acc: string[][], item) => {
-            if (item.trigger_source === triggerSource) {
-                acc.push([item.cluster_id, item.cluster_name]);
-            }
-            return acc;
-        }, []);
+type ClusterItem = [string, string];
 
-        const isSelectDisabled = clusterEntities.length === 1;
+export const ClusterSelect = React.forwardRef<
+    Select<string | null, ClusterItem>,
+    IClusterSelectProps
+>(function ClusterSelect(
+    { clusterID, metricSourceClusters, triggerSource, error, onChange },
+    validationRef
+) {
+    const clusterEntities: ClusterItem[] = metricSourceClusters.reduce((acc, item) => {
+        if (item.trigger_source === triggerSource) {
+            acc.push([item.cluster_id, item.cluster_name]);
+        }
+        return acc;
+    }, [] as ClusterItem[]);
 
-        const value = isSelectDisabled ? clusterEntities.flat()[0] : clusterID;
+    const isSelectDisabled = clusterEntities.length === 1;
 
-        return (
-            <Select<string | null>
-                data-tid="Cluster select"
-                className={error ? "validationError" : ""}
-                ref={validationRef}
-                value={value}
-                disabled={isSelectDisabled}
-                renderItem={(_value, item) => item}
-                renderValue={(_value, item) => item}
-                items={clusterEntities}
-                onValueChange={(value) => onChange({ cluster_id: value })}
-            />
-        );
-    }
-);
+    const value = isSelectDisabled ? clusterEntities.flat()[0] : clusterID;
+
+    return (
+        <Select<string | null, ClusterItem>
+            data-tid="Cluster select"
+            className={error ? "validationError" : ""}
+            ref={validationRef}
+            value={value}
+            disabled={isSelectDisabled}
+            renderItem={(_value, item) => item}
+            renderValue={(_value, item) => item}
+            items={clusterEntities}
+            onValueChange={(value) => onChange({ cluster_id: value })}
+        />
+    );
+});

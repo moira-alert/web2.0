@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { RouteComponentProps } from "react-router";
+import { useParams } from "react-router-dom";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";
@@ -22,8 +22,6 @@ import {
     setIsSaveButtonDisabled,
 } from "../store/Reducers/TriggerFormReducer.slice";
 
-type Props = RouteComponentProps<{ id: string }>;
-
 const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
     const trigger: Partial<Trigger> = { ...sourceTrigger };
 
@@ -40,21 +38,19 @@ const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
     };
 };
 
-const TriggerDuplicateContainer = (props: Props) => {
+const TriggerDuplicateContainer = () => {
+    const { id = "" } = useParams<{ id: string }>();
     const { config } = useAppSelector(ConfigState);
     const { isSaveModalVisible, validationResult } = useAppSelector(TriggerFormState);
     const { isLoading, error } = useAppSelector(UIState);
     const dispatch = useAppDispatch();
-    const { id } = props.match.params;
-    const { data: sourceTrigger } = useGetTriggerQuery({
-        triggerId: id,
-    });
+    const { data: sourceTrigger } = useGetTriggerQuery({ triggerId: id });
     const { data: tags } = useGetTagsQuery();
     const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
 
     const validationContainer = useRef<ValidationContainer>(null);
-    const validateTarget = useValidateTarget(dispatch, props.history);
-    const saveTrigger = useSaveTrigger(props.history);
+    const validateTarget = useValidateTarget(dispatch);
+    const saveTrigger = useSaveTrigger();
 
     const handleSubmit = async () => {
         const isFormValid = await validationContainer.current?.validate();
@@ -69,9 +65,7 @@ const TriggerDuplicateContainer = (props: Props) => {
     };
 
     const handleChange = (update: Partial<Trigger>) => {
-        if (!trigger) {
-            return;
-        }
+        if (!trigger) return;
 
         if (update.trigger_source) {
             setTrigger((prev) => {
@@ -81,10 +75,10 @@ const TriggerDuplicateContainer = (props: Props) => {
             dispatch(setIsSaveButtonDisabled(false));
             return;
         }
-        setTrigger((prev) => {
-            return { ...prev, ...update };
-        });
+
+        setTrigger((prev) => ({ ...prev, ...update }));
         dispatch(setError(null));
+
         if (update.targets) {
             dispatch(setIsSaveButtonDisabled(false));
         }
@@ -92,7 +86,6 @@ const TriggerDuplicateContainer = (props: Props) => {
 
     useEffect(() => {
         setDocumentTitle("Duplicate trigger");
-
         if (sourceTrigger) {
             setTrigger(cleanTrigger(sourceTrigger));
         } else {
@@ -141,13 +134,8 @@ const TriggerDuplicateContainer = (props: Props) => {
                                         </Button>
                                     </Fit>
                                     <Fit>
-                                        <RouterLink
-                                            to={getPageLink(
-                                                "trigger",
-                                                props.match?.params?.id || ""
-                                            )}
-                                        >
-                                            Cancel
+                                        <RouterLink to={getPageLink("trigger", id)}>
+                                            <Button component="a">Cancel</Button>
                                         </RouterLink>
                                     </Fit>
                                 </RowStack>

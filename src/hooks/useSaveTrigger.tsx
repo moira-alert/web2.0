@@ -1,16 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { getPageLink } from "../Domain/Global";
-import { History } from "history";
 import { Trigger, triggerClientToPayload } from "../Domain/Trigger";
 import { useAddTriggerMutation, useSetTriggerMutation } from "../services/TriggerApi";
 
-export const useSaveTrigger = (history: History<unknown>) => {
+export const useSaveTrigger = () => {
+    const navigate = useNavigate();
     const [setTrigger] = useSetTriggerMutation();
     const [addTrigger] = useAddTriggerMutation();
 
     return async (trigger?: Partial<Trigger>) => {
-        if (!trigger) {
-            return;
-        }
+        if (!trigger) return;
 
         const triggerPayload = triggerClientToPayload(trigger);
 
@@ -22,7 +21,7 @@ export const useSaveTrigger = (history: History<unknown>) => {
         try {
             const result = await action();
             const { id } = result;
-            history.push(getPageLink("trigger", id));
+            navigate(getPageLink("trigger", id));
         } catch {
             return;
         }
