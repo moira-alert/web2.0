@@ -21,16 +21,14 @@ export const TriggerNoisinessChartView: React.FC<{
             return `/trigger/${trigger?.id}`;
         };
         return createHtmlLegendPlugin((label) => (
-            <>
-                <Link
-                    href={getLink(label)}
-                    target="_blank"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                    icon={<LinkIcon />}
-                />
-            </>
+            <Link
+                href={getLink(label)}
+                target="_blank"
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+                icon={<LinkIcon />}
+            />
         ));
     }, [triggers, theme]);
 

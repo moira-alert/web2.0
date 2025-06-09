@@ -6,7 +6,8 @@ export const withThemeVars = (theme: Theme, keys: Array<keyof Theme>): React.CSS
     for (const key of keys) {
         const value = theme[key];
         if (value && (typeof value === "string" || typeof value === "number")) {
-            cssVars[`--${String(key)}`] = value;
+            const cssVarName = `--${String(key)}`;
+            cssVars[cssVarName] = value;
         }
     }
 
