@@ -4,8 +4,10 @@ import { useTheme } from "../../../Themes";
 import { createHtmlLegendPlugin } from "../../ContactEventStats/Components/htmlLegendPlugin";
 import { NoisinessDataset } from "../TiggerNoisinessChart";
 import { Bar } from "react-chartjs-2";
-import { triggerEventsChartOptions } from "../../../helpers/getChartOptions";
+import { TriggerEventsChartOptions } from "../../../helpers/getChartOptions";
 import { ChartOptions } from "chart.js";
+import { Link } from "@skbkontur/react-ui/components/Link";
+import LinkIcon from "@skbkontur/react-icons/Link";
 
 export const TriggerNoisinessChartView: React.FC<{
     datasets: NoisinessDataset[];
@@ -18,8 +20,17 @@ export const TriggerNoisinessChartView: React.FC<{
             const trigger = triggers?.list.find((t) => t.name === triggerName);
             return `/trigger/${trigger?.id}`;
         };
-        return createHtmlLegendPlugin(true, getLink);
-    }, [triggers]);
+        return createHtmlLegendPlugin((label) => (
+            <Link
+                href={getLink(label)}
+                target="_blank"
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+                icon={<LinkIcon />}
+            />
+        ));
+    }, [triggers, theme]);
 
     const data = {
         labels: [""],
@@ -31,11 +42,7 @@ export const TriggerNoisinessChartView: React.FC<{
             data={data}
             plugins={[htmlLegendPlugin]}
             options={
-                triggerEventsChartOptions(
-                    "Triggers",
-                    "Number of Events",
-                    theme.chartGridLinesColor
-                ) as ChartOptions<"bar">
+                TriggerEventsChartOptions("Triggers", "Number of Events") as ChartOptions<"bar">
             }
             style={{ maxHeight: "305px" }}
         />

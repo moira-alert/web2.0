@@ -1,5 +1,4 @@
 import * as React from "react";
-import { History } from "history";
 import { Trigger } from "../../Domain/Trigger";
 import TriggerListItem from "../TriggerListItem/TriggerListItem";
 import classNames from "classnames/bind";
@@ -13,11 +12,10 @@ type Props = {
     searchMode: boolean;
     onChange: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove: (triggerId: string, metric: string) => void;
-    history: History;
 };
 
 export default function TriggerList(props: Props): React.ReactElement {
-    const { items, searchMode, onChange, onRemove, history } = props;
+    const { items, searchMode, onChange, onRemove } = props;
 
     return (
         <div>
@@ -33,7 +31,6 @@ export default function TriggerList(props: Props): React.ReactElement {
                                 onChange(item.id, metric, maintenance)
                             }
                             onRemove={(metric) => onRemove(item.id, metric)}
-                            history={history}
                         />
                     </div>
                 ))

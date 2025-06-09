@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
@@ -13,30 +13,30 @@ import Favicon from "./Components/Favicon/Favicon";
 
 import "./style.less";
 
-const root = document.getElementById("root");
+const rootElement = document.getElementById("root");
+const root = rootElement ? createRoot(rootElement) : null;
 
 const onUpdate = () => {
     store.dispatch(updateServiceWorker());
 };
 
 const render = (Component: ComponentType) => {
-    if (root !== null) {
-        ReactDOM.render(
-            <BrowserRouter>
-                <Providers>
-                    <Sentry.ErrorBoundary
-                        onError={(error) => Toast.push(error.toString())}
-                        fallback={() => <Component />}
-                    >
-                        <SentryInitializer />
-                        <Favicon />
-                        <Component />
-                    </Sentry.ErrorBoundary>
-                </Providers>
-            </BrowserRouter>,
-            root
-        );
-    }
+    if (!root) return;
+
+    root.render(
+        <BrowserRouter>
+            <Providers>
+                <Sentry.ErrorBoundary
+                    onError={(error) => Toast.push(error.toString())}
+                    fallback={() => <Component />}
+                >
+                    <SentryInitializer />
+                    <Favicon />
+                    <Component />
+                </Sentry.ErrorBoundary>
+            </Providers>
+        </BrowserRouter>
+    );
 };
 
 const isMobile = checkMobile(window.navigator.userAgent);

@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import { Route, Redirect, useLocation } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { getPagePath } from "../Domain/Global";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import { ISettingsContainerProps } from "../Containers/SettingsContainer";
@@ -10,32 +10,23 @@ import styles from "../../local_modules/styles/mixins.less";
 
 const cn = classNames.bind(styles);
 
-type PrivateRouteProps = {
-    component: ComponentType<ISettingsContainerProps>;
-    exact?: boolean;
-    path: string;
+type TeamSettingsPrivateRouteProps = {
+    Component: ComponentType<ISettingsContainerProps>;
 };
 
-export const TeamSettingsPrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
+export const TeamSettingsPrivateRoute = ({ Component }: TeamSettingsPrivateRouteProps) => {
     const location = useLocation();
     const teamId = location.pathname.split("/").pop() || "";
 
     const { isAuthorizing, isTeamAvailable, isTeamMember } = useTeamSettingsAvailable(teamId);
 
     if (isAuthorizing) {
-        return <Loader className={cn("loader")} active={isAuthorizing} caption="Authorization" />;
+        return <Loader className={cn("loader")} active caption="Authorization" />;
     }
 
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                isTeamAvailable ? (
-                    <Component isTeamMember={!!isTeamMember} {...props} />
-                ) : (
-                    <Redirect to={{ pathname: getPagePath("index") }} />
-                )
-            }
-        />
-    );
+    if (!isTeamAvailable) {
+        return <Navigate to={getPagePath("index")} replace />;
+    }
+
+    return <Component isTeamMember={!!isTeamMember} />;
 };

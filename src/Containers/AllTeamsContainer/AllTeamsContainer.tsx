@@ -72,7 +72,6 @@ const AllTeamsContainer: FC = () => {
                     <TeamsList teams={teams?.list} />
 
                     <Paging
-                        shouldBeVisibleWithLessThanTwoPages={false}
                         caption="Next page"
                         activePage={activePage}
                         pagesCount={pageCount}

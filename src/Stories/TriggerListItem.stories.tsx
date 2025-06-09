@@ -1,13 +1,9 @@
 import * as React from "react";
 import { action } from "@storybook/addon-actions";
-import { createMemoryHistory } from "history";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
-
-const history = createMemoryHistory();
-history.push = action("history.push");
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
@@ -75,7 +71,6 @@ const commonProps = {
     searchMode: false,
     onChange: action("onChange"),
     onRemove: action("onRemove"),
-    history,
 };
 
 export const Default = () => (
@@ -84,7 +79,6 @@ export const Default = () => (
         data={sourceData}
         onChange={action("onChange")}
         onRemove={action("onRemove")}
-        history={history}
     />
 );
 

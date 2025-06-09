@@ -21,7 +21,7 @@ export const TimeSelector: FC<ITimeSelectorProps> = ({
     setTime,
     isTimeDisabled,
 }) => (
-    <Menu hasShadow={false}>
+    <Menu style={{ margin: 0, borderRadius: 0, borderTopLeftRadius: "8px" }} preventWindowScroll>
         {times.map((time) => (
             <MenuItem
                 key={time}

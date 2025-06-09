@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Tabs, { Tab } from "../../Tabs/Tabs";
 import { EventListTab } from "./EventListTab/EventListTab";
 import { CurrentStateTab } from "./CurrentStateTab";
@@ -20,7 +20,7 @@ export const TriggerInfoTabs: FC<ITriggerInfoTabsProps> = ({
     triggerName,
     metrics,
 }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
     const [currentTab, setCurrentTab] = useState<string>("state");
 
@@ -28,9 +28,9 @@ export const TriggerInfoTabs: FC<ITriggerInfoTabsProps> = ({
         if (tabId === "events") {
             const searchParams = new URLSearchParams();
             searchParams.set("action", "events");
-            history.push({ search: searchParams.toString() });
+            navigate({ search: searchParams.toString() });
         } else {
-            history.push({ search: "" });
+            navigate({ search: "" });
         }
     };
 

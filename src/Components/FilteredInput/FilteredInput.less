@@ -1,12 +1,9 @@
-@import '~styles/variables.less';
-@import '~styles/mixins.less';
-
-@inputBackground: @primaryBackground;
+@import "~styles/variables.less";
+@import "~styles/mixins.less";
 
 .root {
     display: inline-block;
     position: relative;
-    background-color: @inputBackground;
 }
 
 .input {
@@ -34,12 +31,6 @@
     left: 0;
     bottom: 0;
     right: 0;
-
-    input {
-        // Перекрывается поведение retail-ui input-а
-        // stylelint-disable-next-line declaration-no-important
-        background-color: @inputBackground !important;
-    }
 }
 
 .test-width {

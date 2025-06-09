@@ -4,10 +4,6 @@ import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger, TriggerSource, TriggerState } from "../Domain/Trigger";
 import { Status } from "../Domain/Status";
-import { createMemoryHistory } from "history";
-
-const history = createMemoryHistory();
-history.push = action("history.push");
 
 export default {
     title: "TriggerInfo",
@@ -70,7 +66,6 @@ const commonProps = {
     trigger: sourceData,
     onThrottlingRemove: action("onThrottlingRemove"),
     onSetMaintenance: action("onSetMaintenance"),
-    history,
     deleteTrigger: () => action("onTriggerDelete"),
 };
 

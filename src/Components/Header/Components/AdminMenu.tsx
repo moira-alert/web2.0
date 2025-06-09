@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { DropdownMenu } from "@skbkontur/react-ui";
+import { DropdownMenu, MenuItem } from "@skbkontur/react-ui";
 import Crown from "@skbkontur/react-icons/Crown";
-import { LinkMenuItem } from "../../TriggerInfo/Components/LinkMenuItem";
 import { getPageLink } from "../../../Domain/Global";
 import { useGetUserQuery } from "../../../services/UserApi";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
@@ -35,15 +34,13 @@ export const AdminMenu: FC = () => {
                 </>
             }
         >
-            <LinkMenuItem link={getPageLink("systemSubscriptions")}>
-                System Subscriptions
-            </LinkMenuItem>
-            <LinkMenuItem link={getPageLink("allTeams")}>All Teams</LinkMenuItem>
-            <LinkMenuItem link={getPageLink("noisiness")}>Noisiness</LinkMenuItem>
-            <LinkMenuItem link={getPageLink("contacts")}>Contacts</LinkMenuItem>
-            <LinkMenuItem link={getPageLink("patterns")}>Patterns</LinkMenuItem>
-            <LinkMenuItem link={getPageLink("notifications")}>Notifier</LinkMenuItem>
-            <LinkMenuItem link={getPageLink("tags")}>Tags</LinkMenuItem>
+            <MenuItem href={getPageLink("systemSubscriptions")}>System Subscriptions</MenuItem>
+            <MenuItem href={getPageLink("allTeams")}>All Teams</MenuItem>
+            <MenuItem href={getPageLink("noisiness")}>Noisiness</MenuItem>
+            <MenuItem href={getPageLink("contacts")}>Contacts</MenuItem>
+            <MenuItem href={getPageLink("patterns")}>Patterns</MenuItem>
+            <MenuItem href={getPageLink("notifications")}>Notifier</MenuItem>
+            <MenuItem href={getPageLink("tags")}>Tags</MenuItem>
         </DropdownMenu>
     );
 };
