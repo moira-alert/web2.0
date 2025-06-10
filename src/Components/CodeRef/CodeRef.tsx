@@ -1,7 +1,7 @@
 import * as React from "react";
 import classNames from "classnames/bind";
 
-import styles from "./CodeRef.less";
+import styles from "./CodeRef.module.less";
 
 const cn = classNames.bind(styles);
 

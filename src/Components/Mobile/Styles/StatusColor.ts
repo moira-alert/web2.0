@@ -1,6 +1,6 @@
 import { Status } from "../../../Domain/Status";
 
-import variables from "./variables.less";
+import variables from "./variables.module.less";
 
 const { okColor, errorColor, warnColor, noDataColor, unknownColor } = variables;
 

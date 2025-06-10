@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames/bind";
 
-import styles from "./ErrorMessage.less";
+import styles from "./ErrorMessage.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -2,7 +2,7 @@ import React from "react";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import classNames from "classnames/bind";
 
-import styles from "./ModalError.less";
+import styles from "./ModalError.module.less";
 
 const cn = classNames.bind(styles);
 

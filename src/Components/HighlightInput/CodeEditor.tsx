@@ -15,7 +15,7 @@ import { TransactionSpec, EditorSelection, EditorState } from "@codemirror/state
 import { useTheme, TTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
-import styles from "./HighlightInput.less";
+import styles from "./HighlightInput.module.less";
 
 const cn = classNames.bind(styles);
 

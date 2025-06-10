@@ -1,7 +1,7 @@
 import * as React from "react";
 import classNames from "classnames/bind";
 
-import styles from "./Footer.less";
+import styles from "./Footer.module.less";
 
 const cn = classNames.bind(styles);
 

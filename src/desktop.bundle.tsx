@@ -29,7 +29,7 @@ import { NoisinessContainer } from "./Containers/NoisinessContainer/NosinessCont
 import { SystemSubscriptionsContainer } from "./Containers/SystemSubscriptionsContainer";
 import { UIState } from "./store/selectors";
 
-import styles from "./desktop.less";
+import styles from "./desktop.module.less";
 
 const cn = classNames.bind(styles);
 

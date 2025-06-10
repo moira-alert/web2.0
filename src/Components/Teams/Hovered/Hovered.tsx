@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
-import cn from "./Hovered.less";
+import cn from "./Hovered.module.less";
 
 interface HoveredProps {
     children: ReactNode;

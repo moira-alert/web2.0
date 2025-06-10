@@ -22,7 +22,7 @@ import { useGetUserTeamsQuery } from "../../services/TeamsApi";
 import { getSettingsLink } from "../../helpers/getSettingsLink";
 import classNames from "classnames/bind";
 
-import styles from "./Header.less";
+import styles from "./Header.module.less";
 
 const cn = classNames.bind(styles);
 

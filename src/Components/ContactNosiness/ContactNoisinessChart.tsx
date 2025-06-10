@@ -12,11 +12,8 @@ import { Contact } from "../../Domain/Contact";
 import { useModal } from "../../hooks/useModal";
 import { ContactNoisinessChartView } from "./Components/ContactNoisinessChartView";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
-import classNames from "classnames/bind";
 
-import styles from "../../../local_modules/styles/mixins.less";
-
-const cn = classNames.bind(styles);
+import styles from "~styles/mixins.module.less";
 
 export const ContactNoisinessChart: FC = () => {
     const [page, setPage] = useState(1);
@@ -65,7 +62,7 @@ export const ContactNoisinessChart: FC = () => {
     return (
         <>
             {isLoading || isFetching ? (
-                <Spinner className={cn("noisinessSpinner")} />
+                <Spinner className={styles.noisinessSpinner} />
             ) : (
                 <Flexbox direction="column" gap={18}>
                     {isModalOpen && (

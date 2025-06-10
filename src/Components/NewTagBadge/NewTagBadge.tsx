@@ -3,7 +3,7 @@ import AddIcon from "@skbkontur/react-icons/Add";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import classNames from "classnames/bind";
 
-import styles from "./NewTagBadge.less";
+import styles from "./NewTagBadge.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import classNames from "classnames/bind";
 
-import styles from "./Toggle.less";
+import styles from "./Toggle.module.less";
 
 const cn = classNames.bind(styles);
 

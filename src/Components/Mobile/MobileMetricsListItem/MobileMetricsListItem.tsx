@@ -17,7 +17,7 @@ import {
 import { getUTCDate } from "../../../helpers/DateUtil";
 import classNames from "classnames/bind";
 
-import styles from "./MobileMetricsListItem.less";
+import styles from "./MobileMetricsListItem.module.less";
 
 const cn = classNames.bind(styles);
 

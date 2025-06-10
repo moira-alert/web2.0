@@ -43,7 +43,7 @@ import { Flexbox } from "../Flexbox/FlexBox";
 import { useModal } from "../../hooks/useModal";
 import classNames from "classnames/bind";
 
-import styles from "./TriggerInfo.less";
+import styles from "./TriggerInfo.module.less";
 
 const cn = classNames.bind(styles);
 

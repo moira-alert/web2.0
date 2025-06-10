@@ -16,7 +16,7 @@ import {
 } from "../../Constants/heights";
 import classNames from "classnames/bind";
 
-import styles from "./TagList.less";
+import styles from "./TagList.module.less";
 
 const cn = classNames.bind(styles);
 

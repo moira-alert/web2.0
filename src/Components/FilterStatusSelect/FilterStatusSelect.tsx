@@ -7,7 +7,7 @@ import Filter from "@skbkontur/react-icons/Filter";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import classNames from "classnames/bind";
 
-import styles from "./FilterStatusSelect.less";
+import styles from "./FilterStatusSelect.module.less";
 
 const cn = classNames.bind(styles);
 

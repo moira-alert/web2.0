@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import classNames from "classnames/bind";
 
-import styles from "./Note.less";
+import styles from "./Note.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -3,7 +3,7 @@ import { Status } from "../../Domain/Status";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import classNames from "classnames/bind";
 
-import styles from "./StatusIcon.less";
+import styles from "./StatusIcon.module.less";
 
 const cn = classNames.bind(styles);
 

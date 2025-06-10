@@ -7,7 +7,7 @@ import { ContactNoisinessChart } from "../../Components/ContactNosiness/ContactN
 import Tabs, { Tab } from "../../Components/Tabs/Tabs";
 import classNames from "classnames/bind";
 
-import styles from "./NoisinessContainer.less";
+import styles from "./NoisinessContainer.module.less";
 
 const cn = classNames.bind(styles);
 

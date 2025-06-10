@@ -2,7 +2,7 @@ import * as React from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import classNames from "classnames/bind";
 
-import styles from "./MobileEmptyContentLoading.less";
+import styles from "./MobileEmptyContentLoading.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -6,11 +6,8 @@ import { Checkbox, DropdownMenu } from "@skbkontur/react-ui";
 import ContactInfo from "../../../Components/ContactInfo/ContactInfo";
 import { ArrowChevronDown } from "@skbkontur/react-icons";
 import TagDropdownSelect from "../../../Components/TagDropdownSelect/TagDropdownSelect";
-import classNames from "classnames/bind";
 
-import styles from "../../../../local_modules/styles/mixins.less";
-
-const cn = classNames.bind(styles);
+import styles from "./FilterSubscriptionButtons.module.less";
 
 interface IFilterSubscriptionButtons {
     contacts: Contact[];
@@ -49,12 +46,12 @@ export const FilterSubscriptionButtons = ({
     );
 
     return (
-        <>
+        <div className="example">
             <DropdownMenu menuMaxHeight={300} caption={renderFilterByContactCaption}>
                 {availableContacts.map((contact) => (
-                    <div key={contact.id} className={cn("dropdown-checkbox-item")}>
+                    <div key={contact.id} className={styles["dropdown-checkbox-item"]}>
                         <Checkbox
-                            className={cn("dropdown-checkbox")}
+                            className={styles["dropdown-checkbox"]}
                             checked={filterContactIDs.includes(contact.id)}
                             style={{
                                 alignItems: "center",
@@ -74,6 +71,6 @@ export const FilterSubscriptionButtons = ({
                 onChange={handleFilterTagsChange}
                 placeholder="Filter by tag"
             />
-        </>
+        </div>
     );
 };

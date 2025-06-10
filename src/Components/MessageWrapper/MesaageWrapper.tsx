@@ -1,7 +1,7 @@
 import React, { ReactNode, FC } from "react";
 import classNames from "classnames/bind";
 
-import styles from "./MessageWrapper.less";
+import styles from "./MessageWrapper.module.less";
 
 const cn = classNames.bind(styles);
 
