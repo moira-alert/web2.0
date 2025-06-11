@@ -9,7 +9,7 @@ import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import classNames from "classnames/bind";
 
-import styles from "./SubscriptionList.less";
+import styles from "./SubscriptionList.module.less";
 
 const cn = classNames.bind(styles);
 

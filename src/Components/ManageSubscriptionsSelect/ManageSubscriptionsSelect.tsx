@@ -11,7 +11,7 @@ import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
 import ArrowChevronUp from "@skbkontur/react-icons/ArrowChevronUp";
 import classNames from "classnames/bind";
 
-import styles from "./ManageSubscriptionsSelect.less";
+import styles from "./ManageSubscriptionsSelect.module.less";
 
 const cn = classNames.bind(styles);
 

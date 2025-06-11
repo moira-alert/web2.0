@@ -10,7 +10,7 @@ import { formatDateToCalendarDate, timeList } from "../../../helpers/DateUtil";
 import { validateForm, validateMaintenanceDate } from "../../../helpers/validations";
 import classNames from "classnames/bind";
 
-import styles from "./CustomMaintenanceMenu.less";
+import styles from "./CustomMaintenanceMenu.module.less";
 
 const cn = classNames.bind(styles);
 

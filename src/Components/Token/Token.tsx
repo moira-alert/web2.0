@@ -5,7 +5,7 @@ import { useTheme } from "../../Themes";
 
 import classNames from "classnames/bind";
 
-import styles from "./Token.less";
+import styles from "./Token.module.less";
 
 const cn = classNames.bind(styles);
 

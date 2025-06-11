@@ -16,7 +16,7 @@ import { useHasSystemTags } from "../../../hooks/useSystemTags";
 import { TeamNameTooltip } from "../TeamNameTooltip";
 import classNames from "classnames/bind";
 
-import styles from "./SubscriptionRow.less";
+import styles from "./SubscriptionRow.module.less";
 
 const cn = classNames.bind(styles);
 

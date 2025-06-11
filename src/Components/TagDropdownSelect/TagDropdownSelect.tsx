@@ -12,7 +12,7 @@ import { Theme } from "@skbkontur/react-ui/lib/theming/Theme";
 import { withThemeVars } from "../../Themes/withThemeVars";
 import classNames from "classnames/bind";
 
-import styles from "./TagDropdownSelect.less";
+import styles from "./TagDropdownSelect.module.less";
 
 const cn = classNames.bind(styles);
 

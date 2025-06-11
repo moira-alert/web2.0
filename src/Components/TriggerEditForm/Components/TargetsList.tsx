@@ -9,7 +9,7 @@ import { useIds } from "../../../hooks/useIds";
 import TriggerSource, { Trigger, ValidateTargetsResult } from "../../../Domain/Trigger";
 import classNames from "classnames/bind";
 
-import styles from "../TriggerEditForm.less";
+import styles from "../TriggerEditForm.module.less";
 
 const cn = classNames.bind(styles);
 

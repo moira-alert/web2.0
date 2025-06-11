@@ -4,7 +4,7 @@ import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import CodeRef from "../../CodeRef/CodeRef";
 import classNames from "classnames/bind";
 
-import styles from "../TriggerEditForm.less";
+import styles from "../TriggerEditForm.module.less";
 
 const cn = classNames.bind(styles);
 

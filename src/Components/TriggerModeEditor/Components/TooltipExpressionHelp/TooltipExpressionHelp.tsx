@@ -3,7 +3,7 @@ import { Link } from "@skbkontur/react-ui/components/Link";
 import CodeRef from "../../../CodeRef/CodeRef";
 import classNames from "classnames/bind";
 
-import styles from "../../TriggerModeEditor.less";
+import styles from "../../TriggerModeEditor.module.less";
 
 const cn = classNames.bind(styles);
 

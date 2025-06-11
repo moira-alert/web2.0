@@ -4,7 +4,7 @@ import Foco from "react-foco";
 import { useTheme } from "../../Themes";
 import classNames from "classnames/bind";
 
-import styles from "./Selector.less";
+import styles from "./Selector.module.less";
 import { withThemeVars } from "../../Themes/withThemeVars";
 
 const cn = classNames.bind(styles);

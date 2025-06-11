@@ -4,11 +4,8 @@ import { getPagePath } from "../Domain/Global";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import { ISettingsContainerProps } from "../Containers/SettingsContainer";
 import { useTeamSettingsAvailable } from "../hooks/useTeamSettingsAvailable";
-import classNames from "classnames/bind";
 
-import styles from "../../local_modules/styles/mixins.less";
-
-const cn = classNames.bind(styles);
+import styles from "~styles/mixins.module.less";
 
 type TeamSettingsPrivateRouteProps = {
     Component: ComponentType<ISettingsContainerProps>;
@@ -21,7 +18,7 @@ export const TeamSettingsPrivateRoute = ({ Component }: TeamSettingsPrivateRoute
     const { isAuthorizing, isTeamAvailable, isTeamMember } = useTeamSettingsAvailable(teamId);
 
     if (isAuthorizing) {
-        return <Loader className={cn("loader")} active caption="Authorization" />;
+        return <Loader className={styles.loader} active caption="Authorization" />;
     }
 
     if (!isTeamAvailable) {

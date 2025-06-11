@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
-import styles from "./AddingButton.less";
+import styles from "./AddingButton.module.less";
 
 const cn = classNames.bind(styles);
 

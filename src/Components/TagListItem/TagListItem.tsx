@@ -23,7 +23,7 @@ import {
 import { getTotalItemSize } from "../TagList/TagList";
 import classNames from "classnames/bind";
 
-import styles from "../TagList/TagList.less";
+import styles from "../TagList/TagList.module.less";
 
 const cn = classNames.bind(styles);
 

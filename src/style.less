@@ -1,85 +1,83 @@
-@import '~styles/variables.less';
-@import '~styles/mixins.less';
+@import "~styles/variables.less";
+@import "./Themes/themeVars.module.less";
 
-:global {
-    html {
-        -webkit-font-smoothing: antialiased;
+html {
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.validationError {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-color: #dd473b;
+    box-shadow: 0 0 0 1px #dd473b;
+}
+
+.validationWarning {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-color: #f69c00;
+    box-shadow: 0 0 0 1px #f69c00;
+}
+
+.wysiwyg {
+    *:first-child {
+        margin-top: 0 !important;
     }
 
-    body {
-        margin: 0;
-        font-size: 14px;
-        line-height: 20px;
-        font-family: 'Segoe UI', sans-serif;
+    *:last-child {
+        margin-bottom: 0 !important;
     }
 
-    .validationError {
-        border: 1px solid rgba(0, 0, 0, 0.16);
-        border-color: #dd473b;
-        box-shadow: 0 0 0 1px #dd473b
-    }
-    
-    .validationWarning {
-        border: 1px solid rgba(0, 0, 0, 0.16);
-        border-color: #f69c00;
-        box-shadow: 0 0 0 1px #f69c00
+    h1 {
+        font-weight: 100;
+        font-size: 42px;
+        line-height: 50px;
     }
 
-    .wysiwyg {
-        *:first-child {
-            margin-top: 0 !important;
-        }
+    h2 {
+        font-weight: 100;
+        font-size: 32px;
+        line-height: 40px;
+    }
 
-        *:last-child {
-            margin-bottom: 0 !important;
-        }
+    h3 {
+        font-weight: normal;
+        font-size: 22px;
+        line-height: 30px;
+    }
 
-        h1 {
-            font-weight: 100;
-            font-size: 42px;
-            line-height: 50px;
-        }
+    h4,
+    h5,
+    h6 {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 25px;
+    }
 
-        h2 {
-            font-weight: 100;
-            font-size: 32px;
-            line-height: 40px;
-        }
+    a {
+        color: #3072c4;
+        text-decoration: none;
 
-        h3 {
-            font-weight: normal;
-            font-size: 22px;
-            line-height: 30px;
+        &:hover {
+            text-decoration: underline;
         }
+    }
 
-        h4,
-        h5,
-        h6 {
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 25px;
-        }
+    hr {
+        border: none;
+        height: 1px;
+        background-color: #ccc;
+    }
 
-        a {
-            color: #3072c4;
-            text-decoration: none;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-
-        hr {
-            border: none;
-            height: 1px;
-            background-color: #ccc;
-        }
-
-        blockquote {
-            margin-left: 0;
-            padding-left: 10px;
-            border-left: 3px solid #ccc;
-            color: @colorGrey;
-        }
+    blockquote {
+        margin-left: 0;
+        padding-left: 10px;
+        border-left: 3px solid #ccc;
+        color: @colorGrey;
     }
 }

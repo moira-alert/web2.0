@@ -8,7 +8,7 @@ import { ConfirmFullTeamDeleteion } from "../ConfirmFullTeamDeletion/ConfirmFull
 import { useModal } from "../../../hooks/useModal";
 import classNames from "classnames/bind";
 
-import styles from "./Team.less";
+import styles from "./Team.module.less";
 
 const cn = classNames.bind(styles);
 

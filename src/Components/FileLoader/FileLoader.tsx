@@ -3,7 +3,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import ImportIcon from "@skbkontur/react-icons/Import";
 import classNames from "classnames/bind";
 
-import styles from "./FileLoader.less";
+import styles from "./FileLoader.module.less";
 
 const cn = classNames.bind(styles);
 

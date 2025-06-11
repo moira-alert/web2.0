@@ -7,7 +7,7 @@ import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import classNames from "classnames/bind";
 
-import styles from "./Layout.less";
+import styles from "./Layout.module.less";
 
 const cn = classNames.bind(styles);
 

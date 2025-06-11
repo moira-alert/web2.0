@@ -19,7 +19,7 @@ import { setError } from "../../store/Reducers/UIReducer.slice";
 import { EmptyListMessage } from "./Components/EmptyListMessage";
 import classNames from "classnames/bind";
 
-import styles from "./ContactList.less";
+import styles from "./ContactList.module.less";
 
 const cn = classNames.bind(styles);
 

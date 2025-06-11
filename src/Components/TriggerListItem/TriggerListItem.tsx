@@ -20,7 +20,7 @@ import _ from "lodash";
 import NotificationBellOff from "@skbkontur/react-icons/NotificationBellOff";
 import classNames from "classnames/bind";
 
-import styles from "./TriggerListItem.less";
+import styles from "./TriggerListItem.module.less";
 
 const cn = classNames.bind(styles);
 

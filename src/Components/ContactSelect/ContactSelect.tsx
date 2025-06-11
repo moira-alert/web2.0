@@ -10,7 +10,7 @@ import ContactInfo from "../ContactInfo/ContactInfo";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import classNames from "classnames/bind";
 
-import styles from "./ContactSelect.less";
+import styles from "./ContactSelect.module.less";
 
 const cn = classNames.bind(styles);
 

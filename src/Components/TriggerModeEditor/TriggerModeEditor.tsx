@@ -9,7 +9,7 @@ import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import { TooltipExpressionHelp } from "./Components/TooltipExpressionHelp/TooltipExpressionHelp";
 import classNames from "classnames/bind";
 
-import styles from "./TriggerModeEditor.less";
+import styles from "./TriggerModeEditor.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -6,7 +6,7 @@ import { Crescent } from "../Crescent";
 import { Desktop } from "../Desktop";
 import classNames from "classnames/bind";
 
-import styles from "./ThemeSwitchIcon.less";
+import styles from "./ThemeSwitchIcon.module.less";
 
 const cn = classNames.bind(styles);
 

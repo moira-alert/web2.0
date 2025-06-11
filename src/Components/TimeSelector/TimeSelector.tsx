@@ -4,7 +4,7 @@ import { Menu } from "@skbkontur/react-ui/internal/Menu";
 import { CalendarDateShape } from "@skbkontur/react-ui/components/Calendar";
 import classNames from "classnames/bind";
 
-import styles from "./TimeSelector.less";
+import styles from "./TimeSelector.module.less";
 
 const cn = classNames.bind(styles);
 

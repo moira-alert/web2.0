@@ -6,7 +6,7 @@ import { ThemeSwitchRadio } from "./Components/ThemeSwitchRadio/ThemeSwitchRadio
 import { EThemesNames } from "../../Themes/themesNames";
 import classNames from "classnames/bind";
 
-import styles from "./ThemeSwitch.less";
+import styles from "./ThemeSwitch.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -22,7 +22,7 @@ import { Flexbox } from "../../../Flexbox/FlexBox";
 import { EmptyListText } from "../EmptyListMessage/EmptyListText";
 import classNames from "classnames/bind";
 
-import styles from "./EventListTab.less";
+import styles from "./EventListTab.module.less";
 
 const cn = classNames.bind(styles);
 interface IEventListTabProps {

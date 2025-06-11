@@ -4,7 +4,7 @@ import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { PopupPositionsType } from "@skbkontur/react-ui/internal/Popup";
 import { TooltipTrigger } from "@skbkontur/react-ui";
 
-import cn from "./HelpTooltip.less";
+import cn from "./HelpTooltip.module.less";
 
 type HelpTooltipProps = {
     children: ReactNode;

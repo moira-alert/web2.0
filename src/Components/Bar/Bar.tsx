@@ -2,7 +2,7 @@ import * as React from "react";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import classNames from "classnames/bind";
 
-import styles from "./Bar.less";
+import styles from "./Bar.module.less";
 
 const cn = classNames.bind(styles);
 

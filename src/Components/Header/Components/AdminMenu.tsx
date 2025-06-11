@@ -7,7 +7,7 @@ import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import { EUserRoles } from "../../../Domain/User";
 import classNames from "classnames/bind";
 
-import styles from "./AdminMenu.less";
+import styles from "./AdminMenu.module.less";
 
 const cn = classNames.bind(styles);
 

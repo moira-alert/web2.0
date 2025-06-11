@@ -33,7 +33,7 @@ import { useEditPreviewTabs } from "../../hooks/useEditPreviewTabs/useEditPrevie
 import { ClusterSelect } from "./Components/ClusterSelect";
 import classNames from "classnames/bind";
 
-import styles from "./TriggerEditForm.less";
+import styles from "./TriggerEditForm.module.less";
 
 const cn = classNames.bind(styles);
 

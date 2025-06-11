@@ -12,7 +12,7 @@ import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletion
 import { maintenanceDelta } from "../../Domain/Trigger";
 import classNames from "classnames/bind";
 
-import styles from "../MetricList/MetricList.less";
+import styles from "../MetricList/MetricList.module.less";
 
 const cn = classNames.bind(styles);
 

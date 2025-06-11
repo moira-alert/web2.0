@@ -1,0 +1,18 @@
+.menu-container {
+    position: relative;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 95px 260px;
+    grid-template-rows: 300px 30px;
+}
+.footer {
+    z-index: 1000;
+    grid-column: 1 / span 2;
+    display: grid;
+    justify-content: center;
+    padding: 5px 13px;
+    align-items: baseline;
+    width: calc(100% - 26px);
+    background-color: var(--background-secondary);
+    color: var(--text-secondary);
+}

@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Toast } from "@skbkontur/react-ui/components/Toast";
 import CopyIcon from "@skbkontur/react-icons/Copy";
-import cn from "./ResourceBadge.less";
+import cn from "./ResourceBadge.module.less";
 
 interface EditorIdProps {
     title: string;

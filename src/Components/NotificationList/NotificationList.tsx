@@ -16,7 +16,7 @@ import useConfirmModal from "../../hooks/useConfirmModal";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import classNames from "classnames/bind";
 
-import styles from "./NotificationList.less";
+import styles from "./NotificationList.module.less";
 
 const cn = classNames.bind(styles);
 

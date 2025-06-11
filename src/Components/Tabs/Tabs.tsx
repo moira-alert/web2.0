@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import classNames from "classnames/bind";
 
-import styles from "./Tabs.less";
+import styles from "./Tabs.module.less";
 
 const cn = classNames.bind(styles);
 

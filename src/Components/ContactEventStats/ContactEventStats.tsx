@@ -14,7 +14,7 @@ import { validateDateAndTime, validateForm } from "../../helpers/validations";
 import { Flexbox } from "../Flexbox/FlexBox";
 import classNames from "classnames/bind";
 
-import styles from "./ContactEventStats.less";
+import styles from "./ContactEventStats.module.less";
 
 const cn = classNames.bind(styles);
 

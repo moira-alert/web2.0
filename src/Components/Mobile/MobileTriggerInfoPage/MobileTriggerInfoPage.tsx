@@ -10,7 +10,7 @@ import MobileMetricsList from "../MobileMetricsList/MobileMetricsList";
 import MobileTriggerInfo from "../MobileTriggerInfo/MobileTriggerInfo";
 import classNames from "classnames/bind";
 
-import styles from "./MobileTriggerInfoPage.less";
+import styles from "./MobileTriggerInfoPage.module.less";
 
 const cn = classNames.bind(styles);
 

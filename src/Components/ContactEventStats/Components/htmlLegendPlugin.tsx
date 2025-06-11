@@ -7,7 +7,7 @@ import { createRoot } from "react-dom/client";
 import { useTheme } from "../../../Themes";
 import { Providers } from "../../../Providers/Providers";
 
-import styles from "./Legend.less";
+import styles from "./Legend.module.less";
 
 const cn = classNames.bind(styles);
 

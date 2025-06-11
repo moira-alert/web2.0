@@ -6,7 +6,7 @@ import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
 import classNames from "classnames/bind";
 
-import styles from "./EventList.less";
+import styles from "./EventList.module.less";
 
 const cn = classNames.bind(styles);
 

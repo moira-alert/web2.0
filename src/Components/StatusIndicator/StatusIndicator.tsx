@@ -3,7 +3,7 @@ import { Status, getStatusColor } from "../../Domain/Status";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import classNames from "classnames/bind";
 
-import styles from "./StatusIndicator.less";
+import styles from "./StatusIndicator.module.less";
 
 const cn = classNames.bind(styles);
 

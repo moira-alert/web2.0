@@ -1,0 +1,34 @@
+.input-container-style() {
+    max-width: 440px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+.form {
+    .row {
+        margin-bottom: 15px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        .caption {
+            max-width: 432px;
+            color: @colorGrey;
+            margin-bottom: 5px;
+        }
+        .value {
+            &.with-input {
+                .input-container-style();
+            }
+        }
+    }
+    .row-options {
+        padding-left: 26px;
+        padding-top: 5px;
+    }
+    .graph-theme-toggle {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+.note-container {
+    .input-container-style();
+}

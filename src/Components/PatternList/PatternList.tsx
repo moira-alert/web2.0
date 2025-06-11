@@ -10,7 +10,7 @@ import { ISortConfig } from "../../hooks/useSortData";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import classNames from "classnames/bind";
 
-import styles from "./PatternList.less";
+import styles from "./PatternList.module.less";
 
 const cn = classNames.bind(styles);
 

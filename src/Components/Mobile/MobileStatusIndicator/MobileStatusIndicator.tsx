@@ -2,7 +2,7 @@ import * as React from "react";
 import { Status } from "../../../Domain/Status";
 import StatusIndicator from "../../StatusIndicator/StatusIndicator";
 
-import styles from "./MobileStatusIndicator.less";
+import styles from "./MobileStatusIndicator.module.less";
 
 type Props = {
     statuses: Status[];

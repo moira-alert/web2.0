@@ -2,7 +2,6 @@
 /dist
 /flow
 /flow-typed
-webpack.*.js
 src/TriggerGrammar/parser.terms.ts
 src/TriggerGrammar/parser.ts
 htmlLegendPlugin.d.ts

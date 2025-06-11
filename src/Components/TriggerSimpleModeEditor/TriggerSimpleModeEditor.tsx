@@ -8,7 +8,7 @@ import StatusIcon from "../StatusIcon/StatusIcon";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import classNames from "classnames/bind";
 
-import styles from "./TriggerSimpleModeEditor.less";
+import styles from "./TriggerSimpleModeEditor.module.less";
 
 const cn = classNames.bind(styles);
 

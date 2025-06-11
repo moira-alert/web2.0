@@ -1,7 +1,7 @@
 import * as React from "react";
 import classNames from "classnames/bind";
 
-import styles from "./A11yButtonWrapper.less";
+import styles from "./A11yButtonWrapper.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -3,7 +3,7 @@ import { useTheme } from "../../../../Themes";
 import { EThemesNames } from "../../../../Themes/themesNames";
 import classNames from "classnames/bind";
 
-import styles from "./ThemeSwitchRadio.less";
+import styles from "./ThemeSwitchRadio.module.less";
 
 const cn = classNames.bind(styles);
 

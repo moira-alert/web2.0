@@ -6,7 +6,7 @@ import HelpTooltip from "../HelpTooltip/HelpTooltip";
 import classNames from "classnames/bind";
 import { Schedule, defaultSchedule } from "../../Domain/Schedule";
 
-import styles from "./ScheduleEdit.less";
+import styles from "./ScheduleEdit.module.less";
 
 const cn = classNames.bind(styles);
 

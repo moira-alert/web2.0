@@ -17,7 +17,7 @@ import {
 import { RootState } from "../../store/store";
 import classNames from "classnames/bind";
 
-import styles from "./ContactEditForm.less";
+import styles from "./ContactEditForm.module.less";
 
 const cn = classNames.bind(styles);
 

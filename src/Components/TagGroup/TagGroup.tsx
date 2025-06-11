@@ -2,7 +2,7 @@ import * as React from "react";
 import Tag from "../Tag/Tag";
 import classNames from "classnames/bind";
 
-import styles from "./TagGroup.less";
+import styles from "./TagGroup.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -2,7 +2,7 @@
 import React, { ReactNode, CSSProperties } from "react";
 import classNames from "classnames/bind";
 
-import styles from "./ItemsStacks.less";
+import styles from "./ItemsStacks.module.less";
 
 const cn = classNames.bind(styles);
 

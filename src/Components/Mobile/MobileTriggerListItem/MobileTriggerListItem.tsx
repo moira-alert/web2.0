@@ -14,7 +14,7 @@ import MobileStatusIndicator from "../MobileStatusIndicator/MobileStatusIndicato
 import _ from "lodash";
 import classNames from "classnames/bind";
 
-import styles from "./MobileTriggerListItem.less";
+import styles from "./MobileTriggerListItem.module.less";
 
 const cn = classNames.bind(styles);
 

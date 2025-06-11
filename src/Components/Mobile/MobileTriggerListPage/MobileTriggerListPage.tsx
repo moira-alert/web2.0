@@ -10,7 +10,7 @@ import { getPageLink } from "../../../Domain/Global";
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
 
-import styles from "./MobileTriggerListPage.less";
+import styles from "./MobileTriggerListPage.module.less";
 
 const cn = classNames.bind(styles);
 

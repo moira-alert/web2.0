@@ -12,7 +12,7 @@ import {
 import { getTotalItemSize } from "../TagList/TagList";
 import classNames from "classnames/bind";
 
-import styles from "./AllContactsTable.less";
+import styles from "./AllContactsTable.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -15,7 +15,7 @@ import {
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
 import classNames from "classnames/bind";
 
-import styles from "./MetricList.less";
+import styles from "./MetricList.module.less";
 
 const cn = classNames.bind(styles);
 

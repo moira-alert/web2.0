@@ -3,7 +3,7 @@ import { Token } from "../Token/Token";
 import { TokenType } from "../../helpers/TokenType";
 import classNames from "classnames/bind";
 
-import styles from "./SearchSelector.less";
+import styles from "./SearchSelector.module.less";
 
 const cn = classNames.bind(styles);
 

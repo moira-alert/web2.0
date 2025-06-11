@@ -18,7 +18,7 @@ import { useTheme } from "../../../Themes";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import classNames from "classnames/bind";
 
-import styles from "./TeamCard.less";
+import styles from "./TeamCard.module.less";
 
 const cn = classNames.bind(styles);
 

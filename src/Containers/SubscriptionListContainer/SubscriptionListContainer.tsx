@@ -26,7 +26,7 @@ import { ManageSubscriptionsSelect } from "../../Components/ManageSubscriptionsS
 import { useEnableSubscriptionsBatch } from "../../hooks/useEnableSubscriptionsBatch";
 import classNames from "classnames/bind";
 
-import styles from "./SubscriptionListContainer.less";
+import styles from "./SubscriptionListContainer.module.less";
 
 const cn = classNames.bind(styles);
 
