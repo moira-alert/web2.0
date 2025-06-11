@@ -1,8 +1,10 @@
 export function register(onUpdate: () => void) {
-    if ("serviceWorker" in navigator && process.env.NODE_ENV !== "production") {
+    if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {
             try {
-                const registration = await navigator.serviceWorker.register("/service-worker.js");
+                const registration = await navigator.serviceWorker.register("/service-worker.js", {
+                    scope: "/assets/",
+                });
 
                 registration.onupdatefound = () => {
                     const installingWorker = registration.installing;

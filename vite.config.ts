@@ -18,22 +18,19 @@ export default defineConfig(({ mode }) => ({
                     skipWaiting: true,
                     clientsClaim: true,
                     sourcemap: false,
-                    // runtimeCaching: [
-                    //     {
-                    //         urlPattern: ({ request }) =>
-                    //             (request.mode === "navigate" ||
-                    //                 request.headers.get("accept")?.includes("text/html")) &&
-                    //             !request.url.includes("oauth"),
-                    //         handler: "NetworkFirst",
-                    //         options: {
-                    //             cacheName: "html-pages",
-                    //             expiration: {
-                    //                 maxEntries: 8,
-                    //                 maxAgeSeconds: 5 * 24 * 60 * 60,
-                    //             },
-                    //         },
-                    //     },
-                    // ],
+                    runtimeCaching: [
+                        {
+                            urlPattern: /^\/(?!api|oauth|auth|connect).*$/,
+                            handler: "NetworkFirst",
+                            options: {
+                                cacheName: "html-pages",
+                                expiration: {
+                                    maxEntries: 8,
+                                    maxAgeSeconds: 5 * 24 * 60 * 60,
+                                },
+                            },
+                        },
+                    ],
                 },
             }),
     ].filter(Boolean),
