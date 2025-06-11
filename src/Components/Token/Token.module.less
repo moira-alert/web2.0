@@ -1,1 +1,67 @@
-// ToDo: добавить ограничение ширины.token {    display: inline-flex;    padding: 3px 4px 5px 4px;    height: 28px;    border-radius: 2px;    box-sizing: border-box;    background-color: var(--background-tertiary);    color: var(--text-primary);    font-size: 16px;    &.removable {        position: relative;        padding-right: 22px;    }    &.nonexistent {        color: red;        background-color: pink;        border: 1px dashed red;    }    &.selectable {        margin: 0;        border: none;        font-family: inherit;        line-height: inherit;        cursor: pointer;        -webkit-appearance: none;        appearance: none;    }}.token-remove {    margin: 0;    position: absolute;    top: 0;    right: 0;    width: 20px;    height: 28px;    border: none;    background-color: transparent;    font-family: inherit;    line-height: inherit;    cursor: pointer;    -webkit-appearance: none;    appearance: none;    &::before,    &::after {        content: "";        position: absolute;        top: 14px;        right: 4px;        width: 14px;        height: 1px;        background-color: #000;        opacity: 0.6;    }    &::before {        transform: rotate(43deg);    }    &::after {        transform: rotate(-43deg);    }    &:hover {        &::before,        &::after {            opacity: 0.8;        }    }}
+﻿// ToDo: РґРѕР±Р°РІРёС‚СЊ РѕРіСЂР°РЅРёС‡РµРЅРёРµ С€РёСЂРёРЅС‹
+.token {
+    display: inline-flex;
+    padding: 3px 4px 5px 4px;
+    height: 28px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    background-color: var(--background-tertiary);
+    color: var(--text-primary);
+    font-size: 16px;
+    &.removable {
+        position: relative;
+        padding-right: 22px;
+    }
+    &.nonexistent {
+        color: red;
+        background-color: pink;
+        border: 1px dashed red;
+    }
+    &.selectable {
+        margin: 0;
+        border: none;
+        font-family: inherit;
+        line-height: inherit;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+}
+.token-remove {
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 28px;
+    border: none;
+    background-color: transparent;
+    font-family: inherit;
+    line-height: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 14px;
+        right: 4px;
+        width: 14px;
+        height: 1px;
+        background-color: #000;
+        opacity: 0.6;
+    }
+    &::before {
+        transform: rotate(43deg);
+    }
+    &::after {
+        transform: rotate(-43deg);
+    }
+    &:hover {
+        &::before,
+        &::after {
+            opacity: 0.8;
+        }
+    }
+}
