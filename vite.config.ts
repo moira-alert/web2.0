@@ -8,6 +8,8 @@ export default defineConfig(({ mode }) => ({
         react(),
         mode !== "development" &&
             VitePWA({
+                filename: "service-worker.js",
+                manifest: false,
                 workbox: {
                     navigateFallback: null,
                     navigateFallbackAllowlist: [/^(?!\/?(login|auth|oauth))/],
