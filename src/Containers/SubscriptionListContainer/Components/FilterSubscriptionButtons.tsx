@@ -7,7 +7,7 @@ import ContactInfo from "../../../Components/ContactInfo/ContactInfo";
 import { ArrowChevronDown } from "@skbkontur/react-icons";
 import TagDropdownSelect from "../../../Components/TagDropdownSelect/TagDropdownSelect";
 
-import styles from "./FilterSubscriptionButtons.module.less";
+import styles from "~styles/utils.module.less";
 
 interface IFilterSubscriptionButtons {
     contacts: Contact[];
@@ -46,7 +46,7 @@ export const FilterSubscriptionButtons = ({
     );
 
     return (
-        <div className="example">
+        <>
             <DropdownMenu menuMaxHeight={300} caption={renderFilterByContactCaption}>
                 {availableContacts.map((contact) => (
                     <div key={contact.id} className={styles["dropdown-checkbox-item"]}>
@@ -71,6 +71,6 @@ export const FilterSubscriptionButtons = ({
                 onChange={handleFilterTagsChange}
                 placeholder="Filter by tag"
             />
-        </div>
+        </>
     );
 };

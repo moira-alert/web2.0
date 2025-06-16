@@ -143,41 +143,39 @@ export default function TriggerInfo({
                     >
                         Edit
                     </RouterLink>
-                    <span className={cn("control")}>
-                        <Tooltip
-                            render={() => {
-                                const isInfo =
-                                    delta > 0 &&
-                                    maintenance_info &&
-                                    maintenance_info.setup_user &&
-                                    maintenance_info.setup_time;
+                    <Tooltip
+                        render={() => {
+                            const isInfo =
+                                delta > 0 &&
+                                maintenance_info &&
+                                maintenance_info.setup_user &&
+                                maintenance_info.setup_time;
 
-                                if (!isInfo) {
-                                    return null;
-                                }
-                                return (
-                                    <div>
-                                        Maintenance was set
-                                        <br />
-                                        by {maintenance_info.setup_user}
-                                        <br />
-                                        at{" "}
-                                        {format(
-                                            fromUnixTime(maintenance_info.setup_time),
-                                            "MMMM d, HH:mm:ss"
-                                        )}
-                                    </div>
-                                );
-                            }}
-                        >
-                            <MaintenanceSelect
-                                icon={<ClockIcon />}
-                                maintenance={maintenance}
-                                caption={maintenanceCaption(delta)}
-                                onSetMaintenance={onSetMaintenance}
-                            />
-                        </Tooltip>
-                    </span>
+                            if (!isInfo) {
+                                return null;
+                            }
+                            return (
+                                <div>
+                                    Maintenance was set
+                                    <br />
+                                    by {maintenance_info.setup_user}
+                                    <br />
+                                    at{" "}
+                                    {format(
+                                        fromUnixTime(maintenance_info.setup_time),
+                                        "MMMM d, HH:mm:ss"
+                                    )}
+                                </div>
+                            );
+                        }}
+                    >
+                        <MaintenanceSelect
+                            icon={<ClockIcon />}
+                            maintenance={maintenance}
+                            caption={maintenanceCaption(delta)}
+                            onSetMaintenance={onSetMaintenance}
+                        />
+                    </Tooltip>
                     <DropdownMenu
                         caption={
                             <Button rightIcon={<ArrowTriangleDownIcon />} use="link">

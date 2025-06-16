@@ -5,7 +5,7 @@ import { useGetUserQuery } from "../services/UserApi";
 import { EUserRoles } from "../Domain/User";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 
-import styles from "~styles/mixins.module.less";
+import styles from "~styles/utils.module.less";
 
 type AdminRouteProps = {
     children: React.ReactNode;

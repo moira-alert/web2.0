@@ -5,7 +5,7 @@ import { Loader } from "@skbkontur/react-ui/components/Loader";
 import { ISettingsContainerProps } from "../Containers/SettingsContainer";
 import { useTeamSettingsAvailable } from "../hooks/useTeamSettingsAvailable";
 
-import styles from "~styles/mixins.module.less";
+import styles from "~styles/utils.module.less";
 
 type TeamSettingsPrivateRouteProps = {
     Component: ComponentType<ISettingsContainerProps>;

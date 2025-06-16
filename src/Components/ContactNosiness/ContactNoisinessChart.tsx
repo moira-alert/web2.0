@@ -13,7 +13,7 @@ import { useModal } from "../../hooks/useModal";
 import { ContactNoisinessChartView } from "./Components/ContactNoisinessChartView";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
 
-import styles from "~styles/mixins.module.less";
+import styles from "~styles/utils.module.less";
 
 export const ContactNoisinessChart: FC = () => {
     const [page, setPage] = useState(1);

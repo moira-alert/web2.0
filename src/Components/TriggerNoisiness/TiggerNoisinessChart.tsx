@@ -9,7 +9,7 @@ import { TriggerNoisinessChartView } from "./Components/TriggerNoisinessChartVie
 import { TimeRangeSelector } from "./Components/TimeRangeSelector";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 
-import styles from "~styles/mixins.module.less";
+import styles from "~styles/utils.module.less";
 
 export type NoisinessDataset = {
     label: string;
