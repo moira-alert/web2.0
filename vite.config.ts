@@ -1,38 +1,38 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { VitePWA } from "vite-plugin-pwa";
+// import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
 
 export default defineConfig(({ mode }) => ({
     plugins: [
         react(),
-        mode !== "development" &&
-            VitePWA({
-                filename: "service-worker.js",
-                manifest: false,
-                workbox: {
-                    navigateFallback: null,
-                    navigateFallbackAllowlist: [/^(?!\/?(login|auth|oauth))/],
-                    maximumFileSizeToCacheInBytes: 6291456,
-                    cleanupOutdatedCaches: true,
-                    skipWaiting: true,
-                    clientsClaim: true,
-                    sourcemap: false,
-                    runtimeCaching: [
-                        {
-                            urlPattern: /^\/(?!api|oauth|auth|connect).*$/,
-                            handler: "NetworkFirst",
-                            options: {
-                                cacheName: "html-pages",
-                                expiration: {
-                                    maxEntries: 8,
-                                    maxAgeSeconds: 5 * 24 * 60 * 60,
-                                },
-                            },
-                        },
-                    ],
-                },
-            }),
+        // mode !== "development" &&
+        //     VitePWA({
+        //         filename: "service-worker.js",
+        //         manifest: false,
+        //         workbox: {
+        //             navigateFallback: null,
+        //             navigateFallbackAllowlist: [/^(?!\/?(login|auth|oauth))/],
+        //             maximumFileSizeToCacheInBytes: 6291456,
+        //             cleanupOutdatedCaches: true,
+        //             skipWaiting: true,
+        //             clientsClaim: true,
+        //             sourcemap: false,
+        //             runtimeCaching: [
+        //                 {
+        //                     urlPattern: /^\/(?!api|oauth|auth|connect).*$/,
+        //                     handler: "NetworkFirst",
+        //                     options: {
+        //                         cacheName: "html-pages",
+        //                         expiration: {
+        //                             maxEntries: 8,
+        //                             maxAgeSeconds: 5 * 24 * 60 * 60,
+        //                         },
+        //                     },
+        //                 },
+        //             ],
+        //         },
+        //     }),
     ].filter(Boolean),
     resolve: {
         alias: {

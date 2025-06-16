@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import FaviconComponent from "react-favicon";
 import { useSelector } from "react-redux";
 import { selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
@@ -7,20 +7,14 @@ import { Platform } from "../../Domain/Config";
 const Favicon = () => {
     const platform = useSelector(selectPlatform);
 
-    const [faviconUrl, setFaviconUrl] = useState<string>("../favicon.ico");
-
-    useEffect(() => {
-        if (!platform) {
-            return;
-        }
-
+    const faviconUrl = useMemo(() => {
         switch (platform) {
             case Platform.DEV:
-                setFaviconUrl("../favicon-dev.ico");
-                break;
+                return "../favicon-dev.ico";
             case Platform.STAGING:
-                setFaviconUrl("../favicon-staging.ico");
-                break;
+                return "../favicon-staging.ico";
+            default:
+                return "../favicon.ico";
         }
     }, [platform]);
 
