@@ -17,9 +17,7 @@ export function register(onUpdate: () => void) {
                     }
                 }
                 //
-                const registration = await navigator.serviceWorker.register("/sw.js", {
-                    scope: "/assets/",
-                });
+                const registration = await navigator.serviceWorker.register("/sw.js");
 
                 registration.onupdatefound = () => {
                     const installingWorker = registration.installing;
