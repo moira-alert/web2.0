@@ -12,10 +12,10 @@ import { AdminRoute } from "./PrivateRoutes/AdminRoute";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
 import { ChristmasLights } from "./Components/ChristmasLights/ChristmasLights";
 import { useAppSelector } from "./store/hooks";
-import { NoisinessContainer } from "./Containers/NoisinessContainer/NosinessContainer";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import { UIState } from "./store/selectors";
 
+const NoisinessContainer = lazy(() => import("./Containers/NoisinessContainer/NosinessContainer"));
 const TriggerEditContainer = lazy(() => import("./Containers/TriggerEditContainer"));
 const TriggerDuplicateContainer = lazy(() => import("./Containers/TriggerDuplicateContainer"));
 const TriggerAddContainer = lazy(() => import("./Containers/TriggerAddContainer"));
@@ -34,10 +34,7 @@ const TeamsContainer = lazy(() => import("./Containers/TeamsContainer"));
 const TriggerDesktop = lazy(() => import("./pages/trigger/trigger.desktop"));
 const Trigger = lazy(() => import("./pages/trigger/trigger"));
 
-import classNames from "classnames/bind";
 import styles from "./desktop.module.less";
-
-const cn = classNames.bind(styles);
 
 type ResponsiveRouteProps = {
     container: ComponentType<TriggerListProps> | ComponentType<TriggerProps>;
@@ -148,13 +145,13 @@ function Desktop() {
     ]);
 
     return (
-        <div className={cn("layout")}>
-            <HeaderContainer className={cn("header")} />
+        <div className={styles.layout}>
+            <HeaderContainer className={styles.header} />
             {isChristmasMood && <ChristmasLights />}
-            <Suspense fallback={<Spinner className={cn("loader")} caption="Loading" />}>
+            <Suspense fallback={<Spinner className={styles.spinner} caption="Loading" />}>
                 {routes}
             </Suspense>
-            <Footer className={cn("footer")} />
+            <Footer className={styles.footer} />
         </div>
     );
 }

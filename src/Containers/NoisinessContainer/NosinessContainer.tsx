@@ -11,7 +11,7 @@ import styles from "./NoisinessContainer.module.less";
 
 const cn = classNames.bind(styles);
 
-export const NoisinessContainer: FC = () => {
+const NoisinessContainer: FC = () => {
     const { error } = useAppSelector(UIState);
     const [currentTab, setCurrentTab] = useState<string>("contacts");
 
@@ -36,3 +36,4 @@ export const NoisinessContainer: FC = () => {
         </Layout>
     );
 };
+export default NoisinessContainer;
