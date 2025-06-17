@@ -10,7 +10,6 @@ export default defineConfig(({ mode }) => ({
             devOptions: {
                 enabled: false,
             },
-            scope: "/assets",
             manifest: false,
             injectRegister: false,
             workbox: {

@@ -6,7 +6,7 @@ import { useAppSelector } from "../store/hooks";
 import { useGetSystemSubscriptionsQuery } from "../services/SubscriptionsApi";
 import { SystemSubscriptionsList } from "../Components/SystemSubscriptionsList";
 
-export const SystemSubscriptionsContainer: FC = () => {
+const SystemSubscriptionsContainer: FC = () => {
     const { error, isLoading } = useAppSelector(UIState);
     const { data: systemSubscriptions = [] } = useGetSystemSubscriptionsQuery();
 
@@ -25,3 +25,4 @@ export const SystemSubscriptionsContainer: FC = () => {
         </Layout>
     );
 };
+export default SystemSubscriptionsContainer;
