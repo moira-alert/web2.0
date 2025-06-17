@@ -5,9 +5,9 @@ import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import { Providers } from "./Providers/Providers";
 import SentryInitializer from "./Components/SentryInitializer/SentryInitializer";
-// import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-// import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
-// import { store } from "./store/store";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
+import { store } from "./store/store";
 import { Toast } from "@skbkontur/react-ui/components/Toast";
 import Favicon from "./Components/Favicon/Favicon";
 
@@ -16,9 +16,9 @@ import "./style.less";
 const rootElement = document.getElementById("root");
 const root = rootElement ? createRoot(rootElement) : null;
 
-// const onUpdate = () => {
-//     store.dispatch(updateServiceWorker());
-// };
+const onUpdate = () => {
+    store.dispatch(updateServiceWorker());
+};
 
 const render = (Component: ComponentType) => {
     if (!root) return;
@@ -49,6 +49,6 @@ const load = (): void => {
     }
 };
 
-// serviceWorkerRegistration.register(onUpdate);
+serviceWorkerRegistration.register(onUpdate);
 
 export { load as default };

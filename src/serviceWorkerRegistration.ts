@@ -2,7 +2,22 @@ export function register(onUpdate: () => void) {
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {
             try {
-                const registration = await navigator.serviceWorker.register("/service-worker.js", {
+                // удалить позже
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const reg of registrations) {
+                    if (reg.active && reg.active.scriptURL.includes("service-worker.js")) {
+                        await reg.unregister();
+                    }
+                }
+
+                const cacheNames = await caches.keys();
+                for (const cacheName of cacheNames) {
+                    if (cacheName === "html-pages") {
+                        await caches.delete(cacheName);
+                    }
+                }
+                //
+                const registration = await navigator.serviceWorker.register("/sw.js", {
                     scope: "/assets/",
                 });
 

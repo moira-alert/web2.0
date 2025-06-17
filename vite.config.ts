@@ -1,39 +1,40 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-// import { VitePWA } from "vite-plugin-pwa";
+import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
 
 export default defineConfig(({ mode }) => ({
     plugins: [
         react(),
-        // mode !== "development" &&
-        //     VitePWA({
-        //         filename: "service-worker.js",
-        //         manifest: false,
-        //         workbox: {
-        //             navigateFallback: null,
-        //             navigateFallbackAllowlist: [/^(?!\/?(login|auth|oauth))/],
-        //             maximumFileSizeToCacheInBytes: 6291456,
-        //             cleanupOutdatedCaches: true,
-        //             skipWaiting: true,
-        //             clientsClaim: true,
-        //             sourcemap: false,
-        //             runtimeCaching: [
-        //                 {
-        //                     urlPattern: /^\/(?!api|oauth|auth|connect).*$/,
-        //                     handler: "NetworkFirst",
-        //                     options: {
-        //                         cacheName: "html-pages",
-        //                         expiration: {
-        //                             maxEntries: 8,
-        //                             maxAgeSeconds: 5 * 24 * 60 * 60,
-        //                         },
-        //                     },
-        //                 },
-        //             ],
-        //         },
-        //     }),
-    ].filter(Boolean),
+        VitePWA({
+            devOptions: {
+                enabled: false,
+            },
+            scope: "/assets",
+            manifest: false,
+            injectRegister: false,
+            workbox: {
+                skipWaiting: true,
+                clientsClaim: true,
+                sourcemap: false,
+                maximumFileSizeToCacheInBytes: 6291456,
+                navigateFallback: undefined,
+                runtimeCaching: [
+                    {
+                        urlPattern: /\.(js|css|woff2?|png|jpe?g|svg)$/,
+                        handler: "CacheFirst",
+                        options: {
+                            cacheName: "static-assets",
+                            expiration: {
+                                maxEntries: 15,
+                                maxAgeSeconds: 5 * 24 * 60 * 60,
+                            },
+                        },
+                    },
+                ],
+            },
+        }),
+    ],
     resolve: {
         alias: {
             "~styles": path.resolve(__dirname, "local_modules/styles"),
