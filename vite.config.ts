@@ -19,19 +19,20 @@ export default defineConfig(({ mode }) => ({
                 sourcemap: false,
                 maximumFileSizeToCacheInBytes: 6291456,
                 navigateFallback: undefined,
-                runtimeCaching: [
-                    {
-                        urlPattern: /\.(js|css|woff2?|png|jpe?g|svg)$/,
-                        handler: "CacheFirst",
-                        options: {
-                            cacheName: "static-assets",
-                            expiration: {
-                                maxEntries: 15,
-                                maxAgeSeconds: 5 * 24 * 60 * 60,
-                            },
-                        },
-                    },
-                ],
+                globPatterns: ["**/*.{js,css,woff2,svg,png,jpg}"],
+                // runtimeCaching: [
+                //     {
+                //         urlPattern: /\.(js|css|woff2?|png|jpe?g|svg)$/,
+                //         handler: "CacheFirst",
+                //         options: {
+                //             cacheName: "static-assets",
+                //             expiration: {
+                //                 maxEntries: 15,
+                //                 maxAgeSeconds: 5 * 24 * 60 * 60,
+                //             },
+                //         },
+                //     },
+                // ],
             },
         }),
     ],
