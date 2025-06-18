@@ -8,6 +8,8 @@ const Favicon = () => {
     const platform = useSelector(selectPlatform);
 
     const faviconUrl = useMemo(() => {
+        if (!platform) return null;
+
         switch (platform) {
             case Platform.DEV:
                 return "../favicon-dev.ico";
@@ -17,6 +19,8 @@ const Favicon = () => {
                 return "../favicon.ico";
         }
     }, [platform]);
+
+    if (!faviconUrl) return null;
 
     return <FaviconComponent url={faviconUrl} />;
 };
