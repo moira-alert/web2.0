@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
 import { Platform } from "../../Domain/Config";
@@ -6,7 +6,7 @@ import { Platform } from "../../Domain/Config";
 const Favicon = () => {
     const platform = useSelector(selectPlatform);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!platform) return;
 
         let href: string;
