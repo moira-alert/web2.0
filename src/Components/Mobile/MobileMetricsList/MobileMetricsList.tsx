@@ -5,7 +5,7 @@ import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import classNames from "classnames/bind";
 
-import styles from "./MobileMetricsList.less";
+import styles from "./MobileMetricsList.module.less";
 
 const cn = classNames.bind(styles);
 

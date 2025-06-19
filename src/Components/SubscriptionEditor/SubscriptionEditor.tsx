@@ -20,7 +20,7 @@ import { Note } from "../Note/Note";
 import { useHasSystemTags } from "../../hooks/useSystemTags";
 import classNames from "classnames/bind";
 
-import styles from "./SubscriptionEditor.less";
+import styles from "./SubscriptionEditor.module.less";
 
 const cn = classNames.bind(styles);
 

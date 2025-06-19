@@ -3,7 +3,7 @@ import { Trigger } from "../../Domain/Trigger";
 import TriggerListItem from "../TriggerListItem/TriggerListItem";
 import classNames from "classnames/bind";
 
-import styles from "./TriggerList.less";
+import styles from "./TriggerList.module.less";
 
 const cn = classNames.bind(styles);
 

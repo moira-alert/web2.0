@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import classNames from "classnames/bind";
 
-import styles from "./MobileHeader.less";
+import styles from "./MobileHeader.module.less";
 
 const cn = classNames.bind(styles);
 

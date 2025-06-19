@@ -1,0 +1,44 @@
+@import "../Styles/variables.module.less";
+
+.header {
+    background-color: @moira-brand-color;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    .menu-button {
+        flex: 0 0 55px;
+        width: 55px;
+        height: 55px;
+        font-size: 28px;
+        text-align: center;
+        line-height: 55px;
+        color: #fff;
+    }
+
+    .title {
+        flex: 0 1 100%;
+        font-size: 22px;
+        line-height: 30px;
+        padding-left: 15px;
+        padding-top: 15px;
+        color: #fff;
+    }
+
+    .filter-button {
+        flex: 0 0 55px;
+        width: 55px;
+        height: 55px;
+        font-size: 24px;
+        text-align: center;
+        line-height: 55px;
+        color: #fff;
+    }
+}
+
+.empty-triggers {
+    padding: 30;
+    color: @colorGrey;
+    text-align: center;
+}

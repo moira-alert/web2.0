@@ -2,7 +2,7 @@ import React, { useState, FC } from "react";
 import classNames from "classnames/bind";
 import { Tabs } from "@skbkontur/react-ui";
 
-import styles from "./EditPreviewTabs.less";
+import styles from "./EditPreviewTabs.module.less";
 
 const cn = classNames.bind(styles);
 

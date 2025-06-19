@@ -3,8 +3,10 @@ import { createHtmlLegendPlugin } from "../../ContactEventStats/Components/htmlL
 import { NoisinessDataset } from "../../TriggerNoisiness/TiggerNoisinessChart";
 import { Bar } from "react-chartjs-2";
 import { TriggerEventsChartOptions } from "../../../helpers/getChartOptions";
-import { ChartOptions } from "chart.js";
+import { Chart as ChartJS, ChartOptions, registerables } from "chart.js";
 import EditIcon from "@skbkontur/react-icons/Edit";
+
+ChartJS.register(...registerables);
 
 export const ContactNoisinessChartView: React.FC<{
     datasets: NoisinessDataset[];

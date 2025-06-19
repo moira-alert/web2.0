@@ -13,7 +13,7 @@ import { useUpdateTeam } from "../../../hooks/useUpdateTeam";
 import { useAddTeam } from "../../../hooks/useAddTeam";
 import classNames from "classnames/bind";
 
-import styles from "./TeamEditor.less";
+import styles from "./TeamEditor.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import FaviconComponent from "react-favicon";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectPlatform } from "../../store/Reducers/ConfigReducer.slice";
 import { Platform } from "../../Domain/Config";
@@ -7,24 +6,33 @@ import { Platform } from "../../Domain/Config";
 const Favicon = () => {
     const platform = useSelector(selectPlatform);
 
-    const [faviconUrl, setFaviconUrl] = useState<string>("../favicon.ico");
-
     useEffect(() => {
-        if (!platform) {
-            return;
-        }
+        if (!platform) return;
+
+        let href: string;
 
         switch (platform) {
             case Platform.DEV:
-                setFaviconUrl("../favicon-dev.ico");
+                href = "../favicon-dev.ico";
                 break;
             case Platform.STAGING:
-                setFaviconUrl("../favicon-staging.ico");
+                href = "../favicon-staging.ico";
                 break;
+            default:
+                href = "../favicon.ico";
         }
+
+        const existingIcons = document.querySelectorAll("link[rel='icon']");
+        existingIcons.forEach((icon) => icon.parentNode?.removeChild(icon));
+
+        const link = document.createElement("link");
+        link.type = "image/x-icon";
+        link.rel = "icon";
+        link.href = href;
+        document.head.appendChild(link);
     }, [platform]);
 
-    return <FaviconComponent url={faviconUrl} />;
+    return null;
 };
 
 export default Favicon;

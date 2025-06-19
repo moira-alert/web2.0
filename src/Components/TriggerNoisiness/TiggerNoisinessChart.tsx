@@ -8,11 +8,8 @@ import { Flexbox } from "../Flexbox/FlexBox";
 import { TriggerNoisinessChartView } from "./Components/TriggerNoisinessChartView";
 import { TimeRangeSelector } from "./Components/TimeRangeSelector";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
-import classNames from "classnames/bind";
 
-import styles from "../../../local_modules/styles/mixins.less";
-
-const cn = classNames.bind(styles);
+import styles from "~styles/utils.module.less";
 
 export type NoisinessDataset = {
     label: string;
@@ -59,7 +56,7 @@ export const TriggerNoisinessChart: FC = () => {
     return (
         <>
             {isLoading || isFetching ? (
-                <Spinner className={cn("noisinessSpinner")} />
+                <Spinner className={styles.noisinessSpinner} />
             ) : (
                 <>
                     {triggers?.total && (

@@ -1,37 +1,40 @@
-import React, { ComponentType } from "react";
+import React, { ComponentType, Suspense, lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import { HeaderContainer } from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";
-import TriggerEditContainer from "./Containers/TriggerEditContainer";
-import TriggerDuplicateContainer from "./Containers/TriggerDuplicateContainer";
-import TriggerAddContainer from "./Containers/TriggerAddContainer";
-import SettingsContainer from "./Containers/SettingsContainer";
-import NotificationListContainer from "./Containers/NotificationListContainer";
-import ContactsContainer from "./Containers/ContactsContainer";
-import TagListContainer from "./Containers/TagListContainer";
-import PatternListContainer from "./Containers/PatternListContainer";
 import ErrorContainer from "./Containers/ErrorContainer";
 import { getPagePath } from "./Domain/Global";
-import classNames from "classnames/bind";
-import TriggerList, { TriggerListProps } from "./pages/trigger-list/trigger-list";
-import TriggerListDesktop, {
-    TriggerListDesktopProps,
-} from "./pages/trigger-list/trigger-list.desktop";
-import Trigger, { TriggerProps } from "./pages/trigger/trigger";
-import TriggerDesktop, { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
+import { TriggerListProps } from "./pages/trigger-list/trigger-list";
+import { TriggerListDesktopProps } from "./pages/trigger-list/trigger-list.desktop";
+import { TriggerProps } from "./pages/trigger/trigger";
+import { TriggerDesktopProps } from "./pages/trigger/trigger.desktop";
 import { AdminRoute } from "./PrivateRoutes/AdminRoute";
-import TeamsContainer from "./Containers/TeamsContainer";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
-import AllTeamsContainer from "./Containers/AllTeamsContainer/AllTeamsContainer";
 import { ChristmasLights } from "./Components/ChristmasLights/ChristmasLights";
 import { useAppSelector } from "./store/hooks";
-import { NoisinessContainer } from "./Containers/NoisinessContainer/NosinessContainer";
-import { SystemSubscriptionsContainer } from "./Containers/SystemSubscriptionsContainer";
+import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import { UIState } from "./store/selectors";
 
-import styles from "./desktop.less";
+const NoisinessContainer = lazy(() => import("./Containers/NoisinessContainer/NosinessContainer"));
+const TriggerEditContainer = lazy(() => import("./Containers/TriggerEditContainer"));
+const TriggerDuplicateContainer = lazy(() => import("./Containers/TriggerDuplicateContainer"));
+const TriggerAddContainer = lazy(() => import("./Containers/TriggerAddContainer"));
+const SettingsContainer = lazy(() => import("./Containers/SettingsContainer"));
+const NotificationListContainer = lazy(() => import("./Containers/NotificationListContainer"));
+const ContactsContainer = lazy(() => import("./Containers/ContactsContainer"));
+const TagListContainer = lazy(() => import("./Containers/TagListContainer"));
+const PatternListContainer = lazy(() => import("./Containers/PatternListContainer"));
+const TriggerList = lazy(() => import("./pages/trigger-list/trigger-list"));
+const AllTeamsContainer = lazy(() => import("./Containers/AllTeamsContainer/AllTeamsContainer"));
+const TriggerListDesktop = lazy(() => import("./pages/trigger-list/trigger-list.desktop"));
+const SystemSubscriptionsContainer = lazy(() =>
+    import("./Containers/SystemSubscriptionsContainer")
+);
+const TeamsContainer = lazy(() => import("./Containers/TeamsContainer"));
+const TriggerDesktop = lazy(() => import("./pages/trigger/trigger.desktop"));
+const Trigger = lazy(() => import("./pages/trigger/trigger"));
 
-const cn = classNames.bind(styles);
+import styles from "./desktop.module.less";
 
 type ResponsiveRouteProps = {
     container: ComponentType<TriggerListProps> | ComponentType<TriggerProps>;
@@ -142,11 +145,13 @@ function Desktop() {
     ]);
 
     return (
-        <div className={cn("layout")}>
-            <HeaderContainer className={cn("header")} />
+        <div className={styles.layout}>
+            <HeaderContainer className={styles.header} />
             {isChristmasMood && <ChristmasLights />}
-            {routes}
-            <Footer className={cn("footer")} />
+            <Suspense fallback={<Spinner className={styles.spinner} caption="Loading" />}>
+                {routes}
+            </Suspense>
+            <Footer className={styles.footer} />
         </div>
     );
 }

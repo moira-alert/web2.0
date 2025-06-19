@@ -1,0 +1,114 @@
+.row {
+    display: flex;
+}
+.state {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px 0 15px 7px;
+    width: 77px;
+    box-sizing: border-box;
+    &.active {
+        cursor: pointer;
+    }
+    &.active:hover {
+        background-color: var(--item-hover);
+    }
+}
+.indicator {
+    width: 35px;
+}
+.counters {
+    width: 35px;
+    font-size: 12px;
+    line-height: 20px;
+    .mutedMetricsCount {
+        color: #3072c4;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    span {
+        display: block;
+    }
+}
+.NA {
+    color: @colorGrey;
+}
+.data {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(~"100% - 90px");
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.header {
+    padding-left: 13px;
+    padding-right: 20px;
+    width: calc(~"100% - 240px");
+    box-sizing: border-box;
+    text-decoration: none;
+    &:hover {
+        background-color: var(--item-hover);
+    }
+}
+.link {
+    display: block;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.title {
+    display: flex;
+    margin-top: -4px;
+    align-items: center;
+}
+.name {
+    overflow: hidden;
+    max-width: 100%;
+    font-size: 18px;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #3072c4;
+    .link:hover & {
+        text-decoration: underline;
+    }
+}
+.flag {
+    flex-shrink: 0;
+    padding-left: 5px;
+    color: red;
+}
+.targets {
+    position: relative;
+    overflow: hidden;
+    max-height: 60px;
+    color: #999;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 80px;
+    -webkit-mask-position: 0px -15px;
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+    mask-repeat: no-repeat;
+    mask-size: 100% 80px;
+    mask-position: 0px -15px;
+}
+.target {
+    word-break: break-all;
+}
+.tags {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: 15px;
+    width: 225px;
+}
+.metrics {
+    padding-left: 6px;
+}
+.metrics {
+    padding-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.exception-message {
+    margin-bottom: 10px;
+}

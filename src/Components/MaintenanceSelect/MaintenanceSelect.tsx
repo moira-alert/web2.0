@@ -14,7 +14,7 @@ import CustomMaintenanceMenu from "./CustomMaintenanceMenu/CustomMaintenanceMenu
 import { addMonths, lastDayOfMonth } from "date-fns";
 import classNames from "classnames/bind";
 
-import styles from "./MaintenanceSelect.less";
+import styles from "./MaintenanceSelect.module.less";
 
 const cn = classNames.bind(styles);
 

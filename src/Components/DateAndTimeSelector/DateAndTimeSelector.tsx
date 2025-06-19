@@ -5,7 +5,7 @@ import { DateSelector } from "../DateSelector/DateSelector";
 import { timeList } from "../../helpers/DateUtil";
 import classNames from "classnames/bind";
 
-import styles from "./DateAndTimeSelector.less";
+import styles from "./DateAndTimeSelector.module.less";
 
 const cn = classNames.bind(styles);
 

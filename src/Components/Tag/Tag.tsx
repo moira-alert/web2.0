@@ -4,7 +4,7 @@ import ColorHash from "color-hash";
 import { useAppTheme } from "../../hooks/themes/useAppThemeDetector";
 import classNames from "classnames/bind";
 
-import styles from "./Tag.less";
+import styles from "./Tag.module.less";
 
 const cn = classNames.bind(styles);
 

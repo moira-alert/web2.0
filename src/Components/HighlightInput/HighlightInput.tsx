@@ -7,7 +7,7 @@ import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
 
 import classNames from "classnames/bind";
 
-import styles from "./HighlightInput.less";
+import styles from "./HighlightInput.module.less";
 
 const cn = classNames.bind(styles);
 

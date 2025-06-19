@@ -7,7 +7,7 @@ import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import classNames from "classnames/bind";
 
-import styles from "./MobileTagSelectorPage.less";
+import styles from "./MobileTagSelectorPage.module.less";
 
 const cn = classNames.bind(styles);
 

@@ -21,7 +21,7 @@ import MobileHeader from "../MobileHeader/MobileHeader";
 import { Markdown } from "../../Markdown/Markdown";
 import classNames from "classnames/bind";
 
-import styles from "./MobileTriggerInfo.less";
+import styles from "./MobileTriggerInfo.module.less";
 
 const cn = classNames.bind(styles);
 

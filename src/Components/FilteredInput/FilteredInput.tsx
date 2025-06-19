@@ -2,7 +2,7 @@ import React, { createRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import classNames from "classnames/bind";
 
-import styles from "./FilteredInput.less";
+import styles from "./FilteredInput.module.less";
 
 const cn = classNames.bind(styles);
 
