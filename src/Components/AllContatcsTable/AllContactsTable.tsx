@@ -97,7 +97,7 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
                                         return;
                                     }
                                     handleSetFilterContactsColumn(
-                                        header.column.columnDef.id as keyof Omit<Contact, "score">
+                                        header.column.columnDef.id as TContactFilterColumns
                                     );
                                 }}
                             >
