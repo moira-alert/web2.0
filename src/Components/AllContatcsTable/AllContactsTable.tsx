@@ -10,6 +10,7 @@ import {
     TAG_ROW_HEIGHT,
 } from "../../Constants/heights";
 import { getTotalItemSize } from "../TagList/TagList";
+import { TContactFilterColumns } from "../../Containers/ContactsContainer";
 import classNames from "classnames/bind";
 
 import styles from "./AllContactsTable.module.less";
@@ -18,9 +19,9 @@ const cn = classNames.bind(styles);
 
 interface IAllContactsTableProps {
     contacts: Contact[];
-    contactsColumn: keyof Contact | null;
+    contactsColumn: TContactFilterColumns | null;
     handleSetEditableContact: (contact: Contact) => void;
-    handleSetFilterContactsColumn: (column: keyof Contact | null) => void;
+    handleSetFilterContactsColumn: (column: TContactFilterColumns | null) => void;
 }
 
 export const AllContactsTable: FC<IAllContactsTableProps> = ({
@@ -96,7 +97,7 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
                                         return;
                                     }
                                     handleSetFilterContactsColumn(
-                                        header.column.columnDef.id as keyof Contact
+                                        header.column.columnDef.id as keyof Omit<Contact, "score">
                                     );
                                 }}
                             >
