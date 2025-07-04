@@ -3,7 +3,7 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { ContactWithCustomName } from "./Components/ContactWithCustomName";
 import WarningIcon from "@skbkontur/react-icons/Warning";
-import { Contact } from "../../Domain/Contact";
+import { Contact, EContactStatus } from "../../Domain/Contact";
 import { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
@@ -17,6 +17,8 @@ import { ContactEventStats } from "../ContactEventStats/ContactEventStats";
 import { useAppDispatch } from "../../store/hooks";
 import { setError } from "../../store/Reducers/UIReducer.slice";
 import { EmptyListMessage } from "./Components/EmptyListMessage";
+import { format, fromUnixTime } from "date-fns";
+import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import classNames from "classnames/bind";
 
 import styles from "./ContactList.module.less";
@@ -41,7 +43,13 @@ const ContactItem: React.FC<IContactItemProps> = ({
     onEventsClick,
     onDeleteContact,
 }) => {
-    const { id, name, value, type } = contact;
+    const { id, name, value, type, score } = contact;
+    const {
+        last_err: deliveryError,
+        last_err_timestamp: deliveryErrorTimestamp,
+        status: deliveryStatus,
+    } = score ?? {};
+    const isDeliveryFailed = deliveryStatus === EContactStatus.failed;
 
     const isContactTypeSupported = contactDescriptions.some(
         (description) => description.type === type
@@ -58,11 +66,31 @@ const ContactItem: React.FC<IContactItemProps> = ({
                             value,
                             type,
                             id,
+                            score,
                         })
                     }
                 >
                     <td className={cn("icon")}>
-                        <ContactTypeIcon type={type} />
+                        <Tooltip
+                            render={() => {
+                                return isDeliveryFailed ? (
+                                    <div className={cn("contact-status-message")}>
+                                        <span>{`Delivery error message: ${deliveryError}`}</span>
+                                        <span>{`Date: ${
+                                            deliveryErrorTimestamp &&
+                                            format(
+                                                fromUnixTime(deliveryErrorTimestamp),
+                                                "yyyy-MM-dd HH:mm"
+                                            )
+                                        }`}</span>
+                                    </div>
+                                ) : null;
+                            }}
+                        >
+                            <span>
+                                <ContactTypeIcon isError={isDeliveryFailed} type={type} />
+                            </span>
+                        </Tooltip>
                     </td>
                     <td>
                         {isEmptyString(name) ? (
@@ -79,6 +107,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                                     name: "",
                                     value: "",
                                     id,
+                                    score,
                                 })
                             }
                         >
@@ -163,11 +192,11 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     <div className={cn("items-container")}>
                         <table className={cn("items")}>
                             <tbody>
-                                {contacts.map(({ name, value, type, id }) => (
+                                {contacts.map(({ name, value, type, id, score }) => (
                                     <ContactItem
                                         key={id}
                                         contactDescriptions={contactDescriptions}
-                                        contact={{ name, value, type, id }}
+                                        contact={{ name, value, type, id, score }}
                                         onEdit={handleBeginEditContact}
                                         onEventsClick={handleEventsButtonClick}
                                         onDeleteContact={() =>

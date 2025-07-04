@@ -3,12 +3,19 @@ import { useAppSelector } from "../../store/hooks";
 import { ConfigState } from "../../store/selectors";
 import { icons } from "./ContactIcons";
 import { useTheme } from "../../Themes";
+import { getStatusColor, Status } from "../../Domain/Status";
+import classNames from "classnames/bind";
+
+import styles from "./ContactTypeIcon.module.less";
+
+const cn = classNames.bind(styles);
 
 type Props = {
     type: string;
+    isError?: boolean;
 };
 
-export default function ContactTypeIcon({ type }: Props): React.ReactElement | null {
+export default function ContactTypeIcon({ type, isError }: Props): React.ReactElement | null {
     const { config } = useAppSelector(ConfigState);
 
     const contact = config?.contacts.find((contact) => type.includes(contact.type));
@@ -39,15 +46,11 @@ export default function ContactTypeIcon({ type }: Props): React.ReactElement | n
 
     const IconComponent = icons[iconKey];
 
+    const color = isError ? getStatusColor(Status.EXCEPTION) : theme.textColorDefault;
+
     return (
-        <div
-            style={{
-                display: "inline-block",
-                position: "relative",
-                top: "2px",
-            }}
-        >
-            <IconComponent color={theme.textColorDefault} size={16} />
+        <div className={cn("icon", { error: isError })}>
+            <IconComponent color={color} size={16} />
         </div>
     );
 }
