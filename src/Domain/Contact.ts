@@ -21,6 +21,7 @@ export interface Contact {
     value: string;
     team_id?: string;
     name?: string;
+    extra_message?: string;
 }
 
 export interface ContactWithEvents extends Contact {

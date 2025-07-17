@@ -27,7 +27,7 @@ interface IContactEditFormProps {
 }
 
 const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChange }) => {
-    const { value, type, name } = contactInfo || {};
+    const { value, type, name, extra_message } = contactInfo || {};
     const contactItems = useSelector(selectContactConfigItems);
     const currentContactConfig = useSelector((state: RootState) =>
         type ? selectContactConfigByType(state, type as ContactTypes) : null
@@ -84,6 +84,15 @@ const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChang
                     placeholder="Type your custom contact name"
                     value={name}
                     onValueChange={(name) => onChange({ name })}
+                />
+            </RowStack>
+            <RowStack block baseline>
+                <Fixed width={100}>Extra message:</Fixed>
+                <Input
+                    width="100%"
+                    placeholder="This additional text will be in notification"
+                    value={extra_message}
+                    onValueChange={(message) => onChange({ extra_message: message })}
                 />
             </RowStack>
             {currentContactConfig?.help && (

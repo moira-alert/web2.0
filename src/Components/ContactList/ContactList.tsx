@@ -41,7 +41,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
     onEventsClick,
     onDeleteContact,
 }) => {
-    const { id, name, value, type } = contact;
+    const { id, name, value, type, extra_message } = contact;
 
     const isContactTypeSupported = contactDescriptions.some(
         (description) => description.type === type
@@ -58,6 +58,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                             value,
                             type,
                             id,
+                            extra_message,
                         })
                     }
                 >
@@ -163,11 +164,11 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     <div className={cn("items-container")}>
                         <table className={cn("items")}>
                             <tbody>
-                                {contacts.map(({ name, value, type, id }) => (
+                                {contacts.map(({ name, value, type, id, extra_message }) => (
                                     <ContactItem
                                         key={id}
                                         contactDescriptions={contactDescriptions}
-                                        contact={{ name, value, type, id }}
+                                        contact={{ name, value, type, id, extra_message }}
                                         onEdit={handleBeginEditContact}
                                         onEventsClick={handleEventsButtonClick}
                                         onDeleteContact={() =>

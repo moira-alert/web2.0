@@ -34,12 +34,13 @@ export const useCreateContact = (
             return;
         }
 
-        const { name, type, value } = contactInfo;
+        const { name, type, value, extra_message } = contactInfo;
 
         const requestContact = {
             value,
             type,
             name,
+            extra_message,
         };
 
         try {
