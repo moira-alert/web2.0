@@ -90,7 +90,7 @@ const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChang
                 <Fixed width={100}>Extra message:</Fixed>
                 <Input
                     width="100%"
-                    placeholder="This additional text will be in notification"
+                    placeholder="This additional text will be sent with notification"
                     value={extra_message}
                     onValueChange={(message) => onChange({ extra_message: message })}
                 />
