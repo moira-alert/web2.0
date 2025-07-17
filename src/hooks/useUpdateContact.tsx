@@ -23,6 +23,12 @@ export const useUpdateContact = (
         }
 
         try {
+            await updateContact({
+                ...contact,
+                handleLoadingLocally: true,
+                handleErrorLocally: true,
+            }).unwrap();
+
             if (testAfterUpdate) {
                 await testContact({
                     id: contact.id,
@@ -30,11 +36,6 @@ export const useUpdateContact = (
                     handleErrorLocally: true,
                 }).unwrap();
             }
-            await updateContact({
-                ...contact,
-                handleLoadingLocally: true,
-                handleErrorLocally: true,
-            }).unwrap();
 
             onCancel();
             dispatch(BaseApi.util.invalidateTags(teamId ? ["TeamSettings"] : ["UserSettings"]));

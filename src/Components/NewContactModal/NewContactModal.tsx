@@ -66,7 +66,7 @@ const NewContactModal: FC<INewContactModalProps> = ({ onCancel }) => {
     const areActionButtonsDisabled = isInvalidContactInfo || isCreating || isTesting;
 
     return (
-        <Modal onClose={onCancel}>
+        <Modal width={564} onClose={onCancel}>
             <Modal.Header sticky={false}>Delivery channel adding</Modal.Header>
             <Modal.Body>
                 <ValidationContainer ref={validationContainerRef}>
