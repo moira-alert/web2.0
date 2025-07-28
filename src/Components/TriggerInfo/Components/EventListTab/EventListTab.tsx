@@ -83,7 +83,6 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
                         availableStatuses={StatusesList.filter((x) => x !== Status.DEL)}
                         selectedStatuses={selectedStatuses}
                         onSelect={setSelectedStatuses}
-                        text="Filter by state"
                     />
                     <ValidationContainer ref={validationContainerRef}>
                         <div className={cn("from-to-filter")}>

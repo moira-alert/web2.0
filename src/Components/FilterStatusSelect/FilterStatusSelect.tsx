@@ -22,7 +22,7 @@ export const FilterStatusSelect: FC<IFilterStatusSelectProps> = ({
     availableStatuses,
     selectedStatuses,
     onSelect,
-    text,
+    text = "Filter by state",
 }) => {
     const handleSetSelectedStatuses = (status: Status, isChecked: boolean) => {
         if (!isChecked) {

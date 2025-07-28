@@ -20,6 +20,16 @@ export function getAllStates(
     };
 }
 
+const checkHasAllStates = (
+    isStrictMatching: boolean,
+    state: Status[],
+    notifications: Notification[]
+) => {
+    return isStrictMatching
+        ? state.every((status) => notifications.some((n) => n.event.old_state === status))
+        : state.length === 0 || notifications.some((n) => state.includes(n.event.old_state));
+};
+
 export function filterNotifications(
     items: Record<string, Notification[]>,
     prevStateFilter: Status[],
@@ -30,19 +40,17 @@ export function filterNotifications(
     let count = 0;
 
     for (const [key, notifications] of Object.entries(items)) {
-        const hasAllPrevStates = isStrictMatching
-            ? prevStateFilter.every((status) =>
-                  notifications.some((n) => n.event.old_state === status)
-              )
-            : prevStateFilter.length === 0 ||
-              notifications.some((n) => prevStateFilter.includes(n.event.old_state));
+        const hasAllPrevStates = checkHasAllStates(
+            isStrictMatching,
+            prevStateFilter,
+            notifications
+        );
 
-        const hasAllCurrentStates = isStrictMatching
-            ? currentStateFilter.every((status) =>
-                  notifications.some((n) => n.event.state === status)
-              )
-            : currentStateFilter.length === 0 ||
-              notifications.some((n) => currentStateFilter.includes(n.event.state));
+        const hasAllCurrentStates = checkHasAllStates(
+            isStrictMatching,
+            currentStateFilter,
+            notifications
+        );
 
         if (hasAllPrevStates && hasAllCurrentStates) {
             result[key] = notifications;
