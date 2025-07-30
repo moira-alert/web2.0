@@ -26,6 +26,7 @@ export interface Contact {
     value: string;
     team_id?: string;
     name?: string;
+    extra_message?: string;
     score?: { last_err?: string; last_err_timestamp?: number; status?: EContactStatus };
 }
 

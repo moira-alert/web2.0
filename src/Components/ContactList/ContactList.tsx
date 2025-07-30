@@ -43,7 +43,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
     onEventsClick,
     onDeleteContact,
 }) => {
-    const { id, name, value, type, score } = contact;
+    const { id, name, value, type, extra_message, score } = contact;
     const {
         last_err: deliveryError,
         last_err_timestamp: deliveryErrorTimestamp,
@@ -66,6 +66,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                             value,
                             type,
                             id,
+                            extra_message,
                             score,
                         })
                     }
@@ -192,11 +193,11 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     <div className={cn("items-container")}>
                         <table className={cn("items")}>
                             <tbody>
-                                {contacts.map(({ name, value, type, id, score }) => (
+                                {contacts.map(({ name, value, type, id, extra_message, score }) => (
                                     <ContactItem
                                         key={id}
                                         contactDescriptions={contactDescriptions}
-                                        contact={{ name, value, type, id, score }}
+                                        contact={{ name, value, type, id, extra_message, score }}
                                         onEdit={handleBeginEditContact}
                                         onEventsClick={handleEventsButtonClick}
                                         onDeleteContact={() =>

@@ -15,12 +15,14 @@ interface IFilterStatusSelectProps {
     availableStatuses: Status[];
     selectedStatuses: Status[];
     onSelect: (statuses: Status[]) => void;
+    text?: string;
 }
 
 export const FilterStatusSelect: FC<IFilterStatusSelectProps> = ({
     availableStatuses,
     selectedStatuses,
     onSelect,
+    text = "Filter by state",
 }) => {
     const handleSetSelectedStatuses = (status: Status, isChecked: boolean) => {
         if (!isChecked) {
@@ -38,7 +40,7 @@ export const FilterStatusSelect: FC<IFilterStatusSelectProps> = ({
                                   <StatusIcon status={status} />
                               </span>
                           ))
-                        : "Filter by state"}
+                        : text}
                 </Button>
             )}
         >

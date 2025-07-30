@@ -49,7 +49,7 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
 
     return (
         contact && (
-            <Modal onClose={onCancel}>
+            <Modal width={564} onClose={onCancel}>
                 <Modal.Header sticky={false}>Delivery channel editing</Modal.Header>
                 <Modal.Body>
                     <ResourceBadge title="Channel id:" id={contact.id} />
