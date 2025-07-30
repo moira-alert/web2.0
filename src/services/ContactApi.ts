@@ -62,7 +62,10 @@ export const ContactApi = BaseApi.injectEndpoints({
                 return tagsToInvalidate;
             },
         }),
-        createUserContact: builder.mutation<Contact, CustomBaseQueryArgs<Omit<Contact, "id">>>({
+        createUserContact: builder.mutation<
+            Contact,
+            CustomBaseQueryArgs<Omit<Contact, "id" | "score">>
+        >({
             query: ({ handleLoadingLocally, handleErrorLocally, ...contact }) => ({
                 url: `contact`,
                 method: "PUT",

@@ -18,9 +18,7 @@ export const useUpdateContact = (
 
     const handleUpdateContact = async (testAfterUpdate?: boolean) => {
         const validationSuccess = await validateForm(validationContainer);
-        if (!validationSuccess || !contact) {
-            return;
-        }
+        if (!validationSuccess || !contact) return;
 
         try {
             await updateContact({
@@ -44,5 +42,9 @@ export const useUpdateContact = (
         }
     };
 
-    return { handleUpdateContact, isUpdating, isTesting };
+    return {
+        handleUpdateContact,
+        isUpdating,
+        isTesting,
+    };
 };

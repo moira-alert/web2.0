@@ -10,20 +10,22 @@ import { useModal } from "../hooks/useModal";
 import { useAppSelector } from "../store/hooks";
 import { UIState } from "../store/selectors";
 
+export type TContactFilterColumns = keyof Omit<Contact, "score">;
+
 const ContactsContainer: FC = () => {
     const { data: contacts } = useGetAllContactsQuery();
     const { error, isLoading } = useAppSelector(UIState);
     const { isModalOpen, closeModal, openModal } = useModal();
     const [findContact, setFindContact] = useState<string>("");
     const [editableContact, setEditableContact] = useState<Contact | null>(null);
-    const [filterColumn, setfilterColumn] = useState<keyof Contact | null>(null);
+    const [filterColumn, setfilterColumn] = useState<TContactFilterColumns | null>(null);
 
     const handleEditContact = (contact: Contact) => {
         openModal();
         setEditableContact(contact);
     };
 
-    const handleSetFilterColumn = (column: keyof Contact | null) => {
+    const handleSetFilterColumn = (column: TContactFilterColumns | null) => {
         setfilterColumn(column);
     };
 
