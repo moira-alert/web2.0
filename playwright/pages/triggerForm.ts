@@ -28,7 +28,9 @@ export class TriggerForm {
         this.page = page;
         this.submitButton = (action) => page.locator(`[data-tid="${action} Trigger"]`);
         this.triggerNameField = page.locator("label[data-tid='Name'] > span > input");
-        this.descriptionField = page.locator("[data-tid='Description']");
+        this.descriptionField = this.descriptionField = page.locator(
+            "[data-tid='Description'] textarea#MarkdownTextArea"
+        );
         this.target = (targetIndex) => page.locator(`[data-tid=T${targetIndex}]`);
         this.warnValue = page.locator("[data-tid='WARN T1']");
         this.errorValue = page.locator("[data-tid='ERROR T1']");

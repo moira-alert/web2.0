@@ -90,7 +90,7 @@ const TriggerEditForm: FC<IProps> = ({
                     />
                 </ValidationWrapperV1>
             </FormRow>
-            <FormRow label="Description" useTopAlignForLabel>
+            <FormRow style={{ position: "relative" }} label="Description" useTopAlignForLabel>
                 <WysiwygWrapper>
                     <Markdown
                         showActionHints={false}

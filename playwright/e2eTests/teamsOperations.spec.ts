@@ -41,7 +41,16 @@ test("Edit team description", async ({ page, teamDescription, teamsPage, teamNam
     await expect(teamsPage.teamDescription).toContainText(teamDescription);
     await teamsPage.teamDescription.fill(teamDescription + " changed");
     await teamsPage.nameInput("Team name").fill(teamName + " changed");
+
+    const editTeamromise = page.waitForResponse(
+        (response) =>
+            response.url().includes("/api/teams") &&
+            response.request().method() === "PATCH" &&
+            response.status() === 200
+    );
+
     await page.getByRole("button", { name: "Save" }).click();
+    await editTeamromise;
     await expect(page.getByText(teamDescription + " changed")).toBeVisible();
     await expect(page.getByText(teamName + " changed")).toBeVisible();
 });
