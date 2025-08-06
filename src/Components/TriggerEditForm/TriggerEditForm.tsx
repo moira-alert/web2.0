@@ -24,6 +24,7 @@ import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Status, StatusesList } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import EditDescriptionHelp from "./Components/EditDescritionHelp";
 import { MetricSourceSelect } from "./Components/MetricSourceSelect";
 import { TargetsList } from "./Components/TargetsList";
 import { Form, FormRow } from "./Components/Form";
@@ -98,6 +99,7 @@ const TriggerEditForm: FC<IProps> = ({
                         data-tid="Description"
                     />
                 </WysiwygWrapper>
+                <EditDescriptionHelp />
             </FormRow>
             {remoteAllowed && (
                 <FormRow label="Data source" singleLineControlGroup>
