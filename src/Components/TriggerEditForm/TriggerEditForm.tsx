@@ -6,7 +6,7 @@ import {
     validateSched,
     validateTTL,
 } from "./Validations/validations";
-import { Checkbox, Input, Textarea } from "@skbkontur/react-ui";
+import { Checkbox, Input } from "@skbkontur/react-ui";
 import {
     DEFAULT_TRIGGER_TTL,
     DEFAULT_TRIGGER_TYPE,
@@ -24,12 +24,11 @@ import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Status, StatusesList } from "../../Domain/Status";
 import CodeRef from "../CodeRef/CodeRef";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import EditDescriptionHelp from "./Components/EditDescritionHelp";
 import { MetricSourceSelect } from "./Components/MetricSourceSelect";
 import { TargetsList } from "./Components/TargetsList";
 import { Form, FormRow } from "./Components/Form";
-import { Markdown } from "../Markdown/Markdown";
-import { useEditPreviewTabs } from "../../hooks/useEditPreviewTabs/useEditPreviewTabs";
+import { Markdown } from "@skbkontur/markdown";
+import { WysiwygWrapper } from "../Markdown/WysiwygWrapper";
 import { ClusterSelect } from "./Components/ClusterSelect";
 import classNames from "classnames/bind";
 
@@ -54,8 +53,6 @@ const TriggerEditForm: FC<IProps> = ({
     onChange,
     validationResult,
 }) => {
-    const { descriptionView, EditPreviewComponent } = useEditPreviewTabs();
-
     const {
         name,
         desc,
@@ -93,25 +90,14 @@ const TriggerEditForm: FC<IProps> = ({
                 </ValidationWrapperV1>
             </FormRow>
             <FormRow label="Description" useTopAlignForLabel>
-                <div className={cn("description-mode-tabs")}>
-                    <EditPreviewComponent />
-                </div>
-                {descriptionView === "edit" ? (
-                    <>
-                        <Textarea
-                            width="100%"
-                            value={desc || ""}
-                            data-tid="Description"
-                            onValueChange={(value) => onChange({ desc: value })}
-                        />
-                        <EditDescriptionHelp />
-                    </>
-                ) : (
+                <WysiwygWrapper>
                     <Markdown
-                        className={cn("wysiwyg", "description-preview")}
-                        markdown={desc || ""}
+                        showActionHints={false}
+                        onValueChange={(value) => onChange({ desc: value })}
+                        value={desc || ""}
+                        data-tid="Description"
                     />
-                )}
+                </WysiwygWrapper>
             </FormRow>
             {remoteAllowed && (
                 <FormRow label="Data source" singleLineControlGroup>

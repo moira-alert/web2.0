@@ -28,7 +28,8 @@ import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
 import { Hint, DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
-import { Markdown } from "../Markdown/Markdown";
+import { MarkdownViewer } from "@skbkontur/markdown";
+import { WysiwygWrapper } from "../Markdown/WysiwygWrapper";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
 import { useAppSelector } from "../../store/hooks";
@@ -246,8 +247,10 @@ export default function TriggerInfo({
                         </dd>
                         {desc && <dt>Description</dt>}
                         {desc && (
-                            <dd className={cn("description", "wysiwyg")}>
-                                <Markdown markdown={desc} />
+                            <dd>
+                                <WysiwygWrapper>
+                                    <MarkdownViewer source={desc} />
+                                </WysiwygWrapper>
                             </dd>
                         )}
                         {isClusterName && <dt>Cluster</dt>}

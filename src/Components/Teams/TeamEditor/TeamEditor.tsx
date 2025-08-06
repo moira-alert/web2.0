@@ -1,21 +1,16 @@
 import { Team } from "../../../Domain/Team";
 import React, { useState, useRef, FC } from "react";
 import { ValidationContainer, ValidationWrapper } from "@skbkontur/react-ui-validations";
-import { Button, Input, Modal, Textarea } from "@skbkontur/react-ui";
+import { Button, Input, Modal } from "@skbkontur/react-ui";
 import { Grid } from "../../Grid/Grid";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { GridCell } from "../../Grid/GridCell";
-import { Markdown } from "../../Markdown/Markdown";
-import { useEditPreviewTabs } from "../../../hooks/useEditPreviewTabs/useEditPreviewTabs";
 import ModalError from "../../ModalError/ModalError";
 import { validateRequiredString } from "../../TriggerEditForm/Validations/validations";
 import { useUpdateTeam } from "../../../hooks/useUpdateTeam";
 import { useAddTeam } from "../../../hooks/useAddTeam";
-import classNames from "classnames/bind";
-
-import styles from "./TeamEditor.module.less";
-
-const cn = classNames.bind(styles);
+import { Markdown } from "@skbkontur/markdown";
+import { WysiwygWrapper } from "../../Markdown/WysiwygWrapper";
 
 interface ITeamEditorProps {
     team?: Team | null;
@@ -26,7 +21,6 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
     const validationRef = useRef<ValidationContainer>(null);
     const [name, setName] = useState<string>(team?.name || "");
     const [description, setDescription] = useState<string>(team?.description || "");
-    const { descriptionView, EditPreviewComponent } = useEditPreviewTabs();
     const [error, setError] = useState<string | null>(null);
     const { handleUpdateTeam, isUpdatingTeam } = useUpdateTeam(
         validationRef,
@@ -49,7 +43,6 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
             <Modal width={600} onClose={onClose}>
                 <Modal.Header>{team ? `Edit team ${team.name} ` : "Add Team"}</Modal.Header>
                 <Modal.Body>
-                    <EditPreviewComponent />
                     <Grid columns="120px 400px" gap="16px">
                         Name:
                         <ValidationWrapper validationInfo={validateRequiredString(name)}>
@@ -63,20 +56,14 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
                         <GridCell align={"flex-start"} margin="8px 0 0">
                             Description:
                         </GridCell>
-                        {descriptionView === "edit" ? (
-                            <Textarea
+                        <WysiwygWrapper>
+                            <Markdown
                                 data-tid="Team description"
+                                showActionHints={false}
                                 value={description}
                                 onValueChange={setDescription}
-                                width="100%"
-                                autoResize
                             />
-                        ) : (
-                            <Markdown
-                                markdown={description}
-                                className={cn("wysiwyg", "description-preview")}
-                            />
-                        )}
+                        </WysiwygWrapper>
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>

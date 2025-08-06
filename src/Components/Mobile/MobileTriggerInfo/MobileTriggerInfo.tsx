@@ -18,7 +18,8 @@ import {
 import getStatusColor, { unknownColor } from "../Styles/StatusColor";
 import { getUTCDate, humanizeDuration } from "../../../helpers/DateUtil";
 import MobileHeader from "../MobileHeader/MobileHeader";
-import { Markdown } from "../../Markdown/Markdown";
+import { MarkdownViewer } from "@skbkontur/markdown";
+import { WysiwygWrapper } from "../../Markdown/WysiwygWrapper";
 import classNames from "classnames/bind";
 
 import styles from "./MobileTriggerInfo.module.less";
@@ -99,10 +100,9 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
                         {trigger != null && (
                             <div className={cn("info")}>
                                 {trigger.desc && (
-                                    <Markdown
-                                        className={cn("plain-row", "description")}
-                                        markdown={trigger.desc}
-                                    />
+                                    <WysiwygWrapper className={cn("plain-row")}>
+                                        <MarkdownViewer source={trigger.desc} />
+                                    </WysiwygWrapper>
                                 )}
                                 {sched != null && (
                                     <div className={cn("form-row")}>
