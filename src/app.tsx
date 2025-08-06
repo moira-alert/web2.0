@@ -4,7 +4,9 @@ import { BrowserRouter } from "react-router-dom";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import { Providers } from "./Providers/Providers";
-import SentryInitializer from "./Components/SentryInitializer/SentryInitializer";
+import SentryInitializer, {
+    newStaticErrorText,
+} from "./Components/SentryInitializer/SentryInitializer";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
 import { store } from "./store/store";
@@ -27,7 +29,13 @@ const render = (Component: ComponentType) => {
         <BrowserRouter>
             <Providers>
                 <Sentry.ErrorBoundary
-                    onError={(error) => Toast.push(error.toString())}
+                    onError={(error) => {
+                        if (error instanceof Error && error.message.includes(newStaticErrorText)) {
+                            window.location.reload();
+                            return;
+                        }
+                        Toast.push(error.toString());
+                    }}
                     fallback={() => <Component />}
                 >
                     <SentryInitializer />

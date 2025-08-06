@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useGetConfigQuery } from "../../services/BaseApi";
 import * as Sentry from "@sentry/react";
 
+export const newStaticErrorText = "Failed to fetch dynamically imported module";
+
 const SentryInitializer = () => {
     const { data: config } = useGetConfigQuery();
 
@@ -14,6 +16,7 @@ const SentryInitializer = () => {
         const isLocalPlatform = platform === undefined;
         Sentry.init({
             dsn,
+            ignoreErrors: [newStaticErrorText],
             debug: isLocalPlatform,
             environment: platform,
             enabled: !isLocalPlatform,
