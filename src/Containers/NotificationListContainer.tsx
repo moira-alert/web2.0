@@ -24,6 +24,7 @@ import { Status } from "../Domain/Status";
 import { filterNotifications, getAllStates } from "../helpers/notificationFilters";
 import { NotificationFiltersPanel } from "../Components/NotificationFiltersPanel/NotificationFiltersPanel";
 import { NotificationsFilterCounter } from "../Components/NotificationFiltersPanel/NotificationsFilterCounter/NotificationsFilterCounter";
+import { NotifierSourcesList } from "../Components/NotifierSourcesList/NotifierSourcesList";
 
 const NotificationListContainer: FC = () => {
     const { isLoading, error } = useAppSelector(UIState);
@@ -102,25 +103,30 @@ const NotificationListContainer: FC = () => {
                     </Flexbox>
                 </LayoutTitle>
                 {ConfirmModal}
-                <Flexbox gap={32}>
+
+                <Flexbox gap={22}>
+                    <Flexbox align="baseline" direction="row" gap={30}>
+                        <Toggle
+                            checked={notifierEnabled}
+                            onValueChange={(value) =>
+                                value ? toggleNotifier(value) : handleDisableNotifier()
+                            }
+                        >
+                            Notifications
+                        </Toggle>
+
+                        <Button
+                            use={"link"}
+                            icon={<TrashIcon />}
+                            onClick={onRemoveAllNotificationsBtnClick}
+                        >
+                            Remove all
+                        </Button>
+                    </Flexbox>
+
+                    <NotifierSourcesList />
+
                     <Flexbox align="baseline" direction="row" justify="space-between" gap={30}>
-                        <Flexbox align="baseline" direction="row" gap={30}>
-                            <Toggle
-                                checked={notifierEnabled}
-                                onValueChange={(value) =>
-                                    value ? toggleNotifier(value) : handleDisableNotifier()
-                                }
-                            >
-                                Notifications
-                            </Toggle>
-                            <Button
-                                use={"link"}
-                                icon={<TrashIcon />}
-                                onClick={onRemoveAllNotificationsBtnClick}
-                            >
-                                Remove all
-                            </Button>
-                        </Flexbox>
                         {notificationAmount > 0 && (
                             <NotificationFiltersPanel
                                 currentStateFilter={currentStateFilter}
