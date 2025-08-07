@@ -20,14 +20,20 @@ export function getAllStates(
     };
 }
 
+const enum EStateFilters {
+    state = "state",
+    old_state = "old_state",
+}
+
 const checkHasAllStates = (
     isStrictMatching: boolean,
     state: Status[],
-    notifications: Notification[]
+    notifications: Notification[],
+    field: EStateFilters
 ) => {
     return isStrictMatching
-        ? state.every((status) => notifications.some((n) => n.event.old_state === status))
-        : state.length === 0 || notifications.some((n) => state.includes(n.event.old_state));
+        ? state.every((status) => notifications.some((n) => n.event[field] === status))
+        : state.length === 0 || notifications.some((n) => state.includes(n.event[field]));
 };
 
 export function filterNotifications(
@@ -43,13 +49,15 @@ export function filterNotifications(
         const hasAllPrevStates = checkHasAllStates(
             isStrictMatching,
             prevStateFilter,
-            notifications
+            notifications,
+            EStateFilters.old_state
         );
 
         const hasAllCurrentStates = checkHasAllStates(
             isStrictMatching,
             currentStateFilter,
-            notifications
+            notifications,
+            EStateFilters.state
         );
 
         if (hasAllPrevStates && hasAllCurrentStates) {
