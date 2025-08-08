@@ -19,6 +19,16 @@
     appearance: none;
 }
 
+.linkReset () {
+    color: @linkColor;
+    text-decoration: none;
+
+    &:focus,
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 @keyframes blink {
     0% {
         opacity: 0.25;

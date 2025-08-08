@@ -60,12 +60,7 @@ body {
     }
 
     a {
-        color: #3072c4;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
+        .linkReset();
     }
 
     hr {
@@ -79,5 +74,10 @@ body {
         padding-left: 10px;
         border-left: 3px solid #ccc;
         color: @colorGrey;
+    }
+
+    code {
+        padding: 0px;
+        border: none;
     }
 }

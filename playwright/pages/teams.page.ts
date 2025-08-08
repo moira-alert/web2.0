@@ -18,7 +18,7 @@ export class TeamsPage {
         this.addTeamButton = page.getByText("Add team");
         this.nameInput = (testId) => page.locator(`label[data-tid='${testId}'] > span > input`);
         this.teamDescription = page.locator("[data-tid='Team description']");
-        this.previewButton = page.getByText("Preview");
+        this.previewButton = page.locator('button[data-tid="Button__rootElement"]').nth(14);
         this.teamCardKebab = page.locator("[data-tid='Team card kebab']");
         this.editTeamButton = page.getByRole("button", { name: "Edit" });
         this.showUsersButton = page.getByText("Show users");

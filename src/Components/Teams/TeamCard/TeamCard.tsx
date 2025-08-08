@@ -11,7 +11,8 @@ import { Users } from "../../../Components/Teams/Users";
 import { useModal } from "../../../hooks/useModal";
 import { TeamEditor } from "../../../Components/Teams/TeamEditor/TeamEditor";
 import { getPageLink } from "../../../Domain/Global";
-import { Markdown } from "../../../Components/Markdown/Markdown";
+import { MarkdownViewer } from "@skbkontur/markdown";
+import { WysiwygWrapper } from "../../Markdown/WysiwygWrapper";
 import { Team } from "../../../Domain/Team";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { useTheme } from "../../../Themes";
@@ -119,7 +120,11 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
                             <div className={cn("team-name")}>{name}</div>
                             <div className={cn("team-id")}>{`id: ${id}`}</div>
                             <div className={cn("team-description")}>
-                                {description && <Markdown markdown={description} />}
+                                {description && (
+                                    <WysiwygWrapper>
+                                        <MarkdownViewer source={description} />
+                                    </WysiwygWrapper>
+                                )}
                             </div>
                             <Flexbox justify="space-between" direction="row">
                                 <div className={cn("team-users")}>

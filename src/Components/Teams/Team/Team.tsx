@@ -3,7 +3,8 @@ import { Button } from "@skbkontur/react-ui";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import { Team } from "../../../Domain/Team";
 import { TeamEditor } from "../TeamEditor/TeamEditor";
-import { Markdown } from "../../Markdown/Markdown";
+import { MarkdownViewer } from "@skbkontur/markdown";
+import { WysiwygWrapper } from "../../Markdown/WysiwygWrapper";
 import { ConfirmFullTeamDeleteion } from "../ConfirmFullTeamDeletion/ConfirmFullTeamDeletion";
 import { useModal } from "../../../hooks/useModal";
 import classNames from "classnames/bind";
@@ -24,9 +25,9 @@ export function Team({ team }: ITeamProps): ReactElement {
             <ConfirmFullTeamDeleteion team={team} />
 
             {team.description && (
-                <div className={cn("wysiwyg", "descriptionContainer")}>
-                    <Markdown markdown={team.description} />
-                </div>
+                <WysiwygWrapper>
+                    <MarkdownViewer source={team.description} />
+                </WysiwygWrapper>
             )}
 
             <Button
