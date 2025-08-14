@@ -55,6 +55,8 @@ export const ConfirmModalHeaderData = {
     deleteNotification: "Are you sure with deleting notification?",
     deleteTrigger: "Delete Trigger?",
     moiraTurnOff: "This action will turn off Moira notifications, are you sure?",
+    moiraSourceTurnOff: (source: string, cluster: string) =>
+        `This action will turn off Moira notifications for ${source} source in ${cluster} cluster, are you sure?`,
 };
 
 export enum ModalType {

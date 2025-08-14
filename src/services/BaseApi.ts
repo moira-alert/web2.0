@@ -76,7 +76,8 @@ export type TApiInvalidateTags =
     | "TriggerList"
     | "AllTeams"
     | "NotifierState"
-    | "SystemSubscriptions";
+    | "SystemSubscriptions"
+    | "NotifierSourcesState";
 
 export const BaseApi = createApi({
     reducerPath: "BaseApi",
@@ -97,6 +98,7 @@ export const BaseApi = createApi({
         "AllTeams",
         "NotifierState",
         "SystemSubscriptions",
+        "NotifierSourcesState",
     ],
     baseQuery: customFetchBaseQuery,
     endpoints: (builder) => ({
