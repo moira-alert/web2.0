@@ -12,7 +12,7 @@ import { useAppSelector } from "../store/hooks";
 import { useLoadNotificationsData } from "../hooks/useLoadNotificationsData";
 import { composeNotifications } from "../helpers/composeNotifications";
 import { ConfirmModalHeaderData } from "../Domain/Global";
-import useConfirmModal from "../hooks/useConfirmModal";
+import useConfirmModal, { ConfirmModal } from "../hooks/useConfirmModal";
 import {
     useDeleteAllNotificationEventsMutation,
     useDeleteAllNotificationsMutation,
@@ -33,7 +33,7 @@ const NotificationListContainer: FC = () => {
     const [deleteAllNotifications] = useDeleteAllNotificationsMutation();
     const [deleleteAllNotificationEvents] = useDeleteAllNotificationEventsMutation();
     const [setNotifierState] = useSetNotifierStateMutation();
-    const [ConfirmModal, setModalData] = useConfirmModal();
+    const { modalData, setModalData, closeModal } = useConfirmModal();
 
     const [prevStateFilter, setPrevStateFilter] = useState<Status[]>([]);
     const [currentStateFilter, setCurrentStateFilter] = useState<Status[]>([]);
@@ -49,6 +49,10 @@ const NotificationListContainer: FC = () => {
     );
 
     const layoutTitle = `Notifications ${notificationAmount}`;
+
+    const handleToggleNotifier = (value: boolean) => {
+        value ? toggleNotifier(value) : handleDisableNotifier();
+    };
 
     const removeAllNotifications = async () => {
         setModalData({ isOpen: false });
@@ -102,44 +106,40 @@ const NotificationListContainer: FC = () => {
                         )}
                     </Flexbox>
                 </LayoutTitle>
-                {ConfirmModal}
+                <ConfirmModal modalData={modalData} closeModal={closeModal} />
 
                 <Flexbox gap={22}>
-                    <Flexbox align="baseline" direction="row" gap={30}>
-                        <Toggle
-                            checked={notifierEnabled}
-                            onValueChange={(value) =>
-                                value ? toggleNotifier(value) : handleDisableNotifier()
-                            }
-                        >
-                            Notifications
-                        </Toggle>
-
-                        <Button
-                            use={"link"}
-                            icon={<TrashIcon />}
-                            onClick={onRemoveAllNotificationsBtnClick}
-                        >
-                            Remove all
-                        </Button>
+                    <Flexbox align="baseline" direction="row" justify="space-between">
+                        <Flexbox align="baseline" direction="row" justify="space-between" gap={30}>
+                            <Toggle checked={notifierEnabled} onValueChange={handleToggleNotifier}>
+                                Notifications
+                            </Toggle>
+                            <Button
+                                use={"link"}
+                                icon={<TrashIcon />}
+                                onClick={onRemoveAllNotificationsBtnClick}
+                            >
+                                Remove all
+                            </Button>
+                        </Flexbox>
+                        <Flexbox align="baseline" direction="row" justify="space-between" gap={30}>
+                            {notificationAmount > 0 && (
+                                <NotificationFiltersPanel
+                                    currentStateFilter={currentStateFilter}
+                                    prevStateFilter={prevStateFilter}
+                                    allCurrentStates={allCurrentStates}
+                                    allPrevStates={allPrevStates}
+                                    onChangeCurr={setCurrentStateFilter}
+                                    onChangePrev={setPrevStateFilter}
+                                    isStrictMatching={isStrictMatching}
+                                    onToggleStrict={setIsStrictMatching}
+                                />
+                            )}
+                        </Flexbox>
                     </Flexbox>
 
                     <NotifierSourcesList />
 
-                    <Flexbox align="baseline" direction="row" justify="space-between" gap={30}>
-                        {notificationAmount > 0 && (
-                            <NotificationFiltersPanel
-                                currentStateFilter={currentStateFilter}
-                                prevStateFilter={prevStateFilter}
-                                allCurrentStates={allCurrentStates}
-                                allPrevStates={allPrevStates}
-                                onChangeCurr={setCurrentStateFilter}
-                                onChangePrev={setPrevStateFilter}
-                                isStrictMatching={isStrictMatching}
-                                onToggleStrict={setIsStrictMatching}
-                            />
-                        )}
-                    </Flexbox>
                     <DeleteFilteredNotifications />
                     {notificationList && (
                         <NotificationList

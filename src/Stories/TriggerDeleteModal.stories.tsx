@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import { action } from "@storybook/addon-actions";
 import { Meta } from "@storybook/react";
 import { ConfirmModalHeaderData } from "../Domain/Global";
-import useConfirmModal from "../hooks/useConfirmModal";
+import useConfirmModal, { ConfirmModal } from "../hooks/useConfirmModal";
 
 const meta: Meta = {
     title: "TriggerDeleteModal",
 };
 
 const SetupModal = (triggerText: string) => {
-    const [ConfirmModal, setModalData] = useConfirmModal();
+    const { modalData, setModalData, closeModal } = useConfirmModal();
+
     useEffect(() => {
         setModalData({
             isOpen: true,
@@ -27,7 +28,7 @@ const SetupModal = (triggerText: string) => {
         });
     }, []);
 
-    return <>{ConfirmModal}</>;
+    return <ConfirmModal modalData={modalData} closeModal={closeModal} />;
 };
 
 export const Default = () => SetupModal("test trigger");

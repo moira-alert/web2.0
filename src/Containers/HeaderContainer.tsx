@@ -26,7 +26,9 @@ export const HeaderContainer: React.FC<IHeaderContainerProps> = ({ className }) 
         }
 
         if (downSources.length > 1) {
-            const sources = downSources.map((s) => s.trigger_source).join(", ");
+            const sources = downSources
+                .map((s) => `${s.trigger_source}.${s.cluster_id}`)
+                .join(", ");
             return `Notification mailing for Moira metric sources: ${sources} is not available.`;
         }
 

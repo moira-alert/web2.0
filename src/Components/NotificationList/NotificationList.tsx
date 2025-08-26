@@ -12,7 +12,7 @@ import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
-import useConfirmModal from "../../hooks/useConfirmModal";
+import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import classNames from "classnames/bind";
 
@@ -68,7 +68,7 @@ type Props = {
 export default function NotificationList(props: Props): React.ReactElement {
     const { items, onRemove } = props;
 
-    const [ConfirmModal, setModalData] = useConfirmModal();
+    const { modalData, setModalData, closeModal } = useConfirmModal();
 
     const handleDeleteNotification = (notificationId: string) => {
         setModalData({ isOpen: false });
@@ -91,7 +91,7 @@ export default function NotificationList(props: Props): React.ReactElement {
         <div className={cn("no-result")}>Empty :-)</div>
     ) : (
         <>
-            {ConfirmModal}
+            <ConfirmModal modalData={modalData} closeModal={closeModal} />{" "}
             <Flexbox gap={30}>
                 <div className={cn("row", "italic-font")}>
                     <div className={cn("timestamp")}>Timestamp</div>

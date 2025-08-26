@@ -16,21 +16,33 @@ type TModalData = {
     button?: TModalButton;
 };
 
-type UseConfirmModalReturn = [
-    JSX.Element | null,
-    Dispatch<SetStateAction<Partial<TModalData> | null>>
-];
+type UseConfirmModalReturn = {
+    modalData: Partial<TModalData> | null;
+    setModalData: Dispatch<SetStateAction<Partial<TModalData> | null>>;
+    closeModal: () => void;
+};
 
 const useConfirmModal = (): UseConfirmModalReturn => {
     const [modalData, setModalData] = useState<Partial<TModalData> | null>(null);
 
-    const ConfirmModal = modalData?.isOpen ? (
-        <Modal width={600} onClose={() => setModalData({ isOpen: false })}>
+    const closeModal = () => setModalData({ isOpen: false });
+
+    return { modalData, setModalData, closeModal };
+};
+
+export const ConfirmModal: React.FC<{
+    modalData: Partial<TModalData> | null;
+    closeModal: () => void;
+}> = ({ modalData, closeModal }) => {
+    if (!modalData?.isOpen) return null;
+
+    return (
+        <Modal width={600} onClose={closeModal}>
             <Modal.Header>{modalData.header}</Modal.Header>
             <Modal.Body>{modalData.body}</Modal.Body>
             <Modal.Footer>
                 <Flexbox direction="row" gap={8}>
-                    <Button onClick={() => setModalData({ isOpen: false })} use="primary">
+                    <Button onClick={closeModal} use="primary">
                         Cancel
                     </Button>
                     {modalData.button && (
@@ -44,8 +56,7 @@ const useConfirmModal = (): UseConfirmModalReturn => {
                 </Flexbox>
             </Modal.Footer>
         </Modal>
-    ) : null;
-
-    return [ConfirmModal, setModalData];
+    );
 };
+
 export default useConfirmModal;

@@ -36,7 +36,7 @@ import { useAppSelector } from "../../store/hooks";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { ScheduleView } from "./Components/ScheduleView";
 import { ConfigState } from "../../store/selectors";
-import useConfirmModal from "../../hooks/useConfirmModal";
+import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
 import { useNavigate } from "react-router";
 import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
 import Statistic from "@skbkontur/react-icons/Statistic";
@@ -89,7 +89,11 @@ export default function TriggerInfo({
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
     const { config } = useAppSelector(ConfigState);
-    const [ConfirmModal, setModalData] = useConfirmModal();
+    const {
+        modalData: confirmModalData,
+        setModalData: setConfirmModalData,
+        closeModal: closeConfirmModal,
+    } = useConfirmModal();
     const navigate = useNavigate();
     const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -109,12 +113,12 @@ export default function TriggerInfo({
     const delta = maintenanceDelta(maintenance);
 
     const onDeleteTrigger = () => {
-        setModalData({ isOpen: false });
+        setConfirmModalData({ isOpen: false });
         deleteTrigger();
     };
 
     const handleDeleteTrigger = () => {
-        setModalData({
+        setConfirmModalData({
             isOpen: true,
             header: ConfirmModalHeaderData.deleteTrigger,
             body: (
@@ -342,7 +346,7 @@ export default function TriggerInfo({
                     triggerId={id}
                 />
             )}
-            {ConfirmModal}
+            <ConfirmModal modalData={confirmModalData} closeModal={closeConfirmModal} />
         </section>
     );
 }
