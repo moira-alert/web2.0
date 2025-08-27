@@ -61,7 +61,7 @@ export default function MetricList(props: Props): React.ReactElement {
         sortingDown,
     } = props;
 
-    const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+    const sortingIcon = sortingDown ? <ArrowBoldUpIcon /> : <ArrowBoldDownIcon />;
     const ref = useRef<VariableSizeList>(null);
     const entries = Object.entries(items);
 
@@ -126,7 +126,7 @@ export default function MetricList(props: Props): React.ReactElement {
                         className={cn("a11y-span", { sorting: onSort })}
                         onClick={onSort && (() => onSort("value"))}
                     >
-                        Value{" "}
+                        Value
                         {sortingColumn === "value" && (
                             <span className={cn("icon")}>{sortingIcon}</span>
                         )}
