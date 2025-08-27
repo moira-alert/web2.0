@@ -126,7 +126,7 @@ export default function MetricList(props: Props): React.ReactElement {
                         className={cn("a11y-span", { sorting: onSort })}
                         onClick={onSort && (() => onSort("value"))}
                     >
-                        Value
+                        Value{" "}
                         {sortingColumn === "value" && (
                             <span className={cn("icon")}>{sortingIcon}</span>
                         )}
