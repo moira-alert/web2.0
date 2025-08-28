@@ -11,23 +11,33 @@ interface IGroupProps {
     onDisableConfirm: (triggerSource: string, clusterId: string) => void;
 }
 
-export const SourcesGroup: FC<IGroupProps> = ({ title, sources, onToggle, onDisableConfirm }) => (
-    <>
-        <div className={styles.groupTitle}>{title}</div>
-        <div className={styles.sourcesGrid}>
-            {sources.map(({ trigger_source, cluster_id, state }) => (
-                <Toggle
-                    key={`${trigger_source}.${cluster_id}`}
-                    checked={state === MoiraServiceStates.OK}
-                    onValueChange={(value) =>
-                        value
-                            ? onToggle(value, trigger_source, cluster_id)
-                            : onDisableConfirm(trigger_source, cluster_id)
-                    }
-                >
-                    {`${trigger_source} ${cluster_id}`}
-                </Toggle>
-            ))}
-        </div>
-    </>
-);
+export const SourcesGroup: FC<IGroupProps> = ({ title, sources, onToggle, onDisableConfirm }) => {
+    const handleValueChange = (
+        value: boolean,
+        trigger_source: string,
+        cluster_id: string
+    ): void => {
+        value
+            ? onToggle(value, trigger_source, cluster_id)
+            : onDisableConfirm(trigger_source, cluster_id);
+    };
+
+    return (
+        <>
+            <div className={styles.groupTitle}>{title}</div>
+            <div className={styles.sourcesGrid}>
+                {sources.map(({ trigger_source, cluster_id, state }) => (
+                    <Toggle
+                        key={`${trigger_source}.${cluster_id}`}
+                        checked={state === MoiraServiceStates.OK}
+                        onValueChange={(value) =>
+                            handleValueChange(value, trigger_source, cluster_id)
+                        }
+                    >
+                        {`${trigger_source} ${cluster_id}`}
+                    </Toggle>
+                ))}
+            </div>
+        </>
+    );
+};

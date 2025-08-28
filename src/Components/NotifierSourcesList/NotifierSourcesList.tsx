@@ -8,7 +8,7 @@ import {
     useGetNotifierSourcesStateQuery,
     useSetNotifierSourceStateMutation,
 } from "../../services/NotifierApi";
-import useConfirmModal from "../../hooks/useConfirmModal";
+import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
 import { ConfirmModalHeaderData } from "../../Domain/Global";
 import { Flexbox } from "../Flexbox/FlexBox";
 
@@ -22,10 +22,11 @@ const filterAndSortSources = (
     return sources
         .filter((s) => s.trigger_source.toLowerCase().includes(keyword.toLowerCase()))
         .sort((a, b) =>
-            a.cluster_id.localeCompare(b.cluster_id, undefined, {
-                numeric: true,
-                sensitivity: "base",
-            })
+            `${a.cluster_id}_${a.trigger_source}`.localeCompare(
+                `${b.cluster_id}_${b.trigger_source}`,
+                undefined,
+                { numeric: true, sensitivity: "base" }
+            )
         );
 };
 
@@ -33,7 +34,7 @@ export const NotifierSourcesList: FC = () => {
     const [expanded, setExpanded] = useState(false);
     const { data: notifierSourcesState } = useGetNotifierSourcesStateQuery();
     const [setNotifierSourceState] = useSetNotifierSourceStateMutation();
-    const [ConfirmModal, setModalData] = useConfirmModal();
+    const { modalData, setModalData, closeModal } = useConfirmModal();
 
     const toggleExpanded = () => setExpanded((prev) => !prev);
 
@@ -70,7 +71,7 @@ export const NotifierSourcesList: FC = () => {
         <>
             {shouldShowSourceGroups && (
                 <>
-                    {ConfirmModal}
+                    <ConfirmModal modalData={modalData} closeModal={closeModal} />
                     <Flexbox
                         className={styles.expandableToggle}
                         direction="row"

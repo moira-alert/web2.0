@@ -61,7 +61,7 @@ export default function MetricList(props: Props): React.ReactElement {
         sortingDown,
     } = props;
 
-    const sortingIcon = sortingDown ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+    const sortingIcon = sortingDown ? <ArrowBoldUpIcon /> : <ArrowBoldDownIcon />;
     const ref = useRef<VariableSizeList>(null);
     const entries = Object.entries(items);
 
