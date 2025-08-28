@@ -91,7 +91,7 @@ export default function NotificationList(props: Props): React.ReactElement {
         <div className={cn("no-result")}>Empty :-)</div>
     ) : (
         <>
-            <ConfirmModal modalData={modalData} closeModal={closeModal} />{" "}
+            <ConfirmModal modalData={modalData} closeModal={closeModal} />
             <Flexbox gap={30}>
                 <div className={cn("row", "italic-font")}>
                     <div className={cn("timestamp")}>Timestamp</div>
