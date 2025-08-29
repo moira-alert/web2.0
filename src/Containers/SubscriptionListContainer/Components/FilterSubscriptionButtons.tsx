@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import { Filter } from "@skbkontur/react-icons";
+import Filter from "@skbkontur/react-icons/Filter";
 import { Contact } from "../../../Domain/Contact";
 import { Checkbox, DropdownMenu } from "@skbkontur/react-ui";
 import ContactInfo from "../../../Components/ContactInfo/ContactInfo";
-import { ArrowChevronDown } from "@skbkontur/react-icons";
+import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
 import TagDropdownSelect from "../../../Components/TagDropdownSelect/TagDropdownSelect";
 
 import styles from "~styles/utils.module.less";

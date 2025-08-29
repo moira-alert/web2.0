@@ -44,15 +44,17 @@ export const NotificationsApi = BaseApi.injectEndpoints({
             CustomBaseQueryArgs<{
                 start: number;
                 end: number;
-                tags: Array<string>;
+                ignoredTags: Array<string>;
+                clusterKeys?: Array<string>;
             }>
         >({
-            query: ({ start, end, tags }) => {
+            query: ({ start, end, ignoredTags, clusterKeys }) => {
                 const params = qs.stringify(
                     {
                         start,
                         end,
-                        tags,
+                        ignoredTags,
+                        clusterKeys,
                     },
                     { arrayFormat: "indices", skipNulls: true, encode: true }
                 );
