@@ -5,7 +5,7 @@ import TagDropdownSelect from "../Components/TagDropdownSelect/TagDropdownSelect
 import { TimeRangeSelector } from "../Components/TriggerNoisiness/Components/TimeRangeSelector";
 import { useDeleteFilteredNotificationsMutation } from "../services/NotificationsApi";
 import { useGetTagsQuery } from "../services/TagsApi";
-import { DropdownMenu } from "@skbkontur/react-ui";
+import { DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import Filter from "@skbkontur/react-icons/Filter";
@@ -45,6 +45,14 @@ export const DeleteFilteredNotifications: FC<IDeleteFilteredNotificationsProps> 
         );
     };
 
+    const handleAllClustersToggle = (checked: boolean) => {
+        if (checked) {
+            setSelectedClusterKeys([]);
+        } else {
+            setSelectedClusterKeys(clusterKeys ?? []);
+        }
+    };
+
     return (
         <Flexbox gap={12} direction="row">
             {tags && (
@@ -66,6 +74,16 @@ export const DeleteFilteredNotifications: FC<IDeleteFilteredNotificationsProps> 
                     </Button>
                 )}
             >
+                <div className={styles["dropdown-checkbox-item"]}>
+                    <Checkbox
+                        className={styles["dropdown-checkbox"]}
+                        checked={selectedClusterKeys.length === 0}
+                        onValueChange={handleAllClustersToggle}
+                    >
+                        All
+                    </Checkbox>
+                </div>
+                <MenuSeparator />
                 {clusterKeys?.map((clusterKey) => (
                     <div key={clusterKey} className={styles["dropdown-checkbox-item"]}>
                         <Checkbox
