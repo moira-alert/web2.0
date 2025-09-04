@@ -21,7 +21,7 @@ const generate = async () => {
 };
 
 try {
-    generate();
+    await generate();
 } catch (error) {
     console.error(error);
 }
