@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.16.0] - 2025-09-08
+
+* Filtered notifications deletion (#594)
+* Muted metrics counter (#595)
+* System subscriptions page (#596)
+* Contact status (#602)
+* Extra message field in contacts (#604)
+* Notifier page filters (#607)
+* Extra message filter (#608)
+* Separate metric source managment (#611)
+* Notification deletion per cluster (#613)
+
 ## [2.15.0] - 2025-05-23
 
 ### Added
