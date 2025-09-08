@@ -5,11 +5,25 @@ import TagDropdownSelect from "../Components/TagDropdownSelect/TagDropdownSelect
 import { TimeRangeSelector } from "../Components/TriggerNoisiness/Components/TimeRangeSelector";
 import { useDeleteFilteredNotificationsMutation } from "../services/NotificationsApi";
 import { useGetTagsQuery } from "../services/TagsApi";
+import { DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
+import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { Button } from "@skbkontur/react-ui/components/Button";
+import Filter from "@skbkontur/react-icons/Filter";
+import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
 
-export const DeleteFilteredNotifications: FC = () => {
+import styles from "~styles/utils.module.less";
+
+interface IDeleteFilteredNotificationsProps {
+    clusterKeys?: string[];
+}
+
+export const DeleteFilteredNotifications: FC<IDeleteFilteredNotificationsProps> = ({
+    clusterKeys,
+}) => {
     const [fromTime, setFromTime] = useState<Date | null>(null);
     const [untilTime, setUntilTime] = useState<Date | null>(null);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [selectedClusterKeys, setSelectedClusterKeys] = useState<string[]>([]);
 
     const { data: tags } = useGetTagsQuery();
     const [deleteFilteredNotifications] = useDeleteFilteredNotificationsMutation();
@@ -20,8 +34,23 @@ export const DeleteFilteredNotifications: FC = () => {
         await deleteFilteredNotifications({
             start: getUnixTime(fromTime),
             end: getUnixTime(untilTime),
-            tags: selectedTags,
+            ignoredTags: selectedTags,
+            clusterKeys: selectedClusterKeys,
         });
+    };
+
+    const handleClusterToggle = (clusterKey: string, checked: boolean) => {
+        setSelectedClusterKeys((prev) =>
+            checked ? [...prev, clusterKey] : prev.filter((key) => key !== clusterKey)
+        );
+    };
+
+    const handleAllClustersToggle = (checked: boolean) => {
+        if (checked) {
+            setSelectedClusterKeys([]);
+        } else {
+            setSelectedClusterKeys(clusterKeys ?? []);
+        }
     };
 
     return (
@@ -33,6 +62,40 @@ export const DeleteFilteredNotifications: FC = () => {
                     availableTags={tags}
                 />
             )}
+            <DropdownMenu
+                caption={({ openMenu }: { openMenu: () => void }) => (
+                    <Button
+                        width={180}
+                        icon={selectedClusterKeys.length ? <Filter /> : <ArrowChevronDown />}
+                        use="default"
+                        onClick={openMenu}
+                    >
+                        Cluster key
+                    </Button>
+                )}
+            >
+                <div className={styles["dropdown-checkbox-item"]}>
+                    <Checkbox
+                        className={styles["dropdown-checkbox"]}
+                        checked={selectedClusterKeys.length === 0}
+                        onValueChange={handleAllClustersToggle}
+                    >
+                        All
+                    </Checkbox>
+                </div>
+                <MenuSeparator />
+                {clusterKeys?.map((clusterKey) => (
+                    <div key={clusterKey} className={styles["dropdown-checkbox-item"]}>
+                        <Checkbox
+                            className={styles["dropdown-checkbox"]}
+                            checked={selectedClusterKeys.includes(clusterKey)}
+                            onValueChange={(value) => handleClusterToggle(clusterKey, value)}
+                        >
+                            {clusterKey}
+                        </Checkbox>
+                    </div>
+                ))}
+            </DropdownMenu>
             <TimeRangeSelector
                 fromTime={fromTime}
                 untilTime={untilTime}

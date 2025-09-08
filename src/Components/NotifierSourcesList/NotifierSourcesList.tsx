@@ -1,38 +1,26 @@
-import React, { FC, useState, useMemo } from "react";
+import React, { FC, useState } from "react";
 import { SourcesGroup } from "./Components/SourcesGroup";
 import ArrowChevronUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
 import ArrowChevronDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
 import AnimateHeight from "react-animate-height";
 import MoiraServiceStates, { NotifierSourceState } from "../../Domain/MoiraServiceStates";
-import {
-    useGetNotifierSourcesStateQuery,
-    useSetNotifierSourceStateMutation,
-} from "../../services/NotifierApi";
+import { useSetNotifierSourceStateMutation } from "../../services/NotifierApi";
 import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
 import { ConfirmModalHeaderData } from "../../Domain/Global";
 import { Flexbox } from "../Flexbox/FlexBox";
 
 import styles from "./NotifierSourcesList.module.less";
 
-const filterAndSortSources = (
-    sources: NotifierSourceState[] | undefined,
-    keyword: string
-): NotifierSourceState[] => {
-    if (!sources) return [];
-    return sources
-        .filter((s) => s.trigger_source.toLowerCase().includes(keyword.toLowerCase()))
-        .sort((a, b) =>
-            `${a.cluster_id}_${a.trigger_source}`.localeCompare(
-                `${b.cluster_id}_${b.trigger_source}`,
-                undefined,
-                { numeric: true, sensitivity: "base" }
-            )
-        );
-};
+interface INotifierSourcesListProps {
+    graphiteGroup: NotifierSourceState[];
+    prometheusGroup: NotifierSourceState[];
+}
 
-export const NotifierSourcesList: FC = () => {
+export const NotifierSourcesList: FC<INotifierSourcesListProps> = ({
+    graphiteGroup,
+    prometheusGroup,
+}) => {
     const [expanded, setExpanded] = useState(false);
-    const { data: notifierSourcesState } = useGetNotifierSourcesStateQuery();
     const [setNotifierSourceState] = useSetNotifierSourceStateMutation();
     const { modalData, setModalData, closeModal } = useConfirmModal();
 
@@ -55,13 +43,6 @@ export const NotifierSourcesList: FC = () => {
             },
         });
     };
-
-    const { graphiteGroup, prometheusGroup } = useMemo(() => {
-        return {
-            graphiteGroup: filterAndSortSources(notifierSourcesState, "graphite"),
-            prometheusGroup: filterAndSortSources(notifierSourcesState, "prometheus"),
-        };
-    }, [notifierSourcesState]);
 
     const isGraphiteGroupShown = graphiteGroup.length > 0;
     const isPrometheusGroupShown = prometheusGroup.length > 0;
