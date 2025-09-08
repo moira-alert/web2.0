@@ -21,7 +21,8 @@
         "test:e2e": "concurrently -k -s first \"yarn start:docker\" \"wait-on http://localhost:8080 && npx playwright test e2eTests/\"",
         "prettier": "prettier \"./src/**/*.{ts,tsx}\"",
         "pw:screenshotTest": "cross-env SKIP_SETUP=true xvfb-run npx playwright test screenshotTests/screenshotTest.spec.ts",
-        "screenshots": "concurrently -k -s first \"yarn storybook:ci\" \"wait-on http://localhost:9001 && yarn pw:screenshotTest\""
+        "screenshots": "concurrently -k -s first \"yarn storybook:ci\" \"wait-on http://localhost:9001 && yarn pw:screenshotTest\"",
+        "generate-types": "node generateTypes.js"
     },
     "dependencies": {
         "@lezer/highlight": "1.1.6",
@@ -106,6 +107,7 @@
         "react-window": "1.8.0",
         "regenerator-runtime": "0.13.5",
         "storybook": "8.6.14",
+        "swagger-typescript-api": "13.2.9",
         "typescript": "5.2.2",
         "vite": "6.3.5",
         "wait-on": "8.0.3"
