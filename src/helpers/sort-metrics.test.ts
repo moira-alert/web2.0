@@ -4,6 +4,16 @@ import type { MetricItemList } from "../Domain/Metric";
 import { Status } from "../Domain/Status";
 import type { SortingColumn } from "../Components/MetricList/MetricList";
 
+const sharedMetricFileds = {
+    maintenance_info: {
+        setup_user: null,
+        setup_time: null,
+        remove_time: null,
+        remove_user: null,
+    },
+    suppressed: false,
+};
+
 const metrics: MetricItemList = {
     "vm-elk-f1": {
         state: Status.OK,
@@ -13,6 +23,7 @@ const metrics: MetricItemList = {
             t1: 82.5,
             t2: 20.23,
         },
+        ...sharedMetricFileds,
     },
     "vm-elk-l1": {
         state: Status.OK,
@@ -22,6 +33,7 @@ const metrics: MetricItemList = {
             t1: 96.54,
             t2: 19.87,
         },
+        ...sharedMetricFileds,
     },
     "vm-elk-r1": {
         state: Status.OK,
@@ -31,6 +43,7 @@ const metrics: MetricItemList = {
             t1: 93.22,
             t2: 20.77,
         },
+        ...sharedMetricFileds,
     },
     "vm-elk-r2": {
         state: Status.OK,
@@ -40,6 +53,7 @@ const metrics: MetricItemList = {
             t1: 89.54,
             t2: 18.45,
         },
+        ...sharedMetricFileds,
     },
     "vm-elk-s1": {
         state: Status.WARN,
@@ -49,6 +63,7 @@ const metrics: MetricItemList = {
             t1: 180095,
             t2: 19.39,
         },
+        ...sharedMetricFileds,
     },
     "vm-elk-s2": {
         state: Status.WARN,
@@ -57,6 +72,7 @@ const metrics: MetricItemList = {
         values: {
             t1: 19.83,
         },
+        ...sharedMetricFileds,
     },
     "vm-elk-s3": {
         state: Status.OK,
@@ -66,11 +82,13 @@ const metrics: MetricItemList = {
             t1: 180095,
             t2: 20.52,
         },
+        ...sharedMetricFileds,
     },
     "vm-elk-s4": {
         state: Status.NODATA,
         timestamp: 1504516241,
         event_timestamp: 1503999000,
+        ...sharedMetricFileds,
     },
 };
 

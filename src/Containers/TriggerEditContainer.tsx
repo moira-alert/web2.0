@@ -23,7 +23,7 @@ import {
 } from "../store/Reducers/TriggerFormReducer.slice";
 
 const TriggerEditContainer = () => {
-    const [trigger, setTrigger] = useState<Trigger | undefined>(undefined);
+    const [trigger, setTrigger] = useState<Partial<Trigger> | undefined>(undefined);
     const { config } = useAppSelector(ConfigState);
     const { validationResult, isSaveModalVisible } = useAppSelector(TriggerFormState);
     const { isLoading, error } = useAppSelector(UIState);
@@ -55,7 +55,7 @@ const TriggerEditContainer = () => {
         if (update.trigger_source) {
             setTrigger((prev) => {
                 if (!prev) return;
-                return { ...prev, cluster_id: null, ...update };
+                return { ...prev, cluster_id: undefined, ...update };
             });
             dispatch(setIsSaveButtonDisabled(false));
             return;

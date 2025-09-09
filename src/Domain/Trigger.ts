@@ -1,100 +1,60 @@
 import { Status } from "./Status";
 import { MetricItemList } from "./Metric";
-import { Schedule } from "./Schedule";
 import { getUnixTime } from "date-fns";
 import { getUTCDate } from "../helpers/DateUtil";
+import {
+    DtoProblemOfTarget,
+    DtoTrigger,
+    DtoTriggersList,
+    DtoTriggerNoisiness,
+    DtoTriggerNoisinessList,
+    DtoTriggerCheck,
+    DtoTreeOfProblems,
+    DtoTriggerCheckResponse,
+    MoiraCheckData,
+    MoiraTriggerCheck,
+} from "./__generated__/data-contracts";
+import { OverrideField } from "../helpers/OverrideField";
 
 export type TriggerType = "rising" | "falling" | "expression";
 export const DEFAULT_TRIGGER_TYPE = "rising";
 export const DEFAULT_TRIGGER_TTL = 600;
 export const LOW_TRIGGER_TTL = 300;
 
-export type Trigger = {
-    notify_about_new_metrics: boolean;
-    id: string;
-    name: string;
-    targets: Array<string>;
-    tags: Array<string>;
-    patterns: Array<string>;
-    expression: string;
-    ttl?: number;
+export type Trigger = Omit<DtoTrigger, "ttl_state" | "trigger_source" | "trigger_type"> & {
     ttl_state: Status;
-    throttling: number;
-    sched?: Schedule;
-    desc?: string;
-    trigger_type: TriggerType;
-    warn_value: number | null;
-    error_value: number | null;
-    highlights?: {
-        name: string;
-    };
-    last_check?: {
-        state: Status;
-        timestamp: number;
-        metrics: MetricItemList;
-        event_timestamp?: number;
-        score: number;
-        msg?: string;
-        maintenance?: number;
-    };
-    timestamp?: number;
     trigger_source: TriggerSource;
-    cluster_id?: string | null;
-    alone_metrics?: {
-        [target_id: string]: boolean;
-    };
-    mute_new_metrics: boolean;
-    is_remote?: boolean;
+    trigger_type: TriggerType;
 };
 
-export type TriggerList<T = Trigger> = {
-    list?: Array<T> | null;
-    page: number;
-    size: number;
-    total: number;
-};
-
-export type TriggerWithEvents = Trigger & { events_count: number };
-
-export type TriggerNoisiness = TriggerList<TriggerWithEvents> & {
-    list: Array<TriggerWithEvents>;
-};
-
-export type TriggerState = {
-    maintenance?: number;
-    maintenance_info?: {
-        setup_user?: string | null;
-        setup_time: number;
-    };
-    metrics: MetricItemList;
-    timestamp: number;
+export type CheckData = Omit<MoiraCheckData, "metrics" | "state"> & {
     state: Status;
-    score: number;
-    trigger_id: string;
-    msg?: string;
+    metrics: MetricItemList;
 };
+
+export type TriggerState = Omit<DtoTriggerCheck, "metrics" | "state"> & {
+    state: Status;
+    metrics: MetricItemList;
+};
+
+export type TriggerCheck = OverrideField<MoiraTriggerCheck, "last_check", CheckData>;
+
+export type TriggerList = OverrideField<DtoTriggersList, "list", TriggerCheck[]>;
+
+export type TriggerWithEvents = DtoTriggerNoisiness;
+
+export type TriggerNoisiness = DtoTriggerNoisinessList;
 
 export enum TriggerTargetProblemType {
     WARN = "warn",
     BAD = "bad",
 }
 
-export type TriggerTargetProblem = {
-    argument: string;
-    position: number;
-    type?: "warn" | "bad";
-    description?: string;
-    problems?: TriggerTargetProblem[];
-};
+export type TriggerTargetProblem = DtoProblemOfTarget;
 
-export type ValidateTriggerTarget = {
-    syntax_ok: boolean;
-    tree_of_problems?: TriggerTargetProblem;
-};
+export type ValidateTriggerTarget = DtoTreeOfProblems;
 
-export type ValidateTargetsResult = {
-    targets: Array<ValidateTriggerTarget | undefined>;
-};
+export type ValidateTargetsResult = DtoTriggerCheckResponse;
 
 export enum TriggerSource {
     GRAPHITE_LOCAL = "graphite_local",

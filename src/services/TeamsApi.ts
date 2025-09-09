@@ -1,16 +1,17 @@
 import { SubscriptionCreateInfo } from "../Domain/Subscription";
-import { Contact, TeamContactCreateInfo } from "../Domain/Contact";
-import { Settings } from "../Domain/Settings";
+import { Contact, ITeamContactWithScore } from "../Domain/Contact";
+import { TeamSettings } from "../Domain/Settings";
 import { Subscription } from "../Domain/Subscription";
 import { ITeamList, Team } from "../Domain/Team";
 import { BaseApi, CustomBaseQueryArgs, TApiInvalidateTags } from "./BaseApi";
 import qs from "qs";
+import { RequireKeys } from "../helpers/RequireKeys";
 
 const ALL_TEAMS_LIST_SIZE = 30;
 
 export const TeamsApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getTeamSettings: builder.query<Settings, CustomBaseQueryArgs<{ teamId: string }>>({
+        getTeamSettings: builder.query<TeamSettings, CustomBaseQueryArgs<{ teamId: string }>>({
             query: ({ teamId }) => ({
                 url: `teams/${encodeURIComponent(teamId)}/settings`,
                 method: "GET",
@@ -27,7 +28,10 @@ export const TeamsApi = BaseApi.injectEndpoints({
             transformResponse: (response: { teams: Team[] }) => response.teams,
             providesTags: ["UserTeams"],
         }),
-        createTeamContact: builder.mutation<Contact, CustomBaseQueryArgs<TeamContactCreateInfo>>({
+        createTeamContact: builder.mutation<
+            Contact,
+            CustomBaseQueryArgs<Omit<RequireKeys<ITeamContactWithScore, "team_id">, "id">>
+        >({
             query: ({ team_id, handleErrorLocally, handleLoadingLocally, ...contact }) => ({
                 url: `teams/${encodeURIComponent(team_id)}/contacts`,
                 method: "POST",

@@ -5,7 +5,6 @@ import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-u
 import { SubscriptionCreateInfo } from "../../Domain/Subscription";
 import { Contact } from "../../Domain/Contact";
 import { Schedule } from "../../Domain/Schedule";
-import { Subscription } from "../../Domain/Subscription";
 import ContactSelect from "../ContactSelect/ContactSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
@@ -30,7 +29,7 @@ enum TagsType {
 }
 
 type TSubscriptionEditorProps = {
-    subscription: Subscription | SubscriptionCreateInfo;
+    subscription: SubscriptionCreateInfo;
     onChange: (subscriptionInfo: Partial<SubscriptionCreateInfo>) => void;
     tags: Array<string>;
     contacts: Array<Contact>;

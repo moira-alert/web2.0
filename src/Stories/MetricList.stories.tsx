@@ -23,6 +23,10 @@ const items: MetricItemList = {
         suppressed: false,
         timestamp: 1503496225,
         maintenance: 1504100565,
+        maintenance_info: {
+            setup_user: "Superman",
+            setup_time: 1553158221,
+        },
     },
     "vm-ditrace3.elasticsearch": {
         event_timestamp: 1503486527,

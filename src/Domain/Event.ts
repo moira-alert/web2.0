@@ -1,21 +1,7 @@
+import { OverrideField } from "../helpers/OverrideField";
+import { MoiraNotificationEvent, DtoEventsList } from "./__generated__/data-contracts";
 import { Status } from "./Status";
 
-export type Event = {
-    state: Status;
-    old_state: Status;
-    timestamp: number;
-    values?: {
-        [metric: string]: number;
-    };
-    metric: string;
-    msg?: string;
-    trigger_id: string;
-    trigger_event?: boolean;
-};
+export type Event = OverrideField<MoiraNotificationEvent, "state" | "old_state", Status>;
 
-export type EventList = {
-    total: number;
-    list: Array<Event>;
-    page: number;
-    size: number;
-};
+export type EventList = OverrideField<DtoEventsList, "list", Event[]>;

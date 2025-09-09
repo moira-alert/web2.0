@@ -47,7 +47,9 @@ const sourceData: Trigger = {
     trigger_type: "falling",
     throttling: 0,
     expression: "",
-    notify_about_new_metrics: false,
+    cluster_id: "default",
+    created_by: "moira_team",
+    updated_by: "moira_team",
     mute_new_metrics: false,
     is_remote: false,
     alone_metrics: {},
@@ -157,7 +159,6 @@ export const FullFilled = () => (
             expression:
                 "t1 > 134500 ? ERROR : (PREV_STATE == OK ? (t1 > 5 : WARN ? OK) : (t1 > 6000000000 ? WARN : OK))",
             ttl_state: Status.OK,
-            notify_about_new_metrics: true,
             alone_metrics: { t2: true },
         }}
     />

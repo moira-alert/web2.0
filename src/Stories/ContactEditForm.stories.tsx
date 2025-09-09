@@ -42,7 +42,11 @@ const initializeStore = () => {
                 isPlottingDefaultOn: true,
                 isPlottingAvailable: true,
                 isSubscriptionToAllTagsAvailable: true,
+                celebrationMode: "",
+                isReadonlyEnabled: false,
             },
+            sentry: {},
+            remoteAllowed: true,
             metric_source_clusters: [],
         })
     );

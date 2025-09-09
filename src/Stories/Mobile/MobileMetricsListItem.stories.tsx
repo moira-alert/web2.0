@@ -16,6 +16,12 @@ const metricData: Metric = {
         t2: 110389189,
         t3: 111389189,
     },
+    maintenance_info: {
+        setup_user: null,
+        setup_time: null,
+        remove_user: null,
+        remove_time: null,
+    },
 };
 
 export default {

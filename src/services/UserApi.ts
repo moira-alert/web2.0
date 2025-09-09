@@ -1,13 +1,13 @@
 import { BaseApi, CustomBaseQueryArgs } from "./BaseApi";
 import { IUser } from "../Domain/User";
-import { Settings } from "../Domain/Settings";
+import { UserSettings } from "../Domain/Settings";
 
 export const UserApi = BaseApi.injectEndpoints({
     endpoints: (builder) => ({
         getUser: builder.query<IUser, CustomBaseQueryArgs | void>({
             query: () => ({ url: "user", method: "GET", credentials: "same-origin" }),
         }),
-        getUserSettings: builder.query<Settings, CustomBaseQueryArgs | void>({
+        getUserSettings: builder.query<UserSettings, CustomBaseQueryArgs | void>({
             query: () => ({
                 url: "/user/settings",
                 method: "GET",

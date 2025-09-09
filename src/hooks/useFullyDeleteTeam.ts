@@ -3,7 +3,7 @@ import { useDeleteTeamMutation, useGetTeamSettingsQuery } from "../services/Team
 import { useDeleteContactMutation } from "../services/ContactApi";
 import { useDeleteAllUsersFromTeam } from "./useDeleteAllUsersFromTeam";
 import { Subscription } from "../Domain/Subscription";
-import { Contact } from "../Domain/Contact";
+import { ITeamContactWithScore } from "../Domain/Contact";
 
 export const useFullyDeleteTeam = (teamId: string, skip?: boolean) => {
     const { data: teamSettings, isLoading: isGettingSettings } = useGetTeamSettingsQuery(
@@ -35,7 +35,7 @@ export const useFullyDeleteTeam = (teamId: string, skip?: boolean) => {
         );
     };
 
-    const deleteContacts = async (contacts: Contact[]) => {
+    const deleteContacts = async (contacts: ITeamContactWithScore[]) => {
         await Promise.all(
             contacts.map((contact) =>
                 deleteContact({

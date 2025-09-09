@@ -167,10 +167,11 @@ export default function TriggerInfo({
                                         by {maintenance_info.setup_user}
                                         <br />
                                         at{" "}
-                                        {format(
-                                            fromUnixTime(maintenance_info.setup_time),
-                                            "MMMM d, HH:mm:ss"
-                                        )}
+                                        {maintenance_info.setup_time != null &&
+                                            format(
+                                                fromUnixTime(maintenance_info.setup_time),
+                                                "MMMM d, HH:mm:ss"
+                                            )}
                                     </div>
                                 );
                             }}

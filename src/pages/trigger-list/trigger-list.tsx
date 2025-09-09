@@ -93,7 +93,7 @@ const checkPageAndRedirectIfNeeded = (
     page: number,
     onChange: (update: TriggerListUpdate) => void
 ) => {
-    const pages = Math.ceil(triggerList.total / triggerList.size);
+    const pages = Math.ceil((triggerList?.total ?? 0) / (triggerList?.size ?? 1));
     if (page > pages && triggerList.total !== 0) {
         onChange({ page: pages || 1 });
         return true;
@@ -141,7 +141,7 @@ const TriggerListPage: React.FC<TriggerListProps> = ({ view: TriggerListView }) 
         if (checkPageAndRedirectIfNeeded(triggerList, locationSearch.page, handleChange)) return;
 
         setActivePage(locationSearch.page);
-        setPageCount(Math.ceil(triggerList.total / triggerList.size));
+        setPageCount(Math.ceil((triggerList?.total ?? 0) / (triggerList?.size ?? 1)));
     }, [triggerList]);
 
     return (

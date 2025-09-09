@@ -28,10 +28,10 @@ export const useValidateTarget = (dispatch: Dispatch<Action>) => {
         try {
             const validationResult = await validateTarget(triggerPayload).unwrap();
 
-            const doAnyTargetsHaveError = validationResult.targets.some((target) =>
+            const doAnyTargetsHaveError = validationResult.targets?.some((target) =>
                 checkTriggerTarget(target, TriggerTargetProblemType.BAD)
             );
-            const doAnyTargetsHaveWarning = validationResult.targets.some((target) =>
+            const doAnyTargetsHaveWarning = validationResult.targets?.some((target) =>
                 checkTriggerTarget(target, TriggerTargetProblemType.WARN)
             );
 

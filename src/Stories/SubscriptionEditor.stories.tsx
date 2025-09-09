@@ -65,6 +65,10 @@ export const WithData = {
                 any_tags: false,
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                plotting: {
+                    enabled: false,
+                    theme: "light",
+                },
             }}
         />
     ),
@@ -93,6 +97,10 @@ export const WithDegradation = () => (
             ignore_recoverings: true,
             ignore_warnings: false,
             any_tags: false,
+            plotting: {
+                enabled: false,
+                theme: "light",
+            },
         }}
     />
 );

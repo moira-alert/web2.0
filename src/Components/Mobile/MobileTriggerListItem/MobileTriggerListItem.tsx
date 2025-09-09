@@ -3,7 +3,7 @@ import { getUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router-dom";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
-import { Trigger } from "../../../Domain/Trigger";
+import { TriggerCheck } from "../../../Domain/Trigger";
 import { StatusesList } from "../../../Domain/Status";
 import { MetricItemList } from "../../../Domain/Metric";
 import { getPageLink } from "../../../Domain/Global";
@@ -19,7 +19,7 @@ import styles from "./MobileTriggerListItem.module.less";
 const cn = classNames.bind(styles);
 
 type Props = {
-    data: Trigger;
+    data: TriggerCheck;
 };
 
 type State = {

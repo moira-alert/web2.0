@@ -1,10 +1,14 @@
 import { DaysOfWeek } from "../../Domain/Schedule";
-import { Trigger, TriggerSource } from "../../Domain/Trigger";
+import { TriggerCheck, TriggerSource } from "../../Domain/Trigger";
 import { Status } from "../../Domain/Status";
 
-const data: Array<Trigger> = [
+const data: TriggerCheck[] = [
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 99.0,
         sched: {
@@ -25,43 +29,80 @@ const data: Array<Trigger> = [
         tags: ["EgaisTest"],
         throttling: 0,
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         targets: ["ADK.elasticsearch.rosalco{26,27,28}.rosalco.jvm.mem.heap_used_percent"],
         patterns: ["ADK.elasticsearch.rosalco{26,27,28}.rosalco.jvm.mem.heap_used_percent"],
         trigger_type: "falling",
         ttl: 6000,
         warn_value: 95.0,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "ADK.elasticsearch.rosalco26.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.WARN,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "ADK.elasticsearch.rosalco27.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.ERROR,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "ADK.elasticsearch.rosalco28.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "ADK.elasticsearch.rosalco29.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.OK,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "ADK.elasticsearch.rosalco30.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532288,
@@ -73,6 +114,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 100.0,
         sched: {
@@ -93,31 +138,56 @@ const data: Array<Trigger> = [
         tags: ["normal", "EDI", "DevOps", "dbaas", "Cassandra"],
         throttling: 0,
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         id: "f1b45470-b0eb-498b-a22d-2c3ced467a91",
         patterns: ["EDITest.Cassandra.*.*.DownEndpointCount.DownEndpointCount"],
         trigger_type: "falling",
         ttl: 600,
         warn_value: 1.0,
         last_check: {
+            metrics_to_target_relation: {},
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 CatalogueTestingCluster: {
                     timestamp: 1500531687,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500473007,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 CatalogueCluster: {
                     timestamp: 1500531687,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500473007,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 CatalogueRtqBenchmarkCluster: {
                     timestamp: 1500531687,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500473007,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532289,
@@ -133,6 +203,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 1500.0,
         sched: {
@@ -151,7 +225,6 @@ const data: Array<Trigger> = [
         },
         name: "BillyElastic GC Time",
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: true,
         throttling: 1,
         tags: ["Billy"],
         id: "875ec87c-969b-4bc0-93ca-4db0efbe4ce6",
@@ -160,24 +233,50 @@ const data: Array<Trigger> = [
         ttl: 600,
         warn_value: 1000.0,
         last_check: {
+            metrics_to_target_relation: {},
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el2.jvm.gc.collection.time)": {
                     timestamp: 1500531627,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500472887,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el1.jvm.gc.collection.time)": {
                     timestamp: 1500531627,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500472887,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el3.jvm.gc.collection.time)": {
                     timestamp: 1500531627,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500472887,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532289,
@@ -191,6 +290,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 200.0,
         sched: {
@@ -209,7 +312,6 @@ const data: Array<Trigger> = [
         },
         name: "Highlander-WebAPI 400 Count",
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         throttling: 0,
         tags: ["Highlander-WebApi", "KE"],
         id: "234225c0-7e6d-4aa5-9681-39ee17ffec0c",
@@ -220,11 +322,26 @@ const data: Array<Trigger> = [
         ttl: 600,
         warn_value: 50.0,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1467708699,
                     state: Status.NODATA,
                     event_timestamp: 1467708699,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
+                    suppressed: false,
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1500532210,
@@ -232,6 +349,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1499605699,
                     values: { t1: 0.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1468306341,
@@ -239,6 +362,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1467984257,
                     values: { t1: 0.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1467984774,
@@ -246,6 +375,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1467944898,
                     values: { t1: 0.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1467780794,
@@ -253,11 +388,24 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1467709372,
                     values: { t1: 0.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1467708687,
                     state: Status.NODATA,
                     event_timestamp: 1467708687,
+                    suppressed: false,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1467780840,
@@ -265,6 +413,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1467780300,
                     values: { t1: 0.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1470111187,
@@ -272,6 +426,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 0.0 },
                     event_timestamp: 1468373062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
                     timestamp: 1468339043,
@@ -279,11 +439,24 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1468305892,
                     values: { t1: 0.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sumSeries(derivative(KE.Highlander-webapi.*.AfterThrottling.anyAction.status.status.4*.Count-Requests))": {
                     timestamp: 1467705087,
                     state: Status.NODATA,
                     event_timestamp: 1467705087,
+                    suppressed: false,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532271,
@@ -297,6 +470,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 2000.0,
         sched: {
@@ -315,7 +492,6 @@ const data: Array<Trigger> = [
         },
         name: "BillyElastic Query Time",
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: true,
         throttling: 0,
         tags: ["Billy"],
         id: "03f11d7c-2260-455a-b296-6db6e094b1f0",
@@ -326,24 +502,50 @@ const data: Array<Trigger> = [
         ttl: 600,
         warn_value: 1500.0,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el1.indices._all.search.query_time_in_millis),1)": {
                     timestamp: 1500531687,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500472830,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el2.indices._all.search.query_time_in_millis),1)": {
                     timestamp: 1500531687,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500472830,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el3.indices._all.search.query_time_in_millis),1)": {
                     timestamp: 1500531687,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500472830,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532289,
@@ -357,6 +559,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 99.0,
         sched: {
@@ -377,31 +583,56 @@ const data: Array<Trigger> = [
         tags: ["EgaisTest"],
         throttling: 0,
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         targets: ["ADK.elasticsearch.rosalco{26,27,28}.rosalco.jvm.mem.heap_used_percent"],
         patterns: ["ADK.elasticsearch.rosalco{26,27,28}.rosalco.jvm.mem.heap_used_percent"],
         trigger_type: "falling",
         ttl: 6000,
         warn_value: 95.0,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "ADK.elasticsearch.rosalco28.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "ADK.elasticsearch.rosalco26.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "ADK.elasticsearch.rosalco27.rosalco.jvm.mem.heap_used_percent": {
                     timestamp: 1500526227,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500480087,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532288,
@@ -413,6 +644,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 48.0,
         sched: {
@@ -433,7 +668,6 @@ const data: Array<Trigger> = [
         tags: ["SDI"],
         throttling: 0,
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: true,
         targets: [
             "aliasByNode(scale(exclude(sortByMaxima(currentBelow(KE.Databases.BackupAge.*.*.Diff.Minutes, 1000000000)), '(_tmp|_temp|_bak|_copy|_test|aspstate)'), 0.0166666666666667), 3, 4)",
         ],
@@ -442,6 +676,14 @@ const data: Array<Trigger> = [
         ttl: 600,
         warn_value: 36.0,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "apple.konturcryptostatistics": {
                     timestamp: 1500532187,
@@ -449,6 +691,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1457713344 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.nblanks": {
                     timestamp: 1500532187,
@@ -456,6 +704,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9274135276 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.ccdb": {
                     timestamp: 1500532187,
@@ -463,6 +717,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2399028748 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.orbita_pfrservice2": {
                     timestamp: 1500532187,
@@ -470,6 +730,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3631223751 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.rdcb": {
                     timestamp: 1500532187,
@@ -477,6 +743,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2583794243 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.orbita_pfrservice1": {
                     timestamp: 1500532187,
@@ -484,6 +756,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3822890418 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.billyaccounting": {
                     timestamp: 1500532187,
@@ -491,6 +769,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.1695078997 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "test.test": {
                     timestamp: 1500532187,
@@ -498,6 +782,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2798960404 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-phoenix-mc_phoenix.indexoptimize": {
                     timestamp: 1500532187,
@@ -505,6 +795,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2787092868 },
                     event_timestamp: 1500153002,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.alkray": {
                     timestamp: 1500532187,
@@ -512,6 +808,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9454323782 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativrecommendation": {
                     timestamp: 1500532187,
@@ -519,6 +821,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154189,
                     values: { t1: 8.3330282783 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativbuhcalendar": {
                     timestamp: 1500532187,
@@ -526,6 +834,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154009,
                     values: { t1: 8.3996862649 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.tvercrypto_pfrservice": {
                     timestamp: 1500532187,
@@ -533,6 +847,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.0731570983 },
                     event_timestamp: 1500152869,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-cherry_cherry.model": {
                     timestamp: 1500532187,
@@ -540,6 +860,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4129280343 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.r73_pfrservice": {
                     timestamp: 1500532187,
@@ -547,6 +873,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3142508553 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r49_regusers": {
                     timestamp: 1500532187,
@@ -554,6 +886,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152629,
                     values: { t1: 9.355988372 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-lemon-mc_lemon.msdb": {
                     timestamp: 1500532187,
@@ -561,6 +899,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2169905354 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "miscdbs.csstudyinfo": {
                     timestamp: 1500532187,
@@ -568,6 +912,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4381671921 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.websitespushnotificationservice": {
                     timestamp: 1500532187,
@@ -575,6 +925,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1202808823 },
                     event_timestamp: 1500154609,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.novag_regusers": {
                     timestamp: 1500532187,
@@ -582,6 +938,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3754163736 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativapitest": {
                     timestamp: 1500532187,
@@ -589,6 +951,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2341563341 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.analytics": {
                     timestamp: 1500532187,
@@ -596,6 +964,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9448768227 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.r18_pfrservice": {
                     timestamp: 1500532187,
@@ -603,6 +977,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3461825031 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.kemerovo": {
                     timestamp: 1500532187,
@@ -610,6 +990,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.935731855 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.hmao": {
                     timestamp: 1500532187,
@@ -617,6 +1003,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9382231754 },
                     event_timestamp: 1500157850,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.mri7_regusers": {
                     timestamp: 1500532187,
@@ -624,6 +1016,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3773555643 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "fts-sql.fts_monitor_indexcontext": {
                     timestamp: 1500532187,
@@ -631,6 +1029,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4097803612 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "fts-sql.fts_formsservice": {
                     timestamp: 1500532187,
@@ -638,6 +1042,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4136649093 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.rpcca_pfrservice2": {
                     timestamp: 1500532187,
@@ -645,6 +1055,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3006440768 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.rpcca_pfrservice1": {
                     timestamp: 1500532187,
@@ -652,6 +1068,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3048064108 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r58_regusers": {
                     timestamp: 1500532187,
@@ -659,6 +1081,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152689,
                     values: { t1: 9.3523816023 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-hector-mc_hector.model": {
                     timestamp: 1500532187,
@@ -666,6 +1094,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153229,
                     values: { t1: 9.2477418812 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-orange_orange.msdb": {
                     timestamp: 1500532187,
@@ -673,6 +1107,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152569,
                     values: { t1: 9.4069779316 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.microsoft_mgmtsvc_sqlserver": {
                     timestamp: 1500532187,
@@ -680,6 +1120,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2608013001 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.geoservice": {
                     timestamp: 1500532187,
@@ -687,6 +1133,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1260360912 },
                     event_timestamp: 1500154550,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.microsoft_mgmtsvc_webappgallery": {
                     timestamp: 1500532187,
@@ -694,6 +1146,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.444442797 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.deliverylog_router": {
                     timestamp: 1500532187,
@@ -701,6 +1159,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4359493109 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r15_regusers": {
                     timestamp: 1500532187,
@@ -708,6 +1172,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3673685816 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativthesaurustest": {
                     timestamp: 1500532187,
@@ -715,6 +1185,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2267006522 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.tomsk": {
                     timestamp: 1500532187,
@@ -722,6 +1198,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9002111368 },
                     event_timestamp: 1500157970,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r35_regusers": {
                     timestamp: 1500532187,
@@ -729,6 +1211,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3632062552 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r69_regusers": {
                     timestamp: 1500532187,
@@ -736,6 +1224,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152689,
                     values: { t1: 9.3487716255 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.mailerwarehouse": {
                     timestamp: 1500532187,
@@ -743,6 +1237,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2570295985 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r73_regusers": {
                     timestamp: 1500532187,
@@ -750,6 +1250,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3448827366 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-mint_mint.maintanancedb": {
                     timestamp: 1500532187,
@@ -757,6 +1263,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4400157086 },
                     event_timestamp: 1500153529,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.vologda": {
                     timestamp: 1500532187,
@@ -764,6 +1276,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.8988264726 },
                     event_timestamp: 1500157970,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.provodki": {
                     timestamp: 1500532187,
@@ -771,6 +1289,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9238091116 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.irudregistrator": {
                     timestamp: 1500532187,
@@ -778,6 +1302,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3842956639 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativtest": {
                     timestamp: 1500532187,
@@ -785,6 +1315,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2316953974 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-hector_hector.msdb": {
                     timestamp: 1500532187,
@@ -792,6 +1328,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152629,
                     values: { t1: 9.4515864573 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r52_regusers": {
                     timestamp: 1500532187,
@@ -799,6 +1341,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152689,
                     values: { t1: 9.3543217053 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.ynao": {
                     timestamp: 1500532187,
@@ -806,6 +1354,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.8979974799 },
                     event_timestamp: 1500158030,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-lemon_lemon.msdb": {
                     timestamp: 1500532187,
@@ -813,6 +1367,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152569,
                     values: { t1: 9.4179410569 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.skbkontur_r38_pfrservice1": {
                     timestamp: 1500532187,
@@ -820,6 +1380,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.0856527593 },
                     event_timestamp: 1500152869,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.metodic": {
                     timestamp: 1500532187,
@@ -827,6 +1393,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9304584304 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.sgd20pfr": {
                     timestamp: 1500532187,
@@ -834,6 +1406,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4216567506 },
                     event_timestamp: 1500153949,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.sgd20ifns": {
                     timestamp: 1500532187,
@@ -841,6 +1419,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4224900839 },
                     event_timestamp: 1500153949,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.lipeck": {
                     timestamp: 1500532187,
@@ -848,6 +1432,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9351806526 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativqa": {
                     timestamp: 1500532187,
@@ -855,6 +1445,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.3733017151 },
                     event_timestamp: 1500154069,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.perm": {
                     timestamp: 1500532187,
@@ -862,6 +1458,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9243646672 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-hector-mc_hector.msdb": {
                     timestamp: 1500532187,
@@ -869,6 +1471,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2452462246 },
                     event_timestamp: 1500153229,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.ces_r16_pfrservice1": {
                     timestamp: 1500532187,
@@ -876,6 +1484,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4361522609 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.billyusers": {
                     timestamp: 1500532187,
@@ -883,6 +1497,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2311832541 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.centralproviderlist": {
                     timestamp: 1500532187,
@@ -890,6 +1510,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4430919962 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-phoenix_phoenix.model": {
                     timestamp: 1500532187,
@@ -897,6 +1523,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2703028053 },
                     event_timestamp: 1500153002,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturedu": {
                     timestamp: 1500532187,
@@ -904,6 +1536,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154550,
                     values: { t1: 8.13382689 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-hector-mc_hector.indexoptimize": {
                     timestamp: 1500532187,
@@ -911,6 +1549,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2524588473 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturexternnew": {
                     timestamp: 1500532187,
@@ -918,6 +1562,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154489,
                     values: { t1: 8.1446645643 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-rapid_rapid.msdb": {
                     timestamp: 1500532187,
@@ -925,6 +1575,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153289,
                     values: { t1: 8.4917348969 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r18_regusers": {
                     timestamp: 1500532187,
@@ -932,6 +1588,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152629,
                     values: { t1: 9.3651463593 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativmaintenance": {
                     timestamp: 1500532187,
@@ -939,6 +1601,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154009,
                     values: { t1: 8.3988572706 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.billypartners": {
                     timestamp: 1500532187,
@@ -946,6 +1614,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153469,
                     values: { t1: 8.6320165875 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.crmdata": {
                     timestamp: 1500532187,
@@ -953,6 +1627,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.956942797 },
                     event_timestamp: 1500153289,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "cl1aonag01_inst01.factor": {
                     timestamp: 1500532187,
@@ -960,6 +1640,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4301203169 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.microsoft_mgmtsvc_store": {
                     timestamp: 1500532187,
@@ -967,6 +1653,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2638568556 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.r61_regusers": {
                     timestamp: 1500532187,
@@ -974,6 +1666,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3214687305 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.billy": {
                     timestamp: 1500532187,
@@ -981,6 +1679,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.9150634553 },
                     event_timestamp: 1500153349,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.petrocrypt_regusers": {
                     timestamp: 1500532187,
@@ -988,6 +1692,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3709753529 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "cl1aonag02_inst01.maintanancedb": {
                     timestamp: 1500532187,
@@ -995,6 +1705,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4056136945 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.stavr": {
                     timestamp: 1500532187,
@@ -1002,6 +1718,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9018733483 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "cl1aonag01_inst01.maintanancedb": {
                     timestamp: 1500532187,
@@ -1009,6 +1731,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3787401083 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.region": {
                     timestamp: 1500532187,
@@ -1016,6 +1744,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9215912314 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "miscdbs.ulearn": {
                     timestamp: 1500532187,
@@ -1023,6 +1757,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2785071515 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.websitesremotelog": {
                     timestamp: 1500532187,
@@ -1030,6 +1770,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1375031045 },
                     event_timestamp: 1500154550,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativsaletest": {
                     timestamp: 1500532187,
@@ -1037,6 +1783,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2247335901 },
                     event_timestamp: 1500153229,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativapi": {
                     timestamp: 1500532187,
@@ -1044,6 +1796,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4013529315 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-lemon-mc_lemon.model": {
                     timestamp: 1500532187,
@@ -1051,6 +1809,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2197683131 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativsearchquality": {
                     timestamp: 1500532187,
@@ -1058,6 +1822,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154249,
                     values: { t1: 8.298032619 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativofflinetest": {
                     timestamp: 1500532187,
@@ -1065,6 +1835,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2311138012 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms3": {
                     timestamp: 1500532187,
@@ -1072,6 +1848,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4231006735 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms2": {
                     timestamp: 1500532187,
@@ -1079,6 +1861,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152509,
                     values: { t1: 9.4244895624 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms1": {
                     timestamp: 1500532187,
@@ -1086,6 +1874,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4256006735 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "sps-miscdbs.websupporttools": {
                     timestamp: 1500532187,
@@ -1093,6 +1887,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2712933386 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms7": {
                     timestamp: 1500532187,
@@ -1100,6 +1900,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4181093538 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms6": {
                     timestamp: 1500532187,
@@ -1107,6 +1913,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4194939024 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms5": {
                     timestamp: 1500532187,
@@ -1114,6 +1926,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4206050135 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.websitesadvertisingservice": {
                     timestamp: 1500532187,
@@ -1121,6 +1939,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154550,
                     values: { t1: 8.1369432227 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.free_kontur_ru": {
                     timestamp: 1500532187,
@@ -1128,6 +1952,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4132583134 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "cl1aonag03_inst01.maintanancedb": {
                     timestamp: 1500532187,
@@ -1135,6 +1965,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4466453534 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.model": {
                     timestamp: 1500532187,
@@ -1142,6 +1978,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2702500858 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.r70_regusers": {
                     timestamp: 1500532187,
@@ -1149,6 +1991,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152689,
                     values: { t1: 9.3161909527 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.billyadministration": {
                     timestamp: 1500532187,
@@ -1156,6 +2004,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2406190108 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.bank": {
                     timestamp: 1500532187,
@@ -1163,6 +2017,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4448078169 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.sahalin": {
                     timestamp: 1500532187,
@@ -1170,6 +2030,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9035400149 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.etalon_regusers": {
                     timestamp: 1500532187,
@@ -1177,6 +2043,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4331715331 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.billymail": {
                     timestamp: 1500532187,
@@ -1184,6 +2056,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2414566821 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.r23_regusers": {
                     timestamp: 1500532187,
@@ -1191,6 +2069,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3384088344 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturcrypto": {
                     timestamp: 1500532187,
@@ -1198,6 +2082,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1468781251 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.fms77_1": {
                     timestamp: 1500532187,
@@ -1205,6 +2095,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1107539738 },
                     event_timestamp: 1500154609,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.petrocrypt_pfrservice": {
                     timestamp: 1500532187,
@@ -1212,6 +2108,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3553445974 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.education_regusers": {
                     timestamp: 1500532187,
@@ -1219,6 +2121,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4348381998 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.websitesmaildomain": {
                     timestamp: 1500532187,
@@ -1226,6 +2134,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154550,
                     values: { t1: 8.13555866 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.tipdog": {
                     timestamp: 1500532187,
@@ -1233,6 +2147,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9004889146 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-lemon-mc_lemon.indexoptimize": {
                     timestamp: 1500532187,
@@ -1240,6 +2160,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2247639721 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.pro_feedback": {
                     timestamp: 1500532187,
@@ -1247,6 +2173,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154009,
                     values: { t1: 8.4188746327 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-orange_orange.model": {
                     timestamp: 1500532187,
@@ -1254,6 +2186,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4078112649 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms4": {
                     timestamp: 1500532187,
@@ -1261,6 +2199,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4219939024 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.scspfdb": {
                     timestamp: 1500532187,
@@ -1268,6 +2212,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152449,
                     values: { t1: 9.4444558124 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.novosib": {
                     timestamp: 1500532187,
@@ -1275,6 +2225,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9260269938 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dev-sql-n2_sc.msdb": {
                     timestamp: 1500532187,
@@ -1282,6 +2238,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 2936.179681938 },
                     event_timestamp: 1500480246,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.crmexternal": {
                     timestamp: 1500532187,
@@ -1289,6 +2251,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.1088915789 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.r64_regusers": {
                     timestamp: 1500532187,
@@ -1296,6 +2264,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3184131749 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.fnstv": {
                     timestamp: 1500532187,
@@ -1303,6 +2277,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1538095293 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.diagnostics": {
                     timestamp: 1500532187,
@@ -1310,6 +2290,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.0129675117 },
                     event_timestamp: 1500153469,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.gpr": {
                     timestamp: 1500532187,
@@ -1317,6 +2303,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4012357685 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.mytest": {
                     timestamp: 1500532187,
@@ -1324,6 +2316,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2346988691 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.consultant_r37_pfrservice1": {
                     timestamp: 1500532187,
@@ -1331,6 +2329,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4336522609 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.primorye": {
                     timestamp: 1500532187,
@@ -1338,6 +2342,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9240868894 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.renome_r24_pfrservice1": {
                     timestamp: 1500532187,
@@ -1345,6 +2355,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3098064108 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.microsoft_mgmtsvc_sqlserver": {
                     timestamp: 1500532187,
@@ -1352,6 +2368,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4452674452 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.elba_history": {
                     timestamp: 1500532187,
@@ -1359,6 +2381,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4282496324 },
                     event_timestamp: 1500153949,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.rtcom_pfrservice1": {
                     timestamp: 1500532187,
@@ -1366,6 +2394,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2973107435 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturbuhta": {
                     timestamp: 1500532187,
@@ -1373,6 +2407,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.3099293205 },
                     event_timestamp: 1500154249,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativtaxes": {
                     timestamp: 1500532187,
@@ -1380,6 +2420,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154249,
                     values: { t1: 8.2969215079 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-cherry-mc_cherry.msdb": {
                     timestamp: 1500532187,
@@ -1387,6 +2433,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.209395566 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.nizhegor": {
                     timestamp: 1500532187,
@@ -1394,6 +2446,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9263024164 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.otchetru": {
                     timestamp: 1500532187,
@@ -1401,6 +2459,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4085925141 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r01_regusers": {
                     timestamp: 1500532187,
@@ -1408,6 +2472,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3690309085 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.inspectorscache": {
                     timestamp: 1500532187,
@@ -1415,6 +2485,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152569,
                     values: { t1: 9.3987357685 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturdiadoc": {
                     timestamp: 1500532187,
@@ -1422,6 +2498,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1529935567 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.kabarbal": {
                     timestamp: 1500532187,
@@ -1429,6 +2511,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9368386259 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.russia": {
                     timestamp: 1500532187,
@@ -1436,6 +2524,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9135356759 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturalko": {
                     timestamp: 1500532187,
@@ -1443,6 +2537,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1502027579 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.crmstorage": {
                     timestamp: 1500532187,
@@ -1450,6 +2550,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153469,
                     values: { t1: 8.6247249123 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.model": {
                     timestamp: 1500532187,
@@ -1457,6 +2563,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9293473193 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.r16_regusers": {
                     timestamp: 1500532187,
@@ -1464,6 +2576,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3503491698 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r72_regusers": {
                     timestamp: 1500532187,
@@ -1471,6 +2589,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152689,
                     values: { t1: 9.3465494033 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturkuba": {
                     timestamp: 1500532187,
@@ -1478,6 +2602,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1482800161 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.elba": {
                     timestamp: 1500532187,
@@ -1485,6 +2615,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.1365829657 },
                     event_timestamp: 1500153349,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativassessingtest": {
                     timestamp: 1500532187,
@@ -1492,6 +2628,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.233049799 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.amur": {
                     timestamp: 1500532187,
@@ -1499,6 +2641,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9451546004 },
                     event_timestamp: 1500157850,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.comment": {
                     timestamp: 1500532187,
@@ -1506,6 +2654,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9398855014 },
                     event_timestamp: 1500157850,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.sma": {
                     timestamp: 1500532187,
@@ -1513,6 +2667,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152449,
                     values: { t1: 9.4441780346 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativsale": {
                     timestamp: 1500532187,
@@ -1520,6 +2680,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154550,
                     values: { t1: 8.138306056 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.arbitraj": {
                     timestamp: 1500532187,
@@ -1527,6 +2693,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9437700506 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.otchetru_admin": {
                     timestamp: 1500532187,
@@ -1534,6 +2706,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4052591808 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r36_regusers": {
                     timestamp: 1500532187,
@@ -1541,6 +2719,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3615395886 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r49_pfrservice": {
                     timestamp: 1500532187,
@@ -1548,6 +2732,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3573772609 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativsearchtest": {
                     timestamp: 1500532187,
@@ -1555,6 +2745,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2286311604 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativoffline": {
                     timestamp: 1500532187,
@@ -1562,6 +2758,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154069,
                     values: { t1: 8.3799683817 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativassessing": {
                     timestamp: 1500532187,
@@ -1569,6 +2771,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4005195982 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.microsoft_mgmtsvc_config": {
                     timestamp: 1500532187,
@@ -1576,6 +2784,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152449,
                     values: { t1: 9.4455322025 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.r52_pfrservice": {
                     timestamp: 1500532187,
@@ -1583,6 +2797,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3264643899 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.maintanancedb": {
                     timestamp: 1500532187,
@@ -1590,6 +2810,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2257926192 },
                     event_timestamp: 1500153229,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.habarovsk": {
                     timestamp: 1500532187,
@@ -1597,6 +2823,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9385009532 },
                     event_timestamp: 1500157850,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-hector_hector.model": {
                     timestamp: 1500532187,
@@ -1604,6 +2836,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4524154457 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.sgd20skbkontur": {
                     timestamp: 1500532187,
@@ -1611,6 +2849,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153949,
                     values: { t1: 8.4241610909 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.chelyab": {
                     timestamp: 1500532187,
@@ -1618,6 +2862,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9401632792 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.bashkiria": {
                     timestamp: 1500532187,
@@ -1625,6 +2875,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9407144951 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.konturcrmtest": {
                     timestamp: 1500532187,
@@ -1632,6 +2888,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2241000257 },
                     event_timestamp: 1500153229,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.adfsconfiguration": {
                     timestamp: 1500532187,
@@ -1639,6 +2901,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2604584304 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.elba8010": {
                     timestamp: 1500532187,
@@ -1646,6 +2914,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.9976940768 },
                     event_timestamp: 1500153469,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativtaxestest": {
                     timestamp: 1500532187,
@@ -1653,6 +2927,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2272509529 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.csedays": {
                     timestamp: 1500532187,
@@ -1660,6 +2940,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1424119561 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.yetanotherforum": {
                     timestamp: 1500532187,
@@ -1667,6 +2953,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1391697711 },
                     event_timestamp: 1500154550,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.contactserverdb": {
                     timestamp: 1500532187,
@@ -1674,6 +2966,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4426072964 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturfocus": {
                     timestamp: 1500532187,
@@ -1681,6 +2979,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154489,
                     values: { t1: 8.1416133495 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "fts-sql.fts_monitor_envelopescontext": {
                     timestamp: 1500532187,
@@ -1688,6 +2992,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4111649093 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.centralupfrlist": {
                     timestamp: 1500532187,
@@ -1695,6 +3005,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4419808851 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-phoenix-mc_phoenix.model": {
                     timestamp: 1500532187,
@@ -1702,6 +3018,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2370469594 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.virtualmanagerdb": {
                     timestamp: 1500532187,
@@ -1709,6 +3031,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4355712641 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.sverdlov": {
                     timestamp: 1500532187,
@@ -1716,6 +3044,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9013177927 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.infanet_pfrservice": {
                     timestamp: 1500532187,
@@ -1723,6 +3057,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4070025834 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.severstal_regusers": {
                     timestamp: 1500532187,
@@ -1730,6 +3070,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2804471551 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.dogovor": {
                     timestamp: 1500532187,
@@ -1737,6 +3083,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.938778731 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.msdb": {
                     timestamp: 1500532187,
@@ -1744,6 +3096,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2674766469 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.crimea": {
                     timestamp: 1500532187,
@@ -1751,6 +3109,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9393299458 },
                     event_timestamp: 1500157850,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-ice-mc_ice.msdb": {
                     timestamp: 1500532187,
@@ -1758,6 +3122,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500366845,
                     values: { t1: 9.2759744744 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-orange-mc_orange.model": {
                     timestamp: 1500532187,
@@ -1765,6 +3135,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2051246322 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dev-sql-n1_sc.model": {
                     timestamp: 1500532187,
@@ -1772,6 +3148,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 2504.2108360234 },
                     event_timestamp: 1500480246,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.system": {
                     timestamp: 1500532187,
@@ -1779,6 +3161,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152869,
                     values: { t1: 9.0787083148 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.yaroslav": {
                     timestamp: 1500532187,
@@ -1786,6 +3174,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.8985530354 },
                     event_timestamp: 1500158030,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-mint_mint.msdb": {
                     timestamp: 1500532187,
@@ -1793,6 +3187,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2736355074 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.practic_r36_pfrservice1": {
                     timestamp: 1500532187,
@@ -1800,6 +3200,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.352571392 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "forms-sql.forms8": {
                     timestamp: 1500532187,
@@ -1807,6 +3213,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4169982426 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-phoenix_phoenix.msdb": {
                     timestamp: 1500532187,
@@ -1814,6 +3226,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153002,
                     values: { t1: 9.2694694719 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.rt13_pfrservice": {
                     timestamp: 1500532187,
@@ -1821,6 +3239,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2984218546 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.rostov": {
                     timestamp: 1500532187,
@@ -1828,6 +3252,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9190912314 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vmm-dbs.virtualmachinebillingdata": {
                     timestamp: 1500532187,
@@ -1835,6 +3265,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2760112123 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.sibtel_regusers": {
                     timestamp: 1500532187,
@@ -1842,6 +3278,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2878707658 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-cherry_cherry.indexoptimize": {
                     timestamp: 1500532187,
@@ -1849,6 +3291,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4176459224 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "miscdbs.csstudy": {
                     timestamp: 1500532187,
@@ -1856,6 +3304,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4398338587 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.tatarstan": {
                     timestamp: 1500532187,
@@ -1863,6 +3317,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9007666924 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativ": {
                     timestamp: 1500532187,
@@ -1870,6 +3330,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4030152713 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturelba": {
                     timestamp: 1500532187,
@@ -1877,6 +3343,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154489,
                     values: { t1: 8.1491046678 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.microsoft_mgmtsvc_store": {
                     timestamp: 1500532187,
@@ -1884,6 +3356,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4449942435 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.irucregistrator": {
                     timestamp: 1500532187,
@@ -1891,6 +3369,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3973512194 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturca": {
                     timestamp: 1500532187,
@@ -1898,6 +3382,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1513182094 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.vlgrad": {
                     timestamp: 1500532187,
@@ -1905,6 +3395,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.8991042504 },
                     event_timestamp: 1500157970,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "miscdbs.csstudyprolongation": {
                     timestamp: 1500532187,
@@ -1912,6 +3408,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4370560809 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.refmat": {
                     timestamp: 1500532187,
@@ -1919,6 +3421,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9229757783 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativbuhcalendartest": {
                     timestamp: 1500532187,
@@ -1926,6 +3434,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2322205748 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-cherry-mc_cherry.model": {
                     timestamp: 1500532187,
@@ -1933,6 +3447,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2124466828 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dev-sql-n1_sc.msdb": {
                     timestamp: 1500532187,
@@ -1940,6 +3460,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500480246,
                     values: { t1: 2504.1747292514 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.tyumen": {
                     timestamp: 1500532187,
@@ -1947,6 +3473,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.8993820282 },
                     event_timestamp: 1500157970,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.reg_regusers": {
                     timestamp: 1500532187,
@@ -1954,6 +3486,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152689,
                     values: { t1: 9.3062759689 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.mailerconfiguration": {
                     timestamp: 1500532187,
@@ -1961,6 +3499,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2592474804 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "rapid_monster.cs_info": {
                     timestamp: 1500532187,
@@ -1968,12 +3512,24 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4992262167 },
                     event_timestamp: 1500153229,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dev-sql-n2_sc.master": {
                     timestamp: 1499071906,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1499071906,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.rt13_regusers": {
                     timestamp: 1500532187,
@@ -1981,6 +3537,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.281836044 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dev-sql-n2_sc.model": {
                     timestamp: 1500532187,
@@ -1988,6 +3550,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 2936.2166221583 },
                     event_timestamp: 1500480246,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.fss": {
                     timestamp: 1500532187,
@@ -1995,6 +3563,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4106802129 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r67_regusers": {
                     timestamp: 1500532187,
@@ -2002,6 +3576,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152689,
                     values: { t1: 9.3504382922 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativthesaurus": {
                     timestamp: 1500532187,
@@ -2009,6 +3589,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.2963702919 },
                     event_timestamp: 1500154249,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.vfirewall": {
                     timestamp: 1500532187,
@@ -2016,6 +3602,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2353455826 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-phoenix-mc_phoenix.msdb": {
                     timestamp: 1500532187,
@@ -2023,6 +3615,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2320515858 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.infanet_regusers": {
                     timestamp: 1500532187,
@@ -2030,6 +3628,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3998468796 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.krasnodar": {
                     timestamp: 1500532187,
@@ -2037,6 +3641,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.935731855 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.spko_regusers": {
                     timestamp: 1500532187,
@@ -2044,6 +3654,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.0803749815 },
                     event_timestamp: 1500152869,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturexpert": {
                     timestamp: 1500532187,
@@ -2051,6 +3667,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154489,
                     values: { t1: 8.1438312309 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-rapid_rapid.model": {
                     timestamp: 1500532187,
@@ -2058,6 +3680,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4945126747 },
                     event_timestamp: 1500153289,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple-mc_apple.msdb": {
                     timestamp: 1500532187,
@@ -2065,6 +3693,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2491221583 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "rapid_monster.cs": {
                     timestamp: 1500532187,
@@ -2072,6 +3706,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153229,
                     values: { t1: 8.5886706611 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-monster_monster.msdb": {
                     timestamp: 1500532187,
@@ -2079,6 +3719,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153409,
                     values: { t1: 9.1731099903 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "fts-sql.fts_monitor_permissionscontext": {
                     timestamp: 1500532187,
@@ -2086,6 +3732,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4083914723 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vmm-dbs.virtualmanagerdb": {
                     timestamp: 1500532187,
@@ -2093,6 +3745,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2735112123 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "mint.mailerdata": {
                     timestamp: 1500532187,
@@ -2100,6 +3758,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2584141471 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturfocusforum": {
                     timestamp: 1500532187,
@@ -2107,6 +3771,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1430022384 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturzakupki": {
                     timestamp: 1500532187,
@@ -2114,6 +3784,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1410622327 },
                     event_timestamp: 1500154550,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.karelia": {
                     timestamp: 1500532187,
@@ -2121,6 +3797,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9362830703 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.spburg": {
                     timestamp: 1500532187,
@@ -2128,6 +3810,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9027066816 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.pascal_pfrservice": {
                     timestamp: 1500532187,
@@ -2135,6 +3823,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3731975752 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.microsoft_mgmtsvc_webappgallery": {
                     timestamp: 1500532187,
@@ -2142,6 +3836,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2619167524 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativsmsnotifications": {
                     timestamp: 1500532187,
@@ -2149,6 +3849,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154249,
                     values: { t1: 8.2974770634 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.websiteslanding": {
                     timestamp: 1500532187,
@@ -2157,6 +3863,12 @@ const data: Array<Trigger> = [
                     values: { t1: 8.1208321116 },
                     maintenance: 1485951561,
                     suppressed: false,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.adfsartifactstore": {
                     timestamp: 1500532187,
@@ -2164,6 +3876,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2593429661 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.mri_regusers": {
                     timestamp: 1500532187,
@@ -2171,6 +3889,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4036735902 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.r38_regusers": {
                     timestamp: 1500532187,
@@ -2178,6 +3902,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3593173663 },
                     event_timestamp: 1500152629,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.sma": {
                     timestamp: 1500532187,
@@ -2185,6 +3915,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2572856739 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.newbuhonline": {
                     timestamp: 1500532187,
@@ -2192,6 +3928,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1285708268 },
                     event_timestamp: 1500154550,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-monster_monster.model": {
                     timestamp: 1500532187,
@@ -2199,6 +3941,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2072723164 },
                     event_timestamp: 1500153289,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativsmsnotificationstest": {
                     timestamp: 1500532187,
@@ -2206,6 +3954,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2280799519 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.irkutsk": {
                     timestamp: 1500532187,
@@ -2213,6 +3967,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9379453976 },
                     event_timestamp: 1500157850,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.archive": {
                     timestamp: 1500532187,
@@ -2220,6 +3980,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9412700506 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.skbkonturnew": {
                     timestamp: 1500532187,
@@ -2227,6 +3993,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154550,
                     values: { t1: 8.1230499798 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.sibtel_pfrservice2": {
                     timestamp: 1500532187,
@@ -2234,6 +4006,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.290092988 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-mint-mc_mint.maintanancedb": {
                     timestamp: 1500532187,
@@ -2241,6 +4019,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153529,
                     values: { t1: 8.5367518208 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.microsoft_mgmtsvc_portalconfigstore": {
                     timestamp: 1500532187,
@@ -2248,6 +4032,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2646901889 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.sibtel_pfrservice1": {
                     timestamp: 1500532187,
@@ -2255,6 +4045,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2931440768 },
                     event_timestamp: 1500152749,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativrecommendationtest": {
                     timestamp: 1500532187,
@@ -2262,6 +4058,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2297335901 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.blackwhitelist": {
                     timestamp: 1500532187,
@@ -2269,6 +4071,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4444808851 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.nvgorod": {
                     timestamp: 1500532187,
@@ -2276,6 +4084,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9254714382 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-mint-mc_mint.msdb": {
                     timestamp: 1500532187,
@@ -2283,11 +4097,24 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2606450495 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-ice-mc_ice.master": {
                     timestamp: 1500366267,
                     state: Status.NODATA,
                     event_timestamp: 1500280340,
+                    suppressed: false,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.novag_pfrservice": {
                     timestamp: 1500532187,
@@ -2295,6 +4122,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3984001529 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "regusers-sql-b1.r24_regusers": {
                     timestamp: 1500532187,
@@ -2302,6 +4135,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.3339643899 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.escsamara_pfrservice1": {
                     timestamp: 1500532187,
@@ -2309,6 +4148,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.432263372 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.normativqatest": {
                     timestamp: 1500532187,
@@ -2316,6 +4161,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2305625848 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-orange-mc_orange.msdb": {
                     timestamp: 1500532187,
@@ -2323,6 +4174,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2029073411 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.nauditor": {
                     timestamp: 1500532187,
@@ -2330,6 +4187,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9276849798 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.normativsearch": {
                     timestamp: 1500532187,
@@ -2337,6 +4200,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.3027505005 },
                     event_timestamp: 1500154249,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.microsoft_mgmtsvc_usage": {
                     timestamp: 1500532187,
@@ -2344,6 +4213,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4447164657 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.sgdmonitor": {
                     timestamp: 1500532187,
@@ -2351,6 +4226,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.2055499798 },
                     event_timestamp: 1500154429,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturpf": {
                     timestamp: 1500532187,
@@ -2358,6 +4239,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154489,
                     values: { t1: 8.1477244606 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "cl1aonag04_inst01.maintanancedb": {
                     timestamp: 1500532187,
@@ -2365,6 +4252,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152449,
                     values: { t1: 9.4481153067 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.kadrmet": {
                     timestamp: 1500532187,
@@ -2372,6 +4265,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9365608481 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.otchetrusales": {
                     timestamp: 1500532187,
@@ -2379,6 +4278,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4060968549 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.nalog13_pfrservice1": {
                     timestamp: 1500532187,
@@ -2386,6 +4291,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4020069235 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.programmingcontest": {
                     timestamp: 1500532187,
@@ -2393,6 +4304,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154550,
                     values: { t1: 8.1402635216 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-ice_ice.msdb": {
                     timestamp: 1500532187,
@@ -2400,6 +4317,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152509,
                     values: { t1: 9.4236875851 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.fms52": {
                     timestamp: 1500532187,
@@ -2407,6 +4330,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154609,
                     values: { t1: 8.1071428627 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-cherry_cherry.msdb": {
                     timestamp: 1500532187,
@@ -2414,6 +4343,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152569,
                     values: { t1: 9.4123724788 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.fms55": {
                     timestamp: 1500532187,
@@ -2421,6 +4356,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1149206404 },
                     event_timestamp: 1500154609,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple-mc_apple.model": {
                     timestamp: 1500532187,
@@ -2428,6 +4369,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153169,
                     values: { t1: 9.2535666028 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.skbkontur_pfrservice2": {
                     timestamp: 1500532187,
@@ -2435,6 +4382,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152869,
                     values: { t1: 9.1128707658 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.skbkontur_pfrservice1": {
                     timestamp: 1500532187,
@@ -2442,6 +4395,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2087040991 },
                     event_timestamp: 1500152809,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-mint_mint.model": {
                     timestamp: 1500532187,
@@ -2449,6 +4408,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2744644938 },
                     event_timestamp: 1500153002,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.registry": {
                     timestamp: 1500532187,
@@ -2456,6 +4421,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152749,
                     values: { t1: 9.2851648578 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.kryarsk": {
                     timestamp: 1500532187,
@@ -2463,6 +4434,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9354540773 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.microsoft_mgmtsvc_mysql": {
                     timestamp: 1500532187,
@@ -2470,6 +4447,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152449,
                     values: { t1: 9.4455365424 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturbuh": {
                     timestamp: 1500532187,
@@ -2477,6 +4460,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1524293205 },
                     event_timestamp: 1500154489,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.microsoft_mgmtsvc_config": {
                     timestamp: 1500532187,
@@ -2484,6 +4473,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2652414036 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.pskov": {
                     timestamp: 1500532187,
@@ -2491,6 +4486,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9232535561 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-miscdbs.exchangelogs2": {
                     timestamp: 1500532187,
@@ -2498,6 +4499,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4315092058 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-ice-mc_ice.model": {
                     timestamp: 1500532187,
@@ -2505,6 +4512,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500366845,
                     values: { t1: 9.2931966967 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.websitesantivirus": {
                     timestamp: 1500532187,
@@ -2512,6 +4525,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500154550,
                     values: { t1: 8.1361098894 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.konturcrm": {
                     timestamp: 1500532187,
@@ -2519,6 +4538,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.1196559029 },
                     event_timestamp: 1500154609,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.orenburg": {
                     timestamp: 1500532187,
@@ -2526,6 +4551,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9246381049 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.severstal_pfrservice1": {
                     timestamp: 1500532187,
@@ -2533,6 +4564,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2961996324 },
                     event_timestamp: 1500152689,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.nalog": {
                     timestamp: 1500532187,
@@ -2540,6 +4577,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9282405353 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.mordovia": {
                     timestamp: 1500532187,
@@ -2547,6 +4590,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9293516464 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.sysbase": {
                     timestamp: 1500532187,
@@ -2554,6 +4603,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9010444702 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "extern-regusers-small.router_regusers": {
                     timestamp: 1500532187,
@@ -2561,6 +4616,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500152749,
                     values: { t1: 9.2832249329 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.omsk": {
                     timestamp: 1500532187,
@@ -2568,6 +4629,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9251936604 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.sgd20rosstat": {
                     timestamp: 1500532187,
@@ -2575,6 +4642,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4269345283 },
                     event_timestamp: 1500153949,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.etalon_pfrservice": {
                     timestamp: 1500532187,
@@ -2582,6 +4655,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4280967053 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "SC.microsoft_mgmtsvc_portalconfigstore": {
                     timestamp: 1500532187,
@@ -2589,6 +4668,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4452631052 },
                     event_timestamp: 1500152449,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.smoltelecom_pfrservice": {
                     timestamp: 1500532187,
@@ -2596,6 +4681,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.0825972037 },
                     event_timestamp: 1500152869,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.microsoft_mgmtsvc_usage": {
                     timestamp: 1500532187,
@@ -2603,6 +4694,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2627500858 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-lemon_lemon.model": {
                     timestamp: 1500532187,
@@ -2610,6 +4707,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4187743903 },
                     event_timestamp: 1500152569,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.samara": {
                     timestamp: 1500532187,
@@ -2617,6 +4720,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157970,
                     values: { t1: 7.9032622371 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "pfr-sql1.tomline_pfrservice": {
                     timestamp: 1500532187,
@@ -2624,6 +4733,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.0753793205 },
                     event_timestamp: 1500152869,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.cchr": {
                     timestamp: 1500532187,
@@ -2631,6 +4746,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9404367173 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-ice_ice.model": {
                     timestamp: 1500532187,
@@ -2638,6 +4759,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.4242431406 },
                     event_timestamp: 1500152509,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.adklic": {
                     timestamp: 1500532187,
@@ -2645,6 +4772,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.4196341783 },
                     event_timestamp: 1500154009,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.rlight": {
                     timestamp: 1500532187,
@@ -2652,6 +4785,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157910,
                     values: { t1: 7.9190912314 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.svetofor": {
                     timestamp: 1500532187,
@@ -2659,6 +4798,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2441654449 },
                     event_timestamp: 1500153169,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.msdb": {
                     timestamp: 1500532187,
@@ -2666,6 +4811,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.9290738686 },
                     event_timestamp: 1500157910,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "apple.monitoringmetas": {
                     timestamp: 1500532187,
@@ -2673,6 +4824,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 8.6810666028 },
                     event_timestamp: 1500153829,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.tula": {
                     timestamp: 1500532187,
@@ -2680,6 +4837,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 7.8996598059 },
                     event_timestamp: 1500157970,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "vm-referent-sql_referent.ivanovo": {
                     timestamp: 1500532187,
@@ -2687,6 +4850,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500157850,
                     values: { t1: 7.9376719592 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.scspfdb": {
                     timestamp: 1500532187,
@@ -2694,6 +4863,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2658837722 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-apple_apple.microsoft_mgmtsvc_mysql": {
                     timestamp: 1500532187,
@@ -2701,6 +4876,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 9.2635747369 },
                     event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "dbs-mint-mc_mint.model": {
                     timestamp: 1500532187,
@@ -2708,6 +4889,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500153062,
                     values: { t1: 9.2614783828 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532289,
@@ -2721,6 +4908,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: null,
         sched: {
@@ -2741,7 +4932,6 @@ const data: Array<Trigger> = [
         tags: ["edi_orvis_api"],
         throttling: 0,
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         targets: [
             "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection.bytestotal-sec",
             "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection2.bytestotal-sec",
@@ -2757,16 +4947,39 @@ const data: Array<Trigger> = [
         trigger_type: "expression",
         ttl: 600,
         warn_value: null,
-        is_remote: false,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection.currentbandwidth": {
                     timestamp: 1476261624,
                     state: Status.NODATA,
+                    suppressed: false,
+                    event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection2.currentbandwidth": {
                     timestamp: 1476261624,
                     state: Status.NODATA,
+                    suppressed: false,
+                    event_timestamp: 1500153062,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532319,
@@ -2779,6 +4992,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 1.0,
         sched: {
@@ -2797,7 +5014,6 @@ const data: Array<Trigger> = [
         },
         name: "kladr p95",
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         throttling: 0,
         tags: ["KLADR"],
         id: "d22d1517-8932-4158-b7e1-8b20f0dae6b2",
@@ -2805,20 +5021,39 @@ const data: Array<Trigger> = [
         trigger_type: "rising",
         ttl: 600,
         warn_value: 0.5,
-        is_remote: false,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 'movingAverage(KLADR.nginx.kladr_kontur_ru.upstream_response_time.total.p95,"10min")': {
                     timestamp: 1500531569,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500463290,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 'movingAverage(KLADR.nginx.fkopf1_skbkontur_ru.upstream_response_time.total.p95,"10min")': {
                     timestamp: 1500531569,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500474268,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532288,
@@ -2830,6 +5065,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 10000000000000000.0,
         sched: {
@@ -2850,7 +5089,6 @@ const data: Array<Trigger> = [
         tags: ["Cassandra", "DevOps", "dbaas", "normal"],
         throttling: 0,
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         targets: [
             "aliasByNode({Alko,EDI,EDITest,KE,KE-cloud,KE-dev}.Cassandra.*.*.GC.StopTheWorld.sum, 0, 2, 3)",
         ],
@@ -2858,8 +5096,15 @@ const data: Array<Trigger> = [
         trigger_type: "expression",
         ttl: 1800,
         warn_value: 1000000000000000.0,
-        is_remote: false,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 "Alko.EgaisCluster.rosalco44": {
                     timestamp: 1500532232,
@@ -2867,6 +5112,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 318925.0 },
                     event_timestamp: 1499489492,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.RemoteLockCluster.edi03": {
                     timestamp: 1500532232,
@@ -2874,18 +5125,36 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 236022.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.EgaisCluster.rosalco41": {
                     timestamp: 1499682153,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1499615792,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.EgaisCluster.rosalco42": {
                     timestamp: 1499682153,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1499613757,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-cloud.SpanCloudCassandraCluster.vm-span-cass2": {
                     timestamp: 1500532232,
@@ -2893,6 +5162,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 354098.0 },
                     event_timestamp: 1499072312,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CqlCoreCluster.edi13": {
                     timestamp: 1500532232,
@@ -2900,6 +5175,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 289613.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.WebCluster.rosalco34": {
                     timestamp: 1500532232,
@@ -2907,6 +5188,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482571,
                     values: { t1: 189564.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueRtqBenchmarkCluster.rtqbench-cass-3": {
                     timestamp: 1500532112,
@@ -2914,6 +5201,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500037292,
                     values: { t1: 11478.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.BlobStorageCluster.edi17": {
                     timestamp: 1500532232,
@@ -2921,6 +5214,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1499253874,
                     values: { t1: 61292.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueRtqBenchmarkCluster.rtqbench-cass-1": {
                     timestamp: 1500532112,
@@ -2928,6 +5227,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 35304.0 },
                     event_timestamp: 1500037232,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.WebCluster.rosalco32": {
                     timestamp: 1500532232,
@@ -2935,6 +5240,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 144914.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.WebCluster.rosalco33": {
                     timestamp: 1500532232,
@@ -2942,6 +5253,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 157871.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.QueueCluster.rosalco11": {
                     timestamp: 1500532232,
@@ -2949,6 +5266,12 @@ const data: Array<Trigger> = [
                     state: Status.OK,
                     event_timestamp: 1499167053,
                     maintenance: 1499352028,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                     suppressed: true,
                 },
                 "EDI.QueueCluster.rosalco10": {
@@ -2957,6 +5280,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 242271.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.QueueCluster.rosalco13": {
                     timestamp: 1500532232,
@@ -2964,6 +5293,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 360158.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.QueueCluster.rosalco12": {
                     timestamp: 1500532232,
@@ -2972,6 +5307,12 @@ const data: Array<Trigger> = [
                     event_timestamp: 1499533651,
                     maintenance: 1499802592,
                     suppressed: true,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CoreCluster.rosalco16": {
                     timestamp: 1500532232,
@@ -2979,6 +5320,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 1018212.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.QueueCluster.rosalco14": {
                     timestamp: 1500532232,
@@ -2987,6 +5334,12 @@ const data: Array<Trigger> = [
                     values: { t1: 173594.0 },
                     maintenance: 1499242863,
                     suppressed: true,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CoreCluster.rosalco15": {
                     timestamp: 1500532232,
@@ -2994,6 +5347,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 710525.0 },
                     event_timestamp: 1498568492,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.BillingCluster.edi09": {
                     timestamp: 1500531692,
@@ -3001,6 +5360,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498521211,
                     values: { t1: 105376.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.BillingCluster.edi08": {
                     timestamp: 1500532112,
@@ -3008,6 +5373,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1500425731,
                     values: { t1: 31673.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.WebCluster.edi10": {
                     timestamp: 1500532232,
@@ -3015,6 +5386,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 113330.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.EventsCluster.rosalco30": {
                     timestamp: 1500532232,
@@ -3022,6 +5399,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482571,
                     values: { t1: 140030.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CoreCluster.rosalco17": {
                     timestamp: 1500532232,
@@ -3029,6 +5412,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 1061968.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.LegacyCluster.rosalco35": {
                     timestamp: 1500532232,
@@ -3037,6 +5426,12 @@ const data: Array<Trigger> = [
                     values: { t1: 421040.0 },
                     maintenance: 1500689899,
                     suppressed: true,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.LegacyCluster.rosalco25": {
                     timestamp: 1500532232,
@@ -3045,6 +5440,12 @@ const data: Array<Trigger> = [
                     values: { t1: 163971.0 },
                     maintenance: 1500035382,
                     suppressed: true,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueCluster.edi-csl-01": {
                     timestamp: 1500532232,
@@ -3052,6 +5453,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498484431,
                     values: { t1: 60742.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueCluster.edi-csl-02": {
                     timestamp: 1500532232,
@@ -3059,6 +5466,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498484431,
                     values: { t1: 96875.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueCluster.edi-csl-03": {
                     timestamp: 1500532232,
@@ -3066,6 +5479,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498484431,
                     values: { t1: 85418.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CqlCoreCluster.EDI11": {
                     timestamp: 1500532232,
@@ -3073,6 +5492,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482571,
                     values: { t1: 142793.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.LegacyCluster.rosalco24": {
                     timestamp: 1500532232,
@@ -3081,6 +5506,12 @@ const data: Array<Trigger> = [
                     event_timestamp: 1499680052,
                     maintenance: 1500035386,
                     suppressed: true,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueTestingCluster.edi-csl-2": {
                     timestamp: 1500532232,
@@ -3088,6 +5519,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 28694.0 },
                     event_timestamp: 1498484431,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueTestingCluster.edi-csl-3": {
                     timestamp: 1500532232,
@@ -3095,6 +5532,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498484431,
                     values: { t1: 15671.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueTestingCluster.edi-csl-1": {
                     timestamp: 1500532232,
@@ -3102,6 +5545,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498484431,
                     values: { t1: 24634.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.BlobStorageCluster.edi16": {
                     timestamp: 1500532232,
@@ -3110,6 +5559,12 @@ const data: Array<Trigger> = [
                     values: { t1: 61308.0 },
                     maintenance: 1499843157,
                     suppressed: true,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CoreCluster.rosalco18": {
                     timestamp: 1500532232,
@@ -3117,6 +5572,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 315201.0 },
                     event_timestamp: 1498568731,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CoreCluster.rosalco09": {
                     timestamp: 1500532232,
@@ -3124,6 +5585,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498569572,
                     values: { t1: 71605.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.StoreCluster.rosalco26": {
                     timestamp: 1500532232,
@@ -3131,6 +5598,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 132413.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.StoreCluster.rosalco27": {
                     timestamp: 1500532232,
@@ -3138,6 +5611,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482571,
                     values: { t1: 127655.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CqlCoreCluster.edi12": {
                     timestamp: 1500532232,
@@ -3145,6 +5624,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 230782.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.EgaisCluster.egcass03": {
                     timestamp: 1500532232,
@@ -3152,6 +5637,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 131286.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.StoreCluster.rosalco28": {
                     timestamp: 1500532232,
@@ -3159,6 +5650,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 137455.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.EventsCluster.rosalco29": {
                     timestamp: 1500532232,
@@ -3166,6 +5663,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 104745.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.EgaisCluster.egcass04": {
                     timestamp: 1500532232,
@@ -3173,6 +5676,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 125511.0 },
                     event_timestamp: 1499680714,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.WebCluster.edi09": {
                     timestamp: 1500532232,
@@ -3180,6 +5689,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 297932.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE.3DSpanCassandraCluster.spancass-sd1-02": {
                     timestamp: 1500532232,
@@ -3187,6 +5702,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 801885.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDITest.CatalogueRtqBenchmarkCluster.rtqbench-cass-2": {
                     timestamp: 1500532232,
@@ -3194,6 +5715,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 1596.0 },
                     event_timestamp: 1500037292,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.WebCluster.edi08": {
                     timestamp: 1500532232,
@@ -3201,6 +5728,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 461244.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-dev.TestCassandraCluster.vm-ke-cass1": {
                     timestamp: 1500532232,
@@ -3208,6 +5741,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482691,
                     values: { t1: 8818.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-dev.TestCassandraCluster.vm-ke-cass2": {
                     timestamp: 1500532172,
@@ -3215,6 +5754,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482752,
                     values: { t1: 10639.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-dev.TestCassandraCluster.vm-ke-cass3": {
                     timestamp: 1500532172,
@@ -3222,6 +5767,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482691,
                     values: { t1: 13985.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-cloud.SpanCloudCassandraCluster.vm-span-cass6": {
                     timestamp: 1500532232,
@@ -3229,6 +5780,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 645537.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.RemoteLockCluster.edi02": {
                     timestamp: 1500532232,
@@ -3236,6 +5793,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 478754.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-cloud.SpanCloudCassandraCluster.vm-span-cass5": {
                     timestamp: 1500532232,
@@ -3243,6 +5806,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 570861.0 },
                     event_timestamp: 1498569572,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.RemoteLockCluster.edi04": {
                     timestamp: 1500532232,
@@ -3250,6 +5819,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 548394.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-cloud.SpanCloudCassandraCluster.vm-span-cass3": {
                     timestamp: 1500532232,
@@ -3257,6 +5832,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 167851.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.BillingCluster.edi10": {
                     timestamp: 1500531752,
@@ -3264,6 +5845,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 121915.0 },
                     event_timestamp: 1499898211,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-cloud.SpanCloudCassandraCluster.vm-span-cass1": {
                     timestamp: 1500532232,
@@ -3271,6 +5858,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 262598.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.BlobStorageCluster.edi15": {
                     timestamp: 1500532232,
@@ -3279,6 +5872,12 @@ const data: Array<Trigger> = [
                     values: { t1: 41647.0 },
                     maintenance: 1499843560,
                     suppressed: true,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.CoreCluster.rosalco19": {
                     timestamp: 1500532232,
@@ -3286,6 +5885,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     values: { t1: 172150.0 },
                     event_timestamp: 1498569275,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "Alko.EgaisCluster.egcass02": {
                     timestamp: 1500532232,
@@ -3293,6 +5898,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 137612.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.EventsCluster.edi05": {
                     timestamp: 1500532232,
@@ -3300,6 +5911,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 110769.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.EventsCluster.edi06": {
                     timestamp: 1500532232,
@@ -3307,6 +5924,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 193764.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.EventsCluster.edi07": {
                     timestamp: 1500532232,
@@ -3314,6 +5937,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 133299.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "EDI.QueueCluster.rosalco08": {
                     timestamp: 1500532232,
@@ -3321,6 +5950,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 434504.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 "KE-cloud.SpanCloudCassandraCluster.vm-span-cass4": {
                     timestamp: 1500532232,
@@ -3328,6 +5963,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498482631,
                     values: { t1: 307154.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532292,
@@ -3341,6 +5982,10 @@ const data: Array<Trigger> = [
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
+        alone_metrics: {},
+        created_by: "moira_team",
+        updated_by: "moira_team",
+        highlights: { name: "" },
         mute_new_metrics: false,
         error_value: 100000000000.0,
         sched: {
@@ -3359,7 +6004,6 @@ const data: Array<Trigger> = [
         },
         name: "Ceph free node space",
         ttl_state: Status.NODATA,
-        notify_about_new_metrics: false,
         throttling: 0,
         tags: ["Ceph", "SPS"],
         id: "28b75586-8a4c-499b-8f5d-0811e6584ab0",
@@ -3367,8 +6011,15 @@ const data: Array<Trigger> = [
         trigger_type: "falling",
         ttl: 900,
         warn_value: 150000000000.0,
-        is_remote: false,
         last_check: {
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
+            metrics_to_target_relation: {},
+            last_successful_check_timestamp: 1757423575,
             metrics: {
                 ceph1: {
                     timestamp: 1500532236,
@@ -3376,6 +6027,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1485283353,
                     values: { t1: 969035071488.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 ceph3: {
                     timestamp: 1500532236,
@@ -3383,12 +6040,24 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1485283353,
                     values: { t1: 1136751493120.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 ceph2: {
                     timestamp: 1500531396,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500452935,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 ceph5: {
                     timestamp: 1500532236,
@@ -3396,6 +6065,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1485283353,
                     values: { t1: 939107971072.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 app145: {
                     timestamp: 1500532236,
@@ -3403,6 +6078,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1498337645,
                     values: { t1: 321257492480.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 ceph7: {
                     timestamp: 1500532236,
@@ -3410,12 +6091,24 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1485283353,
                     values: { t1: 669281247232.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 ceph4: {
                     timestamp: 1500531396,
                     state: Status.NODATA,
                     suppressed: false,
                     event_timestamp: 1500459835,
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
                 ceph6: {
                     timestamp: 1500532236,
@@ -3423,6 +6116,12 @@ const data: Array<Trigger> = [
                     suppressed: false,
                     event_timestamp: 1487569625,
                     values: { t1: 1424943304704.0 },
+                    maintenance_info: {
+                        setup_user: null,
+                        setup_time: null,
+                        remove_user: null,
+                        remove_time: null,
+                    },
                 },
             },
             timestamp: 1500532315,

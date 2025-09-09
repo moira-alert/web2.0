@@ -29,6 +29,15 @@ const contacts = [
     },
 ];
 
+const sharedSubscriptionFields = {
+    team_id: "",
+    plotting: {
+        enabled: false,
+        theme: "light",
+    },
+    any_tags: false,
+};
+
 const meta: Meta = {
     title: "SubscriptionList",
     decorators: [(story) => <ValidationContainer>{story()}</ValidationContainer>],
@@ -50,6 +59,7 @@ export const Defualt = () => (
                 id: "1",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
             {
                 sched: createSchedule(WholeWeek),
@@ -61,6 +71,7 @@ export const Defualt = () => (
                 id: "2",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
         ]}
     />
@@ -82,6 +93,7 @@ export const WithDisabledItem = () => (
                 id: "1",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
             {
                 sched: createSchedule(WholeWeek),
@@ -93,6 +105,7 @@ export const WithDisabledItem = () => (
                 id: "2",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
         ]}
     />
@@ -114,6 +127,7 @@ export const FewChannelsForSubscription = () => (
                 id: "1",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
             {
                 sched: createSchedule(WholeWeek),
@@ -125,6 +139,7 @@ export const FewChannelsForSubscription = () => (
                 id: "2",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
         ]}
     />
@@ -146,6 +161,7 @@ export const WithManyTags = () => (
                 id: "1",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
             {
                 sched: createSchedule(WholeWeek),
@@ -166,6 +182,7 @@ export const WithManyTags = () => (
                 id: "2",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
             {
                 sched: createSchedule(WholeWeek),
@@ -177,6 +194,7 @@ export const WithManyTags = () => (
                 id: "3",
                 ignore_recoverings: false,
                 ignore_warnings: false,
+                ...sharedSubscriptionFields,
             },
         ]}
     />

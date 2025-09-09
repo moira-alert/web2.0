@@ -9,11 +9,11 @@ export interface ISortConfig extends TSortingColumn {
     direction: "asc" | "desc";
 }
 
-export const useSortData = <T extends Record<string, unknown>>(
-    data: T[],
-    sortingColumn: string
-) => {
-    const [sortConfig, setSortConfig] = useState<ISortConfig>({
+export const useSortData = <T extends object>(data: T[], sortingColumn: keyof T) => {
+    const [sortConfig, setSortConfig] = useState<{
+        sortingColumn: keyof T;
+        direction: "asc" | "desc";
+    }>({
         sortingColumn,
         direction: "asc",
     });
@@ -39,9 +39,9 @@ export const useSortData = <T extends Record<string, unknown>>(
     }, [data, sortConfig]);
 
     const handleSort = useCallback(
-        (sortingColumn: string) => {
+        (sortingColumn: keyof T) => {
             const direction = sortConfig.direction === "asc" ? "desc" : "asc";
-            setSortConfig({ sortingColumn, direction } as ISortConfig);
+            setSortConfig({ sortingColumn, direction });
         },
         [sortConfig]
     );

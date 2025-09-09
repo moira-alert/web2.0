@@ -83,7 +83,7 @@ export interface ApiWebContact {
 export interface DtoContact {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   team_id?: string;
@@ -119,7 +119,7 @@ export interface DtoContactNoisiness {
   events_count: number;
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   team_id?: string;
@@ -171,7 +171,7 @@ export interface DtoContactScore {
 export interface DtoContactWithScore {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   score?: DtoContactScore;
@@ -366,7 +366,7 @@ export interface DtoTagsStatistics {
 export interface DtoTeamContact {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   /** This field is deprecated */
@@ -383,7 +383,7 @@ export interface DtoTeamContact {
 export interface DtoTeamContactWithScore {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   score?: DtoContactScore;
@@ -408,7 +408,7 @@ export interface DtoTeamMembers {
 
 export interface DtoTeamModel {
   /** @example "Team that holds all members of infrastructure division" */
-  description: string;
+  description?: string;
   /** @example "d5d98eb3-ee18-4f75-9364-244f67e23b54" */
   id: string;
   /** @example "Infrastructure Team" */
@@ -470,7 +470,7 @@ export interface DtoTrigger {
    */
   cluster_id: string;
   /** Datetime when the trigger was created */
-  created_at: string | null;
+  created_at?: string | null;
   /** Username who created trigger */
   created_by: string;
   /**
@@ -482,7 +482,7 @@ export interface DtoTrigger {
    * ERROR threshold
    * @example 1000
    */
-  error_value: number | null;
+  error_value?: number | null;
   /**
    * Used if you need more complex logic than provided by WARN/ERROR values
    * @example ""
@@ -557,14 +557,14 @@ export interface DtoTrigger {
    */
   ttl_state?: string | null;
   /** Datetime  when the trigger was updated */
-  updated_at: string | null;
+  updated_at?: string | null;
   /** Username who updated trigger */
   updated_by: string;
   /**
    * WARN threshold
    * @example 500
    */
-  warn_value: number | null;
+  warn_value?: number | null;
 }
 
 export interface DtoTriggerCheck {
@@ -656,7 +656,7 @@ export interface DtoTriggerModel {
    */
   cluster_id: string;
   /** Datetime when the trigger was created */
-  created_at: string | null;
+  created_at?: string | null;
   /** Username who created trigger */
   created_by: string;
   /**
@@ -668,7 +668,7 @@ export interface DtoTriggerModel {
    * ERROR threshold
    * @example 1000
    */
-  error_value: number | null;
+  error_value?: number | null;
   /**
    * Used if you need more complex logic than provided by WARN/ERROR values
    * @example ""
@@ -738,14 +738,14 @@ export interface DtoTriggerModel {
    */
   ttl_state?: string | null;
   /** Datetime  when the trigger was updated */
-  updated_at: string | null;
+  updated_at?: string | null;
   /** Username who updated trigger */
   updated_by: string;
   /**
    * WARN threshold
    * @example 500
    */
-  warn_value: number | null;
+  warn_value?: number | null;
 }
 
 export interface DtoTriggerNoisiness {
@@ -760,7 +760,7 @@ export interface DtoTriggerNoisiness {
    */
   cluster_id: string;
   /** Datetime when the trigger was created */
-  created_at: string | null;
+  created_at?: string | null;
   /** Username who created trigger */
   created_by: string;
   /**
@@ -772,7 +772,7 @@ export interface DtoTriggerNoisiness {
    * ERROR threshold
    * @example 1000
    */
-  error_value: number | null;
+  error_value?: number | null;
   /** EventsCount for the trigger. */
   events_count: number;
   /**
@@ -849,14 +849,14 @@ export interface DtoTriggerNoisiness {
    */
   ttl_state?: string | null;
   /** Datetime  when the trigger was updated */
-  updated_at: string | null;
+  updated_at?: string | null;
   /** Username who updated trigger */
   updated_by: string;
   /**
    * WARN threshold
    * @example 500
    */
-  warn_value: number | null;
+  warn_value?: number | null;
 }
 
 export interface DtoTriggerNoisinessList {
@@ -1003,14 +1003,14 @@ export interface MoiraMaintenanceInfo {
    * @format int64
    * @example 0
    */
-  remove_time: number | null;
-  remove_user: string | null;
+  remove_time?: number | null;
+  remove_user?: string | null;
   /**
    * @format int64
    * @example 0
    */
-  setup_time: number | null;
-  setup_user: string | null;
+  setup_time?: number | null;
+  setup_user?: string | null;
 }
 
 export interface MoiraMetricState {
@@ -1056,7 +1056,7 @@ export interface MoiraMetricValue {
 
 export interface MoiraNotificationEvent {
   contact_id?: string;
-  event_message: MoiraEventInfo;
+  event_message?: MoiraEventInfo;
   /** @example "carbon.agents.*.metricsReceived" */
   metric: string;
   msg?: string | null;
@@ -1173,12 +1173,12 @@ export interface MoiraTrigger {
   /** @example "default" */
   cluster_id?: string;
   /** @format int64 */
-  created_at: number | null;
+  created_at?: number | null;
   created_by: string;
   /** @example "check the size of /var/log" */
   desc?: string | null;
   /** @example 1000 */
-  error_value: number | null;
+  error_value?: number | null;
   /** @example "" */
   expression?: string | null;
   /** @example "292516ed-4924-4154-a62c-ebe312431fce" */
@@ -1217,10 +1217,10 @@ export interface MoiraTrigger {
   /** @example "NODATA" */
   ttl_state?: string | null;
   /** @format int64 */
-  updated_at: number | null;
+  updated_at?: number | null;
   updated_by: string;
   /** @example 5000 */
-  warn_value: number | null;
+  warn_value?: number | null;
 }
 
 export interface MoiraTriggerCheck {
@@ -1229,12 +1229,12 @@ export interface MoiraTriggerCheck {
   /** @example "default" */
   cluster_id?: string;
   /** @format int64 */
-  created_at: number | null;
+  created_at?: number | null;
   created_by: string;
   /** @example "check the size of /var/log" */
   desc?: string | null;
   /** @example 1000 */
-  error_value: number | null;
+  error_value?: number | null;
   /** @example "" */
   expression?: string | null;
   highlights: Record<string, string>;
@@ -1280,10 +1280,10 @@ export interface MoiraTriggerCheck {
   /** @example "NODATA" */
   ttl_state?: string | null;
   /** @format int64 */
-  updated_at: number | null;
+  updated_at?: number | null;
   updated_by: string;
   /** @example 5000 */
-  warn_value: number | null;
+  warn_value?: number | null;
 }
 
 export interface MoiraTriggerData {
