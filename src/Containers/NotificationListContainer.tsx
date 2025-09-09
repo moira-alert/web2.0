@@ -19,16 +19,16 @@ import {
     useDeleteNotificationMutation,
 } from "../services/NotificationsApi";
 import { useSetNotifierStateMutation } from "../services/NotifierApi";
-import { DeleteFilteredNotifications } from "../Components/DeleteFilteredNotifications";
 import { Status } from "../Domain/Status";
 import { filterNotifications, getAllStates } from "../helpers/notificationFilters";
 import { NotificationFiltersPanel } from "../Components/NotificationFiltersPanel/NotificationFiltersPanel";
 import { NotificationsFilterCounter } from "../Components/NotificationFiltersPanel/NotificationsFilterCounter/NotificationsFilterCounter";
-import { NotifierSourcesList } from "../Components/NotifierSourcesList/NotifierSourcesList";
+import { NotifierSourcesPanel } from "../Components/NotifierSourcesPanel/NotifierSourcesPanel";
 
 const NotificationListContainer: FC = () => {
     const { isLoading, error } = useAppSelector(UIState);
     const { notifierEnabled, notificationList, notificationAmount } = useLoadNotificationsData();
+
     const [deleteNotification] = useDeleteNotificationMutation();
     const [deleteAllNotifications] = useDeleteAllNotificationsMutation();
     const [deleleteAllNotificationEvents] = useDeleteAllNotificationEventsMutation();
@@ -138,9 +138,8 @@ const NotificationListContainer: FC = () => {
                         </Flexbox>
                     </Flexbox>
 
-                    <NotifierSourcesList />
+                    <NotifierSourcesPanel />
 
-                    <DeleteFilteredNotifications />
                     {notificationList && (
                         <NotificationList
                             items={filteredItems}
