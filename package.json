@@ -6,7 +6,7 @@
         "prepare": "husky install",
         "prepare:lezer": "lezer-generator src/TriggerGrammar/TriggerGrammar.grammar -o src/TriggerGrammar/parser.ts",
         "serve": "vite dev",
-        "start": "concurrently \"yarn serve\" \"yarn fakeapi\"",
+        "start": "concurrently \"yarn serve --config vite.config.mock-api.ts\" \"yarn fakeapi\"",
         "start:dev-proxy": "yarn serve --config vite.config.dev-proxy.ts",
         "start:port-forward": "yarn serve --config vite.config.port-forward.ts",
         "start:docker": "concurrently \"yarn backend\" \"yarn start:docker-proxy\"",

@@ -55,9 +55,9 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
     const { plotting = { enabled: true, theme: "light" } } = subscription;
 
     const isAllTagsToggleVisible: boolean =
-        config?.featureFlags?.isSubscriptionToAllTagsAvailable ?? true;
+        config?.featureFlags.isSubscriptionToAllTagsAvailable ?? true;
 
-    const isAddPlottingVisible: boolean = config?.featureFlags?.isPlottingAvailable ?? true;
+    const isAddPlottingVisible: boolean = config?.featureFlags.isPlottingAvailable ?? true;
 
     const renderDegradationExplanation = (): React.ReactElement => (
         <div>
