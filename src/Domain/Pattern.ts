@@ -1,5 +1,4 @@
-import { DtoPatternData, DtoPatternList } from "./__generated__/data-contracts";
-
-export type Pattern = DtoPatternData;
-
-export type PatternList = DtoPatternList;
+export type {
+    DtoPatternData as Pattern,
+    DtoPatternList as PatternList,
+} from "./__generated__/data-contracts";

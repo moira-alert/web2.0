@@ -1,4 +1,4 @@
-export {
+export type {
     DtoTagStatistics as TagStat,
     DtoTagsStatistics as TagStatList,
     DtoTagsData as TagList,
