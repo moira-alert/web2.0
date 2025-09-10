@@ -15,6 +15,8 @@ const items: MetricItemList = {
         maintenance_info: {
             setup_user: "Superman",
             setup_time: 1553158221,
+            remove_user: null,
+            remove_time: null,
         },
     },
     "vm-ditrace3.ditrace": {
@@ -26,6 +28,8 @@ const items: MetricItemList = {
         maintenance_info: {
             setup_user: "Superman",
             setup_time: 1553158221,
+            remove_user: null,
+            remove_time: null,
         },
     },
     "vm-ditrace3.elasticsearch": {
@@ -37,6 +41,8 @@ const items: MetricItemList = {
         maintenance_info: {
             setup_user: null,
             setup_time: null,
+            remove_user: null,
+            remove_time: null,
         },
         values: {
             T1: 10938918,
@@ -51,6 +57,8 @@ const items: MetricItemList = {
         maintenance_info: {
             setup_user: null,
             setup_time: null,
+            remove_user: null,
+            remove_time: null,
         },
     },
 };

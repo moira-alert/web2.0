@@ -9,6 +9,8 @@ const sourceData: TriggerCheck = {
     cluster_id: "default",
     created_by: "moira_team",
     updated_by: "moira_team",
+    created_at: 1751223824,
+    updated_at: 1751223824,
     alone_metrics: {},
     highlights: { name: "" },
     trigger_source: TriggerSource.GRAPHITE_LOCAL,

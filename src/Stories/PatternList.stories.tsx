@@ -29,6 +29,8 @@ const items: Pattern[] = [
                 cluster_id: "default",
                 created_by: "moira_team",
                 updated_by: "moira_team",
+                created_at: "2025-09-10T09:01:11Z",
+                updated_at: "2025-09-10T09:01:11Z",
                 sched: {
                     days: [
                         { enabled: true, name: DaysOfWeek.Mon },
@@ -72,6 +74,8 @@ const items: Pattern[] = [
                 cluster_id: "default",
                 created_by: "moira_team",
                 updated_by: "moira_team",
+                created_at: "2025-09-10T09:01:11Z",
+                updated_at: "2025-09-10T09:01:11Z",
                 sched: {
                     days: [
                         { enabled: true, name: DaysOfWeek.Mon },

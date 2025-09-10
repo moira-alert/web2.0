@@ -14,6 +14,8 @@ const sourceData: Trigger = {
     cluster_id: "default",
     created_by: "moira_team",
     updated_by: "moira_team",
+    created_at: "2025-09-10T09:01:11Z",
+    updated_at: "2025-09-10T09:01:11Z",
     alone_metrics: {},
     trigger_source: TriggerSource.GRAPHITE_LOCAL,
     error_value: 1000.0,
@@ -166,6 +168,8 @@ export const WithMaintenanceAndMaintenanceInfo = () => (
             maintenance_info: {
                 setup_user: "Batman",
                 setup_time: 1553158221,
+                remove_user: null,
+                remove_time: null,
             },
         }}
     />

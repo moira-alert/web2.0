@@ -10,6 +10,8 @@ const sourceData: Trigger = {
     alone_metrics: {},
     created_by: "moira_team",
     updated_by: "moira_team",
+    created_at: "2025-09-10T09:01:11Z",
+    updated_at: "2025-09-10T09:01:11Z",
     cluster_id: "default",
     trigger_source: TriggerSource.GRAPHITE_LOCAL,
     error_value: 1000.0,
@@ -54,6 +56,8 @@ const triggerState: TriggerState = {
             maintenance_info: {
                 setup_user: "Superman",
                 setup_time: 1553158221,
+                remove_user: null,
+                remove_time: null,
             },
         },
     },

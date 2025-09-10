@@ -16,6 +16,7 @@ const items: { [id: string]: Array<Notification> } = {
                 trigger_id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",
                 sub_id: "58661cb5-e6b2-4c8f-9a82-5e83673127d8",
                 old_state: Status.ERROR,
+                event_message: {},
             },
             trigger: {
                 id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",
@@ -53,6 +54,7 @@ const items: { [id: string]: Array<Notification> } = {
                 trigger_id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",
                 sub_id: "58661cb5-e6b2-4c8f-9a82-5e83673127d8",
                 old_state: Status.ERROR,
+                event_message: {},
             },
             trigger: {
                 id: "f51bdab7-11ed-4ac4-9836-8a88b184cb67",
