@@ -1,10 +1,10 @@
 import React from "react";
 import { Select } from "@skbkontur/react-ui";
 import TriggerSource, { Trigger } from "../../../Domain/Trigger";
-import { TMetricSourceCluster } from "../../../Domain/Metric";
+import { IMetricSourceCluster } from "../../../Domain/Metric";
 
 interface IClusterSelectProps {
-    metricSourceClusters: TMetricSourceCluster[];
+    metricSourceClusters: IMetricSourceCluster[];
     triggerSource: TriggerSource;
     error?: boolean;
     clusterID?: string | null;
@@ -41,7 +41,7 @@ export const ClusterSelect = React.forwardRef<
             renderItem={(_value, item) => item}
             renderValue={(_value, item) => item}
             items={clusterEntities}
-            onValueChange={(value) => onChange({ cluster_id: value })}
+            onValueChange={(value) => onChange({ cluster_id: value ?? undefined })}
         />
     );
 });

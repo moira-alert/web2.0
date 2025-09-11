@@ -3,7 +3,7 @@ import difference from "lodash/difference";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { getPageLink } from "../../Domain/Global";
-import { Trigger } from "../../Domain/Trigger";
+import { TriggerCheck } from "../../Domain/Trigger";
 import { Layout, LayoutPlate, LayoutContent, LayoutFooter } from "../../Components/Layout/Layout";
 import { ColumnStack, RowStack, Fill, Fit } from "../../Components/ItemsStack/ItemsStack";
 import { SearchSelector } from "../../Components/SearchSelector/SearchSelector";
@@ -17,7 +17,7 @@ export type TriggerListDesktopProps = {
     subscribedTags: string[];
     allTags: string[];
     onlyProblems: boolean;
-    triggers: Array<Trigger>;
+    triggers: TriggerCheck[];
     activePage: number;
     pageCount: number;
     onChange: (update: TriggerListUpdate) => void;

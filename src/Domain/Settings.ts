@@ -1,9 +1,6 @@
-import { Contact } from "./Contact";
-import { Subscription } from "./Subscription";
+import { DtoUserSettings, DtoTeamSettings } from "./__generated__/data-contracts";
 
-export interface Settings {
-    login: string;
-    team_id?: string;
-    contacts: Array<Contact>;
-    subscriptions: Array<Subscription>;
-}
+export type UserSettings = DtoUserSettings;
+export type TeamSettings = DtoTeamSettings;
+
+export type Settings = UserSettings | TeamSettings;

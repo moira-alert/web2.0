@@ -86,7 +86,7 @@ const TriggerAddContainer = () => {
         }
         if (update.trigger_source) {
             setTrigger((prev) => {
-                return { ...prev, cluster_id: null, ...update };
+                return { ...prev, cluster_id: undefined, ...update };
             });
             dispatch(setIsSaveButtonDisabled(false));
             return;

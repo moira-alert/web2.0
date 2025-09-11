@@ -1,14 +1,14 @@
 import React, { ReactElement } from "react";
 import MobileTriggerListPage from "../../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
 import MobileTagSelectorPage from "../../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
-import type { Trigger } from "../../Domain/Trigger";
+import type { TriggerCheck } from "../../Domain/Trigger";
 import { TriggerListUpdate } from "./trigger-list";
 
 export type TriggerListMobileProps = {
     selectedTags: string[];
     allTags: string[];
     onlyProblems: boolean;
-    triggers: Array<Trigger>;
+    triggers: TriggerCheck[];
     activePage: number;
     pageCount: number;
     onChange: (update: TriggerListUpdate) => void;

@@ -5,7 +5,6 @@ import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-u
 import { SubscriptionCreateInfo } from "../../Domain/Subscription";
 import { Contact } from "../../Domain/Contact";
 import { Schedule } from "../../Domain/Schedule";
-import { Subscription } from "../../Domain/Subscription";
 import ContactSelect from "../ContactSelect/ContactSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
@@ -30,7 +29,7 @@ enum TagsType {
 }
 
 type TSubscriptionEditorProps = {
-    subscription: Subscription | SubscriptionCreateInfo;
+    subscription: SubscriptionCreateInfo;
     onChange: (subscriptionInfo: Partial<SubscriptionCreateInfo>) => void;
     tags: Array<string>;
     contacts: Array<Contact>;
@@ -56,9 +55,9 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
     const { plotting = { enabled: true, theme: "light" } } = subscription;
 
     const isAllTagsToggleVisible: boolean =
-        config?.featureFlags?.isSubscriptionToAllTagsAvailable ?? true;
+        config?.featureFlags.isSubscriptionToAllTagsAvailable ?? true;
 
-    const isAddPlottingVisible: boolean = config?.featureFlags?.isPlottingAvailable ?? true;
+    const isAddPlottingVisible: boolean = config?.featureFlags.isPlottingAvailable ?? true;
 
     const renderDegradationExplanation = (): React.ReactElement => (
         <div>

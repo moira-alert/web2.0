@@ -1,6 +1,21 @@
 import { format, fromUnixTime, startOfDay, startOfHour, startOfMinute } from "date-fns";
-import { Status } from "./Status";
 import { Subscription } from "./Subscription";
+
+import type {
+    DtoContactWithScore,
+    DtoContactNoisinessList,
+    DtoContactEventItem,
+    DtoContactEventItemList,
+    DtoTeamContactWithScore,
+    DtoContactList,
+} from "./__generated__/data-contracts";
+
+export type Contact = DtoContactWithScore;
+export type ContactNoisinessResponse = DtoContactNoisinessList;
+export type IContactEvent = DtoContactEventItem;
+export type IContactEventsList = DtoContactEventItemList;
+export type ITeamContactWithScore = DtoTeamContactWithScore;
+export type ContactList = DtoContactList;
 
 export enum ContactTypes {
     mail = "mail",
@@ -19,52 +34,10 @@ export enum EContactStatus {
     success = "Success",
 }
 
-export interface Contact {
-    id: string;
-    type: string;
-    user?: string;
-    value: string;
-    team_id?: string;
-    name?: string;
-    extra_message?: string;
-    score?: { last_err?: string; last_err_timestamp?: number; status?: EContactStatus };
-}
-
-export interface ContactWithEvents extends Contact {
-    events_count: number;
-}
-
-export interface ContactNoisinessResponse {
-    list: Array<ContactWithEvents>;
-    page: number;
-    size: number;
-    total: number;
-}
-
-export type TeamContactCreateInfo = Omit<Contact, "id" | "user" | "score"> & {
-    team_id: string;
-};
-
-export interface IContactEvent {
-    timestamp: number;
-    metric: string;
-    state: Status;
-    old_state: Status;
-    trigger_id: string;
-}
-
 export enum EContactEventsInterval {
     minute = "minute",
     hour = "hour",
     day = "day",
-}
-
-export interface IContactEventsList {
-    list: Array<IContactEvent>;
-}
-
-export interface ContactList {
-    list: Array<Contact>;
 }
 
 export const filterSubscriptionContacts = (contacts: Contact[], subscription: Subscription) =>

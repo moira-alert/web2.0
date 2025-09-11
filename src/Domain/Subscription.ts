@@ -1,25 +1,8 @@
-import { Schedule } from "./Schedule";
+import { DtoSubscription } from "./__generated__/data-contracts";
 
-export type Subscription = {
-    sched: Schedule;
-    tags: Array<string>;
-    any_tags?: boolean;
-    throttling: boolean;
-    contacts: Array<string>;
-    enabled: boolean;
-    user: string;
-    id: string;
-    team_id?: string;
-    ignore_recoverings: boolean;
-    ignore_warnings: boolean;
-    plotting?: {
-        enabled: boolean;
-        theme: "light" | "dark";
-    };
-};
+export type Subscription = DtoSubscription;
 
-export type SubscriptionCreateInfo = Omit<Subscription, "id" | "user" | "any_tags"> & {
+export type SubscriptionCreateInfo = Omit<Subscription, "id" | "user" | "team_id"> & {
     id?: string;
     user?: string;
-    any_tags: boolean;
 };

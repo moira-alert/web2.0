@@ -13,10 +13,6 @@ export function omitSubscription({
     return subscription;
 }
 
-export function omitTrigger({
-    id: _id,
-    last_check: _lastCheck,
-    ...trigger
-}: Trigger): Omit<Trigger, "id" | "last_check"> {
+export function omitTrigger({ id: _id, ...trigger }: Trigger): Omit<Trigger, "id"> {
     return trigger;
 }

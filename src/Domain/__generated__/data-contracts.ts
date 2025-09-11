@@ -83,7 +83,7 @@ export interface ApiWebContact {
 export interface DtoContact {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   team_id?: string;
@@ -119,7 +119,7 @@ export interface DtoContactNoisiness {
   events_count: number;
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   team_id?: string;
@@ -171,7 +171,7 @@ export interface DtoContactScore {
 export interface DtoContactWithScore {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   score?: DtoContactScore;
@@ -366,7 +366,7 @@ export interface DtoTagsStatistics {
 export interface DtoTeamContact {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   /** This field is deprecated */
@@ -383,7 +383,7 @@ export interface DtoTeamContact {
 export interface DtoTeamContactWithScore {
   extra_message?: string;
   /** @example "1dd38765-c5be-418d-81fa-7a5f879c2315" */
-  id?: string;
+  id: string;
   /** @example "Mail Alerts" */
   name?: string;
   score?: DtoContactScore;
@@ -408,7 +408,7 @@ export interface DtoTeamMembers {
 
 export interface DtoTeamModel {
   /** @example "Team that holds all members of infrastructure division" */
-  description: string;
+  description?: string;
   /** @example "d5d98eb3-ee18-4f75-9364-244f67e23b54" */
   id: string;
   /** @example "Infrastructure Team" */

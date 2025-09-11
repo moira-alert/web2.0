@@ -1,12 +1,4 @@
-export interface Team {
-    id: string;
-    name: string;
-    description?: string;
-}
-
-export interface ITeamList {
-    list: Team[];
-    page: number;
-    size: number;
-    total: number;
-}
+export type {
+    DtoTeamModel as Team,
+    DtoTeamsList as ITeamList,
+} from "./__generated__/data-contracts";

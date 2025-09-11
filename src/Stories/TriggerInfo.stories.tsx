@@ -11,7 +11,12 @@ export default {
 
 const sourceData: Trigger = {
     mute_new_metrics: false,
-    notify_about_new_metrics: false,
+    cluster_id: "default",
+    created_by: "moira_team",
+    updated_by: "moira_team",
+    created_at: "2025-09-10T09:01:11Z",
+    updated_at: "2025-09-10T09:01:11Z",
+    alone_metrics: {},
     trigger_source: TriggerSource.GRAPHITE_LOCAL,
     error_value: 1000.0,
     sched: {
@@ -52,8 +57,22 @@ const triggerState: TriggerState = {
             state: Status.NODATA,
             suppressed: false,
             timestamp: 1512206430,
+            maintenance_info: {
+                setup_user: null,
+                setup_time: null,
+                remove_user: null,
+                remove_time: null,
+            },
         },
     },
+    metrics_to_target_relation: {},
+    maintenance_info: {
+        setup_user: null,
+        setup_time: null,
+        remove_user: null,
+        remove_time: null,
+    },
+    last_successful_check_timestamp: 1757423575,
     score: 75000,
     state: Status.OK,
     timestamp: 1512207091,
@@ -149,6 +168,8 @@ export const WithMaintenanceAndMaintenanceInfo = () => (
             maintenance_info: {
                 setup_user: "Batman",
                 setup_time: 1553158221,
+                remove_user: null,
+                remove_time: null,
             },
         }}
     />

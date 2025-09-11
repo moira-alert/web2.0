@@ -14,7 +14,7 @@ import {
     TriggerSource,
     ValidateTargetsResult,
 } from "../../Domain/Trigger";
-import { TMetricSourceCluster } from "../../Domain/Metric";
+import { IMetricSourceCluster } from "../../Domain/Metric";
 import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/Formats";
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
@@ -41,7 +41,7 @@ interface IProps {
     data: Partial<Trigger>;
     tags: Array<string>;
     remoteAllowed?: boolean | null;
-    metricSourceClusters?: TMetricSourceCluster[] | null;
+    metricSourceClusters?: IMetricSourceCluster[] | null;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
     validationResult?: ValidateTargetsResult;
 }

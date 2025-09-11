@@ -1,11 +1,4 @@
-import { Trigger } from "./Trigger";
-
-export type Pattern = {
-    metrics: Array<string>;
-    pattern: string;
-    triggers: Array<Trigger>;
-};
-
-export type PatternList = {
-    list: Array<Pattern>;
-};
+export type {
+    DtoPatternData as Pattern,
+    DtoPatternList as PatternList,
+} from "./__generated__/data-contracts";

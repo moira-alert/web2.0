@@ -6,7 +6,7 @@ import queryString from "query-string";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import { getPageLink } from "../../Domain/Global";
-import { Trigger } from "../../Domain/Trigger";
+import { TriggerCheck } from "../../Domain/Trigger";
 import { MetricItemList, withMuted, withoutMuted } from "../../Domain/Metric";
 import { Status, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
 import RouterLink from "../RouterLink/RouterLink";
@@ -25,7 +25,7 @@ import styles from "./TriggerListItem.module.less";
 const cn = classNames.bind(styles);
 
 type Props = {
-    data: Trigger;
+    data: TriggerCheck;
     searchMode: boolean;
     onChange?: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove?: (metric: string) => void;

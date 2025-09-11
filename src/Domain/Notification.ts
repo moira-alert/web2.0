@@ -1,31 +1,7 @@
-import { Contact } from "./Contact";
-import { Status } from "./Status";
+import { OverrideField } from "../helpers/OverrideField";
+import { MoiraScheduledNotification, DtoNotificationsList } from "./__generated__/data-contracts";
+import { Event } from "./Event";
 
-export type Notification = {
-    contact: Contact;
-    event: {
-        metric: string;
-        old_state: Status;
-        state: Status;
-        sub_id: string;
-        timestamp: number;
-        trigger_id: string;
-        value?: number;
-    };
-    send_fail: number;
-    throttled: boolean;
-    timestamp: number;
-    trigger: {
-        id: string;
-        name: string;
-        targets: Array<string>;
-        __notifier_trigger_tags: Array<string>;
-        desc: string;
-        warn_value: number;
-    };
-};
+export type Notification = OverrideField<MoiraScheduledNotification, "event", Event>;
 
-export type NotificationList = {
-    list: Array<Notification>;
-    total: number;
-};
+export type NotificationList = OverrideField<DtoNotificationsList, "list", Notification[]>;

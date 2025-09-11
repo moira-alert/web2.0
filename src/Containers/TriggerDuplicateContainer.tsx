@@ -26,7 +26,6 @@ const cleanTrigger = (sourceTrigger: Trigger): Partial<Trigger> => {
     const trigger: Partial<Trigger> = { ...sourceTrigger };
 
     delete trigger.id;
-    delete trigger.last_check;
     delete trigger.throttling;
 
     return {
@@ -70,7 +69,7 @@ const TriggerDuplicateContainer = () => {
         if (update.trigger_source) {
             setTrigger((prev) => {
                 if (!prev) return;
-                return { ...prev, cluster_id: null, ...update };
+                return { ...prev, cluster_id: undefined, ...update };
             });
             dispatch(setIsSaveButtonDisabled(false));
             return;

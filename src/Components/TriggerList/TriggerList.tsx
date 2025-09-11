@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Trigger } from "../../Domain/Trigger";
+import { TriggerCheck } from "../../Domain/Trigger";
 import TriggerListItem from "../TriggerListItem/TriggerListItem";
 import classNames from "classnames/bind";
 
@@ -8,7 +8,7 @@ import styles from "./TriggerList.module.less";
 const cn = classNames.bind(styles);
 
 type Props = {
-    items: Trigger[];
+    items: TriggerCheck[];
     searchMode: boolean;
     onChange: (triggerId: string, metric: string, maintenance: number) => void;
     onRemove: (triggerId: string, metric: string) => void;

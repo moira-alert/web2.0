@@ -1,7 +1,7 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import TriggerSource, { LOW_TRIGGER_TTL } from "../../../Domain/Trigger";
 import { Schedule } from "../../../Domain/Schedule";
-import { TMetricSourceCluster } from "../../../Domain/Metric";
+import { IMetricSourceCluster } from "../../../Domain/Metric";
 
 export const validateRequiredString = (
     value: string,
@@ -58,7 +58,7 @@ export const validateSched = (schedule: Schedule | undefined): ValidationInfo | 
 export const validateClusterID = (
     clusterID: string | undefined | null,
     triggerSource: TriggerSource,
-    metricSourceClusters: TMetricSourceCluster[]
+    metricSourceClusters: IMetricSourceCluster[]
 ): ValidationInfo | null => {
     const clusterEntities = metricSourceClusters?.reduce((acc: string[][], item) => {
         if (item.trigger_source === triggerSource) {

@@ -14,7 +14,10 @@ export const NotifierApi = BaseApi.injectEndpoints({
             }),
             providesTags: ["NotifierState"],
         }),
-        setNotifierState: builder.mutation<NotifierState, CustomBaseQueryArgs<NotifierState>>({
+        setNotifierState: builder.mutation<
+            NotifierState,
+            CustomBaseQueryArgs<Omit<NotifierState, "actor">>
+        >({
             query: (state) => ({
                 url: "health/notifier",
                 method: "PUT",

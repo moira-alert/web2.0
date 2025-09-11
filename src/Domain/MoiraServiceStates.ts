@@ -1,3 +1,6 @@
+import { OverrideField } from "../helpers/OverrideField";
+import { DtoNotifierState, DtoNotifierStateForSource } from "./__generated__/data-contracts";
+
 enum MoiraServiceStates {
     OK = "OK",
     ERROR = "ERROR",
@@ -5,15 +8,10 @@ enum MoiraServiceStates {
 
 export { MoiraServiceStates as default };
 
-export type NotifierState = {
-    state: MoiraServiceStates;
-    message?: string;
-};
+export type NotifierState = OverrideField<DtoNotifierState, "state", MoiraServiceStates>;
 
-export interface NotifierSourceState {
-    trigger_source: string;
-    cluster_id: string;
-    actor: string;
-    state: MoiraServiceStates;
-    message?: string;
-}
+export type NotifierSourceState = OverrideField<
+    DtoNotifierStateForSource,
+    "state",
+    MoiraServiceStates
+>;

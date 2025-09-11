@@ -1,3 +1,5 @@
+import { MoiraScheduleData } from "./__generated__/data-contracts";
+
 export enum DaysOfWeek {
     Mon = "Mon",
     Tue = "Tue",
@@ -13,12 +15,7 @@ export interface Day {
     name: DaysOfWeek;
 }
 
-export interface Schedule {
-    startOffset: number;
-    endOffset: number;
-    tzOffset: number;
-    days: Array<Day>;
-}
+export type Schedule = MoiraScheduleData;
 
 export const WholeWeek: DaysOfWeek[] = [
     DaysOfWeek.Mon,

@@ -12,7 +12,6 @@ const items: Pattern[] = [
         pattern: "pattern.with.triggers.and.metrics",
         triggers: [
             {
-                notify_about_new_metrics: false,
                 mute_new_metrics: false,
                 trigger_source: TriggerSource.GRAPHITE_LOCAL,
                 id: "e872a927-e6d2-4b2e-b1fb-63d2345357f2",
@@ -22,11 +21,16 @@ const items: Pattern[] = [
                 error_value: 90,
                 tags: ["KE-Test.System"],
                 ttl_state: Status.NODATA,
-                throttling: 1,
                 trigger_type: "rising",
                 expression: "",
                 ttl: 600,
                 is_remote: false,
+                alone_metrics: {},
+                cluster_id: "default",
+                created_by: "moira_team",
+                updated_by: "moira_team",
+                created_at: "2025-09-10T09:01:11Z",
+                updated_at: "2025-09-10T09:01:11Z",
                 sched: {
                     days: [
                         { enabled: true, name: DaysOfWeek.Mon },
@@ -50,7 +54,6 @@ const items: Pattern[] = [
         pattern: "pattern.with.triggers.and.without.metrics",
         triggers: [
             {
-                notify_about_new_metrics: false,
                 mute_new_metrics: false,
                 trigger_source: TriggerSource.GRAPHITE_LOCAL,
                 id: "f08977e6-bfcd-4ca4-8e4a-5b3ffc56284b",
@@ -64,10 +67,15 @@ const items: Pattern[] = [
                 is_remote: false,
                 tags: ["Elasticsearch", "Focus", "DevOps"],
                 ttl_state: Status.NODATA,
-                throttling: 1,
                 trigger_type: "falling",
                 expression: "",
                 ttl: 600,
+                alone_metrics: {},
+                cluster_id: "default",
+                created_by: "moira_team",
+                updated_by: "moira_team",
+                created_at: "2025-09-10T09:01:11Z",
+                updated_at: "2025-09-10T09:01:11Z",
                 sched: {
                     days: [
                         { enabled: true, name: DaysOfWeek.Mon },

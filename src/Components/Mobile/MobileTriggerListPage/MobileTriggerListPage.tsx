@@ -3,7 +3,7 @@ import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import FilterIcon from "@skbkontur/react-icons/Filter";
 import SettingsIcon from "@skbkontur/react-icons/Settings";
-import { Trigger } from "../../../Domain/Trigger";
+import { TriggerCheck } from "../../../Domain/Trigger";
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import { getPageLink } from "../../../Domain/Global";
@@ -16,7 +16,7 @@ const cn = classNames.bind(styles);
 
 type MobileTriggerListPageProps = {
     loading?: boolean;
-    triggers?: Array<Trigger> | null;
+    triggers?: TriggerCheck[] | null;
     selectedTags?: Array<string> | null;
     activePage: number;
     pageCount: number;
