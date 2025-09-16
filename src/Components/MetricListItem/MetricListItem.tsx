@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { format, fromUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
@@ -49,6 +49,8 @@ export function MetricListItem({
         maintenance_info: maintenanceInfo,
     } = metricData;
     const delta = maintenanceDelta(maintenance);
+    const ref = useRef<HTMLDivElement>(null);
+    const [truncated, setTruncated] = useState(false);
 
     const navigate = useNavigate();
 
@@ -67,6 +69,13 @@ export function MetricListItem({
         navigate({ search: searchParams.toString() });
     };
 
+    const handleMouseEnter = () => {
+        const el = ref.current;
+        if (el) {
+            setTruncated(el.scrollWidth > el.clientWidth);
+        }
+    };
+
     return (
         <div onClick={handleMetricClick} key={metricName} className={cn("row")} style={style}>
             {status && (
@@ -74,7 +83,9 @@ export function MetricListItem({
                     <StatusIndicator statuses={[state]} size={10} />
                 </div>
             )}
-            <div className={cn("name")}>{metricName}</div>
+            <div onMouseEnter={handleMouseEnter} ref={ref} className={cn("name")}>
+                <Tooltip render={() => (truncated ? metricName : null)}>{metricName}</Tooltip>
+            </div>
             <div className={cn("event")}>
                 {format(fromUnixTime(eventTimestamp), "MMM d, y, HH:mm:ss")}
             </div>
