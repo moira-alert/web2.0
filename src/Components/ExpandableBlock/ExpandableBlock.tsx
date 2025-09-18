@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
-import { ArrowChevronUp } from "@skbkontur/react-icons";
+import ArrowChevronUp from "@skbkontur/react-icons/ArrowChevronUp";
 import classNames from "classnames/bind";
 
 import styles from "./ExpandableBlock.module.less";
