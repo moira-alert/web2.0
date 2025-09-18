@@ -8,6 +8,8 @@ export enum EMainPageTriggerView {
     target = "target",
 }
 
+const FF_MAIN_PAGE_TRIGGER_VIEW_KEY = "mainPageTriggerView";
+
 interface IUIState {
     isLoading: boolean;
     error: string | null;
@@ -31,7 +33,9 @@ const initialState: IUIState = {
     isTransformNullApplied: false,
     isChristmasMood: false,
     theme: EThemesNames.System,
-    mainPageTriggerView: EMainPageTriggerView.target,
+    mainPageTriggerView:
+        (localStorage.getItem(FF_MAIN_PAGE_TRIGGER_VIEW_KEY) as EMainPageTriggerView) ??
+        EMainPageTriggerView.target,
 };
 
 export const UISlice = createSlice({
@@ -74,8 +78,9 @@ export const UISlice = createSlice({
         setTheme: (state, { payload }: { payload: EThemesNames }) => {
             state.theme = payload;
         },
-        toggleMainPageTriggerView: (state, { payload }: { payload: EMainPageTriggerView }) => {
-            state.mainPageTriggerView = payload;
+        toggleMainPageTriggerView: (state, action: PayloadAction<EMainPageTriggerView>) => {
+            state.mainPageTriggerView = action.payload;
+            localStorage.setItem(FF_MAIN_PAGE_TRIGGER_VIEW_KEY, action.payload);
         },
     },
     extraReducers: (builder) => {
