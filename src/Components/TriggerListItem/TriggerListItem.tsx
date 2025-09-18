@@ -18,6 +18,12 @@ import DOMPurify from "dompurify";
 import { sortMetrics } from "../../helpers/sort-metrics";
 import _ from "lodash";
 import NotificationBellOff from "@skbkontur/react-icons/NotificationBellOff";
+import { useAppSelector } from "../../store/hooks";
+import { UIState } from "../../store/selectors";
+import { EMainPageTriggerView } from "../../store/Reducers/UIReducer.slice";
+import { MarkdownViewer } from "@skbkontur/markdown";
+import { WysiwygWrapper } from "../Markdown/WysiwygWrapper";
+import { ExpandableBlock } from "../ExpandableBlock/ExpandableBlock";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerListItem.module.less";
@@ -36,6 +42,8 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
     const [sortingColumn, setSortingColumn] = useState<SortingColumn>("event");
     const [sortingDown, setSortingDown] = useState(false);
     const navigate = useNavigate();
+
+    const { mainPageTriggerView } = useAppSelector(UIState);
 
     const metrics = data.last_check?.metrics;
 
@@ -176,44 +184,55 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
                 {renderCounters()}
             </div>
             <div className={cn("data")}>
-                <ReactRouterLink
-                    className={cn("header")}
-                    to={getPageLink("trigger", data.id)}
-                    data-tid="TriggerListItem_header"
-                >
-                    <div className={cn("link")}>
-                        <div className={cn("title")}>
-                            {searchMode ? (
-                                <div
-                                    className={cn("name")}
-                                    dangerouslySetInnerHTML={{
-                                        __html: DOMPurify.sanitize(searchModeName || data.name),
-                                    }}
-                                />
-                            ) : (
-                                <div className={cn("name")}>{data.name}</div>
-                            )}
-                            {data.throttling !== 0 && (
-                                <div
-                                    className={cn("flag")}
-                                    title={`Throttling until ${format(
-                                        fromUnixTime(data.throttling),
-                                        "MMMM d, HH:mm:ss"
-                                    )}`}
-                                >
-                                    <FlagSolidIcon />
-                                </div>
-                            )}
+                <div className={cn("details")}>
+                    <ReactRouterLink
+                        className={cn("header")}
+                        to={getPageLink("trigger", data.id)}
+                        data-tid="TriggerListItem_header"
+                    >
+                        <div className={cn("link")}>
+                            <div className={cn("title")}>
+                                {searchMode ? (
+                                    <div
+                                        className={cn("name")}
+                                        dangerouslySetInnerHTML={{
+                                            __html: DOMPurify.sanitize(searchModeName || data.name),
+                                        }}
+                                    />
+                                ) : (
+                                    <div className={cn("name")}>{data.name}</div>
+                                )}
+                                {data.throttling !== 0 && (
+                                    <div
+                                        className={cn("flag")}
+                                        title={`Throttling until ${format(
+                                            fromUnixTime(data.throttling),
+                                            "MMMM d, HH:mm:ss"
+                                        )}`}
+                                    >
+                                        <FlagSolidIcon />
+                                    </div>
+                                )}
+                            </div>
                         </div>
+                    </ReactRouterLink>
+                    <ExpandableBlock>
                         <div className={cn("targets")}>
-                            {data.targets.map((target) => (
-                                <div key={target} className={cn("target")}>
-                                    {target}
-                                </div>
-                            ))}
+                            {mainPageTriggerView === EMainPageTriggerView.target ? (
+                                data.targets.map((target) => (
+                                    <div key={target} className={cn("target")}>
+                                        {target}
+                                    </div>
+                                ))
+                            ) : (
+                                <WysiwygWrapper>
+                                    <MarkdownViewer source={data.desc ?? ""} />
+                                </WysiwygWrapper>
+                            )}
                         </div>
-                    </div>
-                </ReactRouterLink>
+                    </ExpandableBlock>
+                </div>
+
                 <div className={cn("tags")}>
                     <TagGroup
                         onClick={(tag) =>

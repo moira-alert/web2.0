@@ -1,0 +1,41 @@
+.expandable {
+    position: relative;
+
+    &.expanded {
+        .expandable-content {
+            max-height: none;
+        }
+
+        .expand-btn {
+            display: none;
+        }
+    }
+
+    &:hover .expand-btn {
+        display: block;
+    }
+}
+
+.expand-btn {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.expandable-content {
+    max-height: 60px;
+    overflow: hidden;
+}
+
+.masked {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 80px;
+    -webkit-mask-position: 0px -15px;
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+    mask-repeat: no-repeat;
+    mask-size: 100% 80px;
+    mask-position: 0px -15px;
+}
