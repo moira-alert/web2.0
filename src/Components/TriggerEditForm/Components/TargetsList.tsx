@@ -1,5 +1,5 @@
 import React, { useEffect, FC } from "react";
-import RemoveIcon from "@skbkontur/react-icons/Remove";
+import Trash from "@skbkontur/react-icons/Trash";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Checkbox, Button, Hint } from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
@@ -132,7 +132,7 @@ export const TargetsList: FC<IProps> = ({
                             {targets.length > 1 && (
                                 <Fit>
                                     <Button
-                                        icon={<RemoveIcon />}
+                                        icon={<Trash />}
                                         onClick={() => handleRemoveTarget(i)}
                                         data-tid={`Target remove ${i + 1}`}
                                     ></Button>

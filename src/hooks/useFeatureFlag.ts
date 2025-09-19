@@ -8,7 +8,7 @@ export type TFeatureFlag<T> = {
 
 export const useFeatureFlag = <T>(
     featureFlag: TFeatureFlag<T>,
-    shouldPersist?: boolean
+    shouldPersist: boolean = true
 ): [T, Dispatch<SetStateAction<T>>] => {
     const key = `ff_${featureFlag.id}`;
 
