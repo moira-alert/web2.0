@@ -78,12 +78,9 @@ const GraphiteTheme = (theme: TTheme) =>
         ".cm-activeLine": {
             backgroundColor: `${theme.cmActiveLine}`,
         },
-        "&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground": {
-            backgroundColor: `${theme.cmActiveLine}`,
-        },
     });
 
-const ShowModeTheme = (theme: TTheme) =>
+const ShowModeTheme = () =>
     EditorView.theme({
         ".cm-gutters": {
             borderRight: "none",
@@ -99,16 +96,12 @@ const ShowModeTheme = (theme: TTheme) =>
         ".cm-lineNumbers ": {
             display: "none !important",
         },
-
         ".cm-activeLineGutter": {
             backgroundColor: "transparent",
         },
 
         ".cm-activeLine": {
             backgroundColor: "transparent",
-        },
-        ".cm-selectionBackground": {
-            backgroundColor: `${theme.cmActiveLine}`,
         },
     });
 
@@ -190,7 +183,7 @@ export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeE
         basicSetup,
         languageToUse,
         EditorView.editable.of(!disabled),
-        ShowModeTheme(theme),
+        ShowModeTheme(),
         quadrupleClickCopy,
     ];
 
