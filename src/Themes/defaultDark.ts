@@ -16,6 +16,7 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
         cmActiveLineGutter: "var(--active-line-gutter)",
         cmActiveLine: "var(--active-line)",
         cmGutterBorder: "var(--border-gutter)",
+        cmSelectionBackgroundColor: "var(--selection-background)",
 
         ...promQLHighlight,
 

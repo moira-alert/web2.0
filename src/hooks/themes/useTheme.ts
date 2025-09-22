@@ -29,6 +29,7 @@ export interface ApplicationTheme extends ThemeIn {
     cmActiveLineGutter?: string;
     cmActiveLine?: string;
     cmGutterBorder?: string;
+    cmSelectionBackgroundColor?: string;
 
     promQLLabelName: string;
     promQLString: string;
