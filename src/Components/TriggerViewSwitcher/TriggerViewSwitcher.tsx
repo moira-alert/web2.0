@@ -4,10 +4,10 @@ import { EMainPageTriggerView } from "../../store/Reducers/UIReducer.slice";
 import { useMainPageTriggerView } from "../../hooks/useMainPageTiggerView";
 
 interface ITriggerViewSwitcherProps {
-    style?: React.CSSProperties;
+    className?: string;
 }
 
-export const TriggerViewSwitcher: React.FC<ITriggerViewSwitcherProps> = ({ style }) => {
+export const TriggerViewSwitcher: React.FC<ITriggerViewSwitcherProps> = ({ className }) => {
     const [triggerView, setTriggerView] = useMainPageTriggerView();
 
     const handleChange = (value: string) => {
@@ -16,7 +16,7 @@ export const TriggerViewSwitcher: React.FC<ITriggerViewSwitcherProps> = ({ style
 
     return (
         <Switcher
-            style={style}
+            className={className}
             value={triggerView}
             onValueChange={handleChange}
             items={Object.values(EMainPageTriggerView)}

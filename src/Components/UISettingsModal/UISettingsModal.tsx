@@ -51,7 +51,7 @@ export const UISettingsModal: React.FC = () => {
                                 />
                             </FormRow>
                             <FormRow useTopAlignForLabel label="Main page trigger view:">
-                                <TriggerViewSwitcher style={{ paddingLeft: "28px" }} />
+                                <TriggerViewSwitcher className={styles.triggerViewSwitcher} />
                             </FormRow>
                         </Form>
                     </Modal.Body>
