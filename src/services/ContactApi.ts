@@ -82,7 +82,7 @@ export const ContactApi = BaseApi.injectEndpoints({
                 size?: number;
             }>
         >({
-            query: ({ contactId, from, to, page, size = 1 }) => {
+            query: ({ contactId, from, to, page, size = 5000 }) => {
                 const params = qs.stringify(
                     {
                         p: page,
