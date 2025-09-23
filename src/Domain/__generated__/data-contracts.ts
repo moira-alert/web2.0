@@ -107,6 +107,21 @@ export interface DtoContactEventItem {
 export interface DtoContactEventItemList {
   /** @uniqueItems false */
   list: DtoContactEventItem[];
+  /**
+   * @format int64
+   * @example 0
+   */
+  page: number;
+  /**
+   * @format int64
+   * @example 100
+   */
+  size: number;
+  /**
+   * @format int64
+   * @example 10
+   */
+  total: number;
 }
 
 export interface DtoContactList {

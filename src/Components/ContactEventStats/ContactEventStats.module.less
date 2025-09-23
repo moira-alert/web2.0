@@ -6,12 +6,23 @@
     align-items: baseline;
     margin-bottom: 20px;
 }
+
 .date-time-pickers {
     display: flex;
     gap: 5px;
     align-items: baseline;
 }
+
 .empty-container {
     &:extend(.empty-result);
     height: calc(100vh - 127px);
+}
+
+.paging {
+    position: absolute;
+    right: 0;
+}
+
+.container {
+    position: relative;
 }
