@@ -3,6 +3,13 @@ import { Subscription } from "../../Domain/Subscription";
 import { TriggerApi } from "../../services/TriggerApi";
 import { EThemesNames } from "../../Themes/themesNames";
 
+export enum EMainPageTriggerView {
+    description = "description",
+    target = "target",
+}
+
+const FF_MAIN_PAGE_TRIGGER_VIEW_KEY = "mainPageTriggerView";
+
 interface IUIState {
     isLoading: boolean;
     error: string | null;
@@ -13,6 +20,7 @@ interface IUIState {
     isTransformNullApplied: boolean;
     isChristmasMood: boolean;
     theme: EThemesNames;
+    mainPageTriggerView: EMainPageTriggerView;
 }
 
 const initialState: IUIState = {
@@ -25,6 +33,9 @@ const initialState: IUIState = {
     isTransformNullApplied: false,
     isChristmasMood: false,
     theme: EThemesNames.System,
+    mainPageTriggerView:
+        (localStorage.getItem(FF_MAIN_PAGE_TRIGGER_VIEW_KEY) as EMainPageTriggerView) ??
+        EMainPageTriggerView.target,
 };
 
 export const UISlice = createSlice({
@@ -67,6 +78,10 @@ export const UISlice = createSlice({
         setTheme: (state, { payload }: { payload: EThemesNames }) => {
             state.theme = payload;
         },
+        toggleMainPageTriggerView: (state, action: PayloadAction<EMainPageTriggerView>) => {
+            state.mainPageTriggerView = action.payload;
+            localStorage.setItem(FF_MAIN_PAGE_TRIGGER_VIEW_KEY, action.payload);
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(TriggerApi.endpoints.getTrigger.matchFulfilled, (state, { payload }) => {
@@ -88,6 +103,7 @@ export const {
     toggleManagingSubscriptions,
     toggleChristmasMood,
     setTheme,
+    toggleMainPageTriggerView,
 } = UISlice.actions;
 
 export default UISlice.reducer;

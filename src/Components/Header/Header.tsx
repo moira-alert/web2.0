@@ -16,7 +16,7 @@ import { ChristmasHatSVG } from "./Components/ChristmasHat";
 import { ChristmasMoodToggle } from "../ChristmasMoodToggle/ChristmasMoodToggle";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
-import { ThemeSwitchModal } from "../ThemeSwitch/ThemeSwitchModal";
+import { UISettingsModal } from "../UISettingsModal/UISettingsModal";
 import { useTheme } from "../../Themes";
 import { useGetUserTeamsQuery } from "../../services/TeamsApi";
 import { getSettingsLink } from "../../helpers/getSettingsLink";
@@ -49,7 +49,7 @@ export default function Header(): React.ReactElement {
                 </Link>
                 <nav className={cn("menu")}>
                     <ChristmasMoodToggle />
-                    <ThemeSwitchModal />
+                    <UISettingsModal />
                     <AdminMenu />
                     <RouterLink to={getPageLink("teams")} icon={<PeopleIcon />}>
                         Teams

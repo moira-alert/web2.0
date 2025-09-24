@@ -1,15 +1,9 @@
 import { useEffect } from "react";
 import { EThemesNames } from "../../Themes/themesNames";
 import { useAppSelector } from "../../store/hooks";
-import { useFeatureFlag } from "./useFeatureFlag";
+import { TFeatureFlag, useFeatureFlag } from "../useFeatureFlag";
 import { useIsBrowserPrefersDarkTheme } from "./useIsBrowserPrefersDarkTheme";
 import { UIState } from "../../store/selectors";
-
-export type TFeatureFlag<T> = {
-    id: string;
-    label: string;
-    defaultValue: T;
-};
 
 const ThemeFlag: TFeatureFlag<string> = {
     id: "theme",
