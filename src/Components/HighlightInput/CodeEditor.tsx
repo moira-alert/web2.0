@@ -79,7 +79,7 @@ const GraphiteTheme = (theme: TTheme) =>
             backgroundColor: `${theme.cmActiveLine}`,
         },
         "&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground": {
-            backgroundColor: `${theme.cmActiveLine}`,
+            backgroundColor: `${theme.cmSelectionBackgroundColor}`,
         },
     });
 
@@ -99,7 +99,6 @@ const ShowModeTheme = (theme: TTheme) =>
         ".cm-lineNumbers ": {
             display: "none !important",
         },
-
         ".cm-activeLineGutter": {
             backgroundColor: "transparent",
         },
@@ -108,7 +107,7 @@ const ShowModeTheme = (theme: TTheme) =>
             backgroundColor: "transparent",
         },
         ".cm-selectionBackground": {
-            backgroundColor: `${theme.cmActiveLine}`,
+            backgroundColor: `${theme.cmSelectionBackgroundColor}`,
         },
     });
 
