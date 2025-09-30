@@ -12,6 +12,8 @@ import { getUnixTime, subDays } from "date-fns";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { validateDateAndTime, validateForm } from "../../helpers/validations";
 import { Flexbox } from "../Flexbox/FlexBox";
+import { Paging } from "@skbkontur/react-ui/components/Paging";
+import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEventStats.module.less";
@@ -28,12 +30,16 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
     const minDate = subDays(new Date(), 7);
     const [fromTime, setFromTime] = useState<Date | null>(minDate);
     const [untilTime, setUntilTime] = useState<Date | null>(maxDate);
+    const [page, setPage] = useState(1);
     const { error } = useAppSelector(UIState);
     const validationContainerRef = useRef(null);
 
     const [trigger, result] = useLazyGetContactEventsQuery();
 
-    const { data: contactEvents, isLoading, isFetching } = result;
+    const { data: contactEventsList, isLoading, isFetching } = result;
+    const contactEvents = contactEventsList?.list;
+
+    const pageCount = Math.ceil((contactEventsList?.total ?? 0) / (contactEventsList?.size ?? 1));
 
     const fetchEvents = () =>
         trigger({
@@ -41,14 +47,24 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
             from: fromTime && getUnixTime(fromTime),
             to: untilTime && getUnixTime(untilTime),
             handleLoadingLocally: true,
+            page: transformPageFromHumanToProgrammer(page),
         });
 
-    const handleApplyTimeRange = async () => {
-        const validationSuccess = await validateForm(validationContainerRef);
-        if (!validationSuccess) {
-            return;
-        }
-        fetchEvents();
+    const runWithValidation = async (callback: () => void) => {
+        const valid = await validateForm(validationContainerRef);
+        if (!valid) return;
+        callback();
+    };
+
+    const handleApplyTimeRange = () => {
+        runWithValidation(fetchEvents);
+    };
+
+    const handlePageChange = (newPage: number) => {
+        runWithValidation(() => {
+            setPage(newPage);
+            fetchEvents();
+        });
     };
 
     useEffect(() => {
@@ -113,7 +129,14 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contactId, onCl
                     {isLoading || isFetching ? (
                         <Spinner className={cn("empty-container")} />
                     ) : contactEvents?.length ? (
-                        <Flexbox gap={50}>
+                        <Flexbox className={cn("container")} gap={50}>
+                            <Paging
+                                className={cn("paging")}
+                                activePage={page}
+                                pagesCount={pageCount}
+                                onPageChange={handlePageChange}
+                                withoutNavigationHint
+                            />
                             <TriggerEventsChart events={contactEvents} />
                             <ContactEventsChart events={contactEvents} />
                         </Flexbox>

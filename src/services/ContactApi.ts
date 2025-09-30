@@ -2,7 +2,6 @@ import {
     Contact,
     ContactList,
     ContactNoisinessResponse,
-    IContactEvent,
     IContactEventsList,
 } from "../Domain/Contact";
 import { BaseApi } from "./BaseApi";
@@ -74,19 +73,31 @@ export const ContactApi = BaseApi.injectEndpoints({
             }),
         }),
         getContactEvents: builder.query<
-            Array<IContactEvent>,
+            IContactEventsList,
             CustomBaseQueryArgs<{
                 contactId: string;
                 from: number | string | null;
                 to: number | string | null;
+                page?: number;
+                size?: number;
             }>
         >({
-            query: ({ contactId, from, to }) => ({
-                url: `contact/${encodeURIComponent(contactId)}/events?from=${from}&to=${to}`,
-                method: "GET",
-                credentials: "same-origin",
-            }),
-            transformResponse: (response: IContactEventsList) => response.list,
+            query: ({ contactId, from, to, page, size = 5000 }) => {
+                const params = qs.stringify(
+                    {
+                        p: page,
+                        size,
+                        from,
+                        to,
+                    },
+                    { arrayFormat: "indices", skipNulls: true, encode: true }
+                );
+                return {
+                    url: `contact/${encodeURIComponent(contactId)}/events?${params}`,
+                    method: "GET",
+                    credentials: "same-origin",
+                };
+            },
         }),
         getContactNoisiness: builder.query<
             ContactNoisinessResponse,
