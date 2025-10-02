@@ -23,7 +23,7 @@ export const ExpandableBlock: React.FC<IExpandableBlockProps> = ({ children, max
         if (el) {
             setIsOverflowing(el.scrollHeight > el.clientHeight);
         }
-    }, []);
+    }, [children]);
 
     return (
         <div className={cn("expandable", { expanded })}>
