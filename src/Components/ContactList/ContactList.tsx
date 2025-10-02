@@ -101,19 +101,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                         )}
                     </td>
                     <td className={cn("events")}>
-                        <Button
-                            onClick={(event) =>
-                                onEventsClick(event, {
-                                    type: "",
-                                    name: "",
-                                    value: "",
-                                    id,
-                                    score,
-                                })
-                            }
-                        >
-                            Events
-                        </Button>
+                        <Button onClick={(event) => onEventsClick(event, contact)}>Events</Button>
                     </td>
                 </tr>
             ) : (
@@ -232,8 +220,9 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
             )}
             {contactEventsVisible && editableContact?.id && (
                 <ContactEventStats
-                    contactId={editableContact?.id}
+                    contact={editableContact}
                     onClose={closeContactEventsSidePage}
+                    contacts={contacts}
                 />
             )}
         </div>
