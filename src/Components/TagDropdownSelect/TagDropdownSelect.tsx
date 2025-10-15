@@ -1,27 +1,17 @@
-import * as React from "react";
-import union from "lodash/union";
+import React, { useState, useRef, FocusEventHandler, useMemo } from "react";
 import difference from "lodash/difference";
-import { ScrollContainer } from "@skbkontur/react-ui/components/ScrollContainer";
-import { Popup } from "@skbkontur/react-ui/internal/Popup";
+import union from "lodash/union";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
-import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
+import { TagInput } from "./Components/TagInput";
+import { TagListDropdown } from "./Components/TagListDropdown";
 import Tag from "../Tag/Tag";
-import NewTagBadge from "../NewTagBadge/NewTagBadge";
-import { ThemeContext } from "@skbkontur/react-ui";
-import { Theme } from "@skbkontur/react-ui/lib/theming/Theme";
-import { withThemeVars } from "../../Themes/withThemeVars";
-import classNames from "classnames/bind";
 
-import styles from "./TagDropdownSelect.module.less";
-
-const cn = classNames.bind(styles);
-
-type Props = {
-    value: Array<string>;
-    onChange: (tagList: Array<string>) => void;
-    availableTags: Array<string>;
+export type TagDropdownSelectProps = {
+    value: string[];
+    onChange: (tags: string[]) => void;
+    availableTags: string[];
     error?: boolean;
-    onBlur?: React.FocusEventHandler<HTMLDivElement>;
+    onBlur?: FocusEventHandler<HTMLDivElement>;
     isDisabled?: boolean;
     width?: string | number;
     allowCreateNewTags?: boolean;
@@ -29,286 +19,139 @@ type Props = {
     "data-tid"?: string;
 };
 
-type State = {
-    inputValue: string;
-    isFocused: boolean;
-    focusedIndex: number;
+const TagDropdownSelect: React.FC<TagDropdownSelectProps> = ({
+    value,
+    onChange,
+    availableTags,
+    error,
+    onBlur,
+    isDisabled,
+    width,
+    allowCreateNewTags,
+    placeholder,
+    "data-tid": dataTid,
+}) => {
+    const [inputValue, setInputValue] = useState("");
+    const [isFocused, setIsFocused] = useState(false);
+    const [focusedIndex, setFocusedIndex] = useState(0);
+
+    const containerRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const tagExists = (name: string) => availableTags.includes(name);
+
+    const filteredTags = useMemo(
+        () =>
+            difference(availableTags, value).filter((t) =>
+                t.toLowerCase().includes(inputValue.toLowerCase())
+            ),
+        [availableTags, value, inputValue]
+    );
+
+    const handleRemoveTag = (tag: string) => onChange(difference(value, [tag]));
+
+    const selectTag = (tag: string) => {
+        onChange(union(value, [tag]));
+        setInputValue("");
+        setFocusedIndex(0);
+        inputRef.current?.focus();
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const { key } = event;
+        const caret = event.currentTarget.selectionStart ?? 0;
+        if (!isFocused) return;
+
+        switch (key) {
+            case "Backspace":
+                if (caret === 0 && value.length) {
+                    handleRemoveTag(value[value.length - 1]);
+                }
+                break;
+            case "ArrowUp":
+                setFocusedIndex((prev) =>
+                    prev > 0
+                        ? prev - 1
+                        : allowCreateNewTags
+                        ? filteredTags.length + 1
+                        : filteredTags.length
+                );
+                break;
+            case "ArrowDown":
+                setFocusedIndex((prev) =>
+                    allowCreateNewTags && !tagExists(inputValue)
+                        ? prev < filteredTags.length + 1
+                            ? prev + 1
+                            : 0
+                        : prev < filteredTags.length
+                        ? prev + 1
+                        : 0
+                );
+                break;
+            case "Enter":
+                if (focusedIndex !== 0) {
+                    if (inputValue.trim() === "") break;
+                    if (
+                        allowCreateNewTags &&
+                        !tagExists(inputValue) &&
+                        focusedIndex === filteredTags.length + 1
+                    ) {
+                        selectTag(inputValue.trim());
+                    } else {
+                        selectTag(filteredTags[focusedIndex - 1]);
+                    }
+                } else {
+                    if (inputValue.trim() === "") break;
+                    if (allowCreateNewTags && !tagExists(inputValue)) {
+                        selectTag(inputValue.trim());
+                    } else if (filteredTags.length) {
+                        selectTag(filteredTags[filteredTags.length - 1]);
+                    }
+                }
+                setInputValue("");
+                break;
+        }
+    };
+
+    const handleBlur = () => {
+        setIsFocused(false);
+    };
+
+    const renderToken = (tag: string) => <Tag title={tag} onRemove={handleRemoveTag} />;
+
+    return (
+        <RenderLayer onClickOutside={handleBlur} onFocusOutside={handleBlur}>
+            <div style={{ width }} ref={containerRef}>
+                <TagInput
+                    value={value}
+                    inputValue={inputValue}
+                    onValueChange={setInputValue}
+                    onFocus={() => setIsFocused(true)}
+                    onKeyDown={handleKeyDown}
+                    renderToken={renderToken}
+                    placeholder={placeholder}
+                    focused={isFocused}
+                    error={error}
+                    disabled={isDisabled}
+                    dataTid={dataTid}
+                    ref={inputRef}
+                />
+
+                {isFocused && (
+                    <TagListDropdown
+                        anchor={containerRef.current}
+                        tags={filteredTags}
+                        focusedIndex={focusedIndex}
+                        inputValue={inputValue}
+                        allowCreateNewTags={allowCreateNewTags}
+                        tagExists={tagExists}
+                        selectTag={selectTag}
+                        onBlur={onBlur}
+                    />
+                )}
+            </div>
+        </RenderLayer>
+    );
 };
 
-export default class TagDropdownSelect extends React.Component<Props, State> {
-    public state: State = {
-        focusedIndex: 0,
-        inputValue: "",
-        isFocused: false,
-    };
-
-    private containerRef = React.createRef<HTMLSpanElement>();
-    private tagsRef = React.createRef<HTMLDivElement>();
-    private focusAnchorRef = React.createRef<HTMLSpanElement>();
-
-    declare context: Theme;
-
-    componentDidUpdate(): void {
-        this.updateDropdownContainerMaxWidth();
-        LayoutEvents.emit();
-    }
-
-    render(): React.ReactElement {
-        const { width, value, availableTags, allowCreateNewTags, onBlur } = this.props;
-        const { inputValue, focusedIndex, isFocused: opened } = this.state;
-        const filteredTags = this.filterTags(difference(availableTags, value));
-        const theme = this.context;
-
-        return (
-            <span className={cn("root")} style={{ width }} ref={this.containerRef}>
-                <RenderLayer
-                    onClickOutside={this.handleClickOutside}
-                    onFocusOutside={this.handleFocusOutside}
-                    active={opened}
-                >
-                    <div className={cn("wrapper")}>
-                        {this.renderInput()}
-                        {opened && (
-                            <Popup
-                                margin={2}
-                                hasShadow
-                                anchorElement={this.containerRef.current}
-                                opened={true}
-                                pos={"bottom left"}
-                                positions={["bottom left"]}
-                                style={{
-                                    width: this.containerRef.current?.offsetWidth,
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        backgroundColor: theme.inputBg,
-                                        borderColor: theme.inputBorderColor,
-                                    }}
-                                    className={cn("tags-menu")}
-                                    ref={this.tagsRef}
-                                    onBlur={onBlur}
-                                >
-                                    <ScrollContainer maxHeight={300}>
-                                        {filteredTags.length > 0 || allowCreateNewTags ? (
-                                            <div className={cn("tag-list")}>
-                                                {filteredTags.map((tag, i) => (
-                                                    <Tag
-                                                        key={tag}
-                                                        focus={i === focusedIndex - 1}
-                                                        title={tag}
-                                                        data-tid={`Tag ${tag}`}
-                                                        onClick={() => this.selectTag(tag)}
-                                                    />
-                                                ))}
-                                                {allowCreateNewTags &&
-                                                    !this.tagExists(inputValue) &&
-                                                    inputValue.trim() !== "" && (
-                                                        <NewTagBadge
-                                                            title={inputValue.trim()}
-                                                            focus={
-                                                                focusedIndex ===
-                                                                filteredTags.length + 1
-                                                            }
-                                                            onClick={() =>
-                                                                this.selectTag(inputValue.trim())
-                                                            }
-                                                        />
-                                                    )}
-                                            </div>
-                                        ) : (
-                                            <div className={cn("no-tags")}>
-                                                No matched tags found.
-                                            </div>
-                                        )}
-                                    </ScrollContainer>
-                                </div>
-                            </Popup>
-                        )}
-                    </div>
-                </RenderLayer>
-                <span tabIndex={-1} ref={this.focusAnchorRef} />
-            </span>
-        );
-    }
-
-    handleClickOutside = (): void => {
-        this.setState({ isFocused: false });
-    };
-
-    handleFocusOutside = (): void => {
-        this.setState({ isFocused: false });
-    };
-
-    handleRemoveTag = (tag: string): void => {
-        this.removeTag(tag);
-    };
-
-    handleKeyDown(key: string, caretPosition: number): void {
-        const { focusedIndex, isFocused, inputValue } = this.state;
-        const { allowCreateNewTags, value, availableTags } = this.props;
-        const filteredTags = this.filterTags(difference(availableTags, value));
-
-        if (isFocused) {
-            switch (key) {
-                case "Delete":
-                    break;
-                case "Backspace":
-                    if (caretPosition === 0 && value.length !== 0) {
-                        this.removeTag(value[value.length - 1]);
-                    }
-
-                    break;
-                case "ArrowUp": {
-                    if (allowCreateNewTags) {
-                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filteredTags.length;
-                        this.setState({ focusedIndex: newIndex });
-                    } else {
-                        const newIndex = focusedIndex > 0 ? focusedIndex - 1 : filteredTags.length;
-                        this.setState({ focusedIndex: newIndex });
-                    }
-                    break;
-                }
-                case "ArrowDown": {
-                    if (allowCreateNewTags && !this.tagExists(inputValue)) {
-                        const newIndex =
-                            focusedIndex < filteredTags.length + 1 ? focusedIndex + 1 : 0;
-                        this.setState({ focusedIndex: newIndex });
-                    } else {
-                        const newIndex = focusedIndex < filteredTags.length ? focusedIndex + 1 : 0;
-                        this.setState({ focusedIndex: newIndex });
-                    }
-                    break;
-                }
-                case "Enter":
-                    if (focusedIndex !== 0) {
-                        if (inputValue.trim() === "") {
-                            break;
-                        } else if (
-                            allowCreateNewTags &&
-                            !this.tagExists(inputValue) &&
-                            focusedIndex === filteredTags.length + 1
-                        ) {
-                            this.selectTag(inputValue);
-                        } else {
-                            this.selectTag(filteredTags[focusedIndex - 1]);
-                        }
-                    }
-
-                    if (focusedIndex === 0) {
-                        if (inputValue.trim() === "") {
-                            break;
-                        } else if (allowCreateNewTags && !this.tagExists(inputValue)) {
-                            this.selectTag(inputValue);
-                        } else if (filteredTags.length > 0) {
-                            this.selectTag(filteredTags[filteredTags.length - 1]);
-                        } else {
-                            break;
-                        }
-                    }
-
-                    this.setState({ inputValue: "" });
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    public static contextType = ThemeContext;
-
-    updateDropdownContainerMaxWidth(): void {
-        const node = this.tagsRef?.current;
-
-        if (node !== null) {
-            node.style.maxWidth = `${node.getBoundingClientRect().width + 40}px`;
-        }
-    }
-
-    removeTag = (tag: string): void => {
-        const { onChange, value } = this.props;
-        onChange(difference(value, [tag]));
-    };
-
-    tagExists(name: string): boolean {
-        const { availableTags } = this.props;
-        return availableTags.includes(name);
-    }
-
-    selectTag(tag: string): void {
-        const { value, onChange } = this.props;
-        onChange(union(value, [tag]));
-        this.setState({ inputValue: "", focusedIndex: 0 });
-        this.focusAnchorRef.current?.focus();
-    }
-
-    filterTags(tags: Array<string>): Array<string> {
-        const { inputValue } = this.state;
-        if (inputValue.trim() === "") {
-            return tags;
-        }
-        return tags.filter((x) => x.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
-    }
-
-    renderInput(): React.ReactNode {
-        const { error, value, isDisabled, placeholder, "data-tid": dataTid } = this.props;
-        const { isFocused, inputValue } = this.state;
-        const theme = this.context;
-
-        return (
-            <div
-                style={withThemeVars(theme, [
-                    "inputBorderColor",
-                    "inputBorderColorHover",
-                    "inputBorderColorFocus",
-                    "inputBorderColorError",
-                    "inputBg",
-                    "inputDisabledBg",
-                    "inputDisabledBorderColor",
-                    "inputBorderWidth",
-                    "inputBorderRadiusMedium",
-                    "inputOutlineWidth",
-                ])}
-                className={
-                    isDisabled
-                        ? cn("input-area-disabled")
-                        : cn("input-area", {
-                              focused: isFocused,
-                              error,
-                          })
-                }
-            >
-                <ScrollContainer maxHeight={300}>
-                    {value.length !== 0 &&
-                        value.map((tag) => (
-                            <div className={cn("tag-wrap")} key={tag}>
-                                <Tag title={tag} onRemove={() => this.handleRemoveTag(tag)} />
-                            </div>
-                        ))}
-                    <input
-                        className={cn("input")}
-                        value={inputValue}
-                        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
-                            event.target instanceof HTMLInputElement &&
-                            event.target.selectionStart !== null
-                                ? this.handleKeyDown(event.key, event.target.selectionStart)
-                                : null
-                        }
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            event.target instanceof HTMLInputElement
-                                ? this.setState({
-                                      inputValue: event.target.value,
-                                      focusedIndex: 0,
-                                  })
-                                : null
-                        }
-                        onFocus={() => this.setState({ isFocused: true })}
-                        disabled={isDisabled}
-                        placeholder={value.length === 0 ? placeholder : undefined}
-                        data-tid={dataTid}
-                    />
-                </ScrollContainer>
-            </div>
-        );
-    }
-}
+export default TagDropdownSelect;
