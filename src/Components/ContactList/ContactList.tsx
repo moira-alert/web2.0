@@ -220,7 +220,7 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
             )}
             {contactEventsVisible && editableContact?.id && (
                 <ContactEventStats
-                    contact={editableContact}
+                    contact={contacts.find((c) => c.id === editableContact.id)}
                     onClose={closeContactEventsSidePage}
                     contacts={contacts}
                 />

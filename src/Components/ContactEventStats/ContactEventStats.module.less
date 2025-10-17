@@ -1,21 +1,8 @@
 @import "~styles/utils.module.less";
 
-.time-range-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 20px;
-}
-
-.date-time-pickers {
-    display: flex;
-    gap: 5px;
-    align-items: baseline;
-}
-
 .empty-container {
     &:extend(.empty-result);
-    height: calc(100vh - 127px);
+    height: calc(100vh - 190px);
 }
 
 .paging {
@@ -26,4 +13,8 @@
 
 .container {
     position: relative;
+}
+
+.side-page [data-tid="SidePage__container"] {
+    scrollbar-gutter: stable;
 }
