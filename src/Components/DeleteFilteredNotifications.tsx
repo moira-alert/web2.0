@@ -57,6 +57,7 @@ export const DeleteFilteredNotifications: FC<IDeleteFilteredNotificationsProps> 
         <Flexbox gap={12} direction="row">
             {tags && (
                 <TagDropdownSelect
+                    width={438}
                     value={selectedTags}
                     onChange={setSelectedTags}
                     availableTags={tags}
