@@ -58,10 +58,11 @@ export const SearchSelector: React.FC<Props> = ({
         onSearch(clearedSearchValue);
     };
 
-    const handleTokenSelect = (token: string): void => {
+    const handleTokenSelect = (token: string, closeDropdown: () => void): void => {
         onChange([...selectedTokens, token], "");
         setSearchText("");
         setClearedSearchValue("");
+        closeDropdown();
     };
 
     const handleTokenRemove = (token: string): void => {
@@ -95,13 +96,21 @@ export const SearchSelector: React.FC<Props> = ({
             onBackspaceKeyDown={onRemoveLastToken}
             onInputChange={handleInputChange}
         >
-            <div className={cn("container")}>
-                {clearedSearchValue === "" ? (
-                    <SelectorInitialView tokens={subscribedTokens} onSelect={handleTokenSelect} />
-                ) : (
-                    <SelectorResultsView tokens={resultTokens} onSelect={handleTokenSelect} />
-                )}
-            </div>
+            {(closeDropdown: () => void) => (
+                <div className={cn("container")}>
+                    {clearedSearchValue === "" ? (
+                        <SelectorInitialView
+                            tokens={subscribedTokens}
+                            onSelect={(token) => handleTokenSelect(token, closeDropdown)}
+                        />
+                    ) : (
+                        <SelectorResultsView
+                            tokens={resultTokens}
+                            onSelect={(token) => handleTokenSelect(token, closeDropdown)}
+                        />
+                    )}
+                </div>
+            )}
         </Selector>
     );
 };

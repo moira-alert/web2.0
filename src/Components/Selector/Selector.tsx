@@ -1,65 +1,13 @@
-import React, { useRef, useState, useCallback } from "react";
-import ReactDOM from "react-dom";
-import Foco from "react-foco";
-import { useTheme } from "../../Themes";
-import classNames from "classnames/bind";
-
-import styles from "./Selector.module.less";
-import { withThemeVars } from "../../Themes/withThemeVars";
-
-const cn = classNames.bind(styles);
-
-const Portal = ({ children }: { children: React.ReactNode }) => {
-    const container = document.body;
-
-    if (!container) {
-        throw new Error("Container for portal is empty");
-    }
-
-    return ReactDOM.createPortal(children, container);
-};
-
-const Dropdown = ({
-    anchor,
-    children,
-}: {
-    anchor?: HTMLLabelElement | null;
-    children: React.ReactNode;
-}) => {
-    const SELECTOR_OUTLINE_SIZE = 1;
-
-    if (!anchor) {
-        throw new Error("Anchor in Dropdown component is empty");
-    }
-
-    const {
-        top: anchorTop,
-        left: anchorLeft,
-        height: anchorHeight,
-        width,
-    } = anchor.getBoundingClientRect();
-
-    const top = anchorTop + anchorHeight + SELECTOR_OUTLINE_SIZE + window.pageYOffset;
-    const left = anchorLeft + window.pageXOffset;
-    const theme = useTheme();
-
-    return (
-        <Portal>
-            <div
-                className={cn("dropdown")}
-                style={{ top, left, width, borderColor: theme.inputBorderColor }}
-            >
-                {children}
-            </div>
-        </Portal>
-    );
-};
+import React, { useRef, useState } from "react";
+import { TagDropdown } from "../TagDropdownSelect/Components/TagDropdown";
+import { TagInput } from "../TagDropdownSelect/Components/TagInput";
+import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 
 type Props = {
     search: string;
     tokens: string[];
     renderToken: (token: string) => React.ReactNode;
-    children: React.ReactNode;
+    children: (closeDropdown: () => void) => React.ReactNode;
     onEnterKeyDown: () => void;
     onBackspaceKeyDown: () => void;
     onInputChange: (value: string) => void;
@@ -75,25 +23,20 @@ const Selector: React.FC<Props> = ({
     onInputChange,
 }) => {
     const [focused, setFocused] = useState(false);
-    const dropdownAnchorRef = useRef<HTMLLabelElement>(null);
+    const dropdownAnchorRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const theme = useTheme();
 
-    const openDropdown = useCallback(() => {
+    const openDropdown = () => {
         if (!focused) {
             setFocused(true);
         }
-    }, [focused]);
+    };
 
-    const closeDropdown = useCallback(() => {
+    const closeDropdown = () => {
         if (focused) {
             searchInputRef.current?.blur();
             setFocused(false);
         }
-    }, [focused]);
-
-    const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        onInputChange(evt.currentTarget.value);
     };
 
     const handleInputKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
@@ -110,44 +53,29 @@ const Selector: React.FC<Props> = ({
             onBackspaceKeyDown();
         }
     };
-
     return (
-        <Foco className={cn("wrapper")} onClickOutside={closeDropdown}>
-            <label
-                className={cn({ selector: true, focused })}
-                htmlFor="selector"
-                ref={dropdownAnchorRef}
-                style={withThemeVars(theme, [
-                    "inputBorderColor",
-                    "inputBorderColorHover",
-                    "inputBorderColorFocus",
-                    "inputBg",
-                    "inputBorderWidth",
-                    "inputBorderRadiusMedium",
-                    "inputOutlineWidth",
-                ])}
-            >
-                <React.Profiler id="tokens" onRender={() => console.log("tokens rerendered")}>
-                    {tokens.map((token) => (
-                        <span key={token} className={cn("token-container")}>
-                            {renderToken(token)}
-                        </span>
-                    ))}
-                </React.Profiler>
-                <input
-                    className={cn("input")}
-                    id="selector"
-                    type="text"
-                    value={search}
-                    autoComplete="off"
-                    ref={searchInputRef}
-                    onChange={handleInputChange}
+        <RenderLayer onFocusOutside={closeDropdown} onClickOutside={closeDropdown} active={focused}>
+            <div ref={dropdownAnchorRef}>
+                <TagInput
+                    focused={focused}
+                    value={tokens}
+                    inputValue={search}
+                    renderToken={renderToken}
+                    onValueChange={onInputChange}
                     onKeyDown={handleInputKeyDown}
                     onFocus={openDropdown}
+                    useScrollContainer={false}
+                    minHeight="40px"
+                    inputLineHeight="32px"
+                    ref={searchInputRef}
                 />
-            </label>
-            {focused && <Dropdown anchor={dropdownAnchorRef.current}>{children}</Dropdown>}
-        </Foco>
+                {focused && (
+                    <TagDropdown anchor={dropdownAnchorRef.current}>
+                        {children(closeDropdown)}
+                    </TagDropdown>
+                )}
+            </div>
+        </RenderLayer>
     );
 };
 
