@@ -101,19 +101,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                         )}
                     </td>
                     <td className={cn("events")}>
-                        <Button
-                            onClick={(event) =>
-                                onEventsClick(event, {
-                                    type: "",
-                                    name: "",
-                                    value: "",
-                                    id,
-                                    score,
-                                })
-                            }
-                        >
-                            Events
-                        </Button>
+                        <Button onClick={(event) => onEventsClick(event, contact)}>Events</Button>
                     </td>
                 </tr>
             ) : (
@@ -175,6 +163,8 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
         settings?.subscriptions.some((sub) => sub.contacts.includes(editableContact.id))
     );
 
+    const contactEventsToShow = contacts.find((c) => c.id === editableContact?.id);
+
     const handleEventsButtonClick = (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
         contact: Contact
@@ -230,10 +220,11 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                     onCancel={closeEditContactModal}
                 />
             )}
-            {contactEventsVisible && editableContact?.id && (
+            {contactEventsVisible && (
                 <ContactEventStats
-                    contactId={editableContact?.id}
+                    contact={contactEventsToShow}
                     onClose={closeContactEventsSidePage}
+                    contacts={contacts}
                 />
             )}
         </div>
