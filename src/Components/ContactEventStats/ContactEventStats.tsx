@@ -8,8 +8,13 @@ import { DateAndTimeMenu } from "../DateAndTimeMenu/DateAndTimeMenu";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { subDays } from "date-fns";
-import { ValidationContainer, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
+import {
+    ValidationContainer,
+    ValidationInfo,
+    ValidationWrapperV1,
+} from "@skbkontur/react-ui-validations";
 import { validateDateAndTime, validateForm } from "../../helpers/validations";
+import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { TokenInput } from "@skbkontur/react-ui/components/TokenInput";
@@ -92,6 +97,14 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contact, onClos
 
     const getItem = (item: Contact) => item.name || item.value;
 
+    const contactsFieldValidationInfo: Nullable<ValidationInfo> =
+        selectedContacts.length === 0
+            ? {
+                  type: "immediate",
+                  message: "Select at least one contact",
+              }
+            : null;
+
     useEffect(() => {
         fetchEvents();
     }, []);
@@ -106,16 +119,7 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contact, onClos
                 <SidePageBody>
                     <ValidationContainer ref={validationContainerRef}>
                         <FormRow label="Contacts">
-                            <ValidationWrapperV1
-                                validationInfo={
-                                    selectedContacts.length === 0
-                                        ? {
-                                              type: "immediate",
-                                              message: "Select at least one contact",
-                                          }
-                                        : null
-                                }
-                            >
+                            <ValidationWrapperV1 validationInfo={contactsFieldValidationInfo}>
                                 <TokenInput
                                     width="100%"
                                     selectedItems={selectedContacts}
