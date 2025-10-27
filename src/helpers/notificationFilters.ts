@@ -25,7 +25,7 @@ const enum EStateFilters {
     old_state = "old_state",
 }
 
-const checkHasAllStates = (
+export const checkHasAllStates = (
     isStrictMatching: boolean,
     state: Status[],
     notifications: Notification[],
@@ -36,35 +36,16 @@ const checkHasAllStates = (
         : state.length === 0 || notifications.some((n) => state.includes(n.event[field]));
 };
 
-export function filterNotifications(
-    items: Record<string, Notification[]>,
-    prevStateFilter: Status[],
-    currentStateFilter: Status[],
-    isStrictMatching: boolean
-): { filteredItems: typeof items; filteredCount: number } {
-    const result: typeof items = {};
-    let count = 0;
+export const checkHasAllStatesForValues = (
+    isStrictMatching: boolean,
+    stateFilter: Status[] | undefined,
+    targetStates: Status[]
+) => {
+    if (!stateFilter || stateFilter.length === 0) return true;
 
-    for (const [key, notifications] of Object.entries(items)) {
-        const hasAllPrevStates = checkHasAllStates(
-            isStrictMatching,
-            prevStateFilter,
-            notifications,
-            EStateFilters.old_state
-        );
-
-        const hasAllCurrentStates = checkHasAllStates(
-            isStrictMatching,
-            currentStateFilter,
-            notifications,
-            EStateFilters.state
-        );
-
-        if (hasAllPrevStates && hasAllCurrentStates) {
-            result[key] = notifications;
-            count += notifications.length;
-        }
+    if (isStrictMatching) {
+        return stateFilter.every((s) => targetStates.includes(s));
+    } else {
+        return stateFilter.some((s) => targetStates.includes(s));
     }
-
-    return { filteredItems: result, filteredCount: count };
-}
+};

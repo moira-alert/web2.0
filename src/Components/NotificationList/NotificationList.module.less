@@ -1,54 +1,68 @@
 @import "~styles/utils.module.less";
 
+.resizer {
+    top: 7px;
+    max-height: 22px;
+}
+.active {
+    color: @moira-brand-color;
+}
+.filterInput {
+    display: flex;
+    padding: 2px;
+}
 .row {
     display: flex;
-    align-items: flex-start;
-    margin-top: 5px;
+    gap: 8px;
 }
-.timestamp {
-    width: 15%;
+.header {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    user-select: none;
 }
+.header-group {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    height: 32px;
+    align-items: center;
+    padding: 2px 10px 2px 0;
+}
+
 .state {
-    width: 6%;
     display: flex;
     align-items: center;
     flex-shrink: 0;
 }
-.trigger {
-    overflow: hidden;
-    width: 27%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    box-sizing: border-box;
+.stateHead {
+    cursor: pointer;
 }
-.user {
-    width: 14%;
+.cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.trigger {
+    white-space: nowrap;
+}
+.owner {
+    white-space: nowrap;
 }
 .contact {
     display: flex;
     align-items: center;
-    text-overflow: ellipsis;
-    width: 16%;
     .contact-name {
         text-overflow: ellipsis;
-        overflow: hidden;
         white-space: nowrap;
+        overflow: hidden;
     }
 }
 .throttled {
-    width: 7%;
     &.false {
         color: #ee0701;
     }
     &.true {
         color: #128a0c;
     }
-}
-.fails {
-    width: 5%;
-}
-.remove {
-    width: 10%;
 }
 .no-result {
     color: @colorGrey;

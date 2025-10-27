@@ -3,6 +3,7 @@ import UIReducer from "./Reducers/UIReducer.slice";
 import { BaseApi } from "../services/BaseApi";
 import ConfigReducer from "./Reducers/ConfigReducer.slice";
 import TriggerFormReducer from "./Reducers/TriggerFormReducer.slice";
+import NotificationFiltersReducer from "./Reducers/NotificationFilters.slice";
 import { rtkQueryErrorAndLoadingHandler } from "../services/rtkQueryErrorAndLoadingHandler";
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
         ConfigReducer,
         UIReducer,
         TriggerFormReducer,
+        NotificationFiltersReducer,
     },
 
     middleware: (getDefaultMiddleware) =>

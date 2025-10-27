@@ -1,171 +1,156 @@
-import React, { useState, useRef } from "react";
-import { format, fromUnixTime } from "date-fns";
-import OkIcon from "@skbkontur/react-icons/Ok";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
-import TrashIcon from "@skbkontur/react-icons/Trash";
-import { Flexbox } from "../Flexbox/FlexBox";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
-import uniq from "lodash/uniq";
+import React, { useState, useMemo, useEffect } from "react";
 import { Notification } from "../../Domain/Notification";
-import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
-import { Link } from "@skbkontur/react-ui/components/Link";
-import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import StatusIndicator from "../StatusIndicator/StatusIndicator";
+import { ConfirmModalHeaderData } from "../../Domain/Global";
 import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
-import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
+import {
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    ColumnFiltersState,
+    useReactTable,
+} from "@tanstack/react-table";
+import { FixedSizeList as List } from "react-window";
+import { useAppDispatch } from "../../store/hooks";
+import { setFilteredCount } from "../../store/Reducers/NotificationFilters.slice";
+import { useNotificationData } from "./hooks/useNotificationData";
 import classNames from "classnames/bind";
 
 import styles from "./NotificationList.module.less";
 
 const cn = classNames.bind(styles);
 
-interface ContactNameWithTooltipProps {
-    type: string;
-    value: string;
-    name?: string;
-}
-
-const ContactNameWithTooltip: React.FC<ContactNameWithTooltipProps> = ({ type, value, name }) => {
-    const contactNameRef = useRef<HTMLDivElement | null>(null);
-    const [showTooltip, setShowTooltip] = useState(false);
-
-    const handleMouseEnter = () => {
-        if (contactNameRef.current) {
-            const isOverflowing =
-                contactNameRef.current.scrollWidth > contactNameRef.current.offsetWidth;
-            setShowTooltip(isOverflowing);
-        }
-    };
-
-    return (
-        <>
-            <ContactTypeIcon type={type} />
-            <Tooltip render={() => (showTooltip ? `${value}${name ? ` (${name})` : ""}` : null)}>
-                <div
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={() => setShowTooltip(false)}
-                    ref={contactNameRef}
-                    className={cn("contact-name")}
-                >
-                    &nbsp;
-                    {value}
-                    &nbsp;
-                    {name && `(${name})`}
-                </div>
-            </Tooltip>
-        </>
-    );
-};
-
-type Props = {
+export type TNotificationListProps = {
     items: {
         [id: string]: Array<Notification>;
     };
     onRemove: (key: string) => void;
 };
 
-export default function NotificationList(props: Props): React.ReactElement {
-    const { items, onRemove } = props;
+const ROW_HEIGHT = 50;
+const MAX_LIST_HEIGHT = 1000;
 
+export default function NotificationList({ items, onRemove }: TNotificationListProps) {
     const { modalData, setModalData, closeModal } = useConfirmModal();
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const dispatch = useAppDispatch();
 
-    const handleDeleteNotification = (notificationId: string) => {
-        setModalData({ isOpen: false });
-        onRemove(notificationId);
-    };
-
-    const handleClickRemoveBtn = async (notificationId: string) => {
+    const handleClickRemoveBtn = (id: string) => {
         setModalData({
             isOpen: true,
             header: ConfirmModalHeaderData.deleteNotification,
             button: {
                 text: "Delete",
                 use: "danger",
-                onConfirm: () => handleDeleteNotification(notificationId),
+                onConfirm: () => handleDelete(id),
             },
         });
     };
 
-    return Object.keys(items).length === 0 ? (
-        <div className={cn("no-result")}>Empty :-)</div>
-    ) : (
+    const { data, columns } = useNotificationData({
+        items,
+        handleClickActionsBtn: handleClickRemoveBtn,
+    });
+
+    const handleDelete = (id: string) => {
+        setModalData({ isOpen: false });
+        onRemove(id);
+    };
+
+    const table = useReactTable({
+        data,
+        columns,
+        enableColumnResizing: true,
+        columnResizeMode: "onChange",
+        columnResizeDirection: "ltr",
+        state: {
+            columnFilters,
+        },
+        onColumnFiltersChange: setColumnFilters,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+    });
+
+    const filteredRows = table.getFilteredRowModel().rows;
+    const rows = table.getRowModel().rows;
+
+    const filteredNotificationsCount = useMemo(() => {
+        return filteredRows.reduce((total, row) => {
+            return total + row.original.count;
+        }, 0);
+    }, [filteredRows]);
+
+    useEffect(() => {
+        dispatch(setFilteredCount(filteredNotificationsCount));
+    }, [filteredNotificationsCount]);
+
+    if (data.length === 0) {
+        return <div className={cn("no-result")}>Empty :-)</div>;
+    }
+
+    const listHeight = Math.min(rows.length * ROW_HEIGHT, MAX_LIST_HEIGHT);
+    const hasVerticalScroll = rows.length * ROW_HEIGHT > MAX_LIST_HEIGHT;
+
+    return (
         <>
             <ConfirmModal modalData={modalData} closeModal={closeModal} />
-            <Flexbox gap={30}>
-                <div className={cn("row", "italic-font")}>
-                    <div className={cn("timestamp")}>Timestamp</div>
-                    <div className={cn("state")}>State</div>
-                    <div className={cn("trigger")}>Trigger</div>
-                    <div className={cn("user")}>User</div>
-                    <div className={cn("contact")}>Contact</div>
-                    <div className={cn("throttled")}>Throttled</div>
-                    <div className={cn("fails")}>Fails</div>
-                    <div className={cn("remove")} />
-                </div>
-                {Object.keys(items).map((key) => {
-                    const { timestamp, trigger, contact, throttled, send_fail: fails } = items[
-                        key
-                    ][0];
-                    const { type, value, name: contactName, user } = contact;
-                    const { id, name: triggerName } = trigger;
-                    return (
-                        <div key={key} className={cn("row")}>
-                            <div className={cn("timestamp")}>
-                                {format(fromUnixTime(timestamp), "MMMM d, HH:mm:ss")}
-                                {items[key].length > 1 ? ` (${items[key].length}×)` : ""}
+
+            {table.getHeaderGroups().map((headerGroup) => (
+                <div
+                    style={{
+                        paddingRight: hasVerticalScroll ? "17px" : "0",
+                    }}
+                    key={headerGroup.id}
+                    className={cn("row", "italic-font", "header")}
+                >
+                    {headerGroup.headers.map((header) => (
+                        <div
+                            className={cn("header-group")}
+                            key={header.id}
+                            style={{
+                                flex: `1 1 ${header.getSize()}px`,
+                                width: header.column.getSize(),
+                            }}
+                        >
+                            <div className={cn("cell")}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
                             </div>
-                            <div className={cn("state")}>
-                                <div className={cn("prev-state")}>
-                                    <StatusIndicator
-                                        statuses={uniq(items[key].map((n) => n.event.old_state))}
-                                        size={14}
-                                    />
-                                </div>
-                                <div className={cn("arrow")}>
-                                    <ArrowBoldRightIcon />
-                                </div>
-                                <div className={cn("curr-state")}>
-                                    <StatusIndicator
-                                        statuses={uniq(items[key].map((n) => n.event.state))}
-                                        size={14}
-                                    />
-                                </div>
-                            </div>
-                            <div className={cn("trigger")}>
-                                {id ? (
-                                    <Link href={getPageLink("trigger", id)}>{triggerName}</Link>
-                                ) : (
-                                    <span>&mdash;</span>
-                                )}
-                            </div>
-                            <div className={cn("user")}>{user}</div>
-                            <div className={cn("contact")}>
-                                <ContactNameWithTooltip
-                                    type={type}
-                                    value={value}
-                                    name={contactName}
+
+                            {header.column.getCanResize() && (
+                                <div
+                                    onMouseDown={header.getResizeHandler()}
+                                    onTouchStart={header.getResizeHandler()}
+                                    className={cn("resizer", {
+                                        isResizing: Boolean(header.column.getIsResizing()),
+                                    })}
                                 />
-                            </div>
-                            <div
-                                className={cn("throttled", { true: throttled, false: !throttled })}
-                            >
-                                {throttled ? <OkIcon /> : <DeleteIcon />}
-                            </div>
-                            <div className={cn("fails")}>{fails}</div>
-                            <div className={cn("remove")}>
-                                <Button
-                                    use="link"
-                                    icon={<TrashIcon />}
-                                    onClick={() => handleClickRemoveBtn(key)}
+                            )}
+                        </div>
+                    ))}
+                </div>
+            ))}
+
+            <List width="100%" itemSize={ROW_HEIGHT} itemCount={rows.length} height={listHeight}>
+                {({ index, style }) => {
+                    const row = rows[index];
+
+                    return (
+                        <div style={style} key={row.id} className={cn("row")}>
+                            {row.getVisibleCells().map((cell) => (
+                                <div
+                                    key={cell.id}
+                                    className={cn("cell")}
+                                    style={{
+                                        width: cell.column.getSize(),
+                                        flex: `1 1 ${cell.column.getSize()}px`,
+                                    }}
                                 >
-                                    Remove
-                                </Button>
-                            </div>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </div>
+                            ))}
                         </div>
                     );
-                })}
-            </Flexbox>
+                }}
+            </List>
         </>
     );
 }

@@ -5,13 +5,7 @@ import TagDropdownSelect from "../Components/TagDropdownSelect/TagDropdownSelect
 import { TimeRangeSelector } from "../Components/TriggerNoisiness/Components/TimeRangeSelector";
 import { useDeleteFilteredNotificationsMutation } from "../services/NotificationsApi";
 import { useGetTagsQuery } from "../services/TagsApi";
-import { DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
-import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import Filter from "@skbkontur/react-icons/Filter";
-import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
-
-import styles from "~styles/utils.module.less";
+import { ClusterKeyDropdownSelect } from "./ClusterKeyDropdownSelect/СlusterKeyDropdownSelect";
 
 interface IDeleteFilteredNotificationsProps {
     clusterKeys?: string[];
@@ -63,43 +57,16 @@ export const DeleteFilteredNotifications: FC<IDeleteFilteredNotificationsProps> 
                     availableTags={tags}
                 />
             )}
-            <DropdownMenu
-                caption={({ openMenu }: { openMenu: () => void }) => (
-                    <Button
-                        width={180}
-                        icon={selectedClusterKeys.length ? <Filter /> : <ArrowChevronDown />}
-                        use="default"
-                        onClick={openMenu}
-                    >
-                        Cluster key
-                    </Button>
-                )}
-            >
-                <div className={styles["dropdown-checkbox-item"]}>
-                    <Checkbox
-                        className={styles["dropdown-checkbox"]}
-                        checked={selectedClusterKeys.length === 0}
-                        onValueChange={handleAllClustersToggle}
-                    >
-                        All
-                    </Checkbox>
-                </div>
-                <MenuSeparator />
-                {clusterKeys?.map((clusterKey) => (
-                    <div key={clusterKey} className={styles["dropdown-checkbox-item"]}>
-                        <Checkbox
-                            className={styles["dropdown-checkbox"]}
-                            checked={selectedClusterKeys.includes(clusterKey)}
-                            onValueChange={(value) => handleClusterToggle(clusterKey, value)}
-                        >
-                            {clusterKey}
-                        </Checkbox>
-                    </div>
-                ))}
-            </DropdownMenu>
+            <ClusterKeyDropdownSelect
+                clusterKeys={clusterKeys}
+                selectedClusterKeys={selectedClusterKeys}
+                onToggleCluster={handleClusterToggle}
+                onToggleAll={handleAllClustersToggle}
+            />
             <TimeRangeSelector
                 fromTime={fromTime}
                 untilTime={untilTime}
+                minDate={new Date()}
                 setFromTime={setFromTime}
                 setUntilTime={setUntilTime}
                 onApply={handleDelete}

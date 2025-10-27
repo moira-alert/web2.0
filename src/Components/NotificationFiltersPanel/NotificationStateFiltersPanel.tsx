@@ -4,8 +4,10 @@ import { Flexbox } from "../Flexbox/FlexBox";
 import { FilterStatusSelect } from "../FilterStatusSelect/FilterStatusSelect";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
+import { Button } from "@skbkontur/react-ui/components/Button";
+import Refresh3 from "@skbkontur/react-icons/Refresh3";
 
-interface NotificationFiltersPanelProps {
+interface INotificationStateFiltersPanelProps {
     prevStateFilter: Status[];
     currentStateFilter: Status[];
     allPrevStates: Status[];
@@ -16,7 +18,7 @@ interface NotificationFiltersPanelProps {
     onToggleStrict: (value: boolean) => void;
 }
 
-export const NotificationFiltersPanel: FC<NotificationFiltersPanelProps> = ({
+export const NotificationStateFiltersPanel: FC<INotificationStateFiltersPanelProps> = ({
     prevStateFilter,
     onChangePrev,
     allPrevStates,
@@ -26,8 +28,17 @@ export const NotificationFiltersPanel: FC<NotificationFiltersPanelProps> = ({
     onToggleStrict,
     isStrictMatching,
 }) => {
+    const handleReset = () => {
+        onChangePrev([]);
+        onChangeCurr([]);
+        onToggleStrict(false);
+    };
+
+    const isResetBtnShown =
+        prevStateFilter.length !== 0 || currentStateFilter.length !== 0 || isStrictMatching;
+
     return (
-        <Flexbox direction="row" gap={30}>
+        <Flexbox direction="row" gap={24}>
             <FilterStatusSelect
                 selectedStatuses={prevStateFilter}
                 onSelect={onChangePrev}
@@ -44,6 +55,7 @@ export const NotificationFiltersPanel: FC<NotificationFiltersPanelProps> = ({
             <Checkbox onValueChange={onToggleStrict} checked={isStrictMatching}>
                 Match all selected statuses
             </Checkbox>
+            {isResetBtnShown && <Button use="text" onClick={handleReset} icon={<Refresh3 />} />}
         </Flexbox>
     );
 };

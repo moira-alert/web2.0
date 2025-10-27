@@ -9,23 +9,6 @@
     position: relative;
     cursor: pointer;
 }
-.resizer::before {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    height: 100%;
-    width: 5px;
-    background: @colorGrey;
-    cursor: col-resize;
-    user-select: none;
-    touch-action: none;
-}
-.resizer.isResizing::before {
-    background: @moira-brand-color;
-    opacity: 1;
-}
 .contacts-row,
 .contacts-header-row {
     display: flex;

@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState, useMemo } from "react";
+import React, { useEffect, FC } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
@@ -19,11 +19,8 @@ import {
     useDeleteNotificationMutation,
 } from "../services/NotificationsApi";
 import { useSetNotifierStateMutation } from "../services/NotifierApi";
-import { Status } from "../Domain/Status";
-import { filterNotifications, getAllStates } from "../helpers/notificationFilters";
-import { NotificationFiltersPanel } from "../Components/NotificationFiltersPanel/NotificationFiltersPanel";
-import { NotificationsFilterCounter } from "../Components/NotificationFiltersPanel/NotificationsFilterCounter/NotificationsFilterCounter";
 import { NotifierSourcesPanel } from "../Components/NotifierSourcesPanel/NotifierSourcesPanel";
+import { NotificationsFilterCounter } from "../Components/NotificationFiltersPanel/NotificationsFilterCounter/NotificationsFilterCounter";
 
 const NotificationListContainer: FC = () => {
     const { isLoading, error } = useAppSelector(UIState);
@@ -35,18 +32,7 @@ const NotificationListContainer: FC = () => {
     const [setNotifierState] = useSetNotifierStateMutation();
     const { modalData, setModalData, closeModal } = useConfirmModal();
 
-    const [prevStateFilter, setPrevStateFilter] = useState<Status[]>([]);
-    const [currentStateFilter, setCurrentStateFilter] = useState<Status[]>([]);
-    const [isStrictMatching, setIsStrictMatching] = useState(false);
-
     const items = composeNotifications(notificationList ?? []);
-
-    const { allPrevStates, allCurrentStates } = useMemo(() => getAllStates(items), [items]);
-
-    const { filteredItems, filteredCount } = useMemo(
-        () => filterNotifications(items, prevStateFilter, currentStateFilter, isStrictMatching),
-        [items, prevStateFilter, currentStateFilter, isStrictMatching]
-    );
 
     const layoutTitle = `Notifications ${notificationAmount}`;
 
@@ -101,9 +87,7 @@ const NotificationListContainer: FC = () => {
                 <LayoutTitle>
                     <Flexbox direction="row" align="center" gap={8}>
                         {layoutTitle}
-                        {filteredCount !== notificationAmount && (
-                            <NotificationsFilterCounter filteredCount={filteredCount} />
-                        )}
+                        <NotificationsFilterCounter totalCount={notificationAmount} />
                     </Flexbox>
                 </LayoutTitle>
                 <ConfirmModal modalData={modalData} closeModal={closeModal} />
@@ -122,27 +106,13 @@ const NotificationListContainer: FC = () => {
                                 Remove all
                             </Button>
                         </Flexbox>
-                        <Flexbox align="baseline" direction="row" justify="space-between" gap={30}>
-                            {notificationAmount > 0 && (
-                                <NotificationFiltersPanel
-                                    currentStateFilter={currentStateFilter}
-                                    prevStateFilter={prevStateFilter}
-                                    allCurrentStates={allCurrentStates}
-                                    allPrevStates={allPrevStates}
-                                    onChangeCurr={setCurrentStateFilter}
-                                    onChangePrev={setPrevStateFilter}
-                                    isStrictMatching={isStrictMatching}
-                                    onToggleStrict={setIsStrictMatching}
-                                />
-                            )}
-                        </Flexbox>
                     </Flexbox>
 
                     <NotifierSourcesPanel />
 
                     {notificationList && (
                         <NotificationList
-                            items={filteredItems}
+                            items={items}
                             onRemove={(id) => deleteNotification({ id })}
                         />
                     )}
