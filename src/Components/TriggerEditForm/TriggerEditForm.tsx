@@ -28,8 +28,7 @@ import EditDescriptionHelp from "./Components/EditDescritionHelp";
 import { MetricSourceSelect } from "./Components/MetricSourceSelect";
 import { TargetsList } from "./Components/TargetsList";
 import { Form, FormRow } from "./Components/Form";
-import { Markdown } from "@skbkontur/markdown";
-import { WysiwygWrapper } from "../Markdown/WysiwygWrapper";
+import { Markdown } from "../Markdown/Markdown";
 import { ClusterSelect } from "./Components/ClusterSelect";
 import classNames from "classnames/bind";
 
@@ -91,14 +90,12 @@ const TriggerEditForm: FC<IProps> = ({
                 </ValidationWrapperV1>
             </FormRow>
             <FormRow style={{ position: "relative" }} label="Description" useTopAlignForLabel>
-                <WysiwygWrapper>
-                    <Markdown
-                        showActionHints={false}
-                        onValueChange={(value) => onChange({ desc: value })}
-                        value={desc || ""}
-                        data-tid="Description"
-                    />
-                </WysiwygWrapper>
+                <Markdown
+                    showActionHints={false}
+                    onValueChange={(value) => onChange({ desc: value })}
+                    value={desc || ""}
+                    data-tid="Description"
+                />
                 <EditDescriptionHelp />
             </FormRow>
             {remoteAllowed && (

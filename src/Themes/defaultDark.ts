@@ -23,6 +23,7 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
         headerMenuButtons: "var(--header-menu-buttons)",
 
         textColorDefault: "#e6e6e6",
+        textInverted: "var(--text-inverted)",
 
         iconCheckedColor: "var(--icon-checked-color)",
         iconHoverColor: "var(--icon-hover-color)",

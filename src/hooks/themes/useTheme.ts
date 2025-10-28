@@ -13,6 +13,7 @@ export interface ApplicationTheme extends ThemeIn {
     appBgColorTertiary?: string;
 
     textColorDefault?: string;
+    textInverted: string;
 
     itemHover?: string;
 
