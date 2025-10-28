@@ -10,8 +10,8 @@ export const MarkdownTheme: FC<PropsWithChildren> = ({ children }) => {
         <MarkdownThemeProvider
             value={{
                 themeMode: isDark ? "dark" : "light",
-                elementsFontSize: "14px",
-                elementsLineHeight: "20px",
+                elementsFontSize: theme.fontSizeMedium,
+                elementsLineHeight: theme.tabLineHeightMedium,
                 reactUiTheme: theme,
                 colors: {
                     brand: theme.textColorDefault,
