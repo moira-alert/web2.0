@@ -17,6 +17,7 @@ export const defaultLight = ThemeFactory.create<ApplicationTheme>(
         ...promQLHighlight,
 
         textColorDefault: "#151515",
+        textInverted: "var(--text-inverted)",
 
         iconCheckedColor: "var(--icon-checked-color)",
         iconHoverColor: "var(--icon-hover-color)",

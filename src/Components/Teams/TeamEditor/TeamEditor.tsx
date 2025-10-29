@@ -9,8 +9,7 @@ import ModalError from "../../ModalError/ModalError";
 import { validateRequiredString } from "../../TriggerEditForm/Validations/validations";
 import { useUpdateTeam } from "../../../hooks/useUpdateTeam";
 import { useAddTeam } from "../../../hooks/useAddTeam";
-import { Markdown } from "@skbkontur/markdown";
-import { WysiwygWrapper } from "../../Markdown/WysiwygWrapper";
+import { Markdown } from "../../Markdown/Markdown";
 
 interface ITeamEditorProps {
     team?: Team | null;
@@ -56,14 +55,12 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
                         <GridCell align={"flex-start"} margin="8px 0 0">
                             Description:
                         </GridCell>
-                        <WysiwygWrapper>
-                            <Markdown
-                                data-tid="Team description"
-                                showActionHints={false}
-                                value={description}
-                                onValueChange={setDescription}
-                            />
-                        </WysiwygWrapper>
+                        <Markdown
+                            data-tid="Team description"
+                            showActionHints={false}
+                            value={description}
+                            onValueChange={setDescription}
+                        />
                     </Grid>
                 </Modal.Body>
                 <Modal.Footer>
