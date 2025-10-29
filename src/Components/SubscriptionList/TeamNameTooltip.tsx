@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { useGetTeamQuery } from "../../services/TeamsApi";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
-import RouterLink from "../RouterLink/RouterLink";
+import RouterLink, { IRouterLinkProps } from "../RouterLink/RouterLink";
 import { getPageLink } from "../../Domain/Global";
 
-interface TeamNameTooltipProps {
+interface TeamNameTooltipProps extends Omit<IRouterLinkProps, "to"> {
     teamId: string;
+    className?: string;
 }
 
-export const TeamNameTooltip: React.FC<TeamNameTooltipProps> = ({ teamId }) => {
+export const TeamNameTooltip: React.FC<TeamNameTooltipProps> = ({
+    teamId,
+    className,
+    ...routerLinkProps
+}) => {
     const [isOpened, setOpened] = useState(false);
 
     const { data, isLoading, isError, error } = useGetTeamQuery(
@@ -28,8 +33,14 @@ export const TeamNameTooltip: React.FC<TeamNameTooltipProps> = ({ teamId }) => {
     }
 
     return (
-        <Tooltip render={() => tooltipContent} onOpen={() => setOpened(true)}>
-            <RouterLink to={getPageLink("teamSettings", teamId)}>{teamId}</RouterLink>
+        <Tooltip pos="top left" render={() => tooltipContent} onOpen={() => setOpened(true)}>
+            <RouterLink
+                className={className}
+                {...routerLinkProps}
+                to={getPageLink("teamSettings", teamId)}
+            >
+                {teamId}
+            </RouterLink>
         </Tooltip>
     );
 };

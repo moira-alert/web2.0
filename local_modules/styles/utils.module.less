@@ -43,3 +43,18 @@
     justify-content: center;
     height: calc(100vh - 335px);
 }
+
+.resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #a5a5a5;
+    cursor: col-resize;
+    user-select: none;
+
+    &.isResizing {
+        background: @moira-brand-color;
+    }
+}

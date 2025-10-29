@@ -27,6 +27,8 @@ const items: { [id: string]: Array<Notification> } = {
                 __notifier_trigger_tags: ["critical", "ElFeeders", "Focus"],
                 error_value: 1,
                 is_remote: false,
+                cluster_id: "default",
+                trigger_source: "graphite_local",
             },
             contact: {
                 type: "telegram",
@@ -65,6 +67,8 @@ const items: { [id: string]: Array<Notification> } = {
                 __notifier_trigger_tags: ["critical", "ElFeeders", "Focus"],
                 error_value: 1,
                 is_remote: false,
+                cluster_id: "default",
+                trigger_source: "graphite_remote",
             },
             contact: {
                 type: "mail",
