@@ -8,6 +8,6 @@ export const NotificationsFilterCounter: FC<{ totalCount: number }> = ({ totalCo
     const { filteredCount } = useAppSelector(NotificationFiltersState);
 
     return filteredCount === totalCount ? null : (
-        <span className={styles.counter}>· {filteredCount} shown</span>
+        <span className={styles.counter}>{filteredCount} shown</span>
     );
 };

@@ -34,6 +34,8 @@ const transformNotificationData = (items: TNotificationListProps["items"]): INot
     return Object.keys(items).map((key) => {
         const group = items[key];
         const { timestamp, trigger, contact, throttled, send_fail: fails } = group[0];
+        const triggerSource = group[0].trigger.trigger_source ?? "";
+        const clusterId = group[0].trigger.cluster_id ?? "";
 
         return {
             id: key,
@@ -45,7 +47,7 @@ const transformNotificationData = (items: TNotificationListProps["items"]): INot
             contact,
             throttled,
             fails,
-            clusterKey: `${group[0].trigger.trigger_source} ${group[0].trigger.cluster_id}`,
+            clusterKey: `${triggerSource} ${clusterId}`,
             count: group.length,
         };
     });
