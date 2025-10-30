@@ -65,7 +65,7 @@ export const TriggerApi = BaseApi.injectEndpoints({
                     credentials: "same-origin",
                 };
             },
-            providesTags: ["Trigger"],
+            providesTags: (_result, _error, { triggerId }) => [{ type: "Trigger", id: triggerId }],
         }),
         getTriggerState: builder.query<TriggerState, CustomBaseQueryArgs<string>>({
             query: (triggerId) => ({
@@ -201,6 +201,7 @@ export const TriggerApi = BaseApi.injectEndpoints({
                 body: JSON.stringify(data),
                 credentials: "same-origin",
             }),
+            invalidatesTags: (_result, _error, { id }) => [{ type: "Trigger", id }],
         }),
         addTrigger: builder.mutation<
             {
