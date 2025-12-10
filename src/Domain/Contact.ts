@@ -41,9 +41,9 @@ export enum EContactEventsInterval {
 }
 
 export const filterSubscriptionContacts = (contacts: Contact[], subscription: Subscription) =>
-    contacts.filter((contact) =>
-        subscription.contacts.some((subscriptionContactId) => contact.id === subscriptionContactId)
-    );
+    subscription.contacts
+        .map((id) => contacts.find((c) => c.id === id))
+        .filter(Boolean) as Contact[];
 
 type Formatter = (timestamp: number) => string;
 
