@@ -66,7 +66,6 @@ export const DeleteFilteredNotifications: FC<IDeleteFilteredNotificationsProps> 
             <TimeRangeSelector
                 fromTime={fromTime}
                 untilTime={untilTime}
-                minDate={new Date()}
                 setFromTime={setFromTime}
                 setUntilTime={setUntilTime}
                 onApply={handleDelete}
