@@ -72,7 +72,7 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
         },
         "item"
     );
-    console.log(managingSubscriptions, subscription);
+
     return (
         <tr
             key={subscription.id}
