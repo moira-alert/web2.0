@@ -92,7 +92,11 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
                                 (isTransferringSubscriptions || isEnablingSubscriptions) &&
                                 !managingSubscriptions.length,
                         })}
-                        checked={managingSubscriptions.includes(subscription)}
+                        checked={Boolean(
+                            managingSubscriptions.find(
+                                (searchSub) => searchSub.id === subscription.id
+                            )
+                        )}
                         onClick={() => {
                             dispatch(toggleManagingSubscriptions(subscription));
                         }}
