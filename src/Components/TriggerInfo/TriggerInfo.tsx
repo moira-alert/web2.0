@@ -1,5 +1,5 @@
 import * as React from "react";
-import { format, fromUnixTime } from "date-fns";
+import { format, fromUnixTime, parseISO } from "date-fns";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
@@ -86,6 +86,10 @@ export default function TriggerInfo({
         tags,
         throttling,
         trigger_source: triggerSource,
+        created_at,
+        created_by,
+        updated_at,
+        updated_by,
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
     const { config } = useAppSelector(ConfigState);
@@ -324,6 +328,22 @@ export default function TriggerInfo({
                                     )}
                                 </div>
                             </dd>
+                        )}
+                        {created_at && created_by && (
+                            <>
+                                <dt>Created by</dt>
+                                <dd>{created_by}</dd>
+                                <dt>Created at</dt>
+                                <dd>{format(parseISO(created_at), "dd MMMM yyyy HH:mm")}</dd>
+                            </>
+                        )}
+                        {updated_at && updated_by && (
+                            <>
+                                <dt>Updated by</dt>
+                                <dd>{updated_by}</dd>
+                                <dt>Updated at</dt>
+                                <dd>{format(parseISO(updated_at), "dd MMMM yyyy HH:mm")}</dd>
+                            </>
                         )}
                     </dl>
                 </div>
