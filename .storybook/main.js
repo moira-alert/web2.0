@@ -3,11 +3,6 @@ module.exports = {
     framework: {
         name: "@storybook/react-vite",
     },
-    previewBody: (body) => `
-    ${body}
-    <script>
-      document.body.setAttribute('data-theme', 'Light Theme');
-    </script>`,
     babel: { presets: ["@babel/preset-react"] },
 
     typescript: {

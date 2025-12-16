@@ -3,11 +3,21 @@ import componentList from "../../resources/componentList.json";
 import { expectToMatchScreenshot } from "../helpers/expectToMatchScreenshot";
 import { getStoryURL } from "../helpers/getStoryURL";
 
-Object.entries(componentList).forEach(([component, stories]) => {
-    stories.forEach((story) => {
-        test(`${component} – ${story}`, async ({ page }) => {
-            await page.goto(getStoryURL(story));
-            await expectToMatchScreenshot(page, component, story);
-        });
-    });
+const themes: ("Light" | "Dark")[] = ["Light", "Dark"];
+
+test.describe("Screenshot tests for Light and Dark themes", () => {
+    for (const [component, stories] of Object.entries(componentList)) {
+        for (const story of stories) {
+            for (const theme of themes) {
+                if (theme === "Dark" && story.skipDark) continue;
+
+                test(`${component} – ${story.storyId} – ${theme}`, async ({ page }) => {
+                    const url = getStoryURL(story.storyId, theme);
+                    await page.goto(url);
+
+                    await expectToMatchScreenshot(page, component, story.storyId, theme);
+                });
+            }
+        }
+    }
 });

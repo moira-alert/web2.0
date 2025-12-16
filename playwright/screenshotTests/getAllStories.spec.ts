@@ -6,7 +6,7 @@ const storybookUrl = "http://localhost:9001";
 test.describe("Get a list of all stories", () => {
     test("Get a list of all stories", async ({ page }) => {
         await page.goto(storybookUrl);
-        const componentList: { [key: string]: string[] } = {};
+        const componentList: { [key: string]: { storyId: string; skipDark?: boolean }[] } = {};
 
         const componentsLocator = page.locator(
             '#storybook-explorer-tree >> //*[@data-nodetype="component"]'
@@ -40,7 +40,10 @@ test.describe("Get a list of all stories", () => {
                 const storyItemId = await stories.nth(i).getAttribute("data-item-id");
 
                 if (storyItemId !== null && componentText !== undefined) {
-                    componentList[componentText].push(storyItemId);
+                    console.log(`Component: ${componentText}, Story: ${storyItemId}`);
+                    // скипаем сриншоты для мобильной версии в темной теме, тк ее там нет
+                    const skipDark = storyItemId.includes("mobile");
+                    componentList[componentText].push({ storyId: storyItemId, skipDark });
                 }
             }
         }
