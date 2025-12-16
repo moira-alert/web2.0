@@ -2,8 +2,7 @@ FROM mcr.microsoft.com/playwright:v1.40.0-jammy
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+VOLUME /app/test-results
 
 COPY . .
 
