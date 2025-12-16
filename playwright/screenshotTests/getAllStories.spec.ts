@@ -40,7 +40,6 @@ test.describe("Get a list of all stories", () => {
                 const storyItemId = await stories.nth(i).getAttribute("data-item-id");
 
                 if (storyItemId !== null && componentText !== undefined) {
-                    console.log(`Component: ${componentText}, Story: ${storyItemId}`);
                     // скипаем сриншоты для мобильной версии в темной теме, тк ее там нет
                     const skipDark = storyItemId.includes("mobile");
                     componentList[componentText].push({ storyId: storyItemId, skipDark });
