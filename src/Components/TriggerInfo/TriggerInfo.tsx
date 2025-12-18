@@ -42,6 +42,7 @@ import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
 import Statistic from "@skbkontur/react-icons/Statistic";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { useModal } from "../../hooks/useModal";
+import { TriggerCRUDInfo } from "./Components/TriggerCRUDInfo";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.module.less";
@@ -86,6 +87,10 @@ export default function TriggerInfo({
         tags,
         throttling,
         trigger_source: triggerSource,
+        created_at,
+        created_by,
+        updated_at,
+        updated_by,
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
     const { config } = useAppSelector(ConfigState);
@@ -325,6 +330,12 @@ export default function TriggerInfo({
                                 </div>
                             </dd>
                         )}
+                        <TriggerCRUDInfo
+                            created_by={created_by}
+                            created_at={created_at}
+                            updated_by={updated_by}
+                            updated_at={updated_at}
+                        />
                     </dl>
                 </div>
                 {isMetrics && (
