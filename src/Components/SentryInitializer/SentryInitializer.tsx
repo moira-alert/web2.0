@@ -3,6 +3,7 @@ import { useGetConfigQuery } from "../../services/BaseApi";
 import * as Sentry from "@sentry/react";
 
 export const newStaticErrorText = "Failed to fetch dynamically imported module";
+export const notValidMimeTypeError = "is not a valid JavaScript MIME type";
 
 const SentryInitializer = () => {
     const { data: config } = useGetConfigQuery();

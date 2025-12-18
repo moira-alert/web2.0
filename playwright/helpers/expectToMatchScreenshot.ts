@@ -1,13 +1,21 @@
 import { expect, Page } from "@playwright/test";
 
-export async function expectToMatchScreenshot(page: Page, component: string, story: string) {
-    if (component.toLocaleLowerCase().includes("modal")) {
+export async function expectToMatchScreenshot(
+    page: Page,
+    component: string,
+    story: string,
+    theme: string
+) {
+    const themeSuffix = `--${theme.replace(/\s+/g, "_")}`;
+    const fileName = `${story}${themeSuffix}.png`;
+
+    if (component.toLowerCase().includes("modal")) {
         await expect(page.locator('//*[@data-tid="modal-content"]')).toHaveScreenshot([
             component,
-            `${story}.png`,
+            fileName,
         ]);
     } else {
         const element = page.locator("#storybook-root");
-        await expect(element).toHaveScreenshot([component, `${story}.png`]);
+        await expect(element).toHaveScreenshot([component, fileName]);
     }
 }
