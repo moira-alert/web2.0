@@ -1,5 +1,5 @@
 import * as React from "react";
-import { format, fromUnixTime, parseISO } from "date-fns";
+import { format, fromUnixTime } from "date-fns";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
@@ -42,6 +42,7 @@ import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
 import Statistic from "@skbkontur/react-icons/Statistic";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { useModal } from "../../hooks/useModal";
+import { TriggerCRUDInfo } from "./Components/TriggerCRUDInfo";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.module.less";
@@ -329,22 +330,12 @@ export default function TriggerInfo({
                                 </div>
                             </dd>
                         )}
-                        {created_at && created_by && (
-                            <>
-                                <dt>Created by</dt>
-                                <dd>{created_by}</dd>
-                                <dt>Created at</dt>
-                                <dd>{format(parseISO(created_at), "dd MMMM yyyy HH:mm")}</dd>
-                            </>
-                        )}
-                        {updated_at && updated_by && (
-                            <>
-                                <dt>Updated by</dt>
-                                <dd>{updated_by}</dd>
-                                <dt>Updated at</dt>
-                                <dd>{format(parseISO(updated_at), "dd MMMM yyyy HH:mm")}</dd>
-                            </>
-                        )}
+                        <TriggerCRUDInfo
+                            created_by={created_by}
+                            created_at={created_at}
+                            updated_by={updated_by}
+                            updated_at={updated_at}
+                        />
                     </dl>
                 </div>
                 {isMetrics && (
