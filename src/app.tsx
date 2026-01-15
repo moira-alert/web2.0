@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/react";
 import { Providers } from "./Providers/Providers";
 import SentryInitializer, {
     newStaticErrorText,
+    notValidMimeTypeError,
 } from "./Components/SentryInitializer/SentryInitializer";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
@@ -30,7 +31,11 @@ const render = (Component: ComponentType) => {
             <Providers>
                 <Sentry.ErrorBoundary
                     onError={(error) => {
-                        if (error instanceof Error && error.message.includes(newStaticErrorText)) {
+                        if (
+                            error instanceof Error &&
+                            (error.message.includes(newStaticErrorText) ||
+                                error.message.includes(notValidMimeTypeError))
+                        ) {
                             window.location.reload();
                             return;
                         }
