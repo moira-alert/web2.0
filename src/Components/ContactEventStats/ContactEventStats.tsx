@@ -22,6 +22,7 @@ import { Contact } from "../../Domain/Contact";
 import { Token } from "@skbkontur/react-ui/components/Token";
 import { useFetchContactsEvents } from "../../hooks/useFetchContactsEvents";
 import { FormRow } from "../TriggerEditForm/Components/Form";
+import { NOTIFICATION_HISTORY_TTL } from "../../Constants/notificationHistory";
 import classNames from "classnames/bind";
 
 import styles from "./ContactEventStats.module.less";
@@ -36,8 +37,8 @@ interface IContactEventStatsProps {
 
 export const ContactEventStats: FC<IContactEventStatsProps> = ({ contact, onClose, contacts }) => {
     const maxDate = new Date();
-    const minDate = subDays(new Date(), 7);
-    const [fromTime, setFromTime] = useState<Date | null>(minDate);
+    const minDate = subDays(new Date(), NOTIFICATION_HISTORY_TTL);
+    const [fromTime, setFromTime] = useState<Date | null>(() => subDays(new Date(), 7));
     const [untilTime, setUntilTime] = useState<Date | null>(maxDate);
     const [page, setPage] = useState(1);
     const [selectedContacts, setSelectedContacts] = useState<Contact[]>(contact ? [contact] : []);

@@ -12,13 +12,14 @@ import { Contact } from "../../Domain/Contact";
 import { useModal } from "../../hooks/useModal";
 import { ContactNoisinessChartView } from "./Components/ContactNoisinessChartView";
 import ContactEditModal from "../ContactEditModal/ContactEditModal";
+import { NOTIFICATION_HISTORY_TTL } from "../../Constants/notificationHistory";
 
 import styles from "~styles/utils.module.less";
 
 export const ContactNoisinessChart: FC = () => {
     const [page, setPage] = useState(1);
     const maxDate = new Date();
-    const minDate = subDays(new Date(), 7);
+    const minDate = subDays(new Date(), NOTIFICATION_HISTORY_TTL);
     const [fromTime, setFromTime] = useState<Date | null>(subHours(maxDate, 1));
     const [untilTime, setUntilTime] = useState<Date | null>(maxDate);
     const [trigger, result] = useLazyGetContactNoisinessQuery();
