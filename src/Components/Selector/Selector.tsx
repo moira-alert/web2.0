@@ -4,10 +4,10 @@ import { TagInput } from "../TagDropdownSelect/Components/TagInput";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import { useGetUserTeamsQuery } from "../../services/TeamsApi";
 import { DropdownMenu } from "@skbkontur/react-ui/components/DropdownMenu";
-import { ArrowChevronDown } from "@skbkontur/react-icons";
+import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
+import DeleteIcon from "@skbkontur/react-icons/Delete";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { MenuHeader } from "@skbkontur/react-ui/components/MenuHeader";
-import { MenuSeparator } from "@skbkontur/react-ui/components/MenuSeparator";
 import { useNavigate, useLocation } from "react-router-dom";
 import qs from "qs";
 import styles from "./Selector.module.less";
@@ -107,7 +107,19 @@ const Selector: React.FC<Props> = ({
                     >
                         <DropdownMenu
                             positions={["bottom right"]}
-                            caption={<ArrowChevronDown size={30} />}
+                            caption={
+                                teamId ? (
+                                    <DeleteIcon
+                                        size={30}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onSelectTeam(undefined);
+                                        }}
+                                    />
+                                ) : (
+                                    <ArrowChevronDown size={30} />
+                                )
+                            }
                         >
                             <MenuHeader>Team</MenuHeader>
                             {teams?.map((team) => (
@@ -119,10 +131,6 @@ const Selector: React.FC<Props> = ({
                                     {team.name}
                                 </MenuItem>
                             ))}
-                            <MenuSeparator />
-                            <MenuItem onClick={() => onSelectTeam(undefined)}>
-                                Clear selection
-                            </MenuItem>
                         </DropdownMenu>
                     </div>
                 )}

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import { Delete } from "@skbkontur/react-icons";
+import Delete from "@skbkontur/react-icons/Delete";
 import { DtoTeamModel } from "../../../Domain/__generated__/data-contracts";
 import styles from "./TeamSelect.module.less";
 

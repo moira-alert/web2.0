@@ -24,6 +24,11 @@ import { useTransferContactsToTeam } from "../../hooks/useTransferContactsToTeam
 import { useTransferSubscriptionsToTeam } from "../../hooks/useTransferSubscriptionsToTeam";
 import { ManageSubscriptionsSelect } from "../../Components/ManageSubscriptionsSelect/ManageSubscriptionsSelect";
 import { useEnableSubscriptionsBatch } from "../../hooks/useEnableSubscriptionsBatch";
+import queryString from "query-string";
+import { Link } from "@skbkontur/react-ui";
+import { useParams } from "react-router-dom";
+import LinkIcon from "@skbkontur/react-icons/Link";
+import { Flexbox } from "../../Components/Flexbox/FlexBox";
 import classNames from "classnames/bind";
 
 import styles from "./SubscriptionListContainer.module.less";
@@ -177,12 +182,23 @@ export const SubscriptionListContainer: React.FC<Props> = ({
 
     const enableButtonName = getEnableButtonName(managingSubscriptions);
 
+    const { teamId } = useParams();
+    const teamIdSearch = queryString.stringify({ teamID: teamId });
+    const searchUrl = `/?${teamIdSearch}`;
+
     return (
         <>
             {subscriptions.length > 0 ? (
                 <>
                     <div className={cn("row")}>
-                        <h2 className={cn("header")}>Subscriptions</h2>
+                        <Flexbox direction="row" gap={18} align="baseline">
+                            <h2 className={cn("header")}>Subscriptions</h2>{" "}
+                            {teamId && (
+                                <Link href={searchUrl} icon={<LinkIcon />} target="_blank">
+                                    Team triggers
+                                </Link>
+                            )}
+                        </Flexbox>
                         <div className={cn("subscriptionBtnContainer")}>
                             <Button
                                 width={180}

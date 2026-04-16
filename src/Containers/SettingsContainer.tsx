@@ -16,9 +16,6 @@ import { MessageWrapper } from "../Components/MessageWrapper/MesaageWrapper";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { LOCAL_STORAGE_TEAM_KEY } from "../helpers/getSettingsLink";
 import { useNavigate } from "react-router-dom";
-import queryString from "query-string";
-import { Link } from "@skbkontur/react-ui";
-import { Link as LinkIcon } from "@skbkontur/react-icons";
 
 export interface ISettingsContainerProps {
     isTeamMember?: boolean;
@@ -41,9 +38,6 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember }) => {
 
     const isAdminLink = !isTeamMember && role === EUserRoles.Admin && team;
 
-    const teamId = queryString.stringify({ teamID: team?.id });
-    const searchUrl = `/?${teamId}`;
-
     useEffect(() => {
         setDocumentTitle("Settings");
     }, []);
@@ -54,11 +48,6 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember }) => {
                 <Flexbox direction="row" justify="space-between">
                     <Flexbox direction="row" gap={12} align="baseline" wrap="nowrap">
                         <LayoutTitle>Notifications</LayoutTitle>
-                        {teamId && (
-                            <Link href={searchUrl} icon={<LinkIcon />} target="_blank">
-                                Team triggers
-                            </Link>
-                        )}
                     </Flexbox>
                     <Grid columns={"max-content"} gap="4px">
                         <MessageWrapper

@@ -17,7 +17,7 @@ import { Team } from "../../../Domain/Team";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { useTheme } from "../../../Themes";
 import { Link } from "@skbkontur/react-ui/components/Link";
-import { Link as LinkIcon } from "@skbkontur/react-icons";
+import LinkIcon from "@skbkontur/react-icons/Link";
 import classNames from "classnames/bind";
 
 import styles from "./TeamCard.module.less";
