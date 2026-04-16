@@ -30,8 +30,9 @@ import { TargetsList } from "./Components/TargetsList";
 import { Form, FormRow } from "./Components/Form";
 import { Markdown } from "../Markdown/Markdown";
 import { ClusterSelect } from "./Components/ClusterSelect";
+import { TeamSelect } from "./Components/TeamSelect";
+import { useGetUserTeamsQuery } from "../../services/TeamsApi";
 import classNames from "classnames/bind";
-
 import styles from "./TriggerEditForm.module.less";
 
 const cn = classNames.bind(styles);
@@ -67,7 +68,10 @@ const TriggerEditForm: FC<IProps> = ({
         trigger_type: triggerType,
         mute_new_metrics: muteNewMetrics,
         alone_metrics: aloneMetrics,
+        team_id,
     } = data;
+
+    const { data: teams } = useGetUserTeamsQuery();
 
     const triggerModeEditorValue: ValueType = {
         error_value: data.error_value ?? null,
@@ -197,6 +201,23 @@ const TriggerEditForm: FC<IProps> = ({
                     />
                 </ValidationWrapperV1>
             </FormRow>
+            {teams && teams.length > 0 && (
+                <FormRow label="Team" singleLineControlGroup>
+                    <TeamSelect
+                        teams={teams}
+                        teamId={team_id}
+                        onValueChange={(teamId) => onChange({ team_id: teamId })}
+                    />
+                    <HelpTooltip>
+                        <div>
+                            <p>
+                                Team identifier. Used to look up triggers associated with a specific
+                                team.
+                            </p>
+                        </div>
+                    </HelpTooltip>
+                </FormRow>
+            )}
             <FormRow label="Tags" useTopAlignForLabel>
                 <ValidationWrapperV1
                     validationInfo={

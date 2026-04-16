@@ -17,6 +17,7 @@ import { Team } from "../../../Domain/Team";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { useTheme } from "../../../Themes";
 import { Link } from "@skbkontur/react-ui/components/Link";
+import { Link as LinkIcon } from "@skbkontur/react-icons";
 import classNames from "classnames/bind";
 
 import styles from "./TeamCard.module.less";
@@ -85,6 +86,11 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
                         className={cn("team-card-kebab")}
                         size="large"
                     >
+                        <MenuItem icon={<LinkIcon />}>
+                            <Link target="_blank" href={`/?teamID=${team.id}`}>
+                                Team triggers
+                            </Link>
+                        </MenuItem>
                         <MenuItem icon={<EditIcon />} onClick={openModal}>
                             Edit
                         </MenuItem>

@@ -3,4 +3,5 @@ export type MoiraUrlParams = {
     tags: Array<string>;
     searchText: string;
     onlyProblems: boolean;
+    teamID?: string;
 };
