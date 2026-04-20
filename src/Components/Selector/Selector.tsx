@@ -69,7 +69,7 @@ const Selector: React.FC<Props> = ({
     const query = qs.parse(location.search, { ignoreQueryPrefix: true });
     const teamId = typeof query.teamID === "string" ? query.teamID : undefined;
 
-    const onSelectTeam = (id?: string) => {
+    const selectTeam = (id?: string) => {
         const current = qs.parse(location.search, { ignoreQueryPrefix: true });
 
         const next = {
@@ -113,7 +113,7 @@ const Selector: React.FC<Props> = ({
                                         size={30}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            onSelectTeam(undefined);
+                                            selectTeam(undefined);
                                         }}
                                     />
                                 ) : (
@@ -126,7 +126,7 @@ const Selector: React.FC<Props> = ({
                                 <MenuItem
                                     key={team.id}
                                     state={teamId === team.id ? "selected" : undefined}
-                                    onClick={() => onSelectTeam(team.id)}
+                                    onClick={() => selectTeam(team.id)}
                                 >
                                     {team.name}
                                 </MenuItem>
