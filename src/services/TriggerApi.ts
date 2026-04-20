@@ -223,9 +223,10 @@ export const TriggerApi = BaseApi.injectEndpoints({
                 onlyProblems: boolean;
                 tags?: Array<string>;
                 searchText?: string;
+                teamID?: string;
             }>
         >({
-            query: ({ page, onlyProblems, tags = [], searchText = "" }) => {
+            query: ({ page, onlyProblems, tags = [], searchText = "", teamID }) => {
                 const params = qs.stringify(
                     {
                         p: page,
@@ -233,6 +234,7 @@ export const TriggerApi = BaseApi.injectEndpoints({
                         tags,
                         onlyProblems,
                         text: searchText,
+                        teamID,
                     },
                     { arrayFormat: "indices", skipNulls: true, encode: true }
                 );

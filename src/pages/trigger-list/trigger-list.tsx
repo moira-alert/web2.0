@@ -37,7 +37,7 @@ export type TriggerListProps =
 
 const parseLocationSearch = (search: string): MoiraUrlParams => {
     const START_PAGE = 1;
-    const { page, tags, onlyProblems, searchText } = qs.parse(search, {
+    const { page, tags, onlyProblems, searchText, teamID } = qs.parse(search, {
         ignoreQueryPrefix: true,
     });
 
@@ -49,6 +49,7 @@ const parseLocationSearch = (search: string): MoiraUrlParams => {
         tags: Array.isArray(tags) ? tags.map((value) => value.toString()) : [],
         onlyProblems: onlyProblems === "false" ? false : Boolean(onlyProblems),
         searchText: clearInput(typeof searchText === "string" ? searchText : ""),
+        teamID: teamID?.toString(),
     };
 };
 
@@ -58,34 +59,9 @@ const changeLocationSearch = (
     update: TriggerListUpdate
 ) => {
     const settings = { ...locationSearch, ...update };
-    localStorage.setItem("moiraSettings", JSON.stringify({ ...settings, searchText: "" }));
     navigate(`?${qs.stringify(settings, { arrayFormat: "indices", encode: true })}`, {
         replace: true,
     });
-};
-
-const loadLocalSettingsAndRedirectIfNeed = (
-    navigate: ReturnType<typeof useNavigate>,
-    locationSearch: MoiraUrlParams,
-    tags: Array<string>,
-    onlyProblems: boolean
-) => {
-    const localDataString = localStorage.getItem("moiraSettings");
-    const { tags: localTags, onlyProblems: localOnlyProblems }: TriggerListUpdate =
-        typeof localDataString === "string" ? JSON.parse(localDataString) : {};
-
-    const searchToUpdate: TriggerListUpdate = {};
-    const isTagParamEnabled = tags.length === 0 && localTags?.length;
-    const isOnlyProblemsParamEnabled = !onlyProblems && localOnlyProblems;
-
-    if (isTagParamEnabled) searchToUpdate.tags = localTags;
-    if (isOnlyProblemsParamEnabled) searchToUpdate.onlyProblems = localOnlyProblems;
-
-    if (isTagParamEnabled || isOnlyProblemsParamEnabled) {
-        changeLocationSearch(navigate, locationSearch, searchToUpdate);
-        return true;
-    }
-    return false;
 };
 
 const checkPageAndRedirectIfNeeded = (
@@ -119,6 +95,7 @@ const TriggerListPage: React.FC<TriggerListProps> = ({ view: TriggerListView }) 
         onlyProblems: locationSearch.onlyProblems,
         tags: locationSearch.tags,
         searchText: locationSearch.searchText,
+        teamID: locationSearch.teamID,
     });
 
     const subscribedTags = uniq(flattenDeep(settings?.subscriptions.map((item) => item.tags)));
@@ -129,14 +106,7 @@ const TriggerListPage: React.FC<TriggerListProps> = ({ view: TriggerListView }) 
     useEffect(() => {
         setDocumentTitle("Triggers");
 
-        const redirected = loadLocalSettingsAndRedirectIfNeed(
-            navigate,
-            locationSearch,
-            locationSearch.tags,
-            locationSearch.onlyProblems
-        );
-
-        if (redirected || !triggerList) return;
+        if (!triggerList) return;
 
         if (checkPageAndRedirectIfNeeded(triggerList, locationSearch.page, handleChange)) return;
 

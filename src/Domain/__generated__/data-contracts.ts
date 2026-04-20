@@ -224,6 +224,8 @@ export interface DtoMessageResponse {
   message: string;
 }
 
+export type DtoMetricsMaintenance = Record<string, number>;
+
 export interface DtoNotificationDeleteResponse {
   /**
    * @format int64
@@ -546,6 +548,11 @@ export interface DtoTrigger {
    */
   targets: string[];
   /**
+   * ID of a Team that owns this trigger
+   * @example "d844f26b-4646-4fca-b43c-a871cc21169a"
+   */
+  team_id?: string | null;
+  /**
    * @format int64
    * @example 0
    */
@@ -646,7 +653,7 @@ export interface DtoTriggerDump {
 }
 
 export interface DtoTriggerMaintenance {
-  metrics: Record<string, number>;
+  metrics: DtoMetricsMaintenance;
   /**
    * @format int64
    * @example 1594225165
@@ -731,6 +738,11 @@ export interface DtoTriggerModel {
    * @example ["devOps.my_server.hdd.freespace_mbytes"]
    */
   targets: string[];
+  /**
+   * ID of a Team that owns this trigger
+   * @example "d844f26b-4646-4fca-b43c-a871cc21169a"
+   */
+  team_id?: string | null;
   /**
    * Shows the type of source from where the metrics are fetched
    * @example "graphite_local"
@@ -837,6 +849,11 @@ export interface DtoTriggerNoisiness {
    * @example ["devOps.my_server.hdd.freespace_mbytes"]
    */
   targets: string[];
+  /**
+   * ID of a Team that owns this trigger
+   * @example "d844f26b-4646-4fca-b43c-a871cc21169a"
+   */
+  team_id?: string | null;
   /**
    * @format int64
    * @example 0
@@ -1220,6 +1237,8 @@ export interface MoiraTrigger {
    * @example ["devOps.my_server.hdd.freespace_mbytes"]
    */
   targets: string[];
+  /** @example "d844f26b-4646-4fca-b43c-a871cc21169a" */
+  team_id?: string | null;
   /** @example "graphite_local" */
   trigger_source?: string;
   /** @example "rising" */
@@ -1278,6 +1297,8 @@ export interface MoiraTriggerCheck {
    * @example ["devOps.my_server.hdd.freespace_mbytes"]
    */
   targets: string[];
+  /** @example "d844f26b-4646-4fca-b43c-a871cc21169a" */
+  team_id?: string | null;
   /**
    * @format int64
    * @example 0

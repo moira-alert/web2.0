@@ -43,6 +43,9 @@ import Statistic from "@skbkontur/react-icons/Statistic";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { useModal } from "../../hooks/useModal";
 import { TriggerCRUDInfo } from "./Components/TriggerCRUDInfo";
+import { useGetUserTeamsQuery } from "../../services/TeamsApi";
+import { useIsTeamMember } from "../../hooks/useIsTeamMember";
+import { useIsAdmin } from "../../hooks/useIsAdmin";
 import classNames from "classnames/bind";
 
 import styles from "./TriggerInfo.module.less";
@@ -85,6 +88,7 @@ export default function TriggerInfo({
         ttl,
         sched,
         tags,
+        team_id,
         throttling,
         trigger_source: triggerSource,
         created_at,
@@ -93,6 +97,11 @@ export default function TriggerInfo({
         updated_by,
     } = trigger;
     const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
+
+    const { data: teams } = useGetUserTeamsQuery();
+    const { isTeamMember } = useIsTeamMember(team_id ?? "");
+    const isAdmin = useIsAdmin();
+
     const { config } = useAppSelector(ConfigState);
     const {
         modalData: confirmModalData,
@@ -138,6 +147,9 @@ export default function TriggerInfo({
             },
         });
     };
+
+    const ownerTeam = teams?.find((team) => team.id === team_id);
+    const isOwnerTeamShown = ownerTeam && (isAdmin || isTeamMember);
 
     return (
         <section>
@@ -336,6 +348,16 @@ export default function TriggerInfo({
                             updated_by={updated_by}
                             updated_at={updated_at}
                         />
+                        {isOwnerTeamShown && (
+                            <>
+                                <dt>Made for team</dt>
+                                <dd>
+                                    <RouterLink to={getPageLink("teamSettings", ownerTeam.id)}>
+                                        {ownerTeam.name}
+                                    </RouterLink>
+                                </dd>
+                            </>
+                        )}
                     </dl>
                 </div>
                 {isMetrics && (

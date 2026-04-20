@@ -4,7 +4,6 @@ import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout"
 import ContactList from "../Components/ContactList/ContactList";
 import { SubscriptionListContainer } from "./SubscriptionListContainer/SubscriptionListContainer";
 import { Team } from "../Domain/Team";
-import { Fill, RowStack } from "@skbkontur/react-stack-layout";
 import { getPageLink } from "../Domain/Global";
 import { Grid } from "../Components/Grid/Grid";
 import { useLoadSettingsData } from "../hooks/useLoadSettingsData";
@@ -46,9 +45,10 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember }) => {
     return (
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
-                <RowStack gap={1} block>
-                    <LayoutTitle>Notifications</LayoutTitle>
-                    <Fill />
+                <Flexbox direction="row" justify="space-between">
+                    <Flexbox direction="row" gap={12} align="baseline" wrap="nowrap">
+                        <LayoutTitle>Notifications</LayoutTitle>
+                    </Flexbox>
                     <Grid columns={"max-content"} gap="4px">
                         <MessageWrapper
                             shouldApplyWrapper={isTeamMember === false}
@@ -74,7 +74,8 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember }) => {
                             </Flexbox>
                         </MessageWrapper>
                     </Grid>
-                </RowStack>
+                </Flexbox>
+
                 {config && settings && (
                     <div style={{ marginBottom: 50 }}>
                         <ContactList
