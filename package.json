@@ -106,7 +106,7 @@
         "storybook": "8.6.17",
         "swagger-typescript-api": "13.2.9",
         "typescript": "5.2.2",
-        "vite": "6.4.1",
+        "vite": "6.4.2",
         "wait-on": "8.0.3"
     },
     "resolutions": {
