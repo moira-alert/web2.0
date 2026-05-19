@@ -15,7 +15,7 @@ import { EUserRoles } from "../Domain/User";
 import { MessageWrapper } from "../Components/MessageWrapper/MesaageWrapper";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { LOCAL_STORAGE_TEAM_KEY } from "../helpers/getSettingsLink";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export interface ISettingsContainerProps {
     isTeamMember?: boolean;

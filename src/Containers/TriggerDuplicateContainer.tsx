@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { useSaveTrigger } from "../hooks/useSaveTrigger";

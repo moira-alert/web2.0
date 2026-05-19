@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Link as LinkUI } from "@skbkontur/react-ui/components/Link";
 import SettingsIcon from "@skbkontur/react-icons/Settings";
 import HelpBookIcon from "@skbkontur/react-icons/HelpBook";

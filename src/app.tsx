@@ -1,6 +1,6 @@
 import React, { ComponentType } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import checkMobile from "./helpers/check-mobile";
 import * as Sentry from "@sentry/react";
 import { Providers } from "./Providers/Providers";

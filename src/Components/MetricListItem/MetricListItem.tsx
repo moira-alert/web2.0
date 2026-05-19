@@ -7,7 +7,7 @@ import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import UserIcon from "@skbkontur/react-icons/User";
 import { humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
 import { maintenanceDelta } from "../../Domain/Trigger";
 import classNames from "classnames/bind";

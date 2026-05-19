@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getPageLink } from "../Domain/Global";
 import { Trigger, triggerClientToPayload } from "../Domain/Trigger";
 import { useAddTriggerMutation, useSetTriggerMutation } from "../services/TriggerApi";

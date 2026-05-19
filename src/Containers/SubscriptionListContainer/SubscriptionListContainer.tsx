@@ -26,7 +26,7 @@ import { ManageSubscriptionsSelect } from "../../Components/ManageSubscriptionsS
 import { useEnableSubscriptionsBatch } from "../../hooks/useEnableSubscriptionsBatch";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import LinkIcon from "@skbkontur/react-icons/Link";
 import { Flexbox } from "../../Components/Flexbox/FlexBox";
 import classNames from "classnames/bind";
