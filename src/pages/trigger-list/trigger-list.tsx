@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
 import qs from "qs";

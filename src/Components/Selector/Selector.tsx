@@ -8,7 +8,7 @@ import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { MenuHeader } from "@skbkontur/react-ui/components/MenuHeader";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import qs from "qs";
 import styles from "./Selector.module.less";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { getPagePath } from "../Domain/Global";
 import { useGetUserQuery } from "../services/UserApi";
 import { EUserRoles } from "../Domain/User";

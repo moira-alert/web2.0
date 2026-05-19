@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import { useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router";
 import MobileErrorContainer from "./Containers/MobileErrorContainer";
 import { getPagePath } from "./Domain/Global";
 import TriggerList, { TriggerListProps } from "./pages/trigger-list/trigger-list";

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useMemo } from "react";
 import { format, fromUnixTime } from "date-fns";
-import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router";
 import queryString from "query-string";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";

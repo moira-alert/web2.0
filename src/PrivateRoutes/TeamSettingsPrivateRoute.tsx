@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate } from "react-router";
 import { getPagePath } from "../Domain/Global";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
 import { ISettingsContainerProps } from "../Containers/SettingsContainer";

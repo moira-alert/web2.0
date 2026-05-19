@@ -1,6 +1,6 @@
 import * as React from "react";
 import { getUnixTime } from "date-fns";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink } from "react-router";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import { TriggerCheck } from "../../../Domain/Trigger";

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { TriggerDesktopProps } from "./trigger.desktop";
 import { TriggerMobileProps } from "./trigger.mobile";
 import { getPageLink } from "../../Domain/Global";

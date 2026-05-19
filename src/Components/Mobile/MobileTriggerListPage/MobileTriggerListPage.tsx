@@ -8,7 +8,7 @@ import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListIte
 import MobileHeader from "../MobileHeader/MobileHeader";
 import { getPageLink } from "../../../Domain/Global";
 import classNames from "classnames/bind";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import styles from "./MobileTriggerListPage.module.less";
 
