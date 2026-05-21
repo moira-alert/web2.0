@@ -1,4 +1,4 @@
-import React, { ReactNode, FC } from "react";
+import { ReactNode, FC } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./MessageWrapper.module.less";

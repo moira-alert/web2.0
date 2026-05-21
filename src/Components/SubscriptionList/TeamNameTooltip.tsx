@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { useGetTeamQuery } from "../../services/TeamsApi";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
@@ -10,7 +11,7 @@ interface TeamNameTooltipProps extends Omit<IRouterLinkProps, "to"> {
     className?: string;
 }
 
-export const TeamNameTooltip: React.FC<TeamNameTooltipProps> = ({
+export const TeamNameTooltip: FC<TeamNameTooltipProps> = ({
     teamId,
     className,
     ...routerLinkProps
@@ -22,7 +23,7 @@ export const TeamNameTooltip: React.FC<TeamNameTooltipProps> = ({
         { skip: !isOpened }
     );
 
-    let tooltipContent: React.ReactNode = "Can't get team";
+    let tooltipContent: ReactNode = "Can't get team";
 
     if (isLoading) {
         tooltipContent = <Spinner caption={null} type="mini" />;

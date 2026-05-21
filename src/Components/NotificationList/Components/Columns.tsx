@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import { FC } from "react";
+import * as React from "react";
 import { ColumnDef, CellContext, Row, Column } from "@tanstack/react-table";
 import { Status } from "../../../Domain/Status";
 import { format, fromUnixTime } from "date-fns";

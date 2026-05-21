@@ -1,4 +1,3 @@
-import React from "react";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { Button, Modal } from "@skbkontur/react-ui";
 

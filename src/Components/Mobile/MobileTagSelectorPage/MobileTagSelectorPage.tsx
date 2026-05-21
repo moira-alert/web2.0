@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { ReactElement, ReactNode } from "react";
+import { Component } from "react";
 import sortBy from "lodash/sortBy";
 import union from "lodash/union";
 import difference from "lodash/difference";
@@ -26,7 +27,7 @@ type State = {
     nextOnlyProblems: boolean;
 };
 
-export default class MobileTagSelectorPage extends React.Component<Props, State> {
+export default class MobileTagSelectorPage extends Component<Props, State> {
     state: State;
 
     constructor(props: Props) {
@@ -46,7 +47,7 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
             .some((x) => target.toLowerCase().includes(x));
     }
 
-    render(): React.ReactElement {
+    render(): ReactElement {
         const { selectedTags, availableTags, onClose, onlyProblems } = this.props;
         const { searchString, sortedTags, nextSelectedTags, nextOnlyProblems } = this.state;
         const hasChanges =
@@ -97,7 +98,7 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
         onChange(nextSelectedTags, nextOnlyProblems);
     };
 
-    renderOnlyProblemsToggle(): React.ReactNode {
+    renderOnlyProblemsToggle(): ReactNode {
         const { nextOnlyProblems } = this.state;
 
         return (
@@ -113,7 +114,7 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
         );
     }
 
-    renderTag = (tag: string): React.ReactNode => {
+    renderTag = (tag: string): ReactNode => {
         const { nextSelectedTags } = this.state;
         const tagSelected = nextSelectedTags.includes(tag);
         return (
@@ -138,11 +139,11 @@ export default class MobileTagSelectorPage extends React.Component<Props, State>
 }
 
 type BottomFixedButtonProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     onClick: () => void;
 };
 
-function BottomFixedButton({ children, onClick }: BottomFixedButtonProps): React.ReactElement {
+function BottomFixedButton({ children, onClick }: BottomFixedButtonProps): ReactElement {
     return (
         <div className={cn("bottom-fixed-button-container")}>
             <button type="button" className={cn("bottom-fixed-button")} onClick={onClick}>

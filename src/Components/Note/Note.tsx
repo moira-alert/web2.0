@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import type { ReactNode } from "react";
+import { FC } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./Note.module.less";
@@ -9,7 +10,7 @@ type NoteType = "info";
 
 interface NoteProps {
     type?: NoteType;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export const Note: FC<NoteProps> = ({ type = "info", children }) => {

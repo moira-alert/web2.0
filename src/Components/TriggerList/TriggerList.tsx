@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { TriggerCheck } from "../../Domain/Trigger";
 import TriggerListItem from "../TriggerListItem/TriggerListItem";
 import classNames from "classnames/bind";
@@ -14,7 +14,7 @@ type Props = {
     onRemove: (triggerId: string, metric: string) => void;
 };
 
-export default function TriggerList(props: Props): React.ReactElement {
+export default function TriggerList(props: Props): ReactElement {
     const { items, searchMode, onChange, onRemove } = props;
 
     return (

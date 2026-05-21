@@ -1,4 +1,3 @@
-import * as React from "react";
 import ContactList from "../Components/ContactList/ContactList";
 import actionWithDelay from "./StoryUtils";
 import contactConfigs from "./Data/ContactConfigs";

@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Subscription } from "../../Domain/Subscription";
@@ -60,12 +61,7 @@ const getEnableButtonName = (subscriptions: Subscription[]) => {
     return "Enable/Disable";
 };
 
-export const SubscriptionListContainer: React.FC<Props> = ({
-    tags,
-    teams,
-    contacts,
-    subscriptions,
-}) => {
+export const SubscriptionListContainer: FC<Props> = ({ tags, teams, contacts, subscriptions }) => {
     const dispatch = useAppDispatch();
     const {
         isTransferringSubscriptions,

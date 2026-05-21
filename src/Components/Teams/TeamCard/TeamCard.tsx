@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import TrashIcon from "@skbkontur/react-icons/Trash";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import { Button, Kebab } from "@skbkontur/react-ui";

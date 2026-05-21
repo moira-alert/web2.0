@@ -1,4 +1,3 @@
-import * as React from "react";
 import EventList from "../Components/EventList/EventList";
 import { Event } from "../Domain/Event";
 import { Status } from "../Domain/Status";

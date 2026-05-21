@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import { DaysOfWeek } from "../Domain/Schedule";

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import { Button, Spinner } from "@skbkontur/react-ui";
 import AnimateHeight from "react-animate-height";
 import ArrowChevronRightIcon from "@skbkontur/react-icons/ArrowChevronRight";

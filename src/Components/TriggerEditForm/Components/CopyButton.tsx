@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { Button, Toast } from "@skbkontur/react-ui";
 import CopyIcon from "@skbkontur/react-icons/Copy";
 
@@ -37,7 +37,7 @@ const copy = async (text: string) => {
     }
 };
 
-export const CopyButton: React.FC<IProps> = ({ value, className }) => {
+export const CopyButton: FC<IProps> = ({ value, className }) => {
     const handleCopy = async () => {
         await copy(value.trim());
     };

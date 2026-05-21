@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import type { ReactNode, FC } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
 import ArrowChevronUp from "@skbkontur/react-icons/ArrowChevronUp";
@@ -9,11 +10,11 @@ import styles from "./ExpandableBlock.module.less";
 const cn = classNames.bind(styles);
 
 interface IExpandableBlockProps {
-    children: React.ReactNode;
+    children: ReactNode;
     maxHeight?: number;
 }
 
-export const ExpandableBlock: React.FC<IExpandableBlockProps> = ({ children, maxHeight = 60 }) => {
+export const ExpandableBlock: FC<IExpandableBlockProps> = ({ children, maxHeight = 60 }) => {
     const ref = useRef<HTMLDivElement>(null);
     const [isOverflowing, setIsOverflowing] = useState(false);
     const [expanded, setExpanded] = useState(false);

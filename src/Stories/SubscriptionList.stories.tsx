@@ -1,4 +1,3 @@
-import * as React from "react";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { SubscriptionListContainer } from "../Containers/SubscriptionListContainer/SubscriptionListContainer";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";

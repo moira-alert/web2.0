@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { Component, ReactElement } from "react";
 import { action } from "@storybook/addon-actions";
 import range from "lodash/range";
 import TagDropdownSelect from "../Components/TagDropdownSelect/TagDropdownSelect";
@@ -12,7 +12,7 @@ type State = {
     tags: Array<string>;
 };
 
-class TagDropdownSelectContainer extends React.Component<Props, State> {
+class TagDropdownSelectContainer extends Component<Props, State> {
     state: State = {
         tags: [],
     };

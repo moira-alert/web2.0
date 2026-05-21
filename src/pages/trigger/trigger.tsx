@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import type { ComponentType, FC } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { TriggerDesktopProps } from "./trigger.desktop";
 import { TriggerMobileProps } from "./trigger.mobile";
@@ -18,10 +19,10 @@ import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 
 export type TriggerProps = {
-    view: React.ComponentType<TriggerDesktopProps | TriggerMobileProps>;
+    view: ComponentType<TriggerDesktopProps | TriggerMobileProps>;
 };
 
-const TriggerPage: React.FC<TriggerProps> = ({ view: TriggerView }) => {
+const TriggerPage: FC<TriggerProps> = ({ view: TriggerView }) => {
     const { id: triggerId = "" } = useParams<{ id: string }>();
     const navigate = useNavigate();
 

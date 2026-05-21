@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 import { MarkdownThemeProvider } from "@skbkontur/markdown";
 import { useTheme } from "../../Themes";
 

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import Tabs, { Tab } from "../../Tabs/Tabs";
 import { EventListTab } from "./EventListTab/EventListTab";

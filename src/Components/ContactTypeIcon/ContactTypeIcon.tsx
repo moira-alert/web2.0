@@ -1,4 +1,5 @@
-import React, { useState, useLayoutEffect } from "react";
+import type { ReactElement } from "react";
+import { useState, useLayoutEffect } from "react";
 import { useAppSelector } from "../../store/hooks";
 import { ConfigState } from "../../store/selectors";
 import { icons } from "./ContactIcons";
@@ -15,7 +16,7 @@ type Props = {
     isError?: boolean;
 };
 
-export default function ContactTypeIcon({ type, isError }: Props): React.ReactElement | null {
+export default function ContactTypeIcon({ type, isError }: Props): ReactElement | null {
     const { config } = useAppSelector(ConfigState);
 
     const contact = config?.contacts.find((contact) => type.includes(contact.type));

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import difference from "lodash/difference";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";

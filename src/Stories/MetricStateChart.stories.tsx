@@ -1,4 +1,3 @@
-import React from "react";
 import data from "../Stories/Data/Triggers";
 import { MetricStateChart } from "../Components/MetricStateChart/MetricStateChart";
 

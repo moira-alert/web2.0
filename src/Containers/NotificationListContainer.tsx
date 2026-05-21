@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from "react";
+import { useEffect, FC } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";

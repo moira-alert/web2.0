@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { SourcesGroup } from "./Components/SourcesGroup";
 import ArrowChevronUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
 import ArrowChevronDownIcon from "@skbkontur/react-icons/ArrowChevronDown";

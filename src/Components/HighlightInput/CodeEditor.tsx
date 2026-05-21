@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { keymap } from "@codemirror/view";
 import { defaultKeymap } from "@codemirror/commands";
 import { indentOnInput, foldAll } from "@codemirror/language";
@@ -145,7 +145,7 @@ const transactionFilter = EditorState.transactionFilter.of((tr) => {
     return tr;
 });
 
-export const CodeEditor = React.forwardRef<HTMLDivElement, Props>(function CodeEditor(
+export const CodeEditor = forwardRef<HTMLDivElement, Props>(function CodeEditor(
     {
         value,
         triggerSource,

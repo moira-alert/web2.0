@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { FC, ReactElement, ReactNode } from "react";
 import { useState, useMemo } from "react";
 import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink, useNavigate } from "react-router";
@@ -37,7 +37,7 @@ type Props = {
     onRemove?: (metric: string) => void;
 };
 
-const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove }) => {
+const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) => {
     const [showMetrics, setShowMetrics] = useState(false);
     const [sortingColumn, setSortingColumn] = useState<SortingColumn>("event");
     const [sortingDown, setSortingDown] = useState(false);
@@ -66,7 +66,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
         [metrics]
     );
 
-    const renderCounters = (): React.ReactElement => {
+    const renderCounters = (): ReactElement => {
         const mutedMetricsCount = Object.keys(mutedMetrics).length;
 
         const activeMetricsCounters = StatusesInOrder.map((status) => {
@@ -98,7 +98,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
         );
     };
 
-    const renderStatus = (): React.ReactElement => {
+    const renderStatus = (): ReactElement => {
         const triggerStatus = data.last_check?.state;
 
         const metricStatuses = StatusesInOrder.filter((status) =>
@@ -121,7 +121,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
         );
     };
 
-    const renderExceptionHelpMessage = (): React.ReactElement => {
+    const renderExceptionHelpMessage = (): ReactElement => {
         const hasExpression = !!data.expression;
         const hasMultipleTargets = data.targets.length > 1;
         return (
@@ -137,7 +137,7 @@ const TriggerListItem: React.FC<Props> = ({ data, searchMode, onChange, onRemove
         );
     };
 
-    const renderMetrics = (): React.ReactNode => {
+    const renderMetrics = (): ReactNode => {
         if (!onChange || !onRemove) return null;
         const statuses = StatusesInOrder.filter(
             (x) => Object.keys(filterMetricsByStatus(x)).length !== 0

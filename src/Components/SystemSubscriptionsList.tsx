@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { SubscriptionList } from "../Components/SubscriptionList/SubscriptionList";
 import SubscriptionEditModal from "../Components/SubscriptionEditModal/SubscriptionEditModal";
 import { Subscription } from "../Domain/Subscription";

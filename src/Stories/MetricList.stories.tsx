@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import MetricList from "../Components/MetricList/MetricList";
 import { MetricItemList } from "../Domain/Metric";

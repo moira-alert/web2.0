@@ -1,4 +1,5 @@
-import React, { FocusEventHandler } from "react";
+import type { FC } from "react";
+import { FocusEventHandler } from "react";
 import Tag from "../../Tag/Tag";
 import NewTagBadge from "../../NewTagBadge/NewTagBadge";
 import { TagDropdown } from "./TagDropdown";
@@ -16,7 +17,7 @@ interface ITagListDropdownProps {
     onBlur?: FocusEventHandler<HTMLDivElement>;
 }
 
-export const TagListDropdown: React.FC<ITagListDropdownProps> = ({
+export const TagListDropdown: FC<ITagListDropdownProps> = ({
     anchor,
     tags,
     focusedIndex,

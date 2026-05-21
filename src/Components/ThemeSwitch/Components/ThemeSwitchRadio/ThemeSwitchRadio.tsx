@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactElement, useState } from "react";
+import { CSSProperties, ReactElement, useState } from "react";
 import { useTheme } from "../../../../Themes";
 import { EThemesNames } from "../../../../Themes/themesNames";
 import classNames from "classnames/bind";

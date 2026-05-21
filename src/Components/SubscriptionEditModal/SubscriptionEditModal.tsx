@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import type { FC } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
@@ -21,7 +22,7 @@ type Props = {
     onCancel: () => void;
 };
 
-const SubscriptionEditModal: React.FC<Props> = ({ subscription, tags, contacts, onCancel }) => {
+const SubscriptionEditModal: FC<Props> = ({ subscription, tags, contacts, onCancel }) => {
     const validationContainerRef = useRef<ValidationContainer>(null);
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription>(subscription);
     const [error, setError] = useState<string | null>(null);

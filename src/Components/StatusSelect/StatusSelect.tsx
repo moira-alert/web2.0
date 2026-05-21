@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { getStatusCaption, StatusesCaptions, Status } from "../../Domain/Status";
@@ -10,7 +10,7 @@ type Props = {
     onChange: (status: Status) => void;
 };
 
-function renderItem(value: Status, item?: string | null): React.ReactElement {
+function renderItem(value: Status, item?: string | null): ReactElement {
     return (
         <RowStack baseline block gap={2}>
             <Fit>
@@ -21,7 +21,7 @@ function renderItem(value: Status, item?: string | null): React.ReactElement {
     );
 }
 
-export default function StatusSelect(props: Props): React.ReactElement {
+export default function StatusSelect(props: Props): ReactElement {
     const { availableStatuses, value, onChange } = props;
 
     return (

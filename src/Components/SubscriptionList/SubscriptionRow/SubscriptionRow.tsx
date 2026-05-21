@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import * as React from "react";
 import { Link, Hint } from "@skbkontur/react-ui";
 import { Contact, filterSubscriptionContacts } from "../../../Domain/Contact";
 import { Subscription } from "../../../Domain/Subscription";

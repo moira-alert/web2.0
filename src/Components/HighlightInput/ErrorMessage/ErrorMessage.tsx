@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactElement } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./ErrorMessage.module.less";
@@ -11,11 +11,7 @@ type ErrorMessageProps = {
     view: boolean;
 };
 
-export default function ErrorMessage({
-    error,
-    warning,
-    view,
-}: ErrorMessageProps): React.ReactElement {
+export default function ErrorMessage({ error, warning, view }: ErrorMessageProps): ReactElement {
     return (
         <div
             className={cn("container", {

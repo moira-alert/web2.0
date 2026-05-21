@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { Modal } from "@skbkontur/react-ui";
 import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +15,7 @@ import UserSettings from "@skbkontur/react-icons/UserSettings";
 
 import styles from "./UISettingsModal.module.less";
 
-export const UISettingsModal: React.FC = () => {
+export const UISettingsModal: FC = () => {
     const { theme: themeName } = useSelector(UIState);
     const dispatch = useDispatch();
 

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import StatusIcon from "../StatusIcon/StatusIcon";
 import { getStatusCaption, Status } from "../../Domain/Status";
 import { DropdownMenu } from "@skbkontur/react-ui";

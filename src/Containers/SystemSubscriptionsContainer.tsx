@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from "react";
+import { useEffect, FC } from "react";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
 import { UIState } from "../store/selectors";

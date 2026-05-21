@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { TriggerNoisiness } from "../../../Domain/Trigger";
 import { useTheme } from "../../../Themes";
 import { createHtmlLegendPlugin } from "../../ContactEventStats/Components/htmlLegendPlugin";
@@ -11,7 +12,7 @@ import LinkIcon from "@skbkontur/react-icons/Link";
 
 ChartJS.register(...registerables);
 
-export const TriggerNoisinessChartView: React.FC<{
+export const TriggerNoisinessChartView: FC<{
     datasets: NoisinessDataset[];
     triggers?: TriggerNoisiness;
 }> = ({ datasets, triggers }) => {

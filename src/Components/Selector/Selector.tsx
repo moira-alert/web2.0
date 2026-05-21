@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import type { ReactNode, FC, KeyboardEvent } from "react";
+import { useRef, useState } from "react";
 import { TagDropdown } from "../TagDropdownSelect/Components/TagDropdown";
 import { TagInput } from "../TagDropdownSelect/Components/TagInput";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
@@ -15,14 +16,14 @@ import styles from "./Selector.module.less";
 type Props = {
     search: string;
     tokens: string[];
-    renderToken: (token: string) => React.ReactNode;
-    children: (closeDropdown: () => void) => React.ReactNode;
+    renderToken: (token: string) => ReactNode;
+    children: (closeDropdown: () => void) => ReactNode;
     onEnterKeyDown: () => void;
     onBackspaceKeyDown: () => void;
     onInputChange: (value: string) => void;
 };
 
-const Selector: React.FC<Props> = ({
+const Selector: FC<Props> = ({
     search,
     tokens,
     renderToken,
@@ -50,7 +51,7 @@ const Selector: React.FC<Props> = ({
         }
     };
 
-    const handleInputKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleInputKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
         if (evt.key === "Enter") {
             onEnterKeyDown();
             closeDropdown();

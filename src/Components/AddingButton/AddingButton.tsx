@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Link } from "react-router";
 import classNames from "classnames/bind";
 
@@ -10,7 +10,7 @@ interface IAddingButtonProps {
     to: string;
 }
 
-export default function AddingButton(props: IAddingButtonProps): React.ReactElement {
+export default function AddingButton(props: IAddingButtonProps): ReactElement {
     const { to } = props;
     return (
         <Link to={to} className={cn("button")} data-tid="Add Trigger">

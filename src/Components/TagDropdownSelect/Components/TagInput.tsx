@@ -1,4 +1,5 @@
-import React, { useContext, forwardRef } from "react";
+import type { ReactNode, KeyboardEvent } from "react";
+import { useContext, forwardRef } from "react";
 import { ScrollContainer } from "@skbkontur/react-ui/components/ScrollContainer";
 import { Theme } from "@skbkontur/react-ui/lib/theming/Theme";
 import { withThemeVars } from "../../../Themes/withThemeVars";
@@ -12,10 +13,10 @@ const cn = classNames.bind(styles);
 interface ITagInputProps {
     value: string[];
     inputValue: string;
-    renderToken: (token: string) => React.ReactNode;
+    renderToken: (token: string) => ReactNode;
     onValueChange: (v: string) => void;
     onFocus: () => void;
-    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
     focused: boolean;
     error?: boolean;

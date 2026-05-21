@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { Component, ReactElement } from "react";
 import MobileTriggerListPage from "../../Components/Mobile/MobileTriggerListPage/MobileTriggerListPage";
 import MobileTagSelectorPage from "../../Components/Mobile/MobileTagSelectorPage/MobileTagSelectorPage";
 import type { TriggerCheck } from "../../Domain/Trigger";
@@ -18,7 +18,7 @@ type State = {
     showTagSelector: boolean;
 };
 
-export default class TriggerListMobile extends React.Component<TriggerListMobileProps, State> {
+export default class TriggerListMobile extends Component<TriggerListMobileProps, State> {
     public state: State = {
         showTagSelector: false,
     };

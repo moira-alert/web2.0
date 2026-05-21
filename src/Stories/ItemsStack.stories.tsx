@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactElement } from "react";
+import { ReactNode, ReactElement } from "react";
 import { RowStack, ColumnStack, Fit, Fill, Fixed } from "../Components/ItemsStack/ItemsStack";
 
 function Outline(props: { children: ReactNode }): ReactElement {

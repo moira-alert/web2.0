@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Token } from "../Token/Token";
 import { TokenType } from "../../helpers/TokenType";
 import classNames from "classnames/bind";
@@ -13,7 +13,7 @@ function SelectorInitialView({
 }: {
     tokens: string[];
     onSelect: (token: string) => void;
-}): React.ReactElement {
+}): ReactElement {
     return (
         <>
             <p className={cn("help-search")}>

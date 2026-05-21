@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
 import {
     validateClusterID,

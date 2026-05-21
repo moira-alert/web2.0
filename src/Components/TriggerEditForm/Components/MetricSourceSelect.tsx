@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { Radio, RadioGroup } from "@skbkontur/react-ui";
 import TriggerSource from "../../../Domain/Trigger";
 import { Link } from "@skbkontur/react-ui/components/Link";
@@ -12,7 +12,7 @@ interface Props {
 const remoteTriggerLink =
     "http://moira.readthedocs.io/en/latest/user_guide/advanced.html#data-source";
 
-export const MetricSourceSelect: React.FC<Props> = ({ triggerSource, onSourceChange }) => {
+export const MetricSourceSelect: FC<Props> = ({ triggerSource, onSourceChange }) => {
     return (
         <RadioGroup<TriggerSource>
             name="data-source"

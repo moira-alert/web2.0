@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import Bar from "../Components/Bar/Bar";
 import Header from "../Components/Header/Header";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
@@ -8,7 +8,7 @@ interface IHeaderContainerProps {
     className: string;
 }
 
-export const HeaderContainer: React.FC<IHeaderContainerProps> = ({ className }) => {
+export const HeaderContainer: FC<IHeaderContainerProps> = ({ className }) => {
     const { data: notifierState } = useGetNotifierStateQuery(undefined, {
         refetchOnMountOrArgChange: true,
     });

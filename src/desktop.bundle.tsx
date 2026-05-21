@@ -1,4 +1,4 @@
-import React, { ComponentType, Suspense, lazy } from "react";
+import { ComponentType, Suspense, lazy } from "react";
 import { useRoutes } from "react-router";
 import { HeaderContainer } from "./Containers/HeaderContainer";
 import Footer from "./Components/Footer/Footer";

@@ -1,4 +1,5 @@
-import React, { useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import { ValidationWrapperV1, tooltip } from "@skbkontur/react-ui-validations";
@@ -26,7 +27,7 @@ interface IContactEditFormProps {
     onChange: (contact: Partial<Contact>) => void;
 }
 
-const ContactEditForm: React.FC<IContactEditFormProps> = ({ contactInfo, onChange }) => {
+const ContactEditForm: FC<IContactEditFormProps> = ({ contactInfo, onChange }) => {
     const { value, type, name, extra_message } = contactInfo || {};
     const contactItems = useSelector(selectContactConfigItems);
     const currentContactConfig = useSelector((state: RootState) =>

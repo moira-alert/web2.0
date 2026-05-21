@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { Calendar } from "@skbkontur/react-ui/components/Calendar";
 import { dateStringToUnixTimestamp, formatDateToCalendarDate } from "../../helpers/DateUtil";
 import { Range } from "@skbkontur/react-ui/typings/utility-types";
@@ -11,7 +11,7 @@ interface IDateSelectorProps {
     maxDate?: Date;
 }
 
-export const DateSelector: React.FC<IDateSelectorProps> = ({ date, setDate, minDate, maxDate }) => {
+export const DateSelector: FC<IDateSelectorProps> = ({ date, setDate, minDate, maxDate }) => {
     return (
         <Calendar
             style={{ borderRadius: 0, borderTopRightRadius: "8px" }}

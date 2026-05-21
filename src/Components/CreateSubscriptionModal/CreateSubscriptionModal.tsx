@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import type { FC } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
@@ -21,7 +22,7 @@ type Props = {
     onCancel: () => void;
 };
 
-const CreateSubscriptionModal: React.FC<Props> = ({ tags, contacts, onCancel }) => {
+const CreateSubscriptionModal: FC<Props> = ({ tags, contacts, onCancel }) => {
     const isPlottingDefaultOn = useSelector(selectIsPlottingDefaultOn);
 
     const [subscription, setSubscription] = useState<SubscriptionCreateInfo>({

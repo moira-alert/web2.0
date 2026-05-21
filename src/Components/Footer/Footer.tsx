@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./Footer.module.less";
@@ -9,7 +9,7 @@ type Props = {
     className?: string;
 };
 
-export default function Footer(props: Props): React.ReactElement {
+export default function Footer(props: Props): ReactElement {
     const { className } = props;
 
     return (

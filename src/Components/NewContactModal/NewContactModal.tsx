@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from "react";
+import { FC, useState, useRef } from "react";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";

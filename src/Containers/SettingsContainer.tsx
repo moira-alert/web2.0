@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import ContactList from "../Components/ContactList/ContactList";

@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 import FilterIcon from "@skbkontur/react-icons/Filter";
@@ -24,9 +24,7 @@ type MobileTriggerListPageProps = {
     onOpenTagSelector: () => void;
 };
 
-export default function MobileTriggerListPage(
-    props: MobileTriggerListPageProps
-): React.ReactElement {
+export default function MobileTriggerListPage(props: MobileTriggerListPageProps): ReactElement {
     const {
         loading,
         triggers,

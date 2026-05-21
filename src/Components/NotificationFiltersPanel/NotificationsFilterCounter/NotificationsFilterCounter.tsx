@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../../store/hooks";
 import { NotificationFiltersState } from "../../../store/selectors";
 

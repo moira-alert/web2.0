@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Notification } from "../../Domain/Notification";
 import { ConfirmModalHeaderData } from "../../Domain/Global";
 import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";

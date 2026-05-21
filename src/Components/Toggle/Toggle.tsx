@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import classNames from "classnames/bind";
 
@@ -12,7 +12,7 @@ type Props = {
     onChange: (checked: boolean) => void;
 };
 
-export default function ToggleWithLabel(props: Props): React.ReactElement {
+export default function ToggleWithLabel(props: Props): ReactElement {
     const { checked, label, onChange } = props;
     return (
         <label className={cn("toggle")}>

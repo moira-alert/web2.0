@@ -1,4 +1,4 @@
-import React from "react";
+import type { ComponentType } from "react";
 
 export const TelegramIcon = ({ color = "black", size = 16 }: { color?: string; size?: number }) => (
     <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
@@ -479,7 +479,7 @@ export const WhatsappIcon = ({ color = "black", size = 16 }: { color?: string; s
     </svg>
 );
 
-export const icons: { [key: string]: React.ComponentType<{ color?: string; size?: number }> } = {
+export const icons: { [key: string]: ComponentType<{ color?: string; size?: number }> } = {
     telegram: TelegramIcon,
     discord: DiscordIcon,
     facebook: FacebookIcon,

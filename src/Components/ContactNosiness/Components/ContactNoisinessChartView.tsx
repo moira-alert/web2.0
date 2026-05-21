@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { createHtmlLegendPlugin } from "../../ContactEventStats/Components/htmlLegendPlugin";
 import { NoisinessDataset } from "../../TriggerNoisiness/TiggerNoisinessChart";
 import { Bar } from "react-chartjs-2";
@@ -8,7 +9,7 @@ import EditIcon from "@skbkontur/react-icons/Edit";
 
 ChartJS.register(...registerables);
 
-export const ContactNoisinessChartView: React.FC<{
+export const ContactNoisinessChartView: FC<{
     datasets: NoisinessDataset[];
     onEditClick: (label: string) => void;
 }> = ({ datasets, onEditClick }) => {

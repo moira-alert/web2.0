@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { TriggerModeEditor } from "../Components/TriggerModeEditor/TriggerModeEditor";

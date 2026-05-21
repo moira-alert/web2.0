@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 import { format, parseISO } from "date-fns";
 
 interface TriggerCRUDInfoProps {

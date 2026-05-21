@@ -1,11 +1,12 @@
-import React from "react";
+import type { FC } from "react";
+import { useRef } from "react";
 import { DateAndTimeMenu } from "../../DateAndTimeMenu/DateAndTimeMenu";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { validateDateAndTime, validateForm } from "../../../helpers/validations";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 
-export const TimeRangeSelector: React.FC<{
+export const TimeRangeSelector: FC<{
     fromTime: Date | null;
     untilTime: Date | null;
     setFromTime: (date: Date | null) => void;
@@ -24,7 +25,7 @@ export const TimeRangeSelector: React.FC<{
     onApply,
     buttonText = "Apply time range",
 }) => {
-    const validationContainerRef = React.useRef(null);
+    const validationContainerRef = useRef(null);
 
     const handleApply = async () => {
         const validationSuccess = await validateForm(validationContainerRef);

@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { ReactElement, ReactNode } from "react";
+import { Component } from "react";
 import { getUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router";
 import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
@@ -26,7 +27,7 @@ type State = {
     metrics: MetricItemList;
 };
 
-export default class TriggerListItem extends React.Component<Props, State> {
+export default class TriggerListItem extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         const metrics = props.data.last_check?.metrics;
@@ -35,7 +36,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         };
     }
 
-    render(): React.ReactElement {
+    render(): ReactElement {
         const { data } = this.props;
         const { id, name, tags, throttling, last_check: lastCheck } = data;
         const maintenance = lastCheck?.maintenance ?? 0;
@@ -59,7 +60,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
     }
 
-    renderCounters(): React.ReactElement {
+    renderCounters(): ReactElement {
         const counters = StatusesList.map((status) => ({
             status,
             count: Object.keys(this.filterMetricsByStatus(status)).length,
@@ -80,7 +81,7 @@ export default class TriggerListItem extends React.Component<Props, State> {
         );
     }
 
-    renderStatus(): React.ReactNode {
+    renderStatus(): ReactNode {
         const { data } = this.props;
         const { state: triggerStatus } = data.last_check || {};
         const metricStatuses = StatusesList.filter(

@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import type { ReactElement } from "react";
+import { useState, useRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input/Input";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
 import { DateInput } from "@skbkontur/react-ui/components/DateInput/DateInput";
@@ -28,7 +29,7 @@ export default function CustomMaintenanceMenu({
     maxDate,
     currentDate = new Date(),
     setMaintenance,
-}: ICustomMaintenanceMenuProps): React.ReactElement {
+}: ICustomMaintenanceMenuProps): ReactElement {
     const initialDate = maintenance ? fromUnixTime(maintenance) : currentDate;
     const [time, setTime] = useState(format(initialDate, "HH:mm"));
     const timeZone = format(initialDate, "OOOO");

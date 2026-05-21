@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import MobileTriggerInfo from "../../Components/Mobile/MobileTriggerInfo/MobileTriggerInfo";
 import { Trigger, TriggerSource, TriggerState } from "../../Domain/Trigger";

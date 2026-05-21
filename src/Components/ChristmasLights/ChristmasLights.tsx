@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./ChristmasLights.module.less";
 
@@ -34,7 +35,7 @@ export const randomNumberBetween = (min: number, max: number): number => {
     return parseFloat((min + range * Math.random()).toFixed(2));
 };
 
-const ChristmasBulb: React.FC<{ index: number }> = ({ index }) => {
+const ChristmasBulb: FC<{ index: number }> = ({ index }) => {
     const [duration] = useState(randomNumberBetween(3, 6));
 
     let bulbClassName;

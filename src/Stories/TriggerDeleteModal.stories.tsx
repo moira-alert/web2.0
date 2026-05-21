@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { action } from "@storybook/addon-actions";
 import { Meta } from "@storybook/react";
 import { ConfirmModalHeaderData } from "../Domain/Global";

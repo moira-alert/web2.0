@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import SubscriptionEditor from "../Components/SubscriptionEditor/SubscriptionEditor";

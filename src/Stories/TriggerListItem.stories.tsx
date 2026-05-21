@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";

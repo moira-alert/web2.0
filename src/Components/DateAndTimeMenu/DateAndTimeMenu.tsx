@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, FC } from "react";
+import { useState, useRef, useEffect, FC } from "react";
 import { Popup } from "@skbkontur/react-ui/internal/Popup";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import { Input } from "@skbkontur/react-ui/components/Input";

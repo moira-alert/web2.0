@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Status, StatusesList } from "../Domain/Status";
 import StatusIndicator from "../Components/StatusIndicator/StatusIndicator";
 

@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import WarningIcon from "@skbkontur/react-icons/Warning";
 import classNames from "classnames/bind";
 
@@ -10,7 +10,7 @@ type Props = {
     message: string;
 };
 
-export default function Bar(props: Props): React.ReactElement {
+export default function Bar(props: Props): ReactElement {
     const { message } = props;
     return (
         <div className={cn("bar")}>

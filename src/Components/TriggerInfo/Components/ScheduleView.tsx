@@ -1,9 +1,9 @@
-import React from "react";
+import type { ReactElement } from "react";
 import { defaultSchedule, Schedule } from "../../../Domain/Schedule";
 import { format, addMinutes, startOfDay } from "date-fns";
 import { getUTCDate } from "../../../helpers/DateUtil";
 
-export function ScheduleView(props: { data: Schedule }): React.ReactElement {
+export function ScheduleView(props: { data: Schedule }): ReactElement {
     const { data } = props;
     const { startOffset, endOffset, tzOffset } = data;
     const { days } = defaultSchedule(data);

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { Button } from "@skbkontur/react-ui";
 import { Grid } from "../Grid/Grid";
 import { TeamEditor } from "./TeamEditor/TeamEditor";

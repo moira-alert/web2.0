@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type { ReactElement } from "react";
+import { useEffect, useState } from "react";
 import TriggerSource, { ValidateTriggerTarget } from "../../Domain/Trigger";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import { CodeEditor } from "./CodeEditor";
@@ -19,7 +20,7 @@ type HighlightInputProps = {
     "data-tid"?: string;
 };
 
-export default function HighlightInput(props: HighlightInputProps): React.ReactElement {
+export default function HighlightInput(props: HighlightInputProps): ReactElement {
     const { value, onValueChange, triggerSource, validate } = props;
     const [changed, setChanged] = useState<boolean>(false);
     const [error, setErrorMessage] = useState<string | undefined>(undefined);

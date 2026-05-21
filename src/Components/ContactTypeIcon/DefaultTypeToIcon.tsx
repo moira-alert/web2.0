@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactElement } from "react";
 import TelegramLogo from "./telegram-logo.svg";
 import MailLogo from "./mail-logo.svg";
 import FacebookLogo from "./facebook-logo.svg";
@@ -18,7 +18,7 @@ import VictoropsLogo from "./victorops-logo.svg";
 import OpsgenieLogo from "./opsgenie-logo.svg";
 import MattermostLogo from "./mattermost-logo.svg";
 
-export const DefaultTypeToIcon: { [key: string]: React.ReactElement } = {
+export const DefaultTypeToIcon: { [key: string]: ReactElement } = {
     slack: <SvgIcon path={SlackLogo} size={15} offsetTop={2} />,
     msteams: <SvgIcon path={MsTeamsLogo} size={15} offsetTop={2} />,
     telegram: <SvgIcon path={TelegramLogo} size={14} offsetTop={2} />,

@@ -1,4 +1,3 @@
-import React from "react";
 import { Sun } from "./Components/Sun";
 import { Desktop } from "./Components/Desktop";
 import { Crescent } from "./Components/Crescent";

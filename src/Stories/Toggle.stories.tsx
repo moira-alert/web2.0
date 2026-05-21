@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import Toggle from "../Components/Toggle/Toggle";
 

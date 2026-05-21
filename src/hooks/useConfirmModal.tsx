@@ -1,4 +1,5 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import type { ReactNode, FC } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { ButtonUse } from "@skbkontur/react-ui";
 import { Button, Modal } from "@skbkontur/react-ui";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
@@ -12,7 +13,7 @@ type TModalButton = {
 type TModalData = {
     isOpen: boolean;
     header: string;
-    body?: string | React.ReactNode;
+    body?: string | ReactNode;
     button?: TModalButton;
 };
 
@@ -30,7 +31,7 @@ const useConfirmModal = (): UseConfirmModalReturn => {
     return { modalData, setModalData, closeModal };
 };
 
-export const ConfirmModal: React.FC<{
+export const ConfirmModal: FC<{
     modalData: Partial<TModalData> | null;
     closeModal: () => void;
 }> = ({ modalData, closeModal }) => {

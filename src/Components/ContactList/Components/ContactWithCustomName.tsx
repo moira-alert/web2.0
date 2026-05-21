@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import Info from "@skbkontur/react-icons/Info";
 import { Tooltip } from "@skbkontur/react-ui";
 

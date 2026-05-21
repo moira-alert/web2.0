@@ -1,4 +1,3 @@
-import * as React from "react";
 import AddingButton from "../Components/AddingButton/AddingButton";
 
 export default {

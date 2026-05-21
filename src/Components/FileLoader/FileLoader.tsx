@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactNode, ChangeEvent, ReactElement } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import ImportIcon from "@skbkontur/react-icons/Import";
 import classNames from "classnames/bind";
@@ -10,15 +10,11 @@ const cn = classNames.bind(styles);
 type FileLoaderProps = {
     onLoad: (fileData: string, fileName: string) => void;
     onError?: (error: DOMException | null) => void;
-    children?: React.ReactNode;
+    children?: ReactNode;
 };
 
-export default function FileLoader({
-    onLoad,
-    onError,
-    children,
-}: FileLoaderProps): React.ReactElement {
-    const handleFileLoad = (event: React.ChangeEvent<HTMLInputElement>) => {
+export default function FileLoader({ onLoad, onError, children }: FileLoaderProps): ReactElement {
+    const handleFileLoad = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
         if (!file) {

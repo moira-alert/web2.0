@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Status } from "../../../Domain/Status";
 import StatusIndicator from "../../StatusIndicator/StatusIndicator";
 
@@ -9,7 +9,7 @@ type Props = {
     size: number;
 };
 
-export default function MobileStatusIndicator(props: Props): React.ReactElement {
+export default function MobileStatusIndicator(props: Props): ReactElement {
     const { statuses, size } = props;
 
     return (

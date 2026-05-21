@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useLazyGetTriggerPlotQuery } from "../../services/TriggerApi";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
 import { useAppSelector } from "../../store/hooks";

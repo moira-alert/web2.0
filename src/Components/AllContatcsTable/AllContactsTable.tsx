@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Contact } from "../../Domain/Contact";
 import { FixedSizeList as List } from "react-window";
 import { getCoreRowModel, ColumnDef, flexRender, useReactTable } from "@tanstack/react-table";

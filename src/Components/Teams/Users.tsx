@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, useState } from "react";
+import { Fragment, ReactElement, useState } from "react";
 import { Button } from "@skbkontur/react-ui";
 import AddIcon from "@skbkontur/react-icons/Add";
 import DeleteIcon from "@skbkontur/react-icons/Delete";

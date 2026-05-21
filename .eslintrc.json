@@ -1,7 +1,8 @@
 {
     "settings": {
         "react": {
-            "version": "16.14.0"
+            "version": "detect",
+            "runtime": "automatic"
         }
     },
     "parser": "@typescript-eslint/parser",
@@ -70,6 +71,7 @@
             {
                 "ts-ignore": "allow-with-description"
             }
-        ]
+        ],
+        "react/react-in-jsx-scope": "off"
     }
 }

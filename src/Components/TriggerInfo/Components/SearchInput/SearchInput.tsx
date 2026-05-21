@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import SearchIcon from "@skbkontur/react-icons/Search";
 import Clear from "@skbkontur/react-icons/Clear";
 import { Input } from "@skbkontur/react-ui/components/Input";

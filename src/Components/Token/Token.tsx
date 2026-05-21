@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactElement } from "react";
 import { Tooltip } from "@skbkontur/react-ui";
 import { TokenType } from "../../helpers/TokenType";
 import { useTheme } from "../../Themes";
@@ -16,7 +16,7 @@ type Props = {
     onRemove?: (token: string) => void;
 };
 
-export const Token = (props: Props): React.ReactElement => {
+export const Token = (props: Props): ReactElement => {
     const { children, type, onRemove, onClick } = props;
     const theme = useTheme();
 

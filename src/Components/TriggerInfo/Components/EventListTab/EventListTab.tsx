@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef } from "react";
+import { FC, useMemo, useRef } from "react";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import EventList from "../../../EventList/EventList";
 import { useDebounce } from "../../../../hooks/useDebounce";

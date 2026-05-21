@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { useCallback, FC, useEffect, useRef, useState } from "react";
 import { SidePage, SidePageBody, SidePageContainer, SidePageHeader } from "@skbkontur/react-ui";
 import { TriggerEventsChart } from "./Components/TriggerEventsChart";
 import { ContactEventsChart } from "./Components/ContactEventsChart";
@@ -84,7 +84,7 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contact, onClos
         });
     };
 
-    const getItems = React.useCallback(
+    const getItems = useCallback(
         (query: string) =>
             Promise.resolve(
                 contacts.filter((c) => {

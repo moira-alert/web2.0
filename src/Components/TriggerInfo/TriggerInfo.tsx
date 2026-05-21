@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactNode, ReactElement } from "react";
 import { format, fromUnixTime } from "date-fns";
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
@@ -62,7 +62,7 @@ interface IProps {
     onSetMaintenance: (maintenance: number) => void;
 }
 
-function maintenanceCaption(delta: number): React.ReactNode {
+function maintenanceCaption(delta: number): ReactNode {
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
@@ -74,7 +74,7 @@ export default function TriggerInfo({
     deleteTrigger,
     onThrottlingRemove,
     onSetMaintenance,
-}: IProps): React.ReactElement {
+}: IProps): ReactElement {
     const {
         id,
         name,

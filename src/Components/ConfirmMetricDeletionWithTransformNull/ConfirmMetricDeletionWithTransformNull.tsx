@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Confirm } from "../Teams/Confirm";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";

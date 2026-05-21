@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import Tag from "../Tag/Tag";
 import classNames from "classnames/bind";
 
@@ -12,7 +12,7 @@ type Props = {
     onRemove?: (tag: string) => void;
 };
 
-export default function TagGroup(props: Props): React.ReactElement {
+export default function TagGroup(props: Props): ReactElement {
     const { tags, onClick, onRemove } = props;
     return (
         <div className={cn("list")}>

@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from "react";
+import { useRef, useEffect, FC } from "react";
 import Trash from "@skbkontur/react-icons/Trash";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { Checkbox, Button, Hint } from "@skbkontur/react-ui";
@@ -32,8 +32,8 @@ export const TargetsList: FC<IProps> = ({
 }) => {
     const [ids, setIds] = useIds(targets?.length || 0);
 
-    const targetsRef = React.useRef(targets);
-    const idsRef = React.useRef(ids);
+    const targetsRef = useRef(targets);
+    const idsRef = useRef(ids);
 
     const handleUpdateAloneMetrics = (targetIndex: number, value: boolean): void => {
         const target = `t${targetIndex + 1}`;

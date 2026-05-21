@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState } from "react";
+import { useEffect, FC, useState } from "react";
 import { useLazyGetTriggerNoisinessQuery } from "../../services/TriggerApi";
 import { getColor } from "../../Components/Tag/Tag";
 import { Paging } from "@skbkontur/react-ui/components/Paging";

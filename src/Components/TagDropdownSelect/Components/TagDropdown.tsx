@@ -1,4 +1,5 @@
-import React, { FocusEventHandler, ReactNode } from "react";
+import type { FC } from "react";
+import { FocusEventHandler, ReactNode } from "react";
 import { useElementSize } from "../../../hooks/useElementSize";
 import { Popup } from "@skbkontur/react-ui/internal/Popup";
 import { ScrollContainer } from "@skbkontur/react-ui/components/ScrollContainer";
@@ -11,7 +12,7 @@ interface ITagDropdownProps {
     maxHeight?: number;
     onBlur?: FocusEventHandler<HTMLDivElement>;
 }
-export const TagDropdown: React.FC<ITagDropdownProps> = ({
+export const TagDropdown: FC<ITagDropdownProps> = ({
     anchor,
     children,
     maxHeight = 300,

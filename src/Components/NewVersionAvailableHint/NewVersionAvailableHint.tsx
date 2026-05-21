@@ -1,4 +1,3 @@
-import React from "react";
 import { Tooltip } from "@skbkontur/react-ui";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";

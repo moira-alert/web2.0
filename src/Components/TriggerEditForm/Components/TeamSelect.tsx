@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
 import Delete from "@skbkontur/react-icons/Delete";
 import { DtoTeamModel } from "../../../Domain/__generated__/data-contracts";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { Teams } from "../Components/Teams/Teams";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";

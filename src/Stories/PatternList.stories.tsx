@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import PatternList from "../Components/PatternList/PatternList";
 import { Pattern } from "../Domain/Pattern";

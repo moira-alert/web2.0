@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from "react";
+import { useEffect, FC } from "react";
 import { TagList } from "../Components/TagList/TagList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";

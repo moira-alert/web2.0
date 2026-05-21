@@ -1,4 +1,5 @@
-import React, { ComponentType } from "react";
+import type { ReactElement } from "react";
+import { ComponentType } from "react";
 import { useRoutes } from "react-router";
 import MobileErrorContainer from "./Containers/MobileErrorContainer";
 import { getPagePath } from "./Domain/Global";
@@ -21,7 +22,7 @@ function ResponsiveRoute({ container: Container, view: View }: ResponsiveRoutePr
     return <Container view={View} />;
 }
 
-function Mobile(): React.ReactElement | null {
+function Mobile(): ReactElement | null {
     const routing = useRoutes([
         {
             path: getPagePath("index"),

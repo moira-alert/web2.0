@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { Trigger, TriggerState } from "../../Domain/Trigger";
 import { Layout, LayoutPlate, LayoutContent } from "../../Components/Layout/Layout";
 import TriggerInfo from "../../Components/TriggerInfo/TriggerInfo";
@@ -17,7 +17,7 @@ export type TriggerDesktopProps = {
     error?: string | null;
 };
 
-const TriggerDesktop: React.FC<TriggerDesktopProps> = ({
+const TriggerDesktop: FC<TriggerDesktopProps> = ({
     trigger,
     state,
     deleteTrigger,

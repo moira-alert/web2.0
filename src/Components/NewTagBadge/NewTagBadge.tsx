@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import AddIcon from "@skbkontur/react-icons/Add";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import classNames from "classnames/bind";
@@ -15,7 +15,7 @@ type Props = {
     onRemove?: () => void;
 };
 
-export default function NewTagBadge(props: Props): React.ReactElement {
+export default function NewTagBadge(props: Props): ReactElement {
     const { onRemove, doNotShowNewTagCaption, title, focus, onClick } = props;
 
     return (

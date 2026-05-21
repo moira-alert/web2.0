@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
 import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import { Input } from "@skbkontur/react-ui/components/Input";

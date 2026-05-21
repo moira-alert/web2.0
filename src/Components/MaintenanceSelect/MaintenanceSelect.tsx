@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import type { ReactNode, ReactElement } from "react";
+import { useState, useRef } from "react";
 import ArrowTriangleDownIcon from "@skbkontur/react-icons/ArrowTriangleDown";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import { Popup } from "@skbkontur/react-ui/internal/Popup";
@@ -19,10 +20,10 @@ import styles from "./MaintenanceSelect.module.less";
 const cn = classNames.bind(styles);
 
 type MaintenanceSelectProps = {
-    caption: React.ReactNode;
+    caption: ReactNode;
     maintenance?: number;
     onSetMaintenance: (maintenance: number) => void;
-    icon?: React.ReactElement;
+    icon?: ReactElement;
 };
 
 export default function MaintenanceSelect({
@@ -30,7 +31,7 @@ export default function MaintenanceSelect({
     maintenance,
     onSetMaintenance,
     icon,
-}: MaintenanceSelectProps): React.ReactElement {
+}: MaintenanceSelectProps): ReactElement {
     const [opened, setOpened] = useState(false);
     const [customMenuShow, setCustomMenuShow] = useState(false);
     const containerEl = useRef(null);

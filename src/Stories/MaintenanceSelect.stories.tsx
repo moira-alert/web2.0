@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { action } from "@storybook/addon-actions";
 import { LangCodes } from "@skbkontur/react-ui/lib/locale";
 import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";

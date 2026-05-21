@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactElement } from "react";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import CodeRef from "../../CodeRef/CodeRef";
@@ -8,7 +8,7 @@ import styles from "../TriggerEditForm.module.less";
 
 const cn = classNames.bind(styles);
 
-export default function EditDescriptionHelp(): React.ReactElement {
+export default function EditDescriptionHelp(): ReactElement {
     return (
         <div className={cn("edit-description-help")}>
             <HelpTooltip>

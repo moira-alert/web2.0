@@ -1,4 +1,3 @@
-import * as React from "react";
 import ContactTypeIcon from "../Components/ContactTypeIcon/ContactTypeIcon";
 
 const iconTypes = [
