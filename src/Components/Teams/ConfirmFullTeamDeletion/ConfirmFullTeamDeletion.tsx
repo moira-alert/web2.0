@@ -4,7 +4,7 @@ import { Flexbox } from "../../Flexbox/FlexBox";
 import { Hovered, HoveredShow } from "../Hovered/Hovered";
 import { Team } from "../../../Domain/Team";
 import { Confirm } from "../Confirm";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import { useFullyDeleteTeam } from "../../../hooks/useFullyDeleteTeam";
 import { fullyDeleteTeamConfirmText } from "../../../helpers/teamOperationsConfirmMessages";
 
@@ -58,7 +58,7 @@ export const ConfirmFullTeamDeleteion: FC<IConfirmFullTeamDeleteionProps> = ({
                         <Button
                             data-tid={`Delete team ${teamName}`}
                             use={"link"}
-                            icon={<DeleteIcon />}
+                            icon={<IconXRegular16 />}
                             onClick={() => setIsConfirmOpened(true)}
                         />
                     </Confirm>

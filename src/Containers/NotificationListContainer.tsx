@@ -2,7 +2,7 @@ import { useEffect, FC } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
-import TrashIcon from "@skbkontur/react-icons/Trash";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
 import MoiraServiceStates from "../Domain/MoiraServiceStates";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import NotificationList from "../Components/NotificationList/NotificationList";
@@ -100,7 +100,7 @@ const NotificationListContainer: FC = () => {
                             </Toggle>
                             <Button
                                 use={"link"}
-                                icon={<TrashIcon />}
+                                icon={<IconTrashCanRegular16 />}
                                 onClick={onRemoveAllNotificationsBtnClick}
                             >
                                 Remove all

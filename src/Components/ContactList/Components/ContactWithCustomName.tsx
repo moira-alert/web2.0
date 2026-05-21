@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Info from "@skbkontur/react-icons/Info";
+import { IconInfoSquareLight16 } from "@skbkontur/icons/IconInfoSquareLight16";
 import { Tooltip } from "@skbkontur/react-ui";
 
 interface IContactWithCustomNameProps {
@@ -15,10 +15,7 @@ export const ContactWithCustomName: FC<IContactWithCustomNameProps> = ({
         <>
             {contactName}&nbsp;
             <Tooltip render={() => `Contact value: ${contactValue}`}>
-                <Info
-                    data-tid={`${contactName} alias icon`}
-                    style={{ verticalAlign: "text-top" }}
-                />
+                <IconInfoSquareLight16 data-tid={`${contactName} alias icon`} />
             </Tooltip>
         </>
     );

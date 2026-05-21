@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
-import AddIcon from "@skbkontur/react-icons/Add";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import classNames from "classnames/bind";
 
 import styles from "./NewTagBadge.module.less";
@@ -27,18 +27,18 @@ export default function NewTagBadge(props: Props): ReactElement {
                     className={cn("title", "clickable")}
                     data-tid="New Tag"
                 >
-                    <AddIcon /> {doNotShowNewTagCaption ? "" : "new tag "}
+                    <IconPlusRegular16 /> {doNotShowNewTagCaption ? "" : "new tag "}
                     {title}
                 </button>
             ) : (
                 <div className={cn("title")}>
-                    <AddIcon /> {doNotShowNewTagCaption ? "" : "new tag "}
+                    <IconPlusRegular16 /> {doNotShowNewTagCaption ? "" : "new tag "}
                     {title}
                 </div>
             )}
             {onRemove && (
                 <button type="button" className={cn("remove")} onClick={onRemove}>
-                    <DeleteIcon />
+                    <IconXRegular16 />
                 </button>
             )}
         </div>

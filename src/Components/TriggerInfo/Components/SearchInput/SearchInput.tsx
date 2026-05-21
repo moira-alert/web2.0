@@ -1,6 +1,6 @@
 import { FC } from "react";
-import SearchIcon from "@skbkontur/react-icons/Search";
-import Clear from "@skbkontur/react-icons/Clear";
+import { IconSearchLoupeRegular16 } from "@skbkontur/icons/IconSearchLoupeRegular16";
+import { IconXCircleRegular16 } from "@skbkontur/icons/IconXCircleRegular16";
 import { Input } from "@skbkontur/react-ui/components/Input";
 
 interface ISearchInputProps {
@@ -21,8 +21,8 @@ export const SearchInput: FC<ISearchInputProps> = ({
     <Input
         placeholder={placeholder}
         width={width}
-        leftIcon={<SearchIcon />}
-        rightIcon={<Clear style={{ cursor: "pointer" }} onClick={onClear} />}
+        leftIcon={<IconSearchLoupeRegular16 />}
+        rightIcon={<IconXCircleRegular16 style={{ cursor: "pointer" }} onClick={onClear} />}
         onValueChange={onValueChange}
         value={value}
     />

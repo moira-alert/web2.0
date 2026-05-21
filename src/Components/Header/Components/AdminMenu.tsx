@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { DropdownMenu, MenuItem } from "@skbkontur/react-ui";
-import Crown from "@skbkontur/react-icons/Crown";
+import { IconJewelCrownRegular16 } from "@skbkontur/icons/IconJewelCrownRegular16";
 import { getPageLink } from "../../../Domain/Global";
 import { useGetUserQuery } from "../../../services/UserApi";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
@@ -28,7 +28,7 @@ export const AdminMenu: FC = () => {
         <DropdownMenu
             caption={
                 <>
-                    <Crown />
+                    <IconJewelCrownRegular16 />
                     &nbsp;
                     <button className={cn("admin-button")}>Admin</button>
                 </>

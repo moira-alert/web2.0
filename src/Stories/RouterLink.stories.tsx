@@ -1,4 +1,4 @@
-import OkIcon from "@skbkontur/react-icons/Ok";
+import { IconCheckARegular16 } from "@skbkontur/icons/IconCheckARegular16";
 import RouterLink from "../Components/RouterLink/RouterLink";
 
 export default {
@@ -9,7 +9,7 @@ export const Default = () => <RouterLink to="/">Link</RouterLink>;
 
 export const WithIcon = {
     render: () => (
-        <RouterLink to="/" icon={<OkIcon />}>
+        <RouterLink to="/" icon={<IconCheckARegular16 />}>
             Link
         </RouterLink>
     ),

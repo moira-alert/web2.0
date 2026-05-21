@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { format, fromUnixTime } from "date-fns";
-import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
+import { IconArrowARightRegular16 } from "@skbkontur/icons/IconArrowARightRegular16";
 import { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
@@ -41,7 +41,7 @@ export default function EventList(props: Props): ReactElement {
                                         <StatusIndicator statuses={[oldState]} size={14} />
                                     </div>
                                     <div className={cn("arrow")}>
-                                        <ArrowBoldRightIcon />
+                                        <IconArrowARightRegular16 />
                                     </div>
                                     <div className={cn("curr-state")}>
                                         <StatusIndicator statuses={[state]} size={14} />

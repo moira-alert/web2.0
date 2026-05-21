@@ -2,8 +2,8 @@ import { FC } from "react";
 import { DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import Filter from "@skbkontur/react-icons/Filter";
-import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
+import { IconUiFilterFunnelRegular16 } from "@skbkontur/icons/IconUiFilterFunnelRegular16";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
 
 import styles from "~styles/utils.module.less";
 
@@ -28,7 +28,13 @@ export const ClusterKeyDropdownSelect: FC<IClusterKeyDropdownSelectProps> = ({
             caption={({ openMenu }: { openMenu: () => void }) => (
                 <Button
                     width={width}
-                    icon={selectedClusterKeys.length ? <Filter /> : <ArrowChevronDown />}
+                    icon={
+                        selectedClusterKeys.length ? (
+                            <IconUiFilterFunnelRegular16 />
+                        ) : (
+                            <IconArrowCDownRegular16 />
+                        )
+                    }
                     use="default"
                     onClick={openMenu}
                 >

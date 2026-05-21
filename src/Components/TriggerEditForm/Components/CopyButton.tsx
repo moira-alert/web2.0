@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button, Toast } from "@skbkontur/react-ui";
-import CopyIcon from "@skbkontur/react-icons/Copy";
+import { IconCopyRegular16 } from "@skbkontur/icons/IconCopyRegular16";
 
 interface IProps {
     value: string;
@@ -42,5 +42,12 @@ export const CopyButton: FC<IProps> = ({ value, className }) => {
         await copy(value.trim());
     };
 
-    return <Button className={className} use="link" icon={<CopyIcon />} onClick={handleCopy} />;
+    return (
+        <Button
+            className={className}
+            use="link"
+            icon={<IconCopyRegular16 />}
+            onClick={handleCopy}
+        />
+    );
 };

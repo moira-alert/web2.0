@@ -3,7 +3,7 @@ import { Confirm } from "../Teams/Confirm";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { Button } from "@skbkontur/react-ui";
-import TrashIcon from "@skbkontur/react-icons/Trash";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
 import CodeRef from "../CodeRef/CodeRef";
 
 interface IConfirmMetricDeletionWithTransformNull {
@@ -31,7 +31,7 @@ export const ConfirmMetricDeletionWithTransformNull: FC<IConfirmMetricDeletionWi
             width={280}
             action={action}
         >
-            <Button use="link" icon={<TrashIcon />}>
+            <Button use="link" icon={<IconTrashCanRegular16 />}>
                 {deleteButtonText}
             </Button>
         </Confirm>

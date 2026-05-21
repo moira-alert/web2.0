@@ -2,8 +2,8 @@ import type { ReactElement, ReactNode } from "react";
 import { Component } from "react";
 import { getUnixTime } from "date-fns";
 import { Link as ReactRouterLink } from "react-router";
-import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
-import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
+import { IconFlagARegular16 } from "@skbkontur/icons/IconFlagARegular16";
+import { IconPeople1GearRegular16 } from "@skbkontur/icons/IconPeople1GearRegular16";
 import { TriggerCheck } from "../../../Domain/Trigger";
 import { StatusesList } from "../../../Domain/Status";
 import { MetricItemList } from "../../../Domain/Metric";
@@ -46,12 +46,12 @@ export default class TriggerListItem extends Component<Props, State> {
             <ReactRouterLink className={cn("root")} to={getPageLink("trigger", id)}>
                 <div className={cn("status")}>
                     {this.renderStatus()}
-                    {throttling !== 0 && <FlagSolidIcon className={cn("throttling-flag")} />}
+                    {throttling !== 0 && <IconFlagARegular16 className={cn("throttling-flag")} />}
                 </div>
                 <div className={cn("info")}>
                     <div className={cn("name")}>
                         {name != null && name !== "" ? name : "[No name]"}
-                        {delta > 0 && <UserSettingsIcon className={cn("maintenance")} />}
+                        {delta > 0 && <IconPeople1GearRegular16 className={cn("maintenance")} />}
                     </div>
                     <div className={cn("tags")}>{tags.map((x) => `#${x}`).join(", ")}</div>
                     <div className={cn("metrics")}>Metrics: {this.renderCounters()}</div>

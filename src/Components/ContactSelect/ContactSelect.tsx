@@ -1,5 +1,5 @@
 import * as React from "react";
-import TrashIcon from "@skbkontur/react-icons/Trash";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
 import difference from "lodash/difference";
 import union from "lodash/union";
 import { ComboBox } from "@skbkontur/react-ui/components/ComboBox";
@@ -57,7 +57,7 @@ export default class ContactSelect extends React.Component<Props> {
                         <div key={x.id} className={cn("contact")}>
                             <ContactInfo contact={x} />
                             <A11yButtonWrapper onClick={() => this.handleRemoveContact(x)}>
-                                <TrashIcon />
+                                <IconTrashCanRegular16 />
                             </A11yButtonWrapper>
                         </div>
                     ))}

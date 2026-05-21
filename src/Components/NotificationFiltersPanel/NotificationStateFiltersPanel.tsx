@@ -2,10 +2,10 @@ import { FC } from "react";
 import { Status } from "../../Domain/Status";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { FilterStatusSelect } from "../FilterStatusSelect/FilterStatusSelect";
-import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
+import { IconArrowARightRegular16 } from "@skbkontur/icons/IconArrowARightRegular16";
+import { IconArrowRoundTimeBackRegular16 } from "@skbkontur/icons/IconArrowRoundTimeBackRegular16";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import Refresh3 from "@skbkontur/react-icons/Refresh3";
 
 interface INotificationStateFiltersPanelProps {
     prevStateFilter: Status[];
@@ -45,7 +45,7 @@ export const NotificationStateFiltersPanel: FC<INotificationStateFiltersPanelPro
                 availableStatuses={allPrevStates}
                 text="Filter by prev state"
             />
-            <ArrowBoldRightIcon size={28} />
+            <IconArrowARightRegular16 size={28} />
             <FilterStatusSelect
                 selectedStatuses={currentStateFilter}
                 onSelect={onChangeCurr}
@@ -55,7 +55,13 @@ export const NotificationStateFiltersPanel: FC<INotificationStateFiltersPanelPro
             <Checkbox onValueChange={onToggleStrict} checked={isStrictMatching}>
                 Match all selected statuses
             </Checkbox>
-            {isResetBtnShown && <Button use="text" onClick={handleReset} icon={<Refresh3 />} />}
+            {isResetBtnShown && (
+                <Button
+                    use="text"
+                    onClick={handleReset}
+                    icon={<IconArrowRoundTimeBackRegular16 />}
+                />
+            )}
         </Flexbox>
     );
 };

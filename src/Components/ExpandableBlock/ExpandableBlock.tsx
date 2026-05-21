@@ -1,8 +1,8 @@
 import type { ReactNode, FC } from "react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
-import ArrowChevronUp from "@skbkontur/react-icons/ArrowChevronUp";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
+import { IconArrowCUpRegular16 } from "@skbkontur/icons/IconArrowCUpRegular16";
 import classNames from "classnames/bind";
 
 import styles from "./ExpandableBlock.module.less";
@@ -37,7 +37,7 @@ export const ExpandableBlock: FC<IExpandableBlockProps> = ({ children, maxHeight
             </div>
             {isOverflowing && (
                 <Button
-                    icon={expanded ? <ArrowChevronUp /> : <ArrowChevronDown />}
+                    icon={expanded ? <IconArrowCUpRegular16 /> : <IconArrowCDownRegular16 />}
                     className={cn("expand-btn")}
                     onClick={() => setExpanded((prev) => !prev)}
                 >

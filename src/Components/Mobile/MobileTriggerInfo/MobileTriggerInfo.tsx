@@ -3,9 +3,9 @@ import { Component } from "react";
 import { addMinutes, format, getUnixTime, startOfDay } from "date-fns";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
-import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
-import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
-import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
+import { IconArrowCLeftRegular16 } from "@skbkontur/icons/IconArrowCLeftRegular16";
+import { IconFlagARegular16 } from "@skbkontur/icons/IconFlagARegular16";
+import { IconPeople1GearRegular16 } from "@skbkontur/icons/IconPeople1GearRegular16";
 import { Schedule } from "../../../Domain/Schedule";
 import { getPageLink } from "../../../Domain/Global";
 import { Status, StatusesList } from "../../../Domain/Status";
@@ -85,14 +85,14 @@ export default class MobileTriggerInfo extends Component<Props, State> {
                     <Sticky side="top">
                         <MobileHeader.HeaderBlock color={this.getHeaderColor()}>
                             <MobileHeader.LeftButton
-                                icon={<ArrowChevronLeftIcon />}
+                                icon={<IconArrowCLeftRegular16 />}
                                 linkTo={getPageLink("index")}
                             />
                             <MobileHeader.Title>
                                 {trigger != null ? trigger.name : "Loading trigger..."}
                             </MobileHeader.Title>
                             <MobileHeader.RightButton
-                                icon={<UserSettingsIcon />}
+                                icon={<IconPeople1GearRegular16 />}
                                 onClick={() => this.setState({ showMaintenance: true })}
                             />
                         </MobileHeader.HeaderBlock>
@@ -129,7 +129,7 @@ export default class MobileTriggerInfo extends Component<Props, State> {
                                 )}
                                 {(trigger.throttling !== 0 || showThrottling) && (
                                     <div className={cn("plain-row")}>
-                                        <FlagSolidIcon />{" "}
+                                        <IconFlagARegular16 />{" "}
                                         {trigger.throttling !== 0
                                             ? "Throttling enabled."
                                             : "No Throttling."}{" "}

@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Button } from "@skbkontur/react-ui";
-import EditIcon from "@skbkontur/react-icons/Edit";
+import { IconToolPencilLineRegular16 } from "@skbkontur/icons/IconToolPencilLineRegular16";
 import { Team } from "../../../Domain/Team";
 import { TeamEditor } from "../TeamEditor/TeamEditor";
 import { MarkdownViewer } from "@skbkontur/markdown";
@@ -23,22 +23,19 @@ export function Team({ team }: ITeamProps): ReactElement {
     return (
         <>
             <ConfirmFullTeamDeleteion team={team} />
-
             {team.description && (
                 <WysiwygWrapper>
                     <MarkdownViewer source={team.description} />
                 </WysiwygWrapper>
             )}
-
             <Button
                 className={cn("editDescBtn")}
-                icon={<EditIcon />}
+                icon={<IconToolPencilLineRegular16 />}
                 use={"link"}
                 onClick={openModal}
             >
                 Edit Team
             </Button>
-
             {isModalOpen ? <TeamEditor team={team} onClose={closeModal} /> : null}
         </>
     );

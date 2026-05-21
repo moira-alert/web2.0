@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Select } from "@skbkontur/react-ui/components/Select";
-import Delete from "@skbkontur/react-icons/Delete";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import { DtoTeamModel } from "../../../Domain/__generated__/data-contracts";
 import styles from "./TeamSelect.module.less";
 
@@ -22,9 +22,8 @@ export const TeamSelect: FC<TeamSelectProps> = ({ teams, teamId, onValueChange }
                 renderValue={(team) => team?.name}
                 onValueChange={(team) => onValueChange(team?.id)}
             />
-
             {value && (
-                <Delete
+                <IconXRegular16
                     className={styles.icon}
                     onClick={() => {
                         onValueChange(undefined);

@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { Spinner } from "@skbkontur/react-ui/components/Spinner";
-import FilterIcon from "@skbkontur/react-icons/Filter";
-import SettingsIcon from "@skbkontur/react-icons/Settings";
+import { IconSettingsGearRegular16 } from "@skbkontur/icons/IconSettingsGearRegular16";
+import { IconUiFilterFunnelRegular16 } from "@skbkontur/icons/IconUiFilterFunnelRegular16";
 import { TriggerCheck } from "../../../Domain/Trigger";
 import MobileTriggerListItem from "../MobileTriggerListItem/MobileTriggerListItem";
 import MobileHeader from "../MobileHeader/MobileHeader";
@@ -55,10 +55,13 @@ export default function MobileTriggerListPage(props: MobileTriggerListPageProps)
             <MobileHeader>
                 <MobileHeader.HeaderBlock>
                     <MobileHeader.Title>Moira: {renderTitle()}</MobileHeader.Title>
-                    <MobileHeader.RightButton icon={<FilterIcon />} onClick={onOpenTagSelector} />
+                    <MobileHeader.RightButton
+                        icon={<IconUiFilterFunnelRegular16 />}
+                        onClick={onOpenTagSelector}
+                    />
                     <MobileHeader.RightButton
                         onClick={() => navigate(getPageLink("settings"))}
-                        icon={<SettingsIcon />}
+                        icon={<IconSettingsGearRegular16 />}
                     />
                 </MobileHeader.HeaderBlock>
             </MobileHeader>

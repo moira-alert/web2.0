@@ -3,8 +3,9 @@ import { useState, useMemo } from "react";
 import { format, fromUnixTime } from "date-fns";
 import { Link as ReactRouterLink, useNavigate } from "react-router";
 import queryString from "query-string";
-import ErrorIcon from "@skbkontur/react-icons/Error";
-import FlagSolidIcon from "@skbkontur/react-icons/FlagSolid";
+import { IconFlagARegular16 } from "@skbkontur/icons/IconFlagARegular16";
+import { IconMinusCircleRegular16 } from "@skbkontur/icons/IconMinusCircleRegular16";
+import { IconNotificationBellOffLight16 } from "@skbkontur/icons/IconNotificationBellOffLight16";
 import { getPageLink } from "../../Domain/Global";
 import { TriggerCheck } from "../../Domain/Trigger";
 import { MetricItemList, withMuted, withoutMuted } from "../../Domain/Metric";
@@ -17,7 +18,6 @@ import MetricListView, { SortingColumn } from "../MetricList/MetricList";
 import DOMPurify from "dompurify";
 import { sortMetrics } from "../../helpers/sort-metrics";
 import _ from "lodash";
-import NotificationBellOff from "@skbkontur/react-icons/NotificationBellOff";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
 import { EMainPageTriggerView } from "../../store/Reducers/UIReducer.slice";
@@ -91,7 +91,7 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
                 )}
                 {mutedMetricsCount > 0 && (
                     <span className={cn("mutedMetricsCount")}>
-                        {mutedMetricsCount} <NotificationBellOff />
+                        {mutedMetricsCount} <IconNotificationBellOffLight16 />
                     </span>
                 )}
             </div>
@@ -126,13 +126,13 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
         const hasMultipleTargets = data.targets.length > 1;
         return (
             <div className={cn("exception-message")}>
-                <ErrorIcon color="#D43517" /> Trigger in EXCEPTION state. Please{" "}
-                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink> trigger target
+                <IconMinusCircleRegular16 color="#D43517" />
+                Trigger in EXCEPTION state. Please{" "}
+                <RouterLink to={`/trigger/${data.id}/edit`}>verify</RouterLink>trigger target
                 {hasMultipleTargets ? "s" : ""}
-                {hasExpression ? " and expression" : ""} on{" "}
+                {hasExpression ? " and expression" : ""}on{" "}
                 <RouterLink to={`/trigger/${data.id}/edit`}>trigger edit page</RouterLink>.{" "}
-                <RouterLink to={`/trigger/${data.id}`}>See more details</RouterLink> on trigger
-                page.
+                <RouterLink to={`/trigger/${data.id}`}>See more details</RouterLink>on trigger page.
             </div>
         );
     };
@@ -210,7 +210,7 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
                                             "MMMM d, HH:mm:ss"
                                         )}`}
                                     >
-                                        <FlagSolidIcon />
+                                        <IconFlagARegular16 />
                                     </div>
                                 )}
                             </div>

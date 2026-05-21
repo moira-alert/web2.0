@@ -8,8 +8,8 @@ import { Button } from "@skbkontur/react-ui/components/Button";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { useAppDispatch } from "../../store/hooks";
 import { setIsEnablingSubscriptions } from "../../store/Reducers/UIReducer.slice";
-import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
-import ArrowChevronUp from "@skbkontur/react-icons/ArrowChevronUp";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
+import { IconArrowCUpRegular16 } from "@skbkontur/icons/IconArrowCUpRegular16";
 import classNames from "classnames/bind";
 
 import styles from "./ManageSubscriptionsSelect.module.less";
@@ -44,7 +44,13 @@ export const ManageSubscriptionsSelect: FC<IManageSubscriptionsSelectProps> = ({
         >
             {isTransferAvailable && (
                 <MenuItem
-                    icon={isTeamSelectionOpen ? <ArrowChevronUp /> : <ArrowChevronDown />}
+                    icon={
+                        isTeamSelectionOpen ? (
+                            <IconArrowCUpRegular16 />
+                        ) : (
+                            <IconArrowCDownRegular16 />
+                        )
+                    }
                     onClick={(e) => {
                         setTeamSelectionOpen((prev) => !prev);
                         e.preventDefault();

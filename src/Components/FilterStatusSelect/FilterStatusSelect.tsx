@@ -3,7 +3,7 @@ import StatusIcon from "../StatusIcon/StatusIcon";
 import { getStatusCaption, Status } from "../../Domain/Status";
 import { DropdownMenu } from "@skbkontur/react-ui";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import Filter from "@skbkontur/react-icons/Filter";
+import { IconUiFilterFunnelRegular16 } from "@skbkontur/icons/IconUiFilterFunnelRegular16";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import classNames from "classnames/bind";
 
@@ -33,7 +33,7 @@ export const FilterStatusSelect: FC<IFilterStatusSelectProps> = ({
     return (
         <DropdownMenu
             caption={({ openMenu }) => (
-                <Button icon={<Filter />} onClick={() => openMenu()}>
+                <Button icon={<IconUiFilterFunnelRegular16 />} onClick={() => openMenu()}>
                     {selectedStatuses.length
                         ? selectedStatuses.map((status) => (
                               <span key={status} className={cn("filter-status-icon")}>

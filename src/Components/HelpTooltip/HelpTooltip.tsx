@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { ReactNode } from "react";
-import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
+import { IconQuestionCircleRegular16 } from "@skbkontur/icons/IconQuestionCircleRegular16";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { PopupPositionsType } from "@skbkontur/react-ui/internal/Popup";
 import { TooltipTrigger } from "@skbkontur/react-ui";
@@ -23,7 +23,7 @@ export default function HelpTooltip({
     return (
         <Tooltip pos={pos} render={() => children} trigger={trigger} closeButton={closeButton}>
             <span className={cn.icon}>
-                <HelpDotIcon />
+                <IconQuestionCircleRegular16 />
             </span>
         </Tooltip>
     );

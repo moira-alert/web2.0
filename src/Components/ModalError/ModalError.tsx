@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import ErrorIcon from "@skbkontur/react-icons/Error";
+import { IconMinusCircleRegular16 } from "@skbkontur/icons/IconMinusCircleRegular16";
 import classNames from "classnames/bind";
 
 import styles from "./ModalError.module.less";
@@ -22,7 +22,7 @@ export default function ModalError({
     return message ? (
         <div className={cn("root")} style={{ margin, padding }}>
             <div style={{ maxWidth }}>
-                <ErrorIcon /> {message}
+                <IconMinusCircleRegular16 /> {message}
             </div>
         </div>
     ) : null;

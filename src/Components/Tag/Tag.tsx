@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import ColorHash from "color-hash";
 import { useAppTheme } from "../../hooks/themes/useAppThemeDetector";
 import classNames from "classnames/bind";
@@ -67,7 +67,7 @@ export default function Tag(props: Props): ReactElement {
             <div className={cn({ tag: true, removeable: true, focused: focus })} style={color}>
                 <div className={cn("title")}>{title}</div>
                 <button type="button" className={cn("remove")} onClick={handleRemove}>
-                    <DeleteIcon />
+                    <IconXRegular16 />
                 </button>
             </div>
         );
