@@ -5035,7 +5035,7 @@ decode-named-character-reference@^1.0.0:
 
 decode-uri-component@^0.2.0:
   version "0.2.2"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/decode-uri-component/-/decode-uri-component-0.2.2.tgz#e69dbe25d37941171dd540e024c444cd5188e1e9"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.2.tgz#e69dbe25d37941171dd540e024c444cd5188e1e9"
   integrity sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==
 
 dedent@^0.7.0:
@@ -9501,7 +9501,7 @@ qs@6.13.0:
 
 query-string@6.4.0:
   version "6.4.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/query-string/-/query-string-6.4.0.tgz#1566c0cec3a2da2d82c222ed3f9e2a921dba5e6a"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.4.0.tgz#1566c0cec3a2da2d82c222ed3f9e2a921dba5e6a"
   integrity sha512-Werid2I41/tJTqOGPJ3cC3vwrIh/8ZupBQbp7BSsqXzr+pTin3aMJ/EZb8UEuk7ZO3VqQFvq2qck/ihc6wqIdw==
   dependencies:
     decode-uri-component "^0.2.0"
@@ -9687,7 +9687,7 @@ react-redux@9.3.0:
 
 react-router@7.15.1:
   version "7.15.1"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/react-router/-/react-router-7.15.1.tgz#0a12fece05887a47c54970480745385c793bcaac"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.15.1.tgz#0a12fece05887a47c54970480745385c793bcaac"
   integrity sha512-R8rl9HhgikFYoPJymnUtPXWbnDb3oget6lQnfIoupbt61aT9aOhRkDsY2XRhZRyX1Z/8a5sL74fXmFNm3NRK5A==
   dependencies:
     cookie "^1.0.1"
@@ -10598,7 +10598,7 @@ storybook@8.6.17:
 
 strict-uri-encode@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
+  resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
   integrity sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==
 
 string-length@^4.0.1:
