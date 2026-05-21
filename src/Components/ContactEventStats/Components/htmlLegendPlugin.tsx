@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactNode, FC } from "react";
 import { Chart, LegendItem, Plugin } from "chart.js";
 import ArrowUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
 import ArrowDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
@@ -19,12 +19,12 @@ interface LegendContainerWithRoot extends HTMLElement {
     _root?: ReturnType<typeof createRoot>;
 }
 
-const LegendItemComponent: React.FC<{
+const LegendItemComponent: FC<{
     item: LegendItem;
     index: number;
     chart: Chart;
     updateLegendStyles: () => void;
-    renderLegendItemAddon?: (label: string) => React.ReactNode;
+    renderLegendItemAddon?: (label: string) => ReactNode;
 }> = ({ item, index, chart, updateLegendStyles, renderLegendItemAddon }) => {
     const theme = useTheme();
     if (!item.text || item.text.trim() === "") {
@@ -74,11 +74,11 @@ const LegendItemComponent: React.FC<{
     );
 };
 
-const Legend: React.FC<{
+const Legend: FC<{
     chart: Chart;
     items: LegendItem[];
     updateLegendStyles: () => void;
-    renderLegendItemAddon?: (label: string) => React.ReactNode;
+    renderLegendItemAddon?: (label: string) => ReactNode;
 }> = ({ chart, items, updateLegendStyles, renderLegendItemAddon }) => {
     const IconComponent = isExpanded ? ArrowUpIcon : ArrowDownIcon;
 
@@ -107,7 +107,7 @@ const Legend: React.FC<{
 };
 
 export const createHtmlLegendPlugin = (
-    renderLegendItemAddon?: (label: string) => React.ReactNode
+    renderLegendItemAddon?: (label: string) => ReactNode
 ): Plugin<"bar"> => ({
     id: "htmlLegend",
     afterUpdate(chart) {

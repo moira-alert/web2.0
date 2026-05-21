@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import ColorHash from "color-hash";
 import { useAppTheme } from "../../hooks/themes/useAppThemeDetector";
@@ -38,7 +38,7 @@ export function getColor(title: string, isDark?: boolean): ColorTheme {
     };
 }
 
-export default function Tag(props: Props): React.ReactElement {
+export default function Tag(props: Props): ReactElement {
     const { title, focus, onRemove, onClick, "data-tid": dataTid } = props;
     const theme = useAppTheme();
     const color = getColor(title, theme.isDark);

@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Status } from "../../Domain/Status";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import classNames from "classnames/bind";
@@ -12,7 +12,7 @@ type Props = {
     disabled?: boolean;
 };
 
-export default function StatusIcon(props: Props): React.ReactElement {
+export default function StatusIcon(props: Props): ReactElement {
     const { status, disabled } = props;
     return (
         <span className={cn("root")}>

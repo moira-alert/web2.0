@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Metric, MetricItemList } from "../../../Domain/Metric";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
 import { VariableSizeList as List } from "react-window";
@@ -25,7 +25,7 @@ const getItemSize = (_metricName: string, metricData: Metric) => {
     return 20 + Object.keys(values).length * 25;
 };
 
-export default function MobileMetricsList(props: Props): React.ReactElement {
+export default function MobileMetricsList(props: Props): ReactElement {
     const { onSetMaintenance, onRemove, metrics, withTargets } = props;
     const entries = Object.entries(metrics);
 

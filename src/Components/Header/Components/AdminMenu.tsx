@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { DropdownMenu, MenuItem } from "@skbkontur/react-ui";
 import Crown from "@skbkontur/react-icons/Crown";
 import { getPageLink } from "../../../Domain/Global";

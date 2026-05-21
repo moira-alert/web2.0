@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactElement } from "react";
 import { Link } from "react-router";
 import { Link as LinkUI } from "@skbkontur/react-ui/components/Link";
 import SettingsIcon from "@skbkontur/react-icons/Settings";
@@ -26,7 +26,7 @@ import styles from "./Header.module.less";
 
 const cn = classNames.bind(styles);
 
-export default function Header(): React.ReactElement {
+export default function Header(): ReactElement {
     const platform = useSelector(selectPlatform);
     const { isLoading } = useGetConfigQuery();
     const theme = useTheme();

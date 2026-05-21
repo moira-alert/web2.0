@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { Button } from "@skbkontur/react-ui";
 import EditIcon from "@skbkontur/react-icons/Edit";
 import { Team } from "../../../Domain/Team";

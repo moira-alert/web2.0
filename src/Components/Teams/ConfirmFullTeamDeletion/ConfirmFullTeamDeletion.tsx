@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Button } from "@skbkontur/react-ui";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { Hovered, HoveredShow } from "../Hovered/Hovered";

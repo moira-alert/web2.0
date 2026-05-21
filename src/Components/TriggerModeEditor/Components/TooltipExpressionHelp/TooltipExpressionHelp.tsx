@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactNode } from "react";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import CodeRef from "../../../CodeRef/CodeRef";
 import classNames from "classnames/bind";
@@ -7,7 +7,7 @@ import styles from "../../TriggerModeEditor.module.less";
 
 const cn = classNames.bind(styles);
 
-export const TooltipExpressionHelp = (): React.ReactNode => (
+export const TooltipExpressionHelp = (): ReactNode => (
     <div className={cn("expression-help")}>
         <div className={cn("main-description")}>
             Expression uses{" "}

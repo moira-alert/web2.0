@@ -1,4 +1,3 @@
-import * as React from "react";
 import Bar from "../Components/Bar/Bar";
 
 export default {

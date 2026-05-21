@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactNode } from "react";
 import { Navigate } from "react-router";
 import { getPagePath } from "../Domain/Global";
 import { useGetUserQuery } from "../services/UserApi";
@@ -8,7 +8,7 @@ import { Loader } from "@skbkontur/react-ui/components/Loader";
 import styles from "~styles/utils.module.less";
 
 type AdminRouteProps = {
-    children: React.ReactNode;
+    children: ReactNode;
 };
 
 export const AdminRoute = ({ children }: AdminRouteProps) => {

@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Desktop = ({ color, size }: { color: string; size: number }) => {
     return (
         <svg

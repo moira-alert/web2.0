@@ -1,4 +1,4 @@
-import React, { ComponentType } from "react";
+import { ComponentType } from "react";
 import { useLocation, Navigate } from "react-router";
 import { getPagePath } from "../Domain/Global";
 import { Loader } from "@skbkontur/react-ui/components/Loader";

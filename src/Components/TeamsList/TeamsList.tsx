@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { TeamCard } from "../../Components/Teams/TeamCard/TeamCard";
 import { Grid } from "../../Components/Grid/Grid";
 import { EmptyListText } from "../../Components/TriggerInfo/Components/EmptyListMessage/EmptyListText";

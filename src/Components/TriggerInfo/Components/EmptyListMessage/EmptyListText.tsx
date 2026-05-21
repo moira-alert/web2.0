@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import classNames from "classnames/bind";
 

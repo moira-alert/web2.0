@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactNode, ReactElement } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./Form.module.less";
@@ -6,10 +6,10 @@ import styles from "./Form.module.less";
 const cn = classNames.bind(styles);
 
 interface IFormProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
-export function Form({ children }: IFormProps): React.ReactElement {
+export function Form({ children }: IFormProps): ReactElement {
     return <div className={cn("form")}>{children}</div>;
 }
 
@@ -20,7 +20,7 @@ interface IFormRowProps {
     style?: {
         [key: string]: number | string;
     };
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export function FormRow({
@@ -29,7 +29,7 @@ export function FormRow({
     singleLineControlGroup,
     children,
     style,
-}: IFormRowProps): React.ReactElement {
+}: IFormRowProps): ReactElement {
     const labelElement = label && (
         <div className={cn("label", { "label-for-group": useTopAlignForLabel })}>{label}</div>
     );

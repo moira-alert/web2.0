@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ChartOptions, registerables } from "chart.js";
 import {
@@ -19,7 +20,7 @@ interface IContactEventsBarChartProps {
     events: IContactEvent[];
 }
 
-export const ContactEventsChart: React.FC<IContactEventsBarChartProps> = ({ events }) => {
+export const ContactEventsChart: FC<IContactEventsBarChartProps> = ({ events }) => {
     const [interval, setInterval] = useState<EContactEventsInterval>(EContactEventsInterval.hour);
 
     const groupedTransitions = useMemo(() => groupEventsByInterval(events, interval), [

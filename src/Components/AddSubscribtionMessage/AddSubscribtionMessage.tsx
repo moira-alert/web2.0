@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC, ReactElement } from "react";
 import { Button, Center } from "@skbkontur/react-ui";
 import { Flexbox } from "../Flexbox/FlexBox";
 import AddIcon from "@skbkontur/react-icons/Add";
@@ -7,9 +7,7 @@ interface Props {
     onAddSubscription: () => void;
 }
 
-export const AddSubscriptionMessage: React.FC<Props> = ({
-    onAddSubscription,
-}): React.ReactElement => {
+export const AddSubscriptionMessage: FC<Props> = ({ onAddSubscription }): ReactElement => {
     return (
         <Center>
             <Flexbox gap={20}>

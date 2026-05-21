@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { Layout, LayoutContent, LayoutFooter, LayoutPlate } from "../Components/Layout/Layout";
 
 type Props = {

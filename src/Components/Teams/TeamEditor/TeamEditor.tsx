@@ -1,5 +1,5 @@
 import { Team } from "../../../Domain/Team";
-import React, { useState, useRef, FC } from "react";
+import { useState, useRef, FC } from "react";
 import { ValidationContainer, ValidationWrapper } from "@skbkontur/react-ui-validations";
 import { Button, Input, Modal } from "@skbkontur/react-ui";
 import { Grid } from "../../Grid/Grid";

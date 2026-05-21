@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Status, getStatusColor } from "../../Domain/Status";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import classNames from "classnames/bind";
@@ -13,7 +13,7 @@ type Props = {
     size?: number;
 };
 
-function renderPath(statuses: Array<Status>): React.ReactElement {
+function renderPath(statuses: Array<Status>): ReactElement {
     const [status1, status2, status3, status4] = statuses;
 
     switch (statuses.length) {
@@ -75,7 +75,7 @@ function renderPath(statuses: Array<Status>): React.ReactElement {
     }
 }
 
-export default function StatusIndicator(props: Props): React.ReactElement {
+export default function StatusIndicator(props: Props): ReactElement {
     const { statuses, disabled, size = 20 } = props;
     return (
         <Tooltip render={() => statuses.join(", ")}>

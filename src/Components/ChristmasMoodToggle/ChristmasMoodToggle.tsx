@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { useChristmasMood } from "../../hooks/useChristmasMood";
 import { useAppDispatch } from "../../store/hooks";

@@ -1,4 +1,3 @@
-import * as React from "react";
 import MobileTriggerListItem from "../../Components/Mobile/MobileTriggerListItem/MobileTriggerListItem";
 import { DaysOfWeek } from "../../Domain/Schedule";
 import { TriggerCheck, TriggerSource } from "../../Domain/Trigger";

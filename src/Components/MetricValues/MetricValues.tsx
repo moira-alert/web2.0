@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { roundValue } from "../../helpers/roundValue";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
     hideTargetsNames?: boolean;
 };
 
-export default function MetricValues(props: Props): React.ReactElement {
+export default function MetricValues(props: Props): ReactElement {
     const { values, placeholder, hideTargetsNames } = props;
     if (values === undefined) {
         return <div>{roundValue(values, placeholder)}</div>;

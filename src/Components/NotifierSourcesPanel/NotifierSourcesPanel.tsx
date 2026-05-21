@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { NotifierSourcesList } from "../NotifierSourcesList/NotifierSourcesList";
 import { DeleteFilteredNotifications } from "../DeleteFilteredNotifications";
 import { useGetNotifierSourcesStateQuery } from "../../services/NotifierApi";

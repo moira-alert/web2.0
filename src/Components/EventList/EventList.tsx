@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { format, fromUnixTime } from "date-fns";
 import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
 import { Event } from "../../Domain/Event";
@@ -16,7 +16,7 @@ type Props = {
     };
 };
 
-export default function EventList(props: Props): React.ReactElement {
+export default function EventList(props: Props): ReactElement {
     const { items } = props;
 
     return (

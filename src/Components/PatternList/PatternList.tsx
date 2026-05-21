@@ -1,4 +1,5 @@
-import React, { useState, FC } from "react";
+import type { ReactElement } from "react";
+import { useState, FC } from "react";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import { Button } from "@skbkontur/react-ui/components/Button";
@@ -25,7 +26,7 @@ type Props = {
 
 const BATCH_SIZE = 40;
 
-export default function PatternList(props: Props): React.ReactElement {
+export default function PatternList(props: Props): ReactElement {
     const {
         items,
         sortConfig: { sortingColumn, direction },

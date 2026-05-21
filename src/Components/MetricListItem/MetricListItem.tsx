@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import * as React from "react";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import { format, fromUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";

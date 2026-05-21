@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import { Button, Tooltip } from "@skbkontur/react-ui";
 import { Flexbox } from "../Flexbox/FlexBox";
 import ModalError from "../ModalError/ModalError";

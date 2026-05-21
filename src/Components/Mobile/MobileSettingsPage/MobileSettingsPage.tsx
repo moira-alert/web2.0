@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { getPageLink } from "../../../Domain/Global";

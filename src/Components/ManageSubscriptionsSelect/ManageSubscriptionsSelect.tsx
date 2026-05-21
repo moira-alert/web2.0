@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { Team } from "../../Domain/Team";
@@ -21,7 +22,7 @@ interface IManageSubscriptionsSelectProps {
     handleSetTeamToTransfer: (team: Team) => void;
 }
 
-export const ManageSubscriptionsSelect: React.FC<IManageSubscriptionsSelectProps> = ({
+export const ManageSubscriptionsSelect: FC<IManageSubscriptionsSelectProps> = ({
     teams,
     teamToTransfer,
     handleSetTeamToTransfer,

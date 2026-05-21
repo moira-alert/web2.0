@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import MetricList, { SortingColumn } from "../../MetricList/MetricList";
 import { sortMetrics } from "../../../helpers/sort-metrics";
 import { MetricItemList } from "../../../Domain/Metric";

@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactNode, ReactElement } from "react";
 import { saveAs } from "file-saver";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import ExportIcon from "@skbkontur/react-icons/Export";
@@ -9,7 +9,7 @@ import { Trigger } from "../../Domain/Trigger";
 type FileExportProps = {
     title: string;
     data: Partial<Trigger | Subscription | Contact>;
-    children?: React.ReactNode;
+    children?: ReactNode;
     isButton?: boolean;
 };
 
@@ -18,7 +18,7 @@ export default function FileExport({
     data,
     children,
     isButton,
-}: FileExportProps): React.ReactElement {
+}: FileExportProps): ReactElement {
     const handleExport = () => {
         const fileData = JSON.stringify(data, undefined, 4);
         const blob = new Blob([fileData], { type: "application/json" });

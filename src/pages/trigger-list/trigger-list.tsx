@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type { ComponentType, FC } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
@@ -29,10 +30,10 @@ export type TriggerListUpdate = {
 
 export type TriggerListProps =
     | {
-          view: React.ComponentType<TriggerListDesktopProps>;
+          view: ComponentType<TriggerListDesktopProps>;
       }
     | {
-          view: React.ComponentType<TriggerListMobileProps>;
+          view: ComponentType<TriggerListMobileProps>;
       };
 
 const parseLocationSearch = (search: string): MoiraUrlParams => {
@@ -77,7 +78,7 @@ const checkPageAndRedirectIfNeeded = (
     return false;
 };
 
-const TriggerListPage: React.FC<TriggerListProps> = ({ view: TriggerListView }) => {
+const TriggerListPage: FC<TriggerListProps> = ({ view: TriggerListView }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const { isLoading, error } = useAppSelector(UIState);

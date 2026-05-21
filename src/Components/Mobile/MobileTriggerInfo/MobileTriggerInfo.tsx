@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { ReactElement, ReactNode } from "react";
+import { Component } from "react";
 import { addMinutes, format, getUnixTime, startOfDay } from "date-fns";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { Modal } from "@skbkontur/react-ui/components/Modal";
@@ -38,7 +39,7 @@ type State = {
     showMaintenance: boolean;
 };
 
-function ScheduleView(props: { data: Schedule }): React.ReactElement {
+function ScheduleView(props: { data: Schedule }): ReactElement {
     const { data } = props;
     const { days, startOffset, endOffset, tzOffset } = data;
 
@@ -61,18 +62,18 @@ function ScheduleView(props: { data: Schedule }): React.ReactElement {
     );
 }
 
-function checkMaintenance(maintenance?: number | null): React.ReactNode {
+function checkMaintenance(maintenance?: number | null): ReactNode {
     const delta = (maintenance || 0) - getUnixTime(getUTCDate());
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
-export default class MobileTriggerInfo extends React.Component<Props, State> {
+export default class MobileTriggerInfo extends Component<Props, State> {
     state: State = {
         showThrottling: false,
         showMaintenance: false,
     };
 
-    render(): React.ReactNode {
+    render(): ReactNode {
         const { data: trigger, triggerState } = this.props;
         const { showThrottling, showMaintenance } = this.state;
         const { sched } = trigger || {};
@@ -227,16 +228,12 @@ export default class MobileTriggerInfo extends React.Component<Props, State> {
 }
 
 type BorderlessButtonProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     disabled: boolean;
     onClick: () => void;
 };
 
-function BorderlessButton({
-    children,
-    disabled,
-    onClick,
-}: BorderlessButtonProps): React.ReactElement {
+function BorderlessButton({ children, disabled, onClick }: BorderlessButtonProps): ReactElement {
     return (
         <button type="button" onClick={onClick} className={cn("borderless-button", { disabled })}>
             <span>{children}</span>

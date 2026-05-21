@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Sun = ({ color, size }: { color: string; size: number }) => {
     return (
         <svg

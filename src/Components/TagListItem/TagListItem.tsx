@@ -1,4 +1,5 @@
-import React, { useState, FC, useEffect, useRef } from "react";
+import { useState, FC, useEffect, useRef } from "react";
+import * as React from "react";
 import flatten from "lodash/flatten";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import OkIcon from "@skbkontur/react-icons/Ok";

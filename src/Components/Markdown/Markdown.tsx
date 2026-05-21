@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Markdown as KonturMarkdown, MarkdownProps } from "@skbkontur/markdown";
 import { WysiwygWrapper } from "./WysiwygWrapper";
 import { MarkdownTheme } from "./MarkdownTheme";

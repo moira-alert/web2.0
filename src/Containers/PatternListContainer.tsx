@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import PatternList from "../Components/PatternList/PatternList";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
@@ -9,7 +10,7 @@ import { useDeletePatternMutation, useGetPatternsQuery } from "../services/Patte
 import { SearchInput } from "../Components/TriggerInfo/Components/SearchInput/SearchInput";
 import { Flexbox } from "../Components/Flexbox/FlexBox";
 
-const PatternListContainer: React.FC = () => {
+const PatternListContainer: FC = () => {
     const { isLoading, error } = useAppSelector(UIState);
     const { data: patterns } = useGetPatternsQuery();
     const [deletePattern] = useDeletePatternMutation();

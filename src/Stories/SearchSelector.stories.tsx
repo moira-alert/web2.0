@@ -1,4 +1,3 @@
-import * as React from "react";
 import { action } from "@storybook/addon-actions";
 import { SearchSelector } from "../Components/SearchSelector/SearchSelector";
 

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, ReactElement } from "react";
+import type { FC } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import Selector from "../Selector/Selector";
 import { Token } from "../Token/Token";
 import SelectorInitialView from "./SelectorInitialView";
@@ -33,7 +34,7 @@ const renderToken = (
     </Token>
 );
 
-export const SearchSelector: React.FC<Props> = ({
+export const SearchSelector: FC<Props> = ({
     search = "",
     allTags,
     loading,

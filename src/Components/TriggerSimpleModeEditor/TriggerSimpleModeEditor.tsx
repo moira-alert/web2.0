@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { ReactNode } from "react";
+import { Component } from "react";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { tooltip, ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
 import { Status } from "../../Domain/Status";
@@ -27,8 +28,8 @@ type Props = {
     onSwitch: (type: WatchForType) => void;
 };
 
-export default class TriggerSimpleModeEditor extends React.Component<Props> {
-    render(): React.ReactNode {
+export default class TriggerSimpleModeEditor extends Component<Props> {
+    render(): ReactNode {
         const { watchFor, risingValues, fallingValues } = this.props;
         return (
             <div>

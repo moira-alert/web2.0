@@ -1,12 +1,12 @@
-import React from "react";
+import type { ReactNode, FC } from "react";
 import { ThemeContext } from "@skbkontur/react-ui";
 import { useAppTheme } from "../hooks/themes/useAppThemeDetector";
 
 interface AppThemeProviderProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
-export const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
+export const AppThemeProvider: FC<AppThemeProviderProps> = ({ children }) => {
     const theme = useAppTheme();
 
     return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;

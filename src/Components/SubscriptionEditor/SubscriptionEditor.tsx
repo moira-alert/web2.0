@@ -1,4 +1,5 @@
-import React, { FC, useMemo, useState } from "react";
+import type { ReactElement } from "react";
+import { FC, useMemo, useState } from "react";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { ValidationWrapperV1, tooltip, ValidationInfo } from "@skbkontur/react-ui-validations";
@@ -59,7 +60,7 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
 
     const isAddPlottingVisible: boolean = config?.featureFlags.isPlottingAvailable ?? true;
 
-    const renderDegradationExplanation = (): React.ReactElement => (
+    const renderDegradationExplanation = (): ReactElement => (
         <div>
             Only following state switches triggers notification:
             <div>
@@ -83,7 +84,7 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
         </div>
     );
 
-    const renderWarnExclusionExplanation = (): React.ReactElement => (
+    const renderWarnExclusionExplanation = (): ReactElement => (
         <div>
             Do not triggers notification on following switches:
             <div>

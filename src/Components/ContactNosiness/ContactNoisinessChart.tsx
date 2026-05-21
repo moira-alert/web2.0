@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState } from "react";
+import { useEffect, FC, useState } from "react";
 import { useLazyGetContactNoisinessQuery } from "../../services/ContactApi";
 import { getUnixTime, subDays, subHours } from "date-fns";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";

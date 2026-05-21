@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import type { ReactElement, ReactNode, FC } from "react";
+import { Children, useState, useEffect } from "react";
 import { Tabs } from "@skbkontur/react-ui/components/Tabs";
 import classNames from "classnames/bind";
 
@@ -8,17 +9,17 @@ const cn = classNames.bind(styles);
 
 interface ITabsCustomProps {
     value: string;
-    children: Array<React.ReactElement | null>;
+    children: Array<ReactElement | null>;
     onValueChange?: (tab: string) => void;
 }
 
 interface ITabProps {
     id: string;
     label: string;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
-const TabsCustom: React.FC<ITabsCustomProps> = ({ value, children, onValueChange }) => {
+const TabsCustom: FC<ITabsCustomProps> = ({ value, children, onValueChange }) => {
     const [activeTab, setActiveTab] = useState<string>(value);
 
     useEffect(() => {
@@ -32,10 +33,10 @@ const TabsCustom: React.FC<ITabsCustomProps> = ({ value, children, onValueChange
         }
     };
 
-    if (React.Children.toArray(children).filter(Boolean).length === 0) {
+    if (Children.toArray(children).filter(Boolean).length === 0) {
         return <div />;
     }
-    if (React.Children.toArray(children).filter(Boolean).length === 1) {
+    if (Children.toArray(children).filter(Boolean).length === 1) {
         return <div>{children}</div>;
     }
 
@@ -43,18 +44,18 @@ const TabsCustom: React.FC<ITabsCustomProps> = ({ value, children, onValueChange
         <div>
             <div className={cn("header")}>
                 <Tabs value={activeTab} onValueChange={handleTabChange}>
-                    {React.Children.map(children, (child) =>
+                    {Children.map(children, (child) =>
                         child ? <Tabs.Tab id={child.props.id}>{child.props.label}</Tabs.Tab> : null
                     )}
                 </Tabs>
             </div>
-            {(React.Children.toArray(children) as React.ReactElement[]).filter(
+            {(Children.toArray(children) as ReactElement[]).filter(
                 ({ props }) => props.id === activeTab
             )}
         </div>
     );
 };
 
-export const Tab: React.FC<ITabProps> = ({ children }) => <div>{children}</div>;
+export const Tab: FC<ITabProps> = ({ children }) => <div>{children}</div>;
 
 export default TabsCustom;

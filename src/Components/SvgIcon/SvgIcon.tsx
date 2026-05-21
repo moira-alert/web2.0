@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 
 type Props = {
     path: string;
@@ -6,7 +6,7 @@ type Props = {
     offsetTop: number;
 };
 
-export default function SvgIcon({ path, size, offsetTop }: Props): React.ReactElement {
+export default function SvgIcon({ path, size, offsetTop }: Props): ReactElement {
     return (
         <img
             alt=""

@@ -1,11 +1,11 @@
-import * as React from "react";
+import type { ReactElement } from "react";
+import { useEffect, useRef } from "react";
 import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
 import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
 import { Metric, MetricItemList } from "../../Domain/Metric";
 import type { VariableSizeList } from "react-window";
 import { VariableSizeList as List } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
-import { useEffect, useRef } from "react";
 import {
     METRIC_LIST_HEIGHT,
     METRIC_LIST_ROW_HEIGHT,
@@ -48,7 +48,7 @@ const getTotalSize = (entries: [string, Metric][]) =>
         METRIC_LIST_ROW_PADDING
     );
 
-export default function MetricList(props: Props): React.ReactElement {
+export default function MetricList(props: Props): ReactElement {
     const {
         status,
         items,

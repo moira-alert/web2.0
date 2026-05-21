@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+import type { ReactElement } from "react";
+import { ReactNode } from "react";
 import HelpDotIcon from "@skbkontur/react-icons/HelpDot";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { PopupPositionsType } from "@skbkontur/react-ui/internal/Popup";
@@ -18,7 +19,7 @@ export default function HelpTooltip({
     pos = "right top",
     closeButton,
     trigger = "click",
-}: HelpTooltipProps): React.ReactElement {
+}: HelpTooltipProps): ReactElement {
     return (
         <Tooltip pos={pos} render={() => children} trigger={trigger} closeButton={closeButton}>
             <span className={cn.icon}>

@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { SyntheticEvent, ReactElement } from "react";
+import { Component } from "react";
 import numeral from "numeral";
 import FilteredInput from "../FilteredInput/FilteredInput";
 import { FilterValueResult } from "../FilteredInput/FilteredInput";
@@ -11,14 +12,14 @@ type FormattedNumberInputProps = {
     disabled?: boolean;
     error?: boolean;
     warning?: boolean;
-    onBlur?: (event: React.SyntheticEvent) => void;
+    onBlur?: (event: SyntheticEvent) => void;
     onValueChange: (value: number | null) => void;
     width: string | number;
     "data-tid"?: string;
 };
 
-export default class FormattedNumberInput extends React.Component<FormattedNumberInputProps> {
-    render(): React.ReactElement {
+export default class FormattedNumberInput extends Component<FormattedNumberInputProps> {
+    render(): ReactElement {
         const { value } = this.props;
 
         return (

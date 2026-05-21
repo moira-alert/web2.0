@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { CSSProperties, ReactNode, ReactElement } from "react";
+import { Component } from "react";
 import { format, fromUnixTime, getUnixTime } from "date-fns";
 import UserSettingsIcon from "@skbkontur/react-icons/UserSettings";
 import MenuDotsIcon from "@skbkontur/react-icons/MenuDots";
@@ -22,7 +23,7 @@ import styles from "./MobileMetricsListItem.module.less";
 const cn = classNames.bind(styles);
 
 type Props = {
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     name: string;
     value: Metric;
     onRemove: () => void;
@@ -45,13 +46,13 @@ function isUnderkMaintenance(maintenance?: number | null): boolean {
     return delta > 0;
 }
 
-export default class MobileMetricsListItem extends React.Component<Props, State> {
+export default class MobileMetricsListItem extends Component<Props, State> {
     state: State = {
         buttonsState: "Default",
         deleted: false,
     };
 
-    render(): React.ReactNode {
+    render(): ReactNode {
         const { name, value, style } = this.props;
         const { buttonsState, deleted } = this.state;
 
@@ -144,7 +145,7 @@ export default class MobileMetricsListItem extends React.Component<Props, State>
         onSetMaintenance(calculateMaintenanceTime(interval));
     };
 
-    renderStatus(): React.ReactElement {
+    renderStatus(): ReactElement {
         const { value } = this.props;
         const { state } = value;
         return <MobileStatusIndicator statuses={[state]} size={30} />;

@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactNode, ReactElement, ChangeEvent } from "react";
 import { Link } from "react-router";
 import DeleteIcon from "@skbkontur/react-icons/Delete";
 import classNames from "classnames/bind";
@@ -9,10 +9,10 @@ const cn = classNames.bind(styles);
 
 type Props = {
     color?: string;
-    children: React.ReactNode;
+    children: ReactNode;
 };
 
-export default function MobileHeader({ color, children }: Props): React.ReactElement {
+export default function MobileHeader({ color, children }: Props): ReactElement {
     return (
         <div style={{ backgroundColor: color }} className={cn("root")}>
             {children}
@@ -21,12 +21,12 @@ export default function MobileHeader({ color, children }: Props): React.ReactEle
 }
 
 type LeftButtonProps = {
-    icon: React.ReactElement;
+    icon: ReactElement;
     linkTo?: string;
     onClick?: () => void;
 };
 
-MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): React.ReactElement {
+MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): ReactElement {
     const { icon, linkTo, onClick } = props;
     if (linkTo != null) {
         return (
@@ -46,14 +46,11 @@ MobileHeader.LeftButton = function LeftButton(props: LeftButtonProps): React.Rea
 };
 
 type RightButtonProps = {
-    icon: React.ReactElement;
+    icon: ReactElement;
     onClick?: () => void;
 };
 
-MobileHeader.RightButton = function RightButton({
-    icon,
-    onClick,
-}: RightButtonProps): React.ReactElement {
+MobileHeader.RightButton = function RightButton({ icon, onClick }: RightButtonProps): ReactElement {
     return (
         <button type="button" onClick={onClick} className={cn("filter-button")}>
             {icon}
@@ -62,17 +59,17 @@ MobileHeader.RightButton = function RightButton({
 };
 
 type TitleProps = {
-    children: React.ReactNode;
+    children: ReactNode;
 };
 
-MobileHeader.Title = function Title({ children }: TitleProps): React.ReactElement {
+MobileHeader.Title = function Title({ children }: TitleProps): ReactElement {
     return <div className={cn("title")}>{children}</div>;
 };
 
 type HeaderInputProps = {
     placeholder?: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
     onClear: () => void;
 };
 
@@ -81,7 +78,7 @@ MobileHeader.HeaderInput = function HeaderInput({
     value,
     onChange,
     onClear,
-}: HeaderInputProps): React.ReactElement {
+}: HeaderInputProps): ReactElement {
     return (
         <div className={cn("header-input")}>
             <div className={cn("header-input-wrapper")}>
@@ -101,13 +98,13 @@ MobileHeader.HeaderInput = function HeaderInput({
 
 type HeaderBlockProps = {
     color?: string;
-    children: React.ReactNode;
+    children: ReactNode;
 };
 
 MobileHeader.HeaderBlock = function HeaderBlock({
     color,
     children,
-}: HeaderBlockProps): React.ReactElement {
+}: HeaderBlockProps): ReactElement {
     return (
         <div style={{ backgroundColor: color }} className={cn("header")}>
             {children}
@@ -116,11 +113,9 @@ MobileHeader.HeaderBlock = function HeaderBlock({
 };
 
 type DetailsBlockProps = {
-    children: React.ReactNode;
+    children: ReactNode;
 };
 
-MobileHeader.DetailsBlock = function DetailsBlock({
-    children,
-}: DetailsBlockProps): React.ReactElement {
+MobileHeader.DetailsBlock = function DetailsBlock({ children }: DetailsBlockProps): ReactElement {
     return <div className={cn("details")}>{children}</div>;
 };

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Status } from "../../Domain/Status";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { FilterStatusSelect } from "../FilterStatusSelect/FilterStatusSelect";

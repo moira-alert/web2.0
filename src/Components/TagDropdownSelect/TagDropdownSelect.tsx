@@ -1,4 +1,5 @@
-import React, { useState, useRef, FocusEventHandler, useMemo } from "react";
+import type { FC, KeyboardEvent } from "react";
+import { useState, useRef, FocusEventHandler, useMemo } from "react";
 import difference from "lodash/difference";
 import union from "lodash/union";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
@@ -25,7 +26,7 @@ export type TagDropdownSelectProps = {
     "data-tid"?: string;
 };
 
-const TagDropdownSelect: React.FC<TagDropdownSelectProps> = ({
+const TagDropdownSelect: FC<TagDropdownSelectProps> = ({
     value,
     onChange,
     availableTags,
@@ -63,7 +64,7 @@ const TagDropdownSelect: React.FC<TagDropdownSelectProps> = ({
         inputRef.current?.focus();
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         if (!isFocused) return;
         const { key } = event;
         const caret = event.currentTarget.selectionStart ?? 0;

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import { Button } from "@skbkontur/react-ui/components/Button";

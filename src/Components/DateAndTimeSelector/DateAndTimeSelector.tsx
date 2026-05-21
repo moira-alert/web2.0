@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC } from "react";
 import { TimeSelector } from "../TimeSelector/TimeSelector";
 import { format, isAfter, isBefore } from "date-fns";
 import { DateSelector } from "../DateSelector/DateSelector";

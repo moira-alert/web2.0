@@ -1,4 +1,5 @@
-import * as React from "react";
+import type { ReactElement } from "react";
+import { Component } from "react";
 import { Sticky } from "@skbkontur/react-ui/components/Sticky";
 import { MetricItemList } from "../../../Domain/Metric";
 import { StatusesList } from "../../../Domain/Status";
@@ -25,8 +26,8 @@ type Props = {
     onThrottlingRemove: () => void;
 };
 
-export default class MobileTriggerInfoPage extends React.Component<Props> {
-    render(): React.ReactElement {
+export default class MobileTriggerInfoPage extends Component<Props> {
+    render(): ReactElement {
         const {
             data: trigger,
             onSetMetricMaintenance,
@@ -68,7 +69,7 @@ export default class MobileTriggerInfoPage extends React.Component<Props> {
         );
     }
 
-    renderMetricsStats(): React.ReactElement {
+    renderMetricsStats(): ReactElement {
         const counts = this.getCountsByStatus();
         return (
             <span>

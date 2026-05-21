@@ -1,4 +1,3 @@
-import * as React from "react";
 import OkIcon from "@skbkontur/react-icons/Ok";
 import RouterLink from "../Components/RouterLink/RouterLink";
 

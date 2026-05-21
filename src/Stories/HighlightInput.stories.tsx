@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import HighlightInput from "../Components/HighlightInput/HighlightInput";
 

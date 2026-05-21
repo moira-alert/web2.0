@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import * as React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import AddIcon from "@skbkontur/react-icons/Add";
 import { ContactWithCustomName } from "./Components/ContactWithCustomName";

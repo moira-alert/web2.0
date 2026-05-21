@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { Menu } from "@skbkontur/react-ui/internal/Menu";
 import { CalendarDateShape } from "@skbkontur/react-ui/components/Calendar";

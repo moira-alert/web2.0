@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, useMemo } from "react";
+import { useState, useEffect, FC, useMemo } from "react";
 import { Layout, LayoutContent, LayoutTitle } from "../Components/Layout/Layout";
 import { setDocumentTitle } from "../helpers/setDocumentTitle";
 import ContactEditModal from "../Components/ContactEditModal/ContactEditModal";

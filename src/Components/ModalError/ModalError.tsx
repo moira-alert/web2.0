@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactElement } from "react";
 import ErrorIcon from "@skbkontur/react-icons/Error";
 import classNames from "classnames/bind";
 
@@ -18,7 +18,7 @@ export default function ModalError({
     maxWidth,
     margin,
     padding,
-}: FooterErrorProps): React.ReactElement | null {
+}: FooterErrorProps): ReactElement | null {
     return message ? (
         <div className={cn("root")} style={{ margin, padding }}>
             <div style={{ maxWidth }}>

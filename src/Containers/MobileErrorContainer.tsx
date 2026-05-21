@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
 import { getPageLink } from "../Domain/Global";
 import MobileHeader from "../Components/Mobile/MobileHeader/MobileHeader";

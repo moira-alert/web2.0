@@ -1,5 +1,6 @@
 import "chartjs-adapter-date-fns";
-import React, { useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ChartOptions, registerables } from "chart.js";
 import { IContactEvent } from "../../../Domain/Contact";
@@ -16,7 +17,7 @@ interface ITriggerEventsBarChartProps {
     events: IContactEvent[];
 }
 
-export const TriggerEventsChart: React.FC<ITriggerEventsBarChartProps> = ({ events }) => {
+export const TriggerEventsChart: FC<ITriggerEventsBarChartProps> = ({ events }) => {
     const groupedEvents = useMemo(
         () =>
             events.reduce<Record<string, number>>((acc, event) => {

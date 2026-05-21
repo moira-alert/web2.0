@@ -1,4 +1,4 @@
-import React, { ComponentType } from "react";
+import { ComponentType } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import checkMobile from "./helpers/check-mobile";

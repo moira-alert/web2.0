@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import Filter from "@skbkontur/react-icons/Filter";
 import { Contact } from "../../../Domain/Contact";

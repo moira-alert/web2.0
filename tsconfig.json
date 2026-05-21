@@ -1,23 +1,24 @@
 {
-  "compilerOptions": {                
-    "target": "es2015",                          
-    "module": "es2020",                     
-    "lib": ["dom", "es2020"],                                            
-    "jsx": "react",                    
-    "strict": true,                           
-    "noImplicitAny": true,                 
-    "noUnusedLocals": true,                
-    "noUnusedParameters": true,           
-    "noImplicitReturns": true,             
-    "noFallthroughCasesInSwitch": true,    
-    "moduleResolution": "node",                                
-    "allowSyntheticDefaultImports": true,  
-    "esModuleInterop": true,                
-    "skipLibCheck": true,                     
-    "forceConsistentCasingInFileNames": true,
-    "useUnknownInCatchVariables": false,
-    "resolveJsonModule": true,
-    "sourceMap": true
-  },
-  "includes": ["./src/types/less-modules.d.ts", "./src/types/svg-modules.d.ts"]
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "lib": ["dom", "ESNext"],
+        "jsx": "react-jsx",
+        "strict": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "moduleResolution": "bundler",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "useUnknownInCatchVariables": false,
+        "resolveJsonModule": true,
+        "sourceMap": true
+    },
+    "include": ["src"],
+    "references": [{ "path": "./tsconfig.node.json" }]
 }

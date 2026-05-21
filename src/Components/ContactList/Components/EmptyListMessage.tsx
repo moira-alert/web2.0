@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
 import AddIcon from "@skbkontur/react-icons/Add";

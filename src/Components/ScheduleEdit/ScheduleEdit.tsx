@@ -1,4 +1,5 @@
-import React, { useState, useMemo, FC } from "react";
+import type { FocusEventHandler } from "react";
+import { forwardRef, useState, useMemo, FC } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
@@ -13,11 +14,11 @@ const cn = classNames.bind(styles);
 interface IProps {
     schedule?: Schedule;
     error?: boolean;
-    onBlur?: React.FocusEventHandler<HTMLDivElement>;
+    onBlur?: FocusEventHandler<HTMLDivElement>;
     onChange: (schedule: Schedule) => void;
 }
 
-const ScheduleEdit: FC<IProps> = React.forwardRef<HTMLDivElement, IProps>(function ScheduleEdit(
+const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function ScheduleEdit(
     { schedule, error, onChange, onBlur },
     validationRef
 ) {

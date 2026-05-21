@@ -1,4 +1,5 @@
-import React, { createRef } from "react";
+import type { SyntheticEvent, ReactElement } from "react";
+import { Component, createRef } from "react";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import classNames from "classnames/bind";
 
@@ -23,9 +24,9 @@ type FilteredInputProps<T> = {
     valueForEdit: (value: T) => string;
     hintForView?: (value: T) => string | null;
     hintForEdit?: (value: T) => string | null;
-    onKeyDown?: (event: React.SyntheticEvent) => void;
-    onBlur?: (event: React.SyntheticEvent) => void;
-    onFocus?: (event: React.SyntheticEvent) => void;
+    onKeyDown?: (event: SyntheticEvent) => void;
+    onBlur?: (event: SyntheticEvent) => void;
+    onFocus?: (event: SyntheticEvent) => void;
     error?: boolean;
     warning?: boolean;
     "data-tid"?: string;
@@ -40,10 +41,7 @@ type FilteredInputState = {
     displayValue?: string | null;
 } & HintState;
 
-export default class FilteredInput<T> extends React.Component<
-    FilteredInputProps<T>,
-    FilteredInputState
-> {
+export default class FilteredInput<T> extends Component<FilteredInputProps<T>, FilteredInputState> {
     public state: FilteredInputState = {
         displayValue: null,
         hintValue: null,
@@ -73,7 +71,7 @@ export default class FilteredInput<T> extends React.Component<
         }
     }
 
-    render(): React.ReactElement {
+    render(): ReactElement {
         const { onKeyDown, onBlur, onFocus } = this.props;
         const { hintClip } = this.state;
 
@@ -150,7 +148,7 @@ export default class FilteredInput<T> extends React.Component<
         }
     }
 
-    handleBlur(event: React.SyntheticEvent): void {
+    handleBlur(event: SyntheticEvent): void {
         const displayValueForEdit = this.props.valueForEdit(this.props.value);
         const nextDisplayValue = this.props.valueForView(this.props.value);
         this.setState({

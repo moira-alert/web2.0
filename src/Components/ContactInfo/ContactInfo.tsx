@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactElement } from "react";
 import { Contact } from "../../Domain/Contact";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { isEmptyString } from "../../helpers/isEmptyString";
@@ -8,7 +8,7 @@ type Props = {
     className?: string;
 };
 
-export default function ContactInfo({ contact, className }: Props): React.ReactElement {
+export default function ContactInfo({ contact, className }: Props): ReactElement {
     return (
         <div className={className}>
             <ContactTypeIcon type={contact.type} />

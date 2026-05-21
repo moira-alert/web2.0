@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { Contact, filterSubscriptionContacts } from "../../Domain/Contact";
 import { Subscription } from "../../Domain/Subscription";
 import { SubscriptionRow } from "./SubscriptionRow/SubscriptionRow";
@@ -44,7 +44,7 @@ const prepareSubscriptions = (subscriptions: Subscription[], contacts: Contact[]
     });
 };
 
-export const SubscriptionList: React.FC<Props> = ({
+export const SubscriptionList: FC<Props> = ({
     subscriptions,
     contacts,
     showOwnerColumn,
