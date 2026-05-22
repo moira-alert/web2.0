@@ -3243,7 +3243,7 @@
 
 "@skbkontur/icons@2.0.10":
   version "2.0.10"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/icons/-/icons-2.0.10.tgz#bad9f7b6dff00f9d856d774b4895e94a32b83395"
+  resolved "https://registry.yarnpkg.com/@skbkontur/icons/-/icons-2.0.10.tgz#bad9f7b6dff00f9d856d774b4895e94a32b83395"
   integrity sha512-MEfHKxgAuldaKcOPBraeGtqFBT2oT3+YEBqgEEIFuYrwcyws0cFbXTr5XIqEbnnltcNZg4JBC0lBwXnr3ZfpiA==
 
 "@skbkontur/imask@^7.6.4":
