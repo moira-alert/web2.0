@@ -1,6 +1,6 @@
 import type { ReactNode, ReactElement, ChangeEvent } from "react";
 import { Link } from "react-router";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import classNames from "classnames/bind";
 
 import styles from "./MobileHeader.module.less";
@@ -89,7 +89,7 @@ MobileHeader.HeaderInput = function HeaderInput({
                     placeholder={placeholder}
                 />
                 <button type="button" className={cn("clear-button")} onClick={onClear}>
-                    <DeleteIcon />
+                    <IconXRegular16 />
                 </button>
             </div>
         </div>

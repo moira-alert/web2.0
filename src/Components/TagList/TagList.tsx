@@ -1,8 +1,8 @@
 import { FC, useState, useMemo } from "react";
 import { Contact } from "../../Domain/Contact";
 import { TagStat } from "../../Domain/Tag";
-import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
-import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
+import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
+import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
 import { useSortData } from "../../hooks/useSortData";
 import { FixedSizeList as List } from "react-window";
 import { TagListItem } from "../TagListItem/TagListItem";
@@ -36,7 +36,11 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
     const tags = items.map((item) => item.name);
 
     const SortingIcon =
-        sortConfig.direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+        sortConfig.direction === "desc" ? (
+            <IconUiFilterSortAHighToLowRegular16 />
+        ) : (
+            <IconUiFilterSortALowToHighRegular16 />
+        );
 
     const handleTagClick = (tagName: string) => {
         tagName === clickedTag ? setClickedTag(null) : setClickedTag(tagName);

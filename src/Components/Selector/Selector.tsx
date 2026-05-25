@@ -5,8 +5,8 @@ import { TagInput } from "../TagDropdownSelect/Components/TagInput";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import { useGetUserTeamsQuery } from "../../services/TeamsApi";
 import { DropdownMenu } from "@skbkontur/react-ui/components/DropdownMenu";
-import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { MenuHeader } from "@skbkontur/react-ui/components/MenuHeader";
 import { useNavigate, useLocation } from "react-router";
@@ -110,7 +110,7 @@ const Selector: FC<Props> = ({
                             positions={["bottom right"]}
                             caption={
                                 teamId ? (
-                                    <DeleteIcon
+                                    <IconXRegular16
                                         size={30}
                                         onClick={(e) => {
                                             e.stopPropagation();
@@ -118,7 +118,7 @@ const Selector: FC<Props> = ({
                                         }}
                                     />
                                 ) : (
-                                    <ArrowChevronDown size={30} />
+                                    <IconArrowCDownRegular16 size={30} />
                                 )
                             }
                         >

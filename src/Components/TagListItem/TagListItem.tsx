@@ -2,9 +2,9 @@ import { useState, FC, useEffect, useRef } from "react";
 import * as React from "react";
 import flatten from "lodash/flatten";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import OkIcon from "@skbkontur/react-icons/Ok";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
-import TrashIcon from "@skbkontur/react-icons/Trash";
+import { IconCheckARegular16 } from "@skbkontur/icons/IconCheckARegular16";
+import { IconTrashCanLight16 } from "@skbkontur/icons/IconTrashCanLight16";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
 import { Contact } from "../../Domain/Contact";
 import { TagStat } from "../../Domain/Tag";
@@ -69,7 +69,9 @@ const SubscriptionItem: FC<SubscriptionItemProps> = ({
 
     return (
         <div style={style} className={cn("item")} onClick={onClick}>
-            <div className={cn("enabled")}>{enabled ? <OkIcon /> : <DeleteIcon />}</div>
+            <div className={cn("enabled")}>
+                {enabled ? <IconCheckARegular16 /> : <IconXRegular16 />}
+            </div>
             <div className={cn("user")}>
                 {user ? (
                     user
@@ -102,7 +104,7 @@ const SubscriptionItem: FC<SubscriptionItemProps> = ({
                 })}
             </div>
             <div className={cn("sub-control")}>
-                <Button use="link" icon={<TrashIcon />} onClick={onDelete}>
+                <Button use="link" icon={<IconTrashCanLight16 />} onClick={onDelete}>
                     Delete
                 </Button>
             </div>
@@ -186,7 +188,7 @@ export const TagListItem: FC<ItemProps> = ({
             <div className={cn("control")}>
                 <Button
                     use="link"
-                    icon={<TrashIcon />}
+                    icon={<IconTrashCanLight16 />}
                     onClick={() => handleDeleteTag(tagStat.name)}
                 >
                     Delete

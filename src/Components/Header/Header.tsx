@@ -1,9 +1,9 @@
 import type { ReactElement } from "react";
 import { Link } from "react-router";
 import { Link as LinkUI } from "@skbkontur/react-ui/components/Link";
-import SettingsIcon from "@skbkontur/react-icons/Settings";
-import HelpBookIcon from "@skbkontur/react-icons/HelpBook";
-import PeopleIcon from "@skbkontur/react-icons/People";
+import { IconBookClosedHelpRegular16 } from "@skbkontur/icons/IconBookClosedHelpRegular16";
+import { IconPeople3Regular16 } from "@skbkontur/icons/IconPeople3Regular16";
+import { IconSettingsGearRegular16 } from "@skbkontur/icons/IconSettingsGearRegular16";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
 import svgLogo from "./moira-logo.svg";
@@ -51,13 +51,13 @@ export default function Header(): ReactElement {
                     <ChristmasMoodToggle />
                     <UISettingsModal />
                     <AdminMenu />
-                    <RouterLink to={getPageLink("teams")} icon={<PeopleIcon />}>
+                    <RouterLink to={getPageLink("teams")} icon={<IconPeople3Regular16 />}>
                         Teams
                     </RouterLink>
-                    <RouterLink to={getSettingsLink(teams)} icon={<SettingsIcon />}>
+                    <RouterLink to={getSettingsLink(teams)} icon={<IconSettingsGearRegular16 />}>
                         Notifications
                     </RouterLink>
-                    <LinkUI href={getPageLink("docs")} icon={<HelpBookIcon />}>
+                    <LinkUI href={getPageLink("docs")} icon={<IconBookClosedHelpRegular16 />}>
                         Help
                     </LinkUI>
                 </nav>

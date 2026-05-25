@@ -5,7 +5,7 @@ import { NoisinessDataset } from "../../TriggerNoisiness/TiggerNoisinessChart";
 import { Bar } from "react-chartjs-2";
 import { TriggerEventsChartOptions } from "../../../helpers/getChartOptions";
 import { Chart as ChartJS, ChartOptions, registerables } from "chart.js";
-import EditIcon from "@skbkontur/react-icons/Edit";
+import { IconToolPencilLineRegular16 } from "@skbkontur/icons/IconToolPencilLineRegular16";
 
 ChartJS.register(...registerables);
 
@@ -16,7 +16,7 @@ export const ContactNoisinessChartView: FC<{
     const htmlLegendPlugin = useMemo(
         () =>
             createHtmlLegendPlugin((lable) => (
-                <EditIcon
+                <IconToolPencilLineRegular16
                     onClick={(e) => {
                         e.stopPropagation();
                         onEditClick(lable);

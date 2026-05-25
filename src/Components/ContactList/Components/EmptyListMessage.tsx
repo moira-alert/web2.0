@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Center } from "@skbkontur/react-ui/components/Center";
-import AddIcon from "@skbkontur/react-icons/Add";
+import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
 import { Flexbox } from "../../Flexbox/FlexBox";
 
 export const EmptyListMessage: FC<{ onCLick: () => void }> = ({ onCLick }) => (
@@ -15,7 +15,7 @@ export const EmptyListMessage: FC<{ onCLick: () => void }> = ({ onCLick }) => (
                 for notifications.
             </div>
             <Center>
-                <Button use="primary" icon={<AddIcon />} onClick={onCLick}>
+                <Button use="primary" icon={<IconPlusRegular16 />} onClick={onCLick}>
                     Add delivery channel
                 </Button>
             </Center>

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, FC } from "react";
 import { Popup } from "@skbkontur/react-ui/internal/Popup";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import { Input } from "@skbkontur/react-ui/components/Input";
-import CalendarIcon from "@skbkontur/react-icons/Calendar";
+import { IconCalendarRegular16 } from "@skbkontur/icons/IconCalendarRegular16";
 import { DateAndTimeSelector } from "../DateAndTimeSelector/DateAndTimeSelector";
 import { format, parse } from "date-fns";
 import { ValidationInfo, ValidationWrapperV1 } from "@skbkontur/react-ui-validations";
@@ -60,7 +60,7 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
                         onFocus={closeMenu}
                         value={inputValue}
                         onValueChange={handleValueChange}
-                        rightIcon={<CalendarIcon />}
+                        rightIcon={<IconCalendarRegular16 />}
                         onClick={openMenu}
                     />
                 </ValidationWrapperV1>

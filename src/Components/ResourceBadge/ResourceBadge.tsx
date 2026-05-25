@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Toast } from "@skbkontur/react-ui/components/Toast";
-import CopyIcon from "@skbkontur/react-icons/Copy";
+import { IconCopyRegular16 } from "@skbkontur/icons/IconCopyRegular16";
 import cn from "./ResourceBadge.module.less";
 
 interface EditorIdProps {
@@ -19,7 +19,7 @@ export function ResourceBadge(props: EditorIdProps): ReactElement {
             <div className={cn.title}>{props.title}</div>
             <div>
                 <span className={cn.icon} onClick={handleClick}>
-                    <CopyIcon />
+                    <IconCopyRegular16 />
                 </span>
                 {props.id}
             </div>

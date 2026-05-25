@@ -1,9 +1,9 @@
 import { useState } from "react";
 import * as React from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import AddIcon from "@skbkontur/react-icons/Add";
+import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
+import { IconWarningTriangleRegular16 } from "@skbkontur/icons/IconWarningTriangleRegular16";
 import { ContactWithCustomName } from "./Components/ContactWithCustomName";
-import WarningIcon from "@skbkontur/react-icons/Warning";
 import { Contact, EContactStatus } from "../../Domain/Contact";
 import { ContactConfig } from "../../Domain/Config";
 import NewContactModal from "../NewContactModal/NewContactModal";
@@ -108,7 +108,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
             ) : (
                 <tr className={cn("item")} key={id}>
                     <td className={cn("error-icon")}>
-                        <WarningIcon />
+                        <IconWarningTriangleRegular16 />
                     </td>
                     <td>
                         {isEmptyString(name) ? value : name}
@@ -205,7 +205,7 @@ const ContactList: React.FC<IContactListProps> = ({ contacts, contactDescription
                         </table>
                     </div>
                     <div className={cn("actions-block")}>
-                        <Button icon={<AddIcon />} onClick={openNewContactModal}>
+                        <Button icon={<IconPlusRegular16 />} onClick={openNewContactModal}>
                             Add delivery channel
                         </Button>
                     </div>

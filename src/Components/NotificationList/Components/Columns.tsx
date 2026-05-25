@@ -4,10 +4,10 @@ import { ColumnDef, CellContext, Row, Column } from "@tanstack/react-table";
 import { Status } from "../../../Domain/Status";
 import { format, fromUnixTime } from "date-fns";
 import StatusIndicator from "../../StatusIndicator/StatusIndicator";
-import ArrowBoldRightIcon from "@skbkontur/react-icons/ArrowBoldRight";
-import TrashIcon from "@skbkontur/react-icons/Trash";
-import OkIcon from "@skbkontur/react-icons/Ok";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { IconArrowARightRegular16 } from "@skbkontur/icons/IconArrowARightRegular16";
+import { IconCheckARegular16 } from "@skbkontur/icons/IconCheckARegular16";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import { checkHasAllStatesForValues } from "../../../helpers/notificationFilters";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { getPageLink } from "../../../Domain/Global";
@@ -95,7 +95,7 @@ export const createStateColumn = (
         );
     },
     accessorKey: "state",
-    size: 20,
+    size: 30,
     enableColumnFilter: true,
     cell: SatateCell,
     filterFn: (row, columnId, filterValue) => {
@@ -119,7 +119,7 @@ const SatateCell = ({ row }: CellContext<INotificationRow, unknown>) => {
                 <StatusIndicator statuses={prev} size={14} />
             </div>
             <div className={styles.arrow}>
-                <ArrowBoldRightIcon />
+                <IconArrowARightRegular16 />
             </div>
             <div className={styles["curr-state"]}>
                 <StatusIndicator statuses={curr} size={14} />
@@ -223,7 +223,7 @@ const ThrottledCell = ({ getValue }: CellContext<INotificationRow, unknown>) => 
     const value = getValue<boolean>();
     return (
         <div className={cn("throttled", { true: value, false: !value })}>
-            {value ? <OkIcon /> : <DeleteIcon />}
+            {value ? <IconCheckARegular16 /> : <IconXRegular16 />}
         </div>
     );
 };
@@ -281,12 +281,7 @@ const ActionsCell: FC<{
     row: Row<INotificationRow>;
     onRemove: (id: string) => void;
 }> = ({ row, onRemove }) => (
-    <Button
-        size="large"
-        use="link"
-        icon={<TrashIcon />}
-        onClick={() => onRemove(row.original.id)}
-    />
+    <Button use="link" icon={<IconTrashCanRegular16 />} onClick={() => onRemove(row.original.id)} />
 );
 
 interface FilterInputProps {

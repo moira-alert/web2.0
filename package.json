@@ -30,7 +30,7 @@
         "@sentry/react": "7.119.1",
         "@skbkontur-moira/codemirror-metricsql": "0.0.1-dev.1809240003",
         "@skbkontur/markdown": "2.7.0-alpha.1",
-        "@skbkontur/react-icons": "5.2.9",
+        "@skbkontur/icons": "2.0.10",
         "@skbkontur/react-stack-layout": "1.0.3",
         "@skbkontur/react-ui": "5.1.3",
         "@skbkontur/react-ui-validations": "1.13.0",

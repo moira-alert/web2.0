@@ -2,8 +2,8 @@ import type { FC } from "react";
 import { Contact, filterSubscriptionContacts } from "../../Domain/Contact";
 import { Subscription } from "../../Domain/Subscription";
 import { SubscriptionRow } from "./SubscriptionRow/SubscriptionRow";
-import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
-import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
+import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
+import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
 import { useSortData } from "../../hooks/useSortData";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
@@ -75,7 +75,11 @@ export const SubscriptionList: FC<Props> = ({
         }
     );
     const SortingIcon =
-        sortConfig.direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+        sortConfig.direction === "desc" ? (
+            <IconUiFilterSortAHighToLowRegular16 />
+        ) : (
+            <IconUiFilterSortALowToHighRegular16 />
+        );
     return (
         <div className={cn("items-container")}>
             <table className={cn("items")}>

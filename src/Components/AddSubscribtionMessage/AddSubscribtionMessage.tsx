@@ -1,7 +1,7 @@
 import type { FC, ReactElement } from "react";
 import { Button, Center } from "@skbkontur/react-ui";
 import { Flexbox } from "../Flexbox/FlexBox";
-import AddIcon from "@skbkontur/react-icons/Add";
+import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
 
 interface Props {
     onAddSubscription: () => void;
@@ -19,7 +19,7 @@ export const AddSubscriptionMessage: FC<Props> = ({ onAddSubscription }): ReactE
                     .
                 </div>
                 <Center>
-                    <Button use="primary" icon={<AddIcon />} onClick={onAddSubscription}>
+                    <Button use="primary" icon={<IconPlusRegular16 />} onClick={onAddSubscription}>
                         Add subscription
                     </Button>
                 </Center>

@@ -28,13 +28,6 @@
     ],
     "plugins": ["@typescript-eslint", "prettier", "react-hooks"],
     "rules": {
-        "no-restricted-imports": [
-            "error",
-            {
-                "paths": ["@skbkontur/react-icons"],
-                "patterns": ["@skbkontur/react-icons@*"]
-            }
-        ],
         "prettier/prettier": "error",
         "react/sort-comp": [
             "error",

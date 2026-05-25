@@ -1,6 +1,6 @@
 import type { ReactNode, ChangeEvent, ReactElement } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import ImportIcon from "@skbkontur/react-icons/Import";
+import { IconArrowUiShareAImportRegular16 } from "@skbkontur/icons/IconArrowUiShareAImportRegular16";
 import classNames from "classnames/bind";
 
 import styles from "./FileLoader.module.less";
@@ -41,7 +41,7 @@ export default function FileLoader({ onLoad, onError, children }: FileLoaderProp
                     onChange={handleFileLoad}
                     accept=".json"
                 />
-                <ImportIcon /> {children || "Import"}
+                <IconArrowUiShareAImportRegular16 /> {children || "Import"}
             </label>
         </Button>
     );

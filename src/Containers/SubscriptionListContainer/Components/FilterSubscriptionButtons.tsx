@@ -1,9 +1,9 @@
 import { Button } from "@skbkontur/react-ui/components/Button";
-import Filter from "@skbkontur/react-icons/Filter";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
+import { IconUiFilterFunnelRegular16 } from "@skbkontur/icons/IconUiFilterFunnelRegular16";
 import { Contact } from "../../../Domain/Contact";
 import { Checkbox, DropdownMenu } from "@skbkontur/react-ui";
 import ContactInfo from "../../../Components/ContactInfo/ContactInfo";
-import ArrowChevronDown from "@skbkontur/react-icons/ArrowChevronDown";
 import TagDropdownSelect from "../../../Components/TagDropdownSelect/TagDropdownSelect";
 
 import styles from "~styles/utils.module.less";
@@ -31,7 +31,13 @@ export const FilterSubscriptionButtons = ({
         return (
             <Button
                 width={180}
-                icon={filterContactIDs.length ? <Filter /> : <ArrowChevronDown />}
+                icon={
+                    filterContactIDs.length ? (
+                        <IconUiFilterFunnelRegular16 />
+                    ) : (
+                        <IconArrowCDownRegular16 />
+                    )
+                }
                 use="default"
                 onClick={openMenu}
             >

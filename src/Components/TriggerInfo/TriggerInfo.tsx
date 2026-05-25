@@ -4,14 +4,15 @@ import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui/components/Link";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
-import ExportIcon from "@skbkontur/react-icons/Export";
-import TrashIcon from "@skbkontur/react-icons/Trash";
-import ErrorIcon from "@skbkontur/react-icons/Error";
-import EditIcon from "@skbkontur/react-icons/Edit";
-import ClearIcon from "@skbkontur/react-icons/Clear";
-import ClockIcon from "@skbkontur/react-icons/Clock";
-import ArrowTriangleDownIcon from "@skbkontur/react-icons/ArrowTriangleDown";
-import DocumentCopyIcon from "@skbkontur/react-icons/DocumentCopy";
+import { IconArrowShapeTriangleADownSolid16 } from "@skbkontur/icons/IconArrowShapeTriangleADownSolid16";
+import { IconArrowUiShareAExportRegular16 } from "@skbkontur/icons/IconArrowUiShareAExportRegular16";
+import { IconCopyRegular16 } from "@skbkontur/icons/IconCopyRegular16";
+import { IconDataChartBarsARegular16 } from "@skbkontur/icons/IconDataChartBarsARegular16";
+import { IconMinusCircleRegular16 } from "@skbkontur/icons/IconMinusCircleRegular16";
+import { IconTimeClockRegular16 } from "@skbkontur/icons/IconTimeClockRegular16";
+import { IconToolPencilLineRegular16 } from "@skbkontur/icons/IconToolPencilLineRegular16";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
+import { IconXCircleRegular16 } from "@skbkontur/icons/IconXCircleRegular16";
 import TagGroup from "../TagGroup/TagGroup";
 import {
     Trigger,
@@ -39,7 +40,6 @@ import { ConfigState } from "../../store/selectors";
 import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
 import { useNavigate } from "react-router";
 import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
-import Statistic from "@skbkontur/react-icons/Statistic";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { useModal } from "../../hooks/useModal";
 import { TriggerCRUDInfo } from "./Components/TriggerCRUDInfo";
@@ -161,7 +161,7 @@ export default function TriggerInfo({
                     <RouterLink
                         data-tid="Edit"
                         to={getPageLink("triggerEdit", id)}
-                        icon={<EditIcon />}
+                        icon={<IconToolPencilLineRegular16 />}
                     >
                         Edit
                     </RouterLink>
@@ -194,7 +194,7 @@ export default function TriggerInfo({
                             }}
                         >
                             <MaintenanceSelect
-                                icon={<ClockIcon />}
+                                icon={<IconTimeClockRegular16 />}
                                 maintenance={maintenance}
                                 caption={maintenanceCaption(delta)}
                                 onSetMaintenance={onSetMaintenance}
@@ -203,17 +203,17 @@ export default function TriggerInfo({
                     </span>
                     <DropdownMenu
                         caption={
-                            <Button rightIcon={<ArrowTriangleDownIcon />} use="link">
+                            <Button rightIcon={<IconArrowShapeTriangleADownSolid16 />} use="link">
                                 Other
                             </Button>
                         }
                     >
                         {throttling !== 0 && (
-                            <MenuItem onClick={onThrottlingRemove} icon={<ClearIcon />}>
+                            <MenuItem onClick={onThrottlingRemove} icon={<IconXCircleRegular16 />}>
                                 Disable throttling
                             </MenuItem>
                         )}
-                        <MenuItem icon={<ExportIcon />}>
+                        <MenuItem icon={<IconArrowUiShareAExportRegular16 />}>
                             <FileExport
                                 data={omitTrigger(trigger)}
                                 title={`trigger ${name || id}`}
@@ -221,16 +221,16 @@ export default function TriggerInfo({
                         </MenuItem>
                         <MenuItem
                             target={"_blank"}
-                            icon={<DocumentCopyIcon />}
+                            icon={<IconCopyRegular16 />}
                             href={getPageLink("triggerDuplicate", id)}
                         >
                             Duplicate
                         </MenuItem>
-                        <MenuItem onClick={openModal} icon={<Statistic />}>
+                        <MenuItem onClick={openModal} icon={<IconDataChartBarsARegular16 />}>
                             Metrics graph
                         </MenuItem>
                         <MenuSeparator />
-                        <MenuItem icon={<TrashIcon />} onClick={handleDeleteTrigger}>
+                        <MenuItem icon={<IconTrashCanRegular16 />} onClick={handleDeleteTrigger}>
                             Delete
                         </MenuItem>
                     </DropdownMenu>
@@ -319,8 +319,8 @@ export default function TriggerInfo({
                         {(state === "EXCEPTION" || state === "ERROR") && (
                             <dd className={cn("exception-explanation")}>
                                 <div className={cn("line-1")}>
-                                    <ErrorIcon color="#D43517" /> Trigger in {state} state.{" "}
-                                    {exceptionMessage}
+                                    <IconMinusCircleRegular16 color="#D43517" /> Trigger in {state}{" "}
+                                    state. {exceptionMessage}
                                 </div>
                                 <div className={cn("line-2")}>
                                     Please verify trigger target

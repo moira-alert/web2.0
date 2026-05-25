@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
+import { IconArrowCLeftRegular16 } from "@skbkontur/icons/IconArrowCLeftRegular16";
 import { getPageLink } from "../Domain/Global";
 import MobileHeader from "../Components/Mobile/MobileHeader/MobileHeader";
 
@@ -9,7 +9,7 @@ export default function MobileErrorContainer(): ReactElement {
             <MobileHeader>
                 <MobileHeader.HeaderBlock>
                     <MobileHeader.LeftButton
-                        icon={<ArrowChevronLeftIcon />}
+                        icon={<IconArrowCLeftRegular16 />}
                         linkTo={getPageLink("index")}
                     />
                     <MobileHeader.Title>Moira</MobileHeader.Title>

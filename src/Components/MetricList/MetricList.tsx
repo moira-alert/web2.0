@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { useEffect, useRef } from "react";
-import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
-import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
+import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
+import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
 import { Metric, MetricItemList } from "../../Domain/Metric";
 import type { VariableSizeList } from "react-window";
 import { VariableSizeList as List } from "react-window";
@@ -61,7 +61,11 @@ export default function MetricList(props: Props): ReactElement {
         sortingDown,
     } = props;
 
-    const sortingIcon = sortingDown ? <ArrowBoldUpIcon /> : <ArrowBoldDownIcon />;
+    const sortingIcon = sortingDown ? (
+        <IconUiFilterSortALowToHighRegular16 />
+    ) : (
+        <IconUiFilterSortAHighToLowRegular16 />
+    );
     const ref = useRef<VariableSizeList>(null);
     const entries = Object.entries(items);
 
@@ -88,7 +92,7 @@ export default function MetricList(props: Props): ReactElement {
                             className={cn("a11y-span", { sorting: onSort })}
                             onClick={onSort && (() => onSort("state"))}
                         >
-                            State
+                            State{" "}
                             {sortingColumn === "state" && (
                                 <span className={cn("icon")}>{sortingIcon}</span>
                             )}
@@ -102,7 +106,7 @@ export default function MetricList(props: Props): ReactElement {
                         className={cn("a11y-span", { sorting: onSort })}
                         onClick={onSort && (() => onSort("name"))}
                     >
-                        Name
+                        Name{" "}
                         {sortingColumn === "name" && (
                             <span className={cn("icon")}>{sortingIcon}</span>
                         )}

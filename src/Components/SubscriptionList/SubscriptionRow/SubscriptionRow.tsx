@@ -7,8 +7,8 @@ import ContactInfo from "../../ContactInfo/ContactInfo";
 import TagGroup from "../../TagGroup/TagGroup";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import queryString from "query-string";
-import ArrowChevronUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
-import ArrowChevronDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
+import { IconArrowCUpRegular16 } from "@skbkontur/icons/IconArrowCUpRegular16";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { UIState } from "../../../store/selectors";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
@@ -61,7 +61,7 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
         }
     )}`;
 
-    const handleCollapse = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const handleCollapse = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
         toggleExpand();
         event.stopPropagation();
     };
@@ -106,9 +106,9 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
             )}
             <td className={cn("showMore-button-cell")}>
                 {isExpanded ? (
-                    <ArrowChevronUpIcon onClick={(event) => handleCollapse(event)} />
+                    <IconArrowCUpRegular16 onClick={(event) => handleCollapse(event)} />
                 ) : (
-                    <ArrowChevronDownIcon onClick={(event) => handleCollapse(event)} />
+                    <IconArrowCDownRegular16 onClick={(event) => handleCollapse(event)} />
                 )}
             </td>
             <td className={cn("tags-cell")}>

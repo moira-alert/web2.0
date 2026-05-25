@@ -1,6 +1,6 @@
 import { useRef, ReactNode, FC, useEffect, CSSProperties } from "react";
 import { Loader } from "@skbkontur/react-ui/components/Loader";
-import WarningIcon from "@skbkontur/react-icons/Warning";
+import { IconWarningTriangleRegular16 } from "@skbkontur/icons/IconWarningTriangleRegular16";
 import { NewVersionAvailableHint } from "../NewVersionAvailableHint/NewVersionAvailableHint";
 import { SnowfallBackground } from "../SnowFall/SnowFall";
 import { useAppSelector } from "../../store/hooks";
@@ -48,10 +48,9 @@ export const Layout: FC<ILayoutProps> = ({ loading = false, error = null, childr
         <main className={cn("layout")}>
             {error && (
                 <div ref={scrollRef} className={cn("error")}>
-                    <WarningIcon /> {error}
+                    <IconWarningTriangleRegular16 /> {error}
                 </div>
             )}
-
             <Loader className={cn("loader")} active={loading} caption="Loading">
                 {isChristmasMood && <SnowfallBackground topOffset={60} />}
                 {children}

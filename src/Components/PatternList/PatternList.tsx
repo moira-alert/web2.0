@@ -1,9 +1,9 @@
 import type { ReactElement } from "react";
 import { useState, FC } from "react";
-import ArrowBoldDownIcon from "@skbkontur/react-icons/ArrowBoldDown";
-import ArrowBoldUpIcon from "@skbkontur/react-icons/ArrowBoldUp";
+import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
+import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import TrashIcon from "@skbkontur/react-icons/Trash";
 import { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
@@ -36,7 +36,12 @@ export default function PatternList(props: Props): ReactElement {
 
     const { visibleItems, observerTargetRef, visibleCount } = useInfiniteScroll(items, BATCH_SIZE);
 
-    const sortingIcon = direction === "desc" ? <ArrowBoldDownIcon /> : <ArrowBoldUpIcon />;
+    const sortingIcon =
+        direction === "desc" ? (
+            <IconUiFilterSortAHighToLowRegular16 />
+        ) : (
+            <IconUiFilterSortALowToHighRegular16 />
+        );
 
     return (
         <div>
@@ -106,7 +111,7 @@ const PatternListItem: FC<ItemProps> = ({ data, onRemove }) => {
             <div className={cn("trigger-counter")}>{triggers.length}</div>
             <div className={cn("metric-counter")}>{metrics.length}</div>
             <div className={cn("control")}>
-                <Button use="link" icon={<TrashIcon />} onClick={onRemove}>
+                <Button use="link" icon={<IconTrashCanRegular16 />} onClick={onRemove}>
                     Delete
                 </Button>
             </div>

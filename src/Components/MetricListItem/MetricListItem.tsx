@@ -5,7 +5,7 @@ import { format, fromUnixTime } from "date-fns";
 import MetricValues from "../MetricValues/MetricValues";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
-import UserIcon from "@skbkontur/react-icons/User";
+import { IconPeople1Regular16 } from "@skbkontur/icons/IconPeople1Regular16";
 import { humanizeDuration } from "../../helpers/DateUtil";
 import { Metric } from "../../Domain/Metric";
 import { useNavigate } from "react-router";
@@ -124,7 +124,7 @@ export function MetricListItem({
                                 </div>
                             )}
                         >
-                            <UserIcon className={cn("maintenance-info")} />
+                            <IconPeople1Regular16 />
                         </Tooltip>
                     )}
             </div>

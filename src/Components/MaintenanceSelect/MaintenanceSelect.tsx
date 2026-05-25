@@ -1,6 +1,6 @@
 import type { ReactNode, ReactElement } from "react";
 import { useState, useRef } from "react";
-import ArrowTriangleDownIcon from "@skbkontur/react-icons/ArrowTriangleDown";
+import { IconArrowShapeTriangleADownSolid16 } from "@skbkontur/icons/IconArrowShapeTriangleADownSolid16";
 import { RenderLayer } from "@skbkontur/react-ui/internal/RenderLayer";
 import { Popup } from "@skbkontur/react-ui/internal/Popup";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
@@ -53,7 +53,7 @@ export default function MaintenanceSelect({
                     data-tid="TriggerMaintenanceButton"
                     onClick={() => setOpened(true)}
                     use="link"
-                    rightIcon={<ArrowTriangleDownIcon />}
+                    rightIcon={<IconArrowShapeTriangleADownSolid16 />}
                     icon={icon}
                 >
                     {caption}

@@ -11,7 +11,7 @@ import { useModal } from "../../hooks/useModal";
 import { useIsBrowserPrefersDarkTheme } from "../../hooks/themes/useIsBrowserPrefersDarkTheme";
 import { Form, FormRow } from "../TriggerEditForm/Components/Form";
 import { TriggerViewSwitcher } from "../TriggerViewSwitcher/TriggerViewSwitcher";
-import UserSettings from "@skbkontur/react-icons/UserSettings";
+import { IconPeople1GearRegular16 } from "@skbkontur/icons/IconPeople1GearRegular16";
 
 import styles from "./UISettingsModal.module.less";
 
@@ -37,7 +37,7 @@ export const UISettingsModal: FC = () => {
     return (
         <>
             <button className={styles.settingsButton} onClick={toggleModal}>
-                <UserSettings />
+                <IconPeople1GearRegular16 />
                 <span>Settings</span>
             </button>
             {isModalOpen && (

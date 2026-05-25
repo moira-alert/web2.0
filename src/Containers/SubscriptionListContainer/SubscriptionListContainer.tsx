@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import { useMemo, useState } from "react";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import AddIcon from "@skbkontur/react-icons/Add";
+import { IconAttachLinkRegular16 } from "@skbkontur/icons/IconAttachLinkRegular16";
+import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
 import { Subscription } from "../../Domain/Subscription";
 import { Contact } from "../../Domain/Contact";
 import SubscriptionEditModal from "../../Components/SubscriptionEditModal/SubscriptionEditModal";
@@ -28,7 +29,6 @@ import { useEnableSubscriptionsBatch } from "../../hooks/useEnableSubscriptionsB
 import queryString from "query-string";
 import { Link } from "@skbkontur/react-ui";
 import { useParams } from "react-router";
-import LinkIcon from "@skbkontur/react-icons/Link";
 import { Flexbox } from "../../Components/Flexbox/FlexBox";
 import classNames from "classnames/bind";
 
@@ -190,7 +190,11 @@ export const SubscriptionListContainer: FC<Props> = ({ tags, teams, contacts, su
                         <Flexbox direction="row" gap={18} align="baseline">
                             <h2 className={cn("header")}>Subscriptions</h2>{" "}
                             {teamId && (
-                                <Link href={searchUrl} icon={<LinkIcon />} target="_blank">
+                                <Link
+                                    href={searchUrl}
+                                    icon={<IconAttachLinkRegular16 />}
+                                    target="_blank"
+                                >
                                     Team triggers
                                 </Link>
                             )}
@@ -199,7 +203,7 @@ export const SubscriptionListContainer: FC<Props> = ({ tags, teams, contacts, su
                             <Button
                                 width={180}
                                 use="default"
-                                icon={<AddIcon />}
+                                icon={<IconPlusRegular16 />}
                                 onClick={handleAddSubscription}
                             >
                                 Add subscription

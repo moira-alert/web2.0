@@ -4,7 +4,7 @@ import sortBy from "lodash/sortBy";
 import union from "lodash/union";
 import difference from "lodash/difference";
 import { Toggle } from "@skbkontur/react-ui/components/Toggle";
-import ArrowChevronLeftIcon from "@skbkontur/react-icons/ArrowChevronLeft";
+import { IconArrowCLeftRegular16 } from "@skbkontur/icons/IconArrowCLeftRegular16";
 import MobileHeader from "../MobileHeader/MobileHeader";
 import classNames from "classnames/bind";
 
@@ -60,7 +60,7 @@ export default class MobileTagSelectorPage extends Component<Props, State> {
                 <MobileHeader>
                     <MobileHeader.HeaderBlock>
                         <MobileHeader.LeftButton
-                            icon={<ArrowChevronLeftIcon />}
+                            icon={<IconArrowCLeftRegular16 />}
                             onClick={onClose}
                         />
                         <MobileHeader.HeaderInput

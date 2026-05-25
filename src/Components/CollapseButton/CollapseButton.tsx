@@ -1,8 +1,8 @@
 import { ReactElement, ReactNode, useState } from "react";
 import { Button, Spinner } from "@skbkontur/react-ui";
 import AnimateHeight from "react-animate-height";
-import ArrowChevronRightIcon from "@skbkontur/react-icons/ArrowChevronRight";
-import ArrowChevronDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
+import { IconArrowCRightRegular16 } from "@skbkontur/icons/IconArrowCRightRegular16";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
 
 interface CollapseButtonProps {
     title: string;
@@ -24,7 +24,7 @@ export function CollapseButton(props: CollapseButtonProps): ReactElement {
             <Button
                 use={"link"}
                 onClick={handleCollapse}
-                icon={collapsed ? <ArrowChevronRightIcon /> : <ArrowChevronDownIcon />}
+                icon={collapsed ? <IconArrowCRightRegular16 /> : <IconArrowCDownRegular16 />}
             >
                 {props.title}
             </Button>

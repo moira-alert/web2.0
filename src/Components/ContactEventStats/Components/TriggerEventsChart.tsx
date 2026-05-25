@@ -9,7 +9,7 @@ import { createHtmlLegendPlugin } from "./htmlLegendPlugin";
 import { TriggerEventsChartOptions } from "../../../helpers/getChartOptions";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { Link } from "@skbkontur/react-ui/components/Link";
-import LinkIcon from "@skbkontur/react-icons/Link";
+import { IconAttachLinkRegular16 as LinkIcon } from "@skbkontur/icons/IconAttachLinkRegular16";
 
 ChartJS.register(...registerables);
 

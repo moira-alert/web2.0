@@ -1,7 +1,7 @@
 import type { ReactNode, ReactElement } from "react";
 import { saveAs } from "file-saver";
 import { Button } from "@skbkontur/react-ui/components/Button";
-import ExportIcon from "@skbkontur/react-icons/Export";
+import { IconArrowUiShareAExportRegular16 } from "@skbkontur/icons/IconArrowUiShareAExportRegular16";
 import { Subscription } from "../../Domain/Subscription";
 import { Contact } from "../../Domain/Contact";
 import { Trigger } from "../../Domain/Trigger";
@@ -26,7 +26,7 @@ export default function FileExport({
     };
 
     return isButton ? (
-        <Button use="link" onClick={handleExport} icon={<ExportIcon />}>
+        <Button use="link" onClick={handleExport} icon={<IconArrowUiShareAExportRegular16 />}>
             {children || "Export"}
         </Button>
     ) : (

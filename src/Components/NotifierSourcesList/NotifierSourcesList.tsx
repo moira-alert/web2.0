@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { SourcesGroup } from "./Components/SourcesGroup";
-import ArrowChevronUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
-import ArrowChevronDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
+import { IconArrowCDownRegular32 } from "@skbkontur/icons/IconArrowCDownRegular32";
+import { IconArrowCUpRegular32 } from "@skbkontur/icons/IconArrowCUpRegular32";
 import AnimateHeight from "react-animate-height";
 import MoiraServiceStates, { NotifierSourceState } from "../../Domain/MoiraServiceStates";
 import { useSetNotifierSourceStateMutation } from "../../services/NotifierApi";
@@ -60,11 +60,7 @@ export const NotifierSourcesList: FC<INotifierSourcesListProps> = ({
                         gap={12}
                         onClick={toggleExpanded}
                     >
-                        {expanded ? (
-                            <ArrowChevronUpIcon size={32} />
-                        ) : (
-                            <ArrowChevronDownIcon size={32} />
-                        )}
+                        {expanded ? <IconArrowCUpRegular32 /> : <IconArrowCDownRegular32 />}
                         <div className={styles.bar} />
                     </Flexbox>
                     <AnimateHeight height={expanded ? "auto" : 0}>

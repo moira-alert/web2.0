@@ -1,10 +1,11 @@
 import { FC, useState } from "react";
-import TrashIcon from "@skbkontur/react-icons/Trash";
-import EditIcon from "@skbkontur/react-icons/Edit";
+import { IconAttachLinkRegular16 } from "@skbkontur/icons/IconAttachLinkRegular16";
+import { IconToolPencilLineRegular16 } from "@skbkontur/icons/IconToolPencilLineRegular16";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
+import { IconWarningTriangleRegular16 } from "@skbkontur/icons/IconWarningTriangleRegular16";
 import { Button, Kebab } from "@skbkontur/react-ui";
 import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
 import { useFullyDeleteTeam } from "../../../hooks/useFullyDeleteTeam";
-import WarningIcon from "@skbkontur/react-icons/Warning";
 import { fullyDeleteTeamConfirmText } from "../../../helpers/teamOperationsConfirmMessages";
 import ModalError from "../../../Components/ModalError/ModalError";
 import { Users } from "../../../Components/Teams/Users";
@@ -17,7 +18,6 @@ import { Team } from "../../../Domain/Team";
 import { Flexbox } from "../../Flexbox/FlexBox";
 import { useTheme } from "../../../Themes";
 import { Link } from "@skbkontur/react-ui/components/Link";
-import LinkIcon from "@skbkontur/react-icons/Link";
 import classNames from "classnames/bind";
 
 import styles from "./TeamCard.module.less";
@@ -86,22 +86,22 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
                         className={cn("team-card-kebab")}
                         size="large"
                     >
-                        <MenuItem icon={<LinkIcon />}>
+                        <MenuItem icon={<IconAttachLinkRegular16 />}>
                             <Link target="_blank" href={`/?teamID=${team.id}`}>
                                 Team triggers
                             </Link>
                         </MenuItem>
-                        <MenuItem icon={<EditIcon />} onClick={openModal}>
+                        <MenuItem icon={<IconToolPencilLineRegular16 />} onClick={openModal}>
                             Edit
                         </MenuItem>
-                        <MenuItem icon={<TrashIcon />} onClick={onOpenDelete}>
+                        <MenuItem icon={<IconTrashCanRegular16 />} onClick={onOpenDelete}>
                             Delete
                         </MenuItem>
                     </Kebab>
                     {isDeleting ? (
                         <>
                             <Flexbox gap={8} align="center">
-                                <WarningIcon size={40} />
+                                <IconWarningTriangleRegular16 size={40} />
                                 {confirmMessage +
                                     " If you are not a member, add yourself before deleting."}
                                 <ModalError padding={"10px 16px"} margin={0} message={error} />

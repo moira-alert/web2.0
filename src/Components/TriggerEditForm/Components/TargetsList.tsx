@@ -1,6 +1,6 @@
 import { useRef, useEffect, FC } from "react";
-import Trash from "@skbkontur/react-icons/Trash";
-import AddIcon from "@skbkontur/react-icons/Add";
+import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
+import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
 import { Checkbox, Button, Hint } from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import HighlightInput from "../../HighlightInput/HighlightInput";
@@ -132,7 +132,7 @@ export const TargetsList: FC<IProps> = ({
                             {targets.length > 1 && (
                                 <Fit>
                                     <Button
-                                        icon={<Trash />}
+                                        icon={<IconTrashCanRegular16 />}
                                         onClick={() => handleRemoveTarget(i)}
                                         data-tid={`Target remove ${i + 1}`}
                                     ></Button>
@@ -145,7 +145,7 @@ export const TargetsList: FC<IProps> = ({
                     </div>
                 );
             })}
-            <Button use="link" icon={<AddIcon />} onClick={handleAddTarget}>
+            <Button use="link" icon={<IconPlusRegular16 />} onClick={handleAddTarget}>
                 Add one more
             </Button>
         </>

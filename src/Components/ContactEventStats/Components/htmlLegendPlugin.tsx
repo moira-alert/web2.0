@@ -1,7 +1,7 @@
 import type { ReactNode, FC } from "react";
 import { Chart, LegendItem, Plugin } from "chart.js";
-import ArrowUpIcon from "@skbkontur/react-icons/ArrowChevronUp";
-import ArrowDownIcon from "@skbkontur/react-icons/ArrowChevronDown";
+import { IconArrowCUpRegular16 } from "@skbkontur/icons/IconArrowCUpRegular16";
+import { IconArrowCDownRegular16 } from "@skbkontur/icons/IconArrowCDownRegular16";
 import classNames from "classnames/bind";
 import { createRoot } from "react-dom/client";
 import { useTheme } from "../../../Themes";
@@ -80,7 +80,7 @@ const Legend: FC<{
     updateLegendStyles: () => void;
     renderLegendItemAddon?: (label: string) => ReactNode;
 }> = ({ chart, items, updateLegendStyles, renderLegendItemAddon }) => {
-    const IconComponent = isExpanded ? ArrowUpIcon : ArrowDownIcon;
+    const IconComponent = isExpanded ? IconArrowCUpRegular16 : IconArrowCDownRegular16;
 
     const toggleExpand = () => {
         isExpanded = !isExpanded;

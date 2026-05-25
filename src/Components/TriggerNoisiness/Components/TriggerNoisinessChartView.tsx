@@ -8,7 +8,7 @@ import { Bar } from "react-chartjs-2";
 import { TriggerEventsChartOptions } from "../../../helpers/getChartOptions";
 import { Chart as ChartJS, ChartOptions, registerables } from "chart.js";
 import { Link } from "@skbkontur/react-ui/components/Link";
-import LinkIcon from "@skbkontur/react-icons/Link";
+import { IconAttachLinkRegular16 } from "@skbkontur/icons/IconAttachLinkRegular16";
 
 ChartJS.register(...registerables);
 
@@ -30,7 +30,7 @@ export const TriggerNoisinessChartView: FC<{
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
-                icon={<LinkIcon />}
+                icon={<IconAttachLinkRegular16 />}
             />
         ));
     }, [triggers, theme]);

@@ -1,7 +1,7 @@
 import { Fragment, ReactElement, useState } from "react";
 import { Button } from "@skbkontur/react-ui";
-import AddIcon from "@skbkontur/react-icons/Add";
-import DeleteIcon from "@skbkontur/react-icons/Delete";
+import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
+import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
 import { Grid } from "../Grid/Grid";
 import { Confirm } from "./Confirm";
 import { Team } from "../../Domain/Team";
@@ -67,7 +67,7 @@ export function Users({ team }: UsersProps): ReactElement {
                                 <Button
                                     data-tid={`Delete user ${userName}`}
                                     use={"link"}
-                                    icon={<DeleteIcon />}
+                                    icon={<IconXRegular16 />}
                                 />
                             </Confirm>
                             {userName || <span />}
@@ -76,7 +76,7 @@ export function Users({ team }: UsersProps): ReactElement {
 
                     <div />
                     <Button
-                        icon={<AddIcon />}
+                        icon={<IconPlusRegular16 />}
                         use={"link"}
                         width={0}
                         data-tid="Add user"
@@ -88,12 +88,11 @@ export function Users({ team }: UsersProps): ReactElement {
             ) : (
                 <Grid columns={"max-content max-content"} gap="4px" margin="8px 0 0 8px">
                     <div>There are no users:</div>
-                    <Button icon={<AddIcon />} use={"link"} onClick={openModal}>
+                    <Button icon={<IconPlusRegular16 />} use={"link"} onClick={openModal}>
                         Add User
                     </Button>
                 </Grid>
             )}
-
             {isModalOpen && <AddUserToTeam team={team} onClose={closeModal} />}
         </CollapseButton>
     );
