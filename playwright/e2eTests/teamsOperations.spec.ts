@@ -51,6 +51,7 @@ test("Edit team description", async ({ page, teamDescription, teamsPage, teamNam
 
     await page.getByRole("button", { name: "Save" }).click();
     await editTeamromise;
+    await expect(teamsPage.modalDialog).not.toBeVisible();
     await expect(page.getByText(teamDescription + " changed")).toBeVisible();
     await expect(page.getByText(teamName + " changed")).toBeVisible();
 });

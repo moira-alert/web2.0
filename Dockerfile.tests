@@ -1,6 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.40.0-jammy
-# TODO remove after update
-RUN npm install -g n && n 20.19.0 && npm uninstall -g n
+FROM mcr.microsoft.com/playwright:v1.60.0-jammy
 
 WORKDIR /app
 
