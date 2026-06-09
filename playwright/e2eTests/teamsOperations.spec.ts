@@ -26,7 +26,7 @@ test("Add team", async ({ page, teamName, teamDescription, teamsPage }) => {
     await teamsPage.teamDescription.fill(teamDescription);
     await teamsPage.previewButton.click();
     await expect(teamsPage.nameInput("Team name")).toHaveAttribute("value", teamName);
-    await expect(page.getByText(teamDescription)).toBeVisible();
+    await expect(teamsPage.teamDescription).toHaveValue(teamDescription);
 
     const addTeamPromise = page.waitForResponse(/api\/teams/);
     await page.locator("[data-tid='Confirm add team']").click();
@@ -51,8 +51,8 @@ test("Edit team description", async ({ page, teamDescription, teamsPage, teamNam
 
     await page.getByRole("button", { name: "Save" }).click();
     await editTeamromise;
-    await expect(page.getByText(teamDescription + " changed")).toBeVisible();
-    await expect(page.getByText(teamName + " changed")).toBeVisible();
+    await expect(teamsPage.teamDescription).toHaveValue(teamDescription + " changed");
+    await expect(teamsPage.nameInput("Team name")).toHaveValue(teamName + " changed");
 });
 
 test("Add user", async ({ page, teamName, userName, teamsPage }) => {
