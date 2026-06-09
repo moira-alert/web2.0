@@ -12,6 +12,7 @@ export class TeamsPage {
     readonly addUserModalButton: Locator;
     readonly deleteUserButton: (userName: string) => Locator;
     readonly deleteTeamButton: Locator;
+    readonly modalDialog: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -25,6 +26,7 @@ export class TeamsPage {
         this.addUserModalButton = page.locator("[data-tid='Add user modal']");
         this.deleteUserButton = (userName) => page.locator(`[data-tid="Delete user ${userName}"]`);
         this.deleteTeamButton = page.getByRole("button", { name: "Delete" });
+        this.modalDialog = page.getByRole("dialog");
     }
 
     async gotoTeamsPage(): Promise<void> {
