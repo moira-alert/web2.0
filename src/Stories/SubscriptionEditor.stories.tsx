@@ -1,8 +1,8 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import SubscriptionEditor from "../Components/SubscriptionEditor/SubscriptionEditor";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 
 const meta: Meta = {
     title: "SubscriptionEditor",

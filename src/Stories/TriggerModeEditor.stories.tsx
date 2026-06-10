@@ -1,7 +1,7 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { TriggerModeEditor } from "../Components/TriggerModeEditor/TriggerModeEditor";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 
 const meta: Meta = {
     title: "TriggerModeEditor",

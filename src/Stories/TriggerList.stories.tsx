@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import TriggerList from "../Components/TriggerList/TriggerList";
 import data from "./Data/Triggers";
 

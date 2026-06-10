@@ -1,3 +1,4 @@
+import storybook from "eslint-plugin-storybook";
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import reactPlugin from "eslint-plugin-react";
@@ -16,11 +17,8 @@ export default [
             "src/types/htmlLegendPlugin.d.ts",
         ],
     },
-
     js.configs.recommended,
-
     ...tseslint.configs.recommended,
-
     reactPlugin.configs.flat.recommended,
     {
         settings: {
@@ -30,7 +28,6 @@ export default [
             },
         },
     },
-
     {
         rules: {
             "react/react-in-jsx-scope": "off",
@@ -38,7 +35,6 @@ export default [
             "react/require-default-props": "off",
         },
     },
-
     {
         plugins: {
             "react-hooks": reactHooks,
@@ -48,7 +44,6 @@ export default [
             "react-hooks/exhaustive-deps": "off",
         },
     },
-
     {
         languageOptions: {
             parser: tseslint.parser,
@@ -74,7 +69,6 @@ export default [
             ],
         },
     },
-
     prettierConfig,
     {
         plugins: {
@@ -84,7 +78,6 @@ export default [
             "prettier/prettier": "error",
         },
     },
-
     {
         languageOptions: {
             globals: {
@@ -95,4 +88,5 @@ export default [
             },
         },
     },
+    ...storybook.configs["flat/recommended"],
 ];

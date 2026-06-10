@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import MetricList from "../Components/MetricList/MetricList";
 import { MetricItemList } from "../Domain/Metric";
 import { Status } from "../Domain/Status";

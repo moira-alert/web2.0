@@ -1,8 +1,8 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import ContactEditForm from "../Components/ContactEditForm/ContactEditForm";
 import contactConfigs from "./Data/ContactConfigs";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 import { Providers } from "../Providers/Providers";
 import { setConfig, setContactItems } from "../store/Reducers/ConfigReducer.slice";
 import { ContactTypes } from "../Domain/Contact";

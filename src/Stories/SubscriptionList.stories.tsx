@@ -2,7 +2,7 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { SubscriptionListContainer } from "../Containers/SubscriptionListContainer/SubscriptionListContainer";
 import { createSchedule, WholeWeek } from "../Domain/Schedule";
 import actionWithDelay from "./StoryUtils";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 
 const commonProps = {
     onAddSubscription: actionWithDelay("onAddSubscription", 2000),

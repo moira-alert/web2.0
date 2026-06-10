@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import TriggerInfo from "../Components/TriggerInfo/TriggerInfo";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { Trigger, TriggerSource, TriggerState } from "../Domain/Trigger";

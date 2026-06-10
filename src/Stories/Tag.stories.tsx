@@ -1,7 +1,7 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import Tag from "../Components/Tag/Tag";
 import NewTagBadge from "../Components/NewTagBadge/NewTagBadge";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 
 const meta: Meta<typeof Tag> = {
     title: "Tag",

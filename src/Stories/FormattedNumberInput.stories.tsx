@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import FormattedNumberInput from "../Components/FormattedNumberInput/FormattedNumberInput";
 
 export default {
