@@ -29,10 +29,7 @@ export const triggerFormSlice = createSlice({
     },
 });
 
-export const {
-    setIsSaveButtonDisabled,
-    setIsSaveModalVisible,
-    setValidationResult,
-} = triggerFormSlice.actions;
+export const { setIsSaveButtonDisabled, setIsSaveModalVisible, setValidationResult } =
+    triggerFormSlice.actions;
 
 export default triggerFormSlice.reducer;

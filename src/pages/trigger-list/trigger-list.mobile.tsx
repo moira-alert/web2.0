@@ -24,15 +24,8 @@ export default class TriggerListMobile extends Component<TriggerListMobileProps,
     };
 
     public render(): ReactElement {
-        const {
-            selectedTags,
-            allTags,
-            onlyProblems,
-            triggers,
-            activePage,
-            pageCount,
-            onChange,
-        } = this.props;
+        const { selectedTags, allTags, onlyProblems, triggers, activePage, pageCount, onChange } =
+            this.props;
         const { showTagSelector } = this.state;
 
         if (showTagSelector) {

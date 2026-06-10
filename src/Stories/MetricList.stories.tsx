@@ -4,20 +4,21 @@ import { MetricItemList } from "../Domain/Metric";
 import { Status } from "../Domain/Status";
 
 const items: MetricItemList = {
-    "vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace": {
-        event_timestamp: 1503484033,
-        state: Status.NODATA,
-        suppressed: false,
-        values: { T1: 10.453 },
-        timestamp: 1503496225,
-        maintenance: 1555804800,
-        maintenance_info: {
-            setup_user: "Superman",
-            setup_time: 1553158221,
-            remove_user: null,
-            remove_time: null,
+    "vm-ditrace2.nginx.vm-ditrace2.nginx.*.vm-ditrace2.nginx.vm-ditrace3.elasticsearch.vm-ditrace3.ditrace":
+        {
+            event_timestamp: 1503484033,
+            state: Status.NODATA,
+            suppressed: false,
+            values: { T1: 10.453 },
+            timestamp: 1503496225,
+            maintenance: 1555804800,
+            maintenance_info: {
+                setup_user: "Superman",
+                setup_time: 1553158221,
+                remove_user: null,
+                remove_time: null,
+            },
         },
-    },
     "vm-ditrace3.ditrace": {
         event_timestamp: 1503486527,
         state: Status.WARN,

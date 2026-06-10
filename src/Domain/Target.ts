@@ -165,9 +165,10 @@ export const functionLabels = [
     "weightedAverage",
 ];
 
-export function getProblemMessage(
-    node: TriggerTargetProblem
-): { error?: string; warning?: string } {
+export function getProblemMessage(node: TriggerTargetProblem): {
+    error?: string;
+    warning?: string;
+} {
     let error: string | undefined = undefined;
     let warning: string | undefined = undefined;
 

@@ -1,9 +1,10 @@
 import { Notification } from "../Domain/Notification";
 import { Status } from "../Domain/Status";
 
-export function getAllStates(
-    items: Record<string, Notification[]>
-): { allPrevStates: Status[]; allCurrentStates: Status[] } {
+export function getAllStates(items: Record<string, Notification[]>): {
+    allPrevStates: Status[];
+    allCurrentStates: Status[];
+} {
     const prevStates = new Set<Status>();
     const currentStates = new Set<Status>();
 

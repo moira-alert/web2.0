@@ -61,8 +61,9 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
     const mutedMetrics = useMemo(() => withMuted(metrics), [metrics]);
 
     const filterMetricsByStatus = useMemo(
-        () => (status: Status): MetricItemList =>
-            _.pickBy(metrics, (metric) => metric.state === status),
+        () =>
+            (status: Status): MetricItemList =>
+                _.pickBy(metrics, (metric) => metric.state === status),
         [metrics]
     );
 
@@ -111,8 +112,8 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
             triggerStatus && (triggerStatus !== Status.OK || metricStatuses.length === 0)
                 ? [triggerStatus]
                 : notOkStatuses.length !== 0
-                ? notOkStatuses
-                : [Status.OK];
+                  ? notOkStatuses
+                  : [Status.OK];
 
         return (
             <div className={cn("indicator")}>

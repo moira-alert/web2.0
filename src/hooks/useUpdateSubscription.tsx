@@ -15,10 +15,8 @@ export const useUpdateSubscription = (
     setError: (error: string) => void,
     teamId?: string
 ) => {
-    const [
-        updateSubscription,
-        { isLoading: isUpdatingSubscription },
-    ] = useUpdateSubscriptionMutation();
+    const [updateSubscription, { isLoading: isUpdatingSubscription }] =
+        useUpdateSubscriptionMutation();
     const [testSubscription, { isLoading: isTestingSubscription }] = useTestSubscriptionMutation();
     const dispatch = useAppDispatch();
 

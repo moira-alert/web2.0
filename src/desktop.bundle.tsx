@@ -27,8 +27,8 @@ const PatternListContainer = lazy(() => import("./Containers/PatternListContaine
 const TriggerList = lazy(() => import("./pages/trigger-list/trigger-list"));
 const AllTeamsContainer = lazy(() => import("./Containers/AllTeamsContainer/AllTeamsContainer"));
 const TriggerListDesktop = lazy(() => import("./pages/trigger-list/trigger-list.desktop"));
-const SystemSubscriptionsContainer = lazy(() =>
-    import("./Containers/SystemSubscriptionsContainer")
+const SystemSubscriptionsContainer = lazy(
+    () => import("./Containers/SystemSubscriptionsContainer")
 );
 const TeamsContainer = lazy(() => import("./Containers/TeamsContainer"));
 const TriggerDesktop = lazy(() => import("./pages/trigger/trigger.desktop"));

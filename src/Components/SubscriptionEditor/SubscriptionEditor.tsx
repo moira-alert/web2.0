@@ -48,11 +48,10 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
         hasSystemTags ? TagsType.SystemTags : TagsType.Tags
     );
 
-    const currentTags = useMemo(() => (tagsType === TagsType.Tags ? tags : systemTags), [
-        tagsType,
-        tags,
-        systemTags,
-    ]);
+    const currentTags = useMemo(
+        () => (tagsType === TagsType.Tags ? tags : systemTags),
+        [tagsType, tags, systemTags]
+    );
     const { plotting = { enabled: true, theme: "light" } } = subscription;
 
     const isAllTagsToggleVisible: boolean =

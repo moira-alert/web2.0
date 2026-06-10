@@ -41,30 +41,29 @@ const shouldHandleLoadingGlobally = (action: Action) =>
 const shouldHandleErrorGlobally = (action: Action) =>
     hasRequiredMeta(action) && !action.meta!.arg.originalArgs?.handleErrorLocally;
 
-export const rtkQueryErrorAndLoadingHandler: Middleware = (api: MiddlewareAPI) => (next) => (
-    action: unknown
-) => {
-    const typedAction = action as Action;
+export const rtkQueryErrorAndLoadingHandler: Middleware =
+    (api: MiddlewareAPI) => (next) => (action: unknown) => {
+        const typedAction = action as Action;
 
-    const isActionPending = isPending(typedAction);
-    const isActionFulfilledOrRejected =
-        isFulfilled(typedAction) || isRejectedWithValue(typedAction);
-    const isActionRejectedWithError = isRejectedWithValue(typedAction);
+        const isActionPending = isPending(typedAction);
+        const isActionFulfilledOrRejected =
+            isFulfilled(typedAction) || isRejectedWithValue(typedAction);
+        const isActionRejectedWithError = isRejectedWithValue(typedAction);
 
-    if (shouldHandleLoadingGlobally(typedAction)) {
-        if (isActionPending) {
-            updateLoadingState(api, true);
+        if (shouldHandleLoadingGlobally(typedAction)) {
+            if (isActionPending) {
+                updateLoadingState(api, true);
+            }
+
+            if (isActionFulfilledOrRejected) {
+                updateLoadingState(api, false);
+            }
         }
 
-        if (isActionFulfilledOrRejected) {
-            updateLoadingState(api, false);
+        if (shouldHandleErrorGlobally(typedAction) && isActionRejectedWithError) {
+            const errorMessage = typedAction.payload;
+            api.dispatch(setError(errorMessage));
         }
-    }
 
-    if (shouldHandleErrorGlobally(typedAction) && isActionRejectedWithError) {
-        const errorMessage = typedAction.payload;
-        api.dispatch(setError(errorMessage));
-    }
-
-    return next(action);
-};
+        return next(action);
+    };

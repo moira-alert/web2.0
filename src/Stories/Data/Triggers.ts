@@ -202,8 +202,7 @@ const data: TriggerCheck[] = [
         targets: [
             'groupByNode(EDITest.Cassandra.*.*.DownEndpointCount.DownEndpointCount,2,"maxSeries")',
         ],
-        desc:
-            "\u041a\u0430\u0436\u0434\u0430\u044f \u043d\u043e\u0434\u0430 \u0441\u043e\u043e\u0431\u0449\u0430\u0435\u0442, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u043e \u0435\u0435 \u043c\u043d\u0435\u043d\u0438\u044e \u0434\u0440\u0443\u0433\u0438\u0445 \u043d\u043e\u0434 \u0432 \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0435 \u0443\u043f\u0430\u043b\u043e. \u041c\u044b \u0431\u0435\u0440\u0435\u043c \u043c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u0441\u0440\u0435\u0434\u0438 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430 \u0438 \u0441\u043b\u0435\u0434\u0438\u043c, \u0447\u0442\u043e\u0431\u044b \u043e\u043d\u043e \u0431\u044b\u043b\u043e \u043a\u0430\u043a \u043c\u043e\u0436\u043d\u043e \u0431\u043b\u0438\u0436\u0435 \u043a \u043d\u0443\u043b\u044e. \u041f\u043e \u044d\u0442\u043e\u043c\u0443 \u0442\u0440\u0438\u0433\u0433\u0435\u0440\u0443 \u043c\u043e\u0436\u043d\u043e \u043f\u043e\u043d\u044f\u0442\u044c, \u0447\u0442\u043e \u0443\u043f\u0430\u043b\u0430 \u043a\u0430\u043a\u0430\u044f-\u0442\u043e \u043d\u043e\u0434\u0430, \u043d\u043e \u043a\u0430\u043a\u0430\u044f \u0438\u043c\u0435\u043d\u043d\u043e - \u043d\u0435 \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442\u0441\u044f.",
+        desc: "\u041a\u0430\u0436\u0434\u0430\u044f \u043d\u043e\u0434\u0430 \u0441\u043e\u043e\u0431\u0449\u0430\u0435\u0442, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u043e \u0435\u0435 \u043c\u043d\u0435\u043d\u0438\u044e \u0434\u0440\u0443\u0433\u0438\u0445 \u043d\u043e\u0434 \u0432 \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0435 \u0443\u043f\u0430\u043b\u043e. \u041c\u044b \u0431\u0435\u0440\u0435\u043c \u043c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 \u0441\u0440\u0435\u0434\u0438 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430 \u0438 \u0441\u043b\u0435\u0434\u0438\u043c, \u0447\u0442\u043e\u0431\u044b \u043e\u043d\u043e \u0431\u044b\u043b\u043e \u043a\u0430\u043a \u043c\u043e\u0436\u043d\u043e \u0431\u043b\u0438\u0436\u0435 \u043a \u043d\u0443\u043b\u044e. \u041f\u043e \u044d\u0442\u043e\u043c\u0443 \u0442\u0440\u0438\u0433\u0433\u0435\u0440\u0443 \u043c\u043e\u0436\u043d\u043e \u043f\u043e\u043d\u044f\u0442\u044c, \u0447\u0442\u043e \u0443\u043f\u0430\u043b\u0430 \u043a\u0430\u043a\u0430\u044f-\u0442\u043e \u043d\u043e\u0434\u0430, \u043d\u043e \u043a\u0430\u043a\u0430\u044f \u0438\u043c\u0435\u043d\u043d\u043e - \u043d\u0435 \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442\u0441\u044f.",
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
@@ -248,42 +247,45 @@ const data: TriggerCheck[] = [
             },
             last_successful_check_timestamp: 1757423575,
             metrics: {
-                "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el2.jvm.gc.collection.time)": {
-                    timestamp: 1500531627,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500472887,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el2.jvm.gc.collection.time)":
+                    {
+                        timestamp: 1500531627,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500472887,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el1.jvm.gc.collection.time)": {
-                    timestamp: 1500531627,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500472887,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el1.jvm.gc.collection.time)":
+                    {
+                        timestamp: 1500531627,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500472887,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el3.jvm.gc.collection.time)": {
-                    timestamp: 1500531627,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500472887,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el3.jvm.gc.collection.time)":
+                    {
+                        timestamp: 1500531627,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500472887,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
             },
             timestamp: 1500532289,
             state: Status.OK,
@@ -339,133 +341,143 @@ const data: TriggerCheck[] = [
             metrics_to_target_relation: {},
             last_successful_check_timestamp: 1757423575,
             metrics: {
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1467708699,
-                    state: Status.NODATA,
-                    event_timestamp: 1467708699,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1467708699,
+                        state: Status.NODATA,
+                        event_timestamp: 1467708699,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
+                        suppressed: false,
                     },
-                    suppressed: false,
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1500532210,
-                    state: Status.OK,
-                    suppressed: false,
-                    event_timestamp: 1499605699,
-                    values: { t1: 0.0 },
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1500532210,
+                        state: Status.OK,
+                        suppressed: false,
+                        event_timestamp: 1499605699,
+                        values: { t1: 0.0 },
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1468306341,
-                    state: Status.OK,
-                    suppressed: false,
-                    event_timestamp: 1467984257,
-                    values: { t1: 0.0 },
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1468306341,
+                        state: Status.OK,
+                        suppressed: false,
+                        event_timestamp: 1467984257,
+                        values: { t1: 0.0 },
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1467984774,
-                    state: Status.OK,
-                    suppressed: false,
-                    event_timestamp: 1467944898,
-                    values: { t1: 0.0 },
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1467984774,
+                        state: Status.OK,
+                        suppressed: false,
+                        event_timestamp: 1467944898,
+                        values: { t1: 0.0 },
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1467780794,
-                    state: Status.OK,
-                    suppressed: false,
-                    event_timestamp: 1467709372,
-                    values: { t1: 0.0 },
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1467780794,
+                        state: Status.OK,
+                        suppressed: false,
+                        event_timestamp: 1467709372,
+                        values: { t1: 0.0 },
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1467708687,
-                    state: Status.NODATA,
-                    event_timestamp: 1467708687,
-                    suppressed: false,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1467708687,
+                        state: Status.NODATA,
+                        event_timestamp: 1467708687,
+                        suppressed: false,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1467780840,
-                    state: Status.OK,
-                    suppressed: false,
-                    event_timestamp: 1467780300,
-                    values: { t1: 0.0 },
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1467780840,
+                        state: Status.OK,
+                        suppressed: false,
+                        event_timestamp: 1467780300,
+                        values: { t1: 0.0 },
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1470111187,
-                    state: Status.OK,
-                    suppressed: false,
-                    values: { t1: 0.0 },
-                    event_timestamp: 1468373062,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.404.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1470111187,
+                        state: Status.OK,
+                        suppressed: false,
+                        values: { t1: 0.0 },
+                        event_timestamp: 1468373062,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))": {
-                    timestamp: 1468339043,
-                    state: Status.OK,
-                    suppressed: false,
-                    event_timestamp: 1468305892,
-                    values: { t1: 0.0 },
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.401.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.405.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API1_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.400.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API2_10090_highlander.AfterThrottling.anyAction.status.status.415.Count-Requests),derivative(KE.Highlander-webapi.VM-HIGH-API3_10090_highlander.AfterThrottling.anyAction.status.status.409.Count-Requests))":
+                    {
+                        timestamp: 1468339043,
+                        state: Status.OK,
+                        suppressed: false,
+                        event_timestamp: 1468305892,
+                        values: { t1: 0.0 },
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "sumSeries(derivative(KE.Highlander-webapi.*.AfterThrottling.anyAction.status.status.4*.Count-Requests))": {
-                    timestamp: 1467705087,
-                    state: Status.NODATA,
-                    event_timestamp: 1467705087,
-                    suppressed: false,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "sumSeries(derivative(KE.Highlander-webapi.*.AfterThrottling.anyAction.status.status.4*.Count-Requests))":
+                    {
+                        timestamp: 1467705087,
+                        state: Status.NODATA,
+                        event_timestamp: 1467705087,
+                        suppressed: false,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
             },
             timestamp: 1500532271,
             state: Status.OK,
@@ -521,42 +533,45 @@ const data: TriggerCheck[] = [
             metrics_to_target_relation: {},
             last_successful_check_timestamp: 1757423575,
             metrics: {
-                "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el1.indices._all.search.query_time_in_millis),1)": {
-                    timestamp: 1500531687,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500472830,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el1.indices._all.search.query_time_in_millis),1)":
+                    {
+                        timestamp: 1500531687,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500472830,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el2.indices._all.search.query_time_in_millis),1)": {
-                    timestamp: 1500531687,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500472830,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el2.indices._all.search.query_time_in_millis),1)":
+                    {
+                        timestamp: 1500531687,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500472830,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el3.indices._all.search.query_time_in_millis),1)": {
-                    timestamp: 1500531687,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500472830,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "scaleToSeconds(nonNegativeDerivative(Billy.elasticsearch.vm-sps-nix.metrics.billy-el3.indices._all.search.query_time_in_millis),1)":
+                    {
+                        timestamp: 1500531687,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500472830,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
             },
             timestamp: 1500532289,
             state: Status.OK,
@@ -4917,8 +4932,7 @@ const data: TriggerCheck[] = [
         },
         expression: "",
         id: "ec8b5099-35a4-45fb-9084-c471c21adf2e",
-        desc:
-            "\u0412\u0440\u0435\u043c\u044f \u0441 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0433\u043e \u0434\u0438\u0444\u0444 \u0431\u044d\u043a\u0430\u043f\u0430 \u0432 \u0447\u0430\u0441\u0430\u0445. \u043d\u0435 \u0434\u0435\u043b\u0430\u044e\u0442\u0441\u044f \u0441 \u043f\u044f\u0442\u043d\u0438\u0446\u044b \u043d\u0430 \u0441\u0443\u0431\u0431\u043e\u0442\u0443, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0432 \u0441\u0443\u0431\u0431\u043e\u0442\u0443 \u0432\u0440\u0435\u043c\u044f \u0432\u0441\u0435\u0433\u0434\u0430 \u0431\u0443\u0434\u0435\u0442 \u0431\u043e\u043b\u0435\u0435 36 \u0447\u0430\u0441\u043e\u0432 \u0438 \u0431\u0443\u0434\u0435\u0442 \u0432\u0430\u0440\u043d\u0438\u043d\u0433.",
+        desc: "\u0412\u0440\u0435\u043c\u044f \u0441 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0433\u043e \u0434\u0438\u0444\u0444 \u0431\u044d\u043a\u0430\u043f\u0430 \u0432 \u0447\u0430\u0441\u0430\u0445. \u043d\u0435 \u0434\u0435\u043b\u0430\u044e\u0442\u0441\u044f \u0441 \u043f\u044f\u0442\u043d\u0438\u0446\u044b \u043d\u0430 \u0441\u0443\u0431\u0431\u043e\u0442\u0443, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0432 \u0441\u0443\u0431\u0431\u043e\u0442\u0443 \u0432\u0440\u0435\u043c\u044f \u0432\u0441\u0435\u0433\u0434\u0430 \u0431\u0443\u0434\u0435\u0442 \u0431\u043e\u043b\u0435\u0435 36 \u0447\u0430\u0441\u043e\u0432 \u0438 \u0431\u0443\u0434\u0435\u0442 \u0432\u0430\u0440\u043d\u0438\u043d\u0433.",
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,
@@ -4973,30 +4987,32 @@ const data: TriggerCheck[] = [
             metrics_to_target_relation: {},
             last_successful_check_timestamp: 1757423575,
             metrics: {
-                "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection.currentbandwidth": {
-                    timestamp: 1476261624,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500153062,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection.currentbandwidth":
+                    {
+                        timestamp: 1476261624,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500153062,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection2.currentbandwidth": {
-                    timestamp: 1476261624,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500153062,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                "EDI_Orvis.system.icat25.networkadapter.intelri350gigabitnetworkconnection2.currentbandwidth":
+                    {
+                        timestamp: 1476261624,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500153062,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
             },
             timestamp: 1500532319,
             state: Status.OK,
@@ -5049,30 +5065,32 @@ const data: TriggerCheck[] = [
             metrics_to_target_relation: {},
             last_successful_check_timestamp: 1757423575,
             metrics: {
-                'movingAverage(KLADR.nginx.kladr_kontur_ru.upstream_response_time.total.p95,"10min")': {
-                    timestamp: 1500531569,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500463290,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                'movingAverage(KLADR.nginx.kladr_kontur_ru.upstream_response_time.total.p95,"10min")':
+                    {
+                        timestamp: 1500531569,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500463290,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
-                'movingAverage(KLADR.nginx.fkopf1_skbkontur_ru.upstream_response_time.total.p95,"10min")': {
-                    timestamp: 1500531569,
-                    state: Status.NODATA,
-                    suppressed: false,
-                    event_timestamp: 1500474268,
-                    maintenance_info: {
-                        setup_user: null,
-                        setup_time: null,
-                        remove_user: null,
-                        remove_time: null,
+                'movingAverage(KLADR.nginx.fkopf1_skbkontur_ru.upstream_response_time.total.p95,"10min")':
+                    {
+                        timestamp: 1500531569,
+                        state: Status.NODATA,
+                        suppressed: false,
+                        event_timestamp: 1500474268,
+                        maintenance_info: {
+                            setup_user: null,
+                            setup_time: null,
+                            remove_user: null,
+                            remove_time: null,
+                        },
                     },
-                },
             },
             timestamp: 1500532288,
             state: Status.OK,
@@ -5997,8 +6015,7 @@ const data: TriggerCheck[] = [
         },
         expression: "OK",
         id: "6e620e2a-481e-4e45-8619-fdf4643e65ff",
-        desc:
-            "\u041e\u0431\u044b\u0447\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 GC \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 maxSeries \u043e\u0442 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430, \u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u2014 \u043d\u0435 \u0432\u0438\u0434\u0438\u0442, \u043a\u043e\u0433\u0434\u0430 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u0443\u0445\u043e\u0434\u044f\u0442 \u0432 NODATA. \u042d\u0442\u043e\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 \u0442\u043e\u043b\u044c\u043a\u043e NODATA, \u043d\u043e \u043f\u043e \u043a\u0430\u0436\u0434\u043e\u0439 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0439 \u043c\u0435\u0442\u0440\u0438\u043a\u0435 GC. \u0415\u0441\u043b\u0438 \u0442\u0443\u0442 \u0447\u0442\u043e-\u0442\u043e \u0443\u043f\u0430\u043b\u043e - \u0432\u0435\u0440\u043e\u044f\u0442\u043d\u043e, \u0434\u0435\u043b\u043e \u0432 logstash \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 \u0441 \u041a\u0430\u0441\u0441\u0430\u043d\u0434\u0440\u043e\u0439.",
+        desc: "\u041e\u0431\u044b\u0447\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 GC \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 maxSeries \u043e\u0442 \u0432\u0441\u0435\u0445 \u043d\u043e\u0434 \u043e\u0434\u043d\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0442\u0435\u0440\u0430, \u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u2014 \u043d\u0435 \u0432\u0438\u0434\u0438\u0442, \u043a\u043e\u0433\u0434\u0430 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438 \u0443\u0445\u043e\u0434\u044f\u0442 \u0432 NODATA. \u042d\u0442\u043e\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0442\u0440\u0438\u0433\u0433\u0435\u0440 \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u0442 \u0442\u043e\u043b\u044c\u043a\u043e NODATA, \u043d\u043e \u043f\u043e \u043a\u0430\u0436\u0434\u043e\u0439 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0439 \u043c\u0435\u0442\u0440\u0438\u043a\u0435 GC. \u0415\u0441\u043b\u0438 \u0442\u0443\u0442 \u0447\u0442\u043e-\u0442\u043e \u0443\u043f\u0430\u043b\u043e - \u0432\u0435\u0440\u043e\u044f\u0442\u043d\u043e, \u0434\u0435\u043b\u043e \u0432 logstash \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 \u0441 \u041a\u0430\u0441\u0441\u0430\u043d\u0434\u0440\u043e\u0439.",
     },
     {
         trigger_source: TriggerSource.GRAPHITE_LOCAL,

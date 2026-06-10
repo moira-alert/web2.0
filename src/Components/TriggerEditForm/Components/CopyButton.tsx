@@ -29,9 +29,11 @@ const copy = async (text: string) => {
 
         const isSuccessful = document.execCommand("copy");
 
-        isSuccessful
-            ? pushSuccessfulMessage()
-            : Toast.push("Failed to copy text, try to launch the app under https");
+        if (isSuccessful) {
+            pushSuccessfulMessage();
+        } else {
+            Toast.push("Failed to copy text, try to launch the app under https");
+        }
 
         document.body.removeChild(textarea);
     }

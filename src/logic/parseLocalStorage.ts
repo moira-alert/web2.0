@@ -29,7 +29,7 @@ function parseLocalStorage(localData: string): MoiraUrlParams {
             result.onlyProblems = onlyProblems === "false" ? false : Boolean(onlyProblems);
         }
         return result;
-    } catch (error) {
+    } catch {
         return { ...DEFAULT_MOIRA_URL_PARAMS };
     }
 }

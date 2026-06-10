@@ -13,14 +13,10 @@ export const useCreateContact = (
     setError: (error: string) => void,
     teamId?: string
 ) => {
-    const [
-        createUserContact,
-        { isLoading: isUserContactCreating },
-    ] = useCreateUserContactMutation();
-    const [
-        createTeamContact,
-        { isLoading: isTeamContactCreating },
-    ] = useCreateTeamContactMutation();
+    const [createUserContact, { isLoading: isUserContactCreating }] =
+        useCreateUserContactMutation();
+    const [createTeamContact, { isLoading: isTeamContactCreating }] =
+        useCreateTeamContactMutation();
     const [testContact, { isLoading: isTesting }] = useTestContactMutation();
     const dispatch = useAppDispatch();
 

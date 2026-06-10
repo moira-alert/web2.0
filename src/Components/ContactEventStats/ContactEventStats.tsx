@@ -48,19 +48,14 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contact, onClos
     const { error } = useAppSelector(UIState);
     const validationContainerRef = useRef<ValidationContainer>(null);
 
-    const {
-        fetchEvents,
-        allContactEvents,
-        isLoading,
-        isFetching,
-        contactEventsList,
-    } = useFetchContactsEvents({
-        selectedContacts,
-        fromTime,
-        untilTime,
-        page,
-        isMultiSelect,
-    });
+    const { fetchEvents, allContactEvents, isLoading, isFetching, contactEventsList } =
+        useFetchContactsEvents({
+            selectedContacts,
+            fromTime,
+            untilTime,
+            page,
+            isMultiSelect,
+        });
 
     const pageCount = Math.ceil((contactEventsList?.total ?? 0) / (contactEventsList?.size ?? 1));
 

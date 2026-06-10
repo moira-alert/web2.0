@@ -51,9 +51,10 @@ export const TriggerEventsChart: FC<ITriggerEventsBarChartProps> = ({ events }) 
         />
     );
 
-    const htmlLegendPlugin = useMemo(() => createHtmlLegendPlugin(renderLegendItemAddon), [
-        renderLegendItemAddon,
-    ]);
+    const htmlLegendPlugin = useMemo(
+        () => createHtmlLegendPlugin(renderLegendItemAddon),
+        [renderLegendItemAddon]
+    );
 
     return (
         <Flexbox gap={10}>

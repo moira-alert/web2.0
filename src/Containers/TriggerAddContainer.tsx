@@ -75,9 +75,11 @@ const TriggerAddContainer = () => {
         }
 
         // Backend validation looks for errors in relation to the current version of Carbon, but for the remote target, the expression should be checked in relation to the remote source.
-        trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
-            ? validateTarget(trigger)
-            : saveTrigger(trigger);
+        if (trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL) {
+            validateTarget(trigger);
+        } else {
+            saveTrigger(trigger);
+        }
     };
 
     const handleChange = (update: Partial<Trigger>) => {

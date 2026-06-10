@@ -50,9 +50,7 @@ const ContactEditForm: FC<IContactEditFormProps> = ({ contactInfo, onChange }) =
                 value={type}
                 renderItem={renderItem}
                 renderValue={renderItem}
-                onValueChange={(v) => {
-                    v && onChange({ type: v as ContactTypes });
-                }}
+                onValueChange={(v) => v && onChange({ type: v as ContactTypes })}
                 items={contactItems}
                 data-tid="Select channel type"
             />

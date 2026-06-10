@@ -11,17 +11,12 @@ export const useFullyDeleteTeam = (teamId: string, skip?: boolean) => {
         { skip }
     );
 
-    const [
-        deleteSubscription,
-        { isLoading: isDeletingSubscriptions },
-    ] = useDeleteSubscriptionMutation();
+    const [deleteSubscription, { isLoading: isDeletingSubscriptions }] =
+        useDeleteSubscriptionMutation();
     const [deleteContact, { isLoading: isDeletingContacts }] = useDeleteContactMutation();
     const [deleteTeam, { isLoading: isDeletingTeam }] = useDeleteTeamMutation();
-    const {
-        isGettingTeamUsers,
-        isDeletingUsers,
-        deleteAllUsersFromTeam,
-    } = useDeleteAllUsersFromTeam(teamId, skip);
+    const { isGettingTeamUsers, isDeletingUsers, deleteAllUsersFromTeam } =
+        useDeleteAllUsersFromTeam(teamId, skip);
 
     const deleteSubscriptions = async (subscriptions: Subscription[]) => {
         await Promise.all(

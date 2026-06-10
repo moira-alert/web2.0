@@ -27,17 +27,14 @@ const SubscriptionEditModal: FC<Props> = ({ subscription, tags, contacts, onCanc
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription>(subscription);
     const [error, setError] = useState<string | null>(null);
     const { teamId } = useParams<{ teamId: string }>();
-    const {
-        handleUpdateSubscription,
-        isUpdatingSubscription,
-        isTestingSubscription,
-    } = useUpdateSubscription(
-        validationContainerRef,
-        subscriptionToEdit,
-        onCancel,
-        setError,
-        teamId
-    );
+    const { handleUpdateSubscription, isUpdatingSubscription, isTestingSubscription } =
+        useUpdateSubscription(
+            validationContainerRef,
+            subscriptionToEdit,
+            onCancel,
+            setError,
+            teamId
+        );
     const { handleDeleteSubscription, isDeletingSubscription } = useDeleteSubscription(
         subscriptionToEdit,
         onCancel,

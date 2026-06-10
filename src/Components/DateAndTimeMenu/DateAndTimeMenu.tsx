@@ -45,7 +45,9 @@ export const DateAndTimeMenu: FC<IDateAndTimeMenuProps> = ({
     };
 
     useEffect(() => {
-        date && setInputValue(format(date, "yyyy/MM/dd HH:mm:ss"));
+        if (date) {
+            setInputValue(format(date, "yyyy/MM/dd HH:mm:ss"));
+        }
     }, [date]);
 
     return (

@@ -46,9 +46,11 @@ const TriggerEditContainer = () => {
             return;
         }
 
-        trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL
-            ? validateTarget(trigger)
-            : saveTrigger(trigger);
+        if (trigger?.trigger_source === TriggerSource.GRAPHITE_LOCAL) {
+            validateTarget(trigger);
+        } else {
+            saveTrigger(trigger);
+        }
     };
 
     const handleChange = (update: Partial<Trigger>) => {

@@ -27,9 +27,5 @@ export const TagsApi = BaseApi.injectEndpoints({
     }),
 });
 
-export const {
-    useGetTagsQuery,
-    useGetSystemTagsQuery,
-    useGetTagStatsQuery,
-    useDeleteTagMutation,
-} = TagsApi;
+export const { useGetTagsQuery, useGetSystemTagsQuery, useGetTagStatsQuery, useDeleteTagMutation } =
+    TagsApi;

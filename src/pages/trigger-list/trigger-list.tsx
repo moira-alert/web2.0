@@ -60,9 +60,34 @@ const changeLocationSearch = (
     update: TriggerListUpdate
 ) => {
     const settings = { ...locationSearch, ...update };
+    localStorage.setItem("moiraSettings", JSON.stringify({ ...settings, searchText: "" }));
     navigate(`?${qs.stringify(settings, { arrayFormat: "indices", encode: true })}`, {
         replace: true,
     });
+};
+
+const loadLocalSettingsAndRedirectIfNeed = (
+    navigate: ReturnType<typeof useNavigate>,
+    locationSearch: MoiraUrlParams,
+    tags: Array<string>,
+    onlyProblems: boolean
+) => {
+    const localDataString = localStorage.getItem("moiraSettings");
+    const { tags: localTags, onlyProblems: localOnlyProblems }: TriggerListUpdate =
+        typeof localDataString === "string" ? JSON.parse(localDataString) : {};
+
+    const searchToUpdate: TriggerListUpdate = {};
+    const isTagParamEnabled = tags.length === 0 && localTags?.length;
+    const isOnlyProblemsParamEnabled = !onlyProblems && localOnlyProblems;
+
+    if (isTagParamEnabled) searchToUpdate.tags = localTags;
+    if (isOnlyProblemsParamEnabled) searchToUpdate.onlyProblems = localOnlyProblems;
+
+    if (isTagParamEnabled || isOnlyProblemsParamEnabled) {
+        changeLocationSearch(navigate, locationSearch, searchToUpdate);
+        return true;
+    }
+    return false;
 };
 
 const checkPageAndRedirectIfNeeded = (
@@ -107,7 +132,14 @@ const TriggerListPage: FC<TriggerListProps> = ({ view: TriggerListView }) => {
     useEffect(() => {
         setDocumentTitle("Triggers");
 
-        if (!triggerList) return;
+        const redirected = loadLocalSettingsAndRedirectIfNeed(
+            navigate,
+            locationSearch,
+            locationSearch.tags,
+            locationSearch.onlyProblems
+        );
+
+        if (redirected || !triggerList) return;
 
         if (checkPageAndRedirectIfNeeded(triggerList, locationSearch.page, handleChange)) return;
 

@@ -45,7 +45,11 @@ export const EventListTab: FC<IEventListTabProps> = ({ triggerName }) => {
         setSearchMetric(value);
     };
 
-    const { data: events, isLoading, isFetching } = useGetTriggerEventsQuery(
+    const {
+        data: events,
+        isLoading,
+        isFetching,
+    } = useGetTriggerEventsQuery(
         {
             triggerId: triggerId,
             page: transformPageFromHumanToProgrammer(page),
