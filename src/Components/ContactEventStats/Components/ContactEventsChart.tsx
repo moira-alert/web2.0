@@ -23,10 +23,10 @@ interface IContactEventsBarChartProps {
 export const ContactEventsChart: FC<IContactEventsBarChartProps> = ({ events }) => {
     const [interval, setInterval] = useState<EContactEventsInterval>(EContactEventsInterval.hour);
 
-    const groupedTransitions = useMemo(() => groupEventsByInterval(events, interval), [
-        events,
-        interval,
-    ]);
+    const groupedTransitions = useMemo(
+        () => groupEventsByInterval(events, interval),
+        [events, interval]
+    );
 
     const labels = useMemo(() => Object.keys(groupedTransitions), [events, interval]);
 

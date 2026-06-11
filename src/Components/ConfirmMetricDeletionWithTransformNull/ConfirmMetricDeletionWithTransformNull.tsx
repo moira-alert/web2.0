@@ -18,10 +18,9 @@ const ConfirmMetricDeletionWithTransformNullText = (
     </span>
 );
 
-export const ConfirmMetricDeletionWithTransformNull: FC<IConfirmMetricDeletionWithTransformNull> = ({
-    action,
-    deleteButtonText,
-}) => {
+export const ConfirmMetricDeletionWithTransformNull: FC<
+    IConfirmMetricDeletionWithTransformNull
+> = ({ action, deleteButtonText }) => {
     const { isTransformNullApplied } = useAppSelector(UIState);
 
     return (

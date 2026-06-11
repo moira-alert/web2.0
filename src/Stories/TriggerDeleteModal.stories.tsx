@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { action } from "@storybook/addon-actions";
-import { Meta } from "@storybook/react";
+import { action } from "storybook/actions";
+import { Meta } from "@storybook/react-vite";
 import { ConfirmModalHeaderData } from "../Domain/Global";
 import useConfirmModal, { ConfirmModal } from "../hooks/useConfirmModal";
 

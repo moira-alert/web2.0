@@ -60,7 +60,7 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                         <ContactEditForm
                             contactInfo={contact}
                             onChange={(update) => {
-                                setContact((prev) => ({ ...prev, ...update } as Contact));
+                                setContact((prev) => ({ ...prev, ...update }) as Contact);
                             }}
                         />
                     </ValidationContainer>

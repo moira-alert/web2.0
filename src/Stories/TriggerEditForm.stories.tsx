@@ -1,10 +1,10 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import TriggerEditForm from "../Components/TriggerEditForm/TriggerEditForm";
 import { Status } from "../Domain/Status";
 import { Trigger, TriggerSource } from "../Domain/Trigger";
 import { DaysOfWeek } from "../Domain/Schedule";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 
 const meta: Meta = {
     title: "TriggerEditForm",

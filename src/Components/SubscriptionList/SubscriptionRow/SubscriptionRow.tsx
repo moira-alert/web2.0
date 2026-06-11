@@ -34,11 +34,8 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
     onEditSubscription,
     showOwnerColumn,
 }) => {
-    const {
-        isTransferringSubscriptions,
-        managingSubscriptions,
-        isEnablingSubscriptions,
-    } = useAppSelector(UIState);
+    const { isTransferringSubscriptions, managingSubscriptions, isEnablingSubscriptions } =
+        useAppSelector(UIState);
     const dispatch = useAppDispatch();
     const [isExpanded, setIsExpanded] = useState(false);
     const { hasSystemTags } = useHasSystemTags(subscription.tags);
@@ -47,10 +44,9 @@ export const SubscriptionRow: React.FC<SubscriptionRowProps> = ({
         setIsExpanded(!isExpanded);
     };
 
-    const getSubscriptionContacts = filterSubscriptionContacts(
-        contacts,
-        subscription
-    ).map((x: Contact) => <ContactInfo className={cn("contact")} key={x.id} contact={x} />);
+    const getSubscriptionContacts = filterSubscriptionContacts(contacts, subscription).map(
+        (x: Contact) => <ContactInfo className={cn("contact")} key={x.id} contact={x} />
+    );
 
     const areAnyDisruptedSubs = getSubscriptionContacts.length === 0;
 

@@ -3,13 +3,9 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import flattenDeep from "lodash/flattenDeep";
 import uniq from "lodash/uniq";
-import qs from "qs";
-import { TriggerList } from "../../Domain/Trigger";
-import { MoiraUrlParams } from "../../Domain/MoiraUrlParams";
 import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
 import { TriggerListMobileProps } from "./trigger-list.mobile";
 import { TriggerListDesktopProps } from "./trigger-list.desktop";
-import { clearInput } from "../../helpers/common";
 import { setDocumentTitle } from "../../helpers/setDocumentTitle";
 import { useAppSelector } from "../../store/hooks";
 import { UIState } from "../../store/selectors";
@@ -20,6 +16,12 @@ import {
     useGetTriggerListQuery,
     useSetMetricsMaintenanceMutation,
 } from "../../services/TriggerApi";
+import {
+    changeLocationSearch,
+    redirectIfPageOutOfRange,
+    shouldSyncSearchParamsWithStorage,
+    parseLocationSearch,
+} from "./trigger-list.helpers";
 
 export type TriggerListUpdate = {
     tags?: string[];
@@ -35,48 +37,6 @@ export type TriggerListProps =
     | {
           view: ComponentType<TriggerListMobileProps>;
       };
-
-const parseLocationSearch = (search: string): MoiraUrlParams => {
-    const START_PAGE = 1;
-    const { page, tags, onlyProblems, searchText, teamID } = qs.parse(search, {
-        ignoreQueryPrefix: true,
-    });
-
-    return {
-        page:
-            Number.isNaN(Number(page)) || typeof page !== "string"
-                ? START_PAGE
-                : Math.abs(parseInt(page, 10)),
-        tags: Array.isArray(tags) ? tags.map((value) => value.toString()) : [],
-        onlyProblems: onlyProblems === "false" ? false : Boolean(onlyProblems),
-        searchText: clearInput(typeof searchText === "string" ? searchText : ""),
-        teamID: teamID?.toString(),
-    };
-};
-
-const changeLocationSearch = (
-    navigate: ReturnType<typeof useNavigate>,
-    locationSearch: MoiraUrlParams,
-    update: TriggerListUpdate
-) => {
-    const settings = { ...locationSearch, ...update };
-    navigate(`?${qs.stringify(settings, { arrayFormat: "indices", encode: true })}`, {
-        replace: true,
-    });
-};
-
-const checkPageAndRedirectIfNeeded = (
-    triggerList: TriggerList,
-    page: number,
-    onChange: (update: TriggerListUpdate) => void
-) => {
-    const pages = Math.ceil((triggerList?.total ?? 0) / (triggerList?.size ?? 1));
-    if (page > pages && triggerList.total !== 0) {
-        onChange({ page: pages || 1 });
-        return true;
-    }
-    return false;
-};
 
 const TriggerListPage: FC<TriggerListProps> = ({ view: TriggerListView }) => {
     const location = useLocation();
@@ -107,9 +67,16 @@ const TriggerListPage: FC<TriggerListProps> = ({ view: TriggerListView }) => {
     useEffect(() => {
         setDocumentTitle("Triggers");
 
-        if (!triggerList) return;
+        const redirected = shouldSyncSearchParamsWithStorage(
+            navigate,
+            locationSearch,
+            locationSearch.tags,
+            locationSearch.onlyProblems
+        );
 
-        if (checkPageAndRedirectIfNeeded(triggerList, locationSearch.page, handleChange)) return;
+        if (redirected || !triggerList) return;
+
+        if (redirectIfPageOutOfRange(triggerList, locationSearch.page, handleChange)) return;
 
         setActivePage(locationSearch.page);
         setPageCount(Math.ceil((triggerList?.total ?? 0) / (triggerList?.size ?? 1)));

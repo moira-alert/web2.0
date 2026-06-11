@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import PatternList from "../Components/PatternList/PatternList";
 import { Pattern } from "../Domain/Pattern";
 import { DaysOfWeek } from "../Domain/Schedule";

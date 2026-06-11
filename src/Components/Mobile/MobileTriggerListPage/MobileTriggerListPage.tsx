@@ -25,15 +25,8 @@ type MobileTriggerListPageProps = {
 };
 
 export default function MobileTriggerListPage(props: MobileTriggerListPageProps): ReactElement {
-    const {
-        loading,
-        triggers,
-        selectedTags,
-        activePage,
-        pageCount,
-        onChange,
-        onOpenTagSelector,
-    } = props;
+    const { loading, triggers, selectedTags, activePage, pageCount, onChange, onOpenTagSelector } =
+        props;
 
     const navigate = useNavigate();
 

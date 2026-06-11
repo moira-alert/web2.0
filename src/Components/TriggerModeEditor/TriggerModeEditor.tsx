@@ -71,7 +71,7 @@ export const TriggerModeEditor: FC<IProps> = ({
         watchForField === `${watchForType}` ? values : { warn_value: null, error_value: null };
 
     useEffect(() => {
-        disableSimpleMode && setMode("advanced");
+        if (disableSimpleMode) setMode("advanced");
     });
 
     return (

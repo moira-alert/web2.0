@@ -4,7 +4,7 @@ import { UIState } from "../store/selectors";
 
 export const useMainPageTriggerView = (): [
     EMainPageTriggerView,
-    (value: EMainPageTriggerView) => void
+    (value: EMainPageTriggerView) => void,
 ] => {
     const { mainPageTriggerView } = useAppSelector(UIState);
     const dispatch = useAppDispatch();

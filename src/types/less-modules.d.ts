@@ -1,5 +1,4 @@
 declare module "*.less" {
-    type CssModules = classNames | ((name: string) => string);
-    declare const less = CssModules;
+    declare const less: classNames | ((name: string) => string);
     export default less;
 }

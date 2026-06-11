@@ -12,16 +12,10 @@ interface IGroupProps {
 }
 
 export const SourcesGroup: FC<IGroupProps> = ({ title, sources, onToggle, onDisableConfirm }) => {
-    const handleValueChange = (
-        value: boolean,
-        trigger_source: string,
-        cluster_id: string
-    ): void => {
+    const handleValueChange = (value: boolean, trigger_source: string, cluster_id: string): void =>
         value
             ? onToggle(value, trigger_source, cluster_id)
             : onDisableConfirm(trigger_source, cluster_id);
-    };
-
     return (
         <>
             <div className={styles.groupTitle}>{title}</div>

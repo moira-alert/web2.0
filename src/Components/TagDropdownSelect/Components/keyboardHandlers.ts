@@ -33,8 +33,8 @@ export const handleArrowDown = (
                 ? prev + 1
                 : 0
             : prev < filteredTagsLength
-            ? prev + 1
-            : 0
+              ? prev + 1
+              : 0
     );
 };
 

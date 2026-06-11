@@ -234,7 +234,7 @@ export const CodeEditor = forwardRef<HTMLDivElement, Props>(function CodeEditor(
             parent: editorRef.current,
         });
 
-        disabled && foldAll(view);
+        if (disabled) foldAll(view);
 
         return () => {
             view.destroy();

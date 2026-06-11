@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { SearchSelector } from "../Components/SearchSelector/SearchSelector";
 
 const allTags = ["subscribed", "remaining"];

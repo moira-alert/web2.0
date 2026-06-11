@@ -19,7 +19,7 @@ export const useFeatureFlag = <T>(
         }
         try {
             return JSON.parse(localValue);
-        } catch (e) {
+        } catch {
             return localValue;
         }
     });

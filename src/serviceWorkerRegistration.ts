@@ -12,7 +12,9 @@ export function register(onUpdate: () => void) {
                                 installingWorker.state === "installed" &&
                                 navigator.serviceWorker.controller
                             ) {
-                                onUpdate && onUpdate();
+                                if (onUpdate) {
+                                    onUpdate();
+                                }
                             }
                         };
                     }

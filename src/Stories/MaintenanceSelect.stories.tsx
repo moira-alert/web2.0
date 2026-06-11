@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { LangCodes } from "@skbkontur/react-ui/lib/locale";
 import { LocaleContext } from "@skbkontur/react-ui/lib/locale/LocaleContext";
 import { addMonths, getUnixTime, lastDayOfMonth } from "date-fns";

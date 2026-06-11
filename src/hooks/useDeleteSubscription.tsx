@@ -7,10 +7,8 @@ export const useDeleteSubscription = (
     setError: (error: string) => void,
     teamId?: string
 ) => {
-    const [
-        deleteSubscription,
-        { isLoading: isDeletingSubscription },
-    ] = useDeleteSubscriptionMutation();
+    const [deleteSubscription, { isLoading: isDeletingSubscription }] =
+        useDeleteSubscriptionMutation();
 
     const handleDeleteSubscription = async (): Promise<void> => {
         try {

@@ -1,7 +1,0 @@
-.idea/
-/dist
-/flow
-/flow-typed
-src/TriggerGrammar/parser.terms.ts
-src/TriggerGrammar/parser.ts
-htmlLegendPlugin.d.ts

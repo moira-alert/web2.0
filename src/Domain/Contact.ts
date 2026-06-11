@@ -64,15 +64,18 @@ export const groupEventsByInterval = (events: IContactEvent[], interval: EContac
             intervalToStartOfMapping[interval](timestamp),
             `${old_state} to ${state}`,
         ])
-        .reduce((acc, [formattedDate, transition]) => {
-            if (!acc[formattedDate]) {
-                acc[formattedDate] = { [transition]: 1 };
-            } else {
-                if (!acc[formattedDate][transition]) {
-                    acc[formattedDate][transition] = 0;
+        .reduce(
+            (acc, [formattedDate, transition]) => {
+                if (!acc[formattedDate]) {
+                    acc[formattedDate] = { [transition]: 1 };
+                } else {
+                    if (!acc[formattedDate][transition]) {
+                        acc[formattedDate][transition] = 0;
+                    }
+                    acc[formattedDate][transition] += 1;
                 }
-                acc[formattedDate][transition] += 1;
-            }
 
-            return acc;
-        }, {} as Record<string, Record<string, number>>);
+                return acc;
+            },
+            {} as Record<string, Record<string, number>>
+        );

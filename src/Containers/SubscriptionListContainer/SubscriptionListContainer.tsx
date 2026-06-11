@@ -63,11 +63,8 @@ const getEnableButtonName = (subscriptions: Subscription[]) => {
 
 export const SubscriptionListContainer: FC<Props> = ({ tags, teams, contacts, subscriptions }) => {
     const dispatch = useAppDispatch();
-    const {
-        isTransferringSubscriptions,
-        managingSubscriptions,
-        isEnablingSubscriptions,
-    } = useAppSelector(UIState);
+    const { isTransferringSubscriptions, managingSubscriptions, isEnablingSubscriptions } =
+        useAppSelector(UIState);
 
     const { transferContactsToTeam } = useTransferContactsToTeam();
     const { transferSubscriptionsToTeam } = useTransferSubscriptionsToTeam();

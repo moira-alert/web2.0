@@ -33,7 +33,7 @@ export default class ContactSelect extends React.Component<Props> {
         }
         return Boolean(
             contact.value.toLowerCase().includes(query.toLowerCase()) ||
-                contact.name?.toLowerCase().includes(query.toLowerCase())
+            contact.name?.toLowerCase().includes(query.toLowerCase())
         );
     }
 

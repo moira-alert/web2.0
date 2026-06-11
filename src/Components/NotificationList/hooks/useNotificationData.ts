@@ -16,9 +16,10 @@ export const useNotificationData = ({
 
     const { allPrevStates, allCurrentStates } = useMemo(() => getAllStates(items), [items]);
 
-    const allClusterKeys = useMemo(() => uniq(data.map((d) => d.clusterKey).filter((key) => key)), [
-        data,
-    ]);
+    const allClusterKeys = useMemo(
+        () => uniq(data.map((d) => d.clusterKey).filter((key) => key)),
+        [data]
+    );
 
     const columns = useNotificationColumns({
         allCurrentStates,

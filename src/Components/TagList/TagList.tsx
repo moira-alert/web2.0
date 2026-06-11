@@ -42,9 +42,8 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
             <IconUiFilterSortALowToHighRegular16 />
         );
 
-    const handleTagClick = (tagName: string) => {
+    const handleTagClick = (tagName: string) =>
         tagName === clickedTag ? setClickedTag(null) : setClickedTag(tagName);
-    };
 
     const filteredTags = useMemo(
         () =>

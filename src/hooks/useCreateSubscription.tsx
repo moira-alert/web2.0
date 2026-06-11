@@ -16,14 +16,10 @@ export const useCreateSubscription = (
     setError: (error: string) => void,
     teamId?: string
 ) => {
-    const [
-        createUserSubscription,
-        { isLoading: isCreatingUserSubscription },
-    ] = useCreateUserSubscriptionMutation();
-    const [
-        createTeamSubscription,
-        { isLoading: isCreatingTeamSubscription },
-    ] = useCreateTeamSubscriptionMutation();
+    const [createUserSubscription, { isLoading: isCreatingUserSubscription }] =
+        useCreateUserSubscriptionMutation();
+    const [createTeamSubscription, { isLoading: isCreatingTeamSubscription }] =
+        useCreateTeamSubscriptionMutation();
     const [testSubscription, { isLoading: isTestingSubscription }] = useTestSubscriptionMutation();
     const dispatch = useAppDispatch();
 

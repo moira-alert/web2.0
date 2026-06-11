@@ -1,5 +1,5 @@
 import { Component, ReactElement } from "react";
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import range from "lodash/range";
 import TagDropdownSelect from "../Components/TagDropdownSelect/TagDropdownSelect";
 

@@ -46,11 +46,10 @@ export const CurrentStateTab: FC<ICurrentStateTabProps> = ({
         setSearchValue(value);
     };
 
-    const sortedMetrics = useMemo(() => sortMetrics(metrics, sortingColumn, sortingDown), [
-        metrics,
-        sortingColumn,
-        sortingDown,
-    ]);
+    const sortedMetrics = useMemo(
+        () => sortMetrics(metrics, sortingColumn, sortingDown),
+        [metrics, sortingColumn, sortingDown]
+    );
 
     const filteredMetrics = useMemo(() => {
         if (!searchValue.trim()) {

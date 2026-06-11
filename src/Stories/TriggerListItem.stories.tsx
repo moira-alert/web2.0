@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import TriggerListItem from "../Components/TriggerListItem/TriggerListItem";
 import { DaysOfWeek } from "../Domain/Schedule";
 import { TriggerCheck, TriggerSource } from "../Domain/Trigger";
@@ -137,8 +137,7 @@ export const LongTriggerName = () => (
         {...commonProps}
         data={{
             ...sourceData,
-            name:
-                "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
+            name: "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
         }}
     />
 );
@@ -792,8 +791,7 @@ export const LotOfAllData = () => (
                 state: Status.OK,
                 score: 14000,
             },
-            name:
-                "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
+            name: "ke.notifications-dev.mail-sender.alive.cloud.noname.*.all.metrics.few.error.one.warning.zero.nodata.min.ok",
             targets: [
                 "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive.KE-cloud.Notifications.*.MailSender.Expert.Alive.KE-cloud.Notifications.*.MailSender.K705Letter.Alive.KE-cloud.Notifications.*.MailSender.MrApplication)",
                 "sumSeries(KE-cloud.Notifications.*.MailSender.BankNotification.Alive)",

@@ -36,9 +36,8 @@ const NotificationListContainer: FC = () => {
 
     const layoutTitle = `Notifications ${notificationAmount}`;
 
-    const handleToggleNotifier = (value: boolean) => {
+    const handleToggleNotifier = (value: boolean) =>
         value ? toggleNotifier(value) : handleDisableNotifier();
-    };
 
     const removeAllNotifications = async () => {
         setModalData({ isOpen: false });
@@ -64,18 +63,17 @@ const NotificationListContainer: FC = () => {
         });
     };
 
-    const onRemoveAllNotificationsBtnClick = () => {
+    const onRemoveAllNotificationsBtnClick = () =>
         notificationAmount &&
-            setModalData({
-                isOpen: true,
-                header: ConfirmModalHeaderData.deleteAllNotifications(notificationAmount),
-                button: {
-                    text: "Delete",
-                    use: "danger",
-                    onConfirm: removeAllNotifications,
-                },
-            });
-    };
+        setModalData({
+            isOpen: true,
+            header: ConfirmModalHeaderData.deleteAllNotifications(notificationAmount),
+            button: {
+                text: "Delete",
+                use: "danger",
+                onConfirm: removeAllNotifications,
+            },
+        });
 
     useEffect(() => {
         setDocumentTitle("Notifications");
