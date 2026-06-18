@@ -37,8 +37,6 @@ export const defaultDark = ThemeFactory.create<ApplicationTheme>(
 
         sidePageBgDefault: "var(--background-secondary)",
 
-        modalBackBg: "rgb(0, 0, 0)",
-
         chartTextItemsColor: "rgb(167 167 167)",
         chartGridLinesColor: "#505050",
 
