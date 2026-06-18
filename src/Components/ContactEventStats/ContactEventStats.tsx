@@ -14,7 +14,7 @@ import {
     ValidationWrapperV1,
 } from "@skbkontur/react-ui-validations";
 import { validateDateAndTime, validateForm } from "../../helpers/validations";
-import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
+import { Nullable } from "../../types/utilityTypes";
 import { Flexbox } from "../Flexbox/FlexBox";
 import { Paging } from "@skbkontur/react-ui/components/Paging";
 import { TokenInput } from "@skbkontur/react-ui/components/TokenInput";
@@ -172,7 +172,7 @@ export const ContactEventStats: FC<IContactEventStatsProps> = ({ contact, onClos
                                     date={untilTime}
                                     setDate={setUntilTime}
                                 />
-                                <Button width="100%" onClick={handleSubmit} use="primary">
+                                <Button width="100%" onClick={handleSubmit} use="accent">
                                     Load events
                                 </Button>
                             </Flexbox>

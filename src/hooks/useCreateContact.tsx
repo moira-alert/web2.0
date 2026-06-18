@@ -5,9 +5,10 @@ import { validateForm } from "../helpers/validations";
 import { useCreateTeamContactMutation } from "../services/TeamsApi";
 import { useAppDispatch } from "../store/hooks";
 import { BaseApi } from "../services/BaseApi";
+import { Nullable } from "../types/utilityTypes";
 
 export const useCreateContact = (
-    validationContainer: React.RefObject<ValidationContainer>,
+    validationContainer: React.RefObject<Nullable<ValidationContainer>>,
     contactInfo: Partial<Contact> | null,
     onCancel: () => void,
     setError: (error: string) => void,

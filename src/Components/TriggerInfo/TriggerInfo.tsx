@@ -27,7 +27,7 @@ import RouterLink from "../RouterLink/RouterLink";
 import FileExport from "../FileExport/FileExport";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { CodeEditor } from "../HighlightInput/CodeEditor";
-import { Hint, DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
+import { DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
 import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
 import { MarkdownViewer } from "@skbkontur/markdown";
 import { WysiwygWrapper } from "../Markdown/WysiwygWrapper";
@@ -162,48 +162,47 @@ export default function TriggerInfo({
                         data-tid="Edit"
                         to={getPageLink("triggerEdit", id)}
                         icon={<IconToolPencilLineRegular16 />}
+                        className={styles.editLink}
                     >
                         Edit
                     </RouterLink>
-                    <span className={cn("control")}>
-                        <Tooltip
-                            render={() => {
-                                const isInfo =
-                                    delta > 0 &&
-                                    maintenance_info &&
-                                    maintenance_info.setup_user &&
-                                    maintenance_info.setup_time;
+                    <Tooltip
+                        render={() => {
+                            const isInfo =
+                                delta > 0 &&
+                                maintenance_info &&
+                                maintenance_info.setup_user &&
+                                maintenance_info.setup_time;
 
-                                if (!isInfo) {
-                                    return null;
-                                }
-                                return (
-                                    <div>
-                                        Maintenance was set
-                                        <br />
-                                        by {maintenance_info.setup_user}
-                                        <br />
-                                        at{" "}
-                                        {maintenance_info.setup_time !== null &&
-                                            format(
-                                                fromUnixTime(maintenance_info.setup_time),
-                                                "MMMM d, HH:mm:ss"
-                                            )}
-                                    </div>
-                                );
-                            }}
-                        >
-                            <MaintenanceSelect
-                                icon={<IconTimeClockRegular16 />}
-                                maintenance={maintenance}
-                                caption={maintenanceCaption(delta)}
-                                onSetMaintenance={onSetMaintenance}
-                            />
-                        </Tooltip>
-                    </span>
+                            if (!isInfo) {
+                                return null;
+                            }
+                            return (
+                                <div>
+                                    Maintenance was set
+                                    <br />
+                                    by {maintenance_info.setup_user}
+                                    <br />
+                                    at{" "}
+                                    {maintenance_info.setup_time !== null &&
+                                        format(
+                                            fromUnixTime(maintenance_info.setup_time),
+                                            "MMMM d, HH:mm:ss"
+                                        )}
+                                </div>
+                            );
+                        }}
+                    >
+                        <MaintenanceSelect
+                            icon={<IconTimeClockRegular16 />}
+                            maintenance={maintenance}
+                            caption={maintenanceCaption(delta)}
+                            onSetMaintenance={onSetMaintenance}
+                        />
+                    </Tooltip>
                     <DropdownMenu
                         caption={
-                            <Button rightIcon={<IconArrowShapeTriangleADownSolid16 />} use="link">
+                            <Button rightIcon={<IconArrowShapeTriangleADownSolid16 />} use="text">
                                 Other
                             </Button>
                         }
@@ -249,12 +248,12 @@ export default function TriggerInfo({
                                 {targets.map((target, i) => (
                                     <div key={target}>
                                         <div className={cn("copyButtonWrapper")}>
-                                            <Hint text="Copy without formatting">
+                                            <div className={cn("copyButton")}>
                                                 <CopyButton
-                                                    className={cn("copyButton")}
+                                                    hintMessage="Copy without formatting"
                                                     value={target}
                                                 />
-                                            </Hint>
+                                            </div>
                                         </div>
                                         <CodeEditor
                                             data-tid={`T${i + 1}`}

@@ -1,7 +1,7 @@
 import { useRef, useEffect, FC } from "react";
 import { IconPlusRegular16 } from "@skbkontur/icons/IconPlusRegular16";
 import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
-import { Checkbox, Button, Hint } from "@skbkontur/react-ui";
+import { Checkbox, Button } from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import HighlightInput from "../../HighlightInput/HighlightInput";
 import { CopyButton } from "./CopyButton";
@@ -132,6 +132,7 @@ export const TargetsList: FC<IProps> = ({
                             {targets.length > 1 && (
                                 <Fit>
                                     <Button
+                                        use="text"
                                         icon={<IconTrashCanRegular16 />}
                                         onClick={() => handleRemoveTarget(i)}
                                         data-tid={`Target remove ${i + 1}`}
@@ -139,13 +140,13 @@ export const TargetsList: FC<IProps> = ({
                                 </Fit>
                             )}
                         </RowStack>
-                        <Hint text="Copy without formatting">
-                            <CopyButton className={cn("copyButton")} value={target} />
-                        </Hint>
+                        <div className={cn("copyButton")}>
+                            <CopyButton hintMessage="Copy without formatting" value={target} />{" "}
+                        </div>
                     </div>
                 );
             })}
-            <Button use="link" icon={<IconPlusRegular16 />} onClick={handleAddTarget}>
+            <Button use="text" icon={<IconPlusRegular16 />} onClick={handleAddTarget}>
                 Add one more
             </Button>
         </>

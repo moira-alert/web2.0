@@ -63,7 +63,7 @@ const SettingsContainer: FC<ISettingsContainerProps> = ({ isTeamMember }) => {
                                     </RouterLink>
                                 ) : (
                                     <Select<Team>
-                                        use={"link"}
+                                        use="text"
                                         value={team ?? userAsTeam}
                                         items={userWithTeams}
                                         renderValue={(value) => value.name}

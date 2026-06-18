@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { useState, useRef } from "react";
-import { Input } from "@skbkontur/react-ui/components/Input/Input";
+import { MaskedInput } from "@skbkontur/react-ui";
 import { Button } from "@skbkontur/react-ui/components/Button/Button";
 import { DateInput } from "@skbkontur/react-ui/components/DateInput/DateInput";
 import { format, getUnixTime, fromUnixTime, parse } from "date-fns";
@@ -70,7 +70,7 @@ export default function CustomMaintenanceMenu({
                 setDate={handleDatePick}
             />
             <footer className={cn("footer")}>
-                <Input value={time} onValueChange={setTime} mask="99:99" width="55px" />
+                <MaskedInput value={time} onValueChange={setTime} mask="99:99" width="55px" />
                 <ValidationContainer ref={validationContainerRef}>
                     <ValidationWrapperV1
                         renderMessage={tooltip("top left")}
@@ -86,7 +86,7 @@ export default function CustomMaintenanceMenu({
                     </ValidationWrapperV1>
                 </ValidationContainer>
                 {timeZone}
-                <Button use="primary" onClick={handleSet}>
+                <Button use="accent" onClick={handleSet}>
                     Set
                 </Button>
             </footer>

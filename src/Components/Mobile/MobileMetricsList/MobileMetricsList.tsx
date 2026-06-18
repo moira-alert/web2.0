@@ -1,8 +1,9 @@
 import type { ReactElement } from "react";
 import { Metric, MetricItemList } from "../../../Domain/Metric";
 import MobileMetricsListItem from "../MobileMetricsListItem/MobileMetricsListItem";
-import { VariableSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { List } from "react-window";
+import type { RowComponentProps } from "react-window";
+import { AutoSizer, type AutoSizerChildProps } from "react-virtualized-auto-sizer";
 import classNames from "classnames/bind";
 
 import styles from "./MobileMetricsList.module.less";
@@ -21,8 +22,36 @@ const getItemSize = (_metricName: string, metricData: Metric) => {
     if (!values) {
         return 45;
     }
-
     return 20 + Object.keys(values).length * 25;
+};
+
+interface MobileMetricsRowProps {
+    entries: [string, Metric][];
+    onRemove: (metricName: string) => void;
+    onSetMaintenance: (metricName: string, maintenance: number) => void;
+    withTargets?: boolean;
+}
+
+const MobileMetricRow = ({
+    index,
+    style,
+    entries,
+    onRemove,
+    onSetMaintenance,
+    withTargets,
+}: RowComponentProps<MobileMetricsRowProps>) => {
+    const [metricName, metricData] = entries[index];
+    return (
+        <MobileMetricsListItem
+            style={style}
+            key={metricName}
+            name={metricName}
+            value={metricData}
+            onRemove={() => onRemove(metricName)}
+            onSetMaintenance={(interval) => onSetMaintenance(metricName, interval)}
+            withTargets={withTargets}
+        />
+    );
 };
 
 export default function MobileMetricsList(props: Props): ReactElement {
@@ -31,37 +60,25 @@ export default function MobileMetricsList(props: Props): ReactElement {
 
     return (
         <div className={cn("root")}>
-            <AutoSizer disableWidth>
-                {({ height }) => {
+            <AutoSizer
+                ChildComponent={({ height }: AutoSizerChildProps) => {
+                    const listHeight = height == null ? 400 : Math.max(height, 400);
                     return (
                         <List
-                            height={height < 400 ? 400 : height}
-                            width="100%"
-                            itemSize={(index) => getItemSize(...entries[index])}
-                            itemCount={entries.length}
-                            itemData={entries}
-                        >
-                            {({ data, index, style }) => {
-                                const [metricName, metricData] = data[index];
-
-                                return (
-                                    <MobileMetricsListItem
-                                        style={style}
-                                        key={metricName}
-                                        name={metricName}
-                                        value={metricData}
-                                        onRemove={() => onRemove(metricName)}
-                                        onSetMaintenance={(interval) =>
-                                            onSetMaintenance(metricName, interval)
-                                        }
-                                        withTargets={withTargets}
-                                    />
-                                );
+                            style={{ height: `${listHeight}px`, width: "100%" }}
+                            rowComponent={MobileMetricRow}
+                            rowCount={entries.length}
+                            rowHeight={(index) => getItemSize(...entries[index])}
+                            rowProps={{
+                                entries,
+                                onRemove,
+                                onSetMaintenance,
+                                withTargets,
                             }}
-                        </List>
+                        />
                     );
                 }}
-            </AutoSizer>
+            />
         </div>
     );
 }

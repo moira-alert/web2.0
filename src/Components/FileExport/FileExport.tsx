@@ -26,7 +26,7 @@ export default function FileExport({
     };
 
     return isButton ? (
-        <Button use="link" onClick={handleExport} icon={<IconArrowUiShareAExportRegular16 />}>
+        <Button onClick={handleExport} icon={<IconArrowUiShareAExportRegular16 />}>
             {children || "Export"}
         </Button>
     ) : (

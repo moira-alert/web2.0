@@ -1,9 +1,10 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { useAddUserToTeamMutation } from "../services/TeamsApi";
 import { validateForm } from "../helpers/validations";
+import { Nullable } from "../types/utilityTypes";
 
 export const useAddUserToTeam = (
-    validationContainer: React.RefObject<ValidationContainer>,
+    validationContainer: React.RefObject<Nullable<ValidationContainer>>,
     userName: string,
     onCancel: () => void,
     setError: (error: string) => void,

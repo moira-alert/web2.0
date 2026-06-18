@@ -42,7 +42,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
             <Modal width={600} onClose={onClose}>
                 <Modal.Header>{team ? `Edit team ${team.name} ` : "Add Team"}</Modal.Header>
                 <Modal.Body>
-                    <Grid columns="120px 400px" gap="16px">
+                    <Grid columns="120px 400px" gap="16px" align="baseline">
                         Name:
                         <ValidationWrapper validationInfo={validateRequiredString(name)}>
                             <Input
@@ -69,7 +69,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
                         {team ? (
                             <Button
                                 data-tid="Save team"
-                                use={"primary"}
+                                use="accent"
                                 onClick={handleUpdateTeam}
                                 width={100}
                                 loading={isUpdatingTeam}
@@ -80,7 +80,7 @@ export const TeamEditor: FC<ITeamEditorProps> = ({ team, onClose }: ITeamEditorP
                         ) : (
                             <Button
                                 data-tid="Confirm add team"
-                                use={"primary"}
+                                use="accent"
                                 onClick={handleAddTeam}
                                 width={100}
                                 loading={isAddingTeam}

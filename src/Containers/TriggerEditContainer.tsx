@@ -116,7 +116,7 @@ const TriggerEditContainer = () => {
                                 <RowStack gap={3} baseline>
                                     <Fit>
                                         <Button
-                                            use="primary"
+                                            use="accent"
                                             onClick={handleSubmit}
                                             data-tid="Save Trigger"
                                         >
@@ -125,7 +125,7 @@ const TriggerEditContainer = () => {
                                     </Fit>
                                     <Fit>
                                         <RouterLink to={getPageLink("trigger", trigger.id)}>
-                                            <Button component="a">Cancel</Button>
+                                            <Button>Cancel</Button>
                                         </RouterLink>
                                     </Fit>
                                 </RowStack>

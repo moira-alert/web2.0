@@ -50,7 +50,7 @@ export function Confirm({
                         <Button
                             loading={isLoading}
                             onClick={handleConfirm}
-                            use={"primary"}
+                            use="accent"
                             width={100}
                         >
                             Confirm

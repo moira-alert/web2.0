@@ -236,7 +236,7 @@ export const SubscriptionListContainer: FC<Props> = ({ tags, teams, contacts, su
                                 <Button
                                     disabled={isApplyTransferButtonDisabled}
                                     onClick={handleTransferContactsAndSubscriptions}
-                                    use="primary"
+                                    use="accent"
                                 >
                                     Apply transfer
                                 </Button>
@@ -263,7 +263,7 @@ export const SubscriptionListContainer: FC<Props> = ({ tags, teams, contacts, su
                             >
                                 <Button
                                     disabled={isEnableSubscriptionsButtonDisabled}
-                                    use="primary"
+                                    use="accent"
                                     onClick={handleEnableSubscriptionBatch}
                                 >
                                     {enableButtonName}

@@ -6,7 +6,7 @@ import { useAppDispatch } from "../store/hooks";
 import { BaseApi } from "../services/BaseApi";
 
 export const useUpdateContact = (
-    validationContainer: React.RefObject<ValidationContainer>,
+    validationContainer: React.RefObject<ValidationContainer | null>,
     contact: Contact | null,
     onCancel: () => void,
     setError: (error: string) => void,

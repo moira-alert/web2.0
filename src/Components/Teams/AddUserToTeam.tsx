@@ -31,14 +31,14 @@ export function AddUserToTeam({ team, onClose }: AddUserProps): ReactElement {
             <Modal onClose={onClose}>
                 <Modal.Header>Add User to {team.name}</Modal.Header>
                 <Modal.Body>
-                    <Grid columns="60px 300px" gap="16px">
+                    <Grid columns="60px 1fr" gap="16px" align="baseline">
                         Name:
                         <ValidationWrapper validationInfo={validateRequiredString(userName)}>
                             <Input
                                 data-tid="User name"
                                 value={userName}
                                 onValueChange={setUserName}
-                                width={"100%"}
+                                width="100%"
                             />
                         </ValidationWrapper>
                     </Grid>
@@ -48,7 +48,7 @@ export function AddUserToTeam({ team, onClose }: AddUserProps): ReactElement {
                     <Flexbox direction="row" gap={8}>
                         <Button
                             data-tid="Add user modal"
-                            use={"primary"}
+                            use="accent"
                             onClick={handleAddUserToTeam}
                             width={100}
                             loading={isAddingUser}

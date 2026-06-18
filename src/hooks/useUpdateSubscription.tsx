@@ -7,9 +7,10 @@ import {
 import { Subscription } from "../Domain/Subscription";
 import { useAppDispatch } from "../store/hooks";
 import { BaseApi } from "../services/BaseApi";
+import { Nullable } from "../types/utilityTypes";
 
 export const useUpdateSubscription = (
-    validationContainer: React.RefObject<ValidationContainer>,
+    validationContainer: React.RefObject<Nullable<ValidationContainer>>,
     subscription: Subscription,
     onCancel: () => void,
     setError: (error: string) => void,

@@ -1,13 +1,19 @@
 import type { FC } from "react";
-import { Button, Toast } from "@skbkontur/react-ui";
+import { Hint, SingleToast } from "@skbkontur/react-ui";
 import { IconCopyRegular16 } from "@skbkontur/icons/IconCopyRegular16";
+import classNames from "classnames/bind";
+
+import styles from "./CopyButton.module.less";
+
+const cn = classNames.bind(styles);
 
 interface IProps {
     value: string;
     className?: string;
+    hintMessage?: string;
 }
 
-const pushSuccessfulMessage = () => Toast.push("Text copied to clipboard");
+const pushSuccessfulMessage = () => SingleToast.push("Text copied to clipboard");
 
 const copy = async (text: string) => {
     if (navigator?.clipboard) {
@@ -16,7 +22,7 @@ const copy = async (text: string) => {
             pushSuccessfulMessage();
         } catch (error) {
             console.error(error);
-            Toast.push("Failed to copy text");
+            SingleToast.push("Failed to copy text");
         }
     } else {
         // Fallback on execCommand
@@ -32,24 +38,21 @@ const copy = async (text: string) => {
         if (isSuccessful) {
             pushSuccessfulMessage();
         } else {
-            Toast.push("Failed to copy text, try to launch the app under https");
+            SingleToast.push("Failed to copy text, try to launch the app under https");
         }
 
         document.body.removeChild(textarea);
     }
 };
 
-export const CopyButton: FC<IProps> = ({ value, className }) => {
+export const CopyButton: FC<IProps> = ({ value, className, hintMessage }) => {
     const handleCopy = async () => {
         await copy(value.trim());
     };
 
     return (
-        <Button
-            className={className}
-            use="link"
-            icon={<IconCopyRegular16 />}
-            onClick={handleCopy}
-        />
+        <Hint text={hintMessage}>
+            <IconCopyRegular16 className={cn("copyIcon", className)} onClick={handleCopy} />
+        </Hint>
     );
 };

@@ -73,7 +73,7 @@ export const TimeRangeSelector: FC<{
                     date={untilTime}
                     setDate={setUntilTime}
                 />
-                <Button onClick={handleApply} use="primary">
+                <Button onClick={handleApply} use="accent">
                     {buttonText}
                 </Button>
             </Flexbox>

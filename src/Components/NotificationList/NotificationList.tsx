@@ -8,8 +8,11 @@ import {
     getFilteredRowModel,
     ColumnFiltersState,
     useReactTable,
+    type Row,
 } from "@tanstack/react-table";
-import { FixedSizeList as List } from "react-window";
+import { List } from "react-window";
+import type { RowComponentProps } from "react-window";
+import { INotificationRow } from "./hooks/useNotificationColumns";
 import { useAppDispatch } from "../../store/hooks";
 import { setFilteredCount } from "../../store/Reducers/NotificationFilters.slice";
 import { useNotificationData } from "./hooks/useNotificationData";
@@ -28,6 +31,31 @@ export type TNotificationListProps = {
 
 const ROW_HEIGHT = 50;
 const MAX_LIST_HEIGHT = 1000;
+
+interface NotificationRowProps {
+    rows: Row<INotificationRow>[];
+    columnSizing: Record<string, number>;
+}
+
+const RowComponent = ({ index, style, rows }: RowComponentProps<NotificationRowProps>) => {
+    const row = rows[index];
+    return (
+        <div style={style} key={row.id} className={cn("row")}>
+            {row.getVisibleCells().map((cell) => (
+                <div
+                    key={cell.id}
+                    className={cn("cell")}
+                    style={{
+                        width: cell.column.getSize(),
+                        flex: `1 1 ${cell.column.getSize()}px`,
+                    }}
+                >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </div>
+            ))}
+        </div>
+    );
+};
 
 export default function NotificationList({ items, onRemove }: TNotificationListProps) {
     const { modalData, setModalData, closeModal } = useConfirmModal();
@@ -90,6 +118,8 @@ export default function NotificationList({ items, onRemove }: TNotificationListP
     const listHeight = Math.min(rows.length * ROW_HEIGHT, MAX_LIST_HEIGHT);
     const hasVerticalScroll = rows.length * ROW_HEIGHT > MAX_LIST_HEIGHT;
 
+    const { columnSizing } = table.getState();
+
     return (
         <>
             <ConfirmModal modalData={modalData} closeModal={closeModal} />
@@ -129,28 +159,16 @@ export default function NotificationList({ items, onRemove }: TNotificationListP
                 </div>
             ))}
 
-            <List width="100%" itemSize={ROW_HEIGHT} itemCount={rows.length} height={listHeight}>
-                {({ index, style }) => {
-                    const row = rows[index];
-
-                    return (
-                        <div style={style} key={row.id} className={cn("row")}>
-                            {row.getVisibleCells().map((cell) => (
-                                <div
-                                    key={cell.id}
-                                    className={cn("cell")}
-                                    style={{
-                                        width: cell.column.getSize(),
-                                        flex: `1 1 ${cell.column.getSize()}px`,
-                                    }}
-                                >
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </div>
-                            ))}
-                        </div>
-                    );
+            <List
+                style={{ width: "100%", height: `${listHeight}px` }}
+                rowComponent={RowComponent}
+                rowCount={rows.length}
+                rowHeight={ROW_HEIGHT}
+                rowProps={{
+                    rows,
+                    columnSizing,
                 }}
-            </List>
+            />
         </>
     );
 }

@@ -87,7 +87,7 @@ const CreateSubscriptionModal: FC<Props> = ({ tags, contacts, onCancel }) => {
                 <ModalError message={error} maxWidth="450px" />
                 <RowStack gap={2} block baseline>
                     <Button
-                        use="primary"
+                        use="accent"
                         disabled={isActionButtonsDisabled}
                         loading={isCreatingTeamSubscription || isCreatingUserSubscription}
                         onClick={() => handleCreateSubscription()}

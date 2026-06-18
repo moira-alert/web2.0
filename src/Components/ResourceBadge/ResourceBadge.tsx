@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Toast } from "@skbkontur/react-ui/components/Toast";
+import { SingleToast } from "@skbkontur/react-ui";
 import { IconCopyRegular16 } from "@skbkontur/icons/IconCopyRegular16";
 import cn from "./ResourceBadge.module.less";
 
@@ -11,7 +11,7 @@ interface EditorIdProps {
 export function ResourceBadge(props: EditorIdProps): ReactElement {
     const handleClick = (): void => {
         navigator.clipboard.writeText(props.id);
-        Toast.push("Copied to clipboard");
+        SingleToast.push("Copied to clipboard");
     };
 
     return (

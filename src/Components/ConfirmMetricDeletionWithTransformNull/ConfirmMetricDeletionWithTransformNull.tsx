@@ -5,6 +5,7 @@ import { UIState } from "../../store/selectors";
 import { Button } from "@skbkontur/react-ui";
 import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
 import CodeRef from "../CodeRef/CodeRef";
+import styles from "./ConfirmMetricDeletionWithTransformNull.module.less";
 
 interface IConfirmMetricDeletionWithTransformNull {
     action: () => void;
@@ -30,7 +31,7 @@ export const ConfirmMetricDeletionWithTransformNull: FC<
             width={280}
             action={action}
         >
-            <Button use="link" icon={<IconTrashCanRegular16 />}>
+            <Button className={styles.deleteButton} use="text" icon={<IconTrashCanRegular16 />}>
                 {deleteButtonText}
             </Button>
         </Confirm>

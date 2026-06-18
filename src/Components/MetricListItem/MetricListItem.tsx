@@ -85,7 +85,16 @@ export function MetricListItem({
                 </div>
             )}
             <div onMouseEnter={handleMouseEnter} ref={ref} className={cn("name")}>
-                <Tooltip render={() => (truncated ? metricName : null)}>{metricName}</Tooltip>
+                <Tooltip
+                    pos="top left"
+                    render={() =>
+                        truncated ? (
+                            <span className={styles.truncatedMetric}>{metricName}</span>
+                        ) : null
+                    }
+                >
+                    {metricName}
+                </Tooltip>
             </div>
             <div className={cn("event")}>
                 {format(fromUnixTime(eventTimestamp), "MMM d, y, HH:mm:ss")}
@@ -99,6 +108,7 @@ export function MetricListItem({
             </div>
             <div onClick={(e) => e.stopPropagation()} className={cn("maintenance")}>
                 <MaintenanceSelect
+                    className={styles.maintenanceButton}
                     maintenance={maintenance}
                     caption={maintenanceCaption(delta)}
                     onSetMaintenance={(maintenanceValue) => onChange(metricName, maintenanceValue)}
@@ -110,6 +120,7 @@ export function MetricListItem({
                     maintenanceInfo.setup_user &&
                     maintenanceInfo.setup_time && (
                         <Tooltip
+                            pos="top left"
                             render={() => (
                                 <div>
                                     Maintenance was set

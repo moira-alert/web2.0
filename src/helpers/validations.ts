@@ -1,11 +1,11 @@
 import { ValidationContainer, ValidationInfo } from "@skbkontur/react-ui-validations";
-import { Nullable } from "@skbkontur/react-ui-validations/typings/Types";
 import { format, isAfter, isBefore, startOfDay, startOfMinute } from "date-fns";
+import { Nullable } from "../types/utilityTypes";
 
 export const validateContactValueWithConfigRegExp = (
     value?: string,
     regExp?: string
-): ValidationInfo | null => {
+): Nullable<ValidationInfo> => {
     if (!value) {
         return {
             message: "Contact value can`t be empty",
@@ -28,7 +28,7 @@ export const validateContactValueWithConfigRegExp = (
 };
 
 export const validateForm = async (
-    validationContainer: React.RefObject<ValidationContainer>
+    validationContainer: React.RefObject<Nullable<ValidationContainer>>
 ): Promise<boolean> => {
     if (!validationContainer.current) {
         return true;

@@ -1,5 +1,5 @@
 // ToDo перевести на @skbkontur/react-stack-layout
-import { ReactNode, CSSProperties } from "react";
+import { ReactNode, CSSProperties, type JSX } from "react";
 
 import * as React from "react";
 import classNames from "classnames/bind";

@@ -128,7 +128,7 @@ const TriggerDuplicateContainer = () => {
                                     <Fit>
                                         <Button
                                             data-tid="Duplicate Trigger"
-                                            use="primary"
+                                            use="accent"
                                             onClick={handleSubmit}
                                         >
                                             Duplicate trigger
