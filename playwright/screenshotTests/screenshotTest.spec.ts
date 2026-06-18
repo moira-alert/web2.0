@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import componentList from "../../resources/componentList.json";
+import componentList from "../../resources/componentList.json" with { type: "json" };
 import { expectToMatchScreenshot } from "../helpers/expectToMatchScreenshot";
 import { getStoryURL } from "../helpers/getStoryURL";
 
