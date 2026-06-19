@@ -96,6 +96,8 @@ export default function MetricList(props: Props): ReactElement {
 
     const entries = Object.entries(items);
 
+    const totalListHeightBeforeScroll = getTotalSize(entries) + 2;
+
     return (
         <section className={cn("table")}>
             <header
@@ -179,7 +181,7 @@ export default function MetricList(props: Props): ReactElement {
                             // Otherwise, the total height will be the sum of individual row heights.
                             entries.length > MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE
                                 ? METRIC_LIST_HEIGHT
-                                : getTotalSize(entries) + 2,
+                                : totalListHeightBeforeScroll,
                         width: "100%",
                     }}
                     rowComponent={MetricRow}

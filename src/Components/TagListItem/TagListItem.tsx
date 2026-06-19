@@ -212,7 +212,8 @@ export const TagListItem: FC<ItemProps> = ({
                 <div className={cn("info")}>
                     <div className={cn("group")}>
                         <List
-                            style={{ height: getSubscriptionsTableHeight, width: "100%" }}
+                            className={cn("subscriptionList")}
+                            style={{ height: getSubscriptionsTableHeight }}
                             rowComponent={SubscriptionRow}
                             rowCount={subscriptions.length}
                             rowHeight={(index) =>

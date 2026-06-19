@@ -4,9 +4,10 @@ import { useTestContactMutation, useUpdateContactMutation } from "../services/Co
 import { validateForm } from "../helpers/validations";
 import { useAppDispatch } from "../store/hooks";
 import { BaseApi } from "../services/BaseApi";
+import { Nullable } from "../types/utilityTypes";
 
 export const useUpdateContact = (
-    validationContainer: React.RefObject<ValidationContainer | null>,
+    validationContainer: React.RefObject<Nullable<ValidationContainer>>,
     contact: Contact | null,
     onCancel: () => void,
     setError: (error: string) => void,
