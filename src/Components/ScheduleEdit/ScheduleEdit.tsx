@@ -1,6 +1,6 @@
 import type { FocusEventHandler } from "react";
 import { forwardRef, useState, useMemo, FC } from "react";
-import { Input } from "@skbkontur/react-ui/components/Input";
+import { MaskedInput } from "@skbkontur/react-ui";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
@@ -82,7 +82,7 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
                     >
                         At specific interval
                     </Radio>
-                    <Input
+                    <MaskedInput
                         value={time.start}
                         width={60}
                         mask="99:99"
@@ -95,7 +95,7 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
                         }
                     />
                     <span>—</span>
-                    <Input
+                    <MaskedInput
                         value={time.end}
                         width={60}
                         mask="99:99"

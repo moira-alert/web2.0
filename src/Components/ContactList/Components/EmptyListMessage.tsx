@@ -8,14 +8,10 @@ export const EmptyListMessage: FC<{ onCLick: () => void }> = ({ onCLick }) => (
     <Center>
         <Flexbox gap={20}>
             <div style={{ textAlign: "center" }}>
-                To start receiving notifications you have to{" "}
-                <Button use="link" onClick={onCLick}>
-                    add delivery channel
-                </Button>{" "}
-                for notifications.
+                To start receiving notifications you have to add delivery channel for notifications.
             </div>
             <Center>
-                <Button use="primary" icon={<IconPlusRegular16 />} onClick={onCLick}>
+                <Button use="accent" icon={<IconPlusRegular16 />} onClick={onCLick}>
                     Add delivery channel
                 </Button>
             </Center>

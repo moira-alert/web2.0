@@ -24,6 +24,7 @@ type MaintenanceSelectProps = {
     maintenance?: number;
     onSetMaintenance: (maintenance: number) => void;
     icon?: ReactElement;
+    className?: string;
 };
 
 export default function MaintenanceSelect({
@@ -31,6 +32,7 @@ export default function MaintenanceSelect({
     maintenance,
     onSetMaintenance,
     icon,
+    className,
 }: MaintenanceSelectProps): ReactElement {
     const [opened, setOpened] = useState(false);
     const [customMenuShow, setCustomMenuShow] = useState(false);
@@ -52,9 +54,10 @@ export default function MaintenanceSelect({
                 <Button
                     data-tid="TriggerMaintenanceButton"
                     onClick={() => setOpened(true)}
-                    use="link"
+                    use="text"
                     rightIcon={<IconArrowShapeTriangleADownSolid16 />}
                     icon={icon}
+                    className={className}
                 >
                     {caption}
                 </Button>

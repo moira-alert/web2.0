@@ -114,7 +114,7 @@ const ContactItem: React.FC<IContactItemProps> = ({
                         {isEmptyString(name) ? value : name}
                         <span className={cn("error-message")}>
                             Contact type {type} not more support.{" "}
-                            <Button use="link" onClick={onDeleteContact}>
+                            <Button use="danger" onClick={onDeleteContact}>
                                 Delete
                             </Button>
                         </span>

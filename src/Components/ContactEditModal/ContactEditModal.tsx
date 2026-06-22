@@ -69,7 +69,7 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                     <ModalError message={error as string} maxWidth="450px" />
                     <RowStack gap={2} block baseline>
                         <Button
-                            use="primary"
+                            use="accent"
                             disabled={isActionButtonDisabled}
                             loading={isUpdating}
                             onClick={() => handleUpdateContact()}
@@ -84,7 +84,6 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                             Save and test
                         </Button>
                         <FileExport
-                            isButton
                             title={`delivery channel ${contact.type} ${contact.value}`}
                             data={omitContact(contact)}
                         >

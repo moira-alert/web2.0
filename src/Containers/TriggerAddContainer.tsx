@@ -170,7 +170,7 @@ const TriggerAddContainer = () => {
                                 <RowStack gap={3} baseline>
                                     <Fit>
                                         <Button
-                                            use="primary"
+                                            use="accent"
                                             onClick={handleSubmit}
                                             data-tid="Add Trigger"
                                         >

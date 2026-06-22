@@ -11,15 +11,9 @@ export const AddSubscriptionMessage: FC<Props> = ({ onAddSubscription }): ReactE
     return (
         <Center>
             <Flexbox gap={20}>
-                <div>
-                    To start receiving notifications you have to{" "}
-                    <Button use="link" onClick={onAddSubscription}>
-                        add subscription
-                    </Button>
-                    .
-                </div>
+                <div>To start receiving notifications you have to add subscription.</div>
                 <Center>
-                    <Button use="primary" icon={<IconPlusRegular16 />} onClick={onAddSubscription}>
+                    <Button use="accent" icon={<IconPlusRegular16 />} onClick={onAddSubscription}>
                         Add subscription
                     </Button>
                 </Center>

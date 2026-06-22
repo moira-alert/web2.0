@@ -1,56 +1,15 @@
-import type { ReactNode, ReactElement } from "react";
-import { format, fromUnixTime } from "date-fns";
-import queryString from "query-string";
-import { Link } from "@skbkontur/react-ui/components/Link";
-import { Button } from "@skbkontur/react-ui/components/Button";
-import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
-import { IconArrowShapeTriangleADownSolid16 } from "@skbkontur/icons/IconArrowShapeTriangleADownSolid16";
-import { IconArrowUiShareAExportRegular16 } from "@skbkontur/icons/IconArrowUiShareAExportRegular16";
-import { IconCopyRegular16 } from "@skbkontur/icons/IconCopyRegular16";
-import { IconDataChartBarsARegular16 } from "@skbkontur/icons/IconDataChartBarsARegular16";
-import { IconMinusCircleRegular16 } from "@skbkontur/icons/IconMinusCircleRegular16";
-import { IconTimeClockRegular16 } from "@skbkontur/icons/IconTimeClockRegular16";
-import { IconToolPencilLineRegular16 } from "@skbkontur/icons/IconToolPencilLineRegular16";
-import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
-import { IconXCircleRegular16 } from "@skbkontur/icons/IconXCircleRegular16";
-import TagGroup from "../TagGroup/TagGroup";
-import {
-    Trigger,
-    TriggerState,
-    maintenanceDelta,
-    triggerSourceDescription,
-} from "../../Domain/Trigger";
-import { ConfirmModalHeaderData, getPageLink } from "../../Domain/Global";
-import { humanizeDuration } from "../../helpers/DateUtil";
-import { omitTrigger } from "../../helpers/omitTypes";
-import RouterLink from "../RouterLink/RouterLink";
-import FileExport from "../FileExport/FileExport";
-import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
-import { CodeEditor } from "../HighlightInput/CodeEditor";
-import { Hint, DropdownMenu, MenuSeparator } from "@skbkontur/react-ui";
-import { CopyButton } from "../TriggerEditForm/Components/CopyButton";
-import { MarkdownViewer } from "@skbkontur/markdown";
-import { WysiwygWrapper } from "../Markdown/WysiwygWrapper";
+import type { ReactElement } from "react";
+import { Trigger, TriggerState } from "../../Domain/Trigger";
+import { ConfirmModalHeaderData } from "../../Domain/Global";
 import { MetricStateChart } from "../MetricStateChart/MetricStateChart";
 import { MetricItemList } from "../../Domain/Metric";
-import { useAppSelector } from "../../store/hooks";
-import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
-import { ScheduleView } from "./Components/ScheduleView";
-import { ConfigState } from "../../store/selectors";
 import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
-import { useNavigate } from "react-router";
-import { MetricsPlotModal } from "../MetricsPlotModal/MetricsPlotModal";
-import { Flexbox } from "../Flexbox/FlexBox";
-import { useModal } from "../../hooks/useModal";
-import { TriggerCRUDInfo } from "./Components/TriggerCRUDInfo";
-import { useGetUserTeamsQuery } from "../../services/TeamsApi";
-import { useIsTeamMember } from "../../hooks/useIsTeamMember";
-import { useIsAdmin } from "../../hooks/useIsAdmin";
-import classNames from "classnames/bind";
+import { TriggerHeader } from "./Components/TriggerHeader/TriggerHeader";
+import { TriggerDetails } from "./Components/TriggerDetails/TriggerDetails";
+import { useClusterName } from "./hooks/useClusterName";
+import { useOwnerTeam } from "./hooks/useOwnerTeam";
 
 import styles from "./TriggerInfo.module.less";
-
-const cn = classNames.bind(styles);
 
 interface IProps {
     trigger: Trigger;
@@ -62,10 +21,6 @@ interface IProps {
     onSetMaintenance: (maintenance: number) => void;
 }
 
-function maintenanceCaption(delta: number): ReactNode {
-    return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
-}
-
 export default function TriggerInfo({
     trigger,
     triggerState,
@@ -75,56 +30,19 @@ export default function TriggerInfo({
     onThrottlingRemove,
     onSetMaintenance,
 }: IProps): ReactElement {
-    const {
-        id,
-        name,
-        desc,
-        cluster_id: clusterID,
-        targets,
-        expression,
-        error_value: errorValue,
-        warn_value: warnValue,
-        ttl_state: ttlState,
-        ttl,
-        sched,
-        tags,
-        team_id,
-        throttling,
-        trigger_source: triggerSource,
-        created_at,
-        created_by,
-        updated_at,
-        updated_by,
-    } = trigger;
-    const { state, msg: exceptionMessage, maintenance, maintenance_info } = triggerState;
+    const { team_id } = trigger;
 
-    const { data: teams } = useGetUserTeamsQuery();
-    const { isTeamMember } = useIsTeamMember(team_id ?? "");
-    const isAdmin = useIsAdmin();
-
-    const { config } = useAppSelector(ConfigState);
     const {
         modalData: confirmModalData,
         setModalData: setConfirmModalData,
         closeModal: closeConfirmModal,
     } = useConfirmModal();
-    const navigate = useNavigate();
-    const { isModalOpen, openModal, closeModal } = useModal();
 
-    const availableClusters = config?.metric_source_clusters?.filter(
-        (cluster) => cluster.trigger_source === triggerSource
-    );
+    const { clusterName, metricsTtl, availableClustersCount } = useClusterName(trigger);
+    const { ownerTeam, isShown: isOwnerTeamShown } = useOwnerTeam(team_id);
 
-    const cluster = availableClusters?.find((cluster) => cluster.cluster_id === clusterID);
-
-    const clusterName = cluster?.cluster_name;
-    const metricsTtl = cluster?.metrics_ttl;
-
-    const isClusterName = clusterName && availableClusters?.length !== 0;
+    const isClusterName = !!(clusterName && availableClustersCount !== 0);
     const isMetrics = metrics && Object.keys(metrics).length > 1;
-    const hasExpression = expression !== null && expression !== "";
-    const hasMultipleTargets = targets.length > 1;
-    const delta = maintenanceDelta(maintenance);
 
     const onDeleteTrigger = () => {
         setConfirmModalData({ isOpen: false });
@@ -148,220 +66,30 @@ export default function TriggerInfo({
         });
     };
 
-    const ownerTeam = teams?.find((team) => team.id === team_id);
-    const isOwnerTeamShown = ownerTeam && (isAdmin || isTeamMember);
-
     return (
         <section>
-            <header className={cn("header")}>
-                <h1 className={cn("title")} data-tid="Name">
-                    {name != null && name !== "" ? name : "[No name]"}
-                </h1>
-                <div className={cn("controls")}>
-                    <RouterLink
-                        data-tid="Edit"
-                        to={getPageLink("triggerEdit", id)}
-                        icon={<IconToolPencilLineRegular16 />}
-                    >
-                        Edit
-                    </RouterLink>
-                    <span className={cn("control")}>
-                        <Tooltip
-                            render={() => {
-                                const isInfo =
-                                    delta > 0 &&
-                                    maintenance_info &&
-                                    maintenance_info.setup_user &&
-                                    maintenance_info.setup_time;
+            <TriggerHeader
+                metricsTtl={metricsTtl}
+                trigger={trigger}
+                triggerState={triggerState}
+                onSetMaintenance={onSetMaintenance}
+                onThrottlingRemove={onThrottlingRemove}
+                onDeleteClick={handleDeleteTrigger}
+            />
 
-                                if (!isInfo) {
-                                    return null;
-                                }
-                                return (
-                                    <div>
-                                        Maintenance was set
-                                        <br />
-                                        by {maintenance_info.setup_user}
-                                        <br />
-                                        at{" "}
-                                        {maintenance_info.setup_time !== null &&
-                                            format(
-                                                fromUnixTime(maintenance_info.setup_time),
-                                                "MMMM d, HH:mm:ss"
-                                            )}
-                                    </div>
-                                );
-                            }}
-                        >
-                            <MaintenanceSelect
-                                icon={<IconTimeClockRegular16 />}
-                                maintenance={maintenance}
-                                caption={maintenanceCaption(delta)}
-                                onSetMaintenance={onSetMaintenance}
-                            />
-                        </Tooltip>
-                    </span>
-                    <DropdownMenu
-                        caption={
-                            <Button rightIcon={<IconArrowShapeTriangleADownSolid16 />} use="link">
-                                Other
-                            </Button>
-                        }
-                    >
-                        {throttling !== 0 && (
-                            <MenuItem onClick={onThrottlingRemove} icon={<IconXCircleRegular16 />}>
-                                Disable throttling
-                            </MenuItem>
-                        )}
-                        <MenuItem icon={<IconArrowUiShareAExportRegular16 />}>
-                            <FileExport
-                                data={omitTrigger(trigger)}
-                                title={`trigger ${name || id}`}
-                            />
-                        </MenuItem>
-                        <MenuItem
-                            target={"_blank"}
-                            icon={<IconCopyRegular16 />}
-                            href={getPageLink("triggerDuplicate", id)}
-                        >
-                            Duplicate
-                        </MenuItem>
-                        <MenuItem onClick={openModal} icon={<IconDataChartBarsARegular16 />}>
-                            Metrics graph
-                        </MenuItem>
-                        <MenuSeparator />
-                        <MenuItem icon={<IconTrashCanRegular16 />} onClick={handleDeleteTrigger}>
-                            Delete
-                        </MenuItem>
-                    </DropdownMenu>
-                </div>
-            </header>
-            <div className={cn("info-section")}>
-                <div className={cn("info-section")}>
-                    <dl className={cn("list")}>
-                        <dt>
-                            Target
-                            <br />
-                            {triggerSourceDescription(triggerSource)}
-                        </dt>
-                        <dd className={cn("codeEditor")}>
-                            <Flexbox gap={10}>
-                                {targets.map((target, i) => (
-                                    <div key={target}>
-                                        <div className={cn("copyButtonWrapper")}>
-                                            <Hint text="Copy without formatting">
-                                                <CopyButton
-                                                    className={cn("copyButton")}
-                                                    value={target}
-                                                />
-                                            </Hint>
-                                        </div>
-                                        <CodeEditor
-                                            data-tid={`T${i + 1}`}
-                                            triggerSource={triggerSource}
-                                            disabled
-                                            key={i}
-                                            value={target}
-                                        />
-                                    </div>
-                                ))}
-                            </Flexbox>
-                        </dd>
-                        {desc && <dt>Description</dt>}
-                        {desc && (
-                            <dd>
-                                <WysiwygWrapper>
-                                    <MarkdownViewer source={desc} />
-                                </WysiwygWrapper>
-                            </dd>
-                        )}
-                        {isClusterName && <dt>Cluster</dt>}
-                        {isClusterName && <dd>{clusterName}</dd>}
-                        {!expression && <dt>Value</dt>}
-                        {!expression && (
-                            <dd>
-                                {warnValue != null && `Warning: ${warnValue}. `}
-                                {errorValue != null && `Error: ${errorValue}. `}
-                                Set {ttlState} if has no value for {ttl} seconds
-                            </dd>
-                        )}
-                        {expression && <dt>Expression</dt>}
-                        {expression && (
-                            <dd>
-                                {`${expression}. `}
-                                Set {ttlState} if has no value for {ttl} seconds
-                            </dd>
-                        )}
-                        {sched && <dt>Schedule</dt>}
-                        {sched && (
-                            <dd>
-                                <ScheduleView data={sched} />
-                            </dd>
-                        )}
-                        <dt>Tags</dt>
-                        <dd>
-                            <TagGroup
-                                onClick={(tag) => {
-                                    navigate(
-                                        `/?${queryString.stringify(
-                                            { tags: [tag] },
-                                            {
-                                                arrayFormat: "index",
-                                                encode: true,
-                                            }
-                                        )}`
-                                    );
-                                }}
-                                tags={tags}
-                            />
-                        </dd>
-                        {(state === "EXCEPTION" || state === "ERROR") && <dt />}
-                        {(state === "EXCEPTION" || state === "ERROR") && (
-                            <dd className={cn("exception-explanation")}>
-                                <div className={cn("line-1")}>
-                                    <IconMinusCircleRegular16 color="#D43517" /> Trigger in {state}{" "}
-                                    state. {exceptionMessage}
-                                </div>
-                                <div className={cn("line-2")}>
-                                    Please verify trigger target
-                                    {hasMultipleTargets ? "s" : ""}
-                                    {hasExpression ? " and expression" : ""} on{" "}
-                                    <RouterLink to={`/trigger/${trigger.id}/edit`}>
-                                        trigger edit page
-                                    </RouterLink>
-                                    .
-                                    {supportEmail && (
-                                        <span>
-                                            {" "}
-                                            Or <Link href={`mailto:${supportEmail}`}>
-                                                contact
-                                            </Link>{" "}
-                                            with server administrator.
-                                        </span>
-                                    )}
-                                </div>
-                            </dd>
-                        )}
-                        <TriggerCRUDInfo
-                            created_by={created_by}
-                            created_at={created_at}
-                            updated_by={updated_by}
-                            updated_at={updated_at}
-                        />
-                        {isOwnerTeamShown && (
-                            <>
-                                <dt>Made for team</dt>
-                                <dd>
-                                    <RouterLink to={getPageLink("teamSettings", ownerTeam.id)}>
-                                        {ownerTeam.name}
-                                    </RouterLink>
-                                </dd>
-                            </>
-                        )}
-                    </dl>
-                </div>
+            <div className={styles["info-section"]}>
+                <TriggerDetails
+                    trigger={trigger}
+                    triggerState={triggerState}
+                    supportEmail={supportEmail}
+                    clusterName={clusterName}
+                    ownerTeam={ownerTeam}
+                    isOwnerTeamShown={isOwnerTeamShown}
+                    isClusterName={isClusterName}
+                />
+
                 {isMetrics && (
-                    <div className={cn("state-chart")}>
+                    <div className={styles["state-chart"]}>
                         <MetricStateChart
                             displayLegend
                             enableTooltip
@@ -372,14 +100,7 @@ export default function TriggerInfo({
                     </div>
                 )}
             </div>
-            {metricsTtl && isModalOpen && (
-                <MetricsPlotModal
-                    closeModal={closeModal}
-                    metricsTtl={metricsTtl}
-                    targets={targets}
-                    triggerId={id}
-                />
-            )}
+
             <ConfirmModal modalData={confirmModalData} closeModal={closeConfirmModal} />
         </section>
     );

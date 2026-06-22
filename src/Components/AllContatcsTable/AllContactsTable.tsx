@@ -1,7 +1,14 @@
 import { FC } from "react";
 import { Contact } from "../../Domain/Contact";
-import { FixedSizeList as List } from "react-window";
-import { getCoreRowModel, ColumnDef, flexRender, useReactTable } from "@tanstack/react-table";
+import { List } from "react-window";
+import {
+    getCoreRowModel,
+    ColumnDef,
+    flexRender,
+    useReactTable,
+    type Row,
+} from "@tanstack/react-table";
+import type { RowComponentProps } from "react-window";
 import RouterLink from "../RouterLink/RouterLink";
 import { getPageLink } from "../../Domain/Global";
 import {
@@ -23,6 +30,47 @@ interface IAllContactsTableProps {
     handleSetEditableContact: (contact: Contact) => void;
     handleSetFilterContactsColumn: (column: TContactFilterColumns | null) => void;
 }
+
+interface ContactRowProps {
+    rows: Row<Contact>[];
+    columnSizing: Record<string, number>;
+    onRowClick: (contact: Contact) => void;
+}
+
+const RowComponent = ({
+    index,
+    style,
+    rows,
+    columnSizing,
+    onRowClick,
+}: RowComponentProps<ContactRowProps>) => {
+    const row = rows[index];
+    const contact = row.original;
+
+    return (
+        <div
+            key={row.id}
+            className={cn("contacts-row", "clickable")}
+            style={style}
+            onClick={() => onRowClick(contact)}
+        >
+            {row.getVisibleCells().map((cell) => {
+                const width = columnSizing[cell.column.id] ?? cell.column.getSize();
+                return (
+                    <div
+                        key={cell.id}
+                        className={cn("cell")}
+                        style={{
+                            flex: `1 1 ${width}px`,
+                        }}
+                    >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
 
 export const AllContactsTable: FC<IAllContactsTableProps> = ({
     contacts,
@@ -84,6 +132,11 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
     });
 
     const isListLongEnoughToScroll = contacts.length > MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE;
+    const columnSizing = table.getState().columnSizing;
+    const rows = table.getRowModel().rows;
+    const listHeight = isListLongEnoughToScroll
+        ? TAG_LIST_HEIGHT
+        : getTotalItemSize(contacts.length);
 
     return (
         <>
@@ -137,40 +190,13 @@ export const AllContactsTable: FC<IAllContactsTableProps> = ({
 
             {contacts.length ? (
                 <List
-                    height={
-                        isListLongEnoughToScroll
-                            ? TAG_LIST_HEIGHT
-                            : getTotalItemSize(contacts.length)
-                    }
-                    itemCount={table.getRowModel().rows.length}
-                    itemSize={TAG_ROW_HEIGHT}
-                    width="100%"
-                >
-                    {({ index, style }) => {
-                        const row = table.getRowModel().rows[index];
-                        const contact = row.original;
-                        return (
-                            <div
-                                key={row.id}
-                                className={cn("contacts-row", "clickable")}
-                                style={style}
-                                onClick={() => handleSetEditableContact(contact)}
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <div
-                                        key={cell.id}
-                                        className={cn("cell")}
-                                        style={{
-                                            flex: `1 1 ${cell.column.getSize()}px`,
-                                        }}
-                                    >
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </div>
-                                ))}
-                            </div>
-                        );
-                    }}
-                </List>
+                    key={JSON.stringify(columnSizing)}
+                    style={{ width: "100%", height: listHeight }}
+                    rowComponent={RowComponent}
+                    rowCount={rows.length}
+                    rowHeight={TAG_ROW_HEIGHT}
+                    rowProps={{ rows, columnSizing, onRowClick: handleSetEditableContact }}
+                />
             ) : (
                 <div className={cn("empty-result")}>No contacts found</div>
             )}

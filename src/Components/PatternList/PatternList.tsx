@@ -3,7 +3,6 @@ import { useState, FC } from "react";
 import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
 import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
 import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
-import { Button } from "@skbkontur/react-ui/components/Button";
 import { Pattern } from "../../Domain/Pattern";
 import { getPageLink } from "../../Domain/Global";
 import RouterLink from "../RouterLink/RouterLink";
@@ -67,7 +66,6 @@ export default function PatternList(props: Props): ReactElement {
                         <span className={cn("icon")}>{sortingIcon}</span>
                     )}
                 </button>
-                <div className={cn("control")} />
             </div>
 
             {visibleItems.map((item) => (
@@ -110,11 +108,7 @@ const PatternListItem: FC<ItemProps> = ({ data, onRemove }) => {
             )}
             <div className={cn("trigger-counter")}>{triggers.length}</div>
             <div className={cn("metric-counter")}>{metrics.length}</div>
-            <div className={cn("control")}>
-                <Button use="link" icon={<IconTrashCanRegular16 />} onClick={onRemove}>
-                    Delete
-                </Button>
-            </div>
+            <IconTrashCanRegular16 className={cn("control")} onClick={onRemove} />
             {showInfo && (
                 <div className={cn("info")}>
                     {isTriggers && (

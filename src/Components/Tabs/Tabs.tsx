@@ -9,7 +9,7 @@ const cn = classNames.bind(styles);
 
 interface ITabsCustomProps {
     value: string;
-    children: Array<ReactElement | null>;
+    children: Array<ReactElement<ITabProps> | null>;
     onValueChange?: (tab: string) => void;
 }
 
@@ -49,7 +49,7 @@ const TabsCustom: FC<ITabsCustomProps> = ({ value, children, onValueChange }) =>
                     )}
                 </Tabs>
             </div>
-            {(Children.toArray(children) as ReactElement[]).filter(
+            {(Children.toArray(children) as ReactElement<ITabProps>[]).filter(
                 ({ props }) => props.id === activeTab
             )}
         </div>

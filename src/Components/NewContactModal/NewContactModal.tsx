@@ -77,7 +77,7 @@ const NewContactModal: FC<INewContactModalProps> = ({ onCancel }) => {
                 <ModalError message={error} maxWidth="450px" />
                 <RowStack gap={2} block baseline>
                     <Button
-                        use="primary"
+                        use="accent"
                         loading={isCreating}
                         disabled={areActionButtonsDisabled}
                         onClick={() => handleCreateContact()}

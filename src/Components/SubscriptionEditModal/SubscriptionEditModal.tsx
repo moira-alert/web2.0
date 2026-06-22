@@ -80,7 +80,7 @@ const SubscriptionEditModal: FC<Props> = ({ subscription, tags, contacts, onCanc
                     <ModalError message={error} maxWidth="450px" />
                     <RowStack gap={2} block baseline>
                         <Button
-                            use="primary"
+                            use="accent"
                             disabled={isActionButtonsDisabled}
                             loading={isUpdatingSubscription}
                             onClick={() => handleUpdateSubscription()}
@@ -95,7 +95,6 @@ const SubscriptionEditModal: FC<Props> = ({ subscription, tags, contacts, onCanc
                             Save and test
                         </Button>
                         <FileExport
-                            isButton
                             title={getFileName()}
                             data={omitSubscription(subscriptionToEdit)}
                         >

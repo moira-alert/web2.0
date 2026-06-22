@@ -27,11 +27,11 @@ export const AdminMenu: FC = () => {
     return (
         <DropdownMenu
             caption={
-                <>
+                <span>
                     <IconJewelCrownRegular16 />
                     &nbsp;
                     <button className={cn("admin-button")}>Admin</button>
-                </>
+                </span>
             }
         >
             <MenuItem href={getPageLink("systemSubscriptions")}>System Subscriptions</MenuItem>

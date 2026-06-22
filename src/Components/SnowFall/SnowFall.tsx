@@ -12,7 +12,7 @@ interface ISnowFlake {
 export const SnowfallBackground = ({ topOffset = 0 }: { topOffset?: number }) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const snowflakesRef = useRef<ISnowFlake[]>([]);
-    const animationRef = useRef<number>();
+    const animationRef = useRef<number | undefined>(undefined);
 
     const createSnowflakes = (width: number, height: number) => {
         const snowflakes = Array.from({ length: 100 }, () => ({

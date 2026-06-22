@@ -2,9 +2,10 @@ import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { useUpdateTeamMutation } from "../services/TeamsApi";
 import { Team } from "../Domain/Team";
 import { validateForm } from "../helpers/validations";
+import { Nullable } from "../types/utilityTypes";
 
 export const useUpdateTeam = (
-    validationRef: React.RefObject<ValidationContainer>,
+    validationRef: React.RefObject<Nullable<ValidationContainer>>,
     name: string,
     description: string,
     setError: (error: string) => void,

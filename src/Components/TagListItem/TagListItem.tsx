@@ -1,7 +1,6 @@
 import { useState, FC, useEffect, useRef } from "react";
 import * as React from "react";
 import flatten from "lodash/flatten";
-import { Button } from "@skbkontur/react-ui/components/Button";
 import { IconCheckARegular16 } from "@skbkontur/icons/IconCheckARegular16";
 import { IconTrashCanLight16 } from "@skbkontur/icons/IconTrashCanLight16";
 import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
@@ -11,7 +10,8 @@ import { TagStat } from "../../Domain/Tag";
 import { useModal } from "../../hooks/useModal";
 import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
 import { Subscription } from "../../Domain/Subscription";
-import { VariableSizeList as List } from "react-window";
+import { List } from "react-window";
+import type { RowComponentProps } from "react-window";
 import { useDeleteSubscriptionMutation } from "../../services/SubscriptionsApi";
 import { useDeleteTagMutation } from "../../services/TagsApi";
 import RouterLink from "../RouterLink/RouterLink";
@@ -45,30 +45,36 @@ export const getSubscriptionRowHeight = (contactIDs: string[]) => {
     return TAG_ROW_HEIGHT;
 };
 
-interface SubscriptionItemProps {
-    subscription: {
-        enabled: boolean;
-        user: string;
-        team_id?: string;
-        contacts: string[];
-    };
+interface SubscriptionRowProps {
+    subscriptions: TagStat["subscriptions"];
     allContacts: Contact[];
-    style: React.CSSProperties;
-    onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-    onDelete: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    handleSubscriptionClick: (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        subscription: Subscription
+    ) => void;
+    handleDeleteSubscription: (
+        event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+        subscription: Subscription
+    ) => void;
 }
 
-const SubscriptionItem: FC<SubscriptionItemProps> = ({
-    subscription,
-    allContacts,
+const SubscriptionRow = ({
+    index,
     style,
-    onClick,
-    onDelete,
-}) => {
-    const { enabled, user, team_id, contacts } = subscription;
+    subscriptions,
+    allContacts,
+    handleSubscriptionClick,
+    handleDeleteSubscription,
+}: RowComponentProps<SubscriptionRowProps>) => {
+    const subscription = subscriptions[index];
 
+    const { enabled, user, team_id, contacts } = subscription;
     return (
-        <div style={style} className={cn("item")} onClick={onClick}>
+        <div
+            style={style}
+            className={cn("item")}
+            onClick={(event) => handleSubscriptionClick(event, subscription)}
+        >
             <div className={cn("enabled")}>
                 {enabled ? <IconCheckARegular16 /> : <IconXRegular16 />}
             </div>
@@ -103,11 +109,10 @@ const SubscriptionItem: FC<SubscriptionItemProps> = ({
                     return null;
                 })}
             </div>
-            <div className={cn("sub-control")}>
-                <Button use="link" icon={<IconTrashCanLight16 />} onClick={onDelete}>
-                    Delete
-                </Button>
-            </div>
+            <IconTrashCanLight16
+                className={cn("sub-control")}
+                onClick={(event) => handleDeleteSubscription(event, subscription)}
+            />
         </div>
     );
 };
@@ -142,14 +147,18 @@ export const TagListItem: FC<ItemProps> = ({
     };
 
     const handleDeleteSubscription = async (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        event: React.MouseEvent<SVGSVGElement, MouseEvent>,
         subscription: Subscription
     ) => {
         event.stopPropagation();
         await deleteSubscription({ id: subscription.id, tagsToInvalidate: ["TagStats"] });
     };
 
-    const handleDeleteTag = async (tag: string) => {
+    const handleDeleteTag = async (
+        event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+        tag: string
+    ) => {
+        event.stopPropagation();
         await deleteTag(tag);
     };
 
@@ -185,15 +194,12 @@ export const TagListItem: FC<ItemProps> = ({
             <div className={cn("name")}>{name}</div>
             <div className={cn("trigger-counter")}>{triggers.length}</div>
             <div className={cn("subscription-counter")}>{subscriptions.length}</div>
-            <div className={cn("control")}>
-                <Button
-                    use="link"
-                    icon={<IconTrashCanLight16 />}
-                    onClick={() => handleDeleteTag(tagStat.name)}
-                >
-                    Delete
-                </Button>
-            </div>
+
+            <IconTrashCanLight16
+                className={cn("control")}
+                onClick={(e) => handleDeleteTag(e, tagStat.name)}
+            />
+
             {isModalOpen && subscriptionToEdit !== null && (
                 <SubscriptionEditModal
                     subscription={subscriptionToEdit}
@@ -206,32 +212,20 @@ export const TagListItem: FC<ItemProps> = ({
                 <div className={cn("info")}>
                     <div className={cn("group")}>
                         <List
-                            height={getSubscriptionsTableHeight}
-                            width={"100%"}
-                            itemSize={(index) =>
+                            className={cn("subscriptionList")}
+                            style={{ height: getSubscriptionsTableHeight }}
+                            rowComponent={SubscriptionRow}
+                            rowCount={subscriptions.length}
+                            rowHeight={(index) =>
                                 getSubscriptionRowHeight(subscriptions[index].contacts)
                             }
-                            itemCount={subscriptions.length}
-                            itemData={subscriptions}
-                        >
-                            {({ data, index, style }) => {
-                                const { id, enabled, user, team_id, contacts } = data[index];
-                                return (
-                                    <SubscriptionItem
-                                        key={id}
-                                        style={style}
-                                        subscription={{ enabled, user, team_id, contacts }}
-                                        allContacts={allContacts}
-                                        onClick={(event) =>
-                                            handleSubscriptionClick(event, data[index])
-                                        }
-                                        onDelete={(event) =>
-                                            handleDeleteSubscription(event, data[index])
-                                        }
-                                    />
-                                );
+                            rowProps={{
+                                subscriptions,
+                                allContacts,
+                                handleSubscriptionClick,
+                                handleDeleteSubscription,
                             }}
-                        </List>
+                        />
                     </div>
                 </div>
             )}

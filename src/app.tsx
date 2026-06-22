@@ -11,7 +11,7 @@ import SentryInitializer, {
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
 import { store } from "./store/store";
-import { Toast } from "@skbkontur/react-ui/components/Toast";
+import { SingleToast } from "@skbkontur/react-ui";
 import Favicon from "./Components/Favicon/Favicon";
 
 import "./style.less";
@@ -29,17 +29,23 @@ const render = (Component: ComponentType) => {
     root.render(
         <BrowserRouter>
             <Providers>
+                <SingleToast />
                 <Sentry.ErrorBoundary
-                    onError={(error) => {
+                    onError={(error: unknown) => {
+                        const message = error instanceof Error ? error.message : String(error);
+
                         if (
                             error instanceof Error &&
-                            (error.message.includes(newStaticErrorText) ||
-                                error.message.includes(notValidMimeTypeError))
+                            (message.includes(newStaticErrorText) ||
+                                message.includes(notValidMimeTypeError))
                         ) {
                             window.location.reload();
                             return;
                         }
-                        Toast.push(error.toString());
+
+                        setTimeout(() => {
+                            SingleToast.push(message);
+                        }, 0);
                     }}
                     fallback={() => <Component />}
                 >

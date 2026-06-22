@@ -47,3 +47,12 @@
 .blink(@duration: 1.6s) {
     animation: blink @duration infinite;
 }
+
+.resetButtonEffects() {
+    &:hover,
+    &:active,
+    &:active:hover {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+}

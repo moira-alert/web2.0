@@ -34,14 +34,14 @@ export const TeamNameTooltip: FC<TeamNameTooltipProps> = ({
     }
 
     return (
-        <Tooltip pos="top left" render={() => tooltipContent} onOpen={() => setOpened(true)}>
-            <RouterLink
-                className={className}
-                {...routerLinkProps}
-                to={getPageLink("teamSettings", teamId)}
-            >
-                {teamId}
-            </RouterLink>
-        </Tooltip>
+        <RouterLink
+            className={className}
+            {...routerLinkProps}
+            to={getPageLink("teamSettings", teamId)}
+        >
+            <Tooltip pos="top left" render={() => tooltipContent} onOpen={() => setOpened(true)}>
+                {teamId}{" "}
+            </Tooltip>
+        </RouterLink>
     );
 };

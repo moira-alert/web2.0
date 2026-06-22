@@ -97,7 +97,7 @@ const NotificationListContainer: FC = () => {
                                 Notifications
                             </Toggle>
                             <Button
-                                use={"link"}
+                                use="danger"
                                 icon={<IconTrashCanRegular16 />}
                                 onClick={onRemoveAllNotificationsBtnClick}
                             >

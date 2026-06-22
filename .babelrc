@@ -1,8 +1,0 @@
-{"env": {
-    "testing": {
-        "presets":[
-            "@babel/typescript",
-            "@babel/preset-env"
-        ]
-    }
-}}

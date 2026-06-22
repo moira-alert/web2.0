@@ -1,10 +1,9 @@
 import type { ReactElement } from "react";
-import { useEffect, useRef } from "react";
 import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
 import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
 import { Metric, MetricItemList } from "../../Domain/Metric";
-import type { VariableSizeList } from "react-window";
-import { VariableSizeList as List } from "react-window";
+import { List } from "react-window";
+import type { RowComponentProps } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
 import {
     METRIC_LIST_HEIGHT,
@@ -18,6 +17,34 @@ import classNames from "classnames/bind";
 import styles from "./MetricList.module.less";
 
 const cn = classNames.bind(styles);
+
+interface MetricRowProps {
+    entries: [string, Metric][];
+    status: boolean;
+    onChange: (metric: string, maintenance: number) => void;
+    onRemove: (metric: string) => void;
+}
+
+const MetricRow = ({
+    index,
+    style,
+    entries,
+    status,
+    onChange,
+    onRemove,
+}: RowComponentProps<MetricRowProps>) => {
+    const [metricName, metricData] = entries[index];
+    return (
+        <MetricListItem
+            status={status}
+            metricName={metricName}
+            metricData={metricData}
+            style={style}
+            onChange={onChange}
+            onRemove={onRemove}
+        />
+    );
+};
 
 export type SortingColumn = "state" | "name" | "event" | "value";
 
@@ -66,11 +93,10 @@ export default function MetricList(props: Props): ReactElement {
     ) : (
         <IconUiFilterSortAHighToLowRegular16 />
     );
-    const ref = useRef<VariableSizeList>(null);
+
     const entries = Object.entries(items);
 
-    // When the sorting state is changed, call resetAfterIndex to recache row offsets and measurements
-    useEffect(() => ref.current?.resetAfterIndex(0, true), [sortingColumn, sortingDown]);
+    const totalListHeightBeforeScroll = getTotalSize(entries) + 2;
 
     return (
         <section className={cn("table")}>
@@ -149,33 +175,25 @@ export default function MetricList(props: Props): ReactElement {
             </header>
             <div className={cn("items")}>
                 <List
-                    ref={ref}
-                    height={
-                        // When the metrics list is over MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE items, it will have a fixed 500px height.
-                        // Otherwise, the total height will be the sum of individual row heights.
-                        entries.length > MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE
-                            ? METRIC_LIST_HEIGHT
-                            : getTotalSize(entries) + 2
-                    }
-                    width="100%"
-                    itemSize={(index) => getItemSize(...entries[index])}
-                    itemCount={entries.length}
-                    itemData={entries}
-                >
-                    {({ data, index, style }) => {
-                        const [metricName, metricData] = data[index];
-                        return (
-                            <MetricListItem
-                                status={status ?? false}
-                                metricName={metricName}
-                                metricData={metricData}
-                                style={style}
-                                onChange={onChange}
-                                onRemove={onRemove}
-                            />
-                        );
+                    style={{
+                        height:
+                            // When the metrics list is over MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE items, it will have a fixed 500px height.
+                            // Otherwise, the total height will be the sum of individual row heights.
+                            entries.length > MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE
+                                ? METRIC_LIST_HEIGHT
+                                : totalListHeightBeforeScroll,
+                        width: "100%",
                     }}
-                </List>
+                    rowComponent={MetricRow}
+                    rowCount={entries.length}
+                    rowHeight={(index) => getItemSize(...entries[index])}
+                    rowProps={{
+                        entries,
+                        status: status ?? false,
+                        onChange,
+                        onRemove,
+                    }}
+                />
             </div>
         </section>
     );

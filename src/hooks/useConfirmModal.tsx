@@ -43,7 +43,7 @@ export const ConfirmModal: FC<{
             <Modal.Body>{modalData.body}</Modal.Body>
             <Modal.Footer>
                 <Flexbox direction="row" gap={8}>
-                    <Button onClick={closeModal} use="primary">
+                    <Button onClick={closeModal} use="accent">
                         Cancel
                     </Button>
                     {modalData.button && (

@@ -51,7 +51,7 @@ export function Users({ team }: UsersProps): ReactElement {
             onCollapse={handleCollapse}
         >
             {users?.length ? (
-                <Grid columns="20px 110px" gap="8px" margin="8px 0 0 8px">
+                <Grid columns="34px 110px" gap="8px" margin="8px 0 0 8px" align="baseline">
                     {users.map((userName) => (
                         <Fragment key={userName}>
                             <Confirm
@@ -66,7 +66,7 @@ export function Users({ team }: UsersProps): ReactElement {
                             >
                                 <Button
                                     data-tid={`Delete user ${userName}`}
-                                    use={"link"}
+                                    use="text"
                                     icon={<IconXRegular16 />}
                                 />
                             </Confirm>
@@ -77,8 +77,7 @@ export function Users({ team }: UsersProps): ReactElement {
                     <div />
                     <Button
                         icon={<IconPlusRegular16 />}
-                        use={"link"}
-                        width={0}
+                        use="text"
                         data-tid="Add user"
                         onClick={openModal}
                     >
@@ -88,7 +87,7 @@ export function Users({ team }: UsersProps): ReactElement {
             ) : (
                 <Grid columns={"max-content max-content"} gap="4px" margin="8px 0 0 8px">
                     <div>There are no users:</div>
-                    <Button icon={<IconPlusRegular16 />} use={"link"} onClick={openModal}>
+                    <Button icon={<IconPlusRegular16 />} use="text" onClick={openModal}>
                         Add User
                     </Button>
                 </Grid>

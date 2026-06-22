@@ -109,7 +109,7 @@ export const TeamCard: FC<ITeamCardProps> = ({ team, isDeleting, onOpenDelete, o
                                     <Button
                                         loading={isLoading}
                                         onClick={handleConfirm}
-                                        use={"primary"}
+                                        use="accent"
                                         width={100}
                                         data-tid={`Delete team ${name}`}
                                     >

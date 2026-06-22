@@ -22,7 +22,7 @@ export function CollapseButton(props: CollapseButtonProps): ReactElement {
     return (
         <div>
             <Button
-                use={"link"}
+                use="text"
                 onClick={handleCollapse}
                 icon={collapsed ? <IconArrowCRightRegular16 /> : <IconArrowCDownRegular16 />}
             >

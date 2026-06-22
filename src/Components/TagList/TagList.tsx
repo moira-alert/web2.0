@@ -4,7 +4,8 @@ import { TagStat } from "../../Domain/Tag";
 import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
 import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
 import { useSortData } from "../../hooks/useSortData";
-import { FixedSizeList as List } from "react-window";
+import { List } from "react-window";
+import type { RowComponentProps } from "react-window";
 import { TagListItem } from "../TagListItem/TagListItem";
 import { Input, Token } from "@skbkontur/react-ui";
 import { TokenInput, TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
@@ -26,6 +27,38 @@ interface ITagListProps {
 }
 
 export const getTotalItemSize = (length: number) => length * TAG_ROW_HEIGHT + 1;
+
+interface TagRowProps {
+    filteredTags: TagStat[];
+    tags: string[];
+    allContacts: Contact[];
+    handleTagClick: (tag: string) => void;
+    clickedTag: string | null;
+}
+
+const TagRow = ({
+    index,
+    style,
+    filteredTags,
+    tags,
+    allContacts,
+    handleTagClick,
+    clickedTag,
+}: RowComponentProps<TagRowProps>) => {
+    const tagStat = filteredTags[index];
+    const isActive = clickedTag === tagStat.name;
+
+    return (
+        <TagListItem
+            tagStat={tagStat}
+            style={style}
+            tags={tags}
+            allContacts={allContacts}
+            handleTagClick={handleTagClick}
+            isActive={isActive}
+        />
+    );
+};
 
 export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
     const { sortedData, sortConfig, handleSort } = useSortData(items, "name");
@@ -81,6 +114,10 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                 .slice(0, 10)
         );
     };
+
+    const listHeight = isListLongEnoughToScroll
+        ? TAG_LIST_HEIGHT
+        : getTotalItemSize(filteredTags.length);
 
     return (
         <>
@@ -160,29 +197,18 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                         <div className={cn("control")} />
                     </div>
                     <List
-                        height={
-                            isListLongEnoughToScroll
-                                ? TAG_LIST_HEIGHT
-                                : getTotalItemSize(items.length)
-                        }
-                        width="100%"
-                        itemSize={TAG_ROW_HEIGHT}
-                        itemCount={filteredTags.length}
-                        itemData={filteredTags}
-                    >
-                        {({ data, index, style }) => {
-                            return (
-                                <TagListItem
-                                    tagStat={data[index]}
-                                    style={style}
-                                    tags={tags}
-                                    allContacts={contacts ?? []}
-                                    handleTagClick={handleTagClick}
-                                    isActive={clickedTag === data[index].name}
-                                />
-                            );
+                        style={{ height: listHeight, width: "100%" }}
+                        rowComponent={TagRow}
+                        rowCount={filteredTags.length}
+                        rowHeight={TAG_ROW_HEIGHT}
+                        rowProps={{
+                            filteredTags,
+                            tags,
+                            allContacts: contacts ?? [],
+                            handleTagClick,
+                            clickedTag,
                         }}
-                    </List>
+                    />
                 </>
             )}
         </>

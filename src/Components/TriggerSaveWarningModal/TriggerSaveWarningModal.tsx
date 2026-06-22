@@ -21,7 +21,7 @@ export function TriggerSaveWarningModal({
                 <Modal.Footer>
                     <Flexbox direction="row" gap={8}>
                         <Button onClick={onClose}>Cancel</Button>
-                        <Button onClick={onSave} use="primary">
+                        <Button onClick={onSave} use="accent">
                             Save
                         </Button>
                     </Flexbox>

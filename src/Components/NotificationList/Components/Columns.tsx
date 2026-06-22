@@ -15,7 +15,6 @@ import { TeamNameTooltip } from "../../SubscriptionList/TeamNameTooltip";
 import ContactTypeIcon from "../../ContactTypeIcon/ContactTypeIcon";
 import { NotificationStateFiltersPanel } from "../../NotificationFiltersPanel/NotificationStateFiltersPanel";
 import { ClusterKeyDropdownSelect } from "../../ClusterKeyDropdownSelect/СlusterKeyDropdownSelect";
-import { Button } from "@skbkontur/react-ui/components/Button";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { Input } from "@skbkontur/react-ui/components/Input";
 import { INotificationRow } from "../hooks/useNotificationColumns";
@@ -281,7 +280,10 @@ const ActionsCell: FC<{
     row: Row<INotificationRow>;
     onRemove: (id: string) => void;
 }> = ({ row, onRemove }) => (
-    <Button use="link" icon={<IconTrashCanRegular16 />} onClick={() => onRemove(row.original.id)} />
+    <IconTrashCanRegular16
+        className={styles.deleteIcon}
+        onClick={() => onRemove(row.original.id)}
+    />
 );
 
 interface FilterInputProps {
