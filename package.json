@@ -44,7 +44,7 @@
         "codemirror": "6.0.1",
         "color-hash": "1.0.3",
         "date-fns": "2.9.0",
-        "dompurify": "3.4.9",
+        "dompurify": "3.4.11",
         "file-saver": "2.0.2",
         "lodash": "4.18.1",
         "numeral": "2.0.6",
