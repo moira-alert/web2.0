@@ -24,7 +24,6 @@ export const ClusterKeyDropdownSelect: FC<IClusterKeyDropdownSelectProps> = ({
 }) => {
     return (
         <DropdownMenu
-            menuMaxHeight={300}
             caption={({ openMenu }: { openMenu: () => void }) => (
                 <Button
                     width={width}

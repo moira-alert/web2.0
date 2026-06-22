@@ -24,6 +24,7 @@ const NotificationListContainer = lazy(() => import("./Containers/NotificationLi
 const ContactsContainer = lazy(() => import("./Containers/ContactsContainer"));
 const TagListContainer = lazy(() => import("./Containers/TagListContainer"));
 const PatternListContainer = lazy(() => import("./Containers/PatternListContainer"));
+const HeavyTriggersContainer = lazy(() => import("./Containers/HeavyTriggersContainer"));
 const TriggerList = lazy(() => import("./pages/trigger-list/trigger-list"));
 const AllTeamsContainer = lazy(() => import("./Containers/AllTeamsContainer/AllTeamsContainer"));
 const TriggerListDesktop = lazy(() => import("./pages/trigger-list/trigger-list.desktop"));
@@ -135,6 +136,14 @@ function Desktop() {
             element: (
                 <AdminRoute>
                     <SystemSubscriptionsContainer />
+                </AdminRoute>
+            ),
+        },
+        {
+            path: getPagePath("heavyTriggers"),
+            element: (
+                <AdminRoute>
+                    <HeavyTriggersContainer />
                 </AdminRoute>
             ),
         },

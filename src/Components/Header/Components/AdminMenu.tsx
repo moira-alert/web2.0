@@ -35,6 +35,7 @@ export const AdminMenu: FC = () => {
             }
         >
             <MenuItem href={getPageLink("systemSubscriptions")}>System Subscriptions</MenuItem>
+            <MenuItem href={getPageLink("heavyTriggers")}>Heavy Triggers</MenuItem>
             <MenuItem href={getPageLink("allTeams")}>All Teams</MenuItem>
             <MenuItem href={getPageLink("noisiness")}>Noisiness</MenuItem>
             <MenuItem href={getPageLink("contacts")}>Contacts</MenuItem>
