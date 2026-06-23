@@ -15,6 +15,7 @@ import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHum
 import { Slider } from "../../Components/Slider/Slider";
 import FileExport from "../../Components/FileExport/FileExport";
 import styles from "./HeavyTriggersContainer.module.less";
+import { TFeatureFlag, useFeatureFlag } from "../../hooks/useFeatureFlag";
 
 const MIN_METRICS = 1;
 const MAX_METRICS = 40000;
@@ -22,9 +23,15 @@ const INITIAL_METRICS_VALUE = MAX_METRICS / 2;
 
 const MemoizedTriggerList = memo(TriggerList);
 
+const HEAVY_TRIGGERS_FROM_FLAG: TFeatureFlag<number> = {
+    id: "heavyTriggersFrom",
+    label: "Minimum metrics count",
+    defaultValue: INITIAL_METRICS_VALUE,
+};
+
 const HeavyTriggersContainer: FC = () => {
     const { error, isLoading } = useAppSelector(UIState);
-    const [committedFrom, setCommittedFrom] = useState(INITIAL_METRICS_VALUE);
+    const [committedFrom, setCommittedFrom] = useFeatureFlag(HEAVY_TRIGGERS_FROM_FLAG);
 
     const [activePage, setActivePage] = useState(1);
 
