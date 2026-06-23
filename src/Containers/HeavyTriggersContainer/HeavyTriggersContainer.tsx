@@ -1,18 +1,20 @@
 import { useEffect, FC, useState, memo, useCallback } from "react";
-import { Layout, LayoutContent, LayoutFooter } from "../Components/Layout/Layout";
-import { setDocumentTitle } from "../helpers/setDocumentTitle";
-import { UIState } from "../store/selectors";
-import { useAppSelector } from "../store/hooks";
+import { Layout, LayoutContent, LayoutFooter } from "../../Components/Layout/Layout";
+import { setDocumentTitle } from "../../helpers/setDocumentTitle";
+import { UIState } from "../../store/selectors";
+import { useAppSelector } from "../../store/hooks";
 
 import {
     useDeleteMetricMutation,
     useGetHeavyTriggersQuery,
     useSetMetricsMaintenanceMutation,
-} from "../services/TriggerApi";
-import TriggerList from "../Components/TriggerList/TriggerList";
+} from "../../services/TriggerApi";
+import TriggerList from "../../Components/TriggerList/TriggerList";
 import { Paging } from "@skbkontur/react-ui";
-import transformPageFromHumanToProgrammer from "../logic/transformPageFromHumanToProgrammer";
-import { Slider } from "../Components/Slider/Slider";
+import transformPageFromHumanToProgrammer from "../../logic/transformPageFromHumanToProgrammer";
+import { Slider } from "../../Components/Slider/Slider";
+import FileExport from "../../Components/FileExport/FileExport";
+import styles from "./HeavyTriggersContainer.module.less";
 
 const MIN_METRICS = 1;
 const MAX_METRICS = 40000;
@@ -54,6 +56,13 @@ const HeavyTriggersContainer: FC = () => {
     return (
         <Layout loading={isLoading} error={error}>
             <LayoutContent>
+                {list.length > 0 && (
+                    <div className={styles.exportButton}>
+                        <FileExport isButton title={"heavy triggers"} data={heavyTriggers}>
+                            Export
+                        </FileExport>
+                    </div>
+                )}
                 <Slider
                     min={MIN_METRICS}
                     max={MAX_METRICS}

@@ -86,6 +86,7 @@ const ContactEditModal: FC<IContactEditModalProps> = ({
                         <FileExport
                             title={`delivery channel ${contact.type} ${contact.value}`}
                             data={omitContact(contact)}
+                            isButton
                         >
                             Export
                         </FileExport>

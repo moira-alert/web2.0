@@ -2,23 +2,20 @@ import type { ReactNode, ReactElement } from "react";
 import { saveAs } from "file-saver";
 import { Button } from "@skbkontur/react-ui/components/Button";
 import { IconArrowUiShareAExportRegular16 } from "@skbkontur/icons/IconArrowUiShareAExportRegular16";
-import { Subscription } from "../../Domain/Subscription";
-import { Contact } from "../../Domain/Contact";
-import { Trigger } from "../../Domain/Trigger";
 
-type FileExportProps = {
+type FileExportProps<T> = {
     title: string;
-    data: Partial<Trigger | Subscription | Contact>;
+    data: T;
     children?: ReactNode;
     isButton?: boolean;
 };
 
-export default function FileExport({
+export default function FileExport<T>({
     title,
     data,
     children,
     isButton,
-}: FileExportProps): ReactElement {
+}: FileExportProps<T>): ReactElement {
     const handleExport = () => {
         const fileData = JSON.stringify(data, undefined, 4);
         const blob = new Blob([fileData], { type: "application/json" });
