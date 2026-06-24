@@ -44,8 +44,9 @@ const HeavyTriggersContainer: FC = () => {
 
     const list = heavyTriggers?.list ?? [];
     const total = heavyTriggers?.total ?? 0;
+    const size = heavyTriggers?.size ?? 1;
 
-    const pageCount = Math.ceil(total / 20) || 1;
+    const pageCount = Math.ceil(total / size);
 
     useEffect(() => {
         setDocumentTitle("Heavy triggers");
