@@ -19,6 +19,7 @@ import { TFeatureFlag, useFeatureFlag } from "../../hooks/useFeatureFlag";
 
 const MIN_METRICS = 1;
 const MAX_METRICS = 40000;
+// For the first render, take the midpoint of the range so the user sees meaningful data right away
 const INITIAL_METRICS_VALUE = MAX_METRICS / 2;
 
 const MemoizedTriggerList = memo(TriggerList);
