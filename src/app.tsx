@@ -1,4 +1,4 @@
-import { ComponentType } from "react";
+import { ComponentType, FC } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import checkMobile from "./helpers/check-mobile";
@@ -13,6 +13,9 @@ import { updateServiceWorker } from "./store/Reducers/UIReducer.slice";
 import { store } from "./store/store";
 import { SingleToast } from "@skbkontur/react-ui";
 import Favicon from "./Components/Favicon/Favicon";
+import { injectKonturColors } from "./helpers/injectKonturColors";
+import { useSetColorsAttributes } from "./hooks/useSetColorsAttributes";
+import { useAppTheme } from "./hooks/themes/useAppThemeDetector";
 
 import "./style.less";
 
@@ -23,6 +26,39 @@ const onUpdate = () => {
     store.dispatch(updateServiceWorker());
 };
 
+injectKonturColors();
+
+const AppRoot: FC<{ Component: ComponentType }> = ({ Component }) => {
+    const theme = useAppTheme();
+    useSetColorsAttributes(theme.name);
+
+    return (
+        <Sentry.ErrorBoundary
+            onError={(error: unknown) => {
+                const message = error instanceof Error ? error.message : String(error);
+
+                if (
+                    error instanceof Error &&
+                    (message.includes(newStaticErrorText) ||
+                        message.includes(notValidMimeTypeError))
+                ) {
+                    window.location.reload();
+                    return;
+                }
+
+                setTimeout(() => {
+                    SingleToast.push(message);
+                }, 0);
+            }}
+            fallback={() => <Component />}
+        >
+            <SentryInitializer />
+            <Favicon />
+            <Component />
+        </Sentry.ErrorBoundary>
+    );
+};
+
 const render = (Component: ComponentType) => {
     if (!root) return;
 
@@ -30,29 +66,7 @@ const render = (Component: ComponentType) => {
         <BrowserRouter>
             <Providers>
                 <SingleToast />
-                <Sentry.ErrorBoundary
-                    onError={(error: unknown) => {
-                        const message = error instanceof Error ? error.message : String(error);
-
-                        if (
-                            error instanceof Error &&
-                            (message.includes(newStaticErrorText) ||
-                                message.includes(notValidMimeTypeError))
-                        ) {
-                            window.location.reload();
-                            return;
-                        }
-
-                        setTimeout(() => {
-                            SingleToast.push(message);
-                        }, 0);
-                    }}
-                    fallback={() => <Component />}
-                >
-                    <SentryInitializer />
-                    <Favicon />
-                    <Component />
-                </Sentry.ErrorBoundary>
+                <AppRoot Component={Component} />
             </Providers>
         </BrowserRouter>
     );

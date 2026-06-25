@@ -313,6 +313,24 @@ export const TriggerApi = BaseApi.injectEndpoints({
                 };
             },
         }),
+        getHeavyTriggers: builder.query<
+            TriggerList,
+            CustomBaseQueryArgs<{
+                from?: number;
+                page?: number;
+                size?: number;
+            }>
+        >({
+            query: ({ from = 4000, page = 0, size = triggerListPageSize }) => {
+                const params = qs.stringify({ from, page, size }, { skipNulls: true });
+                return {
+                    url: `trigger/heavy?${params}`,
+                    method: "GET",
+                    credentials: "same-origin",
+                };
+            },
+            providesTags: ["HeavyTriggers"],
+        }),
     }),
 });
 
@@ -332,4 +350,5 @@ export const {
     useGetTriggerListQuery,
     useLazyGetTriggerNoisinessQuery,
     useLazyGetTriggerPlotQuery,
+    useGetHeavyTriggersQuery,
 } = TriggerApi;

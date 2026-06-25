@@ -95,6 +95,7 @@ const SubscriptionEditModal: FC<Props> = ({ subscription, tags, contacts, onCanc
                             Save and test
                         </Button>
                         <FileExport
+                            isButton
                             title={getFileName()}
                             data={omitSubscription(subscriptionToEdit)}
                         >
