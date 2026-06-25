@@ -189,6 +189,7 @@ export const CodeEditor = forwardRef<HTMLDivElement, Props>(function CodeEditor(
         basicSetup,
         languageToUse,
         EditorView.editable.of(!disabled),
+        EditorState.readOnly.of(!!disabled),
         ShowModeTheme(theme),
         quadrupleClickCopy,
     ];
