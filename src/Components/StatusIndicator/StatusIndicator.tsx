@@ -1,6 +1,7 @@
-import type { ReactElement } from "react";
+import { type ReactElement } from "react";
 import { Status, getStatusColor } from "../../Domain/Status";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
+import { ColorBlindStatusIndicator } from "../ColorBlindStatusIndicator/ColorBlindStatusIndicator";
 import classNames from "classnames/bind";
 
 import styles from "./StatusIndicator.module.less";
@@ -11,6 +12,7 @@ type Props = {
     disabled?: boolean;
     statuses: Array<Status>;
     size?: number;
+    colorBlind?: boolean;
 };
 
 function renderPath(statuses: Array<Status>): ReactElement {
@@ -75,8 +77,19 @@ function renderPath(statuses: Array<Status>): ReactElement {
     }
 }
 
-export default function StatusIndicator(props: Props): ReactElement {
-    const { statuses, disabled, size = 20 } = props;
+export default function StatusIndicator({
+    statuses,
+    disabled = false,
+    size = 20,
+    colorBlind = false,
+}: Props): ReactElement {
+    if (colorBlind) {
+        return (
+            // increase size cause kontur icons have paddings which make them look smaller
+            <ColorBlindStatusIndicator statuses={statuses} size={size + 3} disabled={disabled} />
+        );
+    }
+
     return (
         <Tooltip render={() => statuses.join(", ")}>
             <svg viewBox="-1 -1 2 2" width={size} height={size} className={cn("svg", { disabled })}>

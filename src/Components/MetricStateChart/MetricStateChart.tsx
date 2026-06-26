@@ -10,9 +10,11 @@ import {
     Tooltip,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Status, getStatusColor } from "../../Domain/Status";
+import { Status, getColorBlindStatusColor, getStatusColor } from "../../Domain/Status";
 import { isMuted, Metric } from "../../Domain/Metric";
 import { useTheme } from "../../Themes";
+import { useAppSelector } from "../../store/hooks";
+import { UIState } from "../../store/selectors";
 
 export type MetricNameToStateMap = Record<string, Metric>;
 
@@ -64,6 +66,7 @@ export const MetricStateChart: FC<IProps> = ({
     enableTooltip = false,
 }) => {
     const theme = useTheme();
+    const { isColorBlindThemeOn } = useAppSelector(UIState);
 
     const { mutedMetrics, activeMetrics } = useMemo(() => splitByMuted(metrics), [metrics]);
     const mutedMetricsCount = Object.keys(mutedMetrics).length;
@@ -76,7 +79,9 @@ export const MetricStateChart: FC<IProps> = ({
             {
                 data: Array.from(metricsStatusToCountMap.values()),
                 borderWidth: 0,
-                backgroundColor: Array.from(metricsStatusToCountMap.keys()).map(getStatusColor),
+                backgroundColor: Array.from(metricsStatusToCountMap.keys()).map((value) =>
+                    isColorBlindThemeOn ? getColorBlindStatusColor(value) : getStatusColor(value)
+                ),
             },
         ],
     };

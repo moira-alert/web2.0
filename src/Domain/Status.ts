@@ -34,6 +34,15 @@ export const StatusesColors = {
     OK: "#00bfa5",
 };
 
+export const ColorBlindStatusesColors = {
+    DEL: "#000",
+    EXCEPTION: "#ff5722",
+    NODATA: "#9e9e9e",
+    ERROR: "#ff5722",
+    WARN: "#ffc107",
+    OK: "#00771eff",
+};
+
 export const StatusesWeight = {
     DEL: 100000,
     EXCEPTION: 100000,
@@ -62,4 +71,8 @@ export function getStatusCaption(status: Status): StatusesCaptions {
 
 export function getStatusWeight(status: Status): number {
     return StatusesWeight[status];
+}
+
+export function getColorBlindStatusColor(status: Status): string {
+    return ColorBlindStatusesColors[status];
 }

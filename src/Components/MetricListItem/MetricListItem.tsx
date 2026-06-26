@@ -11,6 +11,8 @@ import { Metric } from "../../Domain/Metric";
 import { useNavigate } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
 import { maintenanceDelta } from "../../Domain/Trigger";
+import { useAppSelector } from "../../store/hooks";
+import { UIState } from "../../store/selectors";
 import classNames from "classnames/bind";
 
 import styles from "../MetricList/MetricList.module.less";
@@ -52,6 +54,7 @@ export function MetricListItem({
     const delta = maintenanceDelta(maintenance);
     const ref = useRef<HTMLDivElement>(null);
     const [truncated, setTruncated] = useState(false);
+    const { isColorBlindThemeOn } = useAppSelector(UIState);
 
     const navigate = useNavigate();
 
@@ -80,8 +83,12 @@ export function MetricListItem({
     return (
         <div onClick={handleMetricClick} key={metricName} className={cn("row")} style={style}>
             {status && (
-                <div className={cn("state")}>
-                    <StatusIndicator statuses={[state]} size={10} />
+                <div className={cn("state", { colorblindState: isColorBlindThemeOn })}>
+                    <StatusIndicator
+                        colorBlind={isColorBlindThemeOn}
+                        statuses={[state]}
+                        size={10}
+                    />
                 </div>
             )}
             <div onMouseEnter={handleMouseEnter} ref={ref} className={cn("name")}>

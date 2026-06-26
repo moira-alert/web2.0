@@ -9,6 +9,7 @@ export enum EMainPageTriggerView {
 }
 
 const FF_MAIN_PAGE_TRIGGER_VIEW_KEY = "mainPageTriggerView";
+const FF_COLOR_BLIND_ON_KEY = "colorBlindThemeOn";
 
 interface IUIState {
     isLoading: boolean;
@@ -21,6 +22,7 @@ interface IUIState {
     isChristmasMood: boolean;
     theme: EThemesNames;
     mainPageTriggerView: EMainPageTriggerView;
+    isColorBlindThemeOn: boolean;
 }
 
 const initialState: IUIState = {
@@ -36,6 +38,7 @@ const initialState: IUIState = {
     mainPageTriggerView:
         (localStorage.getItem(FF_MAIN_PAGE_TRIGGER_VIEW_KEY) as EMainPageTriggerView) ??
         EMainPageTriggerView.target,
+    isColorBlindThemeOn: localStorage.getItem(FF_COLOR_BLIND_ON_KEY) === "true",
 };
 
 export const UISlice = createSlice({
@@ -82,6 +85,10 @@ export const UISlice = createSlice({
             state.mainPageTriggerView = action.payload;
             localStorage.setItem(FF_MAIN_PAGE_TRIGGER_VIEW_KEY, action.payload);
         },
+        toggleColorBlindTheme: (state, action: PayloadAction<boolean>) => {
+            state.isColorBlindThemeOn = action.payload;
+            localStorage.setItem(FF_COLOR_BLIND_ON_KEY, String(action.payload));
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(TriggerApi.endpoints.getTrigger.matchFulfilled, (state, { payload }) => {
@@ -104,6 +111,7 @@ export const {
     toggleChristmasMood,
     setTheme,
     toggleMainPageTriggerView,
+    toggleColorBlindTheme,
 } = UISlice.actions;
 
 export default UISlice.reducer;
