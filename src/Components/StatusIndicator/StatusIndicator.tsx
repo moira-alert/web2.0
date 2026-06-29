@@ -77,6 +77,8 @@ function renderPath(statuses: Array<Status>): ReactElement {
     }
 }
 
+const KONTUR_ICON_VISUAL_PADDING = 3;
+
 export default function StatusIndicator({
     statuses,
     disabled = false,
@@ -85,8 +87,11 @@ export default function StatusIndicator({
 }: Props): ReactElement {
     if (colorBlind) {
         return (
-            // increase size cause kontur icons have paddings which make them look smaller
-            <ColorBlindStatusIndicator statuses={statuses} size={size + 3} disabled={disabled} />
+            <ColorBlindStatusIndicator
+                statuses={statuses}
+                size={size + KONTUR_ICON_VISUAL_PADDING}
+                disabled={disabled}
+            />
         );
     }
 
