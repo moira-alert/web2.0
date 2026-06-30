@@ -9,7 +9,13 @@ import { IconNotificationBellOffLight16 } from "@skbkontur/icons/IconNotificatio
 import { getPageLink } from "../../Domain/Global";
 import { TriggerCheck } from "../../Domain/Trigger";
 import { MetricItemList, withMuted, withoutMuted } from "../../Domain/Metric";
-import { Status, StatusesInOrder, getStatusColor, getStatusCaption } from "../../Domain/Status";
+import {
+    Status,
+    StatusesInOrder,
+    getStatusColor,
+    getStatusCaption,
+    getColorBlindStatusColor,
+} from "../../Domain/Status";
 import RouterLink from "../RouterLink/RouterLink";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import TagGroup from "../TagGroup/TagGroup";
@@ -43,7 +49,7 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
     const [sortingDown, setSortingDown] = useState(false);
     const navigate = useNavigate();
 
-    const { mainPageTriggerView } = useAppSelector(UIState);
+    const { mainPageTriggerView, isColorBlindThemeOn } = useAppSelector(UIState);
 
     const metrics = data.last_check?.metrics;
 
@@ -78,7 +84,14 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
         })
             .filter(({ count }) => count !== 0)
             .map(({ status, count }) => (
-                <span key={status} style={{ color: getStatusColor(status) }}>
+                <span
+                    key={status}
+                    style={{
+                        color: isColorBlindThemeOn
+                            ? getColorBlindStatusColor(status)
+                            : getStatusColor(status),
+                    }}
+                >
                     {count}
                 </span>
             ));
@@ -117,7 +130,11 @@ const TriggerListItem: FC<Props> = ({ data, searchMode, onChange, onRemove }) =>
 
         return (
             <div className={cn("indicator")}>
-                <StatusIndicator statuses={statuses} />
+                <StatusIndicator
+                    size={isColorBlindThemeOn ? 16 : 20}
+                    colorBlind={isColorBlindThemeOn}
+                    statuses={statuses}
+                />
             </div>
         );
     };

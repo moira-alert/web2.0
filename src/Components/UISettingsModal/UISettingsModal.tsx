@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useEffect } from "react";
 import { Modal } from "@skbkontur/react-ui";
+import { RowStack, Fixed, Fill } from "@skbkontur/react-stack-layout";
 import { ThemeSwitch } from "../ThemeSwitch/ThemeSwitch";
 import { useDispatch, useSelector } from "react-redux";
 import { useThemeFeature } from "../../hooks/themes/useThemeFeature";
@@ -9,9 +10,10 @@ import { UIState } from "../../store/selectors";
 import { EThemesNames } from "../../Themes/themesNames";
 import { useModal } from "../../hooks/useModal";
 import { useIsBrowserPrefersDarkTheme } from "../../hooks/themes/useIsBrowserPrefersDarkTheme";
-import { Form, FormRow } from "../TriggerEditForm/Components/Form";
 import { TriggerViewSwitcher } from "../TriggerViewSwitcher/TriggerViewSwitcher";
 import { IconPeople1GearRegular16 } from "@skbkontur/icons/IconPeople1GearRegular16";
+import { ColorBlindThemeSwitcher } from "../ColorBlindThemeSwitcher/ColorBlindThemeSwitcher";
+import { Flexbox } from "../Flexbox/FlexBox";
 
 import styles from "./UISettingsModal.module.less";
 
@@ -34,6 +36,8 @@ export const UISettingsModal: FC = () => {
         onThemeChange(localThemeName);
     }, [isBrowserDarkThemeEnabled]);
 
+    const labelWidth = 200;
+
     return (
         <>
             <button className={styles.settingsButton} onClick={toggleModal}>
@@ -41,20 +45,34 @@ export const UISettingsModal: FC = () => {
                 <span>Settings</span>
             </button>
             {isModalOpen && (
-                <Modal width={"500px"} onClose={toggleModal}>
+                <Modal key={themeName} width={"500px"} onClose={toggleModal}>
                     <Modal.Header>Settings</Modal.Header>
                     <Modal.Body>
-                        <Form>
-                            <FormRow label="Application theme:">
-                                <ThemeSwitch
-                                    onThemeChange={onThemeChange}
-                                    currentTheme={themeName}
-                                />
-                            </FormRow>
-                            <FormRow useTopAlignForLabel label="Main page trigger view:">
-                                <TriggerViewSwitcher className={styles.triggerViewSwitcher} />
-                            </FormRow>
-                        </Form>
+                        <Flexbox gap={18}>
+                            <RowStack verticalAlign="center" block>
+                                <Fixed width={labelWidth}>Application theme:</Fixed>
+                                <Fill>
+                                    <ThemeSwitch
+                                        onThemeChange={onThemeChange}
+                                        currentTheme={themeName}
+                                    />
+                                </Fill>
+                            </RowStack>
+
+                            <RowStack verticalAlign="center" block>
+                                <Fixed width={labelWidth}>Main page trigger view:</Fixed>
+                                <Fill>
+                                    <TriggerViewSwitcher />
+                                </Fill>
+                            </RowStack>
+
+                            <RowStack verticalAlign="center" block>
+                                <Fixed width={labelWidth}>Color blind theme:</Fixed>
+                                <Fill>
+                                    <ColorBlindThemeSwitcher />
+                                </Fill>
+                            </RowStack>
+                        </Flexbox>
                     </Modal.Body>
                 </Modal>
             )}

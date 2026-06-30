@@ -4,6 +4,8 @@ import { IconArrowARightRegular16 } from "@skbkontur/icons/IconArrowARightRegula
 import { Event } from "../../Domain/Event";
 import StatusIndicator from "../StatusIndicator/StatusIndicator";
 import MetricValues from "../MetricValues/MetricValues";
+import { useAppSelector } from "../../store/hooks";
+import { UIState } from "../../store/selectors";
 import classNames from "classnames/bind";
 
 import styles from "./EventList.module.less";
@@ -18,6 +20,7 @@ type Props = {
 
 export default function EventList(props: Props): ReactElement {
     const { items } = props;
+    const { isColorBlindThemeOn } = useAppSelector(UIState);
 
     return (
         <section>
@@ -38,13 +41,21 @@ export default function EventList(props: Props): ReactElement {
                                         <MetricValues values={oldValues} placeholder={false} />
                                     </div>
                                     <div className={cn("prev-state")}>
-                                        <StatusIndicator statuses={[oldState]} size={14} />
+                                        <StatusIndicator
+                                            colorBlind={isColorBlindThemeOn}
+                                            statuses={[oldState]}
+                                            size={14}
+                                        />
                                     </div>
                                     <div className={cn("arrow")}>
                                         <IconArrowARightRegular16 />
                                     </div>
                                     <div className={cn("curr-state")}>
-                                        <StatusIndicator statuses={[state]} size={14} />
+                                        <StatusIndicator
+                                            colorBlind={isColorBlindThemeOn}
+                                            statuses={[state]}
+                                            size={14}
+                                        />
                                     </div>
                                     <div className={cn("curr-value")}>
                                         <MetricValues values={values} placeholder={false} />
