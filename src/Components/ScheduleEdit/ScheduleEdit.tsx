@@ -18,13 +18,15 @@ interface IProps {
     onChange: (schedule: Schedule) => void;
 }
 
+const MAX_TIME_OFFSET = 1439;
+
 const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function ScheduleEdit(
     { schedule, error, onChange, onBlur },
     validationRef
 ) {
     const defaultSched = useMemo(() => defaultSchedule(schedule), [schedule]);
     const [allDay, setAllDay] = useState(
-        defaultSched.startOffset === 0 && defaultSched.endOffset === 1439
+        defaultSched.startOffset === 0 && defaultSched.endOffset === MAX_TIME_OFFSET
     );
 
     const [startInput, setStartInput] = useState(formatTime(defaultSched.startOffset));
