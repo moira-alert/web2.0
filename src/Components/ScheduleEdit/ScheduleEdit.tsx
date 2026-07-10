@@ -55,7 +55,7 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
         onChange({
             ...defaultSched,
             startOffset: 0,
-            endOffset: 1439,
+            endOffset: MAX_TIME_OFFSET,
         });
         setAllDay(true);
     };
