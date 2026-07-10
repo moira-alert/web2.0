@@ -18,19 +18,6 @@ interface IProps {
     onChange: (schedule: Schedule) => void;
 }
 
-const toRawTime = (offset: number): string => {
-    const hours = Math.floor(offset / 60) % 24;
-    const minutes = offset % 60;
-    return `${String(hours).padStart(2, "0")}${String(minutes).padStart(2, "0")}`;
-};
-
-const fromRawTime = (raw: string): number => {
-    const digits = raw.replace(/\D/g, "");
-    const hours = parseInt(digits.slice(0, 2), 10) || 0;
-    const minutes = parseInt(digits.slice(2, 4), 10) || 0;
-    return Math.min(hours, 23) * 60 + Math.min(minutes, 59);
-};
-
 const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function ScheduleEdit(
     { schedule, error, onChange, onBlur },
     validationRef
@@ -40,61 +27,64 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
         defaultSched.startOffset === 0 && defaultSched.endOffset === 1439
     );
 
-    const [startRaw, setStartRaw] = useState(() => toRawTime(defaultSched.startOffset));
-    const [endRaw, setEndRaw] = useState(() => toRawTime(defaultSched.endOffset));
+    const [startInput, setStartInput] = useState(formatTime(defaultSched.startOffset));
+    const [endInput, setEndInput] = useState(formatTime(defaultSched.endOffset));
 
     useEffect(() => {
-        setStartRaw(toRawTime(defaultSched.startOffset));
-        setEndRaw(toRawTime(defaultSched.endOffset));
-    }, [defaultSched.startOffset, defaultSched.endOffset]);
+        setStartInput(formatTime(defaultSched.startOffset));
+    }, [defaultSched.startOffset]);
 
-    const handleStartChange = (value: string) => {
-        setStartRaw(value);
-        if (value.replace(/\D/g, "").length === 4) {
-            onChange({
-                ...defaultSched,
-                startOffset: fromRawTime(value),
-            });
-        }
-    };
+    useEffect(() => {
+        setEndInput(formatTime(defaultSched.endOffset));
+    }, [defaultSched.endOffset]);
 
-    const handleEndChange = (value: string) => {
-        setEndRaw(value);
-        if (value.replace(/\D/g, "").length === 4) {
-            onChange({
-                ...defaultSched,
-                endOffset: fromRawTime(value),
-            });
-        }
-    };
-
-    const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    const handleDayChange = (index: number, checked: boolean) => {
         onChange({
             ...defaultSched,
-            startOffset: fromRawTime(startRaw),
-            endOffset: fromRawTime(endRaw),
+            days: [
+                ...defaultSched.days.slice(0, index),
+                { name: defaultSched.days[index].name, enabled: checked },
+                ...defaultSched.days.slice(index + 1),
+            ],
         });
-        onBlur?.(e);
+    };
+
+    const handleAllDayChange = () => {
+        onChange({
+            ...defaultSched,
+            startOffset: 0,
+            endOffset: 1439,
+        });
+        setAllDay(true);
+    };
+
+    const handleSpecificIntervalChange = () => {
+        setAllDay(false);
+    };
+
+    const handleTimeChange = (type: "start" | "end", value: string) => {
+        const setter = type === "start" ? setStartInput : setEndInput;
+        const offsetKey = type === "start" ? "startOffset" : "endOffset";
+
+        setter(value);
+
+        if (/^\d{2}:\d{2}$/.test(value)) {
+            onChange({
+                ...defaultSched,
+                [offsetKey]: parseTime(value),
+            });
+        }
     };
 
     return (
-        <div onBlur={handleBlur} ref={validationRef}>
-            <div className={cn("days")}>
+        <>
+            <div onFocus={onBlur} ref={validationRef} className={cn("days")}>
                 {defaultSched.days.map(({ name, enabled }, i) => (
                     <Checkbox
                         error={error}
                         key={name}
                         checked={enabled}
-                        onValueChange={(checked) =>
-                            onChange({
-                                ...defaultSched,
-                                days: [
-                                    ...defaultSched.days.slice(0, i),
-                                    { name, enabled: checked },
-                                    ...defaultSched.days.slice(i + 1),
-                                ],
-                            })
-                        }
+                        onValueChange={(checked) => handleDayChange(i, checked)}
                     >
                         {name}
                     </Checkbox>
@@ -103,18 +93,7 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
 
             <div className={cn("group")}>
                 <span className={cn("radio")}>
-                    <Radio
-                        checked={allDay}
-                        onValueChange={() => {
-                            onChange({
-                                ...defaultSched,
-                                startOffset: 0,
-                                endOffset: 1439,
-                            });
-                            setAllDay(true);
-                        }}
-                        value="all_day"
-                    >
+                    <Radio checked={allDay} onValueChange={handleAllDayChange} value="all_day">
                         All day
                     </Radio>
                 </span>
@@ -122,24 +101,24 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
                     <Radio
                         checked={!allDay}
                         value="specific_interval"
-                        onValueChange={() => setAllDay(false)}
+                        onValueChange={handleSpecificIntervalChange}
                     >
                         At specific interval
                     </Radio>
                     <MaskedInput
-                        value={startRaw}
+                        value={startInput}
                         width={60}
                         mask="99:99"
                         disabled={allDay}
-                        onValueChange={handleStartChange}
+                        onValueChange={(value) => handleTimeChange("start", value)}
                     />
                     <span>—</span>
                     <MaskedInput
-                        value={endRaw}
+                        value={endInput}
                         width={60}
                         mask="99:99"
                         disabled={allDay}
-                        onValueChange={handleEndChange}
+                        onValueChange={(value) => handleTimeChange("end", value)}
                     />
                     <HelpTooltip>
                         <div className={cn("time-range-description-title")}>
@@ -152,8 +131,25 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
                     </HelpTooltip>
                 </span>
             </div>
-        </div>
+        </>
     );
 });
+
+const formatTime = (time: number): string => {
+    const HOUR_IN_DAY = 24;
+    const MIN_IN_HOUR = 60;
+    const hours = Math.floor(time / MIN_IN_HOUR) < HOUR_IN_DAY ? Math.floor(time / MIN_IN_HOUR) : 0;
+    const minutes = time % MIN_IN_HOUR < MIN_IN_HOUR ? time % MIN_IN_HOUR : 0;
+    return `${hours > 9 ? hours : `0${hours}`}:${minutes > 9 ? minutes : `0${minutes}`}`;
+};
+
+const parseTime = (time: string): number => {
+    const HOUR_IN_DAY = 24;
+    const MIN_IN_HOUR = 60;
+    const [hours, minutes] = time.split(":");
+    const parsedHours = parseInt(hours, 10) < HOUR_IN_DAY ? parseInt(hours, 10) : 0;
+    const parsedMinutes = parseInt(minutes, 10) < MIN_IN_HOUR ? parseInt(minutes, 10) : 0;
+    return parsedHours * MIN_IN_HOUR + parsedMinutes;
+};
 
 export default ScheduleEdit;
