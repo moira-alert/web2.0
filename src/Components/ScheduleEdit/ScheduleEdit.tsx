@@ -1,5 +1,5 @@
 import type { FocusEventHandler } from "react";
-import { forwardRef, useState, useMemo, FC } from "react";
+import { forwardRef, useState, useMemo, useEffect, FC } from "react";
 import { MaskedInput } from "@skbkontur/react-ui";
 import { Radio } from "@skbkontur/react-ui/components/Radio";
 import { Checkbox } from "@skbkontur/react-ui/components/Checkbox";
@@ -18,20 +18,65 @@ interface IProps {
     onChange: (schedule: Schedule) => void;
 }
 
+const MAX_TIME_OFFSET = 1439;
+
 const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function ScheduleEdit(
     { schedule, error, onChange, onBlur },
     validationRef
 ) {
     const defaultSched = useMemo(() => defaultSchedule(schedule), [schedule]);
     const [allDay, setAllDay] = useState(
-        defaultSched.startOffset === 0 && defaultSched.endOffset === 1439
+        defaultSched.startOffset === 0 && defaultSched.endOffset === MAX_TIME_OFFSET
     );
 
-    const time = useMemo(() => {
-        const start = formatTime(defaultSched.startOffset);
-        const end = formatTime(defaultSched.endOffset);
-        return { start, end };
-    }, []);
+    const [startInput, setStartInput] = useState(formatTime(defaultSched.startOffset));
+    const [endInput, setEndInput] = useState(formatTime(defaultSched.endOffset));
+
+    useEffect(() => {
+        setStartInput(formatTime(defaultSched.startOffset));
+    }, [defaultSched.startOffset]);
+
+    useEffect(() => {
+        setEndInput(formatTime(defaultSched.endOffset));
+    }, [defaultSched.endOffset]);
+
+    const handleDayChange = (index: number, checked: boolean) => {
+        onChange({
+            ...defaultSched,
+            days: [
+                ...defaultSched.days.slice(0, index),
+                { name: defaultSched.days[index].name, enabled: checked },
+                ...defaultSched.days.slice(index + 1),
+            ],
+        });
+    };
+
+    const handleAllDayChange = () => {
+        onChange({
+            ...defaultSched,
+            startOffset: 0,
+            endOffset: MAX_TIME_OFFSET,
+        });
+        setAllDay(true);
+    };
+
+    const handleSpecificIntervalChange = () => {
+        setAllDay(false);
+    };
+
+    const handleTimeChange = (type: "start" | "end", value: string) => {
+        const setter = type === "start" ? setStartInput : setEndInput;
+        const offsetKey = type === "start" ? "startOffset" : "endOffset";
+
+        setter(value);
+
+        if (/^\d{2}:\d{2}$/.test(value)) {
+            onChange({
+                ...defaultSched,
+                [offsetKey]: parseTime(value),
+            });
+        }
+    };
 
     return (
         <>
@@ -41,16 +86,7 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
                         error={error}
                         key={name}
                         checked={enabled}
-                        onValueChange={(checked) =>
-                            onChange({
-                                ...defaultSched,
-                                days: [
-                                    ...defaultSched.days.slice(0, i),
-                                    { name, enabled: checked },
-                                    ...defaultSched.days.slice(i + 1),
-                                ],
-                            })
-                        }
+                        onValueChange={(checked) => handleDayChange(i, checked)}
                     >
                         {name}
                     </Checkbox>
@@ -59,18 +95,7 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
 
             <div className={cn("group")}>
                 <span className={cn("radio")}>
-                    <Radio
-                        checked={allDay}
-                        onValueChange={() => {
-                            onChange({
-                                ...defaultSched,
-                                startOffset: 0,
-                                endOffset: 1439,
-                            });
-                            setAllDay(true);
-                        }}
-                        value="all_day"
-                    >
+                    <Radio checked={allDay} onValueChange={handleAllDayChange} value="all_day">
                         All day
                     </Radio>
                 </span>
@@ -78,34 +103,24 @@ const ScheduleEdit: FC<IProps> = forwardRef<HTMLDivElement, IProps>(function Sch
                     <Radio
                         checked={!allDay}
                         value="specific_interval"
-                        onValueChange={() => setAllDay(false)}
+                        onValueChange={handleSpecificIntervalChange}
                     >
                         At specific interval
                     </Radio>
                     <MaskedInput
-                        value={time.start}
+                        value={startInput}
                         width={60}
                         mask="99:99"
                         disabled={allDay}
-                        onValueChange={(value) =>
-                            onChange({
-                                ...defaultSched,
-                                startOffset: parseTime(value),
-                            })
-                        }
+                        onValueChange={(value) => handleTimeChange("start", value)}
                     />
                     <span>—</span>
                     <MaskedInput
-                        value={time.end}
+                        value={endInput}
                         width={60}
                         mask="99:99"
                         disabled={allDay}
-                        onValueChange={(value) =>
-                            onChange({
-                                ...defaultSched,
-                                endOffset: parseTime(value),
-                            })
-                        }
+                        onValueChange={(value) => handleTimeChange("end", value)}
                     />
                     <HelpTooltip>
                         <div className={cn("time-range-description-title")}>
