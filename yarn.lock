@@ -2356,17 +2356,7 @@
   resolved "https://registry.yarnpkg.com/@skbkontur-moira/lezer-metricsql/-/lezer-metricsql-0.0.1-dev.1809240003.tgz#f5537ae75657621984d075b8b8f5e7eea07cc6d1"
   integrity sha512-OKvGDY2VUGrSnxQlqvuOCrIxomviCDknLBSDnJOs4ej2SrSQXOFT0Y4bEJ7nmoOUMgCVPVCCpR47pXMJLHM3CQ==
 
-"@skbkontur/colors@^2.1.5":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@skbkontur/colors/-/colors-2.1.7.tgz#340bf2521b2f5a8b3f709ca4b365c0accc0cfeb7"
-  integrity sha512-4yQXwrdEMOCVou8hG4zY5hNzFiqKPAHDwEXDNJMec4cTbXvjHA0X1J6m6/hi0+6AIN+kLKd+aBAh7hZxu1Gymw==
-  dependencies:
-    "@types/apca-w3" "0.1.3"
-    "@types/culori" "4.0.1"
-    apca-w3 "0.1.9"
-    culori "4.0.2"
-
-"@skbkontur/colors@^2.1.7":
+"@skbkontur/colors@2.1.7", "@skbkontur/colors@^2.1.5":
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/@skbkontur/colors/-/colors-2.1.7.tgz#340bf2521b2f5a8b3f709ca4b365c0accc0cfeb7"
   integrity sha512-4yQXwrdEMOCVou8hG4zY5hNzFiqKPAHDwEXDNJMec4cTbXvjHA0X1J6m6/hi0+6AIN+kLKd+aBAh7hZxu1Gymw==
@@ -4299,10 +4289,10 @@ dom-helpers@^5.0.1:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
 
-dompurify@3.4.11, dompurify@^3.4.1:
-  version "3.4.11"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.11.tgz#29c8ba496475f279ef4015784068452fb14a0680"
-  integrity sha512-zhlUV12GsaRzMsf9q5M254YhA4+VuF0fG+QFqu6aYpoGlKtz+w8//jBcGVYBgQkR5GHjUomejY84AV+/uPbWdw==
+dompurify@3.4.12, dompurify@^3.4.1:
+  version "3.4.12"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.4.12.tgz#6fa2265e9bbdce882c4ace4107626051b448ffa8"
+  integrity sha512-zQvGet8Z2sWbQhCmfFz/T5QWH2oBmjnqK3qvOjaqaNLrLEF912WamU+ohnTp0TCep/MFVHpdJuCZEdFOdTnEFg==
   optionalDependencies:
     "@types/trusted-types" "^2.0.7"
 
