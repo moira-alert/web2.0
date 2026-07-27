@@ -2356,17 +2356,7 @@
   resolved "https://registry.yarnpkg.com/@skbkontur-moira/lezer-metricsql/-/lezer-metricsql-0.0.1-dev.1809240003.tgz#f5537ae75657621984d075b8b8f5e7eea07cc6d1"
   integrity sha512-OKvGDY2VUGrSnxQlqvuOCrIxomviCDknLBSDnJOs4ej2SrSQXOFT0Y4bEJ7nmoOUMgCVPVCCpR47pXMJLHM3CQ==
 
-"@skbkontur/colors@^2.1.5":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@skbkontur/colors/-/colors-2.1.7.tgz#340bf2521b2f5a8b3f709ca4b365c0accc0cfeb7"
-  integrity sha512-4yQXwrdEMOCVou8hG4zY5hNzFiqKPAHDwEXDNJMec4cTbXvjHA0X1J6m6/hi0+6AIN+kLKd+aBAh7hZxu1Gymw==
-  dependencies:
-    "@types/apca-w3" "0.1.3"
-    "@types/culori" "4.0.1"
-    apca-w3 "0.1.9"
-    culori "4.0.2"
-
-"@skbkontur/colors@^2.1.7":
+"@skbkontur/colors@2.1.7", "@skbkontur/colors@^2.1.5":
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/@skbkontur/colors/-/colors-2.1.7.tgz#340bf2521b2f5a8b3f709ca4b365c0accc0cfeb7"
   integrity sha512-4yQXwrdEMOCVou8hG4zY5hNzFiqKPAHDwEXDNJMec4cTbXvjHA0X1J6m6/hi0+6AIN+kLKd+aBAh7hZxu1Gymw==
@@ -3986,15 +3976,15 @@ convert-source-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-2.0.0.tgz#4b560f649fc4e918dd0ab75cf4961e8bc882d82a"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
 
+cookie-es@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/cookie-es/-/cookie-es-3.1.1.tgz#c4a8a16cf88cb5a185b23f4a61d6e9a85eb53287"
+  integrity sha512-UaXxwISYJPTr9hwQxMFYZ7kNhSXboMXP+Z3TRX6f1/NyaGPfuNUZOWP1pUEb75B2HjfklIYLVRfWiFZJyC6Npg==
+
 cookie-signature@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.7.tgz#ab5dd7ab757c54e60f37ef6550f481c426d10454"
   integrity sha512-NXdYc3dLr47pBkpUCHtKSwIOQXLVn8dZEuywboCOJY/osA0wFSLlSawr3KN8qXJEyX66FcONTH8EIlVuK0yyFA==
-
-cookie@^1.0.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/cookie/-/cookie-1.1.1.tgz#3bb9bdfc82369db9c2f69c93c9c3ceb310c88b3c"
-  integrity sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==
 
 cookie@~0.7.1:
   version "0.7.2"
@@ -8093,13 +8083,12 @@ react-redux@9.3.0:
     "@types/use-sync-external-store" "^0.0.6"
     use-sync-external-store "^1.4.0"
 
-react-router@7.17.0:
-  version "7.17.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.17.0.tgz#88bbe817c6e37ab36faf140623b5d4678bf81e41"
-  integrity sha512-FDELK7rTMlCHO5+reyXsPlmfr7N1F91lPHsWYfMEGQm/KQ+F4JFM8jGoeQDmDvdTs93Fw9aSilH+uKRb4/jXvQ==
+react-router@8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-8.3.0.tgz#b7bc69c3e3833ba79ebf892aef03d62b649508f8"
+  integrity sha512-qyPMvW83jGIct3yiieisxdk9M745anqhpIMKN5m1t6yBMfgVPpt77aHOqs5fUlEJRMCGffg9BaQLH9oPVOL7xQ==
   dependencies:
-    cookie "^1.0.1"
-    set-cookie-parser "^2.6.0"
+    cookie-es "^3.1.1"
 
 react-transition-group@^4.4.5:
   version "4.4.5"
@@ -8576,11 +8565,6 @@ server-destroy@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/server-destroy/-/server-destroy-1.0.1.tgz#f13bf928e42b9c3e79383e61cc3998b5d14e6cdd"
   integrity sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==
-
-set-cookie-parser@^2.6.0:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.7.2.tgz#ccd08673a9ae5d2e44ea2a2de25089e67c7edf68"
-  integrity sha512-oeM1lpU/UvhTxw+g3cIfxXHyJRc/uidd3yK1P242gzHds0udQBYzs3y8j4gCCW+ZJ7ad0yctld8RYO+bdurlvw==
 
 set-function-length@^1.2.2:
   version "1.2.2"
