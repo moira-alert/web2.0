@@ -52,7 +52,7 @@ export default defineConfig(({ mode }) => ({
     build: {
         outDir: "dist",
         sourcemap: true,
-        cssCodeSplit: false,
+        // cssCodeSplit: false,
     },
     optimizeDeps: {
         exclude: brokenPackages,

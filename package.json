@@ -99,7 +99,7 @@
         "ts-jest": "^29.4.11",
         "typescript": "5.2.2",
         "typescript-eslint": "8.59.2",
-        "vite": "8.0.16",
+        "vite": "8.2.0",
         "wait-on": "8.0.3"
     },
     "resolutions": {
