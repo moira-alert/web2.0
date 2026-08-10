@@ -115,12 +115,14 @@ interface TagSubscriptionsPanelProps {
     tagStat: TagStat;
     tags: Array<string>;
     allContacts: Array<Contact>;
+    top: number;
 }
 
 export const TagSubscriptionsPanel: FC<TagSubscriptionsPanelProps> = ({
     tagStat,
     tags,
     allContacts,
+    top,
 }) => {
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const { isModalOpen, openModal, closeModal } = useModal();
@@ -147,7 +149,7 @@ export const TagSubscriptionsPanel: FC<TagSubscriptionsPanelProps> = ({
     const getSubscriptionsTableHeight = getSubscriptionsPanelHeight(subscriptions);
 
     return (
-        <div className={cn("info")}>
+        <div className={cn("info")} style={{ position: "absolute", top, left: 0 }}>
             <div className={cn("group")}>
                 <List
                     className={cn("subscriptionList")}

@@ -15,7 +15,7 @@ import {
     TAG_LIST_HEIGHT,
     TAG_ROW_HEIGHT,
 } from "../../Constants/heights";
-import { getTotalItemSize } from "./TagList.helpers";
+import { getSubscriptionsPanelHeight, getTotalItemSize } from "./TagList.helpers";
 import classNames from "classnames/bind";
 
 import styles from "./TagList.module.less";
@@ -116,9 +116,17 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
         : -1;
     const activeTag = activeTagIndex === -1 ? undefined : filteredTags[activeTagIndex];
 
+    // The active row itself stays a fixed height (the panel is an overlay, not part of its
+    // flow), but the scrollable viewport still needs room reserved so the overlay isn't cut off
+    // when the tag list is short enough that it wouldn't otherwise scroll.
+    const activeTagExtraHeight =
+        activeTag && activeTag.subscriptions.length > 0
+            ? getSubscriptionsPanelHeight(activeTag.subscriptions)
+            : 0;
+
     const listHeight = isListLongEnoughToScroll
         ? TAG_LIST_HEIGHT
-        : getTotalItemSize(filteredTags.length);
+        : getTotalItemSize(filteredTags.length) + activeTagExtraHeight;
 
     return (
         <>
@@ -214,6 +222,7 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                                 tagStat={activeTag}
                                 tags={tags}
                                 allContacts={contacts ?? []}
+                                top={(activeTagIndex + 1) * TAG_ROW_HEIGHT}
                             />
                         )}
                     </List>

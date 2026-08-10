@@ -11,9 +11,6 @@
     z-index: 1;
     width: 100%;
     background-color: var(--background-secondary);
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .group {
@@ -41,5 +38,30 @@
 .trigger-counter,
 .subscription-counter,
 .control {
+    width: 100px;
+}
+
+.item {
+    display: flex;
+    background-color: var(--background-secondary);
+    &:hover {
+        background-color: var(--background-tertiary);
+        cursor: pointer;
+    }
+}
+
+.enabled {
+    width: 30px;
+}
+
+.user {
+    width: calc(~"40% - 30px");
+}
+
+.contacts {
+    width: calc(~"60% - 100px");
+}
+
+.sub-control {
     width: 100px;
 }
