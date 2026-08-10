@@ -74,29 +74,10 @@ const render = (Component: ComponentType) => {
 
 const isMobile = checkMobile(window.navigator.userAgent);
 
-// Vite/rolldown merges the mobile/desktop dynamic imports below into a single
-// preload call whose deps only cover one branch, dropping the other branch's
-// CSS (see inject-entry-css-map in vite.config.ts). Load the correct CSS for
-// the branch we're actually taking before triggering its dynamic import.
-const loadEntryCss = (entry: "mobile" | "desktop") => {
-    const entryCss = (window as unknown as { __ENTRY_CSS__?: Record<string, string[]> })
-        .__ENTRY_CSS__;
-    for (const file of entryCss?.[entry] ?? []) {
-        const href = `/${file}`;
-        if (document.querySelector(`link[rel="stylesheet"][href="${href}"]`)) continue;
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = href;
-        document.head.appendChild(link);
-    }
-};
-
 const load = (): void => {
     if (isMobile) {
-        loadEntryCss("mobile");
         import("./mobile.bundle").then((mobile) => render(mobile.default));
     } else {
-        loadEntryCss("desktop");
         import("./desktop.bundle").then((desktop) => render(desktop.default));
     }
 };

@@ -1,20 +1,16 @@
 import type { ReactElement } from "react";
-import { ComponentType, Suspense, lazy } from "react";
-import { Spinner } from "@skbkontur/react-ui/components/Spinner";
+import { ComponentType } from "react";
 import { useRoutes } from "react-router";
 import MobileErrorContainer from "./Containers/MobileErrorContainer";
 import { getPagePath } from "./Domain/Global";
-import { TriggerListProps } from "./pages/trigger-list/trigger-list";
+import TriggerList, { TriggerListProps } from "./pages/trigger-list/trigger-list";
 import TriggerListMobile, {
     TriggerListMobileProps,
 } from "./pages/trigger-list/trigger-list.mobile";
-import { TriggerProps } from "./pages/trigger/trigger";
+import Trigger, { TriggerProps } from "./pages/trigger/trigger";
 import TriggerMobile, { TriggerMobileProps } from "./pages/trigger/trigger.mobile";
 import { MobileSettingsPage } from "./Components/Mobile/MobileSettingsPage/MobileSettingsPage";
 import { TeamSettingsPrivateRoute } from "./PrivateRoutes/TeamSettingsPrivateRoute";
-
-const TriggerList = lazy(() => import("./pages/trigger-list/trigger-list"));
-const Trigger = lazy(() => import("./pages/trigger/trigger"));
 
 type ResponsiveRouteProps = {
     container: ComponentType<TriggerListProps> | ComponentType<TriggerProps>;
@@ -22,12 +18,8 @@ type ResponsiveRouteProps = {
 };
 
 function ResponsiveRoute({ container: Container, view: View }: ResponsiveRouteProps) {
-    return (
-        <Suspense fallback={<Spinner caption="Loading" />}>
-            {/* @ts-ignore problem with typing view */}
-            <Container view={View} />
-        </Suspense>
-    );
+    // @ts-ignore problem with typing view
+    return <Container view={View} />;
 }
 
 function Mobile(): ReactElement | null {
