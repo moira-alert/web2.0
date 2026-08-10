@@ -6,7 +6,7 @@ import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilt
 import { useSortData } from "../../hooks/useSortData";
 import { List } from "react-window";
 import type { RowComponentProps } from "react-window";
-import { TagListItem } from "../TagListItem/TagListItem";
+import { TagListItem, TagSubscriptionsPanel } from "./components/TagListItem/TagListItem";
 import { Input, Token } from "@skbkontur/react-ui";
 import { TokenInput, TokenInputType } from "@skbkontur/react-ui/components/TokenInput";
 import { RowStack } from "@skbkontur/react-stack-layout";
@@ -15,6 +15,7 @@ import {
     TAG_LIST_HEIGHT,
     TAG_ROW_HEIGHT,
 } from "../../Constants/heights";
+import { getTotalItemSize } from "./TagList.helpers";
 import classNames from "classnames/bind";
 
 import styles from "./TagList.module.less";
@@ -26,12 +27,9 @@ interface ITagListProps {
     contacts: Contact[];
 }
 
-export const getTotalItemSize = (length: number) => length * TAG_ROW_HEIGHT + 1;
-
 interface TagRowProps {
     filteredTags: TagStat[];
     tags: string[];
-    allContacts: Contact[];
     handleTagClick: (tag: string) => void;
     clickedTag: string | null;
 }
@@ -41,7 +39,6 @@ const TagRow = ({
     style,
     filteredTags,
     tags,
-    allContacts,
     handleTagClick,
     clickedTag,
 }: RowComponentProps<TagRowProps>) => {
@@ -53,7 +50,6 @@ const TagRow = ({
             tagStat={tagStat}
             style={style}
             tags={tags}
-            allContacts={allContacts}
             handleTagClick={handleTagClick}
             isActive={isActive}
         />
@@ -114,6 +110,11 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                 .slice(0, 10)
         );
     };
+
+    const activeTagIndex = clickedTag
+        ? filteredTags.findIndex((tag) => tag.name === clickedTag)
+        : -1;
+    const activeTag = activeTagIndex === -1 ? undefined : filteredTags[activeTagIndex];
 
     const listHeight = isListLongEnoughToScroll
         ? TAG_LIST_HEIGHT
@@ -204,11 +205,18 @@ export const TagList: FC<ITagListProps> = ({ items, contacts }) => {
                         rowProps={{
                             filteredTags,
                             tags,
-                            allContacts: contacts ?? [],
                             handleTagClick,
                             clickedTag,
                         }}
-                    />
+                    >
+                        {activeTag && activeTag.subscriptions.length > 0 && (
+                            <TagSubscriptionsPanel
+                                tagStat={activeTag}
+                                tags={tags}
+                                allContacts={contacts ?? []}
+                            />
+                        )}
+                    </List>
                 </>
             )}
         </>

@@ -1,0 +1,45 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+
+    &.active {
+        background-color: var(--background-secondary);
+    }
+}
+
+.info {
+    z-index: 1;
+    width: 100%;
+    background-color: var(--background-secondary);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.group {
+    margin-top: 10px;
+}
+
+.subscriptionList {
+    width: 100%;
+}
+
+.clickable {
+    &:hover {
+        background-color: var(--item-hover);
+        cursor: pointer;
+    }
+}
+
+.name {
+    width: calc(~"100% - 305px");
+    padding-left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.trigger-counter,
+.subscription-counter,
+.control {
+    width: 100px;
+}
