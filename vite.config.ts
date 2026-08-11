@@ -52,6 +52,8 @@ export default defineConfig(({ mode }) => ({
     build: {
         outDir: "dist",
         sourcemap: true,
+        // vite bug with conditional dynamic imports leads to absence of mobile css in prod https://github.com/vitejs/vite/issues/23221
+        cssCodeSplit: false,
     },
     optimizeDeps: {
         exclude: brokenPackages,
