@@ -16,7 +16,7 @@ import {
     TAG_LIST_HEIGHT,
     TAG_ROW_HEIGHT,
 } from "../../Constants/heights";
-import { getTotalItemSize } from "../TagList/TagList";
+import { getTotalItemSize } from "../TagList/TagList.helpers";
 import { TContactFilterColumns } from "../../Containers/ContactsContainer";
 import classNames from "classnames/bind";
 
