@@ -1,36 +1,30 @@
 import { useState, FC, useEffect, useRef } from "react";
 import * as React from "react";
-import flatten from "lodash/flatten";
 import { IconCheckARegular16 } from "@skbkontur/icons/IconCheckARegular16";
 import { IconTrashCanLight16 } from "@skbkontur/icons/IconTrashCanLight16";
 import { IconXRegular16 } from "@skbkontur/icons/IconXRegular16";
-import ContactTypeIcon from "../ContactTypeIcon/ContactTypeIcon";
-import { Contact } from "../../Domain/Contact";
-import { TagStat } from "../../Domain/Tag";
-import { useModal } from "../../hooks/useModal";
-import SubscriptionEditModal from "../SubscriptionEditModal/SubscriptionEditModal";
-import { Subscription } from "../../Domain/Subscription";
+import ContactTypeIcon from "../../../ContactTypeIcon/ContactTypeIcon";
+import { Contact } from "../../../../Domain/Contact";
+import { TagStat } from "../../../../Domain/Tag";
+import { useModal } from "../../../../hooks/useModal";
+import SubscriptionEditModal from "../../../SubscriptionEditModal/SubscriptionEditModal";
+import { Subscription } from "../../../../Domain/Subscription";
 import { List } from "react-window";
 import type { RowComponentProps } from "react-window";
-import { useDeleteSubscriptionMutation } from "../../services/SubscriptionsApi";
-import { useDeleteTagMutation } from "../../services/TagsApi";
-import RouterLink from "../RouterLink/RouterLink";
-import { getPageLink } from "../../Domain/Global";
-import {
-    MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE,
-    SUBSCRIPTION_LIST_HEIGHT,
-    TAG_ROW_HEIGHT,
-} from "../../Constants/heights";
-import { getTotalItemSize } from "../TagList/TagList";
+import { useDeleteSubscriptionMutation } from "../../../../services/SubscriptionsApi";
+import { useDeleteTagMutation } from "../../../../services/TagsApi";
+import RouterLink from "../../../RouterLink/RouterLink";
+import { getPageLink } from "../../../../Domain/Global";
+import { TAG_ROW_HEIGHT } from "../../../../Constants/heights";
 import classNames from "classnames/bind";
 
-import styles from "../TagList/TagList.module.less";
+import styles from "./TagListItem.module.less";
+import { getSubscriptionsPanelHeight, getTotalItemSize } from "../../TagList.helpers";
 
 const cn = classNames.bind(styles);
 
 interface ItemProps {
     tagStat: TagStat;
-    allContacts: Array<Contact>;
     tags: Array<string>;
     style: React.CSSProperties;
     handleTagClick: (tag: string) => void;
@@ -117,25 +111,23 @@ const SubscriptionRow = ({
     );
 };
 
-export const TagListItem: FC<ItemProps> = ({
+interface TagSubscriptionsPanelProps {
+    tagStat: TagStat;
+    tags: Array<string>;
+    allContacts: Array<Contact>;
+    top: number;
+}
+
+export const TagSubscriptionsPanel: FC<TagSubscriptionsPanelProps> = ({
     tagStat,
-    allContacts,
     tags,
-    style,
-    handleTagClick,
-    isActive,
+    allContacts,
+    top,
 }) => {
     const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
     const { isModalOpen, openModal, closeModal } = useModal();
     const [deleteSubscription] = useDeleteSubscriptionMutation();
-    const [deleteTag] = useDeleteTagMutation();
-    const { name, subscriptions, triggers } = tagStat;
-
-    const itemRef = useRef<HTMLDivElement | null>(null);
-
-    const isLastTag = tags[tags.length - 1] === name;
-
-    const hasSubscriptions = subscriptions.length !== 0;
+    const { subscriptions } = tagStat;
 
     const handleSubscriptionClick = (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -154,6 +146,47 @@ export const TagListItem: FC<ItemProps> = ({
         await deleteSubscription({ id: subscription.id, tagsToInvalidate: ["TagStats"] });
     };
 
+    const getSubscriptionsTableHeight = getSubscriptionsPanelHeight(subscriptions);
+
+    return (
+        <div className={cn("info")} style={{ top }}>
+            <div className={cn("group")}>
+                <List
+                    className={cn("subscriptionList")}
+                    style={{ height: getSubscriptionsTableHeight }}
+                    rowComponent={SubscriptionRow}
+                    rowCount={subscriptions.length}
+                    rowHeight={(index) => getSubscriptionRowHeight(subscriptions[index].contacts)}
+                    rowProps={{
+                        subscriptions,
+                        allContacts,
+                        handleSubscriptionClick,
+                        handleDeleteSubscription,
+                    }}
+                />
+            </div>
+            {isModalOpen && subscriptionToEdit != null && (
+                <SubscriptionEditModal
+                    subscription={subscriptionToEdit}
+                    tags={tags}
+                    contacts={allContacts}
+                    onCancel={closeModal}
+                />
+            )}
+        </div>
+    );
+};
+
+export const TagListItem: FC<ItemProps> = ({ tagStat, tags, style, handleTagClick, isActive }) => {
+    const [deleteTag] = useDeleteTagMutation();
+    const { name, subscriptions, triggers } = tagStat;
+
+    const itemRef = useRef<HTMLDivElement | null>(null);
+
+    const isLastTag = tags[tags.length - 1] === name;
+
+    const hasSubscriptions = subscriptions.length !== 0;
+
     const handleDeleteTag = async (
         event: React.MouseEvent<SVGSVGElement, MouseEvent>,
         tag: string
@@ -161,15 +194,6 @@ export const TagListItem: FC<ItemProps> = ({
         event.stopPropagation();
         await deleteTag(tag);
     };
-
-    const subscriptionContactsCount = flatten(
-        subscriptions.map((subscription) => subscription.contacts)
-    ).length;
-
-    const getSubscriptionsTableHeight =
-        subscriptionContactsCount > MAX_TAG_LIST_LENGTH_BEFORE_SCROLLABLE
-            ? SUBSCRIPTION_LIST_HEIGHT
-            : getTotalItemSize(subscriptionContactsCount);
 
     // if last tag in the list has subs, open the subs list and scroll to the center, cause on Mac OS there is now visual difference and scroll bar only shows up when explicitly move mouse on the list
     useEffect(() => {
@@ -199,36 +223,6 @@ export const TagListItem: FC<ItemProps> = ({
                 className={cn("control")}
                 onClick={(e) => handleDeleteTag(e, tagStat.name)}
             />
-
-            {isModalOpen && subscriptionToEdit !== null && (
-                <SubscriptionEditModal
-                    subscription={subscriptionToEdit}
-                    tags={tags}
-                    contacts={allContacts}
-                    onCancel={closeModal}
-                />
-            )}
-            {isActive && hasSubscriptions && (
-                <div className={cn("info")}>
-                    <div className={cn("group")}>
-                        <List
-                            className={cn("subscriptionList")}
-                            style={{ height: getSubscriptionsTableHeight }}
-                            rowComponent={SubscriptionRow}
-                            rowCount={subscriptions.length}
-                            rowHeight={(index) =>
-                                getSubscriptionRowHeight(subscriptions[index].contacts)
-                            }
-                            rowProps={{
-                                subscriptions,
-                                allContacts,
-                                handleSubscriptionClick,
-                                handleDeleteSubscription,
-                            }}
-                        />
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

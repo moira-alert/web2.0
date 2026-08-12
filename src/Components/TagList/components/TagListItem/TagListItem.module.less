@@ -1,36 +1,48 @@
-@import "~styles/utils.module.less";
-
 .row {
     display: flex;
     flex-wrap: wrap;
-    &:not(.header) {
-        border-top: 1px solid #eee;
-    }
+
     &.active {
         background-color: var(--background-secondary);
     }
 }
 
-.header {
-    color: @colorGrey;
-    font-style: italic;
-    margin-bottom: 5px;
+.info {
+    z-index: 1;
+    width: 100%;
+    background-color: var(--background-secondary);
+    position: absolute;
+    left: 0;
 }
+
+.group {
+    margin-top: 10px;
+}
+
+.subscriptionList {
+    width: 100%;
+}
+
+.clickable {
+    &:hover {
+        background-color: var(--item-hover);
+        cursor: pointer;
+    }
+}
+
 .name {
     width: calc(~"100% - 305px");
     padding-left: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .trigger-counter,
 .subscription-counter,
 .control {
     width: 100px;
 }
 
-.title {
-    margin: 0;
-}
 .item {
     display: flex;
     background-color: var(--background-secondary);
@@ -39,18 +51,19 @@
         cursor: pointer;
     }
 }
+
 .enabled {
     width: 30px;
 }
+
 .user {
     width: calc(~"40% - 30px");
 }
+
 .contacts {
     width: calc(~"60% - 100px");
 }
+
 .sub-control {
     width: 100px;
-}
-.contact-filter {
-    width: 100%;
 }
