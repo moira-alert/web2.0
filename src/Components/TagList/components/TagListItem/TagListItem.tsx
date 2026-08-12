@@ -149,7 +149,7 @@ export const TagSubscriptionsPanel: FC<TagSubscriptionsPanelProps> = ({
     const getSubscriptionsTableHeight = getSubscriptionsPanelHeight(subscriptions);
 
     return (
-        <div className={cn("info")} style={{ position: "absolute", top, left: 0 }}>
+        <div className={cn("info")} style={{ top }}>
             <div className={cn("group")}>
                 <List
                     className={cn("subscriptionList")}
