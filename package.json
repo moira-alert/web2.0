@@ -49,7 +49,7 @@
         "file-saver": "2.0.2",
         "lodash": "4.18.1",
         "numeral": "2.0.6",
-        "qs": "6.15.2",
+        "qs": "6.16.0",
         "query-string": "6.4.0",
         "react": "19.2.7",
         "react-animate-height": "3.2.3",
