@@ -152,16 +152,20 @@ export const SubscriptionListContainer: FC<Props> = ({ tags, teams, contacts, su
         dispatch(setManagingSubscriptions([]));
     };
 
+    const managingSubscriptionIDs = useMemo(
+        () => new Set(managingSubscriptions.map((subscription) => subscription.id)),
+        [managingSubscriptions]
+    );
+
     const hasRemainingSubscriptionsWithTransferredContacts = useMemo(
         () =>
             subscriptions.some((subscription) => {
-                if (managingSubscriptions.includes(subscription)) {
+                if (managingSubscriptionIDs.has(subscription.id)) {
                     return false;
                 }
-
                 return subscription.contacts.some((contact) => contactIDsToTransfer.has(contact));
             }),
-        [managingSubscriptions]
+        [subscriptions, managingSubscriptionIDs, contactIDsToTransfer]
     );
 
     const isApplyTransferButtonDisabled =
