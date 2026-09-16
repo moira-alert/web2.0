@@ -4,10 +4,12 @@ import Tabs, { Tab } from "../../Tabs/Tabs";
 import { EventListTab } from "./EventListTab/EventListTab";
 import { CurrentStateTab } from "./CurrentStateTab";
 import { MetricItemList } from "../../../Domain/Metric";
+import { MetricTimingThresholds } from "../../../helpers/getMetricTimingHint";
 
 interface ITriggerInfoTabsProps {
     metrics: MetricItemList;
     triggerName: string;
+    thresholds: MetricTimingThresholds;
     setMetricMaintenance: (metric: string, maintenance: number) => void;
     removeMetric: (metric: string) => void;
     removeNoDataMetric: () => void;
@@ -18,6 +20,7 @@ export const TriggerInfoTabs: FC<ITriggerInfoTabsProps> = ({
     removeNoDataMetric,
     removeMetric,
     triggerName,
+    thresholds,
     metrics,
 }) => {
     const navigate = useNavigate();
@@ -44,6 +47,7 @@ export const TriggerInfoTabs: FC<ITriggerInfoTabsProps> = ({
             <Tab id="state" label="Current state">
                 <CurrentStateTab
                     metrics={metrics}
+                    thresholds={thresholds}
                     setMetricMaintenance={setMetricMaintenance}
                     removeMetric={removeMetric}
                     removeNoDataMetric={removeNoDataMetric}

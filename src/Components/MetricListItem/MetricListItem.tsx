@@ -6,7 +6,13 @@ import MetricValues from "../MetricValues/MetricValues";
 import MaintenanceSelect from "../MaintenanceSelect/MaintenanceSelect";
 import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { IconPeople1Regular16 } from "@skbkontur/icons/IconPeople1Regular16";
+import { IconTimeClockRegular16 } from "@skbkontur/icons/IconTimeClockRegular16";
 import { humanizeDuration } from "../../helpers/DateUtil";
+import {
+    getMetricTimingHint,
+    MetricTimingHint,
+    MetricTimingThresholds,
+} from "../../helpers/getMetricTimingHint";
 import { Metric } from "../../Domain/Metric";
 import { useNavigate } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
@@ -23,6 +29,13 @@ function maintenanceCaption(delta: number): React.ReactNode {
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
 }
 
+function timingHintMessage({ kind, severity, forSeconds }: MetricTimingHint): string {
+    const duration = humanizeDuration(forSeconds);
+    return kind === "pending"
+        ? `Pending ${severity} — value is over the ${severity.toLowerCase()} threshold; fires after ${duration} of continuous breach.`
+        : `Keeping ${severity} — value recovered but the alert stays active for ${duration}.`;
+}
+
 const hideTargetsNames = (values: { [metric: string]: number } | undefined) => {
     return !values || Object.keys(values).length === 1;
 };
@@ -31,6 +44,7 @@ type MetricListItemProps = {
     status: boolean;
     metricName: string;
     metricData: Metric;
+    thresholds: MetricTimingThresholds;
     style: React.CSSProperties;
     onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
@@ -40,6 +54,7 @@ export function MetricListItem({
     status,
     metricName,
     metricData,
+    thresholds,
     style,
     onChange,
     onRemove,
@@ -52,6 +67,7 @@ export function MetricListItem({
         maintenance_info: maintenanceInfo,
     } = metricData;
     const delta = maintenanceDelta(maintenance);
+    const timingHint = getMetricTimingHint(metricData, thresholds);
     const ref = useRef<HTMLDivElement>(null);
     const [truncated, setTruncated] = useState(false);
     const { isColorBlindThemeOn } = useAppSelector(UIState);
@@ -89,6 +105,19 @@ export function MetricListItem({
                         statuses={[state]}
                         size={10}
                     />
+                    {timingHint && (
+                        <Tooltip render={() => timingHintMessage(timingHint)}>
+                            <span
+                                className={cn("timingHint")}
+                                style={{
+                                    color:
+                                        timingHint.kind === "pending" ? "#ffc107" : "#9e9e9e",
+                                }}
+                            >
+                                <IconTimeClockRegular16 />
+                            </span>
+                        </Tooltip>
+                    )}
                 </div>
             )}
             <div onMouseEnter={handleMouseEnter} ref={ref} className={cn("name")}>

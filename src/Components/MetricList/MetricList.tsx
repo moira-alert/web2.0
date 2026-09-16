@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
 import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
 import { Metric, MetricItemList } from "../../Domain/Metric";
+import { MetricTimingThresholds } from "../../helpers/getMetricTimingHint";
 import { List } from "react-window";
 import type { RowComponentProps } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
@@ -21,6 +22,7 @@ const cn = classNames.bind(styles);
 interface MetricRowProps {
     entries: [string, Metric][];
     status: boolean;
+    thresholds: MetricTimingThresholds;
     onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
 }
@@ -30,6 +32,7 @@ const MetricRow = ({
     style,
     entries,
     status,
+    thresholds,
     onChange,
     onRemove,
 }: RowComponentProps<MetricRowProps>) => {
@@ -39,6 +42,7 @@ const MetricRow = ({
             status={status}
             metricName={metricName}
             metricData={metricData}
+            thresholds={thresholds}
             style={style}
             onChange={onChange}
             onRemove={onRemove}
@@ -51,6 +55,7 @@ export type SortingColumn = "state" | "name" | "event" | "value";
 type Props = {
     status?: boolean;
     items: MetricItemList;
+    thresholds?: MetricTimingThresholds;
     sortingColumn: SortingColumn;
     sortingDown?: boolean;
     noDataMetricCount?: number;
@@ -79,6 +84,7 @@ export default function MetricList(props: Props): ReactElement {
     const {
         status,
         items,
+        thresholds,
         onSort,
         onChange,
         onRemove,
@@ -190,6 +196,7 @@ export default function MetricList(props: Props): ReactElement {
                     rowProps={{
                         entries,
                         status: status ?? false,
+                        thresholds: thresholds ?? {},
                         onChange,
                         onRemove,
                     }}

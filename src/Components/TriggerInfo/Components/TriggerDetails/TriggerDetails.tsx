@@ -14,6 +14,7 @@ import { ScheduleView } from "../ScheduleView";
 import { useNavigate } from "react-router";
 import { Flexbox } from "../../../Flexbox/FlexBox";
 import { TriggerCRUDInfo } from "../TriggerCRUDInfo";
+import { humanizeDuration } from "../../../../helpers/DateUtil";
 
 import styles from "./TriggerDetails.module.less";
 
@@ -43,6 +44,10 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
         expression,
         error_value: errorValue,
         warn_value: warnValue,
+        warn_for: warnFor,
+        error_for: errorFor,
+        warn_keep_firing_for: warnKeepFiringFor,
+        error_keep_firing_for: errorKeepFiringFor,
         ttl_state: ttlState,
         ttl,
         sched,
@@ -56,6 +61,19 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
 
     const { state, msg: exceptionMessage } = triggerState;
     const navigate = useNavigate();
+
+    const timingLine = (
+        label: string,
+        forSeconds?: number | null,
+        keepSeconds?: number | null
+    ): string | null => {
+        const parts: string[] = [];
+        if (forSeconds) parts.push(`fires after ${humanizeDuration(forSeconds)}`);
+        if (keepSeconds) parts.push(`keeps firing ${humanizeDuration(keepSeconds)}`);
+        return parts.length ? `${label} ${parts.join(", ")}.` : null;
+    };
+    const warnTiming = timingLine("WARN", warnFor, warnKeepFiringFor);
+    const errorTiming = timingLine("ERROR", errorFor, errorKeepFiringFor);
 
     const hasExpression = expression !== null && expression !== "";
     const hasMultipleTargets = targets.length > 1;
@@ -118,6 +136,14 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
                     <dd>
                         {`${expression}. `}
                         Set {ttlState} if has no value for {ttl} seconds
+                    </dd>
+                )}
+
+                {(warnTiming || errorTiming) && <dt>Alert timing</dt>}
+                {(warnTiming || errorTiming) && (
+                    <dd>
+                        {warnTiming && <div>{warnTiming}</div>}
+                        {errorTiming && <div>{errorTiming}</div>}
                     </dd>
                 )}
 

@@ -48,6 +48,7 @@ const TriggerDesktop: FC<TriggerDesktopProps> = ({
                     <LayoutContent>
                         <TriggerInfoTabs
                             triggerName={trigger.name}
+                            thresholds={trigger}
                             metrics={metrics}
                             removeMetric={removeMetric}
                             setMetricMaintenance={setMetricMaintenance}

@@ -19,6 +19,7 @@ import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import { ValueType, TriggerModeEditor } from "../TriggerModeEditor/TriggerModeEditor";
+import { TriggerAlertTimingEditor } from "../TriggerAlertTimingEditor/TriggerAlertTimingEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Status, StatusesList } from "../../Domain/Status";
@@ -148,6 +149,16 @@ const TriggerEditForm: FC<IProps> = ({
                     expression={expression ?? ""}
                     validateExpression={validateRequiredString}
                     disableSimpleMode={targets && targets.length > 1}
+                    onChange={onChange}
+                />
+            </FormRow>
+
+            <FormRow>
+                <TriggerAlertTimingEditor
+                    warnFor={data.warn_for ?? 0}
+                    errorFor={data.error_for ?? 0}
+                    warnKeepFiringFor={data.warn_keep_firing_for ?? 0}
+                    errorKeepFiringFor={data.error_keep_firing_for ?? 0}
                     onChange={onChange}
                 />
             </FormRow>
