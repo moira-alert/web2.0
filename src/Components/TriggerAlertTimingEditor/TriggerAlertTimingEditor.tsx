@@ -61,9 +61,7 @@ export const TriggerAlertTimingEditor: FC<Props> = ({
                 <Fit>
                     <StatusIcon status={status} />
                 </Fit>
-                <Fixed width={54} className={cn("caption")}>
-                    {status}
-                </Fixed>
+                <Fixed width={54}>{status}</Fixed>
                 <Fit>fire after</Fit>
                 <Fit>{durationInput(forValue, (v) => onChange({ [forKey]: v ?? 0 }), `${status} for`)}</Fit>
                 <Fit>s, keep firing</Fit>
