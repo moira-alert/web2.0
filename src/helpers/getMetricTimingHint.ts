@@ -30,14 +30,16 @@ const breaches = (value: number, threshold: number, triggerType: TriggerType): b
  * Returns null for expression triggers (no thresholds on the frontend) and when there is nothing to hint.
  */
 export function getMetricTimingHint(
-    metric: Pick<Metric, "state" | "value">,
+    metric: Pick<Metric, "state" | "value" | "values">,
     thresholds: MetricTimingThresholds
 ): MetricTimingHint | null {
     const { trigger_type: triggerType, warn_value, error_value } = thresholds;
 
     if (triggerType !== "rising" && triggerType !== "falling") return null;
 
-    const { state, value } = metric;
+    const { state } = metric;
+    // Legacy `value` is usually absent; simple-mode triggers have a single target t1.
+    const value = metric.value ?? metric.values?.t1 ?? null;
     if (value == null) return null;
     if (state !== Status.OK && state !== Status.WARN && state !== Status.ERROR) return null;
 

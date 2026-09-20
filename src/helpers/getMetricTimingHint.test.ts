@@ -22,6 +22,14 @@ describe("getMetricTimingHint", () => {
         expect(getMetricTimingHint({ state: Status.OK, value: null }, rising)).toBeNull();
     });
 
+    it("falls back to values.t1 when the legacy value field is absent", () => {
+        expect(getMetricTimingHint({ state: Status.OK, values: { t1: 5 } }, rising)).toEqual({
+            kind: "pending",
+            severity: Status.WARN,
+            forSeconds: 60,
+        });
+    });
+
     it("pending WARN: value over warn threshold but state still OK (rising)", () => {
         expect(getMetricTimingHint({ state: Status.OK, value: 5 }, rising)).toEqual({
             kind: "pending",
