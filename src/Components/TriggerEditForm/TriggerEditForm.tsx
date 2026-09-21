@@ -153,7 +153,7 @@ const TriggerEditForm: FC<IProps> = ({
                 />
             </FormRow>
 
-            <FormRow>
+            <FormRow label="Alert timing" singleLineControlGroup>
                 <TriggerAlertTimingEditor
                     warnFor={data.warn_for ?? 0}
                     errorFor={data.error_for ?? 0}
@@ -161,6 +161,16 @@ const TriggerEditForm: FC<IProps> = ({
                     errorKeepFiringFor={data.error_keep_firing_for ?? 0}
                     onChange={onChange}
                 />
+                <HelpTooltip>
+                    <p>
+                        <b>fire after</b> — the condition must continuously evaluate to this status
+                        for this many seconds before the alert fires (0 = immediately).
+                    </p>
+                    <p>
+                        <b>keep firing</b> — the alert stays active this many seconds after the
+                        condition no longer evaluates to this status.
+                    </p>
+                </HelpTooltip>
             </FormRow>
 
             <FormRow singleLineControlGroup>

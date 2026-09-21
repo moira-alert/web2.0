@@ -25,12 +25,6 @@ export type Trigger = Omit<DtoTrigger, "ttl_state" | "trigger_source" | "trigger
     ttl_state: Status;
     trigger_source: TriggerSource;
     trigger_type: TriggerType;
-    // "For" timers (seconds, 0 = immediate). Present on the API since moira#1291;
-    // declared here until the generated swagger contracts are regenerated.
-    warn_for?: number | null;
-    error_for?: number | null;
-    warn_keep_firing_for?: number | null;
-    error_keep_firing_for?: number | null;
 };
 
 export type CheckData = Omit<MoiraCheckData, "metrics" | "state"> & {

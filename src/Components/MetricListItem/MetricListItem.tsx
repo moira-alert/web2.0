@@ -8,11 +8,12 @@ import { Tooltip } from "@skbkontur/react-ui/components/Tooltip";
 import { IconPeople1Regular16 } from "@skbkontur/icons/IconPeople1Regular16";
 import { IconTimeClockRegular16 } from "@skbkontur/icons/IconTimeClockRegular16";
 import { humanizeDuration } from "../../helpers/DateUtil";
+import { getMetricTimingHint } from "../../helpers/getMetricTimingHint";
 import {
-    getMetricTimingHint,
     MetricTimingHint,
-    MetricTimingThresholds,
-} from "../../helpers/getMetricTimingHint";
+    MetricTimingHintKind,
+    MetricTimingSettings,
+} from "../../Domain/MetricTimingHint";
 import { Metric } from "../../Domain/Metric";
 import { useNavigate } from "react-router";
 import { ConfirmMetricDeletionWithTransformNull } from "../ConfirmMetricDeletionWithTransformNull/ConfirmMetricDeletionWithTransformNull";
@@ -24,17 +25,13 @@ import classNames from "classnames/bind";
 import styles from "../MetricList/MetricList.module.less";
 
 const cn = classNames.bind(styles);
-
-function maintenanceCaption(delta: number): React.ReactNode {
+const timingHintMessage = ({ kind, severity, forSeconds }: MetricTimingHint): string =>
+    kind === MetricTimingHintKind.Pending
+        ? `Pending ${severity} — condition evaluates to ${severity}; fires after ${humanizeDuration(forSeconds)} continuously in this state.`
+        : `Keeping ${severity} — condition recovered, but the alert stays active for ${humanizeDuration(forSeconds)}.`;
+const maintenanceCaption = (delta: number): React.ReactNode => {
     return <span>{delta <= 0 ? "Maintenance" : humanizeDuration(delta)}</span>;
-}
-
-function timingHintMessage({ kind, severity, forSeconds }: MetricTimingHint): string {
-    const duration = humanizeDuration(forSeconds);
-    return kind === "pending"
-        ? `Pending ${severity} — value is over the ${severity.toLowerCase()} threshold; fires after ${duration} of continuous breach.`
-        : `Keeping ${severity} — value recovered but the alert stays active for ${duration}.`;
-}
+};
 
 const hideTargetsNames = (values: { [metric: string]: number } | undefined) => {
     return !values || Object.keys(values).length === 1;
@@ -42,9 +39,10 @@ const hideTargetsNames = (values: { [metric: string]: number } | undefined) => {
 
 type MetricListItemProps = {
     status: boolean;
+    showTiming: boolean;
     metricName: string;
     metricData: Metric;
-    thresholds: MetricTimingThresholds;
+    timingSettings: MetricTimingSettings;
     style: React.CSSProperties;
     onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
@@ -52,9 +50,10 @@ type MetricListItemProps = {
 
 export function MetricListItem({
     status,
+    showTiming,
     metricName,
     metricData,
-    thresholds,
+    timingSettings,
     style,
     onChange,
     onRemove,
@@ -67,7 +66,7 @@ export function MetricListItem({
         maintenance_info: maintenanceInfo,
     } = metricData;
     const delta = maintenanceDelta(maintenance);
-    const timingHint = getMetricTimingHint(metricData, thresholds);
+    const timingHint = getMetricTimingHint(metricData, timingSettings);
     const ref = useRef<HTMLDivElement>(null);
     const [truncated, setTruncated] = useState(false);
     const { isColorBlindThemeOn } = useAppSelector(UIState);
@@ -105,18 +104,25 @@ export function MetricListItem({
                         statuses={[state]}
                         size={10}
                     />
-                    {timingHint && (
+                </div>
+            )}
+            {showTiming && (
+                <div className={cn("timing")}>
+                    {timingHint ? (
                         <Tooltip render={() => timingHintMessage(timingHint)}>
-                            <span
-                                className={cn("timingHint")}
-                                style={{
-                                    color:
-                                        timingHint.kind === "pending" ? "#ffc107" : "#9e9e9e",
-                                }}
+                            <div
+                                className={cn("timingHint", {
+                                    timingHintPending:
+                                        timingHint.kind === MetricTimingHintKind.Pending,
+                                    timingHintKeepFiring:
+                                        timingHint.kind === MetricTimingHintKind.KeepFiring,
+                                })}
                             >
                                 <IconTimeClockRegular16 />
-                            </span>
+                            </div>
                         </Tooltip>
+                    ) : (
+                        "—"
                     )}
                 </div>
             )}
