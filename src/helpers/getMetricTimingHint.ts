@@ -1,80 +1,97 @@
-import { Status, getStatusWeight } from "../Domain/Status";
-import { Metric } from "../Domain/Metric";
-import { TriggerType } from "../Domain/Trigger";
+import { Status } from "../Domain/Status";
+import type { Metric } from "../Domain/Metric";
+import {
+    AlertSeverity,
+    MetricTimingHint,
+    MetricTimingHintKind,
+    MetricTimingSettings,
+} from "../Domain/MetricTimingHint";
 
-export interface MetricTimingThresholds {
-    trigger_type?: TriggerType;
-    warn_value?: number | null;
-    error_value?: number | null;
-    warn_for?: number | null;
-    error_for?: number | null;
-    warn_keep_firing_for?: number | null;
-    error_keep_firing_for?: number | null;
-}
+const isSupportedState = (state: Status): state is Status.OK | AlertSeverity =>
+    state === Status.OK || state === Status.WARN || state === Status.ERROR;
+const isTimerRunning = (since: number | null | undefined): since is number => (since ?? 0) > 0;
 
-export interface MetricTimingHint {
-    kind: "pending" | "keepFiring";
-    severity: Status.WARN | Status.ERROR;
-    forSeconds: number;
-    // TODO(for-timers): remainingSeconds, когда API отдаст *_since / *_recover_since
-}
+const getPendingHint = (
+    severity: Status,
+    startedAt: number,
+    checkedAt: number,
+    settings: MetricTimingSettings
+): MetricTimingHint | null => {
+    const forSeconds = severity === Status.ERROR ? settings.error_for : settings.warn_for;
+    if ((severity !== Status.WARN && severity !== Status.ERROR) || !forSeconds || forSeconds <= 0)
+        return null;
+    return {
+        kind: MetricTimingHintKind.Pending,
+        severity,
+        forSeconds,
+        startedAt,
+        remainingSeconds: Math.max(0, forSeconds - (checkedAt - startedAt)),
+    };
+};
 
-const breaches = (value: number, threshold: number, triggerType: TriggerType): boolean =>
-    triggerType === "falling" ? value <= threshold : value >= threshold;
+const getKeepFiringHint = (
+    state: Status,
+    startedAt: number,
+    checkedAt: number,
+    settings: MetricTimingSettings
+): MetricTimingHint | null => {
+    if (state !== Status.WARN && state !== Status.ERROR) return null;
+    const forSeconds =
+        state === Status.ERROR ? settings.error_keep_firing_for : settings.warn_keep_firing_for;
+    if (!forSeconds || forSeconds <= 0) return null;
+    return {
+        kind: MetricTimingHintKind.KeepFiring,
+        severity: state,
+        forSeconds,
+        startedAt,
+        remainingSeconds: Math.max(0, forSeconds - (checkedAt - startedAt)),
+    };
+};
 
-/**
- * Derives a transitional "for"-timer hint for a metric, since the API exposes no
- * dedicated pending state. Two symmetric cases:
- *  - pending:    value is over threshold but state is still lower (warn_for/error_for counting up)
- *  - keepFiring: value recovered but state is still higher (warn_keep_firing_for/error_keep_firing_for)
- * Returns null for expression triggers (no thresholds on the frontend) and when there is nothing to hint.
- */
-export function getMetricTimingHint(
-    metric: Pick<Metric, "state" | "value" | "values">,
-    thresholds: MetricTimingThresholds
-): MetricTimingHint | null {
-    const { trigger_type: triggerType, warn_value, error_value } = thresholds;
-
-    if (triggerType !== "rising" && triggerType !== "falling") return null;
-
-    const { state } = metric;
-    // Legacy `value` is usually absent; simple-mode triggers have a single target t1.
-    const value = metric.value ?? metric.values?.t1 ?? null;
-    if (value == null) return null;
-    if (state !== Status.OK && state !== Status.WARN && state !== Status.ERROR) return null;
-
-    let severityByValue: Status = Status.OK;
-    if (warn_value != null && breaches(value, warn_value, triggerType)) {
-        severityByValue = Status.WARN;
+export const getMetricTimingHints = (
+    metric: Pick<
+        Metric,
+        | "state"
+        | "timestamp"
+        | "warn_since"
+        | "error_since"
+        | "warn_recover_since"
+        | "error_recover_since"
+    >,
+    settings: MetricTimingSettings
+): MetricTimingHint[] => {
+    const { state, timestamp, warn_since, error_since, warn_recover_since, error_recover_since } =
+        metric;
+    if (!isSupportedState(state)) return [];
+    const hints: MetricTimingHint[] = [];
+    if (state !== Status.ERROR && isTimerRunning(error_since)) {
+        const hint = getPendingHint(Status.ERROR, error_since, timestamp, settings);
+        if (hint) hints.push(hint);
     }
-    if (error_value != null && breaches(value, error_value, triggerType)) {
-        severityByValue = Status.ERROR;
+    if (state === Status.OK && isTimerRunning(warn_since)) {
+        const hint = getPendingHint(Status.WARN, warn_since, timestamp, settings);
+        if (hint) hints.push(hint);
     }
-
-    const valueWeight = getStatusWeight(severityByValue);
-    const stateWeight = getStatusWeight(state);
-
-    if (valueWeight > stateWeight) {
-        const forSeconds =
-            (severityByValue === Status.ERROR ? thresholds.error_for : thresholds.warn_for) ?? 0;
-        return forSeconds > 0
-            ? {
-                  kind: "pending",
-                  severity: severityByValue as Status.WARN | Status.ERROR,
-                  forSeconds,
-              }
-            : null;
+    if (state === Status.ERROR && isTimerRunning(error_recover_since)) {
+        const hint = getKeepFiringHint(Status.ERROR, error_recover_since, timestamp, settings);
+        if (hint) hints.push(hint);
     }
-
-    if (valueWeight < stateWeight) {
-        const forSeconds =
-            (state === Status.ERROR
-                ? thresholds.error_keep_firing_for
-                : thresholds.warn_keep_firing_for) ?? 0;
-        return forSeconds > 0
-            ? { kind: "keepFiring", severity: state as Status.WARN | Status.ERROR, forSeconds }
-            : null;
+    if (state === Status.WARN && isTimerRunning(warn_recover_since)) {
+        const hint = getKeepFiringHint(Status.WARN, warn_recover_since, timestamp, settings);
+        if (hint) hints.push(hint);
     }
+    return hints;
+};
 
-    return null;
-}
+export const getMetricTimingHint = (
+    metric: Pick<
+        Metric,
+        | "state"
+        | "timestamp"
+        | "warn_since"
+        | "error_since"
+        | "warn_recover_since"
+        | "error_recover_since"
+    >,
+    settings: MetricTimingSettings
+): MetricTimingHint | null => getMetricTimingHints(metric, settings)[0] ?? null;

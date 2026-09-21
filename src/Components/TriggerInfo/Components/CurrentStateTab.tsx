@@ -2,7 +2,7 @@ import { FC, useCallback, useMemo, useState } from "react";
 import MetricList, { SortingColumn } from "../../MetricList/MetricList";
 import { sortMetrics } from "../../../helpers/sort-metrics";
 import { MetricItemList } from "../../../Domain/Metric";
-import { MetricTimingThresholds } from "../../../helpers/getMetricTimingHint";
+import { MetricTimingSettings } from "../../../Domain/MetricTimingHint";
 import { Status } from "../../../Domain/Status";
 import { SearchInput } from "./SearchInput/SearchInput";
 import { Flexbox } from "../../Flexbox/FlexBox";
@@ -11,7 +11,7 @@ import { MAX_METRIC_LIST_LENGTH_BEFORE_SCROLLABLE } from "../../../Constants/hei
 
 interface ICurrentStateTabProps {
     metrics: MetricItemList;
-    thresholds: MetricTimingThresholds;
+    timingSettings: MetricTimingSettings;
     setMetricMaintenance: (metric: string, maintenance: number) => void;
     removeMetric: (metric: string) => void;
     removeNoDataMetric: () => void;
@@ -19,7 +19,7 @@ interface ICurrentStateTabProps {
 
 export const CurrentStateTab: FC<ICurrentStateTabProps> = ({
     metrics,
-    thresholds,
+    timingSettings,
     setMetricMaintenance,
     removeMetric,
     removeNoDataMetric,
@@ -96,7 +96,7 @@ export const CurrentStateTab: FC<ICurrentStateTabProps> = ({
                 <MetricList
                     status
                     items={filteredMetrics}
-                    thresholds={thresholds}
+                    timingSettings={timingSettings}
                     onSort={handleSort}
                     sortingColumn={sortingColumn}
                     sortingDown={sortingDown}
