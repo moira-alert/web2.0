@@ -19,6 +19,7 @@ import { defaultNumberEditFormat, defaultNumberViewFormat } from "../../helpers/
 import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 import ScheduleEdit from "../ScheduleEdit/ScheduleEdit";
 import { ValueType, TriggerModeEditor } from "../TriggerModeEditor/TriggerModeEditor";
+import { TriggerAlertTimingEditor } from "../TriggerAlertTimingEditor/TriggerAlertTimingEditor";
 import StatusSelect from "../StatusSelect/StatusSelect";
 import TagDropdownSelect from "../TagDropdownSelect/TagDropdownSelect";
 import { Status, StatusesList } from "../../Domain/Status";
@@ -150,6 +151,26 @@ const TriggerEditForm: FC<IProps> = ({
                     disableSimpleMode={targets && targets.length > 1}
                     onChange={onChange}
                 />
+            </FormRow>
+
+            <FormRow label="Alert timing" singleLineControlGroup>
+                <TriggerAlertTimingEditor
+                    warnFor={data.warn_for ?? 0}
+                    errorFor={data.error_for ?? 0}
+                    warnKeepFiringFor={data.warn_keep_firing_for ?? 0}
+                    errorKeepFiringFor={data.error_keep_firing_for ?? 0}
+                    onChange={onChange}
+                />
+                <HelpTooltip>
+                    <p>
+                        <b>fire after</b> — the condition must continuously evaluate to this status
+                        for this many seconds before the alert fires (0 = immediately).
+                    </p>
+                    <p>
+                        <b>keep firing</b> — the alert stays active this many seconds after the
+                        condition no longer evaluates to this status.
+                    </p>
+                </HelpTooltip>
             </FormRow>
 
             <FormRow singleLineControlGroup>

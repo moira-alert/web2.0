@@ -42,6 +42,16 @@ export const validateTTL = (value?: number): ValidationInfo | null => {
     return null;
 };
 
+export const validateForDuration = (value?: number | null): ValidationInfo | null => {
+    if (value != null && value < 0) {
+        return {
+            type: "submit",
+            message: "Can't be negative",
+        };
+    }
+    return null;
+};
+
 export const validateSched = (schedule: Schedule | undefined): ValidationInfo | null => {
     if (!schedule) {
         return null;

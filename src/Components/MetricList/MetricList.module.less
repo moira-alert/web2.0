@@ -28,6 +28,26 @@
         padding-top: 0;
     }
 }
+.timing {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    width: 80px;
+    height: 20px;
+    box-sizing: border-box;
+}
+.timingHint {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: help;
+}
+.timingHintPending {
+    color: #ffc107;
+}
+.timingHintKeepFiring {
+    color: #9e9e9e;
+}
 .name {
     overflow: hidden;
     padding-right: 10px;
@@ -60,7 +80,7 @@
 }
 .delete {
     flex-shrink: 0;
-    width: 138px;
+    width: 180px;
 }
 .a11y-span {
     margin: 0;

@@ -1,7 +1,8 @@
-import type { ReactElement } from "react";
+import { useMemo, type ReactElement } from "react";
 import { IconUiFilterSortALowToHighRegular16 } from "@skbkontur/icons/IconUiFilterSortALowToHighRegular16";
 import { IconUiFilterSortAHighToLowRegular16 } from "@skbkontur/icons/IconUiFilterSortAHighToLowRegular16";
 import { Metric, MetricItemList } from "../../Domain/Metric";
+import { MetricTimingSettings } from "../../Domain/MetricTimingHint";
 import { List } from "react-window";
 import type { RowComponentProps } from "react-window";
 import { MetricListItem } from "../MetricListItem/MetricListItem";
@@ -17,10 +18,13 @@ import classNames from "classnames/bind";
 import styles from "./MetricList.module.less";
 
 const cn = classNames.bind(styles);
+const EMPTY_TIMING_SETTINGS: MetricTimingSettings = {};
 
 interface MetricRowProps {
     entries: [string, Metric][];
     status: boolean;
+    showTiming: boolean;
+    timingSettings: MetricTimingSettings;
     onChange: (metric: string, maintenance: number) => void;
     onRemove: (metric: string) => void;
 }
@@ -30,6 +34,8 @@ const MetricRow = ({
     style,
     entries,
     status,
+    showTiming,
+    timingSettings,
     onChange,
     onRemove,
 }: RowComponentProps<MetricRowProps>) => {
@@ -37,6 +43,8 @@ const MetricRow = ({
     return (
         <MetricListItem
             status={status}
+            showTiming={showTiming}
+            timingSettings={timingSettings}
             metricName={metricName}
             metricData={metricData}
             style={style}
@@ -51,6 +59,7 @@ export type SortingColumn = "state" | "name" | "event" | "value";
 type Props = {
     status?: boolean;
     items: MetricItemList;
+    timingSettings?: MetricTimingSettings;
     sortingColumn: SortingColumn;
     sortingDown?: boolean;
     noDataMetricCount?: number;
@@ -79,6 +88,7 @@ export default function MetricList(props: Props): ReactElement {
     const {
         status,
         items,
+        timingSettings,
         onSort,
         onChange,
         onRemove,
@@ -94,7 +104,14 @@ export default function MetricList(props: Props): ReactElement {
         <IconUiFilterSortAHighToLowRegular16 />
     );
 
-    const entries = Object.entries(items);
+    const entries = useMemo(() => Object.entries(items), [items]);
+    const resolvedTimingSettings = timingSettings ?? EMPTY_TIMING_SETTINGS;
+    const showTiming =
+        timingSettings !== undefined &&
+        ("warn_for" in timingSettings ||
+            "error_for" in timingSettings ||
+            "warn_keep_firing_for" in timingSettings ||
+            "error_keep_firing_for" in timingSettings);
 
     const totalListHeightBeforeScroll = getTotalSize(entries) + 2;
 
@@ -125,6 +142,7 @@ export default function MetricList(props: Props): ReactElement {
                         </button>
                     </div>
                 )}
+                {showTiming && <div className={cn("timing", "a11y-span")}>Timing</div>}
 
                 <div className={cn("name")}>
                     <button
@@ -190,6 +208,8 @@ export default function MetricList(props: Props): ReactElement {
                     rowProps={{
                         entries,
                         status: status ?? false,
+                        showTiming,
+                        timingSettings: resolvedTimingSettings,
                         onChange,
                         onRemove,
                     }}

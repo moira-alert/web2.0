@@ -428,6 +428,8 @@ export interface DtoTeamModel {
     description?: string;
     /** @example "d5d98eb3-ee18-4f75-9364-244f67e23b54" */
     id: string;
+    /** @example "{"meta_id":"example_id"}" */
+    metadata?: string;
     /** @example "Infrastructure Team" */
     name: string;
 }
@@ -495,6 +497,18 @@ export interface DtoTrigger {
      * @example "check the size of /var/log"
      */
     desc?: string | null;
+    /**
+     * Seconds the metric must be continuously >= ErrorValue before ERROR fires. 0 means fire instantly.
+     * @format int64
+     * @example 0
+     */
+    error_for?: number;
+    /**
+     * Seconds to keep reporting ERROR after the metric drops below ErrorValue. 0 means resolve instantly.
+     * @format int64
+     * @example 0
+     */
+    error_keep_firing_for?: number;
     /**
      * ERROR threshold
      * @example 1000
@@ -582,6 +596,18 @@ export interface DtoTrigger {
     updated_at: string | null;
     /** Username who updated trigger */
     updated_by: string;
+    /**
+     * Seconds the metric must be continuously >= WarnValue before WARN fires. 0 means fire instantly.
+     * @format int64
+     * @example 0
+     */
+    warn_for?: number;
+    /**
+     * Seconds to keep reporting WARN after the metric drops below WarnValue. 0 means resolve instantly.
+     * @format int64
+     * @example 0
+     */
+    warn_keep_firing_for?: number;
     /**
      * WARN threshold
      * @example 500
@@ -684,6 +710,18 @@ export interface DtoTriggerModel {
      */
     desc?: string | null;
     /**
+     * Seconds the metric must be continuously >= ErrorValue before ERROR fires. 0 means fire instantly.
+     * @format int64
+     * @example 0
+     */
+    error_for?: number;
+    /**
+     * Seconds to keep reporting ERROR after the metric drops below ErrorValue. 0 means resolve instantly.
+     * @format int64
+     * @example 0
+     */
+    error_keep_firing_for?: number;
+    /**
      * ERROR threshold
      * @example 1000
      */
@@ -766,6 +804,18 @@ export interface DtoTriggerModel {
     /** Username who updated trigger */
     updated_by: string;
     /**
+     * Seconds the metric must be continuously >= WarnValue before WARN fires. 0 means fire instantly.
+     * @format int64
+     * @example 0
+     */
+    warn_for?: number;
+    /**
+     * Seconds to keep reporting WARN after the metric drops below WarnValue. 0 means resolve instantly.
+     * @format int64
+     * @example 0
+     */
+    warn_keep_firing_for?: number;
+    /**
      * WARN threshold
      * @example 500
      */
@@ -792,6 +842,18 @@ export interface DtoTriggerNoisiness {
      * @example "check the size of /var/log"
      */
     desc?: string | null;
+    /**
+     * Seconds the metric must be continuously >= ErrorValue before ERROR fires. 0 means fire instantly.
+     * @format int64
+     * @example 0
+     */
+    error_for?: number;
+    /**
+     * Seconds to keep reporting ERROR after the metric drops below ErrorValue. 0 means resolve instantly.
+     * @format int64
+     * @example 0
+     */
+    error_keep_firing_for?: number;
     /**
      * ERROR threshold
      * @example 1000
@@ -881,6 +943,18 @@ export interface DtoTriggerNoisiness {
     updated_at: string | null;
     /** Username who updated trigger */
     updated_by: string;
+    /**
+     * Seconds the metric must be continuously >= WarnValue before WARN fires. 0 means fire instantly.
+     * @format int64
+     * @example 0
+     */
+    warn_for?: number;
+    /**
+     * Seconds to keep reporting WARN after the metric drops below WarnValue. 0 means resolve instantly.
+     * @format int64
+     * @example 0
+     */
+    warn_keep_firing_for?: number;
     /**
      * WARN threshold
      * @example 500
@@ -1050,6 +1124,18 @@ export interface MoiraMetricState {
      */
     deleted_but_kept?: boolean;
     /**
+     * ErrorRecoverSince is the unix timestamp when the metric first dropped below ErrorValue after ERROR had fired, 0 if not currently tracked.
+     * @format int64
+     * @example 0
+     */
+    error_recover_since?: number;
+    /**
+     * ErrorSince is the unix timestamp when the metric first became continuously >= ErrorValue, 0 if not currently tracked.
+     * @format int64
+     * @example 0
+     */
+    error_since?: number;
+    /**
      * @format int64
      * @example 1590741878
      */
@@ -1073,6 +1159,19 @@ export interface MoiraMetricState {
     /** @example 70 */
     value?: number | null;
     values?: Record<string, number>;
+    /**
+     * WarnRecoverSince is the unix timestamp when the metric first dropped below WarnValue after WARN had fired, 0 if not currently tracked.
+     * @format int64
+     * @example 0
+     */
+    warn_recover_since?: number;
+    /**
+     * AloneMetrics    map[string]string  `json:"alone_metrics"` // represents a relation between name of alone metrics and their targets
+     * WarnSince is the unix timestamp when the metric first became continuously >= WarnValue, 0 if not currently tracked.
+     * @format int64
+     * @example 0
+     */
+    warn_since?: number;
 }
 
 export interface MoiraMetricValue {
@@ -1206,6 +1305,16 @@ export interface MoiraTrigger {
     created_by: string;
     /** @example "check the size of /var/log" */
     desc?: string | null;
+    /**
+     * @format int64
+     * @example 0
+     */
+    error_for?: number;
+    /**
+     * @format int64
+     * @example 0
+     */
+    error_keep_firing_for?: number;
     /** @example 1000 */
     error_value: number | null;
     /** @example "" */
@@ -1250,6 +1359,16 @@ export interface MoiraTrigger {
     /** @format int64 */
     updated_at: number | null;
     updated_by: string;
+    /**
+     * @format int64
+     * @example 0
+     */
+    warn_for?: number;
+    /**
+     * @format int64
+     * @example 0
+     */
+    warn_keep_firing_for?: number;
     /** @example 5000 */
     warn_value: number | null;
 }
@@ -1264,6 +1383,16 @@ export interface MoiraTriggerCheck {
     created_by: string;
     /** @example "check the size of /var/log" */
     desc?: string | null;
+    /**
+     * @format int64
+     * @example 0
+     */
+    error_for?: number;
+    /**
+     * @format int64
+     * @example 0
+     */
+    error_keep_firing_for?: number;
     /** @example 1000 */
     error_value: number | null;
     /** @example "" */
@@ -1315,6 +1444,16 @@ export interface MoiraTriggerCheck {
     /** @format int64 */
     updated_at: number | null;
     updated_by: string;
+    /**
+     * @format int64
+     * @example 0
+     */
+    warn_for?: number;
+    /**
+     * @format int64
+     * @example 0
+     */
+    warn_keep_firing_for?: number;
     /** @example 5000 */
     warn_value: number | null;
 }
