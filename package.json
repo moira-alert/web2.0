@@ -100,6 +100,7 @@
         "typescript": "5.2.2",
         "typescript-eslint": "8.59.2",
         "vite": "8.2.0",
+        "vite-plugin-svgr": "^5.2.0",
         "wait-on": "8.0.3"
     },
     "resolutions": {

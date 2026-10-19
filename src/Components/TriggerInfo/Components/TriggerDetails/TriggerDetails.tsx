@@ -15,6 +15,9 @@ import { useNavigate } from "react-router";
 import { Flexbox } from "../../../Flexbox/FlexBox";
 import { TriggerCRUDInfo } from "../TriggerCRUDInfo";
 import { humanizeDuration } from "../../../../helpers/DateUtil";
+import { GrafanaIconButton } from "../../../GrafanaIconButton/GrafanaIconButton";
+import { getGrafanaExploreUrl } from "../../../../helpers/getGrafanaExploreUrl";
+import type { GrafanaUrls } from "../../../../helpers/getGrafanaExploreUrl";
 
 import styles from "./TriggerDetails.module.less";
 
@@ -26,6 +29,7 @@ interface TriggerDetailsProps {
     ownerTeam?: { id: string; name: string };
     isOwnerTeamShown: boolean;
     isClusterName: boolean;
+    grafanaUrls?: GrafanaUrls;
 }
 
 export const TriggerDetails: FC<TriggerDetailsProps> = ({
@@ -36,6 +40,7 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
     ownerTeam,
     isOwnerTeamShown,
     isClusterName,
+    grafanaUrls,
 }) => {
     const {
         id,
@@ -88,25 +93,39 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
                 </dt>
                 <dd className={styles.codeEditor}>
                     <Flexbox gap={10}>
-                        {targets.map((target, i) => (
-                            <div key={target}>
-                                <div className={styles.copyButtonWrapper}>
-                                    <div className={styles.copyButton}>
-                                        <CopyButton
-                                            hintMessage="Copy without formatting"
-                                            value={target}
-                                        />
+                        {targets.map((target, i) => {
+                            const grafanaUrl = getGrafanaExploreUrl(
+                                target,
+                                triggerSource,
+                                grafanaUrls
+                            );
+                            return (
+                                <div key={`${i}:${target}`}>
+                                    <div className={styles.targetActionsWrapper}>
+                                        <div className={styles.targetActions}>
+                                            {grafanaUrl && (
+                                                <GrafanaIconButton
+                                                    hintText="Open in Grafana Explore"
+                                                    link={grafanaUrl}
+                                                />
+                                            )}
+
+                                            <CopyButton
+                                                hintMessage="Copy without formatting"
+                                                value={target}
+                                            />
+                                        </div>
                                     </div>
+
+                                    <CodeEditor
+                                        data-tid={`T${i + 1}`}
+                                        triggerSource={triggerSource}
+                                        disabled
+                                        value={target}
+                                    />
                                 </div>
-                                <CodeEditor
-                                    data-tid={`T${i + 1}`}
-                                    triggerSource={triggerSource}
-                                    disabled
-                                    key={i}
-                                    value={target}
-                                />
-                            </div>
-                        ))}
+                            );
+                        })}
                     </Flexbox>
                 </dd>
 

@@ -35,6 +35,10 @@ export interface ApiMetricSourceCluster {
     cluster_id: string;
     /** @example "Graphite Remote Prod" */
     cluster_name: string;
+    /** @example "graphite-prod" */
+    grafana_datasource_id?: string;
+    /** @example "https://grafana.example.com" */
+    grafana_url?: string;
     /** @example 604800 */
     metrics_ttl: number;
     /** @example "graphite_remote" */
