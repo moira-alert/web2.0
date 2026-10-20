@@ -4,9 +4,10 @@ import { IconTrashCanRegular16 } from "@skbkontur/icons/IconTrashCanRegular16";
 import { Checkbox, Button } from "@skbkontur/react-ui";
 import { RowStack, Fill, Fit } from "@skbkontur/react-stack-layout";
 import HighlightInput from "../../HighlightInput/HighlightInput";
-import { CopyButton } from "./CopyButton";
+import { TargetActions } from "../../TargetActions/TargetActions";
 import { useIds } from "../../../hooks/useIds";
 import TriggerSource, { Trigger, ValidateTargetsResult } from "../../../Domain/Trigger";
+import type { GrafanaUrls } from "../../../helpers/getGrafanaExploreUrl";
 import classNames from "classnames/bind";
 
 import styles from "../TriggerEditForm.module.less";
@@ -19,6 +20,7 @@ interface IProps {
         [target_id: string]: boolean;
     };
     trigger_source: TriggerSource;
+    grafanaUrls?: GrafanaUrls;
     validationResult?: ValidateTargetsResult;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
 }
@@ -27,6 +29,7 @@ export const TargetsList: FC<IProps> = ({
     targets,
     alone_metrics: aloneMetrics,
     trigger_source: triggerSource,
+    grafanaUrls,
     validationResult,
     onChange,
 }) => {
@@ -140,9 +143,12 @@ export const TargetsList: FC<IProps> = ({
                                 </Fit>
                             )}
                         </RowStack>
-                        <div className={cn("copyButton")}>
-                            <CopyButton hintMessage="Copy without formatting" value={target} />{" "}
-                        </div>
+                        <TargetActions
+                            className={cn("targetActions")}
+                            target={target}
+                            triggerSource={triggerSource}
+                            grafanaUrls={grafanaUrls}
+                        />
                     </div>
                 );
             })}

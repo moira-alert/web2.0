@@ -21,8 +21,8 @@ export const GrafanaIconButton = ({
 
     return (
         <Hint text={hintText} pos="top center">
-            <a href={link} target="_blank" rel="noopener noreferrer">
-                <GrafanaIcon className={cn(styles.grafanaIcon, "icon", className)} style={style} />
+            <a href={link} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                <GrafanaIcon className={cn(styles.grafanaIcon, className)} style={style} />
             </a>
         </Hint>
     );

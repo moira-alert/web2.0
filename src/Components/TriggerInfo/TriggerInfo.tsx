@@ -6,7 +6,7 @@ import { MetricItemList } from "../../Domain/Metric";
 import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
 import { TriggerHeader } from "./Components/TriggerHeader/TriggerHeader";
 import { TriggerDetails } from "./Components/TriggerDetails/TriggerDetails";
-import { useCluster } from "./hooks/useCluster";
+import { useCluster } from "../../hooks/useCluster";
 import { useOwnerTeam } from "./hooks/useOwnerTeam";
 
 import styles from "./TriggerInfo.module.less";
