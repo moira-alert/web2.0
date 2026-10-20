@@ -16,7 +16,10 @@ export const GrafanaIconButton = ({ link, style, hintText, className }: GrafanaI
     const disabled = !link;
 
     return (
-        <Hint text={disabled ? "Select a cluster" : hintText} pos="top center">
+        <Hint
+            text={disabled ? "Cluster is not selected or Grafana url is not configured" : hintText}
+            pos="top center"
+        >
             <a
                 href={link || undefined}
                 target="_blank"
