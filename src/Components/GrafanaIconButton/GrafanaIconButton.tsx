@@ -1,27 +1,32 @@
+import type { CSSProperties } from "react";
 import { Hint } from "@skbkontur/react-ui";
 import cn from "classnames";
 import GrafanaIcon from "../../assets/GrafanaIcon.svg?react";
 
 import styles from "./GrafanaIconButton.module.less";
 
-export const GrafanaIconButton = ({
-    link,
-    style,
-    hintText,
-    className,
-}: {
+interface GrafanaIconButtonProps {
     link?: string | null;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     hintText: string;
     className?: string;
-}) => {
-    if (!link) {
-        return null;
-    }
+}
+
+export const GrafanaIconButton = ({ link, style, hintText, className }: GrafanaIconButtonProps) => {
+    const disabled = !link;
 
     return (
-        <Hint text={hintText} pos="top center">
-            <a href={link} target="_blank" rel="noopener noreferrer" className={styles.link}>
+        <Hint text={disabled ? "Select a cluster" : hintText} pos="top center">
+            <a
+                href={link || undefined}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(styles.link, {
+                    [styles.disabled]: disabled,
+                })}
+                aria-disabled={disabled}
+                tabIndex={disabled ? -1 : undefined}
+            >
                 <GrafanaIcon className={cn(styles.grafanaIcon, className)} style={style} />
             </a>
         </Hint>
