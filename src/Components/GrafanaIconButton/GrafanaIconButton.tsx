@@ -10,16 +10,18 @@ interface GrafanaIconButtonProps {
     style?: CSSProperties;
     hintText: string;
     className?: string;
+    disabled?: boolean;
 }
 
-export const GrafanaIconButton = ({ link, style, hintText, className }: GrafanaIconButtonProps) => {
-    const disabled = !link;
-
+export const GrafanaIconButton = ({
+    link,
+    style,
+    hintText,
+    className,
+    disabled = false,
+}: GrafanaIconButtonProps) => {
     return (
-        <Hint
-            text={disabled ? "Cluster is not selected or Grafana url is not configured" : hintText}
-            pos="top center"
-        >
+        <Hint text={hintText} pos="top center">
             <a
                 href={link || undefined}
                 target="_blank"

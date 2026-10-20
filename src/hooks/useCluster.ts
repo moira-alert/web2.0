@@ -24,6 +24,11 @@ export const useCluster = (
         clusterName: cluster?.cluster_name,
         availableClustersCount: availableClusters?.length ?? 0,
         metricsTtl: cluster?.metrics_ttl,
+        isClusterSelected: Boolean(cluster),
+        hasGrafanaConfiguredClusters:
+            availableClusters?.some((cluster) =>
+                Boolean(cluster.grafana_url && cluster.grafana_datasource_id)
+            ) ?? false,
         grafanaUrls: {
             grafanaHost: cluster?.grafana_url,
             grafanaDatasourceId: cluster?.grafana_datasource_id,

@@ -22,6 +22,8 @@ interface IProps {
     trigger_source: TriggerSource;
     grafanaUrls?: GrafanaUrls;
     validationResult?: ValidateTargetsResult;
+    isClusterSelected?: boolean;
+    hasGrafanaConfiguredClusters?: boolean;
     onChange: (trigger: Partial<Trigger>, targetIndex?: number) => void;
 }
 
@@ -31,6 +33,8 @@ export const TargetsList: FC<IProps> = ({
     trigger_source: triggerSource,
     grafanaUrls,
     validationResult,
+    isClusterSelected,
+    hasGrafanaConfiguredClusters,
     onChange,
 }) => {
     const [ids, setIds] = useIds(targets?.length || 0);
@@ -148,6 +152,8 @@ export const TargetsList: FC<IProps> = ({
                             target={target}
                             triggerSource={triggerSource}
                             grafanaUrls={grafanaUrls}
+                            isClusterSelected={isClusterSelected}
+                            hasGrafanaConfiguredClusters={hasGrafanaConfiguredClusters}
                         />
                     </div>
                 );

@@ -74,7 +74,10 @@ const TriggerEditForm: FC<IProps> = ({
     } = data;
 
     const { data: teams } = useGetUserTeamsQuery();
-    const { grafanaUrls } = useCluster(data, metricSourceClusters);
+    const { grafanaUrls, hasGrafanaConfiguredClusters, isClusterSelected } = useCluster(
+        data,
+        metricSourceClusters
+    );
 
     const triggerModeEditorValue: ValueType = {
         error_value: data.error_value ?? null,
@@ -142,6 +145,8 @@ const TriggerEditForm: FC<IProps> = ({
                     grafanaUrls={grafanaUrls}
                     validationResult={validationResult}
                     onChange={(value) => onChange(value)}
+                    isClusterSelected={isClusterSelected}
+                    hasGrafanaConfiguredClusters={hasGrafanaConfiguredClusters}
                 />
             </FormRow>
 

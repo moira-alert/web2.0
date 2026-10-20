@@ -12,6 +12,8 @@ interface TargetActionsProps {
     triggerSource: TriggerSource;
     grafanaUrls?: GrafanaUrls;
     className?: string;
+    isClusterSelected?: boolean;
+    hasGrafanaConfiguredClusters?: boolean;
 }
 
 export const TargetActions = ({
@@ -19,12 +21,22 @@ export const TargetActions = ({
     triggerSource,
     grafanaUrls,
     className,
+    isClusterSelected,
+    hasGrafanaConfiguredClusters,
 }: TargetActionsProps) => {
     const grafanaUrl = getGrafanaExploreUrl(target, triggerSource, grafanaUrls);
 
+    const showGrafanaIcon = isClusterSelected ? Boolean(grafanaUrl) : hasGrafanaConfiguredClusters;
+
     return (
         <div className={cn(styles.actions, className)}>
-            <GrafanaIconButton hintText="Open in Grafana Explore" link={grafanaUrl} />
+            {showGrafanaIcon && (
+                <GrafanaIconButton
+                    link={grafanaUrl}
+                    disabled={!isClusterSelected}
+                    hintText={isClusterSelected ? "Open in Grafana Explore" : "Select cluster"}
+                />
+            )}
             <CopyButton hintMessage="Copy without formatting" value={target} />
         </div>
     );
