@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
+import svgr from "vite-plugin-svgr";
 
 const brokenPackages = ["@emoji-mart/data"];
 
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }) => ({
                 globPatterns: ["**/*.{js,css,woff2,svg,png,jpg,ico}"],
             },
         }),
+        svgr(),
     ],
     resolve: {
         alias: {

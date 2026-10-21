@@ -33,6 +33,7 @@ import { Markdown } from "../Markdown/Markdown";
 import { ClusterSelect } from "./Components/ClusterSelect";
 import { TeamSelect } from "./Components/TeamSelect";
 import { useGetUserTeamsQuery } from "../../services/TeamsApi";
+import { useCluster } from "../../hooks/useCluster";
 import classNames from "classnames/bind";
 import styles from "./TriggerEditForm.module.less";
 
@@ -73,6 +74,10 @@ const TriggerEditForm: FC<IProps> = ({
     } = data;
 
     const { data: teams } = useGetUserTeamsQuery();
+    const { grafanaUrls, hasGrafanaConfiguredClusters, isClusterSelected } = useCluster(
+        data,
+        metricSourceClusters
+    );
 
     const triggerModeEditorValue: ValueType = {
         error_value: data.error_value ?? null,
@@ -137,8 +142,11 @@ const TriggerEditForm: FC<IProps> = ({
                     targets={targets ?? [""]}
                     alone_metrics={aloneMetrics ?? {}}
                     trigger_source={triggerSource ?? TriggerSource.GRAPHITE_LOCAL}
+                    grafanaUrls={grafanaUrls}
                     validationResult={validationResult}
                     onChange={(value) => onChange(value)}
+                    isClusterSelected={isClusterSelected}
+                    hasGrafanaConfiguredClusters={hasGrafanaConfiguredClusters}
                 />
             </FormRow>
 

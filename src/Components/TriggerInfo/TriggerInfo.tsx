@@ -6,7 +6,7 @@ import { MetricItemList } from "../../Domain/Metric";
 import useConfirmModal, { ConfirmModal } from "../../hooks/useConfirmModal";
 import { TriggerHeader } from "./Components/TriggerHeader/TriggerHeader";
 import { TriggerDetails } from "./Components/TriggerDetails/TriggerDetails";
-import { useClusterName } from "./hooks/useClusterName";
+import { useCluster } from "../../hooks/useCluster";
 import { useOwnerTeam } from "./hooks/useOwnerTeam";
 
 import styles from "./TriggerInfo.module.less";
@@ -38,7 +38,7 @@ export default function TriggerInfo({
         closeModal: closeConfirmModal,
     } = useConfirmModal();
 
-    const { clusterName, metricsTtl, availableClustersCount } = useClusterName(trigger);
+    const { clusterName, metricsTtl, availableClustersCount, grafanaUrls } = useCluster(trigger);
     const { ownerTeam, isShown: isOwnerTeamShown } = useOwnerTeam(team_id);
 
     const isClusterName = !!(clusterName && availableClustersCount !== 0);
@@ -86,6 +86,7 @@ export default function TriggerInfo({
                     ownerTeam={ownerTeam}
                     isOwnerTeamShown={isOwnerTeamShown}
                     isClusterName={isClusterName}
+                    grafanaUrls={grafanaUrls}
                 />
 
                 {isMetrics && (

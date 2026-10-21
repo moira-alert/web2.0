@@ -7,7 +7,7 @@ import { Trigger, TriggerState, triggerSourceDescription } from "../../../../Dom
 import { getPageLink } from "../../../../Domain/Global";
 import RouterLink from "../../../RouterLink/RouterLink";
 import { CodeEditor } from "../../../HighlightInput/CodeEditor";
-import { CopyButton } from "../../../TriggerEditForm/Components/CopyButton";
+import { TargetActions } from "../../../TargetActions/TargetActions";
 import { MarkdownViewer } from "@skbkontur/markdown";
 import { WysiwygWrapper } from "../../../Markdown/WysiwygWrapper";
 import { ScheduleView } from "../ScheduleView";
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import { Flexbox } from "../../../Flexbox/FlexBox";
 import { TriggerCRUDInfo } from "../TriggerCRUDInfo";
 import { humanizeDuration } from "../../../../helpers/DateUtil";
+import type { GrafanaUrls } from "../../../../helpers/getGrafanaExploreUrl";
 
 import styles from "./TriggerDetails.module.less";
 
@@ -26,6 +27,7 @@ interface TriggerDetailsProps {
     ownerTeam?: { id: string; name: string };
     isOwnerTeamShown: boolean;
     isClusterName: boolean;
+    grafanaUrls?: GrafanaUrls;
 }
 
 export const TriggerDetails: FC<TriggerDetailsProps> = ({
@@ -36,6 +38,7 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
     ownerTeam,
     isOwnerTeamShown,
     isClusterName,
+    grafanaUrls,
 }) => {
     const {
         id,
@@ -89,20 +92,20 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
                 <dd className={styles.codeEditor}>
                     <Flexbox gap={10}>
                         {targets.map((target, i) => (
-                            <div key={target}>
-                                <div className={styles.copyButtonWrapper}>
-                                    <div className={styles.copyButton}>
-                                        <CopyButton
-                                            hintMessage="Copy without formatting"
-                                            value={target}
-                                        />
-                                    </div>
+                            <div key={`${i}:${target}`}>
+                                <div className={styles.targetActionsWrapper}>
+                                    <TargetActions
+                                        className={styles.targetActions}
+                                        target={target}
+                                        triggerSource={triggerSource}
+                                        grafanaUrls={grafanaUrls}
+                                    />
                                 </div>
+
                                 <CodeEditor
                                     data-tid={`T${i + 1}`}
                                     triggerSource={triggerSource}
                                     disabled
-                                    key={i}
                                     value={target}
                                 />
                             </div>
