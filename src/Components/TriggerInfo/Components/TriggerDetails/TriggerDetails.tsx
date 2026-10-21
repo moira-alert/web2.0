@@ -99,6 +99,7 @@ export const TriggerDetails: FC<TriggerDetailsProps> = ({
                                         target={target}
                                         triggerSource={triggerSource}
                                         grafanaUrls={grafanaUrls}
+                                        isClusterSelected={true}
                                     />
                                 </div>
 
