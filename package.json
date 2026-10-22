@@ -94,7 +94,7 @@
         "mockdate": "3.0.2",
         "prettier": "3.8.3",
         "react-window": "2.2.7",
-        "storybook": "10.4.2",
+        "storybook": "10.6.2",
         "swagger-typescript-api": "13.12.2",
         "ts-jest": "^29.4.11",
         "typescript": "5.2.2",
