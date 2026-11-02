@@ -338,6 +338,8 @@ export interface DtoSubscription {
     ignore_recoverings?: boolean;
     /** @example false */
     ignore_warnings?: boolean;
+    /** @example false */
+    mute_on_holidays?: boolean;
     plotting: MoiraPlottingData;
     /** Determines when Moira should monitor trigger */
     sched: MoiraScheduleData;
@@ -540,6 +542,11 @@ export interface DtoTrigger {
      * @example false
      */
     mute_new_metrics: boolean;
+    /**
+     * Supress events on holidays
+     * @example false
+     */
+    mute_on_holidays?: boolean;
     /**
      * Trigger name
      * @example "Not enough disk space left"
@@ -753,6 +760,11 @@ export interface DtoTriggerModel {
      */
     mute_new_metrics: boolean;
     /**
+     * Supress events on holidays
+     * @example false
+     */
+    mute_on_holidays?: boolean;
+    /**
      * Trigger name
      * @example "Not enough disk space left"
      */
@@ -887,6 +899,11 @@ export interface DtoTriggerNoisiness {
      * @example false
      */
     mute_new_metrics: boolean;
+    /**
+     * Supress events on holidays
+     * @example false
+     */
+    mute_on_holidays?: boolean;
     /**
      * Trigger name
      * @example "Not enough disk space left"
@@ -1283,6 +1300,8 @@ export interface MoiraSubscriptionData {
     ignore_recoverings?: boolean;
     /** @example false */
     ignore_warnings?: boolean;
+    /** @example false */
+    mute_on_holidays?: boolean;
     plotting: MoiraPlottingData;
     /** Determines when Moira should monitor trigger */
     sched: MoiraScheduleData;
@@ -1327,6 +1346,8 @@ export interface MoiraTrigger {
     id: string;
     /** @example false */
     mute_new_metrics: boolean;
+    /** @example false */
+    mute_on_holidays?: boolean;
     /** @example "Not enough disk space left" */
     name: string;
     /**
@@ -1407,6 +1428,8 @@ export interface MoiraTriggerCheck {
     last_check: MoiraCheckData;
     /** @example false */
     mute_new_metrics: boolean;
+    /** @example false */
+    mute_on_holidays?: boolean;
     /** @example "Not enough disk space left" */
     name: string;
     /**

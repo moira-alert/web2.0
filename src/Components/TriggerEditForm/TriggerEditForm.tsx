@@ -229,6 +229,10 @@ const TriggerEditForm: FC<IProps> = ({
                         onChange={(schedule) => onChange({ sched: schedule })}
                     />
                 </ValidationWrapperV1>
+                <Checkbox
+                    checked={!!data.mute_on_holidays}
+                    onValueChange={(value) => onChange({ mute_on_holidays: value })}
+                ></Checkbox>
             </FormRow>
             {teams && teams.length > 0 && (
                 <FormRow label="Team" singleLineControlGroup>
