@@ -229,10 +229,27 @@ const TriggerEditForm: FC<IProps> = ({
                         onChange={(schedule) => onChange({ sched: schedule })}
                     />
                 </ValidationWrapperV1>
+            </FormRow>
+            <FormRow singleLineControlGroup>
+                {" "}
                 <Checkbox
                     checked={!!data.mute_on_holidays}
                     onValueChange={(value) => onChange({ mute_on_holidays: value })}
-                ></Checkbox>
+                >
+                    Mute on holidays
+                </Checkbox>
+                <HelpTooltip>
+                    <div className={cn("new-metrics-help")}>
+                        <p>
+                            Supress trigger alerts on dates marked in the holiday calendar, usual
+                            weekends are not included. Checks and state updates continue.
+                        </p>
+                        <p>
+                            After holidays, alerts resume when the schedule allows, if the state
+                            still differs from its pre-holiday state.
+                        </p>
+                    </div>
+                </HelpTooltip>
             </FormRow>
             {teams && teams.length > 0 && (
                 <FormRow label="Team" singleLineControlGroup>

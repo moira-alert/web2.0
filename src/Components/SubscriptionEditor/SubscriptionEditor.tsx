@@ -217,6 +217,19 @@ const SubscriptionEditor: FC<TSubscriptionEditorProps> = ({
             </div>
             <div className={cn("row")}>
                 <Checkbox
+                    checked={subscription.mute_on_holidays}
+                    onValueChange={(checked) => onChange({ mute_on_holidays: checked })}
+                >
+                    Mute on holidays
+                </Checkbox>{" "}
+                <HelpTooltip closeButton={false}>
+                    Notifications that would be sent on dates marked in the holiday calendar will
+                    <br />
+                    wait until the holiday end, then be sent when the subscription schedule allows.
+                </HelpTooltip>
+            </div>
+            <div className={cn("row")}>
+                <Checkbox
                     checked={subscription.throttling}
                     onValueChange={(checked) => onChange({ throttling: checked })}
                 >
