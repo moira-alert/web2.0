@@ -20,6 +20,8 @@ export interface ApiErrorResponse {
 export interface ApiFeatureFlags {
     /** @example "new_year" */
     celebrationMode: string;
+    /** @example false */
+    holiday_calendar_enabled?: boolean;
     /** @example true */
     isPlottingAvailable: boolean;
     /** @example false */

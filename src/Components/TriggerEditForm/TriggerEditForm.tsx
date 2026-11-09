@@ -36,6 +36,8 @@ import { useGetUserTeamsQuery } from "../../services/TeamsApi";
 import { useCluster } from "../../hooks/useCluster";
 import classNames from "classnames/bind";
 import styles from "./TriggerEditForm.module.less";
+import { useAppSelector } from "../../store/hooks";
+import { ConfigState } from "../../store/selectors";
 
 const cn = classNames.bind(styles);
 
@@ -78,6 +80,8 @@ const TriggerEditForm: FC<IProps> = ({
         data,
         metricSourceClusters
     );
+
+    const { config } = useAppSelector(ConfigState);
 
     const triggerModeEditorValue: ValueType = {
         error_value: data.error_value ?? null,
@@ -230,27 +234,28 @@ const TriggerEditForm: FC<IProps> = ({
                     />
                 </ValidationWrapperV1>
             </FormRow>
-            <FormRow singleLineControlGroup>
-                {" "}
-                <Checkbox
-                    checked={!!data.mute_on_holidays}
-                    onValueChange={(value) => onChange({ mute_on_holidays: value })}
-                >
-                    Mute on holidays
-                </Checkbox>
-                <HelpTooltip>
-                    <div className={cn("new-metrics-help")}>
-                        <p>
-                            Supress trigger alerts on dates marked in the holiday calendar, usual
-                            weekends are not included. Checks and state updates continue.
-                        </p>
-                        <p>
-                            After holidays, alerts resume when the schedule allows, if the state
-                            still differs from its pre-holiday state.
-                        </p>
-                    </div>
-                </HelpTooltip>
-            </FormRow>
+            {config?.featureFlags.holiday_calendar_enabled && (
+                <FormRow singleLineControlGroup>
+                    <Checkbox
+                        checked={!!data.mute_on_holidays}
+                        onValueChange={(value) => onChange({ mute_on_holidays: value })}
+                    >
+                        Mute on holidays
+                    </Checkbox>
+                    <HelpTooltip>
+                        <div className={cn("new-metrics-help")}>
+                            <p>
+                                Supress trigger alerts on dates marked in the holiday calendar,
+                                usual weekends are not included. Checks and state updates continue.
+                            </p>
+                            <p>
+                                After holidays, alerts resume when the schedule allows, if the state
+                                still differs from its pre-holiday state.
+                            </p>
+                        </div>
+                    </HelpTooltip>
+                </FormRow>
+            )}
             {teams && teams.length > 0 && (
                 <FormRow label="Team" singleLineControlGroup>
                     <TeamSelect
