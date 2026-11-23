@@ -4,20 +4,20 @@ ADD . /app
 WORKDIR /app
 RUN yarn install && yarn run build
 
-FROM nginx:alpine
+FROM nginx/nginx-unprivileged:alpine
 
-COPY --from=build-env /app/dist /usr/share/nginx/html
-COPY src/favicon.ico /usr/share/nginx/html
-COPY src/favicon-dev.ico /usr/share/nginx/html
-COPY src/favicon-staging.ico /usr/share/nginx/html
+RUN rm -f /etc/nginx/conf.d/default.conf
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY pkg/nginx/locations /etc/nginx/conf.d/locations
-COPY pkg/nginx/moira.conf /etc/nginx/conf.d/moira.conf
+COPY --from=build-env /app/dist/ /usr/share/nginx/html/
+COPY src/favicon.ico         \
+     src/favicon-dev.ico     \
+     src/favicon-staging.ico \
+     /usr/share/nginx/html/
 
-COPY pkg/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY --chown=nginx:nginx pkg/nginx/locations/ /etc/nginx/conf.d/locations/
+COPY --chown=nginx:nginx pkg/nginx/moira.conf /etc/nginx/conf.d/moira.conf
+COPY --chmod=755 pkg/entrypoint.sh /entrypoint.sh
 
-EXPOSE 80
+EXPOSE 8080
 
 ENTRYPOINT ["/entrypoint.sh"]
