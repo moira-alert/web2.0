@@ -339,10 +339,10 @@ export const TriggerApi = BaseApi.injectEndpoints({
             DtoTriggerDescriptionPreview,
             CustomBaseQueryArgs<DtoTriggerDescriptionPreviewRequest>
         >({
-            query: ({ trigger_id, name, desc }) => ({
+            query: ({ trigger_id, name, description }) => ({
                 url: "trigger/description/preview",
                 method: "POST",
-                body: { trigger_id, name, desc },
+                body: { trigger_id, name, description },
                 credentials: "same-origin",
             }),
         }),

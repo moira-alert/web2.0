@@ -10,15 +10,20 @@ import { MarkdownViewer } from "@skbkontur/markdown";
 export const TriggerDescriptionPreview: FC<DtoTriggerDescriptionPreviewRequest> = ({
     trigger_id,
     name,
-    desc,
+    description,
 }) => {
     const [previewDescription, { data, isLoading }] = usePreviewTriggerDescriptionMutation();
 
     useEffect(() => {
-        const request = previewDescription({ trigger_id, name, desc, handleLoadingLocally: true });
+        const request = previewDescription({
+            trigger_id,
+            name,
+            description,
+            handleLoadingLocally: true,
+        });
 
         return () => request.abort();
-    }, [previewDescription, trigger_id, name, desc]);
+    }, [previewDescription, trigger_id, name, description]);
 
     if (isLoading) return <Spinner caption="Loading preview" />;
 

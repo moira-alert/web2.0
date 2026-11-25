@@ -685,7 +685,7 @@ export interface DtoTriggerDescriptionPreview {
 }
 
 export interface DtoTriggerDescriptionPreviewRequest {
-    desc: string;
+    description: string;
     name?: string;
     trigger_id?: string;
 }

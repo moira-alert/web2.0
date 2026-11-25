@@ -110,7 +110,7 @@ const TriggerEditForm: FC<IProps> = ({
                         <TriggerDescriptionPreview
                             trigger_id={data.id}
                             name={name ?? ""}
-                            desc={desc ?? ""}
+                            description={desc ?? ""}
                         />
                     )}
                 />
