@@ -36,6 +36,7 @@ import { useGetUserTeamsQuery } from "../../services/TeamsApi";
 import { useCluster } from "../../hooks/useCluster";
 import classNames from "classnames/bind";
 import styles from "./TriggerEditForm.module.less";
+import { TriggerDescriptionPreview } from "./Components/TriggerDescriptionPreview/TriggerDescriptionPreview";
 
 const cn = classNames.bind(styles);
 
@@ -105,6 +106,13 @@ const TriggerEditForm: FC<IProps> = ({
                     onValueChange={(value) => onChange({ desc: value })}
                     value={desc || ""}
                     data-tid="Description"
+                    markdownViewer={() => (
+                        <TriggerDescriptionPreview
+                            trigger_id={data.id}
+                            name={name ?? ""}
+                            desc={desc ?? ""}
+                        />
+                    )}
                 />
                 <EditDescriptionHelp />
             </FormRow>

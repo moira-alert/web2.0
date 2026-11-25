@@ -1,3 +1,7 @@
+import {
+    DtoTriggerDescriptionPreview,
+    DtoTriggerDescriptionPreviewRequest,
+} from "../Domain/__generated__/data-contracts";
 import { EventList } from "../Domain/Event";
 import { Status } from "../Domain/Status";
 import {
@@ -331,6 +335,17 @@ export const TriggerApi = BaseApi.injectEndpoints({
             },
             providesTags: ["HeavyTriggers"],
         }),
+        previewTriggerDescription: builder.mutation<
+            DtoTriggerDescriptionPreview,
+            CustomBaseQueryArgs<DtoTriggerDescriptionPreviewRequest>
+        >({
+            query: ({ trigger_id, name, desc }) => ({
+                url: "trigger/description/preview",
+                method: "POST",
+                body: { trigger_id, name, desc },
+                credentials: "same-origin",
+            }),
+        }),
     }),
 });
 
@@ -351,4 +366,5 @@ export const {
     useLazyGetTriggerNoisinessQuery,
     useLazyGetTriggerPlotQuery,
     useGetHeavyTriggersQuery,
+    usePreviewTriggerDescriptionMutation,
 } = TriggerApi;

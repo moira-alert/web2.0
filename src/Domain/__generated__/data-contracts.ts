@@ -203,6 +203,11 @@ export interface DtoContactWithScore {
     value: string;
 }
 
+export interface DtoDescriptionRenderResult {
+    error?: string;
+    events_source?: "real" | "demo";
+}
+
 export interface DtoEventsList {
     /** @uniqueItems false */
     list: MoiraNotificationEvent[];
@@ -672,6 +677,17 @@ export interface DtoTriggerCheckResponse {
      * @uniqueItems false
      */
     targets?: DtoTreeOfProblems[];
+}
+
+export interface DtoTriggerDescriptionPreview {
+    description?: string;
+    description_render?: DtoDescriptionRenderResult;
+}
+
+export interface DtoTriggerDescriptionPreviewRequest {
+    desc: string;
+    name?: string;
+    trigger_id?: string;
 }
 
 export interface DtoTriggerDump {
