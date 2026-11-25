@@ -674,6 +674,17 @@ export interface DtoTriggerCheckResponse {
     targets?: DtoTreeOfProblems[];
 }
 
+export interface DtoTriggerDescriptionPreview {
+    description?: string;
+    events_source?: "real" | "demo";
+}
+
+export interface DtoTriggerDescriptionPreviewRequest {
+    description: string;
+    name?: string;
+    trigger_id?: string;
+}
+
 export interface DtoTriggerDump {
     created: string;
     last_check: MoiraCheckData;
